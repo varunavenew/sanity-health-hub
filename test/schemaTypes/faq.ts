@@ -1,7 +1,8 @@
 // Schema: FAQ
 // Standalone FAQ documents, optionally linked to a category/page
 import { FAQIcon } from './icons'
-import { pickNo, requiredNoEnI18n } from './i18n'
+import { requiredNoEnI18n } from './i18n'
+import { pickStudioLabel } from './studioPreview'
 
 export default {
   name: 'faq',
@@ -65,7 +66,7 @@ export default {
     },
     prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
       return {
-        title: pickNo(title) || 'FAQ',
+        title: pickStudioLabel({ title, fallback: 'FAQ' }),
         subtitle,
       }
     },

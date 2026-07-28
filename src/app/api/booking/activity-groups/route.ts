@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   fetchProcedurePriceMap,
+  parsePriceFromActivityName,
   resolveActivityPrice,
   stripPriceFromActivityName,
 } from "@/lib/booking/item-prices";
@@ -140,12 +141,20 @@ export async function GET(request: Request) {
     const groups = unwrapList(groupsPayload) as ApiGroup[];
     const activities = unwrapList(activitiesPayload) as ApiActivity[];
 
+    // Only hit Metodika itemprices for activities whose names have no
+    // embedded price. Fetching every procedure id (concurrency 4) previously
+    // took 80–120s and left the Pricing page on "Loading prices…" the whole time.
     const priceMap = includeApiPrices
       ? await fetchProcedurePriceMap(
           [
             ...new Set(
               activities
-                .map((a) => activityProcedureId(a))
+                .map((activity) => {
+                  const rawName = activity.name?.trim();
+                  if (!rawName) return undefined;
+                  if (parsePriceFromActivityName(rawName) !== "0") return undefined;
+                  return activityProcedureId(activity);
+                })
                 .filter((id): id is number => id !== undefined),
             ),
           ],

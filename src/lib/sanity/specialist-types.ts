@@ -57,6 +57,8 @@ export interface Specialist {
   subtitle?: string;
   expertise: string[];
   image: ImageRef;
+  /** Resolved hero media (Image / Video) when present. */
+  heroMedia?: import("@/lib/sanity/media-dual-read").ResolvedCmsMedia;
   category: SpecialistCategory;
   slug: string;
   bio?: string;

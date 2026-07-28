@@ -1,4 +1,5 @@
 import { createClient } from '@sanity/client'
+import {requireSanityDataset, requireSanityProjectId} from './dataset-env'
 
 export type PreviewLocale = 'no' | 'en'
 
@@ -14,8 +15,8 @@ const EN_PATH_OVERRIDES: Record<string, string> = {
 }
 
 const previewClient = createClient({
-  projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
-  dataset: process.env.SANITY_DATASET || 'production',
+  projectId: requireSanityProjectId(),
+  dataset: requireSanityDataset(),
   apiVersion: '2024-01-01',
   useCdn: true,
 })

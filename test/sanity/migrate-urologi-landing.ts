@@ -432,6 +432,28 @@ const pageSections = [
     limit: 5,
     variant: "carousel",
   },
+  {
+    _key: "ps-insurance",
+    _type: "pageSectionInsurance",
+    title: i18nString(
+      "Vi har avtale med de største forsikringsselskapene i Norge.",
+      "We have agreements with the largest insurance companies in Norway.",
+    ),
+    partners: [
+      ["gjensidige", "Gjensidige"],
+      ["if", "If"],
+      ["fremtind", "Fremtind"],
+      ["storebrand", "Storebrand"],
+      ["tryg", "Tryg"],
+      ["vertikal", "Vertikal"],
+      ["codan", "Codan"],
+      ["eika", "Eika"],
+    ].map(([key, label]) => ({
+      _key: key,
+      key,
+      label: i18nString(label, label),
+    })),
+  },
   { _key: "ps-cta", _type: "pageSectionBookingCta" },
 ];
 

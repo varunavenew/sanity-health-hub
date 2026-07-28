@@ -1,4 +1,5 @@
 // Schema: Specialist (Spesialist)
+// Phase 16B: Studio polish — Category/Treatment UX parity; architecture preserved
 import { SpecialistIcon } from './icons'
 import {
   hasNoEnBlockContent,
@@ -13,58 +14,178 @@ import {
   requiredNoEnSeo,
 } from './i18n'
 import { geoSummaryField } from './geoSummary'
-import { BOOKING_ACTIVITY_GROUP_IDS } from './bookingActivityGroups'
+import {
+  BOOKING_ACTIVITY_GROUP_IDS,
+  bookingActivityGroupList,
+} from './bookingActivityGroups'
+import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+
+const reqI18n = requiredNoEnI18n
+
+const sectionCollapsed = { collapsible: true, collapsed: true } as const
 
 export default {
   name: 'specialist',
   title: 'Specialist',
   type: 'document',
   icon: SpecialistIcon,
+  components: {
+    input: AutoSlugFromTitleInput,
+  },
+  groups: [
+    { name: 'general', title: 'General', default: true },
+    { name: 'pageContent', title: 'Page Content' },
+    { name: 'sharedSections', title: 'Shared Sections' },
+    { name: 'seo', title: 'SEO' },
+    { name: 'advanced', title: 'Advanced' },
+  ],
+  fieldsets: [
+    {
+      name: 'pcBio',
+      title: 'Biography',
+      description: 'Short card text and full profile biography (NO + EN).',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcCredentials',
+      title: 'Credentials',
+      description: 'Education lines and languages. Optional.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcRelated',
+      title: 'Related specialists',
+      description:
+        '“Other specialists” band at the bottom of the profile. Required for publish — select at least one peer.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'ssFaq',
+      title: 'FAQ',
+      description:
+        'Same workflow as Homepage, Treatment Category, and Treatment. Prefer a FAQ Collection from the Content Library. Legacy list is backup only.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'faqAdvanced',
+      title: 'Legacy FAQ (Advanced)',
+      description:
+        'Backup list. Used only when no Specialist FAQ Collection with valid questions is selected. Keep existing items — do not delete them.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'ssReviews',
+      title: 'Reviews',
+      description:
+        'Curated Google reviews for this profile (up to 6). Empty = no reviews section on the website.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'seoFields',
+      title: 'Search & AI',
+      description: 'Meta tags and AI summary for this profile.',
+      options: sectionCollapsed,
+      group: 'seo',
+    },
+    {
+      name: 'advancedBooking',
+      title: 'Booking system',
+      description:
+        'Technical booking IDs for the booking wizard. Treatment categories (General) define medical membership; these numbers drive Metodika.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+    {
+      name: 'advancedList',
+      title: 'List order',
+      description: 'Order on specialist lists. Rarely edited after setup.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+  ],
   fields: [
+    // ── General ─────────────────────────────────────────────────────────────
     {
       name: 'name',
       title: 'Name',
       type: 'string',
-      validation: (Rule: any) => Rule.required().error('Name is required for publishing'),
-      description: 'Personnavn (oversettes ikke)',
+      group: 'general',
+      validation: (Rule: any) =>
+        Rule.required().error('Name is required for publishing'),
+      description: 'Full name (not translated). URL Slug fills from this while typing.',
     },
-    i18nSlugFieldFromString('name'),
+    {
+      ...i18nSlugFieldFromString('name', {
+        description:
+          'URL Slug (NO) and URL Slug (EN). Fills automatically from Name when empty. Manual edits are kept — changing the name later will not overwrite a filled slug.',
+      }),
+      group: 'general',
+    },
     {
       name: 'photo',
-      title: 'Profile image',
+      title: 'Profile image (legacy)',
       type: 'image',
+      group: 'general',
       options: { hotspot: true },
-      validation: (Rule: any) => Rule.required().error('Profile picture is required for publishing'),
+      description:
+        'Legacy portrait. Prefer Hero Media → Image. Website dual-reads both until migration is verified.',
+      hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
+        Boolean(document?.heroMedia),
+      validation: (Rule: any) =>
+        Rule.custom((value: unknown, context: { document?: { heroMedia?: { mediaType?: string; image?: unknown } } }) => {
+          const media = context.document?.heroMedia
+          if (media?.mediaType === 'image' && media.image) return true
+          if (media?.mediaType === 'video') return true
+          if (value) return true
+          return 'Profile picture is required for publishing (or set Hero Media)'
+        }),
+    },
+    {
+      name: 'heroMedia',
+      title: 'Hero Media',
+      type: 'media',
+      group: 'general',
+      description:
+        'Preferred profile / hero media (Image or Video). Upload Video takes priority over Video URL.',
     },
     {
       name: 'role',
-      title: 'Title/role',
+      title: 'Title / role',
       type: 'internationalizedArrayString',
-      description: 'E.g. "Gynecologist", "Urologist", "Orthopedist"',
-      validation: requiredNoEnI18n('Title/role'),
+      group: 'general',
+      description: 'E.g. Gynecologist, Urologist, Orthopedist (NO + EN).',
+      validation: reqI18n('Title / role'),
     },
     {
       name: 'subtitle',
       title: 'Subtitle',
       type: 'internationalizedArrayString',
-      description: 'E.g. "Robot surgeon", "Specialist", "Surgeon"',
+      group: 'general',
+      description: 'Optional. E.g. Robot surgeon, Specialist (NO + EN).',
     },
     {
       name: 'specialties',
-      title: 'Expertise / Specialties',
+      title: 'Expertise / specialties',
       type: 'array',
+      group: 'general',
       options: { layout: 'list' },
       of: [
         {
           type: 'object',
           name: 'specialtyItem',
-          title: 'Specialty / Area of expertise',
+          title: 'Specialty',
           fields: [
             {
               name: 'label',
               title: 'Text',
               type: 'internationalizedArrayString',
-              validation: requiredNoEnI18n('Specialty / Area of expertise'),
+              validation: reqI18n('Specialty'),
             },
           ],
           preview: {
@@ -76,7 +197,7 @@ export default {
         },
       ],
       description:
-        'Short keywords shown on the profile page and in specialist cards (on website: \'expertise\'). E.g. \'Robot surgery\', \'Fertility\'. Click + Add item, fill in Norwegian (NO) and English (EN) text.',
+        'Short keywords on profile and cards. Add at least one row with Norwegian and English text.',
       validation: (Rule: any) =>
         Rule.custom((items: unknown[] | undefined) => {
           if (!Array.isArray(items) || items.length === 0) {
@@ -93,8 +214,11 @@ export default {
     },
     {
       name: 'categories',
-      title: 'Assigned categories',
+      title: 'Treatment categories',
       type: 'array',
+      group: 'general',
+      description:
+        'Required. Medical categories this specialist belongs to. Booking system numbers live under Advanced.',
       of: [
         {
           type: 'reference',
@@ -105,33 +229,13 @@ export default {
         Rule.required().min(1).error('Select at least one treatment category'),
     },
     {
-      name: 'bookingCategoryIds',
-      title: 'Booking category IDs (Methodology)',
-      type: 'array',
-      of: [
-        {
-          type: 'number',
-          title: 'Category ID',
-          validation: (Rule: any) =>
-            Rule.required()
-              .integer()
-              .custom((id: number) => {
-                if ((BOOKING_ACTIVITY_GROUP_IDS as readonly number[]).includes(id)) return true
-                return `Ugyldig ID. Tillatte: ${BOOKING_ACTIVITY_GROUP_IDS.join(', ')}`
-              }),
-        },
-      ],
-      description:
-        'One or more numeric wbactivitygroup IDs (numbers only). Example: 8=Gynecologist, 10=Fetal Medicine Specialist, 6=Urologist, 17=Orthopedist, 1=Fertility.',
-      validation: (Rule: any) =>
-        Rule.required().min(1).error('Select at least one booking category ID'),
-    },
-    {
       name: 'treatments',
-      title: 'Treatments',
+      title: 'Treatments (reserved)',
       type: 'array',
+      group: 'general',
       description:
-        'Optional: select specific treatments. Empty list = all treatments in linked categories (when displayed on the website).',
+        'Not shown on the website today. Keep existing links if present; prefer categories for membership.',
+      hidden: true,
       of: [
         {
           type: 'reference',
@@ -158,34 +262,46 @@ export default {
       name: 'clinics',
       title: 'Clinics',
       type: 'array',
+      group: 'general',
       of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
-      description: 'Clinics the specialist works at – select from existing clinic documents.',
-      validation: (Rule: any) => Rule.required().min(1).error('Select at least one clinic'),
+      description: 'Required. Clinics where this specialist works.',
+      validation: (Rule: any) =>
+        Rule.required().min(1).error('Select at least one clinic'),
+    },
+
+    // ── Page Content ────────────────────────────────────────────────────────
+    {
+      name: 'shortBio',
+      title: 'Short biography',
+      type: 'internationalizedArrayText',
+      group: 'pageContent',
+      fieldset: 'pcBio',
+      description:
+        'Required. Short card / summary text. Full biography is below — avoid pasting the same long text twice.',
+      validation: reqI18n('Short biography'),
     },
     {
       name: 'bio',
       title: 'Biography',
       type: 'internationalizedArrayBlockContent',
-      description: 'Extended biography on the profile page. Must be filled out in Norwegian and English.',
+      group: 'pageContent',
+      fieldset: 'pcBio',
+      description: 'Required. Extended biography on the profile page (NO + EN).',
       validation: requiredNoEnBlockContent('Biography'),
-    },
-    {
-      name: 'shortBio',
-      title: 'Short biography',
-      type: 'internationalizedArrayText',
-      description: 'Displayed on the profile page and in specialist cards.',
-      validation: requiredNoEnI18n('Short biography'),
     },
     {
       name: 'education',
       title: 'Education',
       type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcCredentials',
       options: { layout: 'list' },
+      description: 'Optional education lines (NO + EN per row).',
       of: [
         {
           type: 'object',
           name: 'educationItem',
-          title: 'Utdanningslinje',
+          title: 'Education line',
           fields: [
             {
               name: 'label',
@@ -196,7 +312,7 @@ export default {
           preview: {
             select: { label: 'label' },
             prepare({ label }: { label?: unknown }) {
-              return { title: pickSpecialtyLabel({ label }) || 'Ny linje' }
+              return { title: pickSpecialtyLabel({ label }) || 'New line' }
             },
           },
         },
@@ -204,63 +320,62 @@ export default {
     },
     {
       name: 'languages',
-      title: 'Language',
+      title: 'Languages',
       type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcCredentials',
       of: [{ type: 'string' }],
-      description: 'Language codes/names (do not translate)',
-    },
-    {
-      name: 'faqSectionTitle',
-      title: 'FAQ Heading',
-      type: 'internationalizedArrayString',
-      description: 'Heading for the FAQ section (e.g. \'Frequently Asked Questions\'). Must be filled out in Norwegian and English.',
-      validation: requiredNoEnI18n('FAQ Heading'),
-    },
-    {
-      name: 'faqs',
-      title: 'FAQ',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      description:
-        'Optional FAQ items shown on the profile page. Each FAQ document must have questions and answers in Norwegian and English.',
+      description: 'Optional language codes or names (not translated as i18n fields).',
     },
     {
       name: 'relatedSpecialistsSection',
       title: 'Related specialists',
       type: 'object',
+      group: 'pageContent',
+      fieldset: 'pcRelated',
       description:
-        'The \'Other specialists\' section at the bottom of the profile page. Select at least one other specialist to display.',
+        'Required for publish. The “Other specialists” section at the bottom of the profile.',
       options: { collapsible: true, collapsed: false },
-      validation: (Rule: any) => Rule.required().error('Related specialists must be filled out'),
+      validation: (Rule: any) =>
+        Rule.required().error('Related specialists must be filled out'),
       fields: [
         {
           name: 'eyebrow',
           title: 'Subheading',
           type: 'internationalizedArrayString',
-          description: 'E.g. \'Same specialty\'. Must be filled out in Norwegian and English.',
-          validation: requiredNoEnI18n('Subheading'),
+          description: 'E.g. Same specialty (NO + EN).',
+          validation: reqI18n('Subheading'),
         },
         {
           name: 'heading',
           title: 'Heading',
           type: 'internationalizedArrayString',
-          description: 'E.g. \'Other specialists\'. Must be filled out in Norwegian and English.',
-          validation: requiredNoEnI18n('Heading'),
+          description: 'E.g. Other specialists (NO + EN).',
+          validation: reqI18n('Heading'),
         },
         {
           name: 'ctaLabel',
-          title: 'Link Text',
+          title: 'Link text',
           type: 'internationalizedArrayString',
-          description: 'E.g. \'See all\'. Must be filled out in Norwegian and English.',
-          validation: requiredNoEnI18n('Link Text'),
+          description: 'E.g. See all (NO + EN).',
+          validation: reqI18n('Link text'),
         },
         {
           name: 'ctaPath',
           title: 'Link',
           type: 'string',
-          description: 'Internal path without language prefix, e.g. /specialists',
+          description: 'Internal path without language prefix, e.g. /spesialister',
           initialValue: '/spesialister',
-          validation: (Rule: any) => Rule.required().error('Link is required'),
+          validation: (Rule: any) =>
+            Rule.required()
+              .error('Link is required')
+              .custom((value: any) => {
+                if (!value) return true
+                if (typeof value !== 'string') return true
+                return value.startsWith('/')
+                  ? true
+                  : 'The path must be a relative link starting with a slash (e.g. /spesialister)'
+              }),
         },
         {
           name: 'specialists',
@@ -268,50 +383,149 @@ export default {
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
           description:
-            'Select which specialists to display (order from Studio is kept). At least one required.',
+            'Select peers to display (Studio order kept). At least one required — not yourself.',
           validation: (Rule: any) =>
             Rule.required()
               .min(1)
               .error('Select at least one specialist')
-              .custom((refs: Array<{ _ref?: string }> | undefined, context: { document?: { _id?: string } }) => {
-                if (!Array.isArray(refs) || refs.length === 0) return true
-                const docId = String(context.document?._id || '').replace(/^drafts\./, '')
-                if (!docId) return true
-                const includesSelf = refs.some((ref) => ref?._ref === docId)
-                return includesSelf ? 'Select other specialists — not the profile you are editing' : true
-              }),
+              .custom(
+                (
+                  refs: Array<{ _ref?: string }> | undefined,
+                  context: { document?: { _id?: string } },
+                ) => {
+                  if (!Array.isArray(refs) || refs.length === 0) return true
+                  const docId = String(context.document?._id || '').replace(
+                    /^drafts\./,
+                    '',
+                  )
+                  if (!docId) return true
+                  const includesSelf = refs.some((ref) => ref?._ref === docId)
+                  return includesSelf
+                    ? 'Select other specialists — not the profile you are editing'
+                    : true
+                },
+              ),
         },
       ],
     },
+
+    // ── Shared Sections ─────────────────────────────────────────────────────
     {
-      name: 'bookingEnabled',
-      title: 'Booking aktivert',
-      type: 'boolean',
-      initialValue: true,
+      name: 'faqSectionTitle',
+      title: 'FAQ Heading',
+      type: 'internationalizedArrayString',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      description: 'Heading above the FAQ. Questions live in the Collection.',
+      initialValue: [
+        { _key: 'no', language: 'no', value: 'Ofte stilte spørsmål' },
+        { _key: 'en', language: 'en', value: 'Frequently asked questions' },
+      ],
     },
     {
-      name: 'sortOrder',
-      title: 'Sorting order',
-      type: 'number',
-      description: 'Lower numbers are shown first. Leave blank for alphabetical.',
+      name: 'faqCollection',
+      title: 'Specialist FAQ',
+      type: 'reference',
+      to: [{ type: 'faqCollection' }],
+      description:
+        'FAQ pack from the Content Library. Same pattern as Homepage, Treatment Category, and Treatment.',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      options: {
+        disableNew: false,
+      },
+    },
+    {
+      name: 'faqs',
+      title: 'Previous FAQ list',
+      type: 'array',
+      group: 'sharedSections',
+      fieldset: 'faqAdvanced',
+      description:
+        'Backup list used when no Specialist FAQ Collection with valid questions is selected. Existing items are kept — do not delete them.',
+      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
+        Boolean(document?.faqCollection),
+      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
     },
     {
       name: 'patientReviews',
-      title: 'Patient Reviews',
+      title: 'Patient reviews',
       type: 'array',
+      group: 'sharedSections',
+      fieldset: 'ssReviews',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
       description:
-        'Select Google reviews shown in \'What patients say\' on the profile page. Order from Studio is kept. Empty list = auto-selection based on name and specialty.',
+        'Google reviews for “What patients say”. Studio order is kept. Leave empty to hide the section on the website.',
       validation: (Rule: any) => Rule.max(6).error('Select up to six reviews'),
     },
+
+    // ── SEO ─────────────────────────────────────────────────────────────────
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      description: 'Meta title and meta description for the specialist profile page',
+      group: 'seo',
+      fieldset: 'seoFields',
+      description: 'Search title, description, and social previews.',
       validation: requiredNoEnSeo,
     },
-    geoSummaryField,
+    {
+      ...geoSummaryField,
+      group: 'seo',
+      fieldset: 'seoFields',
+      title: 'AI / GEO summary',
+      description: 'Short summary for search and AI. Not the same as the role title.',
+    },
+
+    // ── Advanced ────────────────────────────────────────────────────────────
+    {
+      name: 'bookingEnabled',
+      title: 'Booking enabled',
+      type: 'boolean',
+      group: 'advanced',
+      fieldset: 'advancedBooking',
+      initialValue: true,
+      description:
+        'Studio list indicator (🚫 when off). Website booking still uses booking category numbers below.',
+    },
+    {
+      name: 'bookingCategoryIds',
+      title: 'Booking activity groups',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedBooking',
+      of: [
+        {
+          type: 'number',
+          title: 'Activity group',
+          options: {
+            list: bookingActivityGroupList,
+            layout: 'dropdown',
+          },
+          validation: (Rule: any) =>
+            Rule.required()
+              .integer()
+              .custom((id: number) => {
+                if ((BOOKING_ACTIVITY_GROUP_IDS as readonly number[]).includes(id)) {
+                  return true
+                }
+                return `Invalid ID. Allowed: ${BOOKING_ACTIVITY_GROUP_IDS.join(', ')}`
+              }),
+        },
+      ],
+      description:
+        'Required. One or more Metodika wbactivitygroup IDs. Pick from the list (data shape unchanged).',
+      validation: (Rule: any) =>
+        Rule.required().min(1).error('Select at least one booking activity group'),
+    },
+    {
+      name: 'sortOrder',
+      title: 'List order',
+      type: 'number',
+      group: 'advanced',
+      fieldset: 'advancedList',
+      description: 'Lower numbers appear first on specialist lists. Leave blank for alphabetical.',
+    },
   ],
   validation: (Rule: any) =>
     Rule.custom((document: Record<string, unknown> | undefined) => {
@@ -319,8 +533,10 @@ export default {
       const issues: string[] = []
       if (!String(document.name || '').trim()) issues.push('Name is missing')
       if (!document.photo) issues.push('Profile image is missing')
-      if (!pickNo(document.role)?.trim()) issues.push('Title/role (Norwegian) is missing')
-      if (!pickForLang(document.role, 'en')?.trim()) issues.push('Title/role (English) is missing')
+      if (!pickNo(document.role)?.trim()) issues.push('Title / role (Norwegian) is missing')
+      if (!pickForLang(document.role, 'en')?.trim()) {
+        issues.push('Title / role (English) is missing')
+      }
       if (!pickNo(document.shortBio)?.trim()) issues.push('Short biography (Norwegian) is missing')
       if (!pickForLang(document.shortBio, 'en')?.trim()) {
         issues.push('Short biography (English) is missing')
@@ -344,17 +560,22 @@ export default {
       }
       const bookingIds = document.bookingCategoryIds as unknown[] | undefined
       if (!Array.isArray(bookingIds) || bookingIds.length === 0) {
-        issues.push('At least one booking category ID must be selected')
+        issues.push('At least one booking activity group must be selected')
       }
       const faqs = document.faqs as unknown[] | undefined
       const hasFaqs = Array.isArray(faqs) && faqs.length > 0
-      if (hasFaqs && !pickNo(document.faqSectionTitle)?.trim()) {
+      const hasFaqCollection = Boolean(
+        (document.faqCollection as {_ref?: string} | undefined)?._ref,
+      )
+      if ((hasFaqs || hasFaqCollection) && !pickNo(document.faqSectionTitle)?.trim()) {
         issues.push('FAQ heading (Norwegian) is missing')
       }
-      if (hasFaqs && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
+      if ((hasFaqs || hasFaqCollection) && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
         issues.push('FAQ heading (English) is missing')
       }
-      const related = document.relatedSpecialistsSection as Record<string, unknown> | undefined
+      const related = document.relatedSpecialistsSection as
+        | Record<string, unknown>
+        | undefined
       if (!related || typeof related !== 'object') {
         issues.push('Related specialists section is missing')
       }
@@ -376,8 +597,11 @@ export default {
       if (!pickForLang(related?.ctaLabel, 'en')?.trim()) {
         issues.push('Related specialists: link text (English) is missing')
       }
-      if (!String(related?.ctaPath || '').trim()) {
+      const ctaPath = String(related?.ctaPath || '').trim()
+      if (!ctaPath) {
         issues.push('Related specialists: link is missing')
+      } else if (!ctaPath.startsWith('/')) {
+        issues.push('Related specialists: link must start with /')
       }
       const relatedSpecialists = related?.specialists as unknown[] | undefined
       if (!Array.isArray(relatedSpecialists) || relatedSpecialists.length === 0) {
@@ -426,23 +650,25 @@ export default {
       media: 'photo',
       booking: 'bookingEnabled',
       bookingCategoryIds: 'bookingCategoryIds',
-      t0: 'treatments.0->title',
-      t1: 'treatments.1->title',
-      t2: 'treatments.2->title',
+      c0: 'categories.0->title',
+      c1: 'categories.1->title',
+      c2: 'categories.2->title',
     },
-    prepare({ title, role, media, booking, bookingCategoryIds, t0, t1, t2 }: any) {
-      const treatmentNames = [t0, t1, t2].map(pickNo).filter(Boolean)
-      const roleLabel = pickNo(role) || 'No role'
+    prepare({ title, role, media, booking, bookingCategoryIds, c0, c1, c2 }: any) {
+      const categoryNames = [c0, c1, c2]
+        .map((c) => pickForLang(c, 'en') || pickNo(c))
+        .filter(Boolean)
+      const roleLabel = pickForLang(role, 'en') || pickNo(role) || 'No role'
       const idPart =
         Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
           ? ` · Booking #${bookingCategoryIds.join(', #')}`
           : ''
-      const treatmentLine = treatmentNames.length
-        ? ` · Treatments: ${treatmentNames.join(', ')}${treatmentNames.length === 3 ? '…' : ''}`
+      const categoryLine = categoryNames.length
+        ? ` · ${categoryNames.join(', ')}${categoryNames.length === 3 ? '…' : ''}`
         : ''
       return {
         title: `${booking === false ? '🚫 ' : ''}${title || ''}`,
-        subtitle: `${roleLabel}${idPart}${treatmentLine}`,
+        subtitle: `${roleLabel}${idPart}${categoryLine}`,
         media,
       }
     },

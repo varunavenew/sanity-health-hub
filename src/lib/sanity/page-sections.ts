@@ -1,5 +1,7 @@
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SanitySpecialist } from "@/hooks/useSanity";
+import { resolveBookingCtaFromCollection } from "@/lib/sanity/cta-dual-read";
+import { resolveInsuranceFromCollection } from "@/lib/sanity/insurance-dual-read";
 
 export type PageSectionSpecialistsConfig = {
   _type: "pageSectionSpecialists";
@@ -37,6 +39,8 @@ export type PageSectionBookingCtaConfig = {
   secondaryLabel?: string;
   secondaryPath?: string;
   quickInfoItems?: BookingCtaQuickInfoItem[];
+  backgroundColor?: string;
+  textColor?: string;
 };
 
 export type PageSectionArticlesConfig = {
@@ -179,62 +183,47 @@ export function normalizePageSections(raw: unknown): PageSection[] {
       }
 
       if (type === "pageSectionInsurance") {
-        const partners = Array.isArray(block.partners)
-          ? block.partners
-              .map((p): PageSectionInsurancePartner | null => {
-                if (!p || typeof p !== "object") return null;
-                const row = p as Record<string, unknown>;
-                const key = str(row.key);
-                if (!key) return null;
-                return {
-                  key,
-                  label: str(row.label),
-                };
-              })
-              .filter((x): x is PageSectionInsurancePartner => x != null)
-          : [];
+        const resolved = resolveInsuranceFromCollection(
+          block.insuranceCollection,
+          block,
+        );
 
         return {
           _type: "pageSectionInsurance",
           _key: block._key as string | undefined,
-          eyebrow: str(block.eyebrow),
-          title: str(block.title),
-          partners,
+          eyebrow: resolved.eyebrow,
+          title: resolved.title,
+          partners: resolved.partners,
         };
       }
 
       if (type === "pageSectionBookingCta") {
-        const quickInfoItems = Array.isArray(block.quickInfoItems)
-          ? block.quickInfoItems
-              .map((row): BookingCtaQuickInfoItem | null => {
-                if (!row || typeof row !== "object") return null;
-                const item = row as Record<string, unknown>;
-                const icon = item.icon === "shield" ? "shield" : "clock";
-                const text = str(item.text);
-                if (!text) return null;
-                return { icon, text };
-              })
-              .filter((x): x is BookingCtaQuickInfoItem => x != null)
-          : undefined;
+        const resolved = resolveBookingCtaFromCollection(
+          block.ctaCollection,
+          block,
+        );
 
         return {
           _type: "pageSectionBookingCta",
           _key: block._key as string | undefined,
-          title: str(block.title) || undefined,
-          subtitle: str(block.subtitle) || undefined,
+          title: resolved.title,
+          subtitle: resolved.subtitle,
+          // Band-only reserved fields — collections do not own image/variant.
           image: str(block.image) || undefined,
           imageAlt: str(block.imageAlt) || undefined,
           variant:
             block.variant === "warm" || block.variant === "withImage"
               ? block.variant
               : "dark",
-          primaryLabel: str(block.primaryLabel) || undefined,
-          primaryPath: str(block.primaryPath) || undefined,
-          bookingCategory: block.bookingCategory as PageSectionBookingCtaConfig["bookingCategory"],
-          showSecondaryButton: block.showSecondaryButton !== false,
-          secondaryLabel: str(block.secondaryLabel) || undefined,
-          secondaryPath: str(block.secondaryPath) || undefined,
-          quickInfoItems,
+          primaryLabel: resolved.primaryLabel,
+          primaryPath: resolved.primaryPath,
+          bookingCategory: resolved.bookingCategory,
+          showSecondaryButton: resolved.showSecondaryButton !== false,
+          secondaryLabel: resolved.secondaryLabel,
+          secondaryPath: resolved.secondaryPath,
+          quickInfoItems: resolved.quickInfoItems,
+          backgroundColor: resolved.backgroundColor,
+          textColor: resolved.textColor,
         };
       }
 

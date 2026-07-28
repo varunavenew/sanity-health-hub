@@ -10,7 +10,7 @@ import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
-import { urlFor } from "@/lib/sanityClient";
+import { urlFor } from "@/lib/sanity/image-url";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 interface ArticlePageProps {

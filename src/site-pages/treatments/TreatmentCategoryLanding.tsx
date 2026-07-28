@@ -1,7 +1,9 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
+import { CmsMedia } from "@/components/media/CmsMedia";
 import { Fragment, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Quote, User, Users, Clock } from "lucide-react";
 import {
@@ -12,6 +14,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { FaqSection } from "@/components/layout/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
@@ -33,10 +36,42 @@ import {
   threeCardGridClass,
 } from "@/lib/ui/grid-cols-for-count";
 import { AnimatedStat } from "@/components/AnimatedStat";
+import {
+  resolveCmsMedia,
+  type ResolvedCmsMedia,
+} from "@/lib/sanity/media-dual-read";
 
 export type TreatmentCategoryLandingProps = CategoryLandingPageProps & {
   categoryId: string;
 };
+
+type HeroMediaKind = "image" | "video";
+
+/** Resolve hero media from shared Media object + legacy fields. */
+function resolveCategoryHeroMedia(
+  heroMedia: unknown,
+  mediaType: HeroMediaKind | undefined,
+  heroImage?: string,
+  heroVideo?: string,
+): ResolvedCmsMedia | null {
+  return resolveCmsMedia(heroMedia, {
+    mediaType,
+    imageUrl: heroImage,
+    videoUrl: heroVideo,
+  });
+}
+
+function CategoryHeroMedia({
+  media,
+  alt,
+  className,
+}: {
+  media: ResolvedCmsMedia;
+  alt: string;
+  className: string;
+}) {
+  return <CmsMedia media={media} alt={alt} className={className} />;
+}
 
 const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
@@ -411,13 +446,20 @@ const TreatmentCategoryLanding = ({
   categoryId,
   sanityLang = "no",
 }: TreatmentCategoryLandingProps) => {
+  const { t } = useTranslation();
   const { data: category, isPending } = useTreatmentCategory(categoryId);
   const landing = category?.landingPage;
-  const heroImage = category?.heroImage;
-  const heroVideo = category?.heroVideo;
+  const heroMedia = resolveCategoryHeroMedia(
+    category?.heroMedia,
+    category?.heroMediaType,
+    category?.heroImage,
+    category?.heroVideo,
+  );
   const loadingLabel = sanityLang === "en" ? "Loading..." : "Laster...";
   const expertAreasRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
+  const breadcrumbHomeLabel =
+    landing?.breadcrumbHomeLabel?.trim() || t("common.breadcrumbHome");
 
   if (isPending) {
     return (
@@ -475,7 +517,7 @@ const TreatmentCategoryLanding = ({
     }),
   );
 
-  const hasHeroMedia = Boolean(heroVideo || heroImage);
+  const hasHeroMedia = Boolean(heroMedia);
   const bookingParams = {
     kategori: categoryId,
     ...(hero.primaryBookingService ? { tjeneste: hero.primaryBookingService } : {}),
@@ -800,17 +842,19 @@ const TreatmentCategoryLanding = ({
         <header className="relative">
           <div className="relative min-h-[420px] lg:min-h-[520px] flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
             <div className="absolute inset-0 z-0 overflow-hidden">
-              {heroVideo ? (
-                <video src={heroVideo} poster={heroImage} autoPlay muted loop playsInline className="w-full h-full object-cover" />
-              ) : heroImage ? (
-                <AssetImg src={heroImage} alt={hero.heroImageAlt} className="w-full h-full object-cover" />
+              {heroMedia ? (
+                <CategoryHeroMedia
+                  media={heroMedia}
+                  alt={hero.heroImageAlt}
+                  className="w-full h-full object-cover"
+                />
               ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
             </div>
             <div className="relative z-10 max-w-4xl w-full">
               <nav aria-label="breadcrumb" className="text-xs font-light text-white/70 flex items-center gap-2 mb-6">
-                <Link to="/" className="hover:text-white transition-colors">{landing.breadcrumbHomeLabel}</Link>
-                <span aria-hidden="true">â€º</span>
+                <Link to="/" className="hover:text-white transition-colors">{breadcrumbHomeLabel}</Link>
+                <span aria-hidden="true">›</span>
                 <span className="text-white/90">{categoryTitle}</span>
               </nav>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
@@ -858,8 +902,8 @@ const TreatmentCategoryLanding = ({
         <header className="bg-brand-light pt-24 lg:pt-0">
           <div className="lg:hidden px-6 md:px-16 pb-4">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
-              <Link to="/" className="hover:text-foreground">{landing.breadcrumbHomeLabel}</Link>
-              <span aria-hidden="true">â€º</span>
+              <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
+              <span aria-hidden="true">›</span>
               <span className="text-foreground/80">{categoryTitle}</span>
             </nav>
             <h2 className="text-4xl font-light text-foreground leading-[1.05]">
@@ -871,8 +915,8 @@ const TreatmentCategoryLanding = ({
             <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
               <div className="max-w-xl w-full">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
-                  <Link to="/" className="hover:text-foreground">{landing.breadcrumbHomeLabel}</Link>
-                  <span aria-hidden="true">â€º</span>
+                  <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
+                  <span aria-hidden="true">›</span>
                   <span className="text-foreground/80">{categoryTitle}</span>
                 </nav>
                 <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
@@ -903,13 +947,13 @@ const TreatmentCategoryLanding = ({
                 ) : null}
               </div>
             </div>
-            {hasHeroMedia ? (
+            {hasHeroMedia && heroMedia ? (
               <div className="relative min-h-[420px] lg:min-h-full">
-                {heroVideo ? (
-                  <video src={heroVideo} poster={heroImage} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" />
-                ) : heroImage ? (
-                  <AssetImg src={heroImage} alt={hero.heroImageAlt} className="absolute inset-0 w-full h-full object-cover" />
-                ) : null}
+                <CategoryHeroMedia
+                  media={heroMedia}
+                  alt={hero.heroImageAlt}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
             ) : null}
           </div>
@@ -923,7 +967,17 @@ const TreatmentCategoryLanding = ({
         return render ? <Fragment key={key}>{render()}</Fragment> : null;
       })}
 
-      {/* Sanity CMS page sections â€” always rendered after sectionOrder content */}
+      {/* FAQ — dual-read: Collection preferred, else legacy faqs[]. Hidden when empty. */}
+      <FaqSection
+        faqs={(category?.faqs ?? []).map((faq, i) => ({
+          id: `category-faq-${i}`,
+          question: faq.question,
+          answer: faq.answer,
+        }))}
+        title={category?.faqSectionTitle?.trim() || undefined}
+      />
+
+      {/* Sanity CMS page sections — always rendered after sectionOrder content */}
       <PageSectionsRenderer sections={category?.pageSections} />
     </PageLayout>
   );

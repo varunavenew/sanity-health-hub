@@ -1,5 +1,7 @@
 import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
+import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
+import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
 function normalizeBookingCategoryIds(value: unknown): number[] {
@@ -56,6 +58,7 @@ export type RawSanitySpecialist = {
   name?: string;
   slug?: string;
   image?: string;
+  heroMedia?: unknown;
   role?: unknown;
   subtitle?: unknown;
   specialties?: unknown;
@@ -77,6 +80,15 @@ export type RawSanitySpecialist = {
   bookingCategoryIds?: number[];
   sortOrder?: number;
   faqSectionTitle?: unknown;
+  faqCollection?: {
+    _id?: string;
+    title?: string;
+    questions?: Array<{
+      question?: string;
+      answer?: string;
+      sortOrder?: number;
+    }>;
+  };
   faqs?: Array<{
     question?: string;
     answer?: string;
@@ -209,19 +221,12 @@ function mapPatientReviews(
 }
 
 function mapSpecialistFaqs(
+  faqCollection: RawSanitySpecialist["faqCollection"],
   faqs: RawSanitySpecialist["faqs"],
 ): SpecialistFaq[] | undefined {
-  if (!Array.isArray(faqs) || faqs.length === 0) return undefined;
-  const mapped = faqs
-    .map((faq) => ({
-      question: typeof faq.question === "string" ? faq.question.trim() : "",
-      answer: typeof faq.answer === "string" ? faq.answer.trim() : "",
-      category: typeof faq.category === "string" ? faq.category : undefined,
-      sortOrder: typeof faq.sortOrder === "number" ? faq.sortOrder : undefined,
-    }))
-    .filter((faq) => faq.question && faq.answer)
-    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
-  return mapped.length > 0 ? mapped.map(({ question, answer, category }) => ({ question, answer, category })) : undefined;
+  const resolved = resolveFaqsFromCollection(faqCollection, faqs);
+  if (resolved.length === 0) return undefined;
+  return resolved.map(({ question, answer }) => ({ question, answer }));
 }
 
 function mapClinicRefs(
@@ -320,11 +325,19 @@ export function mapSanitySpecialistRow(
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
 
+  const media = resolveCmsMedia(raw.heroMedia, {
+    mediaType: "image",
+    imageUrl: raw.image?.trim(),
+  });
+  const image =
+    (media?.kind === "image" ? media.src : media?.poster) || raw.image!.trim();
+
   return {
     _createdAt: raw._createdAt,
     name: raw.name!.trim(),
     slug: raw.slug!.trim(),
-    image: raw.image!.trim(),
+    image,
+    heroMedia: media || undefined,
     title,
     subtitle: readLocalizedString(raw.subtitle, lang) || undefined,
     expertise,
@@ -339,7 +352,7 @@ export function mapSanitySpecialistRow(
     bookingCategoryIds,
     sortOrder: typeof raw.sortOrder === "number" ? raw.sortOrder : undefined,
     faqSectionTitle: readLocalizedString(raw.faqSectionTitle, lang) || undefined,
-    faqs: mapSpecialistFaqs(raw.faqs),
+    faqs: mapSpecialistFaqs(raw.faqCollection, raw.faqs),
     patientReviews: mapPatientReviews(raw.patientReviews, lang),
     relatedSpecialistsSection: mapRelatedSpecialistsSection(raw.relatedSpecialistsSection, lang),
     geoSummary: readLocalizedString(raw.geoSummary, lang) || undefined,

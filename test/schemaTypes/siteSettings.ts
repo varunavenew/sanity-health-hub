@@ -10,6 +10,7 @@ export default {
   icon: SettingsIcon,
   groups: [
     { name: 'general', title: 'General', default: true },
+    { name: 'businessReputation', title: 'Business Reputation' },
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'footer', title: 'Footer' },
     { name: 'social', title: 'Social media' },
@@ -67,6 +68,30 @@ export default {
       type: 'string',
       group: 'general',
       description: 'Short address text for footer (e.g. "Oslo · Bekkestua · Moss · Moelv")',
+    },
+    {
+      name: 'businessReputation',
+      title: 'Business Reputation',
+      type: 'object',
+      group: 'businessReputation',
+      description:
+        'Aggregate review ratings shown on review sections. Replaces legacy Settings → Google Reviews ratings.',
+      fields: [
+        {
+          name: 'googleAverageRating',
+          title: 'Google average rating',
+          type: 'number',
+          validation: (Rule: any) => Rule.min(1).max(5).precision(1),
+          initialValue: 4.6,
+        },
+        {
+          name: 'legelistenAverageRating',
+          title: 'Legelisten average rating',
+          type: 'number',
+          validation: (Rule: any) => Rule.min(1).max(5).precision(1),
+          initialValue: 4.8,
+        },
+      ],
     },
 
     // ── Navigation ──

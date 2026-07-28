@@ -103,6 +103,8 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       content={content}
       locale={locale === "en" ? "en" : "no"}
       pageSections={treatment.pageSections}
+      faqSectionTitle={treatment.faqSectionTitle}
+      faqs={treatment.faqs}
     />
   );
 };

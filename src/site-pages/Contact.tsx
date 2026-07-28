@@ -18,6 +18,7 @@ import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
+import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
 
 interface ContactProps {
   isChatOpen: boolean;
@@ -33,6 +34,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const clinics = sanityClinics || [];
   const ctaCards = contactPage?.ctaCards ?? [];
   const pageSections = contactPage?.pageSections;
+  const preferSharedBookingCta = pageSectionsHaveUsableBookingCta(pageSections);
   const heroTitle = contactPage?.title?.trim() || "";
   const heroDescription = contactPage?.introText?.trim() || "";
   const heroImage = contactPage?.heroImage;
@@ -66,7 +68,11 @@ const Contact = ({ isChatOpen }: ContactProps) => {
           description={heroDescription || undefined}
           image={heroImage}
           imageAlt="Kontakt CMedical"
-          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+          primaryCta={
+            preferSharedBookingCta
+              ? undefined
+              : { label: t("nav.bookAppointment"), to: "/booking" }
+          }
           secondaryCta={
             contactPage?.secondaryCtaLabel && contactPage?.secondaryCtaPath
               ? {
@@ -76,7 +82,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
               : undefined
           }
         />
-      ) : (
+      ) : preferSharedBookingCta ? null : (
         <div className="bg-brand-warm pt-20 pb-8">
           <div className="container mx-auto px-6 md:px-16">
             <Button

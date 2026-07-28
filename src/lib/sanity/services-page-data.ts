@@ -1,7 +1,8 @@
 import { SERVICES_PAGE_QUERY } from "@/lib/queries";
+import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
+import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sanityClient } from "@/lib/sanityClient";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -153,15 +154,10 @@ export function mapServicesPageDocument(
   const seoRaw = data.seo as Record<string, unknown> | undefined;
 
   const faqsRaw = (data.faqs as unknown[]) || [];
-  const faqs: ServicesPageFaq[] = faqsRaw
-    .map((row) => {
-      const f = row as Record<string, unknown>;
-      const question = asPlainString(f.question);
-      const answer = asPlainString(f.answer);
-      if (!question || !answer) return null;
-      return { question, answer };
-    })
-    .filter((f): f is ServicesPageFaq => f !== null);
+  const faqs: ServicesPageFaq[] = resolveFaqsFromCollection(
+    data.faqCollection,
+    faqsRaw,
+  );
 
   return {
     breadcrumbHome: asPlainString(data.breadcrumbHome),
@@ -197,7 +193,7 @@ export function mapServicesPageDocument(
 export async function fetchServicesPageData(
   lang: "no" | "en",
 ): Promise<ServicesPageData | null> {
-  const raw = await sanityClient.fetch<Record<string, unknown> | null>(
+  const raw = await fetchSanityGroqBrowser<Record<string, unknown> | null>(
     SERVICES_PAGE_QUERY,
     { lang },
   );

@@ -1,18 +1,17 @@
 // Schema: Insurance Page (Forsikring)
-// Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
-import { InsuranceIcon } from './icons'
-import { i18nSlugFieldFromTitle } from './i18n'
-import { geoSummaryField } from './geoSummary'
-import { pageSectionsField } from './pageSections'
+import {InsuranceIcon} from './icons'
+import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {geoSummaryField} from './geoSummary'
+import {pageSectionsFieldForGroup} from './pageSections'
+import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
+import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
+import {insurancePageEditorConfig} from '../sanity/page-editor/pages/insuranceSections'
 
-const pickNo = (v: any) =>
-  Array.isArray(v)
-    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-    : (v || '')
+const INSURANCE_SHARED_SECTIONS = ['pageSectionArticles', 'pageSectionBookingCta'] as const
 
 const i18nItemPreview = {
-  select: { title: 'title', subtitle: 'description' },
-  prepare({ title, subtitle }: any) {
+  select: {title: 'title', subtitle: 'description'},
+  prepare({title, subtitle}: any) {
     return {
       title: pickNo(title) || 'Unnamed',
       subtitle: pickNo(subtitle) || undefined,
@@ -25,43 +24,45 @@ export default {
   title: 'Insurance',
   type: 'document',
   icon: InsuranceIcon,
+  components: {
+    input: createPageSectionDocumentInput(insurancePageEditorConfig),
+  },
+  groups: [...singletonPageGroups],
+  fieldsets: [...singletonPageFieldsets],
   fields: [
     {
       name: 'title',
       title: 'Page Title',
       type: 'internationalizedArrayString',
+      group: 'hero',
       validation: (Rule: any) => Rule.required(),
     },
-    i18nSlugFieldFromTitle('title'),
+    {...i18nSlugFieldFromTitle('title', {group: 'hero'})},
     {
       name: 'heroImage',
       title: 'Hero image',
       type: 'image',
-      options: { hotspot: true },
+      group: 'hero',
+      options: {hotspot: true},
     },
     {
       name: 'introText',
-      title: 'Intro text',
+      title: 'Subtitle / intro text',
       type: 'internationalizedArrayText',
-    },
-    {
-      name: 'partners',
-      title: 'Insurance partners',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Name of insurance partners (do not translate)',
+      group: 'hero',
     },
     {
       name: 'partnersLocalized',
-      title: 'Insurance partners (translated)',
+      title: 'Insurance partners',
       type: 'array',
-      description: 'Used for language-controlled partner names (NO/EN).',
+      group: 'content',
+      description: 'Partner names shown on the dedicated Insurance page body.',
       of: [
         {
           type: 'object',
-          fields: [{ name: 'name', title: 'Name', type: 'internationalizedArrayString' }],
+          fields: [{name: 'name', title: 'Name', type: 'internationalizedArrayString'}],
           preview: {
-            select: { name: 'name' },
+            select: {name: 'name'},
             prepare({name}: any) {
               return {title: pickNo(name) || 'Partner'}
             },
@@ -71,14 +72,15 @@ export default {
     },
     {
       name: 'steps',
-      title: 'Steps',
+      title: 'How it works — steps',
       type: 'array',
+      group: 'content',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
+            {name: 'title', title: 'Title', type: 'internationalizedArrayString'},
+            {name: 'description', title: 'Description', type: 'internationalizedArrayText'},
           ],
           preview: i18nItemPreview,
         },
@@ -88,29 +90,44 @@ export default {
       name: 'benefits',
       title: 'Benefits',
       type: 'array',
+      group: 'content',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
+            {name: 'title', title: 'Title', type: 'internationalizedArrayString'},
+            {name: 'description', title: 'Description', type: 'internationalizedArrayText'},
           ],
           preview: i18nItemPreview,
         },
       ],
     },
-    pageSectionsField,
+    {
+      name: 'partners',
+      title: 'Insurance partners (legacy plain text)',
+      type: 'array',
+      group: 'content',
+      fieldset: 'legacy',
+      of: [{type: 'string'}],
+      description:
+        'Non-translated partner names. Prefer Insurance partners above. Dual-read fallback only.',
+      hidden: ({document}: {document?: {partnersLocalized?: unknown[]}}) =>
+        Array.isArray(document?.partnersLocalized) && document.partnersLocalized.length > 0,
+    },
+    pageSectionsFieldForGroup('content', 'sharedSections', INSURANCE_SHARED_SECTIONS),
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      ...seoFieldsetProps,
+      validation: requiredNoEnSeo,
     },
-    geoSummaryField,
+    {...geoSummaryField, ...seoFieldsetProps},
   ],
   preview: {
-    select: { title: 'title', media: 'heroImage' },
-    prepare({ title, media }: any) {
-      return { title: pickNo(title) || 'Insurance', media }
+    select: {title: 'title', media: 'heroImage'},
+    prepare({title, media}: any) {
+      return {title: pickNo(title) || 'Insurance', media}
     },
   },
 }

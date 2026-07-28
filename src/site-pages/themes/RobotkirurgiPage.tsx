@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { useThemePage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {

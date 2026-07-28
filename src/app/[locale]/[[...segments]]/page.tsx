@@ -8,7 +8,7 @@ import { homeBreadcrumbJsonLd, medicalClinicJsonLd } from "@/lib/seo/home-jsonld
 import { medicalOrganizationJsonLd } from "@/lib/seo/geo-jsonld";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { buildHomeMetadata } from "@/lib/seo/route-metadata";
-import { fetchHomepageData } from "@/lib/sanity/homepage-data";
+import { fetchHomepageData } from "@/lib/sanity/homepage-fetch";
 import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
 import {
   resolveCmsRoute,

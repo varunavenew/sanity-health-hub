@@ -1,16 +1,24 @@
 import type { NextConfig } from "next";
 import path from "path";
 import webpack from "webpack";
+import {
+  requireSanityDataset,
+  requireSanityProjectId,
+} from "./src/lib/sanity/dataset-env";
+
+// Fail fast — never bake a silent dataset default into the client bundle.
+// Startup banner is logged once from src/instrumentation.ts.
+const sanityProjectId = requireSanityProjectId();
+const sanityDataset = requireSanityDataset();
 
 const nextConfig: NextConfig = {
+  // Allow overriding when `.next` is locked (Windows EPERM on trace).
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   reactStrictMode: true,
   // Pin workspace root — avoids Next.js picking up parent lockfile (Documents/package-lock.json).
   outputFileTracingRoot: path.join(__dirname),
   // Disable dev indicator panel (segment explorer can crash with React 19 on Windows).
   devIndicators: false,
-  experimental: {
-    devtoolSegmentExplorer: false,
-  },
   transpilePackages: [
     "next-sanity",
     "sanity",
@@ -20,20 +28,15 @@ const nextConfig: NextConfig = {
   ],
   /**
    * Mirror Studio env vars into NEXT_PUBLIC_* so the browser bundle can read the
-   * same project/dataset as `test/sanity` when only `SANITY_PROJECT_ID` is set.
+   * same project/dataset as `test/sanity`. Values must come from env (no hardcoded dataset).
    */
   env: {
     // Embedded Studio lives at /studio — must match sanity.config basePath (see test/sanity.config.ts).
     SANITY_STUDIO_BASEPATH: "/studio",
-    // Never bake "" at build time — Vercel previews without env vars would break client fetches.
-    NEXT_PUBLIC_SANITY_PROJECT_ID:
-      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
-      process.env.SANITY_PROJECT_ID ||
-      "9jhqpk3a",
-    NEXT_PUBLIC_SANITY_DATASET:
-      process.env.NEXT_PUBLIC_SANITY_DATASET ||
-      process.env.SANITY_DATASET ||
-      "production",
+    NEXT_PUBLIC_SANITY_PROJECT_ID: sanityProjectId,
+    NEXT_PUBLIC_SANITY_DATASET: sanityDataset,
+    SANITY_PROJECT_ID: sanityProjectId,
+    SANITY_DATASET: sanityDataset,
   },
   images: {
     remotePatterns: [
@@ -55,11 +58,13 @@ const nextConfig: NextConfig = {
           ? [config.resolve.modules]
           : ["node_modules"]),
     ];
+    // Do NOT alias `react` / `react-dom` here — App Router + RSC need package
+    // export conditions (`react-server`). Forcing a file path breaks
+    // LayoutRouterContext and shows: Cannot read properties of null (reading 'useContext').
+    // Parent-folder React conflicts are handled by scripts/patch-react-resolution.cjs.
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "src"),
-      react: path.join(projectNodeModules, "react"),
-      "react-dom": path.join(projectNodeModules, "react-dom"),
     };
     if (!isServer) {
       config.plugins = config.plugins ?? [];

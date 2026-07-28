@@ -29,8 +29,8 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
   const { t } = useTranslation();
   const resultsStats = homepage?.resultsStatsSection;
   const bookingCta = useMemo(
-    () => findHomepageBookingCta(homepage?.pageSections ?? []),
-    [homepage?.pageSections],
+    () => findHomepageBookingCta(homepage?.pageSections ?? [], homepage?.bookingCta),
+    [homepage?.pageSections, homepage?.bookingCta],
   );
 
   return (

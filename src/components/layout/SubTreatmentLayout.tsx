@@ -1,10 +1,15 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
+import { CmsMedia } from "@/components/media/CmsMedia";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { FaqSection } from "@/components/layout/FaqSection";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageSectionInsuranceBlock } from "@/components/page-sections/PageSectionInsuranceBlock";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { resolveTreatmentInsurance } from "@/lib/sanity/insurance-dual-read";
+import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
@@ -60,6 +65,7 @@ export interface SubTreatmentContent {
   heroImage?: string;
   heroImageAlt?: string;
   heroVideo?: string;
+  heroMedia?: unknown;
   flowLinkLabel?: string;
   flowLinkHref?: string;
   reasonsTitle: string;
@@ -102,6 +108,8 @@ interface Props {
   content: SubTreatmentContent;
   locale?: "no" | "en";
   pageSections?: PageSection[];
+  faqSectionTitle?: string;
+  faqs?: { question: string; answer: string }[];
 }
 
 const REASONS_BLACKLIST = [
@@ -435,6 +443,8 @@ export const SubTreatmentLayout = ({
   content: c,
   locale: _locale = "no",
   pageSections,
+  faqSectionTitle,
+  faqs,
 }: Props) => {
   const { specialists } = useSpecialistsData();
   const expertAreasRef = useRef<HTMLDivElement>(null);
@@ -444,9 +454,28 @@ export const SubTreatmentLayout = ({
     document.title = `${c.title} | CMedical`;
   }, [c.title]);
 
-  const heroMedia = c.heroImage;
+  const heroMediaUrl = c.heroImage;
+  const resolvedHero = resolveCmsMedia(c.heroMedia, {
+    mediaType: c.heroVideo || (c.heroMedia as { mediaType?: string } | undefined)?.mediaType === "video"
+      ? "video"
+      : "image",
+    imageUrl: c.heroImage,
+    videoUrl: c.heroVideo,
+    videoIsRemoteUrl: true,
+  });
+
 
   const heroTitle = useMemo(() => parseHeroTitle(c.heroTitle), [c.heroTitle]);
+
+  const insuranceSection = useMemo(
+    () =>
+      resolveTreatmentInsurance(pageSections, {
+        eyebrow: c.insuranceEyebrow,
+        title: c.insuranceTitle,
+        partners: c.insurancePartners,
+      }),
+    [pageSections, c.insuranceEyebrow, c.insuranceTitle, c.insurancePartners],
+  );
 
   // Obsolete specialists resolving logic removed as page builder pageSectionSpecialists is used instead
 
@@ -590,19 +619,26 @@ export const SubTreatmentLayout = ({
           </div>
 
           <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40 overflow-hidden">
-            {c.heroVideo ? (
+            {resolvedHero ? (
+              <CmsMedia
+                media={resolvedHero}
+                alt={c.heroImageAlt || ""}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : c.heroVideo ? (
               <video
                 src={c.heroVideo}
-                poster={heroMedia}
+                poster={heroMediaUrl}
                 autoPlay
                 muted
                 loop
                 playsInline
+                preload="metadata"
                 className="absolute inset-0 w-full h-full object-cover"
               />
-            ) : heroMedia ? (
+            ) : heroMediaUrl ? (
               <AssetImg
-                src={heroMedia}
+                src={heroMediaUrl}
                 alt={c.heroImageAlt}
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -846,6 +882,16 @@ export const SubTreatmentLayout = ({
         </section>
       ) : null}
 
+      {/* FAQ — dual-read is resolved in treatment-data; hidden when empty. */}
+      <FaqSection
+        faqs={(faqs ?? []).map((faq, index) => ({
+          id: `treatment-faq-${index}`,
+          question: faq.question,
+          answer: faq.answer,
+        }))}
+        title={faqSectionTitle?.trim() || undefined}
+      />
+
       <PageSectionsRenderer
         sections={pageSections?.filter(
           (s) => s._type !== "pageSectionBookingCta" && s._type !== "pageSectionSpecialists"
@@ -887,32 +933,7 @@ export const SubTreatmentLayout = ({
         ) : null;
       })()}
 
-      <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-4">
-              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3">
-                {c.insuranceEyebrow}
-              </p>
-              <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
-                {c.insuranceTitle}
-              </h3>
-            </div>
-            <div className="lg:col-span-8">
-              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-brand-dark/10">
-                {c.insurancePartners.map((partner) => (
-                  <li
-                    key={partner.key}
-                    className="border-b border-brand-dark/10 [&:not(:nth-child(2n))]:border-r sm:[&:not(:nth-child(3n))]:border-r md:[&:not(:nth-child(4n))]:border-r border-brand-dark/10 py-4 px-4 text-sm font-light text-foreground/85"
-                  >
-                    {partner.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {insuranceSection ? <PageSectionInsuranceBlock config={insuranceSection} /> : null}
 
       {c.related.length > 0 && !c.relatedAsIntro ? (
         <RelatedServicesCarousel

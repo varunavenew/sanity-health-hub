@@ -5,7 +5,7 @@ interface Props {
 }
 
 export function PageSectionInsuranceBlock({ config }: Props) {
-  const eyebrow = config.eyebrow || "Forsikringspartnere";
+  const eyebrow = config.eyebrow?.trim() || "";
   const title = config.title || "Vi har avtale med de største forsikringsselskapene i Norge.";
   const partners = config.partners || [];
 
@@ -16,9 +16,11 @@ export function PageSectionInsuranceBlock({ config }: Props) {
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="lg:col-span-4">
-            <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3 uppercase">
-              {eyebrow}
-            </p>
+            {eyebrow ? (
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3 uppercase">
+                {eyebrow}
+              </p>
+            ) : null}
             <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
               {title}
             </h3>

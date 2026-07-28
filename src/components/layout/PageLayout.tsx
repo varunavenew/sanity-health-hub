@@ -156,20 +156,12 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
   return (
     <>
-      {/* Skip to main content - WCAG 2.4.1 */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:text-accent-foreground focus:px-4 focus:py-2 focus:rounded-md focus:text-sm"
-      >
-        {t("nav.skipToContent")}
-      </a>
-
       {/* Combined Header - Banner + Nav that hide/show together */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-50 transition-transform duration-300 ${
           isNavVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
-        style={{ marginLeft: isChatOpen ? '360px' : '0' }}
+        style={{ left: isChatOpen ? "360px" : "0" }}
       >
         
         {/* Navigation Bar */}
@@ -313,12 +305,19 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         </nav>
       </header>
 
-      <div className="flex min-h-screen w-full bg-background">
+      {/*
+        Use 100% (not 100vw) for the content shell max-width.
+        100vw includes the classic scrollbar gutter, so maxWidth:100vw lets
+        wide children (e.g. specialists overflow-x-auto carousels) grow the
+        shell to innerWidth and create a ~15px page-level horizontal scrollbar.
+        min-w-0 lets the flex item shrink below intrinsic carousel min-content.
+      */}
+      <div className="flex min-h-screen w-full min-w-0 bg-background">
         <div
-          className="flex-1 overflow-x-clip pb-[calc(4.25rem+env(safe-area-inset-bottom))] transition-all duration-300 md:pb-0"
+          className="flex-1 min-w-0 overflow-x-clip pb-[calc(4.25rem+env(safe-area-inset-bottom))] transition-all duration-300 md:pb-0"
           style={{
             marginLeft: isChatOpen ? "360px" : "0",
-            maxWidth: isChatOpen ? "calc(100vw - 360px)" : "100vw",
+            maxWidth: isChatOpen ? "calc(100% - 360px)" : "100%",
           }}
         >
           {/* Main Content */}
@@ -332,7 +331,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       </div>
 
       <MobileBottomNav
-        style={{ marginLeft: isChatOpen ? "360px" : "0" }}
+        style={{ left: isChatOpen ? "360px" : "0" }}
       />
     </>
   );

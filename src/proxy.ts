@@ -5,7 +5,7 @@ import { locales } from "@/lib/i18n/routing";
 
 const LOCALE_PREFIX = new Set(locales);
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (

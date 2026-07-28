@@ -1,5 +1,5 @@
 import type { PortableTextComponents } from "@portabletext/react";
-import { urlFor } from "@/lib/sanityClient";
+import { urlFor } from "@/lib/sanity/image-url";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 export const specialistBioPortableTextComponents: PortableTextComponents = {

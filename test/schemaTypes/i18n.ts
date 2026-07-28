@@ -144,9 +144,13 @@ function truncate(text: string, max = 80): string {
 export const i18nFaqItemPreview = {
   select: { title: 'question', subtitle: 'answer' },
   prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
-    const answer = pickNo(subtitle)
+    const answer = pickForLang(subtitle, 'en')?.trim() || pickNo(subtitle)?.trim() || ''
+    const question =
+      pickForLang(title, 'en')?.trim() ||
+      pickNo(title)?.trim() ||
+      ''
     return {
-      title: pickNo(title) || 'FAQ',
+      title: question || 'FAQ',
       subtitle: answer ? truncate(answer) : undefined,
     }
   },
@@ -156,9 +160,16 @@ export const i18nFaqItemPreview = {
 export const i18nTitleItemPreview = {
   select: { title: 'title', subtitle: 'description' },
   prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
-    const desc = pickNo(subtitle)
+    const desc =
+      pickForLang(subtitle, 'en')?.trim() ||
+      pickNo(subtitle)?.trim() ||
+      ''
+    const heading =
+      pickForLang(title, 'en')?.trim() ||
+      pickNo(title)?.trim() ||
+      ''
     return {
-      title: pickNo(title) || 'Untitled',
+      title: heading || 'Untitled',
       subtitle: desc ? truncate(desc) : undefined,
     }
   },
@@ -171,7 +182,33 @@ type SlugFieldOverrides = {
 }
 
 /**
+ * URL slugify used by Studio Generate (and matching migration scripts).
+ * Examples: "Kne & Hofte" → "kne-hofte", "Women's Health" → "womens-health"
+ */
+export function slugifyForUrl(input: string, maxLength = 96): string {
+  const cleaned = input
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/æ/g, 'ae')
+    .replace(/ø/g, 'o')
+    .replace(/å/g, 'a')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    // Drop apostrophes so "Women's" → "womens" (not "women-s")
+    .replace(/[''`´]/g, '')
+
+  const slug = cleaned
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+
+  return slug.slice(0, maxLength)
+}
+
+/**
  * Localized URL slug (NO + EN) sourced from an internationalizedArrayString title field.
+ * Studio: Generate fills from the matching language title when empty / when Generate is clicked.
+ * Manual slug edits are kept until the editor clicks Generate again.
  */
 export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFieldOverrides = {}) {
   return {
@@ -180,7 +217,7 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
     type: 'internationalizedArraySlug',
     description:
       overrides.description ??
-      'One slug per language. Generated from the title; can be edited for English URLs.',
+      'One slug per language (NO + EN). Fills from the document title when empty. Manual edits are kept unless you Generate again.',
     group: overrides.group,
     options: {
       source: (doc: any, context: any) => {
@@ -190,6 +227,7 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
         if (!Array.isArray(titles)) return ''
         return pickForLang(titles, lang) || pickNo(titles)
       },
+      slugify: (input: string) => slugifyForUrl(input, 96),
       maxLength: 96,
     },
     validation: requiredNoEnSlug(),
@@ -206,13 +244,14 @@ export function i18nSlugFieldFromString(sourceField: string, overrides: SlugFiel
     type: 'internationalizedArraySlug',
     description:
       overrides.description ??
-      'One slug per language. Generated from the source field; can be edited manually.',
+      'One slug per language. Use Generate to fill from the source when empty. Manual edits are kept unless you Generate again.',
     group: overrides.group,
     options: {
       source: (doc: any) => {
         const v = doc?.[sourceField]
         return typeof v === 'string' ? v : ''
       },
+      slugify: (input: string) => slugifyForUrl(input, 96),
       maxLength: 96,
     },
     validation: requiredNoEnSlug(),

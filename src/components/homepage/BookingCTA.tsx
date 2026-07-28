@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -30,6 +30,10 @@ export type BookingCtaContent = {
   secondaryLabel?: string;
   secondaryPath?: string;
   quickInfoItems?: BookingCtaQuickInfoItem[];
+  /** Optional CMS background; empty uses variant default. */
+  backgroundColor?: string;
+  /** Optional CMS text color for title / subtitle / quick info. */
+  textColor?: string;
 };
 
 const QUICK_INFO_ICONS: Record<NonNullable<BookingCtaQuickInfoItem["icon"]>, LucideIcon> = {
@@ -52,6 +56,8 @@ export const BookingCTA = ({
   secondaryLabel,
   secondaryPath,
   quickInfoItems,
+  backgroundColor,
+  textColor,
 }: BookingCTAProps = {}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -100,28 +106,57 @@ export const BookingCTA = ({
     window.location.href = bookingTarget;
   };
 
-  const sectionClass =
-    variant === "warm"
-      ? "py-20 md:py-28 bg-brand-warm border-t border-border/60"
-      : "py-20 md:py-28 bg-brand-dark";
+  const customBg = backgroundColor?.trim() || "";
+  const customText = textColor?.trim() || "";
+  const hasCustomBg = Boolean(customBg);
+  const hasCustomText = Boolean(customText);
+  /** When a custom background is set without text color, keep dark-variant contrast (white text). */
+  const useWarmChrome = variant === "warm" && !hasCustomBg && !hasCustomText;
 
-  const titleClass =
-    variant === "warm" ? "text-2xl md:text-3xl font-light text-brand-dark mb-4" : "text-2xl md:text-3xl font-light text-white mb-4";
-  const subtitleClass =
-    variant === "warm"
-      ? "text-brand-dark/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto"
-      : "text-white/60 font-light text-base md:text-lg mb-10 max-w-xl mx-auto";
-  const quickInfoClass =
-    variant === "warm" ? "flex items-center gap-2 text-sm text-brand-dark/60" : "flex items-center gap-2 text-sm text-white/50";
+  const sectionClass = useWarmChrome
+    ? "py-20 md:py-28 bg-brand-warm border-t border-border/60"
+    : "py-20 md:py-28 bg-brand-dark";
+
+  const titleClass = useWarmChrome
+    ? "text-2xl md:text-3xl font-light text-brand-dark mb-4"
+    : "text-2xl md:text-3xl font-light text-white mb-4";
+  const subtitleClass = useWarmChrome
+    ? "text-brand-dark/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto"
+    : "text-white/60 font-light text-base md:text-lg mb-10 max-w-xl mx-auto";
+  const quickInfoClass = useWarmChrome
+    ? "flex items-center gap-2 text-sm text-brand-dark/60"
+    : "flex items-center gap-2 text-sm text-white/50";
+
+  const titleStyle: CSSProperties | undefined = hasCustomText ? { color: customText } : undefined;
+  const subtitleStyle: CSSProperties | undefined = hasCustomText
+    ? { color: customText, opacity: 0.75 }
+    : undefined;
+  const quickInfoStyle: CSSProperties | undefined = hasCustomText
+    ? { color: customText, opacity: 0.65 }
+    : undefined;
+  const sectionStyle: CSSProperties | undefined = hasCustomBg
+    ? { backgroundColor: customBg }
+    : undefined;
 
   const content = (
     <>
-      <h2 className={titleClass}>{resolvedTitle}</h2>
-      <p className={subtitleClass}>{resolvedSubtitle}</p>
+      <h2 className={hasCustomText ? "text-2xl md:text-3xl font-light mb-4" : titleClass} style={titleStyle}>
+        {resolvedTitle}
+      </h2>
+      <p
+        className={
+          hasCustomText
+            ? "font-light text-base md:text-lg mb-10 max-w-xl mx-auto"
+            : subtitleClass
+        }
+        style={subtitleStyle}
+      >
+        {resolvedSubtitle}
+      </p>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
         <Button
-          variant={variant === "warm" ? "cta" : "cta-dark"}
+          variant={useWarmChrome ? "cta" : "cta-dark"}
           size="lg"
           onClick={handlePrimaryClick}
         >
@@ -133,7 +168,7 @@ export const BookingCTA = ({
         {showSecondaryButton ? (
           secondaryPath?.trim() ? (
             <Button
-              variant={variant === "warm" ? "outline" : "cta-outline-dark"}
+              variant={useWarmChrome ? "outline" : "cta-outline-dark"}
               size="lg"
               asChild
             >
@@ -142,7 +177,7 @@ export const BookingCTA = ({
           ) : (
           <div className="relative" ref={dropdownRef}>
             <Button
-              variant={variant === "warm" ? "outline" : "cta-outline-dark"}
+              variant={useWarmChrome ? "outline" : "cta-outline-dark"}
               size="lg"
               onClick={() => setShowClinicPicker(!showClinicPicker)}
             >
@@ -190,7 +225,11 @@ export const BookingCTA = ({
         {resolvedQuickInfo.map((item, i) => {
           const Icon = QUICK_INFO_ICONS[item.icon === "shield" ? "shield" : "clock"];
           return (
-            <span key={`${item.text}-${i}`} className={quickInfoClass}>
+            <span
+              key={`${item.text}-${i}`}
+              className={hasCustomText ? "flex items-center gap-2 text-sm" : quickInfoClass}
+              style={quickInfoStyle}
+            >
               <Icon className="w-4 h-4" aria-hidden="true" />
               {item.text}
             </span>
@@ -202,7 +241,10 @@ export const BookingCTA = ({
 
   if (variant === "withImage" && image) {
     return (
-      <section className="py-20 md:py-28 bg-brand-dark">
+      <section
+        className={hasCustomBg ? "py-20 md:py-28" : "py-20 md:py-28 bg-brand-dark"}
+        style={sectionStyle}
+      >
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid md:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
             <div className="text-center md:text-left">{content}</div>
@@ -216,7 +258,7 @@ export const BookingCTA = ({
   }
 
   return (
-    <section className={sectionClass}>
+    <section className={hasCustomBg ? "py-20 md:py-28" : sectionClass} style={sectionStyle}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">{content}</div>
       </div>

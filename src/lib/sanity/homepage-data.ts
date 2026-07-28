@@ -1,13 +1,17 @@
-import { HOMEPAGE_QUERY } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
+import {
+  resolveCmsMedia,
+  type ResolvedCmsMedia,
+} from "@/lib/sanity/media-dual-read";
 import {
   normalizePageSections,
   type PageSectionBookingCtaConfig,
 } from "@/lib/sanity/page-sections";
 import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
-import { sanityClient } from "@/lib/sanityClient";
 import type { Article } from "@/data/articles";
+import type { HomepageSpecialistsSectionConfig, HomepageSpecialistsCategoryRef } from "@/lib/sanity/homepage-specialists";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -31,7 +35,9 @@ export type HomepageHeroSlide = {
   ctaPath: string;
   image: string;
   mobileImage?: string;
+  /** @deprecated Prefer `media` — kept for callers that only check videoUrl. */
   videoUrl?: string;
+  media?: ResolvedCmsMedia | null;
   objectPosition: string;
 };
 
@@ -117,6 +123,10 @@ export type HomepageData = {
   featuredArticles?: Article[];
   resultsStatsSection: HomepageResultsStatsSection;
   pageSections: ReturnType<typeof normalizePageSections>;
+  /** Preferred dedicated Booking CTA; dual-read with pageSections band. */
+  bookingCta?: unknown;
+  /** Homepage-owned specialists display settings (profiles stay in Medical Content). */
+  specialistsSection?: HomepageSpecialistsSectionConfig;
   seo?: SanitySeoFields;
   geoSummary?: string;
 };
@@ -210,6 +220,95 @@ function mapNewsSplitSection(raw: unknown, lang: SortLocale): HomepageNewsSplitS
   };
 }
 
+function defaultSpecialistsSeeAllHref(lang: SortLocale): string {
+  return lang === "en" ? "/specialists" : "/spesialister";
+}
+
+function resolveSpecialistsSeeAllHref(link: unknown, lang: SortLocale): string {
+  const fallback = defaultSpecialistsSeeAllHref(lang);
+  if (!link || typeof link !== "object") return fallback;
+  const row = link as { _type?: string; slug?: string };
+  const slug = typeof row.slug === "string" ? row.slug.trim() : "";
+  if (slug) return slug.startsWith("/") ? slug : `/${slug}`;
+  if (row._type === "specialistsListingPage" || row._type === "specialistsPage") {
+    return fallback;
+  }
+  return fallback;
+}
+
+function mapSpecialistsSection(
+  raw: unknown,
+  lang: SortLocale,
+): HomepageSpecialistsSectionConfig | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const row = raw as Record<string, unknown>;
+
+  const displayMode = row.displayMode;
+  const mode =
+    displayMode === "manual" || displayMode === "category" || displayMode === "all"
+      ? displayMode
+      : "all";
+
+  const specialistsRaw = Array.isArray(row.specialists) ? row.specialists : [];
+  const specialists = specialistsRaw
+    .map((item) => {
+      const spec = item as { slug?: string };
+      return typeof spec.slug === "string" && spec.slug.trim()
+        ? { slug: spec.slug.trim() }
+        : null;
+    })
+    .filter((item): item is { slug: string } => Boolean(item));
+
+  const categoriesRaw = Array.isArray(row.categories) ? row.categories : [];
+  const categories = categoriesRaw
+    .map((item) => {
+      const cat = item as { categoryId?: string; slug?: string };
+      const categoryId =
+        typeof cat.categoryId === "string" && cat.categoryId.trim()
+          ? cat.categoryId.trim()
+          : undefined;
+      const slug =
+        typeof cat.slug === "string" && cat.slug.trim() ? cat.slug.trim() : undefined;
+      if (!categoryId && !slug) return null;
+      return { categoryId, slug } as HomepageSpecialistsCategoryRef;
+    })
+    .filter((item): item is HomepageSpecialistsCategoryRef => Boolean(item));
+
+  const heading = asPlainString(row.heading);
+  const intro = asPlainString(row.intro);
+  const seeAllLabel = asPlainString(row.seeAllLabel);
+  const maxItems = typeof row.maxItems === "number" ? row.maxItems : undefined;
+  const layout = row.layout === "grid" ? "grid" : "carousel";
+  const randomizeOrder = row.randomizeOrder === true;
+
+  const hasContent =
+    heading ||
+    intro ||
+    seeAllLabel ||
+    typeof maxItems === "number" ||
+    layout !== "carousel" ||
+    randomizeOrder ||
+    mode !== "all" ||
+    specialists.length > 0 ||
+    categories.length > 0 ||
+    row.seeAllLink;
+
+  if (!hasContent) return undefined;
+
+  return {
+    heading: heading || undefined,
+    intro: intro || undefined,
+    displayMode: mode,
+    specialists: specialists.length > 0 ? specialists : undefined,
+    categories: categories.length > 0 ? categories : undefined,
+    seeAllLabel: seeAllLabel || undefined,
+    seeAllHref: resolveSpecialistsSeeAllHref(row.seeAllLink, lang),
+    maxItems,
+    layout,
+    randomizeOrder,
+  };
+}
+
 function mapResultsStatsSection(raw: unknown, lang: SortLocale): HomepageResultsStatsSection {
   const defaults = defaultResultsStatsSection(lang);
   if (!raw || typeof raw !== "object") return defaults;
@@ -237,27 +336,34 @@ function mapResultsStatsSection(raw: unknown, lang: SortLocale): HomepageResults
 
 export function findHomepageBookingCta(
   pageSections: ReturnType<typeof normalizePageSections>,
+  bookingCta?: unknown,
 ): PageSectionBookingCtaConfig | undefined {
+  if (bookingCta && typeof bookingCta === "object") {
+    const normalized = normalizePageSections([
+      { ...(bookingCta as object), _type: "pageSectionBookingCta" },
+    ]);
+    const fromField = normalized.find(
+      (section): section is PageSectionBookingCtaConfig =>
+        section._type === "pageSectionBookingCta",
+    );
+    if (fromField) return fromField;
+  }
   return pageSections.find(
     (section): section is PageSectionBookingCtaConfig =>
       section._type === "pageSectionBookingCta",
   );
 }
 
-function mapHomepageFaqs(value: unknown): HomepageFaq[] {
-  if (!Array.isArray(value)) return [];
-  return value
-    .map((row) => {
-      const faq = row as { question?: unknown; answer?: unknown; sortOrder?: number };
-      return {
-        question: asPlainString(faq.question),
-        answer: asPlainString(faq.answer),
-        sortOrder: typeof faq.sortOrder === "number" ? faq.sortOrder : 0,
-      };
-    })
-    .filter((faq) => faq.question && faq.answer)
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .map(({ question, answer }) => ({ question, answer }));
+/**
+ * Dual-read: prefer FAQ Collection questions when the collection has at least
+ * one usable Q&A; otherwise keep the legacy homepage `faqs[]` item list.
+ * Empty collection reference (or collection with no valid questions) falls back.
+ */
+export function resolveHomepageFaqs(
+  faqCollection: unknown,
+  legacyFaqs: unknown,
+): HomepageFaq[] {
+  return resolveFaqsFromCollection(faqCollection, legacyFaqs);
 }
 
 function formatReviewDate(value: unknown, lang: SortLocale): string {
@@ -342,7 +448,7 @@ export function mapHomepageDocument(
     promoBlocksTitle:
       typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
     faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
-    faqs: mapHomepageFaqs(data.faqs),
+    faqs: resolveHomepageFaqs(data.faqCollection, data.faqs),
     reviewsSection: mapHomepageReviews(
       data.googleReviews,
       lang,
@@ -360,19 +466,32 @@ export function mapHomepageDocument(
     heroSlides: (heroBanner?.slides || [])
       .map((slide, i) => {
         const s = slide as Record<string, unknown>;
+        const media = resolveCmsMedia(s.media, {
+          mediaType: asPlainString(s.videoUrl) ? "video" : "image",
+          imageUrl: asPlainString(s.image),
+          videoUrl: asPlainString(s.videoUrl),
+        });
+        const image =
+          (media?.kind === "image" ? media.src : media?.poster) ||
+          asPlainString(s.image);
+        const videoUrl =
+          media?.kind === "video" && media.src
+            ? media.src
+            : asPlainString(s.videoUrl) || undefined;
         return {
           id: `slide-${i}`,
           label: asPlainString(s.heading),
           subtitle: asPlainString(s.subheading),
           cta: asPlainString(s.ctaText) || "Les mer",
           ctaPath: asPlainString(s.ctaLink) || "/",
-          image: asPlainString(s.image),
+          image,
           mobileImage: asPlainString(s.mobileImage) || undefined,
-          videoUrl: asPlainString(s.videoUrl) || undefined,
+          videoUrl,
+          media,
           objectPosition: "center 30%",
         };
       })
-      .filter((s) => (s.image || s.videoUrl) && s.label),
+      .filter((s) => (s.image || s.videoUrl || s.media) && s.label),
     categoryCards: serviceCategories
       .map((c) => {
         const row = c as Record<string, unknown> | null;
@@ -380,12 +499,19 @@ export function mapHomepageDocument(
         const categoryId = asPlainString(row.categoryId);
         const slug = asPlainString(row.slug);
         const routeKey = categoryId || slug;
+        const media = resolveCmsMedia(row.heroMedia, {
+          mediaType: "image",
+          imageUrl: asPlainString(row.heroImage),
+        });
+        const image =
+          (media?.kind === "image" ? media.src : media?.poster) ||
+          asPlainString(row.heroImage);
         return {
           id: routeKey,
           title: asPlainString(row.title),
           // Preserve homepage.serviceCategories array order (Studio drag-and-drop).
           path: routeKey ? `/${routeKey}` : "",
-          image: asPlainString(row.heroImage),
+          image,
         };
       })
       .filter((c): c is HomepageCategoryCard => Boolean(c?.id && c?.title && c?.image)),
@@ -408,7 +534,8 @@ export function mapHomepageDocument(
     patientTrustBanner: mapPatientTrustBanner(data.patientTrustBanner, lang),
     newsSplitSection: mapNewsSplitSection(data.newsSplitSection, lang),
     featuredArticles: Array.isArray(data.featuredArticles)
-      ? data.featuredArticles.map((a: any): Article => ({
+      ? data.featuredArticles.map((a: any): Article & { id?: string } => ({
+          id: asPlainString(a._id) || asPlainString(a.slug),
           slug: asPlainString(a.slug),
           title: asPlainString(a.title),
           excerpt: asPlainString(a.excerpt),
@@ -420,25 +547,9 @@ export function mapHomepageDocument(
       : undefined,
     resultsStatsSection: mapResultsStatsSection(data.resultsStatsSection, lang),
     pageSections: normalizePageSections(data.pageSections),
+    bookingCta: data.bookingCta,
+    specialistsSection: mapSpecialistsSection(data.specialistsSection, lang),
     seo: data.seo as SanitySeoFields | undefined,
     geoSummary: asPlainString(data.geoSummary) || undefined,
   };
-}
-
-async function fetchHomepageRaw(
-  lang: "no" | "en",
-): Promise<Record<string, unknown> | null> {
-  return sanityClient.fetch<Record<string, unknown> | null>(HOMEPAGE_QUERY, { lang });
-}
-
-/**
- * Server-side homepage payload for RSC + React Query hydration.
- * Always hits Sanity directly (no unstable_cache) so Vercel matches local `next dev`.
- */
-export async function fetchHomepageData(
-  lang: "no" | "en",
-): Promise<HomepageData | null> {
-  const raw = await fetchHomepageRaw(lang);
-  if (!raw) return null;
-  return mapHomepageDocument(normalizeI18n(raw, lang) as Record<string, unknown>, lang);
 }

@@ -398,8 +398,14 @@ export async function fetchThemePageSeo(
 }
 
 export type GuidePageDocument = DocWithSeo & {
+  breadcrumbHome?: string;
   heroTitle?: string;
   heroSubtitle?: string;
+  heroMedia?: unknown;
+  primaryCtaLabel?: string;
+  primaryCtaPath?: string;
+  categoriesIntroTitle?: string;
+  categoriesIntroDescription?: string;
 };
 
 export type CareersPageDocument = DocWithSeo & {

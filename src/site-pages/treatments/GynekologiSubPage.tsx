@@ -2,13 +2,11 @@
 
 import { PageLayout } from "@/components/layout/PageLayout";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
-import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useTreatment } from "@/hooks/useSanity";
 import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-treatment-page";
 import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
 import { useTreatmentSlug } from "@/lib/router";
 import { useTranslation } from "react-i18next";
-import NotFound from "@/site-pages/NotFound";
 
 /** Gynekologi sub-treatments — Sanity `layout` + SubTreatmentLayout design. */
 const GynekologiSubPage = ({
@@ -45,6 +43,8 @@ const GynekologiSubPage = ({
       content={content}
       locale={lang}
       pageSections={resolved.pageSections}
+      faqSectionTitle={resolved.faqSectionTitle}
+      faqs={resolved.faqs}
     />
   );
 };

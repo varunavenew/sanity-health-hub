@@ -10,8 +10,8 @@
  *
  * Env required (see test/sanity/config.ts):
  *   SANITY_TOKEN (write access)
- * Optional:
- *   SANITY_PROJECT_ID (default 9jhqpk3a), SANITY_DATASET (default production)
+ *   SANITY_PROJECT_ID
+ *   SANITY_DATASET (developer locally — production refused unless ALLOW_PRODUCTION_MIGRATION=true)
  */
 import { sanityClient as client } from "./config";
 import * as fs from "fs";

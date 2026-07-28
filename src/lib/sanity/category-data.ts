@@ -1,8 +1,9 @@
 import { TREATMENT_CATEGORY_BY_SLUG_QUERY } from "@/lib/queries";
+import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
-import { sanityClient } from "@/lib/sanityClient";
+import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { behandlingerCategorySegment } from "@/lib/sanity/category-keys";
 
 function asPlainString(value: unknown): string {
@@ -205,17 +206,28 @@ export type CategoryStat = {
   sub?: string;
 };
 
+export type CategoryFaq = {
+  question: string;
+  answer: string;
+};
+
 export type TreatmentCategoryData = {
   categoryId: string;
   slug?: string;
   title: string;
   geoSummary?: string;
   missingLandingMessage: string;
+  /** Editor choice: which hero media to prefer (`image` default). */
+  heroMediaType?: "image" | "video";
+  heroMedia?: unknown;
   heroImage?: string;
   heroVideo?: string;
   categoryNumericId?: number;
   treatments: CategoryTreatmentLink[];
   stats: CategoryStat[];
+  /** Dual-read: FAQ Collection preferred, else legacy faqs[]. */
+  faqSectionTitle?: string;
+  faqs: CategoryFaq[];
   landingPage: CategoryLandingPage | null;
   pageSections: ReturnType<typeof normalizePageSections>;
   seo?: Record<string, unknown>;
@@ -504,24 +516,31 @@ export function mapTreatmentCategoryDocument(
     title: asPlainString(data.title),
     geoSummary: asPlainString(data.geoSummary) || undefined,
     missingLandingMessage: asPlainString(data.missingLandingMessage) || "",
+    heroMediaType:
+      data.heroMediaType === "video" || data.heroMediaType === "image"
+        ? data.heroMediaType
+        : "image",
+    heroMedia: data.heroMedia,
     heroImage: asPlainString(data.heroImage) || undefined,
     heroVideo: asPlainString(data.heroVideo) || undefined,
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
     treatments,
     stats,
+    faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
+    faqs: resolveFaqsFromCollection(data.faqCollection, data.faqs),
     landingPage: mapLandingPage(landingRaw),
     pageSections: normalizePageSections(data.pageSections),
     seo: data.seo as Record<string, unknown> | undefined,
   };
 }
 
-/** Server/client category payload — always hits Sanity directly. */
+/** Browser/client category payload — uses `/api/sanity/groq` proxy. */
 export async function fetchTreatmentCategoryData(
   categorySlug: string,
   lang: "no" | "en",
 ): Promise<TreatmentCategoryData | null> {
-  const raw = await sanityClient.fetch<Record<string, unknown> | null>(
+  const raw = await fetchSanityGroqBrowser<Record<string, unknown> | null>(
     TREATMENT_CATEGORY_BY_SLUG_QUERY,
     { slug: categorySlug, lang },
   );

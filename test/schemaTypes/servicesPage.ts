@@ -1,86 +1,106 @@
 // Schema: Services Page
-import { TreatmentIcon } from "./icons";
+import {TreatmentIcon} from './icons'
 import {
   i18nFaqItemPreview,
   i18nSlugFieldFromTitle,
   pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
-} from "./i18n";
-import { geoSummaryField } from "./geoSummary";
-import { pageSectionsField } from "./pageSections";
+} from './i18n'
+import {geoSummaryField} from './geoSummary'
+import {pageSectionsFieldForGroup} from './pageSections'
+import {
+  faqCollectionField,
+  seoFieldsetProps,
+  singletonPageFieldsets,
+  singletonPageGroups,
+} from './singletonPageLayout'
+import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
+import {servicesPageEditorConfig} from '../sanity/page-editor/pages/servicesSections'
+
+const SERVICES_SHARED_SECTIONS = [
+  'pageSectionSpecialists',
+  'pageSectionArticles',
+  'pageSectionBookingCta',
+] as const
 
 const i18nString = {
-  type: "internationalizedArrayString",
-};
+  type: 'internationalizedArrayString',
+}
 
 const i18nText = {
-  type: "internationalizedArrayText",
-};
+  type: 'internationalizedArrayText',
+}
 
 export default {
-  name: "servicesPage",
-  title: "Services",
-  type: "document",
+  name: 'servicesPage',
+  title: 'Services',
+  type: 'document',
   icon: TreatmentIcon,
-  groups: [
-    { name: "content", title: "Content", default: true },
-    { name: "faq", title: "FAQ" },
-  ],
+  components: {
+    input: createPageSectionDocumentInput(servicesPageEditorConfig),
+  },
+  groups: [...singletonPageGroups],
+  fieldsets: [...singletonPageFieldsets],
   fields: [
     {
-      name: "breadcrumbHome",
-      title: "Breadcrumb — home",
-      group: "content",
+      name: 'breadcrumbHome',
+      title: 'Breadcrumb — home',
+      group: 'hero',
       ...i18nString,
-      validation: requiredNoEnI18n("Breadcrumb — home"),
+      validation: requiredNoEnI18n('Breadcrumb — home'),
     },
     {
-      name: "title",
-      title: "Page title (H1)",
-      group: "content",
+      name: 'title',
+      title: 'Page title (H1)',
+      group: 'hero',
       ...i18nString,
-      validation: requiredNoEnI18n("Page Title"),
+      validation: requiredNoEnI18n('Page Title'),
     },
-    { ...i18nSlugFieldFromTitle("title", { group: "content" }) },
+    {...i18nSlugFieldFromTitle('title', {group: 'hero'})},
     {
-      name: "eyebrow",
-      title: "Eyebrow above title",
-      description: "Small label above the main heading",
+      name: 'eyebrow',
+      title: 'Eyebrow above title',
+      description: 'Small label above the main heading',
+      group: 'hero',
       ...i18nString,
-      validation: requiredNoEnI18n("Eyebrow"),
+      validation: requiredNoEnI18n('Eyebrow'),
     },
     {
-      name: "heroImage",
-      title: "Hero image",
-      type: "image",
-      options: { hotspot: true },
+      name: 'heroImage',
+      title: 'Hero image',
+      type: 'image',
+      group: 'hero',
+      options: {hotspot: true},
     },
     {
-      name: "introText",
-      title: "Intro text",
+      name: 'introText',
+      title: 'Subtitle / intro text',
+      group: 'hero',
       ...i18nText,
-      validation: requiredNoEnI18n("Intro text"),
+      validation: requiredNoEnI18n('Intro text'),
     },
     {
-      name: "badges",
-      title: "Hero-badges",
-      type: "array",
+      name: 'badges',
+      title: 'Hero badges',
+      description: 'Badges shown with the Services hero (dedicated Badges section).',
+      type: 'array',
+      group: 'content',
       of: [
         {
-          type: "object",
+          type: 'object',
           fields: [
             {
-              name: "label",
-              title: "Text",
+              name: 'label',
+              title: 'Text',
               ...i18nString,
-              validation: requiredNoEnI18n("Badge text"),
+              validation: requiredNoEnI18n('Badge text'),
             },
           ],
           preview: {
-            select: { label: "label" },
-            prepare({ label }: { label?: unknown }) {
-              return { title: pickNo(label) || "Badge" };
+            select: {label: 'label'},
+            prepare({label}: {label?: unknown}) {
+              return {title: pickNo(label) || 'Badge'}
             },
           },
         },
@@ -88,105 +108,107 @@ export default {
       validation: (Rule: any) => Rule.required().min(1),
     },
     {
-      name: "searchPlaceholder",
-      title: "Search field placeholder",
+      name: 'searchPlaceholder',
+      title: 'Search field placeholder',
+      group: 'content',
       ...i18nString,
-      validation: requiredNoEnI18n("Search field placeholder"),
+      validation: requiredNoEnI18n('Search field placeholder'),
     },
     {
-      name: "featuredSectionTitle",
-      title: "Selected services heading",
+      name: 'featuredSectionTitle',
+      title: 'Featured services heading',
+      group: 'content',
       ...i18nString,
-      validation: requiredNoEnI18n("Selected services heading"),
+      validation: requiredNoEnI18n('Selected services heading'),
     },
     {
-      name: "featuredCategories",
-      title: "Featured categories (image cards)",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "treatmentCategory" }] }],
+      name: 'featuredCategories',
+      title: 'Featured categories (image cards)',
+      type: 'array',
+      group: 'content',
+      of: [{type: 'reference', to: [{type: 'treatmentCategory'}]}],
       validation: (Rule: any) => Rule.required().min(1).unique(),
     },
     {
-      name: "moreServicesSection",
-      title: "More services section",
-      type: "object",
+      name: 'moreServicesSection',
+      title: 'More services section',
+      type: 'object',
+      group: 'content',
       fields: [
         {
-          name: "eyebrow",
-          title: "Eyebrow",
+          name: 'eyebrow',
+          title: 'Eyebrow',
           ...i18nString,
-          validation: requiredNoEnI18n("More services — eyebrow"),
+          validation: requiredNoEnI18n('More services — eyebrow'),
         },
         {
-          name: "title",
-          title: "Title",
+          name: 'title',
+          title: 'Title',
           ...i18nString,
-          validation: requiredNoEnI18n("More services — title"),
+          validation: requiredNoEnI18n('More services — title'),
         },
         {
-          name: "description",
-          title: "Description",
+          name: 'description',
+          title: 'Description',
           ...i18nText,
-          validation: requiredNoEnI18n("More services — description"),
+          validation: requiredNoEnI18n('More services — description'),
         },
       ],
       validation: (Rule: any) => Rule.required(),
     },
     {
-      name: "moreServicesCategories",
-      title: "More services — categories",
+      name: 'moreServicesCategories',
+      title: 'More services — categories',
       description:
-        "Select categories displayed under 'More services'. Set display mode to 'Treatment list' to show all treatments in the category (e.g. Other specialties).",
-      type: "array",
+        "Select categories under 'More services'. Use 'Treatment list' to show all treatments in a category.",
+      type: 'array',
+      group: 'content',
       of: [
         {
-          type: "object",
-          name: "moreServicesCategory",
-          title: "Category",
+          type: 'object',
+          name: 'moreServicesCategory',
+          title: 'Category',
           fields: [
             {
-              name: "category",
-              title: "Category",
-              type: "reference",
-              to: [{ type: "treatmentCategory" }],
+              name: 'category',
+              title: 'Category',
+              type: 'reference',
+              to: [{type: 'treatmentCategory'}],
               validation: (Rule: any) => Rule.required(),
             },
             {
-              name: "displayMode",
-              title: "Visningsmodus",
-              type: "string",
+              name: 'displayMode',
+              title: 'Display mode',
+              type: 'string',
               options: {
                 list: [
-                  { title: "Link to category", value: "categoryLink" },
-                  { title: "List treatments", value: "treatmentsList" },
+                  {title: 'Link to category', value: 'categoryLink'},
+                  {title: 'List treatments', value: 'treatmentsList'},
                 ],
-                layout: "radio",
+                layout: 'radio',
               },
               validation: (Rule: any) => Rule.required(),
             },
           ],
           preview: {
             select: {
-              categoryId: "category.categoryId",
-              categoryTitle: "category.title",
-              displayMode: "displayMode",
+              categoryId: 'category.categoryId',
+              categoryTitle: 'category.title',
+              displayMode: 'displayMode',
             },
             prepare({
               categoryId,
               categoryTitle,
               displayMode,
             }: {
-              categoryId?: string;
-              categoryTitle?: unknown;
-              displayMode?: string;
+              categoryId?: string
+              categoryTitle?: unknown
+              displayMode?: string
             }) {
               const mode =
-                displayMode === "treatmentsList" ? "Treatment list" : "Category link";
-              const label = pickNo(categoryTitle) || categoryId || "Select category";
-              return {
-                title: label,
-                subtitle: mode,
-              };
+                displayMode === 'treatmentsList' ? 'Treatment list' : 'Category link'
+              const label = pickNo(categoryTitle) || categoryId || 'Select category'
+              return {title: label, subtitle: mode}
             },
           },
         },
@@ -194,65 +216,79 @@ export default {
       validation: (Rule: any) => Rule.required().min(1),
     },
     {
-      name: "faqSectionTitle",
-      title: "FAQ — section title",
-      group: "faq",
-      ...i18nString,
-      validation: requiredNoEnI18n("FAQ — section title"),
+      name: 'emptyCategoriesMessage',
+      title: 'Message when categories are missing',
+      group: 'content',
+      ...i18nText,
+      validation: requiredNoEnI18n('Message when categories are missing'),
     },
     {
-      name: "faqs",
-      title: "FAQ — questions and answers",
+      name: 'faqSectionTitle',
+      title: 'FAQ — section title',
+      group: 'content',
+      ...i18nString,
+      validation: requiredNoEnI18n('FAQ — section title'),
+    },
+    faqCollectionField('content'),
+    {
+      name: 'faqs',
+      title: 'Previous FAQ list (legacy)',
       description:
-        "Add, edit and sort FAQ rows here. Displayed on the services page.",
-      type: "array",
-      group: "faq",
+        'Legacy inline FAQ rows or FAQ Item references. Dual-read only when no FAQ Collection is linked.',
+      type: 'array',
+      group: 'content',
+      fieldset: 'legacy',
       of: [
+        {type: 'reference', to: [{type: 'faq'}]},
         {
-          type: "reference",
-          to: [{ type: "faq" }],
-        },
-        {
-          type: "object",
-          name: "servicesFaq",
-          title: "FAQ",
+          type: 'object',
+          name: 'servicesFaq',
+          title: 'Inline FAQ',
           fields: [
             {
-              name: "question",
-              title: "Question",
-              type: "internationalizedArrayString",
-              validation: requiredNoEnI18n("FAQ Question"),
+              name: 'question',
+              title: 'Question',
+              type: 'internationalizedArrayString',
+              validation: requiredNoEnI18n('FAQ Question'),
             },
             {
-              name: "answer",
-              title: "Answer",
-              type: "internationalizedArrayText",
-              validation: requiredNoEnI18n("FAQ-svar"),
+              name: 'answer',
+              title: 'Answer',
+              type: 'internationalizedArrayText',
+              validation: requiredNoEnI18n('FAQ answer'),
             },
           ],
           preview: i18nFaqItemPreview,
         },
       ],
-      validation: (Rule: any) => Rule.required().min(1),
+      hidden: ({document}: {document?: {faqCollection?: unknown}}) =>
+        Boolean(document?.faqCollection),
     },
-    pageSectionsField,
+    pageSectionsFieldForGroup('content', 'sharedSections', SERVICES_SHARED_SECTIONS),
     {
-      name: "seo",
-      title: "SEO",
-      type: "seo",
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      ...seoFieldsetProps,
       validation: requiredNoEnSeo,
     },
-    geoSummaryField,
+    {...geoSummaryField, ...seoFieldsetProps},
   ],
+  validation: (Rule: any) =>
+    Rule.custom((document: {faqCollection?: unknown; faqs?: unknown[]}) => {
+      if (document?.faqCollection) return true
+      if (Array.isArray(document?.faqs) && document.faqs.length > 0) return true
+      return 'Link an FAQ Collection or keep legacy FAQs until migration is complete.'
+    }),
   preview: {
-    select: { title: "title" },
-    prepare({ title }: { title?: { value?: string; language?: string; _key?: string }[] }) {
+    select: {title: 'title'},
+    prepare({title}: {title?: {value?: string; language?: string; _key?: string}[]}) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t) => (t.language || t._key) === "no")?.value ||
-            title[0]?.value ||
-            "Services")
-        : (title || "Services");
-      return { title: titleStr };
+        ? title.find((t) => (t.language || t._key) === 'no')?.value ||
+          title[0]?.value ||
+          'Services'
+        : title || 'Services'
+      return {title: titleStr}
     },
   },
-};
+}

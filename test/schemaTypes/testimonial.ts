@@ -1,11 +1,13 @@
-// Schema: Testimonial
-import { ReviewIcon } from './icons'
+// Schema: Testimonial — patient quotes for Pricing page (not Google Reviews)
+import {ReviewIcon} from './icons'
 
 export default {
   name: 'testimonial',
-  title: 'Tilbakemelding',
+  title: 'Patient quote (Pricing)',
   type: 'document',
   icon: ReviewIcon,
+  description:
+    'Curated patient quotes shown on the Pricing page only. For Google Reviews, use Content Library → Google Reviews.',
   fields: [
     {
       name: 'name',

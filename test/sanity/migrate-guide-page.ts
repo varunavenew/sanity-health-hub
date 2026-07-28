@@ -1,6 +1,9 @@
 #!/usr/bin/env npx tsx
 /**
- * Seed guidePage singleton with hero + CTA copy from the former hardcoded Guide page.
+ * Seed guidePage singleton (initial content).
+ *
+ * Categories Intro owns marketing copy ("Our Treatments" etc.).
+ * Hero is optional and separate — not seeded with intro copy.
  *
  * Run:
  *   cd test && npm run migrate:guide-page:dry
@@ -39,20 +42,22 @@ async function run() {
   console.log(`  Dry run: ${DRY_RUN ? 'yes' : 'no'}\n`)
 
   const fields = {
-    heroTitle: i18nString('Våre Behandlinger', 'Our Treatments'),
     slug: buildSlugField(),
-    heroSubtitle: i18nText(
+    categoriesIntroTitle: i18nString('Våre Behandlinger', 'Our Treatments'),
+    categoriesIntroDescription: i18nText(
       'Spesialiserte behandlinger for kvinnen og mannens underliv',
       "Specialized treatments for women's and men's intimate health",
     ),
-    showCategorySections: true,
-    ctaTitle: i18nString('Klar til å starte?', 'Ready to get started?'),
-    ctaSubtitle: i18nText(
-      'Book en time hos våre spesialister i dag. Ingen henvisning nødvendig.',
-      'Book an appointment with our specialists today. No referral needed.',
-    ),
-    ctaButtonLabel: i18nString('Book time nå', 'Book now'),
-    ctaButtonPath: '/booking',
+    // requiredNoEnSeo blocks Publish when empty — seed both languages.
+    seo: {
+      _type: 'seo',
+      metaTitle: i18nString('Behandlingsguide | CMedical', 'Treatment guide | CMedical'),
+      metaDescription: i18nText(
+        'Utforsk våre spesialiserte behandlinger innen gynekologi, fertilitet, ortopedi og mer.',
+        'Explore our specialized treatments in gynecology, fertility, orthopedics and more.',
+      ),
+      noIndex: false,
+    },
   }
 
   if (DRY_RUN) {

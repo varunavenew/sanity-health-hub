@@ -1,5 +1,7 @@
 // Schema: Treatment Category
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
+// Phase 11B / 11B.1: Studio IA (JSON paths unchanged)
+// Phase 12UX: Medical Content UX sprint — Advanced group, clearer Shared Sections
 import { CategoryIcon } from './icons'
 import {
   i18nSlugFieldFromTitle,
@@ -10,9 +12,12 @@ import {
 import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
+import { TreatmentCategoryAutoSlugInput } from '../sanity/components/TreatmentCategoryAutoSlugInput'
 
 const reqI18n = requiredNoEnI18n
-const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
+
+/** Match Treatment editor: all page/shared fieldsets collapsed by default. */
+const sectionCollapsed = { collapsible: true, collapsed: true } as const
 
 /** Reference picker: only treatments whose category points at this category document. */
 function treatmentRefsForCategoryFilter({
@@ -71,65 +76,102 @@ export default {
   title: 'Treatment category',
   type: 'document',
   icon: CategoryIcon,
+  components: {
+    input: TreatmentCategoryAutoSlugInput,
+  },
   groups: [
-    { name: 'general', title: 'General' },
-    { name: 'hero', title: 'Hero' },
-    { name: 'landingPage', title: 'Landingsside' },
-    { name: 'pageSections', title: 'Sidestruktur' },
-    { name: 'seo', title: 'SEO / Synlighet' },
+    { name: 'general', title: 'General', default: true },
+    { name: 'pageContent', title: 'Page Content' },
+    { name: 'sharedSections', title: 'Shared Sections' },
+    { name: 'seo', title: 'SEO' },
+    { name: 'advanced', title: 'Advanced' },
+  ],
+  fieldsets: [
+    {
+      name: 'pcHero',
+      title: 'Hero — media',
+      description:
+        'Pick Media type, then upload image or video. Headline & buttons are under Website sections → Hero.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcStats',
+      title: 'Statistics — numbers',
+      description:
+        'KPI numbers (e.g. “98%”). Headings are under Website sections → Statistics — headings.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcWebsiteSections',
+      title: 'Website sections',
+      description:
+        'Page bands. Open only what you need. Leave optional sections empty to hide them.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'ssFaq',
+      title: 'FAQ',
+      description: 'Prefer a FAQ Collection from the Content Library.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'faqAdvanced',
+      title: 'Legacy FAQ (Advanced)',
+      description: 'Backup list. Used only when no FAQ Collection is selected.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'ssAssemblers',
+      title: 'Specialists · Insurance · Articles · Booking CTA',
+      description:
+        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. Dragging only changes Studio order.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'seoFields',
+      title: 'Search & AI',
+      description: 'Meta tags and AI summary for this page.',
+      options: sectionCollapsed,
+      group: 'seo',
+    },
+    {
+      name: 'advancedIds',
+      title: 'Routing, booking & list order',
+      description:
+        'Technical keys. Ask engineering before changing. Rarely edited after setup.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
   ],
   fields: [
+    // ── General (Business Entity) ─────────────────────────────────────────────
     {
       name: 'title',
       title: 'Category name',
       type: 'internationalizedArrayString',
       group: 'general',
+      description: 'Official category name. Page copy lives under Page Content.',
       validation: reqI18n('Category name'),
     },
     {
-      ...i18nSlugFieldFromTitle('title'),
+      ...i18nSlugFieldFromTitle('title', {
+        description:
+          'URL Slug (NO) and URL Slug (EN). Fills from Category name while typing when empty or still auto-synced. Manual edits are kept — later name changes will not overwrite them.',
+      }),
       group: 'general',
-    },
-    {
-      name: 'categoryId',
-      title: 'Category key (slug)',
-      type: 'string',
-      group: 'general',
-      description:
-        'Internal key used in app routing: gynecology, fertility, urology, orthopedics, pregnancy, other-specialties',
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: 'categoryNumericId',
-      title: 'Category ID',
-      type: 'number',
-      group: 'general',
-      description:
-        'Numeric booking ID. Example: 8=Gynecology, 1=Fertility, 6=Urology, 17=Orthopedics, 10=Pregnancy, 23=Other specialties',
-      validation: (Rule: any) => Rule.required().min(1).max(999),
-    },
-    {
-      name: 'heroImage',
-      title: 'Hero image',
-      type: 'image',
-      group: 'hero',
-      options: { hotspot: true },
-      description: 'Used when hero video is not set.',
-    },
-    {
-      name: 'heroVideo',
-      title: 'Hero-video',
-      type: 'file',
-      group: 'hero',
-      options: { accept: 'video/*' },
-      description: 'Optional background video in hero (overrides image when set).',
     },
     {
       name: 'treatments',
-      title: 'Treatments',
+      title: 'Linked treatments',
       group: 'general',
       description:
-        'Treatments displayed on the category landing page (e.g. \'All under one roof\'). Only treatments with Category = this category can be selected. The order here controls display.',
+        'Used for the category overview page. Does NOT create the Services section below.',
       type: 'array',
       of: [
         {
@@ -142,38 +184,159 @@ export default {
       ],
     },
     {
-      name: 'stats',
-      title: 'Statistics',
-      group: 'general',
-      type: 'array',
-      of: [statItem],
+      name: 'sortOrder',
+      title: 'List order',
+      type: 'number',
+      group: 'advanced',
+      fieldset: 'advancedIds',
+      description: 'Order in the Services hub. Lower numbers appear first.',
     },
     {
-      name: 'sortOrder',
-      title: 'Sorting order',
+      name: 'categoryId',
+      title: 'Routing key',
+      type: 'string',
+      group: 'advanced',
+      fieldset: 'advancedIds',
+      description:
+        'Internal key for URLs and booking. Not the Category name. Do not change lightly.',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'categoryNumericId',
+      title: 'Booking category number',
       type: 'number',
-      group: 'general',
-      description: 'Lower numbers are shown first.',
+      group: 'advanced',
+      fieldset: 'advancedIds',
+      description:
+        'Booking ID. E.g. 8=Gynecology, 1=Fertility, 6=Urology, 17=Orthopedics, 10=Pregnancy, 23=Other.',
+      validation: (Rule: any) => Rule.required().min(1).max(999),
+    },
+    // ── Page Content (page-owned presentation) ────────────────────────────────
+    {
+      name: 'heroMedia',
+      title: 'Hero Media',
+      type: 'media',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description:
+        'Preferred hero media (Image or Video). Upload Video takes priority over Video URL. Legacy fields below are kept until migration is verified.',
+    },
+    {
+      name: 'heroMediaType',
+      title: 'Media type (legacy)',
+      type: 'string',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'image',
+      description: 'Legacy. Prefer Hero Media. Website dual-reads both.',
+      hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
+        Boolean(document?.heroMedia),
+    },
+    {
+      name: 'heroImage',
+      title: 'Hero image (legacy)',
+      type: 'image',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      options: { hotspot: true },
+      description: 'Legacy. Prefer Hero Media → Image. Also used as video poster.',
+      hidden: ({ document }: { document?: { heroMedia?: unknown; heroMediaType?: string } }) =>
+        Boolean(document?.heroMedia) || document?.heroMediaType === 'video',
+    },
+    {
+      name: 'heroVideo',
+      title: 'Hero video (legacy)',
+      type: 'file',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      options: { accept: 'video/*' },
+      description: 'Legacy uploaded video. Prefer Hero Media → Upload Video.',
+      hidden: ({ document }: { document?: { heroMedia?: unknown; heroMediaType?: string } }) =>
+        Boolean(document?.heroMedia) || (document?.heroMediaType ?? 'image') !== 'video',
+    },
+    {
+      name: 'stats',
+      title: 'Statistic rows',
+      group: 'pageContent',
+      fieldset: 'pcStats',
+      type: 'array',
+      of: [statItem],
+      description:
+        'KPI numbers only. Headings are under Website sections → Statistics — headings.',
     },
     {
       ...categoryLandingPageField,
-      group: 'landingPage',
+      group: 'pageContent',
+      fieldset: 'pcWebsiteSections',
+    },
+    // ── Shared Sections (assemblers — content from elsewhere) ───────────────
+    {
+      name: 'faqSectionTitle',
+      title: 'FAQ Heading',
+      description: 'Heading above the FAQ. Questions live in the Collection.',
+      type: 'internationalizedArrayString',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      initialValue: [
+        { _key: 'no', language: 'no', value: 'Ofte stilte spørsmål' },
+        { _key: 'en', language: 'en', value: 'Frequently asked questions' },
+      ],
+    },
+    {
+      name: 'faqCollection',
+      title: 'Category FAQ',
+      type: 'reference',
+      to: [{ type: 'faqCollection' }],
+      description: 'FAQ pack from the Content Library.',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      options: {
+        disableNew: false,
+      },
+    },
+    {
+      name: 'faqs',
+      title: 'Previous FAQ list',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
+      description:
+        'Backup list when no FAQ Collection is selected. Keep existing items.',
+      group: 'sharedSections',
+      fieldset: 'faqAdvanced',
+      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
+        Boolean(document?.faqCollection),
     },
     {
       ...pageSectionsField,
-      group: 'pageSections',
+      group: 'sharedSections',
+      fieldset: 'ssAssemblers',
+      title: 'Website bands',
+      description:
+        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. Dragging sections only changes Studio order.',
     },
-
+    // ── SEO ─────────────────────────────────────────────────────────────────
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
       group: 'seo',
+      fieldset: 'seoFields',
+      description: 'Search title, description, and social previews.',
       validation: requiredNoEnSeo,
     },
     {
       ...geoSummaryField,
       group: 'seo',
+      fieldset: 'seoFields',
+      title: 'AI / GEO summary',
+      description: 'Short summary for search and AI. Not the same as the Hero heading.',
       validation: reqI18n('GEO-sammendrag'),
     },
   ],

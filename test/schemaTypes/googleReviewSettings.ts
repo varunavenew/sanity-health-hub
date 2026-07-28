@@ -8,7 +8,7 @@ export default {
   type: 'document',
   icon: ReviewIcon,
   description:
-    'Average reviews for treatment categories. The homepage review section is edited under Homepage → Patient Reviews.',
+    'Legacy aggregate ratings document. Prefer Site Settings → Business Reputation. Homepage review chrome is under Homepage → Reviews.',
   fields: [
     {
       name: 'heading',

@@ -94,6 +94,7 @@ export function mapTreatmentToSubTreatmentContent(
     heroImage: treatment.heroImage,
     heroImageAlt: treatment.heroImageAlt,
     heroVideo: treatment.heroVideo,
+    heroMedia: treatment.heroMedia,
     rating: treatment.rating,
     booking: {
       kategori: normalizeCategoryFilterKey(categoryId),

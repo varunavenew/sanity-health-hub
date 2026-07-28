@@ -7,7 +7,6 @@ import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-t
 import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
 import { useTreatmentSlug } from "@/lib/router";
 import { useTranslation } from "react-i18next";
-import NotFound from "@/site-pages/NotFound";
 
 type Props = BehandlingerTreatmentPageProps & {
   categoryId: string;
@@ -52,6 +51,8 @@ const SubTreatmentPage = ({
       content={content}
       locale={lang}
       pageSections={resolved.pageSections}
+      faqSectionTitle={resolved.faqSectionTitle}
+      faqs={resolved.faqs}
     />
   );
 };

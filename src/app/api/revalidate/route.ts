@@ -97,7 +97,8 @@ export async function POST(request: Request) {
   const pathList = [...paths];
 
   for (const t of tagList) {
-    revalidateTag(t);
+    // Webhook needs immediate expiry (not stale-while-revalidate).
+    revalidateTag(t, { expire: 0 });
   }
   for (const p of pathList) {
     revalidatePath(p);

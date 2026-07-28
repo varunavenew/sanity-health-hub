@@ -1,29 +1,38 @@
-function viteEnv(name: string): string | undefined {
-  try {
-    return (import.meta as unknown as { env?: Record<string, string> }).env?.[name];
-  } catch {
-    return undefined;
-  }
+/**
+ * Client-safe Sanity image URL helpers.
+ * Uses NEXT_PUBLIC_* env vars only — safe to import from client components.
+ */
+
+function readProjectId(): string {
+  return (
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID?.trim() ||
+    process.env.SANITY_PROJECT_ID?.trim() ||
+    ""
+  );
 }
 
-const projectId =
-  (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_SANITY_PROJECT_ID) ||
-  viteEnv("VITE_SANITY_PROJECT_ID") ||
-  "9jhqpk3a";
-
-const dataset =
-  (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_SANITY_DATASET) ||
-  viteEnv("VITE_SANITY_DATASET") ||
-  "production";
+function readDataset(): string {
+  return (
+    process.env.NEXT_PUBLIC_SANITY_DATASET?.trim() ||
+    process.env.SANITY_DATASET?.trim() ||
+    ""
+  );
+}
 
 export function urlForImageRef(ref: string): string {
   if (!ref) return "";
   if (ref.startsWith("http")) return ref;
+  const projectId = readProjectId();
+  const dataset = readDataset();
+  if (!projectId || !dataset) return "";
   const parts = ref.replace("image-", "").split("-");
   const format = parts.pop();
   const id = parts.join("-");
   return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}.${format}`;
 }
+
+/** Alias used by portable text and legacy imports. */
+export const urlFor = urlForImageRef;
 
 export function getImageUrl(image: unknown): string {
   if (!image) return "";

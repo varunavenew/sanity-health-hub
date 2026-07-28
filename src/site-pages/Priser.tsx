@@ -12,13 +12,14 @@ import { usePricingPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import { bookingCategoryPageIdForClinicService, buildBookingUrl } from "@/lib/bookingLinks";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
+import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -201,6 +202,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const seoDescription = sanityPricing?.seo?.metaDescription?.trim() ?? pageSubtitle;
   const testimonialsTitle = sanityPricing?.testimonialsTitle?.trim() ?? "";
   const faqTitle = sanityPricing?.faqTitle?.trim() ?? "";
+  const preferSharedBookingCta = pageSectionsHaveUsableBookingCta(
+    sanityPricing?.pageSections,
+  );
   const sortLocale   = i18n.language?.startsWith("en") ? "en" : "nb";
 
   useEffect(() => {
@@ -429,7 +433,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
         description={pageSubtitle}
         image={heroImage}
         imageAlt={pageTitle}
-        primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+        primaryCta={
+          preferSharedBookingCta
+            ? undefined
+            : { label: t("nav.bookAppointment"), to: "/booking" }
+        }
         secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
       />
 
@@ -681,15 +689,17 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 ))}
               </div>
 
-              <div className="mt-20 md:mt-24 text-center">
-                <button
-                  onClick={() => navigate("/booking")}
-                  className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
-                >
-                  {t("nav.bookAppointment")}
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
+              {preferSharedBookingCta ? null : (
+                <div className="mt-20 md:mt-24 text-center">
+                  <button
+                    onClick={() => navigate("/booking")}
+                    className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+                  >
+                    {t("nav.bookAppointment")}
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>

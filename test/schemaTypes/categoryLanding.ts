@@ -1,5 +1,7 @@
 /**
  * Rich category landing page (e.g. /fertilitet) — editable per treatmentCategory.
+ * Phase 11B.1: Studio fieldsets match website sections (JSON paths unchanged).
+ * Phase 14G: Studio labels, descriptions, hides, defaults, grouping only.
  */
 import { i18nTitleItemPreview, requiredNoEnI18n } from './i18n'
 
@@ -8,6 +10,15 @@ const i18nTxt = { type: 'internationalizedArrayText' as const }
 
 const reqI18n = requiredNoEnI18n
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
+
+/** Match Treatment editor: all landing bands collapsed by default. */
+const sectionCollapsed = { collapsible: true, collapsed: true } as const
+
+/** Default NO + EN values for new documents / new array items. */
+const i18nDefault = (no: string, en: string) => [
+  { _key: 'no', language: 'no', value: no },
+  { _key: 'en', language: 'en', value: en },
+]
 
 const segmentTagLinkItem = {
   type: 'object',
@@ -30,30 +41,43 @@ const segmentItem = {
   name: 'categoryLandingSegment',
   title: 'Segment',
   fields: [
-    { name: 'id', title: 'ID (optional)', type: 'string' },
+    {
+      name: 'id',
+      title: 'ID (optional)',
+      type: 'string',
+      // Accordion key only — website auto-falls back. Not editor content.
+      hidden: true,
+    },
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
     { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
-    {
-      name: 'tags',
-      title: 'Keywords (text only)',
-      type: 'array',
-      of: [i18nStr],
-      description: 'Used if tagLinks is not filled out.',
-    },
     {
       name: 'tagLinks',
       title: 'Keywords with links',
       type: 'array',
       of: [segmentTagLinkItem],
-      description: 'Displayed as clickable links in accordion view.',
+      description: 'Preferred. Clickable keywords under each card.',
     },
-    { name: 'ctaLabel', title: 'Link Text', ...i18nStr, validation: reqI18n('Link Text') },
     {
       name: 'href',
-      title: 'Link (internal path)',
+      title: 'Card link',
       type: 'string',
-      description: 'E.g. /booking?category=fertility&service=fertility-check',
+      description: '“Read more” link for this card (e.g. /booking?…).',
       validation: reqStr('Link'),
+    },
+    {
+      name: 'ctaLabel',
+      title: 'Link text',
+      ...i18nStr,
+      description: 'Defaults to “Les mer” / “Read more” on the website if empty.',
+      initialValue: i18nDefault('Les mer', 'Read more'),
+    },
+    {
+      name: 'tags',
+      title: 'Keywords (text only)',
+      type: 'array',
+      of: [i18nStr],
+      description:
+        'Legacy fallback. Prefer Keywords with links above. Used only when that list is empty.',
     },
   ],
   preview: i18nTitleItemPreview,
@@ -95,6 +119,14 @@ const audienceItem = {
       },
       validation: reqStr('Icon'),
     },
+    {
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      options: { hotspot: true },
+      description:
+        'Optional. When set, shown instead of the icon on the audience card.',
+    },
   ],
   preview: i18nTitleItemPreview,
 }
@@ -131,8 +163,16 @@ const symptomItem = {
       title: 'Image (optional)',
       type: 'image',
       options: { hotspot: true },
+      // Queried/mapped but not rendered by SymptomServiceSection.
+      hidden: true,
     },
-    { name: 'imageAlt', title: 'Image alt text', ...i18nStr },
+    {
+      name: 'imageAlt',
+      title: 'Image alt text',
+      ...i18nStr,
+      // Queried/mapped but not rendered by SymptomServiceSection.
+      hidden: true,
+    },
   ],
   preview: {
     select: { title: 'symptom', subtitle: 'service' },
@@ -154,20 +194,125 @@ const reviewItem = {
 
 export const categoryLandingPageField = {
   name: 'landingPage',
-  title: 'Landing page (category)',
-  description: 'Content for the marketing landing page, e.g. /fertilitet. Segments and Why choose us are required; other sections are optional.',
+  title: 'Website sections',
+  description:
+    'Open only the section you need. Optional sections: leave empty to hide them on the website.',
   type: 'object',
   validation: (Rule: any) => Rule.required().error('Landing page content is required'),
+  options: sectionCollapsed,
+  fieldsets: [
+    {
+      name: 'hero',
+      title: 'Hero — headline & buttons',
+      description:
+        'Headline and buttons. Media is above under Page Content → Hero.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'introduction',
+      title: 'Life Stages / Segments',
+      description: 'Life stages under the hero.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'why',
+      title: 'Why choose us',
+      description: 'Leave empty to hide this section on the website.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'audience',
+      title: 'Audience (Optional)',
+      description: 'Leave empty to hide this section on the website.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'expertAreas',
+      title: 'Areas of expertise',
+      description: 'Specialty cards with images. Different from Support (optional related cards).',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'symptoms',
+      title: 'Symptoms (Optional)',
+      description: 'Leave empty to hide this section on the website.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'services',
+      title: 'Services on this page',
+      description: 'These services are shown on this landing page.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'support',
+      title: 'Support (Optional)',
+      description: 'Leave empty to hide this section on the website.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'statistics',
+      title: 'Statistics — headings',
+      description:
+        'Titles for the results band. KPI numbers are under Page Content → Statistics — numbers.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'reviews',
+      title: 'Reviews',
+      description: 'Patient quotes on this page.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'spotlight',
+      title: 'Spotlight',
+      description: 'Optional mid-page highlight. Separate from the Hero button.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'journey',
+      title: 'Journey (Optional)',
+      description: 'Leave empty to hide this section on the website.',
+      options: sectionCollapsed,
+    },
+    {
+      name: 'advanced',
+      title: 'Advanced',
+      description: 'Rarely needed. Leave empty unless you know you need these.',
+      options: sectionCollapsed,
+    },
+  ],
   fields: [
     {
       name: 'hero',
-      title: 'Hero',
+      title: 'Content',
       type: 'object',
+      fieldset: 'hero',
+      options: sectionCollapsed,
+      fieldsets: [
+        {
+          name: 'content',
+          title: 'Content',
+          options: { collapsible: true, collapsed: false },
+        },
+        {
+          name: 'buttons',
+          title: 'Buttons',
+          options: { collapsible: true, collapsed: false },
+        },
+        {
+          name: 'advancedHero',
+          title: 'Advanced hero settings',
+          description: 'Technical booking slug and optional entry price.',
+          options: sectionCollapsed,
+        },
+      ],
       fields: [
         {
           name: 'layout',
-          title: 'Layout view',
+          title: 'Layout',
           type: 'string',
+          fieldset: 'content',
           options: {
             list: [
               { title: 'Split (Text left, image right)', value: 'split' },
@@ -177,49 +322,104 @@ export const categoryLandingPageField = {
           },
           initialValue: 'split',
         },
-        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'heading', title: 'Heading', ...i18nStr },
-        { name: 'headingEmphasis', title: 'Heading (italic part)', ...i18nStr },
-        { name: 'body', title: 'Ingress', ...i18nTxt },
+        {
+          name: 'eyebrow',
+          title: 'Eyebrow',
+          ...i18nStr,
+          fieldset: 'content',
+          // Queried/mapped but not rendered on TreatmentCategoryLanding today.
+          hidden: true,
+        },
+        { name: 'heading', title: 'Heading', fieldset: 'content', ...i18nStr },
+        {
+          name: 'headingEmphasis',
+          title: 'Heading (italic part)',
+          fieldset: 'content',
+          ...i18nStr,
+        },
+        { name: 'body', title: 'Ingress', fieldset: 'content', ...i18nTxt },
         {
           name: 'bullets',
-          title: 'Hurtigpunkter',
-          description: 'Short checkmark chips shown below the hero CTA buttons.',
+          title: 'Quick points',
+          fieldset: 'content',
+          description: 'Short checkmark chips below the buttons.',
           type: 'array',
-          of: [{
-            type: 'object',
-            name: 'heroBulletItem',
-            title: 'Bullet',
-            fields: [
-              { name: 'title', title: 'Label', ...i18nStr },
-            ],
-            preview: i18nTitleItemPreview,
-          }],
+          of: [
+            {
+              type: 'object',
+              name: 'heroBulletItem',
+              title: 'Bullet',
+              fields: [{ name: 'title', title: 'Label', ...i18nStr }],
+              preview: i18nTitleItemPreview,
+            },
+          ],
         },
-        { name: 'primaryCtaLabel', title: 'Primary button', ...i18nStr },
-        { name: 'secondaryCtaLabel', title: 'Secondary button (call)', ...i18nStr },
-        { name: 'heroImageAlt', title: 'Hero image alt text', ...i18nStr },
+        {
+          name: 'primaryCtaLabel',
+          title: 'Primary button',
+          fieldset: 'buttons',
+          ...i18nStr,
+          initialValue: i18nDefault('Bestill time', 'Book appointment'),
+        },
+        {
+          name: 'secondaryCtaLabel',
+          title: 'Secondary button (call)',
+          fieldset: 'buttons',
+          ...i18nStr,
+          initialValue: i18nDefault('Ring oss', 'Call us'),
+        },
+        {
+          name: 'heroImageAlt',
+          title: 'Hero image alt text',
+          fieldset: 'content',
+          ...i18nStr,
+        },
         {
           name: 'primaryBookingService',
           title: 'Booking service (slug)',
           type: 'string',
-          description: 'Optional service slug for primary button, e.g. general-examination',
+          fieldset: 'advancedHero',
+          description:
+            'Technical. Optional service slug for the booking URL. Leave empty for category-only booking.',
         },
-        { name: 'entryPriceLabel', title: 'Price — label', ...i18nStr },
-        { name: 'entryPriceValue', title: 'Price — value', ...i18nStr },
+        {
+          name: 'entryPriceLabel',
+          title: 'Price — label',
+          fieldset: 'advancedHero',
+          ...i18nStr,
+        },
+        {
+          name: 'entryPriceValue',
+          title: 'Price — value',
+          fieldset: 'advancedHero',
+          ...i18nStr,
+        },
       ],
     },
     {
       name: 'segmentsSection',
-      title: 'Segments',
+      title: 'Content',
       type: 'object',
+      fieldset: 'introduction',
+      options: sectionCollapsed,
       fields: [
-        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
+        {
+          name: 'eyebrow',
+          title: 'Eyebrow',
+          ...i18nStr,
+          // Queried/mapped but not rendered on TreatmentCategoryLanding today.
+          hidden: true,
+        },
         { name: 'title', title: 'Heading', ...i18nStr },
-        { name: 'titleLine2', title: 'Heading line 2', ...i18nStr },
+        {
+          name: 'titleLine2',
+          title: 'Heading line 2',
+          description: 'Optional second line under the heading.',
+          ...i18nStr,
+        },
         {
           name: 'layout',
-          title: 'Visning',
+          title: 'Display',
           type: 'string',
           options: {
             list: [
@@ -229,6 +429,8 @@ export const categoryLandingPageField = {
             layout: 'radio',
           },
           initialValue: 'accordion',
+          // Website always uses LifePhasesCarousel today — keep for future / migration.
+          hidden: true,
         },
         {
           name: 'segments',
@@ -240,8 +442,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'whySection',
-      title: 'Why choose us',
+      title: 'Content',
       type: 'object',
+      fieldset: 'why',
+      options: sectionCollapsed,
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -254,34 +458,36 @@ export const categoryLandingPageField = {
         },
         {
           name: 'image',
-          title: 'Sidebilde',
+          title: 'Side image',
           type: 'image',
           options: { hotspot: true },
-          description: 'Displayed to the right of the step list in the \'Why choose us\' section.',
+          description: 'Shown to the right of the steps.',
         },
         {
           name: 'imageAlt',
-          title: 'Sidebar image alt text',
+          title: 'Side image alt text',
           ...i18nStr,
         },
         {
           name: 'footerLinkLabel',
           title: 'Footer link text',
           ...i18nStr,
-          description: 'Example: NO "Se alle tjenester" / EN "See all services".',
+          description: 'E.g. “Se alle tjenester” / “See all services”.',
         },
         {
           name: 'footerLinkHref',
           title: 'Footer link URL',
           type: 'string',
-          description: 'Internal link example: /tjenester or /priser. External link example: https://www.cmedical.no.',
+          description: 'E.g. /tjenester or /priser.',
         },
       ],
     },
     {
       name: 'audiencesSection',
-      title: 'Target groups',
+      title: 'Content',
       type: 'object',
+      fieldset: 'audience',
+      options: sectionCollapsed,
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -292,30 +498,36 @@ export const categoryLandingPageField = {
           type: 'array',
           of: [audienceItem],
         },
-        { name: 'readMoreLabel', title: 'Read more text', ...i18nStr },
+        {
+          name: 'readMoreLabel',
+          title: 'Read more text',
+          ...i18nStr,
+          initialValue: i18nDefault('Les mer', 'Read more'),
+        },
       ],
     },
     {
       name: 'expertAreasSection',
-      title: 'Areas of expertise',
+      title: 'Content',
       type: 'object',
+      fieldset: 'expertAreas',
+      options: sectionCollapsed,
+      fieldsets: [
+        {
+          name: 'display',
+          title: 'Display',
+          options: sectionCollapsed,
+        },
+      ],
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
-        { name: 'readMoreLabel', title: 'Read more text', ...i18nStr },
         {
-          name: 'layout',
-          title: 'Visning',
-          type: 'string',
-          options: {
-            list: [
-              { title: 'Rutenett', value: 'grid' },
-              { title: 'Horisontal karusell (mobil)', value: 'carousel' },
-            ],
-            layout: 'radio',
-          },
-          initialValue: 'carousel',
+          name: 'readMoreLabel',
+          title: 'Read more text',
+          ...i18nStr,
+          initialValue: i18nDefault('Les mer', 'Read more'),
         },
         {
           name: 'areas',
@@ -323,48 +535,67 @@ export const categoryLandingPageField = {
           type: 'array',
           of: [expertAreaCard],
         },
+        {
+          name: 'layout',
+          title: 'Display',
+          type: 'string',
+          fieldset: 'display',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel (mobile)', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'carousel',
+          description: 'Carousel = swipe on mobile. Grid = same layout on all screens.',
+        },
       ],
     },
     {
       name: 'symptomsSection',
-      title: 'Symptomsjekk',
+      title: 'Content',
       type: 'object',
+      fieldset: 'symptoms',
+      options: sectionCollapsed,
       fields: [
-        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
+        {
+          name: 'eyebrow',
+          title: 'Eyebrow',
+          ...i18nStr,
+          // Passed to SymptomServiceSection but not rendered.
+          hidden: true,
+        },
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
         {
           name: 'items',
-          title: 'Rader',
+          title: 'Symptom → service pairs',
           type: 'array',
           of: [symptomItem],
         },
       ],
     },
     {
-      name: 'resultsSection',
-      title: 'Results',
-      type: 'object',
-      fields: [
-        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Heading', ...i18nStr },
-        { name: 'description', title: 'Ingress', ...i18nTxt },
-        { name: 'categoryLabel', title: 'Category label', ...i18nStr },
-        { name: 'footnote', title: 'Footnote', ...i18nStr },
-      ],
-    },
-    {
       name: 'servicesSection',
-      title: 'Services',
+      title: 'Content',
       type: 'object',
+      fieldset: 'services',
+      options: sectionCollapsed,
       fields: [
-        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
+        {
+          name: 'eyebrow',
+          title: 'Eyebrow',
+          ...i18nStr,
+          // Queried/mapped but not rendered on TreatmentCategoryLanding today.
+          hidden: true,
+        },
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
         {
           name: 'groups',
           title: 'Groups',
-          description: 'Grouped services list in the desired display order.',
+          description: 'Not the same as General → Linked treatments (hub list only).',
           type: 'array',
           of: [
             {
@@ -372,7 +603,12 @@ export const categoryLandingPageField = {
               name: 'categoryLandingServiceGroup',
               title: 'Service group',
               fields: [
-                { name: 'label', title: 'Gruppetittel', ...i18nStr, validation: reqI18n('Gruppetittel') },
+                {
+                  name: 'label',
+                  title: 'Group title',
+                  ...i18nStr,
+                  validation: reqI18n('Group title'),
+                },
                 {
                   name: 'items',
                   title: 'Services',
@@ -383,9 +619,19 @@ export const categoryLandingPageField = {
                       name: 'categoryLandingServiceItem',
                       title: 'Service',
                       fields: [
-                        { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
+                        {
+                          name: 'title',
+                          title: 'Title',
+                          ...i18nStr,
+                          validation: reqI18n('Title'),
+                        },
                         { name: 'description', title: 'Description', ...i18nStr },
-                        { name: 'href', title: 'Link', type: 'string', validation: reqStr('Link') },
+                        {
+                          name: 'href',
+                          title: 'Link',
+                          type: 'string',
+                          validation: reqStr('Link'),
+                        },
                       ],
                       preview: i18nTitleItemPreview,
                     },
@@ -400,12 +646,19 @@ export const categoryLandingPageField = {
     },
     {
       name: 'supportSection',
-      title: 'Support / additional services',
+      title: 'Content',
       type: 'object',
+      fieldset: 'support',
+      options: sectionCollapsed,
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
-        { name: 'readMoreLabel', title: 'Read more text', ...i18nStr },
+        {
+          name: 'readMoreLabel',
+          title: 'Read more text',
+          ...i18nStr,
+          initialValue: i18nDefault('Les mer', 'Read more'),
+        },
         {
           name: 'areas',
           title: 'Cards',
@@ -415,9 +668,25 @@ export const categoryLandingPageField = {
       ],
     },
     {
-      name: 'reviewsSection',
-      title: 'Reviews',
+      name: 'resultsSection',
+      title: 'Content',
       type: 'object',
+      fieldset: 'statistics',
+      options: sectionCollapsed,
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
+        { name: 'title', title: 'Heading', ...i18nStr },
+        { name: 'description', title: 'Ingress', ...i18nTxt },
+        { name: 'categoryLabel', title: 'Category label', ...i18nStr },
+        { name: 'footnote', title: 'Footnote', ...i18nStr },
+      ],
+    },
+    {
+      name: 'reviewsSection',
+      title: 'Content',
+      type: 'object',
+      fieldset: 'reviews',
+      options: sectionCollapsed,
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -431,13 +700,20 @@ export const categoryLandingPageField = {
     },
     {
       name: 'spotlightSection',
-      title: 'Spotlight (CTA-blokk)',
+      title: 'Content',
       type: 'object',
+      fieldset: 'spotlight',
+      options: sectionCollapsed,
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleEmphasis', title: 'Heading (italic part)', ...i18nStr },
         { name: 'text', title: 'Text', ...i18nTxt },
-        { name: 'ctaLabel', title: 'Button Text', ...i18nStr },
+        {
+          name: 'ctaLabel',
+          title: 'Button text',
+          ...i18nStr,
+          initialValue: i18nDefault('Bestill time', 'Book appointment'),
+        },
         { name: 'ctaHref', title: 'Button link', type: 'string' },
         {
           name: 'image',
@@ -450,8 +726,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'journeySection',
-      title: 'Patient journey (optional, after reviews)',
+      title: 'Content',
       type: 'object',
+      fieldset: 'journey',
+      options: sectionCollapsed,
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
@@ -461,41 +739,56 @@ export const categoryLandingPageField = {
           type: 'array',
           of: [stepItem],
         },
-        { name: 'ctaLabel', title: 'Button Text', ...i18nStr },
+        {
+          name: 'ctaLabel',
+          title: 'Button text',
+          ...i18nStr,
+          initialValue: i18nDefault('Bestill time', 'Book appointment'),
+        },
         { name: 'ctaHref', title: 'Button link', type: 'string' },
       ],
     },
     {
       name: 'sectionOrder',
       title: 'Section order',
+      fieldset: 'advanced',
       description:
-        'Choose and sort which sections are shown on the page. Drag to reorder. The hero is always shown first and is not included here. Leave empty to use the default order.',
+        'Reserved. Website uses a default order today. Leave empty. Do not edit unless Engineering asks.',
       type: 'array',
       of: [{ type: 'string' }],
+      // Not projected by CATEGORY_LANDING_GROQ yet — editing has no frontend effect.
+      hidden: true,
       options: {
         list: [
-          { title: 'Segments / life stages', value: 'segments' },
-          { title: 'Why choose us (split)', value: 'why' },
-          { title: 'Target groups (cards)', value: 'audiences' },
+          { title: 'Life stages / segments', value: 'segments' },
+          { title: 'Why choose us', value: 'why' },
+          { title: 'Audience', value: 'audiences' },
           { title: 'Areas of expertise', value: 'expertAreas' },
-          { title: 'Symptom checker', value: 'symptoms' },
-          { title: 'What we offer', value: 'services' },
-          { title: 'Support services', value: 'support' },
-          { title: 'Results / statistics', value: 'results' },
-          { title: 'Patient reviews', value: 'reviews' },
-          { title: 'Spotlight / CTA-blokk', value: 'spotlight' },
-          { title: 'Patient journey', value: 'journey' },
+          { title: 'Symptoms', value: 'symptoms' },
+          { title: 'Services on this page', value: 'services' },
+          { title: 'Support', value: 'support' },
+          { title: 'Statistics', value: 'results' },
+          { title: 'Reviews', value: 'reviews' },
+          { title: 'Spotlight', value: 'spotlight' },
+          { title: 'Journey', value: 'journey' },
         ],
       },
     },
     {
       name: 'breadcrumbHomeLabel',
       title: 'Breadcrumb — home',
+      fieldset: 'advanced',
       type: 'internationalizedArrayString',
+      description:
+        'Optional override. Website falls back to translated Home / Hjem when empty — leave blank.',
+      // Prefer i18n common.breadcrumbHome; keep field for rare overrides / migration.
+      hidden: true,
     },
     {
       name: 'srOnlyTitle',
       title: 'Hidden H1 (SEO)',
+      fieldset: 'advanced',
+      description: 'Screen-reader / SEO H1. Meta tags and GEO summary are under the SEO tab.',
       type: 'internationalizedArrayString',
     },
   ],

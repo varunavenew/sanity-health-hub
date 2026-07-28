@@ -1,13 +1,27 @@
 /**
- * Reusable page sections (specialists, articles, booking CTA) for any singleton or document page.
+ * Reusable page sections (specialists, articles, booking CTA, insurance).
+ * Phase 15A: Studio labels, descriptions, Appearance/Advanced grouping, hides only.
+ * Phase V3-2: additive ctaCollection / insuranceCollection refs (legacy inline kept).
+ * JSON paths and frontend behaviour unchanged until dual-read phase.
  */
 import { defineField } from 'sanity'
-import { pickNo } from './i18n'
+import { pickStudioLabel } from './studioPreview'
+import { createPageSectionCollectionBandPreview } from './pageSectionCollectionBandPreview'
+import {
+  bookingCtaContentFields,
+  bookingCtaReservedBandFields,
+  insuranceContentFields,
+} from './bookingCtaFields'
+import {PageSectionsArrayInput} from '../sanity/page-editor/components/PageSectionsArrayInput'
+
+const appearanceCollapsed = { collapsible: true, collapsed: true } as const
 
 const displayModeSpecialists = {
   name: 'displayMode',
   type: 'string',
-  title: 'Visning',
+  title: 'Display',
+  description:
+    'For Treatment Category pages, use Filter by category and select this category.',
   options: {
     list: [
       { title: 'All specialists', value: 'all' },
@@ -22,10 +36,10 @@ const displayModeSpecialists = {
 const displayModeArticles = {
   name: 'displayMode',
   type: 'string',
-  title: 'Visning',
+  title: 'Display',
   options: {
     list: [
-      { title: 'Nyeste artikler', value: 'latest' },
+      { title: 'Latest articles', value: 'latest' },
       { title: 'Choose manually', value: 'manual' },
       { title: 'Filter by category', value: 'category' },
     ],
@@ -36,14 +50,21 @@ const displayModeArticles = {
 
 export const pageSectionSpecialists = {
   name: 'pageSectionSpecialists',
-  title: 'Specialists',
+  title: 'Specialists Band',
   type: 'object',
+  fieldsets: [
+    {
+      name: 'appearance',
+      title: 'Appearance',
+      options: appearanceCollapsed,
+    },
+  ],
   fields: [
     {
       name: 'eyebrow',
       title: 'Eyebrow / label',
       type: 'internationalizedArrayString',
-      description: 'Optional small text above heading',
+      description: 'Optional small text above the heading',
     },
     {
       name: 'title',
@@ -69,6 +90,7 @@ export const pageSectionSpecialists = {
       title: 'Treatment category',
       type: 'reference',
       to: [{ type: 'treatmentCategory' }],
+      description: 'Preferred on Treatment Category pages.',
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
         parent?.displayMode !== 'category',
     },
@@ -76,16 +98,19 @@ export const pageSectionSpecialists = {
       name: 'categorySlug',
       title: 'Category slug (alternative)',
       type: 'string',
-      description:
-        'E.g. gynecology, fertility — used if category reference is not set',
-      hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
-        parent?.displayMode !== 'category',
+      description: 'Only if no category reference is set. E.g. gynekologi, fertilitet.',
+      hidden: ({
+        parent,
+      }: {
+        parent?: { displayMode?: string; treatmentCategory?: unknown }
+      }) =>
+        parent?.displayMode !== 'category' || Boolean(parent?.treatmentCategory),
     },
     {
       name: 'seeAllLabel',
       title: 'See all text',
       type: 'internationalizedArrayString',
-      description: 'E.g. \'See all specialists – Gynecology\'',
+      description: 'E.g. “See all specialists – Gynecology”',
     },
     {
       name: 'seeAllHref',
@@ -94,25 +119,27 @@ export const pageSectionSpecialists = {
       initialValue: '/spesialister',
     },
     {
-      name: 'limit',
-      title: 'Maks antall',
-      type: 'number',
-      initialValue: 8,
-      validation: (Rule: any) => Rule.min(1).max(24),
-    },
-    {
       name: 'variant',
-      title: 'Utseende',
+      title: 'Layout',
       type: 'string',
+      fieldset: 'appearance',
       options: {
         list: [
-          { title: 'Horisontal karusell', value: 'carousel' },
+          { title: 'Horizontal carousel', value: 'carousel' },
           { title: 'Dark grid', value: 'gridDark' },
-          { title: 'Lyst rutenett', value: 'gridLight' },
+          { title: 'Light grid', value: 'gridLight' },
         ],
         layout: 'radio',
       },
       initialValue: 'carousel',
+    },
+    {
+      name: 'limit',
+      title: 'Max items',
+      type: 'number',
+      fieldset: 'appearance',
+      initialValue: 8,
+      validation: (Rule: any) => Rule.min(1).max(24),
     },
   ],
   preview: {
@@ -127,7 +154,7 @@ export const pageSectionSpecialists = {
       displayMode?: string
     }) {
       return {
-        title: pickNo(title) || 'Specialists',
+        title: pickStudioLabel({title, fallback: 'Specialists Band'}),
         subtitle: `${displayMode || 'all'} · ${variant || 'carousel'}`,
       }
     },
@@ -136,8 +163,15 @@ export const pageSectionSpecialists = {
 
 export const pageSectionArticles = {
   name: 'pageSectionArticles',
-  title: 'Articles',
+  title: 'Latest Articles',
   type: 'object',
+  fieldsets: [
+    {
+      name: 'appearance',
+      title: 'Appearance',
+      options: appearanceCollapsed,
+    },
+  ],
   fields: [
     {
       name: 'eyebrow',
@@ -157,7 +191,7 @@ export const pageSectionArticles = {
     displayModeArticles,
     {
       name: 'articles',
-      title: 'Artikler (manuelt valg)',
+      title: 'Articles (manual selection)',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'article' }] }],
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
@@ -167,10 +201,12 @@ export const pageSectionArticles = {
       name: 'articleCategory',
       title: 'Article category',
       type: 'string',
+      description: 'Must match the category stored on articles (e.g. news / nyheter).',
       options: {
         list: [
           { title: 'Professional article', value: 'fagartikkel' },
-          { title: 'News from us', value: 'news' },
+          { title: 'News from us (schema)', value: 'news' },
+          { title: 'News from us (legacy)', value: 'nyheter' },
           { title: 'Price list', value: 'prisliste' },
           { title: 'Job posting', value: 'stillingsutlysning' },
         ],
@@ -179,263 +215,213 @@ export const pageSectionArticles = {
         parent?.displayMode !== 'category',
     },
     {
-      name: 'limit',
-      title: 'Maks antall',
-      type: 'number',
-      initialValue: 6,
-      validation: (Rule: any) => Rule.min(1).max(12),
+      name: 'ctaLabel',
+      title: 'See all link text',
+      type: 'internationalizedArrayString',
+      description: 'Button text linking to the news listing.',
+    },
+    {
+      name: 'ctaPath',
+      title: 'See all link',
+      type: 'string',
+      initialValue: '/aktuelt',
+      description: 'Usually /aktuelt',
     },
     {
       name: 'variant',
-      title: 'Utseende',
+      title: 'Layout',
       type: 'string',
+      fieldset: 'appearance',
       options: {
         list: [
-          { title: 'Rutenett', value: 'grid' },
-          { title: 'Fremhevet + rutenett', value: 'featured' },
+          { title: 'Grid', value: 'grid' },
+          { title: 'Featured + grid', value: 'featured' },
         ],
         layout: 'radio',
       },
       initialValue: 'grid',
     },
     {
-      name: 'ctaLabel',
-      title: 'Link text to News',
-      type: 'internationalizedArrayString',
-    },
-    {
-      name: 'ctaPath',
-      title: 'Link to News',
-      type: 'string',
-      initialValue: '/aktuelt',
+      name: 'limit',
+      title: 'Max items',
+      type: 'number',
+      fieldset: 'appearance',
+      initialValue: 6,
+      validation: (Rule: any) => Rule.min(1).max(12),
     },
   ],
   preview: {
     select: { title: 'title', displayMode: 'displayMode' },
     prepare({ title, displayMode }: { title?: unknown; displayMode?: string }) {
       return {
-        title: pickNo(title) || 'Articles',
+        title: pickStudioLabel({title, fallback: 'Latest Articles'}),
         subtitle: displayMode || 'latest',
       }
     },
   },
 }
 
-const quickInfoIconOptions = {
-  list: [
-    { title: 'Klokke', value: 'clock' },
-    { title: 'Skjold', value: 'shield' },
-  ],
-  layout: 'radio' as const,
-}
-
 export const pageSectionBookingCta = {
   name: 'pageSectionBookingCta',
-  title: 'Book appointment (CTA)',
+  title: 'Booking Call To Action',
   type: 'object',
-  fields: [
+  fieldsets: [
     {
-      name: 'title',
-      title: 'Heading',
-      type: 'internationalizedArrayString',
-      description: 'E.g. \'Book appointment with specialist\'',
-    },
-    {
-      name: 'subtitle',
-      title: 'Ingress',
-      type: 'internationalizedArrayText',
-    },
-    {
-      name: 'image',
-      title: 'Image (optional)',
-      type: 'image',
-      options: { hotspot: true },
-      description: 'Displayed next to the text when the \'With image\' variant is selected',
-      fields: [
-        {
-          name: 'alt',
-          title: 'Alt text',
-          type: 'internationalizedArrayString',
-        },
-      ],
-    },
-    {
-      name: 'variant',
-      title: 'Utseende',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Dark (default)', value: 'dark' },
-          { title: 'Varm bakgrunn', value: 'warm' },
-          { title: 'With image', value: 'withImage' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'dark',
-    },
-    {
-      name: 'primaryLabel',
-      title: 'Primary button',
-      type: 'internationalizedArrayString',
-      initialValue: [{ _key: 'no', language: 'no', value: 'Book appointment now' }],
-    },
-    {
-      name: 'primaryPath',
-      title: 'Primary link',
-      type: 'string',
-      initialValue: '/booking',
-      description: 'Internal path (e.g. /booking) or full URL',
-    },
-    {
-      name: 'bookingCategory',
-      title: 'Booking category (optional)',
-      type: 'reference',
-      to: [{ type: 'treatmentCategory' }],
-      description: 'Adds ?category= to the booking link when the primary link is /booking',
-    },
-    {
-      name: 'showSecondaryButton',
-      title: 'Show \'Call us\' button',
-      type: 'boolean',
-      initialValue: true,
-    },
-    {
-      name: 'secondaryLabel',
-      title: 'Secondary button text',
-      type: 'internationalizedArrayString',
-      hidden: ({ parent }: { parent?: { showSecondaryButton?: boolean } }) =>
-        parent?.showSecondaryButton === false,
-    },
-    {
-      name: 'secondaryPath',
-      title: 'Secondary link (optional)',
-      type: 'string',
+      name: 'legacyAdvanced',
+      title: 'Legacy / Advanced',
       description:
-        'Internal path (e.g. /contact). When set, a link button is used instead of the \'Call us\' selector.',
-      hidden: ({ parent }: { parent?: { showSecondaryButton?: boolean } }) =>
-        parent?.showSecondaryButton === false,
-    },
-    {
-      name: 'quickInfoItems',
-      title: 'Hurtiginfo',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'icon',
-              title: 'Icon',
-              type: 'string',
-              options: quickInfoIconOptions,
-              initialValue: 'clock',
-            },
-            {
-              name: 'text',
-              title: 'Text',
-              type: 'internationalizedArrayString',
-            },
-          ],
-          preview: {
-            select: { text: 'text', icon: 'icon' },
-            prepare({ text, icon }: { text?: unknown; icon?: string }) {
-              return {
-                title: pickNo(text) || 'Hurtiginfo',
-                subtitle: icon === 'shield' ? 'Skjold' : 'Klokke',
-              }
-            },
-          },
-        },
-      ],
+        'This page uses a CTA Collection. Legacy fields are preserved for backward compatibility until migration is complete.',
+      options: appearanceCollapsed,
     },
   ],
-  preview: {
-    select: { title: 'title' },
-    prepare({ title }: { title?: unknown }) {
-      return {
-        title: pickNo(title) || 'Book appointment (CTA)',
-        subtitle: 'Booking section',
-      }
+  fields: [
+    {
+      name: 'ctaCollection',
+      title: 'CTA Collection',
+      type: 'reference',
+      to: [{type: 'ctaCollection'}],
+      description:
+        'Preferred. Website dual-read uses this pack when it has usable content; otherwise legacy inline fields below. Leave empty to keep page-owned inline copy.',
+      options: {
+        disableNew: false,
+      },
     },
-  },
+    ...bookingCtaReservedBandFields,
+    ...bookingCtaContentFields.map((field) => ({
+      ...field,
+      fieldset: 'legacyAdvanced',
+      hidden: ({
+        parent,
+        ...ctx
+      }: {
+        parent?: {ctaCollection?: unknown; showSecondaryButton?: boolean}
+        document?: unknown
+        value?: unknown
+      }) => {
+        if (parent?.ctaCollection) return true
+        const baseHidden = (field as {hidden?: unknown}).hidden
+        if (typeof baseHidden === 'function') {
+          return (baseHidden as (args: typeof ctx & {parent?: typeof parent}) => boolean)({
+            ...ctx,
+            parent,
+          })
+        }
+        return Boolean(baseHidden)
+      },
+    })),
+  ],
+  preview: createPageSectionCollectionBandPreview({
+    refField: 'ctaCollection',
+    bandTypeLabel: 'CTA Collection',
+    legacyFallback: 'Booking Call To Action',
+  }),
 }
 
 export const pageSectionInsurance = {
   name: 'pageSectionInsurance',
-  title: 'Insurance partners',
+  title: 'Insurance Partners',
   type: 'object',
-  fields: [
+  fieldsets: [
     {
-      name: 'eyebrow',
-      title: 'Eyebrow',
-      type: 'internationalizedArrayString',
-      initialValue: [{ _key: 'no', language: 'no', value: 'Forsikringspartnere' }],
-    },
-    {
-      name: 'title',
-      title: 'Heading',
-      type: 'internationalizedArrayString',
-      initialValue: [
-        { _key: 'no', language: 'no', value: 'Vi har avtale med de største forsikringsselskapene i Norge.' },
-        { _key: 'en', language: 'en', value: 'We have agreements with the largest insurance companies in Norway.' }
-      ],
-    },
-    {
-      name: 'partners',
-      title: 'Insurance Partners',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'key', type: 'string', title: 'Internal key (e.g. if, tryg)' },
-            { name: 'label', type: 'internationalizedArrayString', title: 'Display name' },
-          ],
-          preview: {
-            select: { title: 'label' },
-            prepare({ title }: { title?: unknown }) {
-              return { title: pickNo(title) || 'Partner' }
-            },
-          },
-        },
-      ],
+      name: 'legacyAdvanced',
+      title: 'Legacy / Advanced',
+      description:
+        'This page uses an Insurance Collection. Legacy fields are preserved for backward compatibility until migration is complete.',
+      options: appearanceCollapsed,
     },
   ],
-  preview: {
-    select: { title: 'title' },
-    prepare({ title }: { title?: unknown }) {
-      return {
-        title: pickNo(title) || 'Insurance partners',
-        subtitle: 'Insurance section',
-      }
+  fields: [
+    {
+      name: 'insuranceCollection',
+      title: 'Insurance Collection',
+      type: 'reference',
+      to: [{type: 'insuranceCollection'}],
+      description:
+        'Preferred. Website dual-read uses this pack when it has partners; otherwise legacy inline fields below. Leave empty to keep page-owned partners.',
+      options: {
+        disableNew: false,
+      },
     },
-  },
+    ...insuranceContentFields.map((field) => ({
+      ...field,
+      fieldset: 'legacyAdvanced',
+      hidden: ({parent}: {parent?: {insuranceCollection?: unknown}}) =>
+        Boolean(parent?.insuranceCollection),
+    })),
+  ],
+  preview: createPageSectionCollectionBandPreview({
+    refField: 'insuranceCollection',
+    bandTypeLabel: 'Insurance Collection',
+    legacyFallback: 'Insurance Partners',
+  }),
 }
+
+/** All shared band types (default insert menu). */
+export const ALL_PAGE_SECTION_TYPES = [
+  'pageSectionSpecialists',
+  'pageSectionArticles',
+  'pageSectionInsurance',
+  'pageSectionBookingCta',
+] as const
+
+export type PageSectionBandType = (typeof ALL_PAGE_SECTION_TYPES)[number]
 
 /** Reusable page-builder field — add to any document schema `fields` array. */
 export const pageSectionsField = defineField({
   name: 'pageSections',
-  title: 'Modular sections',
+  title: 'Website bands',
   description:
-    'Page builder: add, remove and sort specialist, article, insurance and booking CTA blocks. Displayed after the page\'s main content.',
+    'Reusable website bands from Content Library. Fixed render order: Specialists → Insurance → Articles → Booking CTA.',
   type: 'array',
   of: [
-    { type: 'pageSectionSpecialists' },
-    { type: 'pageSectionArticles' },
-    { type: 'pageSectionInsurance' },
-    { type: 'pageSectionBookingCta' },
+    {type: 'pageSectionSpecialists'},
+    {type: 'pageSectionArticles'},
+    {type: 'pageSectionInsurance'},
+    {type: 'pageSectionBookingCta'},
   ],
+  components: {
+    input: PageSectionsArrayInput,
+  },
   options: {
     insertMenu: {
       filter: true,
-      views: [
-        { name: 'list' },
-      ],
+      views: [{name: 'list'}],
     },
   },
 })
 
-/** Same as pageSectionsField with an optional Sanity field group. */
-export function pageSectionsFieldForGroup(group?: string) {
-  return group ? { ...pageSectionsField, group } : pageSectionsField
+/**
+ * Assign page bands to a document group + collapsed Shared Sections fieldset.
+ * Pass `allowedTypes` to restrict the insert menu (page-specific allowlist).
+ * Pass `[]` to hide the field (page has no shared bands; existing data kept valid).
+ */
+export function pageSectionsFieldForGroup(
+  group: string = 'content',
+  fieldset: string = 'sharedSections',
+  allowedTypes?: readonly PageSectionBandType[],
+) {
+  // undefined → all band types; [] → none (hidden legacy rollback); non-empty → allowlist
+  if (allowedTypes !== undefined && allowedTypes.length === 0) {
+    return {
+      ...pageSectionsField,
+      group,
+      fieldset: 'legacy',
+      title: 'Website bands (not used on this page)',
+      description:
+        'This page does not expose shared bands. Field kept hidden for data integrity / rollback.',
+      hidden: true,
+      of: ALL_PAGE_SECTION_TYPES.map((type) => ({type})),
+    }
+  }
+
+  const types = allowedTypes ?? ALL_PAGE_SECTION_TYPES
+  return {
+    ...pageSectionsField,
+    group,
+    fieldset,
+    of: types.map((type) => ({type})),
+    components: {
+      input: PageSectionsArrayInput,
+    },
+  }
 }

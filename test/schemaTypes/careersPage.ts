@@ -1,8 +1,11 @@
 // Schema: Careers listing page (Karriere)
-import { GenericIcon } from './icons'
-import { i18nSlugFieldFromTitle, pickNo } from './i18n'
-import { geoSummaryField } from './geoSummary'
-import { pageSectionsField } from './pageSections'
+import {GenericIcon} from './icons'
+import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {geoSummaryField} from './geoSummary'
+import {pageSectionsFieldForGroup} from './pageSections'
+import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
+import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
+import {careersPageEditorConfig} from '../sanity/page-editor/pages/careersSections'
 
 const i18nString = {
   type: 'internationalizedArrayString',
@@ -13,41 +16,50 @@ const i18nText = {
 }
 
 const optionRowPreview = {
-  select: { value: 'value', label: 'label' },
-  prepare({ value, label }: { value?: string; label?: unknown }) {
-    return { title: pickNo(label) || value || 'Option' }
+  select: {value: 'value', label: 'label'},
+  prepare({value, label}: {value?: string; label?: unknown}) {
+    return {title: pickNo(label) || value || 'Option'}
   },
 }
+
+const labelField = (name: string, title: string, description?: string) => ({
+  name,
+  title,
+  group: 'content',
+  fieldset: 'advanced',
+  description,
+  ...i18nString,
+})
 
 export default {
   name: 'careersPage',
   title: 'Careers page',
   type: 'document',
   icon: GenericIcon,
-  groups: [
-    { name: 'content', title: 'Content', default: true },
-    { name: 'labels', title: 'Labels' },
-    { name: 'seo', title: 'SEO' },
-  ],
+  components: {
+    input: createPageSectionDocumentInput(careersPageEditorConfig),
+  },
+  groups: [...singletonPageGroups],
+  fieldsets: [...singletonPageFieldsets],
   fields: [
     {
       name: 'breadcrumbHome',
       title: 'Breadcrumb — home',
-      group: 'content',
+      group: 'hero',
       ...i18nString,
     },
     {
       name: 'title',
       title: 'Hero — title',
-      group: 'content',
+      group: 'hero',
       ...i18nString,
       validation: (Rule: any) => Rule.required(),
     },
-    { ...i18nSlugFieldFromTitle('title', { group: 'content' }) },
+    {...i18nSlugFieldFromTitle('title', {group: 'hero'})},
     {
       name: 'heroSubtitle',
       title: 'Hero — subtitle',
-      group: 'content',
+      group: 'hero',
       ...i18nText,
     },
     {
@@ -70,7 +82,7 @@ export default {
     },
     {
       name: 'filterAllLabel',
-      title: 'Filter — «Alle»',
+      title: 'Filter — All',
       group: 'content',
       ...i18nString,
     },
@@ -95,7 +107,7 @@ export default {
     {
       name: 'deadlineLabel',
       title: 'Deadline — prefix',
-      description: 'E.g. \'Deadline:\' (date added automatically)',
+      description: "E.g. 'Deadline:' (date added automatically)",
       group: 'content',
       ...i18nString,
     },
@@ -103,12 +115,16 @@ export default {
       name: 'ongoingLabel',
       title: 'Ongoing — label (list)',
       group: 'content',
+      fieldset: 'legacy',
+      description:
+        'Shown on Careers listing cards when a job has no deadline. Job detail uses “Ongoing — label” below instead.',
       ...i18nString,
     },
     {
       name: 'ongoingDeadlineLabel',
       title: 'Ongoing — label (detail)',
       group: 'content',
+      description: 'Shown on the job detail page when a job has no deadline.',
       ...i18nString,
     },
     {
@@ -138,15 +154,16 @@ export default {
     },
     {
       name: 'departmentOptions',
-      title: 'Department — labels',
-      group: 'labels',
+      title: 'Department — filter labels',
+      group: 'content',
+      fieldset: 'advanced',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'value', title: 'Value', type: 'string' },
-            { name: 'label', title: 'Label', ...i18nString },
+            {name: 'value', title: 'Value', type: 'string'},
+            {name: 'label', title: 'Label', ...i18nString},
           ],
           preview: optionRowPreview,
         },
@@ -154,91 +171,54 @@ export default {
     },
     {
       name: 'employmentTypeOptions',
-      title: 'Position type — labels',
-      group: 'labels',
+      title: 'Position type — filter labels',
+      group: 'content',
+      fieldset: 'advanced',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'value', title: 'Value', type: 'string' },
-            { name: 'label', title: 'Label', ...i18nString },
+            {name: 'value', title: 'Value', type: 'string'},
+            {name: 'label', title: 'Label', ...i18nString},
           ],
           preview: optionRowPreview,
         },
       ],
     },
-    {
-      name: 'notFoundTitle',
-      title: '404 — title',
-      group: 'labels',
-      ...i18nString,
-    },
-    {
-      name: 'notFoundDescription',
-      title: '404 — description',
-      group: 'labels',
-      ...i18nText,
-    },
-    {
-      name: 'backToJobsLabel',
-      title: '404 — back button',
-      group: 'labels',
-      ...i18nString,
-    },
-    {
-      name: 'backLinkLabel',
-      title: 'Detail — back link',
-      group: 'labels',
-      ...i18nString,
-    },
-    {
-      name: 'applyCardTitle',
-      title: 'Detail — search card title',
-      group: 'labels',
-      ...i18nString,
-    },
-    {
-      name: 'applyExternalLabel',
-      title: 'Detail — external application',
-      group: 'labels',
-      ...i18nString,
-    },
-    {
-      name: 'applyEmailLabel',
-      title: 'Detail — email application',
-      group: 'labels',
-      ...i18nString,
-    },
-    {
-      name: 'contactCardTitle',
-      title: 'Detail — contact title',
-      group: 'labels',
-      ...i18nString,
-    },
+    labelField('notFoundTitle', '404 — title'),
+    labelField('notFoundDescription', '404 — description'),
+    labelField('backToJobsLabel', '404 — back button'),
+    labelField('backLinkLabel', 'Job detail — back link'),
+    labelField('applyCardTitle', 'Job detail — apply card title'),
+    labelField('applyExternalLabel', 'Job detail — external application'),
+    labelField('applyEmailLabel', 'Job detail — email application'),
+    labelField('contactCardTitle', 'Job detail — contact title'),
     {
       name: 'jobSeoTitleSuffix',
-      title: 'SEO — suffix for job title',
-      description: 'E.g. \'– Careers at CMedical\'',
-      group: 'seo',
+      title: 'SEO — suffix for job detail title',
+      description: "E.g. '– Careers at CMedical'",
+      group: 'content',
+      fieldset: 'advanced',
       ...i18nString,
     },
-    pageSectionsField,
+    pageSectionsFieldForGroup('content', 'sharedSections', []),
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      group: 'seo',
+      ...seoFieldsetProps,
+      validation: requiredNoEnSeo,
     },
-    { ...geoSummaryField, group: 'seo' },
+    {...geoSummaryField, ...seoFieldsetProps},
   ],
   preview: {
-    select: { title: 'title' },
-    prepare({ title }: { title?: unknown }) {
+    select: {title: 'title'},
+    prepare({title}: {title?: unknown}) {
       const t = Array.isArray(title)
-        ? (title.find((x: any) => (x.language || x._key) === 'no')?.value || title[0]?.value)
+        ? title.find((x: any) => (x.language || x._key) === 'no')?.value || title[0]?.value
         : title
-      return { title: (t as string) || 'Careers' }
+      return {title: (t as string) || 'Careers'}
     },
   },
 }

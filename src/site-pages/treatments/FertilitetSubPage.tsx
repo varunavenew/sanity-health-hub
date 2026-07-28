@@ -8,7 +8,6 @@ import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-ali
 import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
 import { useTreatmentSlug } from "@/lib/router";
 import { useTranslation } from "react-i18next";
-import NotFound from "@/site-pages/NotFound";
 
 /** Fertilitet sub-treatments — Sanity `layout` + SubTreatmentLayout design. */
 const FertilitetSubPage = ({
@@ -46,6 +45,8 @@ const FertilitetSubPage = ({
       content={content}
       locale={lang}
       pageSections={resolved.pageSections}
+      faqSectionTitle={resolved.faqSectionTitle}
+      faqs={resolved.faqs}
     />
   );
 };

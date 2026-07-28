@@ -2,7 +2,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import type { ComponentType } from "react";
 import { CategoryDataProvider } from "@/components/providers/CategoryDataProvider";
 import { TreatmentHydration } from "@/components/providers/TreatmentHydration";
-import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
+import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data.server";
 import { createBehandlingerCategoryMetadata } from "@/lib/seo/behandlinger-metadata";
 import TreatmentCategoryLanding from "@/site-pages/treatments/TreatmentCategoryLanding";
 

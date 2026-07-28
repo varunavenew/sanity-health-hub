@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { useClientDocumentHead } from "@/hooks/use-client-document-head";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 
 const DEFAULTS = {
   nb: {

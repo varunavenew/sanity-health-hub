@@ -15,6 +15,8 @@ import googleReview from './googleReview'
 import googleReviewSettings from './googleReviewSettings'
 import blockContent from './blockContent'
 import youtubeEmbed from './youtubeEmbed'
+import mediaObject from './objects/media'
+import homepageSpecialistsSectionType from './homepageSpecialistsSection'
 import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
@@ -27,6 +29,11 @@ import article from './article'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
 import faq from './faq'
+import faqCollection from './faqCollection'
+import ctaCollection from './ctaCollection'
+import insuranceCollection from './insuranceCollection'
+import ctaModule from './ctaModule'
+import heroModule from './heroModule'
 import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
@@ -73,9 +80,16 @@ export const schemaTypes = [
   jobListing,
   privacyPolicyPage,
   faq,
+  faqCollection,
+  ctaCollection,
+  insuranceCollection,
+  ctaModule,
+  heroModule,
   product,
   testimonial,
   // Shared types
+  mediaObject,
+  homepageSpecialistsSectionType,
   locationSearchType,
   subTreatmentLayoutType,
   pageSectionSpecialists,

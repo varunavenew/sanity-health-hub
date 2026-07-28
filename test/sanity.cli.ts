@@ -1,9 +1,16 @@
+import {config as loadEnv} from 'dotenv'
+import path from 'path'
 import {defineCliConfig} from 'sanity/cli'
+import {requireSanityDataset, requireSanityProjectId} from './sanity/dataset-env'
+
+// Ensure local env is loaded before fail-fast checks (CLI entry).
+loadEnv({path: path.join(__dirname, '.env.local')})
+loadEnv({path: path.join(__dirname, '..', '.env.local')})
 
 export default defineCliConfig({
   api: {
-    projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
-    dataset: process.env.SANITY_DATASET || 'production'
+    projectId: requireSanityProjectId(),
+    dataset: requireSanityDataset(),
   },
   project: {
     basePath: process.env.SANITY_STUDIO_BASEPATH || '/',

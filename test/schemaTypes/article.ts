@@ -1,6 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import { ArticleIcon } from './icons'
-import { i18nSlugFieldFromTitle } from './i18n'
+import { i18nSlugFieldFromTitle, pickForLang, pickNo } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 
@@ -93,15 +93,15 @@ export default defineType({
     prepare({title, media, category, publishedAt}) {
       const categoryLabels: Record<string, string> = {
         fagartikkel: 'Professional article',
+        news: 'News from us',
         nyheter: 'News from us',
         prisliste: 'Price list',
         stillingsutlysning: 'Job posting',
       }
-      const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'No date'
+      const date = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB') : 'No date'
       const cat = categoryLabels[category] || category || 'No category'
-      // title is now an internationalizedArray — pull NO entry first, fallback to first
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Untitled')
+        ? pickForLang(title, 'en') || pickNo(title) || 'Untitled'
         : (title || 'Untitled')
       return {
         title: titleStr,

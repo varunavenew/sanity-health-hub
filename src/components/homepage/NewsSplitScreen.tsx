@@ -7,6 +7,7 @@ import { articles, normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useHomepage } from "@/hooks/useSanity";
 
 type NewsSplitItem = {
+  id: string;
   slug: string;
   title: string;
   image: string;
@@ -18,18 +19,34 @@ const FALLBACK_IMAGES = [
   "https://cdn.sanity.io/images/bk8rw7yi/production/1b6782dd6bb68860c34de07a6522605faa161d22-4318x2879.jpg?q=80&fit=crop&auto=format&w=1200",
 ] as const;
 
-function articleToItem(article: Article, imageFallback: string): NewsSplitItem {
+function articleToItem(
+  article: Article & { id?: string },
+  imageFallback: string,
+  index: number,
+): NewsSplitItem {
+  const slug = article.slug || `article-${index}`;
   return {
-    slug: article.slug,
+    id: article.id || `${slug}-${index}`,
+    slug,
     title: article.title,
     image: article.image || imageFallback,
     eyebrow: normalizeCategory(article.category),
   };
 }
 
+function dedupeBySlug(items: NewsSplitItem[]): NewsSplitItem[] {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    if (!item.slug || seen.has(item.slug)) return false;
+    seen.add(item.slug);
+    return true;
+  });
+}
+
 function buildFallbackItems(source: Article[]): NewsSplitItem[] {
-  return [
+  return dedupeBySlug([
     {
+      id: "fallback-0",
       slug: source[0]?.slug ?? "robotassistert-overvektskirurgi-presisjon-trygghet-og-varige-resultater",
       title:
         source.find((a) => a.slug.includes("robotassistert"))?.title ??
@@ -38,6 +55,7 @@ function buildFallbackItems(source: Article[]): NewsSplitItem[] {
       eyebrow: "Fagartikkel",
     },
     {
+      id: "fallback-1",
       slug: source.find((a) => a.slug.includes("livio"))?.slug ?? source[1]?.slug ?? "#",
       title:
         source.find((a) => a.slug.includes("livio"))?.title ??
@@ -46,18 +64,20 @@ function buildFallbackItems(source: Article[]): NewsSplitItem[] {
       eyebrow: "Nytt fra oss",
     },
     {
+      id: "fallback-2",
       slug: source[2]?.slug ?? "#",
       title: source[2]?.title ?? "Tverrfaglig oppfølging etter operasjon",
       image: source[2]?.image ?? FALLBACK_IMAGES[0],
       eyebrow: source[2] ? normalizeCategory(source[2].category) : "Fagartikkel",
     },
     {
+      id: "fallback-3",
       slug: source[3]?.slug ?? "#",
       title: source[3]?.title ?? "Slik forbereder du deg til konsultasjonen",
       image: source[3]?.image ?? FALLBACK_IMAGES[1],
       eyebrow: source[3] ? normalizeCategory(source[3].category) : "Veiledning",
     },
-  ];
+  ]);
 }
 
 /**
@@ -71,15 +91,18 @@ export const NewsSplitScreen = () => {
 
   const items = useMemo(() => {
     if (homepage?.featuredArticles && homepage.featuredArticles.length > 0) {
-      return homepage.featuredArticles.map((article, index) =>
-        articleToItem(article, FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]),
-      );
+      return dedupeBySlug(
+        homepage.featuredArticles.map((article, index) =>
+          articleToItem(article, FALLBACK_IMAGES[index % FALLBACK_IMAGES.length], index),
+        ),
+      ).slice(0, 4);
     }
 
     const source =
       sanityArticles && sanityArticles.length > 0
         ? sanityArticles.map(
-            (a): Article => ({
+            (a): Article & { id?: string } => ({
+              id: a._id || a.slug,
               slug: a.slug,
               title: a.title,
               excerpt: a.excerpt,
@@ -92,11 +115,13 @@ export const NewsSplitScreen = () => {
         : articles;
 
     if (source.length >= 4) {
-      return source
-        .slice(0, 4)
-        .map((article, index) =>
-          articleToItem(article, FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]),
-        );
+      return dedupeBySlug(
+        source
+          .slice(0, 8)
+          .map((article, index) =>
+            articleToItem(article, FALLBACK_IMAGES[index % FALLBACK_IMAGES.length], index),
+          ),
+      ).slice(0, 4);
     }
 
     return buildFallbackItems(source);
@@ -129,7 +154,7 @@ export const NewsSplitScreen = () => {
         <div className="grid grid-cols-2 grid-rows-2 md:h-screen">
           {items.map((item) => (
             <Link
-              key={item.slug}
+              key={item.id}
               to={`/aktuelt/${item.slug}`}
               className="group relative block overflow-hidden min-h-[40vh] md:min-h-0"
             >

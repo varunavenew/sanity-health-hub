@@ -13,7 +13,7 @@ const nextBin = path.join(projectRoot, "node_modules", "next", "dist", "bin", "n
 
 const result = spawnSync(
   process.execPath,
-  ["-r", patchScript, nextBin, "dev"],
+  ["-r", patchScript, nextBin, "dev", "--webpack"],
   {
     cwd: projectRoot,
     stdio: "inherit",

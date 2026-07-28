@@ -22,7 +22,7 @@ if (typeof window !== 'undefined') {
   };
 }
 
-import {defineConfig} from 'sanity'
+import {defineConfig, defineLocaleResourceBundle, type SchemaTypeDefinition} from 'sanity'
 import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
@@ -34,6 +34,14 @@ import {
 } from './sanity/actions/publishWithNavSync'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
+import {DatasetBadgeNavbar} from './sanity/components/DatasetBadgeNavbar'
+import {deskStructure} from './sanity/deskStructure'
+import {
+  datasetBadgeLabel,
+  requireSanityDataset,
+  requireSanityProjectId,
+} from './sanity/dataset-env'
+import {uniqueReferenceFormInput} from './sanity/components/uniqueReferenceInputs'
 
 // Languages enabled for field-level localization across the project.
 // Add SE here later if/when Swedish content is added.
@@ -41,7 +49,25 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norwegian'},
   {id: 'en', title: 'English'},
 ] as const
-import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon, JobIcon, SortIcon} from './schemaTypes/icons'
+
+/** When the reference picker is open with no search term and zero matches (e.g. all selected). */
+const referencePickerEmptyBundle = defineLocaleResourceBundle({
+  locale: 'en-US',
+  namespace: 'studio',
+  resources: {
+    'inputs.reference.no-results-for-query':
+      '{{searchTerm, select, empty {All available items have already been selected.} other {No results for “{{searchTerm}}”}}}',
+  },
+})
+
+const referencePickerEmptyBundleNo = defineLocaleResourceBundle({
+  locale: 'nb-NO',
+  namespace: 'studio',
+  resources: {
+    'inputs.reference.no-results-for-query':
+      '{{searchTerm, select, empty {Alle tilgjengelige elementer er allerede valgt.} other {Ingen treff for «{{searchTerm}}»}}}',
+  },
+})
 
 // Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
@@ -79,274 +105,39 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ])
 }
 
-const hiddenTypes = [
-  'specialist',
-  'specialistsPage',
-  'specialistsListingPage',
-  'clinicPage',
-  'clinicsPage',
-  'pricingPage',
-  'bookingPage',
-  'testimonial',
-  'googleReview',
-  'googleReviewSettings',
-  'newsPage',
-  'guidePage',
-  'careersPage',
-  'jobListing',
-  'listingSortSettings',
-]
-
 export default defineConfig({
   name: 'default',
-  title: 'sanity',
+  title: datasetBadgeLabel(requireSanityDataset()),
   // `/` for sanity.studio + sanity.io/@…/studio/… links; `/studio` when embedded in Next.js (see next.config.ts env).
   basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
 
-  projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
-  dataset: process.env.SANITY_DATASET || 'production',
+  projectId: requireSanityProjectId(),
+  dataset: requireSanityDataset(),
+
+  studio: {
+    components: {
+      navbar: DatasetBadgeNavbar,
+    },
+  },
+
+  form: {
+    components: {
+      input: uniqueReferenceFormInput,
+    },
+  },
 
   plugins: [
     structureTool({
       defaultDocumentNode,
-      structure: (S, context) => {
-        const otherItems = S.documentTypeListItems().filter(
-          (item) =>
-            !hiddenTypes.includes(item.getId() || '') &&
-            item.getId() !== 'article' &&
-            item.getId() !== 'clinicPage' &&
-            item.getId() !== 'clinicsPage' &&
-            item.getId() !== 'specialistsListingPage' &&
-            item.getId() !== 'treatmentCategory' &&
-            item.getId() !== 'treatment' &&
-            item.getId() !== 'jobListing' &&
-            item.getId() !== 'careersPage',
-        )
-        const mid = Math.floor(otherItems.length / 2)
-
-        // Articles section (same pattern as Specialists): singleton + list
-        const articleItem = S.listItem()
-          .title('Articles')
-          .child(
-            S.list()
-              .title('Articles')
-              .items([
-                S.listItem()
-                  .title('About Articles')
-                  .schemaType('newsPage')
-                  .child(
-                    S.document()
-                      .schemaType('newsPage')
-                      .documentId('newsPage')
-                  ),
-                S.listItem()
-                  .title('Our Articles')
-                  .schemaType('article')
-                  .child(
-                    S.documentTypeList('article')
-                      .title('Our Articles')
-                      .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
-                  ),
-              ])
-          )
-
-        const clinicsItem = S.listItem()
-          .title('Clinics')
-          .icon(ClinicIcon)
-          .child(
-            S.list()
-              .title('Clinics')
-              .items([
-                S.listItem()
-                  .title('About our clinics')
-                  .icon(ClinicIcon)
-                  .child(
-                    S.document()
-                      .schemaType('clinicsPage')
-                      .documentId('clinicsPage')
-                  ),
-                S.documentTypeListItem('clinicPage')
-                  .title('Our clinics')
-                  .child(
-                    S.documentTypeList('clinicPage')
-                      .title('Our clinics')
-                      .defaultOrdering([
-                        { field: 'sortOrder', direction: 'asc' },
-                        { field: '_updatedAt', direction: 'desc' },
-                      ])
-                  ),
-              ])
-          )
-
-        const treatmentCategoryItem = S.listItem()
-          .title('Treatment Categories')
-          .schemaType('treatmentCategory')
-          .child(
-            S.documentTypeList('treatmentCategory')
-              .title('Treatment Categories')
-              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
-          )
-
-        const treatmentItem = S.listItem()
-          .title('Treatments')
-          .schemaType('treatment')
-          .child(
-            S.documentTypeList('treatment')
-              .title('Treatments')
-              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
-          )
-
-        const specialistsItem = S.listItem()
-          .title('Specialists')
-          .icon(SpecialistIcon)
-          .child(
-            S.list()
-              .title('Specialists')
-              .items([
-                S.listItem()
-                  .title('About our specialists')
-                  .icon(SpecialistIcon)
-                  .child(
-                    S.document()
-                      .schemaType('specialistsPage')
-                      .documentId('specialistsPage')
-                  ),
-                S.listItem()
-                  .title('Specialists listing')
-                  .icon(SpecialistIcon)
-                  .child(
-                    S.document()
-                      .schemaType('specialistsListingPage')
-                      .documentId('specialistsListingPage')
-                  ),
-                S.documentTypeListItem('specialist')
-                  .title('Our specialists')
-                  .child(
-                    S.documentTypeList('specialist')
-                      .title('Our specialists')
-                      .defaultOrdering([
-                        { field: 'sortOrder', direction: 'asc' },
-                        { field: 'name', direction: 'asc' },
-                      ]),
-                  ),
-              ])
-          )
-
-        const bookingItem = S.listItem()
-          .title('Book Appointment')
-          .child(
-            S.document()
-              .schemaType('bookingPage')
-              .documentId('bookingPage'),
-          )
-
-        const guideItem = S.listItem()
-          .title('Guide')
-          .child(
-            S.document()
-              .schemaType('guidePage')
-              .documentId('guidePage'),
-          )
-
-        const karriereItem = S.listItem()
-          .title('Careers')
-          .icon(JobIcon)
-          .child(
-            S.list()
-              .title('Careers')
-              .items([
-                S.listItem()
-                  .title('Careers Page')
-                  .icon(JobIcon)
-                  .child(
-                    S.document()
-                      .schemaType('careersPage')
-                      .documentId('careersPage'),
-                  ),
-                S.documentTypeListItem('jobListing')
-                  .title('Job Listings')
-                  .icon(JobIcon)
-                  .child(
-                    S.documentTypeList('jobListing')
-                      .title('Job Listings')
-                      .defaultOrdering([
-                        { field: 'publishedAt', direction: 'desc' },
-                      ]),
-                  ),
-              ]),
-          )
-
-        const priserItem = S.listItem()
-          .title('Pricing')
-          .icon(PricingIcon)
-          .child(
-            S.list()
-              .title('Pricing')
-              .items([
-                S.listItem()
-                  .title('Pricing List')
-                  .icon(PricingIcon)
-                  .child(
-                    S.document()
-                      .schemaType('pricingPage')
-                      .documentId('pricingPage')
-                  ),
-                S.documentTypeListItem('testimonial')
-                  .title('Testimonials')
-                  .icon(ReviewIcon),
-              ])
-          )
-
-        const googleReviewsItem = S.listItem()
-          .title('Google Reviews')
-          .icon(ReviewIcon)
-          .child(
-            S.list()
-              .title('Google Reviews')
-              .items([
-                S.listItem()
-                  .title('About Google Reviews')
-                  .icon(ReviewIcon)
-                  .child(
-                    S.document()
-                      .schemaType('googleReviewSettings')
-                      .documentId('googleReviewSettings')
-                  ),
-                S.documentTypeListItem('googleReview')
-                  .title('Google Reviews List')
-                  .icon(ReviewIcon),
-              ])
-          )
-
-        const listingSortSettingsItem = S.listItem()
-          .title('Sorting Preferences')
-          .icon(SortIcon)
-          .child(
-            S.document()
-              .schemaType('listingSortSettings')
-              .documentId('listingSortSettings')
-          )
-
-        return S.list()
-          .title('Content')
-          .items([
-            ...otherItems.slice(0, mid),
-            articleItem,
-            clinicsItem,
-            treatmentCategoryItem,
-            treatmentItem,
-            specialistsItem,
-            bookingItem,
-            guideItem,
-            karriereItem,
-            priserItem,
-            googleReviewsItem,
-            listingSortSettingsItem,
-            ...otherItems.slice(mid),
-          ])
-      },
+      structure: deskStructure,
     }),
     visionTool(),
+    {
+      name: 'reference-picker-empty-state',
+      i18n: {
+        bundles: [referencePickerEmptyBundle, referencePickerEmptyBundleNo],
+      },
+    },
     internationalizedArray({
       languages: SUPPORTED_LANGUAGES.map((l) => ({id: l.id, title: l.title})),
       defaultLanguages: ['no'],
@@ -358,7 +149,86 @@ export default defineConfig({
   ],
 
   schema: {
-    types: schemaTypes,
+    types: schemaTypes as SchemaTypeDefinition[],
+    templates: (prev) => [
+      ...prev,
+      {
+        id: 'faqCollection-homepage',
+        title: 'Homepage FAQ',
+        schemaType: 'faqCollection',
+        value: {
+          title: 'Homepage FAQ',
+        },
+      },
+      {
+        id: 'faqCollection-treatmentCategory',
+        title: 'Category FAQ',
+        schemaType: 'faqCollection',
+        value: {
+          title: 'Category FAQ',
+        },
+      },
+      {
+        id: 'faqCollection-treatment',
+        title: 'Treatment FAQ',
+        schemaType: 'faqCollection',
+        value: {
+          title: 'Treatment FAQ',
+        },
+      },
+      {
+        id: 'faqCollection-specialist',
+        title: 'Specialist FAQ',
+        schemaType: 'faqCollection',
+        value: {
+          title: 'Specialist FAQ',
+        },
+      },
+      {
+        id: 'faqCollection-clinic',
+        title: 'Clinic FAQ',
+        schemaType: 'faqCollection',
+        value: {
+          title: 'Clinic FAQ',
+        },
+      },
+      {
+        id: 'ctaCollection-default-booking',
+        title: 'Default Booking CTA',
+        schemaType: 'ctaCollection',
+        value: {
+          internalName: 'Default Booking CTA',
+          primaryPath: '/booking',
+          showSecondaryButton: true,
+        },
+      },
+      {
+        id: 'ctaCollection-category-booking',
+        title: 'Category Booking CTA',
+        schemaType: 'ctaCollection',
+        value: {
+          internalName: 'Category Booking CTA',
+          primaryPath: '/booking',
+          showSecondaryButton: true,
+        },
+      },
+      {
+        id: 'insuranceCollection-standard',
+        title: 'Standard Insurance Partners',
+        schemaType: 'insuranceCollection',
+        value: {
+          internalName: 'Standard Insurance Partners',
+        },
+      },
+      {
+        id: 'insuranceCollection-corporate',
+        title: 'Corporate Partners',
+        schemaType: 'insuranceCollection',
+        value: {
+          internalName: 'Corporate Partners',
+        },
+      },
+    ],
   },
 
   document: {

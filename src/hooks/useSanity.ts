@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import type { Specialist } from "@/lib/sanity/specialist-types";
-import { sanityClient } from "@/lib/sanityClient";
+import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { useSanityContentLang } from "@/lib/sanity/content-lang";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import {
@@ -29,6 +29,7 @@ import {
   type ContactRequestDialogCopy,
 } from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
+import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
 import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
 import { useHomepageInitialData } from "@/components/homepage/HomepageDataProvider";
@@ -101,7 +102,7 @@ const fetchSanity = async <T>(
   const resolved: "no" | "en" =
     lang || (params?.lang === "en" ? "en" : "no");
   try {
-    const data = await sanityClient.fetch<T>(query, {
+    const data = await fetchSanityGroqBrowser<T>(query, {
       ...params,
       lang: resolved,
     });
@@ -433,7 +434,8 @@ export const useTreatmentCategory = (slug: string) => {
           name: t.title,
           path: t.href,
         })),
-        faqs: [] as { question: string; answer: string }[],
+        faqs: data.faqs ?? [],
+        faqSectionTitle: data.faqSectionTitle,
       }
     : null;
 
@@ -623,7 +625,11 @@ export const usePricingPage = () => {
     queryKey: ["sanity", "pricingPage", lang],
     queryFn: async () => {
       const data = await fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang);
-      return withPageSections(data);
+      const withSections = withPageSections(data);
+      return {
+        ...withSections,
+        faqs: resolveFaqsFromCollection(withSections?.faqCollection, withSections?.faqs),
+      };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -841,7 +847,12 @@ export const useClinic = (slug: string) => {
     queryFn: async (): Promise<any> => {
       const data = await fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
-      return { ...data, ...normalizeClinicRow(data as Record<string, unknown>), pageSections: normalizePageSections(data.pageSections) };
+      return {
+        ...data,
+        ...normalizeClinicRow(data as Record<string, unknown>),
+        faqs: resolveFaqsFromCollection(data.faqCollection, data.faqs),
+        pageSections: normalizePageSections(data.pageSections),
+      };
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
@@ -1094,7 +1105,9 @@ export const useServiceCategoriesFromSanity = () => {
 
       const seen = new Set<string>();
       const unique = data.filter((cat) => {
-        const id = cat.categoryId || cat.slug;
+        const id =
+          typeof cat.categoryId === "string" ? cat.categoryId.trim() : "";
+        if (!id) return false;
         if (seen.has(id)) return false;
         seen.add(id);
         return true;
@@ -1109,33 +1122,64 @@ export const useServiceCategoriesFromSanity = () => {
         (cat) => cat._createdAt
       );
 
-      return sortedCategories.map((cat) => ({
-        id: cat.categoryId || cat.slug,
-        label: textForSort(cat.title, lang) || cat.categoryId || cat.slug,
-        path: categoryLandingPath(cat.categoryId || cat.slug, lang),
-        subcategories: applyListingSort(
-          cat.treatments || [],
-          sortSettings?.treatmentsSort,
-          lang,
-          (t: any) => t.title || t.slug,
-          (t: any) => t.sortOrder,
-          (t: any) => t._createdAt
-        ).map((t: any) => ({
-          id: t.slug,
-          label: textForSort(t.title, lang) || t.slug,
-          path: `/behandlinger/${behandlingerCategorySegment(
-            cat.categoryId || cat.slug,
+      return sortedCategories
+        .map((cat) => {
+          const categoryId =
+            typeof cat.categoryId === "string" ? cat.categoryId.trim() : "";
+          const label =
+            textForSort(cat.title, lang) || categoryId || cat.slug || "";
+          if (!categoryId || !label) return null;
+
+          // Drop null join slots + draft treatments before sort/map (never crash).
+          const treatments = (cat.treatments || []).filter(
+            (t: any) =>
+              Boolean(t) &&
+              typeof t._id === "string" &&
+              !t._id.startsWith("drafts."),
+          );
+
+          const subcategories = applyListingSort(
+            treatments,
+            sortSettings?.treatmentsSort,
             lang,
-          )}/${t.slug}`,
-          items: sortByLabel(t.subItems || [], (item: any) => item.label)
-            .map((item: any) => ({
-              label: typeof item.label === "string" ? item.label.trim() : "",
-              anchor: item.anchor || undefined,
-              path: item.path || undefined,
-            }))
-            .filter((item) => item.label.length > 0),
-        })),
-      }));
+            (t: any) => t.title || t.slug,
+            (t: any) => t.sortOrder,
+            (t: any) => t._createdAt
+          )
+            .map((t: any) => {
+              const slug = typeof t.slug === "string" ? t.slug.trim() : "";
+              const treatmentLabel =
+                textForSort(t.title, lang) || slug || "";
+              if (!slug || !treatmentLabel) return null;
+              return {
+                id: slug,
+                label: treatmentLabel,
+                path: `/behandlinger/${behandlingerCategorySegment(
+                  categoryId,
+                  lang,
+                )}/${slug}`,
+                items: sortByLabel(t.subItems || [], (item: any) => item.label)
+                  .map((item: any) => ({
+                    label:
+                      typeof item.label === "string" ? item.label.trim() : "",
+                    anchor: item.anchor || undefined,
+                    path: item.path || undefined,
+                  }))
+                  .filter((item) => item.label.length > 0),
+              };
+            })
+            .filter(
+              (sub): sub is NonNullable<typeof sub> => sub !== null,
+            );
+
+          return {
+            id: categoryId,
+            label,
+            path: categoryLandingPath(categoryId, lang),
+            subcategories,
+          };
+        })
+        .filter((cat): cat is NonNullable<typeof cat> => cat !== null);
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -1172,19 +1216,19 @@ export const useGuidePage = () => {
     queryKey: ["sanity", "guidePage", lang],
     queryFn: async () => {
       const data = await fetchSanity<{
+        breadcrumbHome?: string;
         heroTitle?: string;
         heroSubtitle?: string;
-        showCategorySections?: boolean;
-        ctaTitle?: string;
-        ctaSubtitle?: string;
-        ctaButtonLabel?: string;
-        ctaButtonPath?: string;
-        categories?: Array<{
+        heroMedia?: unknown;
+        primaryCtaLabel?: string;
+        primaryCtaPath?: string;
+        categoriesIntroTitle?: string;
+        categoriesIntroDescription?: string;
+        guideSections?: Array<{
+          _key?: string;
           title?: string;
-          slug?: string;
-          description?: string;
-          heroImage?: string;
-          treatments?: Array<{ title?: string }>;
+          description?: unknown;
+          image?: string;
         }>;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
         geoSummary?: string;

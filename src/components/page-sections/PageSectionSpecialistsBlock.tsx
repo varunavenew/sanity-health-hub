@@ -86,7 +86,7 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
         }
         eyebrow={config.eyebrow || undefined}
         title={config.title || undefined}
-        description={config.description || undefined}
+        description={config.description?.trim() ? config.description : ""}
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
       />

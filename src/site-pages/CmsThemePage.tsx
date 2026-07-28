@@ -9,7 +9,7 @@ import { VideoPlayer } from "@/components/ui/video-player";
 import { useThemePage } from "@/hooks/useSanity";
 import { useNavigate, useParams } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 
 type Props = {
   isChatOpen: boolean;

@@ -1,53 +1,109 @@
 // Schema: Pricing Page
-// Aligned with migration data: title, introText, priceCategories[], insuranceNote, seo
-import { PricingIcon } from './icons'
-import { i18nSlugFieldFromTitle } from './i18n'
-import { geoSummaryField } from './geoSummary'
-import { pageSectionsField } from './pageSections'
+import {PricingIcon} from './icons'
+import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {geoSummaryField} from './geoSummary'
+import {pageSectionsFieldForGroup} from './pageSections'
+import {
+  faqCollectionField,
+  seoFieldsetProps,
+  singletonPageFieldsets,
+  singletonPageGroups,
+  testimonialsFieldsetProps,
+} from './singletonPageLayout'
+import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
+import {pricingPageEditorConfig} from '../sanity/page-editor/pages/pricingSections'
 
-const pickNo = (v: any) =>
-  Array.isArray(v)
-    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-    : (v || '')
+const PRICING_SHARED_SECTIONS = [
+  'pageSectionSpecialists',
+  'pageSectionArticles',
+  'pageSectionBookingCta',
+] as const
 
 export default {
   name: 'pricingPage',
   title: 'Pricing',
   type: 'document',
   icon: PricingIcon,
+  components: {
+    input: createPageSectionDocumentInput(pricingPageEditorConfig),
+  },
+  groups: [...singletonPageGroups],
+  fieldsets: [...singletonPageFieldsets],
   fields: [
     {
       name: 'title',
       title: 'Page Title',
       type: 'internationalizedArrayString',
+      group: 'hero',
       validation: (Rule: any) => Rule.required(),
     },
-    i18nSlugFieldFromTitle('title'),
+    {...i18nSlugFieldFromTitle('title', {group: 'hero'})},
     {
       name: 'heroImage',
       title: 'Hero image',
       type: 'image',
-      options: { hotspot: true },
+      group: 'hero',
+      options: {hotspot: true},
     },
     {
       name: 'introText',
-      title: 'Intro text',
+      title: 'Subtitle / intro text',
       type: 'internationalizedArrayText',
+      group: 'hero',
+    },
+    {
+      name: 'testimonials',
+      title: 'Testimonials',
+      type: 'array',
+      ...testimonialsFieldsetProps,
+      of: [{type: 'reference', to: [{type: 'testimonial'}]}],
+      description:
+        'Patient quotes used ONLY on Pricing. These are NOT Google Reviews — manage Google Reviews in Content Library → Google Reviews.',
+    },
+    {
+      name: 'testimonialsTitle',
+      title: 'Testimonials heading',
+      type: 'internationalizedArrayString',
+      ...testimonialsFieldsetProps,
+      description: 'Heading above the testimonial cards (not Google Reviews).',
+    },
+    {
+      name: 'faqTitle',
+      title: 'FAQ heading',
+      type: 'internationalizedArrayString',
+      group: 'content',
+    },
+    faqCollectionField('content'),
+    {
+      name: 'faqs',
+      title: 'Previous FAQ list (legacy)',
+      type: 'array',
+      group: 'content',
+      fieldset: 'legacy',
+      of: [{type: 'reference', to: [{type: 'faq'}]}],
+      description:
+        'Legacy backup. Website dual-reads this only when no FAQ Collection is linked.',
+      hidden: ({document}: {document?: {faqCollection?: unknown}}) =>
+        Boolean(document?.faqCollection),
     },
     {
       name: 'priceCategories',
-      title: 'Price categories',
+      title: 'Price categories (legacy)',
       type: 'array',
+      group: 'content',
+      fieldset: 'legacy',
+      description:
+        'Not used on the live Pricing page — prices come from the booking API. Kept for rollback only.',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'categoryName', title: 'Category name', type: 'internationalizedArrayString' },
+            {name: 'categoryName', title: 'Category name', type: 'internationalizedArrayString'},
             {
               name: 'category',
               title: 'Treatment category',
               type: 'reference',
-              to: [{ type: 'treatmentCategory' }],
+              to: [{type: 'treatmentCategory'}],
             },
             {
               name: 'items',
@@ -57,14 +113,19 @@ export default {
                 {
                   type: 'object',
                   fields: [
-                    { name: 'name', title: 'Treatment', type: 'internationalizedArrayString' },
-                    { name: 'price', title: 'Price (NOK)', type: 'number' },
-                    { name: 'priceLabel', title: 'Price display', type: 'internationalizedArrayString', description: 'E.g. "from 2500,-" or "1500,- per hour"' },
-                    { name: 'note', title: 'Merknad', type: 'internationalizedArrayString' },
+                    {name: 'name', title: 'Treatment', type: 'internationalizedArrayString'},
+                    {name: 'price', title: 'Price (NOK)', type: 'number'},
+                    {
+                      name: 'priceLabel',
+                      title: 'Price display',
+                      type: 'internationalizedArrayString',
+                      description: 'E.g. "from 2500,-"',
+                    },
+                    {name: 'note', title: 'Note', type: 'internationalizedArrayString'},
                   ],
                   preview: {
-                    select: { title: 'name', subtitle: 'price', priceLabel: 'priceLabel' },
-                    prepare({ title, subtitle, priceLabel }: any) {
+                    select: {title: 'name', subtitle: 'price', priceLabel: 'priceLabel'},
+                    prepare({title, subtitle, priceLabel}: any) {
                       const label = pickNo(priceLabel)
                       return {
                         title: pickNo(title) || 'Unnamed',
@@ -77,55 +138,36 @@ export default {
             },
           ],
           preview: {
-            select: { title: 'categoryName' },
-            prepare({ title }: any) {
-              return { title: pickNo(title) || 'Unnamed' }
+            select: {title: 'categoryName'},
+            prepare({title}: any) {
+              return {title: pickNo(title) || 'Unnamed'}
             },
           },
         },
       ],
     },
     {
-      name: 'testimonials',
-      title: 'Feedback',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'testimonial' }] }],
-      description: 'Select reviews to display on the pricing page',
-    },
-    {
-      name: 'testimonialsTitle',
-      title: 'Reviews Heading',
-      type: 'internationalizedArrayString',
-    },
-    {
-      name: 'faqTitle',
-      title: 'FAQ Heading',
-      type: 'internationalizedArrayString',
-    },
-    {
-      name: 'faqs',
-      title: 'FAQs',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      description: 'Select FAQ rows to display on the pricing page',
-    },
-    {
       name: 'insuranceNote',
-      title: 'Insurance information',
+      title: 'Insurance note (legacy)',
       type: 'internationalizedArrayText',
+      group: 'content',
+      fieldset: 'legacy',
+      description: 'Not rendered on the website today. Use Insurance Collection bands or the Insurance page.',
     },
-    pageSectionsField,
+    pageSectionsFieldForGroup('content', 'sharedSections', PRICING_SHARED_SECTIONS),
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      ...seoFieldsetProps,
+      validation: requiredNoEnSeo,
     },
-    geoSummaryField,
+    {...geoSummaryField, ...seoFieldsetProps},
   ],
   preview: {
-    select: { title: 'title' },
-    prepare({ title }: any) {
-      return { title: pickNo(title) || 'Pricing' }
+    select: {title: 'title'},
+    prepare({title}: any) {
+      return {title: pickNo(title) || 'Pricing'}
     },
   },
 }

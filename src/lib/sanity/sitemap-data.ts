@@ -1,7 +1,11 @@
 import { createClient } from "@sanity/client";
+import {
+  requireSanityDataset,
+  requireSanityProjectId,
+} from "@/lib/sanity/dataset-env";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "9jhqpk3a";
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+const projectId = requireSanityProjectId();
+const dataset = requireSanityDataset();
 
 const slugProjection = `{
   "no": slug[language == "no"][0].value.current,
@@ -34,11 +38,13 @@ function collectSlugs(rows: SlugRow[]): string[] {
 }
 
 export async function fetchSitemapSlugs(): Promise<SitemapSlugs> {
+  const token = process.env.SANITY_TOKEN?.trim();
   const client = createClient({
-    projectId: projectId || "9jhqpk3a",
+    projectId,
     dataset,
     apiVersion: "2024-01-01",
-    useCdn: true,
+    useCdn: !token,
+    ...(token ? { token } : {}),
   });
   const raw = await client.fetch<{
     clinics: SlugRow[];

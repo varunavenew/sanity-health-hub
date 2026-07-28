@@ -1,6 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
+import { CmsMedia } from "@/components/media/CmsMedia";
 import { Link, useNavigate } from "@/lib/router";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -15,6 +16,7 @@ import { SplitHero } from "@/components/layout/SplitHero";
 import { Button } from "@/components/ui/button";
 import { clinics as staticClinics } from "@/data/clinicServices";
 import type { ImageRef } from "@/lib/media";
+import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
 import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
@@ -164,7 +166,14 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         {list.map((clinic: (typeof list)[number], idx: number) => {
           const detailHref = `/klinikker/${clinic.slug}`;
           const serviceCount = clinic.services?.length || 0;
-          const image = clinic.primaryImage || clinicImages[clinic.slug];
+          const resolved = resolveCmsMedia(
+            (clinic as { heroMedia?: unknown }).heroMedia,
+            { mediaType: "image", imageUrl: clinic.primaryImage },
+          );
+          const fallbackImage =
+            (resolved?.kind === "image" ? resolved.src : resolved?.poster) ||
+            clinic.primaryImage ||
+            clinicImages[clinic.slug];
           const reverse = idx % 2 === 1;
 
           return (
@@ -179,9 +188,16 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                 }`}
                 aria-label={`Les mer om CMedical ${clinic.label}`}
               >
-                {image ? (
+                {resolved?.kind === "video" ? (
+                  <CmsMedia
+                    media={resolved}
+                    alt={`CMedical ${clinic.label}`}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    interactive={false}
+                  />
+                ) : fallbackImage ? (
                   <AssetImg
-                    src={image}
+                    src={fallbackImage}
                     alt={`CMedical ${clinic.label}`}
                     loading="lazy"
                     width={1280}

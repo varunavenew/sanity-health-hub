@@ -1,9 +1,10 @@
 import { TREATMENT_BY_SLUG_QUERY } from "@/lib/queries";
 import { categorySlugForFetch } from "@/lib/sanity/category-keys";
+import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sanityClient } from "@/lib/sanityClient";
+import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -48,9 +49,11 @@ export type TreatmentData = {
   description: string;
   heroImage?: string;
   heroImageAlt?: string;
+  heroMedia?: unknown;
   parentCategory?: string;
   parentSlug?: string;
   categoryNumericId?: number;
+  faqSectionTitle?: string;
   faqs?: { question: string; answer: string }[];
   // Layout fields (formerly nested under layout{})
   homeBreadcrumbLabel?: string;
@@ -165,17 +168,13 @@ export function mapTreatmentDocument(
     geoSummary: row("geoSummary"),
     heroImage: row("heroImage"),
     heroImageAlt: row("heroImageAlt"),
+    heroMedia: data.heroMedia,
     parentCategory: row("parentCategory"),
     parentSlug: row("parentSlug"),
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
-    faqs: ((data.faqs as unknown[]) || []).map((f) => {
-      const r = f as Record<string, unknown>;
-      return {
-        question: asPlainString(r.question),
-        answer: asPlainString(r.answer),
-      };
-    }),
+    faqSectionTitle: row("faqSectionTitle"),
+    faqs: resolveFaqsFromCollection(data.faqCollection, data.faqs),
     // Flat layout fields
     homeBreadcrumbLabel: row("homeBreadcrumbLabel"),
     srOnlyTitle: row("srOnlyTitle"),
@@ -351,7 +350,7 @@ export function mapTreatmentDocument(
   };
 }
 
-/** Server-side treatment payload — always hits Sanity directly (matches local dev). */
+/** Browser/client treatment payload — uses `/api/sanity/groq` proxy. */
 export async function fetchTreatmentData(
   categorySlug: string,
   treatmentSlug: string,
@@ -361,7 +360,7 @@ export async function fetchTreatmentData(
     categorySlug === "fertilitet"
       ? resolveFertilitetTreatmentSlug(treatmentSlug)
       : treatmentSlug;
-  const raw = await sanityClient.fetch<Record<string, unknown> | null>(
+  const raw = await fetchSanityGroqBrowser<Record<string, unknown> | null>(
     TREATMENT_BY_SLUG_QUERY,
     { categorySlug: categorySlugForFetch(categorySlug), treatmentSlug: resolvedSlug, lang },
   );

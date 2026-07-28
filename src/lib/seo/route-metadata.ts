@@ -370,14 +370,14 @@ export async function buildClinicsListingMetadata(
 
 const GUIDE_FALLBACK = {
   nb: {
-    title: "Våre Behandlinger | CMedical",
+    title: "Guide | CMedical",
     description:
-      "Spesialiserte behandlinger for kvinnen og mannens underliv. Gynekologi, fertilitet og urologi hos CMedical.",
+      "Utforsk behandlinger og tjenester hos CMedical. Velg kategori for å lese mer.",
   },
   en: {
-    title: "Our Treatments | CMedical",
+    title: "Guide | CMedical",
     description:
-      "Specialized treatments for women's and men's intimate health. Gynecology, fertility and urology at CMedical.",
+      "Explore treatments and services at CMedical. Choose a category to learn more.",
   },
 } as const;
 
@@ -389,12 +389,16 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
   const { title, description } = resolveMetaStrings(seo, lang, GUIDE_FALLBACK);
   const resolvedTitle = plainMetaString(
     seo?.metaTitle,
-    data?.heroTitle?.trim() || title,
+    data?.categoriesIntroTitle?.trim() ||
+      data?.heroTitle?.trim() ||
+      title,
     sanityLang,
   );
   const resolvedDescription = plainMetaString(
     seo?.metaDescription,
-    data?.heroSubtitle?.trim().slice(0, 160) || description,
+    data?.categoriesIntroDescription?.trim().slice(0, 160) ||
+      data?.heroSubtitle?.trim().slice(0, 160) ||
+      description,
     sanityLang,
   );
 

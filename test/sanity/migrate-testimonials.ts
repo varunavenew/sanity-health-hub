@@ -1,8 +1,5 @@
 // Migration: Testimonials
-import { createClient } from '@sanity/client'
-import { config } from '../sanity/config'
-
-const client = createClient({ ...config, useCdn: false, token: process.env.SANITY_TOKEN })
+import { sanityClient as client } from './config'
 
 const testimonials = [
   {

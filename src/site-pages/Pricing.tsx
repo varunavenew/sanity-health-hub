@@ -10,7 +10,7 @@ import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { Link } from "@/lib/router";
 import { useParams } from "@/lib/router";
 import { usePricingPage } from "@/hooks/useSanity";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
 interface PageProps { isChatOpen: boolean }

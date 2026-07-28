@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { Quote, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
-import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
+import { useGoogleReviews, useGoogleReviewSettings, useSiteSettings } from "@/hooks/useSanity";
+import { resolveBusinessReputationRatings } from "@/lib/sanity/business-reputation-dual-read";
 
 const categoryKeywords: Record<string, string[]> = {
   gynekologi: ["gynekolog", "kvinne", "ida", "siri", "eggfrys", "egg", "ivf", "osteopat", "ingvild"],
@@ -36,6 +37,7 @@ interface CategoryReviewsProps {
 export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsProps) => {
   const { data: allReviews = [] } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
+  const { data: siteSettings } = useSiteSettings();
 
   const reviews = useMemo(() => {
     const keywords = categoryKeywords[categoryId] || [];
@@ -58,8 +60,12 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   }, [allReviews, categoryId]);
 
   const duplicated = [...reviews, ...reviews];
-  const googleRating = settings?.googleAverageRating ?? 4.6;
-  const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
+  const ratings = resolveBusinessReputationRatings(
+    siteSettings?.businessReputation,
+    settings,
+  );
+  const googleRating = ratings.googleAverageRating;
+  const legelistenRating = ratings.legelistenAverageRating;
 
   if (reviews.length === 0) return null;
 
@@ -101,7 +107,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
       <div className="relative mt-8">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
-        <div className="flex gap-6 animate-scroll-left hover:[animation-play-state:paused]">
+        <div className="flex w-max gap-6 animate-scroll-left hover:[animation-play-state:paused]">
           {duplicated.map((review, index) => {
             const isAnonymous = review.name === "Anonym";
             return (

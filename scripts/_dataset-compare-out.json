@@ -1,0 +1,456 @@
+{
+  "developer": {
+    "about": {
+      "_id": "aboutPage"
+    },
+    "brokenRefs": 0,
+    "careers": {
+      "_id": "careersPage"
+    },
+    "clinics": {
+      "_id": "clinicsPage",
+      "pageSectionsCount": 1
+    },
+    "contact": {
+      "_id": "contactPage",
+      "pageSectionsCount": 1
+    },
+    "counts": {
+      "article": 32,
+      "clinicPage": 5,
+      "ctaCollection": 15,
+      "faq": 281,
+      "faqCollection": 122,
+      "googleReview": 29,
+      "insuranceCollection": 2,
+      "specialist": 58,
+      "treatment": 57,
+      "treatmentCategory": 6
+    },
+    "ctaSample": [
+      {
+        "_id": "migrated-cta-collection.c715034a8a9c7f89",
+        "internalName": "Bekkestua clinic Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.1e99f3f466ec7f9d",
+        "internalName": "Default Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.8a9fe69d5dc78649",
+        "internalName": "Fertilitet Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.33ea61bd3190c308",
+        "internalName": "Flere fagområder Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.9930a1adad2b29cb",
+        "internalName": "Fosterdiagnostikk Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.3d18bc512a8b365f",
+        "internalName": "Graviditet category Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.760b317b8be4e216",
+        "internalName": "Graviditet treatments Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.guidePage",
+        "internalName": "Guide page Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.a03ee8e4994a4abb",
+        "internalName": "Gynekologi Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.781f7cb0e3f0983f",
+        "internalName": "Moelv clinic Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.c46dcb9bba76b8ab",
+        "internalName": "Moss clinic Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.da5deb1ad7a338f5",
+        "internalName": "Ortopedi Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.c574549d8db53c4b",
+        "internalName": "Pricing Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.f057bcba4925d993",
+        "internalName": "Ski clinic Booking CTA"
+      },
+      {
+        "_id": "migrated-cta-collection.ec36560bac1e9191",
+        "internalName": "Urologi Booking CTA"
+      }
+    ],
+    "dataset": "developer",
+    "drafts": 40,
+    "guide": {
+      "_id": "guidePage",
+      "categoriesIntroTitle": [
+        {
+          "_key": "no",
+          "_type": "internationalizedArrayStringValue",
+          "language": "no",
+          "value": "Våre Behandlinger"
+        },
+        {
+          "_key": "en",
+          "_type": "internationalizedArrayStringValue",
+          "language": "en",
+          "value": "Our Treatments"
+        }
+      ],
+      "guideSections": 6,
+      "hasCategoriesIntro": true,
+      "hasFeaturedCategories": null,
+      "hasLegacyCta": false,
+      "hasSeo": true,
+      "pageSectionTypes": [
+        "pageSectionBookingCta"
+      ],
+      "pageSectionsCount": 1,
+      "sectionTitles": [
+        [
+          {
+            "_key": "no",
+            "_type": "internationalizedArrayStringValue",
+            "language": "no",
+            "value": "Gynekologi"
+          },
+          {
+            "_key": "en",
+            "_type": "internationalizedArrayStringValue",
+            "language": "en",
+            "value": "Gynecology"
+          }
+        ],
+        [
+          {
+            "_key": "no",
+            "_type": "internationalizedArrayStringValue",
+            "language": "no",
+            "value": "Flere fagområder"
+          },
+          {
+            "_key": "en",
+            "_type": "internationalizedArrayStringValue",
+            "language": "en",
+            "value": "More specialties"
+          }
+        ],
+        [
+          {
+            "_key": "no",
+            "_type": "internationalizedArrayStringValue",
+            "language": "no",
+            "value": "Fertilitet"
+          },
+          {
+            "_key": "en",
+            "_type": "internationalizedArrayStringValue",
+            "language": "en",
+            "value": "Fertility"
+          }
+        ],
+        [
+          {
+            "_key": "no",
+            "_type": "internationalizedArrayStringValue",
+            "language": "no",
+            "value": "Graviditet og fostermedisin"
+          },
+          {
+            "_key": "en",
+            "_type": "internationalizedArrayStringValue",
+            "language": "en",
+            "value": "Pregnancy and fetal medicine"
+          }
+        ],
+        [
+          {
+            "_key": "no",
+            "_type": "internationalizedArrayStringValue",
+            "language": "no",
+            "value": "Ortopedi"
+          },
+          {
+            "_key": "en",
+            "_type": "internationalizedArrayStringValue",
+            "language": "en",
+            "value": "Orthopedics"
+          }
+        ],
+        [
+          {
+            "_key": "no",
+            "_type": "internationalizedArrayStringValue",
+            "language": "no",
+            "value": "Urologi"
+          },
+          {
+            "_key": "en",
+            "_type": "internationalizedArrayStringValue",
+            "language": "en",
+            "value": "Urology"
+          }
+        ]
+      ],
+      "seoTitleEn": null,
+      "seoTitleNo": null,
+      "title": null
+    },
+    "homepage": {
+      "_id": "homepage",
+      "faqCollectionRef": "faq-collection.homepage",
+      "hasBookingCta": true,
+      "hasInlineFaqs": true,
+      "hasSpecialistsSection": true,
+      "heroSlides": null,
+      "pageSectionTypes": [
+        "pageSectionSpecialists",
+        "pageSectionBookingCta"
+      ],
+      "pageSectionsCount": 2,
+      "specialistsDisplayMode": "all"
+    },
+    "insurance": {
+      "_id": "insurancePage",
+      "pageSectionsCount": 0,
+      "partners": 7
+    },
+    "insuranceSample": [
+      {
+        "_id": "migrated-insurance-collection.9b0c4e7de35caafd",
+        "internalName": "Graviditet Insurance Partners"
+      },
+      {
+        "_id": "migrated-insurance-collection.48bdfe01f72a4925",
+        "internalName": "Standard Insurance Partners"
+      }
+    ],
+    "mediaUsage": {
+      "categoriesWithMedia": 0,
+      "docsWithMediaObject": 0,
+      "treatmentsWithMedia": 0
+    },
+    "news": {
+      "_id": "newsPage",
+      "filterKeys": [
+        "all",
+        "patientStories",
+        "media",
+        "professional",
+        "newsFromUs"
+      ],
+      "filters": 5
+    },
+    "pageBandsWithCollection": {
+      "bookingCtaInlineOnly": 73,
+      "bookingCtaLinked": 0,
+      "insuranceInlineOnly": 63,
+      "insuranceLinked": 0
+    },
+    "pricing": {
+      "_id": "pricingPage",
+      "hasSeo": true,
+      "pageSectionsCount": 1
+    },
+    "published": 880,
+    "services": {
+      "_id": "servicesPage",
+      "hasSeo": true,
+      "pageSectionsCount": 2
+    },
+    "siteSettings": {
+      "_id": "siteSettings",
+      "footerLinks": 6,
+      "googleAvg": 4.6,
+      "hasBusinessReputation": true,
+      "legelistenAvg": 4.8,
+      "navItems": 6
+    },
+    "typeCounts": {
+      "aboutPage": 1,
+      "article": 32,
+      "bookingPage": 1,
+      "careersPage": 1,
+      "clinicPage": 5,
+      "clinicsPage": 1,
+      "contactPage": 1,
+      "ctaCollection": 15,
+      "faq": 281,
+      "faqCollection": 122,
+      "googleReview": 29,
+      "guidePage": 1,
+      "homepage": 1,
+      "insuranceCollection": 2,
+      "insurancePage": 1,
+      "jobListing": 4,
+      "listingSortSettings": 1,
+      "newsPage": 1,
+      "pricingPage": 1,
+      "privacyPolicyPage": 1,
+      "product": 20,
+      "sanity.fileAsset": 5,
+      "sanity.imageAsset": 206,
+      "servicesPage": 1,
+      "siteSettings": 1,
+      "specialist": 58,
+      "specialistsListingPage": 1,
+      "specialistsPage": 1,
+      "system.group": 11,
+      "system.retention": 1,
+      "testimonial": 6,
+      "themePage": 3,
+      "treatment": 57,
+      "treatmentCategory": 6,
+      "uiTranslations": 1
+    }
+  },
+  "production": {
+    "about": {
+      "_id": "aboutPage"
+    },
+    "brokenRefs": 0,
+    "careers": {
+      "_id": "careersPage"
+    },
+    "clinics": {
+      "_id": "clinicsPage",
+      "pageSectionsCount": 1
+    },
+    "contact": {
+      "_id": "contactPage",
+      "pageSectionsCount": 1
+    },
+    "counts": {
+      "article": 32,
+      "clinicPage": 5,
+      "ctaCollection": 0,
+      "faq": 34,
+      "faqCollection": 0,
+      "googleReview": 14,
+      "insuranceCollection": 0,
+      "specialist": 58,
+      "treatment": 73,
+      "treatmentCategory": 6
+    },
+    "ctaSample": [],
+    "dataset": "production",
+    "drafts": 38,
+    "guide": {
+      "_id": "guidePage",
+      "categoriesIntroTitle": null,
+      "guideSections": null,
+      "hasCategoriesIntro": false,
+      "hasFeaturedCategories": null,
+      "hasLegacyCta": true,
+      "hasSeo": false,
+      "pageSectionTypes": null,
+      "pageSectionsCount": null,
+      "sectionTitles": null,
+      "seoTitleEn": null,
+      "seoTitleNo": null,
+      "title": null
+    },
+    "homepage": {
+      "_id": "homepage",
+      "faqCollectionRef": null,
+      "hasBookingCta": true,
+      "hasInlineFaqs": true,
+      "hasSpecialistsSection": false,
+      "heroSlides": null,
+      "pageSectionTypes": [
+        "pageSectionSpecialists",
+        "pageSectionBookingCta"
+      ],
+      "pageSectionsCount": 2,
+      "specialistsDisplayMode": null
+    },
+    "insurance": {
+      "_id": "insurancePage",
+      "pageSectionsCount": 0,
+      "partners": 7
+    },
+    "insuranceSample": [],
+    "mediaUsage": {
+      "categoriesWithMedia": 0,
+      "docsWithMediaObject": 0,
+      "treatmentsWithMedia": 0
+    },
+    "news": {
+      "_id": "newsPage",
+      "filterKeys": [
+        null
+      ],
+      "filters": 1
+    },
+    "pageBandsWithCollection": {
+      "bookingCtaInlineOnly": 69,
+      "bookingCtaLinked": 0,
+      "insuranceInlineOnly": 6,
+      "insuranceLinked": 0
+    },
+    "pricing": {
+      "_id": "pricingPage",
+      "hasSeo": true,
+      "pageSectionsCount": 1
+    },
+    "published": 496,
+    "services": {
+      "_id": "servicesPage",
+      "hasSeo": true,
+      "pageSectionsCount": 2
+    },
+    "siteSettings": {
+      "_id": "siteSettings",
+      "footerLinks": 6,
+      "googleAvg": null,
+      "hasBusinessReputation": false,
+      "legelistenAvg": null,
+      "navItems": 6
+    },
+    "typeCounts": {
+      "aboutPage": 1,
+      "article": 32,
+      "bookingPage": 1,
+      "careersPage": 1,
+      "clinicPage": 5,
+      "clinicsPage": 1,
+      "contactPage": 1,
+      "faq": 34,
+      "googleReview": 14,
+      "guidePage": 1,
+      "homepage": 1,
+      "insurancePage": 1,
+      "jobListing": 4,
+      "listingSortSettings": 1,
+      "newsPage": 1,
+      "pricingPage": 1,
+      "privacyPolicyPage": 1,
+      "product": 20,
+      "sanity.fileAsset": 5,
+      "sanity.imageAsset": 206,
+      "servicesPage": 1,
+      "siteSettings": 1,
+      "specialist": 58,
+      "specialistsListingPage": 1,
+      "specialistsPage": 1,
+      "system.group": 11,
+      "system.retention": 1,
+      "system.schema": 1,
+      "testimonial": 6,
+      "themePage": 3,
+      "treatment": 73,
+      "treatmentCategory": 6,
+      "uiTranslations": 1
+    }
+  }
+}

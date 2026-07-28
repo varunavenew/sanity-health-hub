@@ -51,7 +51,7 @@ const ReviewCard = ({ review }: { review: HomepageReview }) => {
         "{displayText}{isLongText && !isExpanded && '...'}"
       </p>
       {isLongText && (
-        <button 
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-sm text-brand-dark/60 hover:text-brand-dark underline mb-4"
         >
@@ -123,7 +123,7 @@ export const GoogleReviewsSection = () => {
       <div className="relative mt-8">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
-        <div className="flex gap-6 animate-scroll-left hover:[animation-play-state:paused]">
+        <div className="flex w-max gap-6 animate-scroll-left hover:[animation-play-state:paused]">
           {duplicatedReviews.map((review, index) => (
             <ReviewCard key={`${review.id}-${index}`} review={review} />
           ))}
@@ -141,7 +141,7 @@ export const GoogleReviewsSection = () => {
                 <p className="text-white/70 text-sm font-light">{section.ctaSubtitle}</p>
               ) : null}
             </div>
-            <Button 
+            <Button
               variant="cta-dark"
               size="lg"
               onClick={() => navigate('/booking')}

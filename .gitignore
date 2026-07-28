@@ -1,34 +1,73 @@
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.env
 
-node_modules
-dist
-dist-ssr
+# Environment files
+.env*
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Local configuration
 *.local
 
-# Next.js build output (never commit — exceeds GitHub file limits)
+# Next.js build output (never commit)
 .next/
+.next-build/
+.next-audit/
+.next-work/
 out/
 
 # TypeScript incremental build cache
 *.tsbuildinfo
 
+# Build / cache
+coverage/
+.cache/
+.turbo/
+
+# Temporary files
+tmp/
+temp/
+
+# Optional local backup folders
+backup/
+backups/
+
+# Archives / backups
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Visual Studio
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.vercel
-.env*
+
+# Vercel
+.vercel/
+
+# Documentation (only keep if docs are NOT part of the repository)
+docs/

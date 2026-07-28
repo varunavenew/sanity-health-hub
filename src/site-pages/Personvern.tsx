@@ -3,7 +3,7 @@
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
-import { urlFor } from "@/lib/sanityClient";
+import { urlFor } from "@/lib/sanity/image-url";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { usePrivacyPolicyPage } from "@/hooks/useSanity";

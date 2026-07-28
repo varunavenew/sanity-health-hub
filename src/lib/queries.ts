@@ -1,5 +1,6 @@
 // Centralized Sanity GROQ queries
 import { localizedSeoObject } from "@/lib/sanity/seo-groq";
+import { MEDIA_OBJECT_PROJECTION } from "@/lib/sanity/media-dual-read";
 import {
   localizedRefSlugField,
   localizedSlug,
@@ -104,11 +105,26 @@ const localizedFaqRow = `
   )
 `;
 
+const faqCollectionProjection = `"faqCollection": faqCollection->{
+  _id,
+  title,
+  "questions": questions[]->{
+    sortOrder,
+    ${localizedFaqRow}
+  }
+}`;
+
+const legacyFaqsRefsProjection = `"faqs": faqs[]->{
+  sortOrder,
+  ${localizedFaqRow}
+}`;
+
 const localizedGoogleReviewRow = `_id, author, rating, ${i18nText('text')}, date`;
 
 /** Treatment category fields used on specialist profile featured-service block. */
 const specialistCategoryProjection = `
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "heroImage": heroImage.asset->url
 `;
 
@@ -116,6 +132,8 @@ const i18nBlockContent = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
 
 const publishedClinicFilter = `!(_id in path("drafts.**"))`;
+/** Prefer published documents — empty drafts (e.g. drafts.homepage) must not win `[0]`. */
+const publishedOnly = `!(_id in path("drafts.**"))`;
 
 /** Shared row shape for clinic lists (grid, about section, footer). */
 export const CLINIC_LIST_ROW_PROJECTION = `
@@ -128,6 +146,30 @@ export const CLINIC_LIST_ROW_PROJECTION = `
   address,
   phone,
   ${i18nString("hours")}
+`;
+
+/** Booking CTA / insurance partner body — shared by inline band + collection docs. */
+const pageSectionBookingCtaBodyProjection = `
+  ${i18nPageSectionString("primaryLabel")},
+  ${i18nPageSectionString("secondaryLabel")},
+  secondaryPath,
+  primaryPath,
+  ${i18nPageSectionText("subtitle")},
+  showSecondaryButton,
+  backgroundColor,
+  textColor,
+  "bookingCategory": bookingCategory->{ categoryId },
+  quickInfoItems[]{
+    icon,
+    "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value, text)
+  }
+`;
+
+const pageSectionInsuranceBodyProjection = `
+  partners[]{
+    key,
+    "label": coalesce(label[language == $lang][0].value, label[_key == $lang][0].value, label[language == "no"][0].value, label[_key == "no"][0].value, label)
+  }
 `;
 
 /** Modular specialists / articles blocks — append inside page GROQ projections */
@@ -147,18 +189,14 @@ export const PAGE_SECTIONS_GROQ = `
     ctaPath,
     ${i18nPageSectionString("seeAllLabel")},
     seeAllHref,
-    ${i18nPageSectionString("primaryLabel")},
-    ${i18nPageSectionString("secondaryLabel")},
-    secondaryPath,
-    primaryPath,
-    ${i18nPageSectionText("subtitle")},
-    showSecondaryButton,
+    ${pageSectionBookingCtaBodyProjection},
     "image": image.asset->url,
     "imageAlt": coalesce(image.alt[language == $lang][0].value, image.alt[_key == $lang][0].value, image.alt[language == "no"][0].value, image.alt[_key == "no"][0].value, image.alt),
-    "bookingCategory": bookingCategory->{ categoryId },
-    quickInfoItems[]{
-      icon,
-      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value, text)
+    "ctaCollection": ctaCollection->{
+      _id,
+      internalName,
+      ${i18nPageSectionString("title")},
+      ${pageSectionBookingCtaBodyProjection}
     },
     "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
     "specialists": specialists[]->{
@@ -177,14 +215,18 @@ export const PAGE_SECTIONS_GROQ = `
       "date": publishedAt,
       category
     },
-    partners[]{
-      key,
-      "label": coalesce(label[language == $lang][0].value, label[_key == $lang][0].value, label[language == "no"][0].value, label[_key == "no"][0].value, label)
+    ${pageSectionInsuranceBodyProjection},
+    "insuranceCollection": insuranceCollection->{
+      _id,
+      internalName,
+      ${i18nPageSectionString("eyebrow")},
+      ${i18nPageSectionString("title")},
+      ${pageSectionInsuranceBodyProjection}
     }
   }
 `;
 
-export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
+export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   ${i18nString("title")},
   ${i18nString("tagline")},
   heroBanner{
@@ -193,12 +235,17 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       ${i18nString("subheading")},
       ${i18nString("ctaText")},
       ${i18nString("ctaLink")},
+      "media": media${MEDIA_OBJECT_PROJECTION},
       "image": image.asset->url,
       "mobileImage": mobileImage.asset->url,
       "videoUrl": videoFile.asset->url
     }
   },
-  "serviceCategories": serviceCategories[]->{ _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug}, "heroImage": heroImage.asset->url },
+  "serviceCategories": serviceCategories[]->{
+    _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug},
+    "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
+    "heroImage": heroImage.asset->url
+  },
   valueBadges[]{icon, ${i18nString("label")}},
   patientTrustBanner{
     value,
@@ -243,6 +290,14 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
     "image": image.asset->url
   },
   ${i18nString("faqSectionTitle")},
+  "faqCollection": faqCollection->{
+    _id,
+    title,
+    "questions": questions[]->{
+      sortOrder,
+      ${localizedFaqRow}
+    }
+  },
   "faqs": faqs[]->{
     sortOrder,
     ${localizedFaqRow}
@@ -260,6 +315,43 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
     ${i18nText("text")},
     date
   },
+  specialistsSection{
+    ${i18nString("heading")},
+    ${i18nText("intro")},
+    displayMode,
+    layout,
+    maxItems,
+    randomizeOrder,
+    ${i18nString("seeAllLabel")},
+    seeAllLink->{ _type, ${localizedSlug} },
+    "specialists": specialists[]->{
+      _id,
+      name,
+      ${localizedSlug}
+    },
+    "categories": categories[]->{
+      _id,
+      categoryId,
+      ${localizedSlug}
+    }
+  },
+  bookingCta{
+    _type,
+    _key,
+    ${i18nPageSectionString("eyebrow")},
+    ${i18nPageSectionString("title")},
+    ${i18nPageSectionText("description")},
+    variant,
+    ${pageSectionBookingCtaBodyProjection},
+    "image": image.asset->url,
+    "imageAlt": coalesce(image.alt[language == $lang][0].value, image.alt[_key == $lang][0].value, image.alt[language == "no"][0].value, image.alt[_key == "no"][0].value, image.alt),
+    "ctaCollection": ctaCollection->{
+      _id,
+      internalName,
+      ${i18nPageSectionString("title")},
+      ${pageSectionBookingCtaBodyProjection}
+    }
+  },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -270,6 +362,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
   bookingCategoryIds, sortOrder,
   "clinics": clinics[]->title,
   ${localizedSlug},
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "image": photo.asset->url,
   "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
   ${GEO_SUMMARY},
@@ -284,10 +377,19 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
     ${localizedSlug}
   },
   ${localizedSlug},
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "image": photo.asset->url,
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
   ${i18nStringLocale("faqSectionTitle")},
+  "faqCollection": faqCollection->{
+    _id,
+    title,
+    "questions": questions[]->{
+      sortOrder,
+      ${localizedFaqRow}
+    }
+  },
   "faqs": faqs[]->{
     sortOrder,
     category,
@@ -322,7 +424,7 @@ export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_created
   _id, author, rating, ${i18nText("text")}, date
 }`;
 
-export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][0]{
+export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings" && ${publishedOnly}][0]{
   ${i18nStringLocale("heading")},
   ${i18nStringLocale("subheading")},
   googleAverageRating,
@@ -515,12 +617,27 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   ${i18nText('geoSummary')},
   ${i18nText('missingLandingMessage')},
+  heroMediaType,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "heroImage": heroImage.asset->url,
   "heroVideo": heroVideo.asset->url,
   stats[]{
     value,
     ${i18nStringLocale("label")},
     ${i18nStringLocale("sub")}
+  },
+  ${i18nString("faqSectionTitle")},
+  "faqCollection": faqCollection->{
+    _id,
+    title,
+    "questions": questions[]->{
+      sortOrder,
+      ${localizedFaqRow}
+    }
+  },
+  "faqs": faqs[]->{
+    sortOrder,
+    ${localizedFaqRow}
   },
   ${localizedSeoObject},
   ${CATEGORY_TREATMENTS_GROQ},
@@ -546,12 +663,25 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${i18nString('subtitle')},
   ${i18nText('description')},
   ${i18nText('geoSummary')},
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "heroImage": heroImage.asset->url,
   ${i18nString('heroImageAlt')},
   ${localizedParentCategory},
   ${localizedRefSlugField("category", "parentSlug")},
   "categoryNumericId": category->categoryNumericId,
-  faqs[]{${localizedFaqRow}},
+  ${i18nString("faqSectionTitle")},
+  "faqCollection": faqCollection->{
+    _id,
+    title,
+    "questions": questions[]->{
+      sortOrder,
+      ${localizedFaqRow}
+    }
+  },
+  "faqs": faqs[]{
+    "sortOrder": coalesce(@->sortOrder, sortOrder),
+    ${localizedFaqRow}
+  },
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
     "image": photo.asset->url,
@@ -648,7 +778,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${localizedSeoObject}
 }`;
 
-export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
+export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage" && ${publishedOnly}][0]{
   ${i18nString('title')},
   ${localizedSlug},
   ${i18nBlockContent('body')},
@@ -659,7 +789,7 @@ export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
+export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && ${publishedOnly}][0]{
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
   ${i18nString('heroEyebrow')},
@@ -724,7 +854,7 @@ const CONTACT_REQUEST_DIALOG_I18N_FIELDS = [
     : i18nString(field),
 );
 
-export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
+export const CONTACT_PAGE_QUERY = `*[_type == "contactPage" && ${publishedOnly}][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
   phone,
@@ -750,7 +880,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
+export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
   ${localizedSlug},
   ${i18nString("label")},
   ${i18nString("title")},
@@ -892,7 +1022,7 @@ const BOOKING_PAGE_I18N_TEXT_FIELDS = [
   "errorSubmitNetwork",
 ].map((field) => i18nText(field));
 
-export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage"][0]{
+export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}][0]{
   ${BOOKING_PAGE_I18N_FIELDS.join(",\n  ")},
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
@@ -916,13 +1046,15 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
+export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
   ${i18nText("insuranceNote")},
   ${i18nString("testimonialsTitle")},
   ${i18nString("faqTitle")},
   "heroImage": heroImage.asset->url,
+  ${faqCollectionProjection},
+  ${legacyFaqsRefsProjection},
   priceCategories[]{
     ${i18nString("categoryName")},
     "categoryRef": category->{ _id, title, ${localizedSlug} },
@@ -940,17 +1072,12 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
     text,
     treatment
   },
-  faqs[]->{
-    _id,
-    sortOrder,
-    ${localizedFaqRow}
-  },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
-export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
+export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage" && ${publishedOnly}][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
   "heroImage": heroImage.asset->url,
@@ -971,7 +1098,7 @@ export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
+export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly}][0]{
   ${localizedSlug},
   ${i18nString("breadcrumbHome")},
   ${i18nString("title")},
@@ -980,11 +1107,12 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   ${i18nString("searchPlaceholder")},
   ${i18nString("featuredSectionTitle")},
   ${i18nString("faqSectionTitle")},
-  ${i18nText("emptyCategoriesMessage")},
+  ${faqCollectionProjection},
   faqs[]{
     ${i18nString("question")},
     ${i18nText("answer")}
   },
+  ${i18nText("emptyCategoriesMessage")},
   badges[]{
     ${i18nString("label")}
   },
@@ -1027,6 +1155,7 @@ export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter
   ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "primaryImage": primaryImage.asset->url,
   booking,
   detail,
@@ -1041,6 +1170,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "primaryImage": primaryImage.asset->url,
   "gallery": gallery[]{
     "url": asset->url,
@@ -1048,6 +1178,14 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   },
   booking,
   detail,
+  "faqCollection": faqCollection->{
+    _id,
+    title,
+    "questions": questions[]->{
+      sortOrder,
+      ${localizedFaqRow}
+    }
+  },
   faqs[]{${localizedFaqRow}},
   specialists[]->{ name, ${localizedSlug}, "image": photo.asset->url, role },
   treatments[]->{ title, ${localizedSlug}, ${localizedRefSlugField("category", "categorySlug")}, "categoryLabel": parentCategoryLabel },
@@ -1057,20 +1195,20 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
 
 export const CMS_ROUTE_INDEX_QUERY = `{
   "listings": {
-    "newsPage": *[_type == "newsPage"][0]{ ${localizedSlugBoth} },
-    "clinicsPage": *[_type == "clinicsPage"][0]{ ${localizedSlugBoth} },
-    "specialistsListingPage": *[_type == "specialistsListingPage"][0]{ ${localizedSlugBoth} },
-    "careersPage": *[_type == "careersPage"][0]{ ${localizedSlugBoth} }
+    "newsPage": *[_type == "newsPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} },
+    "clinicsPage": *[_type == "clinicsPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} },
+    "specialistsListingPage": *[_type == "specialistsListingPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} },
+    "careersPage": *[_type == "careersPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} }
   },
   "singletons": *[_type in [
     "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
     "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
     "privacyPolicyPage", "careersPage", "guidePage"
-  ]]{
+  ] && ${publishedOnly}]{
     _type,
     ${localizedSlugBoth}
   },
-  "themes": *[_type == "themePage"]{
+  "themes": *[_type == "themePage" && ${publishedOnly}]{
     _id,
     _type,
     ${localizedSlugBoth}
@@ -1109,7 +1247,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     _type,
     ${localizedSlugBoth}
   },
-  "articles": *[_type == "article"]{
+  "articles": *[_type == "article" && ${publishedOnly}]{
     _id,
     _type,
     ${localizedSlugBoth}
@@ -1147,12 +1285,12 @@ export const CMS_PAGE_BY_SLUG_QUERY = `*[
 }`;
 
 /** Nav paths only — used to backfill missing singleton/listing slugs for routing. */
-export const NAV_PATHS_FOR_ROUTE_INDEX_QUERY = `*[_type == "siteSettings"][0].mainNavigation[]{
+export const NAV_PATHS_FOR_ROUTE_INDEX_QUERY = `*[_type == "siteSettings" && ${publishedOnly}][0].mainNavigation[]{
   navId,
   ${i18nPathBoth("path")}
 }`;
 
-export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
+export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && ${publishedOnly}][0]{
   title,
   phone,
   email,
@@ -1183,6 +1321,10 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
     ${i18nString("path")},
     ${i18nPathBoth("path")}
   },
+  businessReputation{
+    googleAverageRating,
+    legelistenAverageRating
+  },
   notFoundTitle,
   notFoundText,
   "notFoundImage": notFoundImage.asset->url,
@@ -1196,7 +1338,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
 // matches $lang and fall back to the Norwegian entry. Legacy un-migrated
 // docs may still hold plain strings — we coalesce both shapes and let the
 // frontend hook normalize.
-export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
+export const ARTICLES_QUERY = `*[_type == "article" && ${publishedOnly}] | order(publishedAt desc){
   _id,
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
@@ -1207,7 +1349,7 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
   category,
 }`;
 
-export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${slugMatchesParam("slug")}][0]{
+export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${publishedOnly} && ${slugMatchesParam("slug")}][0]{
   _id,
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
@@ -1285,7 +1427,7 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
   ${localizedSeoObject}
 }`;
 
-export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{
+export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{
     _id, _createdAt, ${i18nString("title")}, sortOrder, ${localizedSlug},
@@ -1297,7 +1439,7 @@ export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"
   }
 }`;
 
-export const CAREERS_PAGE_QUERY = `*[_type == "careersPage"][0]{
+export const CAREERS_PAGE_QUERY = `*[_type == "careersPage" && ${publishedOnly}][0]{
   ${i18nString("breadcrumbHome")},
   ${i18nString("title")},
   ${i18nText("heroSubtitle")},
@@ -1331,7 +1473,7 @@ export const CAREERS_PAGE_QUERY = `*[_type == "careersPage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
+export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage" && ${publishedOnly}][0]{
   ${i18nString("heroEyebrow")},
   ${i18nString("title")},
   ${i18nText("subtitle")},
@@ -1342,7 +1484,7 @@ export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const SPECIALISTS_LISTING_PAGE_QUERY = `*[_type == "specialistsListingPage"][0]{
+export const SPECIALISTS_LISTING_PAGE_QUERY = `*[_type == "specialistsListingPage" && ${publishedOnly}][0]{
   ${i18nString("heroEyebrow")},
   ${i18nString("heroTitle")},
   ${i18nText("heroDescription")},
@@ -1353,7 +1495,7 @@ export const SPECIALISTS_LISTING_PAGE_QUERY = `*[_type == "specialistsListingPag
   ${localizedSeoObject}
 }`;
 
-export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage"][0]{
+export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage" && ${publishedOnly}][0]{
   ${i18nString("heroEyebrow")},
   ${i18nString("heroTitle")},
   ${i18nText("heroDescription")},
@@ -1367,31 +1509,21 @@ export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage"][0]{
   ${localizedSeoObject}
 }`;
 
-const GUIDE_CATEGORY_ROW = `
-  _id, title, sortOrder, ${localizedSlug}, categoryId,
-  "heroImage": heroImage.asset->url,
-  "description": coalesce(
-    landingPage.hero.body[language == $lang][0].value,
-    landingPage.hero.body[_key == $lang][0].value,
-    landingPage.whySection.description[language == $lang][0].value,
-    landingPage.whySection.description[_key == $lang][0].value
-  ),
-  ${CATEGORY_TREATMENTS_GROQ}
-`;
-
-export const GUIDE_PAGE_QUERY = `*[_type == "guidePage"][0]{
+export const GUIDE_PAGE_QUERY = `*[_type == "guidePage" && ${publishedOnly}][0]{
+  ${i18nString("breadcrumbHome")},
   ${i18nString("heroTitle")},
   ${i18nText("heroSubtitle")},
-  showCategorySections,
-  ${i18nString("ctaTitle")},
-  ${i18nText("ctaSubtitle")},
-  ${i18nString("ctaButtonLabel")},
-  ctaButtonPath,
-  "categories": select(
-    showCategorySections != false && count(featuredCategories) > 0 => featuredCategories[]->{${GUIDE_CATEGORY_ROW}},
-    showCategorySections != false => *[_type == "treatmentCategory"] | order(sortOrder asc){${GUIDE_CATEGORY_ROW}},
-    []
-  ),
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
+  ${i18nString("primaryCtaLabel")},
+  primaryCtaPath,
+  ${i18nString("categoriesIntroTitle")},
+  ${i18nText("categoriesIntroDescription")},
+  "guideSections": guideSections[]{
+    _key,
+    ${i18nString("title")},
+    ${i18nBlockContent("description")},
+    "image": image.asset->url
+  },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -1431,7 +1563,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && ${slugMatchesParam
   tags, intent, description, benefits, results, howItWorks
 }`;
 
-export const LISTING_SORT_SETTINGS_QUERY = `*[_type == "listingSortSettings"][0]{
+export const LISTING_SORT_SETTINGS_QUERY = `*[_type == "listingSortSettings" && ${publishedOnly}][0]{
   specialistsSort,
   clinicsSort,
   categoriesSort,

@@ -160,3 +160,23 @@ export const SortIcon = () => (
   </svg>
 )
 
+/** Content Library — CTA Module */
+export const CtaIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-3H7l5-7v3h4l-5 7z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
+/** Content Library — Hero Module */
+export const HeroIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M3 5C3 3.9 3.9 3 5 3H19C20.1 3 21 3.9 21 5V15C21 16.1 20.1 17 19 17H5C3.9 17 3 16.1 3 15V5ZM5 5V15H19V5H5ZM2 19H22V21H2V19Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+

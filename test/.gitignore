@@ -31,4 +31,6 @@
 # Free translation cache (sanity/backfill-english-i18n.ts)
 sanity/.translation-cache.json
 sanity/.lingva-hosts.json
+sanity/.migration-*.json
+sanity/.verify-*.json
 .vercel

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { useThemePage } from "@/hooks/useSanity";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { VideoPlayer } from "@/components/ui/video-player";

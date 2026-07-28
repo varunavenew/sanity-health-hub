@@ -7,6 +7,14 @@ type Props = {
   config: PageSectionBookingCtaConfig;
 };
 
+/**
+ * Shared Booking CTA band from pageSections.
+ *
+ * Quick info resolution order:
+ * 1. CTA Collection / inline band (via dual-read → config.quickInfoItems)
+ * 2. Ultimate FE i18n defaults only when CMS left quickInfoItems unset
+ * 3. Explicit CMS `[]` hides chips
+ */
 export function PageSectionBookingCtaBlock({ config }: Props) {
   return (
     <BookingCTA
@@ -22,6 +30,8 @@ export function PageSectionBookingCtaBlock({ config }: Props) {
       secondaryLabel={config.secondaryLabel}
       secondaryPath={config.secondaryPath}
       quickInfoItems={config.quickInfoItems}
+      backgroundColor={config.backgroundColor}
+      textColor={config.textColor}
     />
   );
 }

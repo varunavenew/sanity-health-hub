@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import type { ComponentType } from "react";
 import { TreatmentHydration } from "@/components/providers/TreatmentHydration";
-import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
+import { fetchTreatmentData } from "@/lib/sanity/treatment-data.server";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
 

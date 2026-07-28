@@ -1,6 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
+import { CmsMedia } from "@/components/media/CmsMedia";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,12 +9,14 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import type { ImageRef } from "@/lib/media";
+import type { ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
 
 interface HeroSlide {
   id: string;
   image?: ImageRef;
   mobileImage?: ImageRef;
   videoUrl?: string;
+  media?: ResolvedCmsMedia | null;
   alt: string;
   label: string;
   subtitle: string;
@@ -30,12 +33,13 @@ export const HeroBanner = () => {
   const [direction, setDirection] = useState(1);
 
   const heroSlides: HeroSlide[] = (homepage?.heroSlides || [])
-    .filter((s: any) => (s?.image || s?.videoUrl) && s?.label)
+    .filter((s: any) => (s?.image || s?.videoUrl || s?.media) && s?.label)
     .map((s: any, i: number) => ({
       id: s.id || `slide-${i}`,
       image: s.image,
       mobileImage: s.mobileImage,
       videoUrl: s.videoUrl,
+      media: s.media,
       alt: s.label || "",
       label: s.label,
       subtitle: s.subtitle || "",
@@ -132,7 +136,16 @@ export const HeroBanner = () => {
           ) : null}
 
           <div className={slide.mobileImage ? "hidden md:block w-full h-full" : "w-full h-full"}>
-            {slide.videoUrl ? (
+            {slide.media ? (
+              <CmsMedia
+                media={slide.media}
+                alt={slide.alt}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                style={{ objectPosition: slide.objectPosition }}
+                loading={current === 0 ? "eager" : "lazy"}
+                interactive={false}
+              />
+            ) : slide.videoUrl ? (
               <video
                 src={slide.videoUrl}
                 poster={typeof slide.image === "string" ? slide.image : undefined}
@@ -140,6 +153,7 @@ export const HeroBanner = () => {
                 muted
                 loop
                 playsInline
+                preload="metadata"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                 style={{ objectPosition: slide.objectPosition }}
               />

@@ -6,13 +6,14 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAboutPage } from "@/hooks/useSanity";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
 
 interface AboutProps {
   isChatOpen: boolean;
@@ -26,6 +27,7 @@ const About = ({ isChatOpen }: AboutProps) => {
   const routeLocale: AppLocale = params?.locale === "en" ? "en" : "no";
   const { data: sanityData } = useAboutPage();
   const pageSections = sanityData?.pageSections;
+  const preferSharedBookingCta = pageSectionsHaveUsableBookingCta(pageSections);
 
   const title = sanityData?.title?.trim() || "";
   const heroEyebrow = sanityData?.heroEyebrow?.trim() || "";
@@ -94,13 +96,15 @@ const About = ({ isChatOpen }: AboutProps) => {
               </div>
 
               <div className="mt-8 pt-6 border-t border-brand-dark/10">
-                <Button
-                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
-                  onClick={() => navigate("/booking")}
-                >
-                  {t("cta.bookConsultation")}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                {!preferSharedBookingCta ? (
+                  <Button
+                    className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
+                    onClick={() => navigate("/booking")}
+                  >
+                    {t("cta.bookConsultation")}
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                ) : null}
               </div>
             </div>
           </div>
@@ -108,13 +112,15 @@ const About = ({ isChatOpen }: AboutProps) => {
           <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
             <div className="max-w-3xl mx-auto">
               <div className="mt-8 pt-6 border-t border-brand-dark/10">
-                <Button
-                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
-                  onClick={() => navigate("/booking")}
-                >
-                  {t("cta.bookConsultation")}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                {!preferSharedBookingCta ? (
+                  <Button
+                    className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
+                    onClick={() => navigate("/booking")}
+                  >
+                    {t("cta.bookConsultation")}
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                ) : null}
               </div>
             </div>
           </div>

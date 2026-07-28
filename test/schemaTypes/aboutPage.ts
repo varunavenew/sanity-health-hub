@@ -1,70 +1,75 @@
 // Schema: About Page
-// Aligned with migration data: title, subtitle, body (blockContent), seo
-import { GenericIcon } from './icons'
-import { i18nSlugFieldFromTitle } from './i18n'
-import { geoSummaryField } from './geoSummary'
-import { pageSectionsField } from './pageSections'
+import {GenericIcon} from './icons'
+import {i18nSlugFieldFromTitle} from './i18n'
+import {geoSummaryField} from './geoSummary'
+import {pageSectionsFieldForGroup} from './pageSections'
+import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
+import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
+import {aboutPageEditorConfig} from '../sanity/page-editor/pages/aboutSections'
+
+const ABOUT_SHARED_SECTIONS = [
+  'pageSectionSpecialists',
+  'pageSectionArticles',
+  'pageSectionBookingCta',
+] as const
 
 export default {
   name: 'aboutPage',
   title: 'About Us',
   type: 'document',
   icon: GenericIcon,
+  components: {
+    input: createPageSectionDocumentInput(aboutPageEditorConfig),
+  },
+  groups: [...singletonPageGroups],
+  fieldsets: [...singletonPageFieldsets],
   fields: [
     {
       name: 'title',
       title: 'Page Title',
       type: 'internationalizedArrayString',
+      group: 'hero',
       validation: (Rule: any) => Rule.required(),
     },
-    i18nSlugFieldFromTitle('title'),
+    {...i18nSlugFieldFromTitle('title', {group: 'hero'})},
     {
       name: 'heroEyebrow',
       title: 'Hero – eyebrow',
       type: 'internationalizedArrayString',
+      group: 'hero',
     },
     {
       name: 'subtitle',
       title: 'Subtitle',
       type: 'internationalizedArrayString',
+      group: 'hero',
     },
     {
       name: 'heroImage',
       title: 'Hero image',
       type: 'image',
-      options: { hotspot: true },
+      group: 'hero',
+      options: {hotspot: true},
     },
     {
       name: 'heroImageAlt',
       title: 'Hero image – alt text',
       type: 'internationalizedArrayString',
+      group: 'hero',
     },
     {
       name: 'body',
       title: 'Content',
       type: 'internationalizedArrayBlockContent',
-    },
-    {
-      name: 'values',
-      title: 'Our values',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'icon', title: 'Icon', type: 'string' },
-            { name: 'title', title: 'Title', type: 'string' },
-            { name: 'description', title: 'Description', type: 'text', rows: 2 },
-          ],
-        },
-      ],
+      group: 'content',
     },
     {
       name: 'clinicsSection',
       title: 'Section — clinics',
       description:
-        'Displayed on About us (and Contact). Empty clinic list = all published clinics.',
+        'Clinic grid on About us. Empty clinic list = all published clinics.',
       type: 'object',
+      group: 'content',
       fields: [
         {
           name: 'showSection',
@@ -82,27 +87,49 @@ export default {
           name: 'clinics',
           title: 'Clinics (optional)',
           type: 'array',
-          of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
+          of: [{type: 'reference', to: [{type: 'clinicPage'}]}],
           description:
             'Choose the order. Leave empty to list all published clinics automatically.',
         },
       ],
     },
-    pageSectionsField,
+    {
+      name: 'values',
+      title: 'Our values (legacy)',
+      description:
+        'Not rendered on the website today. Kept for rollback only.',
+      type: 'array',
+      group: 'content',
+      fieldset: 'legacy',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {name: 'icon', title: 'Icon', type: 'string'},
+            {name: 'title', title: 'Title', type: 'string'},
+            {name: 'description', title: 'Description', type: 'text', rows: 2},
+          ],
+        },
+      ],
+    },
+    pageSectionsFieldForGroup('content', 'sharedSections', ABOUT_SHARED_SECTIONS),
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      ...seoFieldsetProps,
     },
-    geoSummaryField,
+    {...geoSummaryField, ...seoFieldsetProps},
   ],
   preview: {
-    select: { title: 'title', media: 'heroImage' },
-    prepare({ title, media }: any) {
+    select: {title: 'title', media: 'heroImage'},
+    prepare({title, media}: any) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'About us')
-        : (title || 'About us')
-      return { title: titleStr, media }
+        ? title.find((t: any) => (t.language || t._key) === 'no')?.value ||
+          title[0]?.value ||
+          'About us'
+        : title || 'About us'
+      return {title: titleStr, media}
     },
   },
 }

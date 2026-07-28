@@ -1,19 +1,31 @@
 // Schema: Homepage
 // Sanity document type for the main landing page
+// Phase 10: editor experience follows docs/REUSABLE_MODULE_FRAMEWORK.md
+// Phase 2: Structure section panes + filtered native form input (ObjectInputMembers)
 import { HomeIcon } from './icons'
 import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
+import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
+import {homepagePageEditorConfig} from '../sanity/page-editor/pages/homepageSections'
+import {HomepageSpecialistsSectionField} from '../sanity/components/HomepageSpecialistsSectionField'
 
 export default {
   name: 'homepage',
   title: 'Home',
   type: 'document',
   icon: HomeIcon,
-  groups: [
-    { name: 'hero', title: 'Hero & tagline', default: true },
-    { name: 'sections', title: 'Sections' },
-    { name: 'reviews', title: 'Patient Reviews' },
-    { name: 'seo', title: 'SEO & Meta' },
+  // Structure opens section panes; native form view filters fields via this input.
+  components: {
+    input: createPageSectionDocumentInput(homepagePageEditorConfig),
+  },
+  fieldsets: [
+    {
+      name: 'faqAdvanced',
+      title: 'Legacy FAQ (Advanced)',
+      description:
+        'Retained for production dual-read until that dataset is migrated. Prefer Homepage FAQ Collection.',
+      options: { collapsible: true, collapsed: true },
+    },
   ],
   fields: [
     {
@@ -21,14 +33,14 @@ export default {
       title: 'Page Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
-      group: 'hero',
     },
-    // Hero Banner
+    // Hero Banner — page-owned for now (Hero Module attach comes later)
     {
       name: 'heroBanner',
       title: 'Hero Banner',
+      description:
+        'Homepage hero slides. Edited on this page. Content Library Hero Modules are not wired yet.',
       type: 'object',
-      group: 'hero',
       fields: [
         {
           name: 'slides',
@@ -38,23 +50,40 @@ export default {
             {
               type: 'object',
               fields: [
-                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+                {
+                  name: 'media',
+                  title: 'Media',
+                  type: 'media',
+                  description:
+                    'Preferred. Image or Video for this slide. Upload Video takes priority over Video URL.',
+                },
                 {
                   name: 'mobileImage',
                   title: 'Mobile Image',
                   type: 'image',
                   options: { hotspot: true },
                   description:
-                    'Optional. Used instead of the main Image on mobile screens. Desktop keeps using the main Image or video.',
+                    'Optional. Used instead of the main Image on mobile screens. Desktop keeps using Media.',
+                },
+                {
+                  name: 'image',
+                  title: 'Image (legacy)',
+                  type: 'image',
+                  options: { hotspot: true },
+                  description:
+                    'Legacy. Prefer Media → Image. Kept until migration is verified; website dual-reads both.',
+                  hidden: ({parent}: {parent?: {media?: unknown}}) => Boolean(parent?.media),
                 },
                 {
                   name: 'videoFile',
-                  title: 'Video File',
+                  title: 'Video File (legacy)',
                   type: 'file',
                   options: {
                     accept: 'video/*',
                   },
-                  description: 'Upload a video file (e.g. MP4) to play in the background of the slide instead of an image.',
+                  description:
+                    'Legacy. Prefer Media → Upload Video. Website dual-reads both until migration is verified.',
+                  hidden: ({parent}: {parent?: {media?: unknown}}) => Boolean(parent?.media),
                 },
                 { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
                 { name: 'subheading', title: 'Subheading', type: 'internationalizedArrayString' },
@@ -68,13 +97,22 @@ export default {
                 },
               ],
               preview: {
-                select: { title: 'heading', subtitle: 'subheading', media: 'image' },
-                prepare({ title, subtitle, media }: any) {
+                select: {
+                  title: 'heading',
+                  subtitle: 'subheading',
+                  mediaImage: 'media.image',
+                  legacyImage: 'image',
+                },
+                prepare({ title, subtitle, mediaImage, legacyImage }: any) {
                   const pick = (v: any) =>
                     Array.isArray(v)
                       ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
                       : (v || '')
-                  return { title: pick(title), subtitle: pick(subtitle), media }
+                  return {
+                    title: pick(title),
+                    subtitle: pick(subtitle),
+                    media: mediaImage || legacyImage,
+                  }
                 },
               },
             },
@@ -87,15 +125,14 @@ export default {
       name: 'tagline',
       title: 'Tagline Banner',
       type: 'internationalizedArrayString',
-      group: 'hero',
     },
-    // Service Categories
+    // Service / treatment categories — page selects Medical Content entities
     {
       name: 'serviceCategories',
-      title: 'Services (categories)',
-      description: 'The categories displayed in the service grid on the homepage',
+      title: 'Treatment categories',
+      description:
+        'Categories shown in the homepage grid. Choose from Medical Content; order here. Not a Library pack.',
       type: 'array',
-      group: 'sections',
       of: [
         {
           type: 'reference',
@@ -107,9 +144,8 @@ export default {
       name: 'patientTrustBanner',
       title: 'Patient trust banner',
       description:
-        'Terracotta banner under hero with a large number and link (e.g., \'150,000+\' / \'See our services\')',
+        'Band under the hero (large number + link). Page-owned content — not a reusable Library pack.',
       type: 'object',
-      group: 'sections',
       fields: [
         {
           name: 'backgroundImage',
@@ -136,10 +172,10 @@ export default {
     },
     {
       name: 'newsSplitSection',
-      title: 'News – splitscreen',
-      description: 'Left column in the \'News and articles\' section',
+      title: 'Articles – intro column',
+      description:
+        'Left column copy for the news/articles band. Featured articles below are Medical Content picks.',
       type: 'object',
-      group: 'sections',
       fields: [
         { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
         { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
@@ -152,13 +188,13 @@ export default {
         },
       ],
     },
-    // Featured Articles – 2×2 news grid on the homepage
+    // Featured Articles – page picks Medical Content entities
     {
       name: 'featuredArticles',
       title: 'Featured articles (top 4)',
-      description: 'Displayed in the 2×2 news grid on the homepage. Select and sort up to 4 articles by reference.',
+      description:
+        'Articles shown in the homepage news grid. Select up to 4 from Medical Content. Not a Library pack.',
       type: 'array',
-      group: 'sections',
       validation: (Rule: any) => Rule.max(4),
       of: [
         {
@@ -172,10 +208,10 @@ export default {
     },
     {
       name: 'resultsStatsSection',
-      title: 'Result statistics',
-      description: '\'Numbers that tell a story\' section',
+      title: 'Statistics',
+      description:
+        'Result statistics band on this page. Page-owned for now — Library Statistics packs come later only if reused.',
       type: 'object',
-      group: 'sections',
       fields: [
         { name: 'title', title: 'Heading', type: 'internationalizedArrayString' },
         { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
@@ -217,7 +253,6 @@ export default {
       name: 'statsBar',
       title: 'Statistics bar',
       type: 'array',
-      group: 'sections',
       of: [
         {
           type: 'object',
@@ -241,9 +276,10 @@ export default {
     // Value Badges
     {
       name: 'valueBadges',
-      title: 'Value badges',
+      title: 'Why choose us',
+      description:
+        'Short trust / value points for this page. Page-owned — not a Library pack yet.',
       type: 'array',
-      group: 'sections',
       of: [
         {
           type: 'object',
@@ -269,14 +305,12 @@ export default {
       title: 'Promo section heading',
       description: 'Title above promo blocks (e.g. \'News and articles\')',
       type: 'internationalizedArrayString',
-      group: 'sections',
     },
     // Promo Blocks
     {
       name: 'promoBlocks',
       title: 'Promotion blocks',
       type: 'array',
-      group: 'sections',
       of: [
         {
           type: 'object',
@@ -301,43 +335,63 @@ export default {
       ],
     },
     {
+      name: 'bookingCta',
+      title: 'Booking CTA',
+      type: 'pageSectionBookingCta',
+      description:
+        'Preferred homepage Booking CTA. Website dual-reads this first, then falls back to a Booking CTA inside Website bands.',
+    },
+    {
       ...pageSectionsField,
-      group: 'sections',
+      title: 'Website bands (legacy)',
+      description:
+        'Legacy multi-band array. Prefer Booking CTA above for the homepage CTA. Other band types are not rendered on Home today. Kept for dual-read / rollback.',
     },
     {
       name: 'faqSectionTitle',
       title: 'FAQ Heading',
-      description: 'Heading for the FAQ section (e.g. \'Frequently Asked Questions\')',
+      description:
+        'Heading shown above the FAQ on the homepage (e.g. Frequently Asked Questions). Belongs to this page.',
       type: 'internationalizedArrayString',
-      group: 'sections',
+    },
+    {
+      name: 'faqCollection',
+      title: 'Homepage FAQ',
+      type: 'reference',
+      to: [{ type: 'faqCollection' }],
+      description:
+        'The FAQ pack for this page. Create new, open to edit, or replace with another pack. Stored in Content Library for reuse.',
+      options: {
+        disableNew: false,
+      },
     },
     {
       name: 'faqs',
-      title: 'FAQ',
+      title: 'Previous FAQ list (legacy)',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
+      fieldset: 'faqAdvanced',
       description:
-        'FAQ items displayed on the homepage. Select and sort questions from FAQ documents in Sanity.',
-      group: 'sections',
+        'Legacy backup. Website dual-reads this only when no FAQ Collection has questions. Do not delete existing refs until production is migrated.',
+      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
+        Boolean(document?.faqCollection),
     },
     {
       name: 'reviewsSubheading',
       title: 'Reviews - Subtitle',
-      description: 'E.g. \'What our patients say\'',
+      description:
+        'Page-owned review band chrome. Reviews are selected below from Content Library → Google Reviews.',
       type: 'internationalizedArrayString',
-      group: 'reviews',
     },
     {
       name: 'reviewsHeading',
       title: 'Reviews - Headline',
       type: 'internationalizedArrayString',
-      group: 'reviews',
     },
     {
       name: 'reviewsGoogleRating',
       title: 'Google average rating',
       type: 'number',
-      group: 'reviews',
       validation: (Rule: any) => Rule.min(1).max(5).precision(1),
       initialValue: 4.6,
     },
@@ -345,7 +399,6 @@ export default {
       name: 'reviewsLegelistenRating',
       title: 'Legelisten average rating',
       type: 'number',
-      group: 'reviews',
       validation: (Rule: any) => Rule.min(1).max(5).precision(1),
       initialValue: 4.8,
     },
@@ -353,30 +406,34 @@ export default {
       name: 'reviewsCtaTitle',
       title: 'Reviews - CTA title',
       type: 'internationalizedArrayString',
-      group: 'reviews',
     },
     {
       name: 'reviewsCtaSubtitle',
       title: 'Reviews - CTA subtitle',
       type: 'internationalizedArrayString',
-      group: 'reviews',
     },
     {
       name: 'googleReviews',
-      title: 'Google Reviews on the homepage',
+      title: 'Reviews on the homepage',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
-      description: 'Select and sort reviews shown in the carousel on the homepage.',
-      group: 'reviews',
+      description:
+        'Select and sort patient reviews shown on the homepage. Reviews live in Content Library → Google Reviews.',
+    },
+    {
+      name: 'specialistsSection',
+      type: 'homepageSpecialistsSection',
+      components: {
+        field: HomepageSpecialistsSectionField,
+      },
     },
     // SEO
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      group: 'seo',
     },
-    { ...geoSummaryField, group: 'seo' },
+    { ...geoSummaryField, title: 'AI / GEO summary', description: 'Short summary for search and AI assistants.' },
   ],
   preview: {
     select: { title: 'title' },

@@ -1,10 +1,12 @@
 // Schema: Treatment (sub-treatment page)
 // Individual treatment pages under each category
+// Phase 11F / 11G / 11X: Studio IA + FAQ Collection
+// Phase 12UX: Medical Content UX sprint — fewer duplicates, Advanced for technical fields
+// Phase 15T: Final Studio polish (Category parity — auto-slug, validation, SEO fieldset)
 import { TreatmentIcon } from './icons'
 import {
   i18nFaqItemPreview,
   i18nSlugFieldFromTitle,
-  i18nTitleItemPreview,
   pickForLang,
   pickNo,
   requiredNoEnI18n,
@@ -12,9 +14,9 @@ import {
 } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
+import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
 
 const reqI18n = requiredNoEnI18n
-const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
 const validateRelativePath = (Rule: any) =>
   Rule.custom((value: any) => {
@@ -25,29 +27,173 @@ const validateRelativePath = (Rule: any) =>
       : 'The path must be a relative link starting with a slash (e.g. /prices)'
   })
 
+const sectionCollapsed = { collapsible: true, collapsed: true } as const
+
 export default {
   name: 'treatment',
   title: 'Treatment',
   type: 'document',
   icon: TreatmentIcon,
+  components: {
+    input: AutoSlugFromTitleInput,
+  },
   groups: [
-    { name: 'general', title: 'General' },
-    { name: 'hero', title: 'Hero section' },
-    { name: 'symptoms', title: 'Symptoms (About us)' },
-    { name: 'flow', title: 'Process (How it works)' },
-    { name: 'features', title: 'Areas of expertise & promises' },
-    { name: 'seo', title: 'SEO / Synlighet' },
+    { name: 'general', title: 'General', default: true },
+    { name: 'pageContent', title: 'Page Content' },
+    { name: 'sharedSections', title: 'Shared Sections' },
+    { name: 'seo', title: 'SEO' },
+    { name: 'advanced', title: 'Advanced' },
+  ],
+  fieldsets: [
+    {
+      name: 'pcHero',
+      title: 'Hero',
+      description: 'Top of the treatment page. Media, headings, and primary buttons.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcIntro',
+      title: 'Introduction',
+      description:
+        'Required intro text for the hero body. Hero ingress (under Hero) is optional backup only.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcSymptoms',
+      title: 'Symptoms',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcProcess',
+      title: 'Treatment process',
+      description: 'How it works — steps and optional image.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcBenefits',
+      title: 'Benefits',
+      description: 'Promises / advantages (typically three columns).',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcExpertAreas',
+      title: 'Expert areas',
+      description: 'Linked services cards. Optional.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcTextSection',
+      title: 'Text section',
+      description: 'Optional text + points band.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcRelated',
+      title: 'Related treatments',
+      description:
+        'Page-owned curated list for this treatment page (not automatic category siblings). Choose which treatments appear and how the band displays.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'ssFaq',
+      title: 'FAQ',
+      description:
+        'Same workflow as Homepage and Treatment Category. Prefer a FAQ Collection from the Content Library. Legacy list is backup only.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'faqAdvanced',
+      title: 'Legacy FAQ (Advanced)',
+      description:
+        'Backup list. Used only when no Treatment FAQ Collection with valid questions is selected. Keep existing items — do not delete them.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'ssAssemblers',
+      title: 'Specialists · Insurance · Articles · Booking CTA',
+      description:
+        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library — same workflow as Treatment Category.',
+      options: sectionCollapsed,
+      group: 'sharedSections',
+    },
+    {
+      name: 'pcInsuranceLegacy',
+      title: 'Legacy Insurance (Page Content)',
+      description:
+        'Final fallback only. Prefer Shared Sections → Insurance → Insurance Collection. Kept until production verification — do not delete.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+    {
+      name: 'seoFields',
+      title: 'Search & AI',
+      description: 'Meta tags and AI summary for this page.',
+      options: sectionCollapsed,
+      group: 'seo',
+    },
+    {
+      name: 'advancedList',
+      title: 'List order',
+      description: 'Order within category menus and lists. Rarely edited after setup.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+    {
+      name: 'advancedOverrides',
+      title: 'Overrides & booking',
+      description:
+        'Optional overrides and booking IDs. Leave empty when the website can use Category / defaults.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+    {
+      name: 'advancedNav',
+      title: 'Navigation (megamenu)',
+      description: 'Third-column links in the services megamenu. Not page body content.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+    {
+      name: 'advancedChrome',
+      title: 'UI chrome labels',
+      description: 'Rarely edited labels. Safe defaults apply when empty.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
+    {
+      name: 'advancedLegacy',
+      title: 'Legacy fields',
+      description:
+        'Compatibility fields from earlier Treatment schemas. Kept only to avoid Studio unknown-field warnings until Phase 19/20 migration and cleanup.',
+      options: sectionCollapsed,
+      group: 'advanced',
+    },
   ],
   fields: [
+    // ── General (Business Entity) ─────────────────────────────────────────────
     {
       name: 'title',
       title: 'Treatment name',
       type: 'internationalizedArrayString',
       group: 'general',
+      description: 'Official treatment name. Page hero copy lives under Page Content.',
       validation: reqI18n('Treatment name'),
     },
     {
-      ...i18nSlugFieldFromTitle('title'),
+      ...i18nSlugFieldFromTitle('title', {
+        description:
+          'URL Slug (NO) and URL Slug (EN). Fills automatically from Treatment name when empty. Manual edits are kept — changing the name later will not overwrite a filled slug.',
+      }),
       group: 'general',
     },
     {
@@ -56,28 +202,557 @@ export default {
       type: 'reference',
       group: 'general',
       to: [{ type: 'treatmentCategory' }],
+      description:
+        'Required. Which Treatment Category this belongs to. Used for breadcrumbs, menu placement, and booking category.',
+      validation: (Rule: any) =>
+        Rule.required().error(
+          'Category is required. Choose a Treatment Category before publishing — breadcrumbs, menus, and booking depend on it.',
+        ),
     },
-    {
-      name: 'parentCategoryLabel',
-      title: 'Parent category (display name)',
-      type: 'internationalizedArrayString',
-      group: 'general',
-      description: 'F.eks. "Gynecology" — vises som breadcrumb',
-      validation: reqI18n('Parent Category'),
-    },
+
+    // ── Page Content ──────────────────────────────────────────────────────────
     {
       name: 'description',
       title: 'Intro text',
       type: 'internationalizedArrayText',
-      group: 'general',
+      group: 'pageContent',
+      fieldset: 'pcIntro',
+      description:
+        'Required. Primary introduction shown in the hero body on the website. Hero ingress is optional and only used if this is empty on the site.',
       validation: reqI18n('Intro text'),
     },
-    // FAQs
+    {
+      name: 'heroTitle',
+      title: 'Hero title',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description:
+        'Large title in the hero. Often the same as Treatment name — copy from General if unsure. Required for publish.',
+      validation: reqI18n('Hero Title'),
+    },
+    {
+      name: 'heroDescription',
+      title: 'Hero ingress (optional)',
+      type: 'internationalizedArrayText',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description:
+        'Optional. Only used on the website if Intro text is empty. Prefer editing Intro text — you do not need both.',
+    },
+    {
+      name: 'heroMedia',
+      title: 'Hero Media',
+      type: 'media',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description:
+        'Preferred hero media (Image or Video). Upload Video takes priority over Video URL.',
+    },
+    {
+      name: 'heroImage',
+      title: 'Hero image (legacy)',
+      type: 'image',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      options: { hotspot: true },
+      description:
+        'Legacy. Prefer Hero Media → Image. Required until Hero Media is set; website dual-reads both.',
+      hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
+        Boolean(document?.heroMedia),
+      validation: (Rule: any) =>
+        Rule.custom((value: unknown, context: { document?: { heroMedia?: { mediaType?: string; image?: unknown } } }) => {
+          const media = context.document?.heroMedia
+          if (media?.mediaType === 'image' && media.image) return true
+          if (media?.mediaType === 'video') return true
+          if (value) return true
+          return 'Hero image is required (or set Hero Media)'
+        }),
+    },
+    {
+      name: 'heroImageAlt',
+      title: 'Hero image — alt text',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+    },
+    {
+      name: 'heroVideo',
+      title: 'Hero video URL (legacy)',
+      type: 'url',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description: 'Legacy video URL. Prefer Hero Media → Video URL.',
+      hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
+        Boolean(document?.heroMedia),
+    },
+    {
+      name: 'rating',
+      title: 'Rating / tagline',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+    },
+    {
+      name: 'heroPrice',
+      title: 'Price info',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+    },
+    {
+      name: 'hideSeePriser',
+      title: 'Hide See prices link',
+      type: 'boolean',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      initialValue: false,
+    },
+    {
+      name: 'heroAvailability',
+      title: 'Availability',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+    },
+    {
+      name: 'heroThemes',
+      title: 'Theme chips',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      of: [{ type: 'internationalizedArrayString' }],
+    },
+    {
+      name: 'heroPoints',
+      title: 'Hero points',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description: 'Short benefit points in the hero (titles shown on the site).',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'desc' },
+            prepare({ title, subtitle }: any) {
+              return {
+                title: pickNo(title) || 'Untitled',
+                subtitle: pickNo(subtitle),
+              }
+            },
+          },
+        },
+      ],
+    },
+    {
+      name: 'primaryCtaLabel',
+      title: 'Primary button text',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description:
+        'Book appointment button text in the hero only. Mid-page / footer Booking CTA is under Shared Sections.',
+    },
+    {
+      name: 'seePricesLabel',
+      title: 'See prices — text',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+    },
+    {
+      name: 'seePricesHref',
+      title: 'See prices — link',
+      type: 'string',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description: 'Internal path, e.g. /priser.',
+      validation: validateRelativePath,
+    },
+    {
+      name: 'callCtaLabel',
+      title: 'Call us — text',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+    },
+
+    // Symptoms
+    {
+      name: 'reasonsTitle',
+      title: 'Heading',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcSymptoms',
+    },
+    {
+      name: 'reasonsLead',
+      title: 'Introduction 1',
+      type: 'internationalizedArrayText',
+      group: 'pageContent',
+      fieldset: 'pcSymptoms',
+    },
+    {
+      name: 'reasonsLead2',
+      title: 'Introduction 2',
+      type: 'internationalizedArrayText',
+      group: 'pageContent',
+      fieldset: 'pcSymptoms',
+    },
+    {
+      name: 'reasonsLayout',
+      title: 'Layout',
+      type: 'string',
+      group: 'pageContent',
+      fieldset: 'pcSymptoms',
+      options: {
+        list: [
+          { title: 'Prose (standard)', value: 'prose' },
+          { title: 'Accordion', value: 'accordion' },
+          { title: 'Automatic', value: 'auto' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'prose',
+    },
+    {
+      name: 'reasons',
+      title: 'Symptoms / indications',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcSymptoms',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+          ],
+          preview: {
+            select: { title: 'title', n: 'n', subtitle: 'desc' },
+            prepare({ title, n, subtitle }: any) {
+              const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
+              return {
+                title: `${prefix}${pickNo(title) || 'Untitled'}`,
+                subtitle: pickNo(subtitle),
+              }
+            },
+          },
+        },
+      ],
+    },
+
+    // Process
+    {
+      name: 'flowTitle',
+      title: 'Heading',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcProcess',
+    },
+    {
+      name: 'flowImage',
+      title: 'Image',
+      type: 'image',
+      group: 'pageContent',
+      fieldset: 'pcProcess',
+      options: { hotspot: true },
+    },
+    {
+      name: 'flowImageAlt',
+      title: 'Image alt',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcProcess',
+    },
+    {
+      name: 'flowLinkLabel',
+      title: 'Link text',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcProcess',
+    },
+    {
+      name: 'flowLinkHref',
+      title: 'Link',
+      type: 'string',
+      group: 'pageContent',
+      fieldset: 'pcProcess',
+      validation: validateRelativePath,
+    },
+    {
+      name: 'flow',
+      title: 'Steps',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcProcess',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'n', title: 'Step number / label', type: 'internationalizedArrayString' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+          ],
+          preview: {
+            select: { title: 'title', n: 'n', subtitle: 'desc' },
+            prepare({ title, n, subtitle }: any) {
+              const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
+              return {
+                title: `${prefix}${pickNo(title) || 'Untitled'}`,
+                subtitle: pickNo(subtitle),
+              }
+            },
+          },
+        },
+      ],
+    },
+
+    // Benefits
+    {
+      name: 'promises',
+      title: 'Promises / advantages',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcBenefits',
+      description: 'Highlighted benefits with image and text.',
+      validation: (Rule: any) =>
+        Rule.required().min(1).error('At least one advantage/promise must be added'),
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'desc', media: 'image' },
+            prepare({ title, subtitle, media }: any) {
+              return {
+                title: pickNo(title) || 'Untitled',
+                subtitle: pickNo(subtitle),
+                media,
+              }
+            },
+          },
+        },
+      ],
+    },
+
+    // Expert areas
+    {
+      name: 'expertAreas',
+      title: 'Content',
+      type: 'object',
+      group: 'pageContent',
+      fieldset: 'pcExpertAreas',
+      fields: [
+        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+        { name: 'description', title: 'Ingress', type: 'internationalizedArrayText' },
+        {
+          name: 'items',
+          title: 'Linked services',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+                { name: 'path', title: 'Link', type: 'string', validation: validateRelativePath },
+                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+                { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
+              ],
+              preview: {
+                select: { title: 'title', subtitle: 'desc', media: 'image' },
+                prepare({ title, subtitle, media }: any) {
+                  return {
+                    title: pickNo(title) || 'Untitled',
+                    subtitle: pickNo(subtitle),
+                    media,
+                  }
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+
+    // Text section
+    {
+      name: 'textSection',
+      title: 'Content',
+      type: 'object',
+      group: 'pageContent',
+      fieldset: 'pcTextSection',
+      fields: [
+        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+        { name: 'lead', title: 'Ingress', type: 'internationalizedArrayText' },
+        {
+          name: 'points',
+          title: 'Points',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
+                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+              ],
+              preview: {
+                select: { title: 'title', n: 'n', subtitle: 'desc' },
+                prepare({ title, n, subtitle }: any) {
+                  const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
+                  return {
+                    title: `${prefix}${pickNo(title) || 'Untitled'}`,
+                    subtitle: pickNo(subtitle),
+                  }
+                },
+              },
+            },
+          ],
+        },
+        { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+        { name: 'imageAlt', title: 'Image alt', type: 'internationalizedArrayString' },
+      ],
+    },
+
+    // Insurance (legacy Page Content — fallback until production verification)
+    {
+      name: 'insuranceEyebrow',
+      title: 'Eyebrow',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'pcInsuranceLegacy',
+      description: 'Legacy fallback. Prefer Shared Sections → Insurance band.',
+    },
+    {
+      name: 'insuranceTitle',
+      title: 'Heading',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'pcInsuranceLegacy',
+      description: 'Legacy fallback. Prefer Shared Sections → Insurance band.',
+    },
+    {
+      name: 'insurancePartners',
+      title: 'Partners',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'pcInsuranceLegacy',
+      description:
+        'Legacy fallback partner list. Prefer Shared Sections → Insurance Collection. Kept for dual-read until production verification.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'key', title: 'Key', type: 'string' },
+            { name: 'label', title: 'Name', type: 'internationalizedArrayString' },
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'key' },
+            prepare({ title, subtitle }: any) {
+              return {
+                title: pickNo(title) || 'Unnamed',
+                subtitle,
+              }
+            },
+          },
+        },
+      ],
+    },
+
+    // Related
+    {
+      name: 'relatedSection',
+      title: 'Content',
+      type: 'object',
+      group: 'pageContent',
+      fieldset: 'pcRelated',
+      description:
+        'Curated related treatments for this page. This is page content — not the Shared Sections assembler list.',
+      fields: [
+        { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
+        { name: 'title', title: 'Heading', type: 'internationalizedArrayString' },
+        { name: 'lead', title: 'Ingress', type: 'internationalizedArrayText' },
+        {
+          name: 'asIntro',
+          title: 'Show right after hero',
+          type: 'boolean',
+        },
+        {
+          name: 'asServices',
+          title: 'Show as service carousel',
+          type: 'boolean',
+        },
+        {
+          name: 'seeAllHref',
+          title: 'See all — link',
+          type: 'string',
+          validation: validateRelativePath,
+        },
+        {
+          name: 'seeAllLabel',
+          title: 'See all — text',
+          type: 'internationalizedArrayString',
+        },
+        {
+          name: 'items',
+          title: 'Related treatments',
+          description: 'Manual selection and order for this page’s related band.',
+          type: 'array',
+          of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
+        },
+      ],
+    },
+
+    // ── Shared Sections ─────────────────────────────────────────────────────
+    {
+      name: 'faqSectionTitle',
+      title: 'FAQ Heading',
+      description: 'Heading above the FAQ. Questions live in the Collection.',
+      type: 'internationalizedArrayString',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      initialValue: [
+        { _key: 'no', language: 'no', value: 'Ofte stilte spørsmål' },
+        { _key: 'en', language: 'en', value: 'Frequently asked questions' },
+      ],
+    },
+    {
+      name: 'faqCollection',
+      title: 'Treatment FAQ',
+      type: 'reference',
+      to: [{ type: 'faqCollection' }],
+      description:
+        'FAQ pack from the Content Library. Same pattern as Homepage and Treatment Category.',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      options: {
+        disableNew: false,
+      },
+    },
     {
       name: 'faqs',
-      title: 'Frequently Asked Questions',
+      title: 'Previous FAQ list',
       type: 'array',
-      group: 'general',
+      group: 'sharedSections',
+      fieldset: 'faqAdvanced',
+      description:
+        'Backup list used when no Treatment FAQ Collection with valid questions is selected. Existing items are kept — do not delete them.',
+      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
+        Boolean(document?.faqCollection),
       of: [
         {
           type: 'reference',
@@ -104,12 +779,77 @@ export default {
         },
       ],
     },
-    // Sub-items (shown in 3rd column of service dropdown)
+    {
+      ...pageSectionsField,
+      group: 'sharedSections',
+      fieldset: 'ssAssemblers',
+      title: 'Website bands',
+      description:
+        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. Dragging only changes Studio order. Select an Insurance Collection here — same workflow as Treatment Category.',
+    },
+
+    // ── SEO ─────────────────────────────────────────────────────────────────
+    {
+      name: 'srOnlyTitle',
+      title: 'Hidden H1',
+      type: 'internationalizedArrayString',
+      group: 'seo',
+      fieldset: 'seoFields',
+      description:
+        'Optional screen-reader / SEO H1. Leave empty unless SEO needs a different heading than the hero.',
+    },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'seo',
+      fieldset: 'seoFields',
+      description: 'Search title, description, and social previews.',
+      validation: requiredNoEnSeo,
+    },
+    {
+      ...geoSummaryField,
+      group: 'seo',
+      fieldset: 'seoFields',
+      title: 'AI / GEO summary',
+      description: 'Short summary for search and AI. Not the same as the Hero heading.',
+      validation: reqI18n('GEO-sammendrag'),
+    },
+
+    // ── Advanced (rarely edited — do not delete) ────────────────────────────
+    {
+      name: 'sortOrder',
+      title: 'List order',
+      type: 'number',
+      group: 'advanced',
+      fieldset: 'advancedList',
+      description: 'Order in category menus and lists. Lower numbers appear first.',
+    },
+    {
+      name: 'parentCategoryLabel',
+      title: 'Parent category label (override)',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedOverrides',
+      description:
+        'Optional. Breadcrumb uses the linked Category name when this is empty. Only fill if you need a different display name.',
+    },
+    {
+      name: 'bookingService',
+      title: 'Booking service ID',
+      type: 'string',
+      group: 'advanced',
+      fieldset: 'advancedOverrides',
+      description:
+        'Optional service ID for the booking system (e.g. hysterectomy). Not the Booking CTA band — that is under Shared Sections → Website bands.',
+    },
     {
       name: 'subItems',
       title: 'Submenu items',
-      group: 'general',
-      description: 'Displayed as the third column in the services dropdown in the menu',
+      group: 'advanced',
+      fieldset: 'advancedNav',
+      description:
+        'Third column in the services megamenu. Leave empty if this treatment has no submenu links.',
       type: 'array',
       of: [
         {
@@ -144,377 +884,269 @@ export default {
       ],
     },
     {
-      name: 'sortOrder',
-      title: 'Sorting order',
-      type: 'number',
-      group: 'general',
-      description: 'Lower numbers are shown first within the category.',
-    },
-    // ─── Hero Section ────────────────────────────────────────────────────────
-    { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', type: 'internationalizedArrayString', group: 'hero', description: 'The text displayed as the first segment in the breadcrumb navigation, e.g. \'Home\'.' },
-    { name: 'srOnlyTitle', title: 'Hidden H1 (screen reader)', type: 'internationalizedArrayString', group: 'hero', description: 'A hidden heading for screen readers only. Briefly describe the page, e.g. \'Treatment page for hysteroscopy at CMedical\'.' },
-    {
-      name: 'heroTitle',
-      title: 'Hero Title',
+      name: 'themesAriaLabel',
+      title: 'Themes aria label',
       type: 'internationalizedArrayString',
-      group: 'hero',
-      description: 'The main title displayed large in the hero section on the treatment page. Keep it short and punchy.',
-      validation: reqI18n('Hero Title'),
+      group: 'advanced',
+      fieldset: 'advancedChrome',
+      description:
+        'Legacy accessibility label for hero theme chips. Still read by the frontend with safe defaults.',
     },
     {
-      name: 'heroDescription',
-      title: 'Hero-ingress',
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy subtitle from earlier treatment pages. Not rendered by the current Treatment layout.',
+    },
+    {
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy page label from earlier treatment layouts. Queried for compatibility, not rendered today.',
+    },
+    {
+      name: 'reasonsEyebrow',
+      title: 'Symptoms eyebrow',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy symptoms section label. Current Treatment layout renders the symptoms heading directly.',
+    },
+    {
+      name: 'flowEyebrow',
+      title: 'Process eyebrow',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy process section label. Current Treatment layout renders the process heading directly.',
+    },
+    {
+      name: 'benefitsTitle',
+      title: 'Benefits title',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy title for old benefits arrays. Current Benefits section uses Promises / advantages.',
+    },
+    {
+      name: 'processSectionTitle',
+      title: 'Process section title',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy heading for old process[] content. Current field is Treatment process → Heading.',
+    },
+    {
+      name: 'linkedServicesSectionTitle',
+      title: 'Linked services section title',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy heading for old linkedServices content. Current field is Expert areas.',
+    },
+    {
+      name: 'process',
+      title: 'Process (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy process steps. Migrated equivalent is Treatment process → Steps (`flow`).',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'sections',
+      title: 'Sections (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy about sections. Migrated equivalent is Symptoms / indications (`reasons`).',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'id', title: 'ID', type: 'string' },
+            { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
+            { name: 'content', title: 'Content', type: 'internationalizedArrayText' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'linkedServices',
+      title: 'Linked services (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy linked service cards. Migrated equivalent is Expert areas → Linked services.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Label', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
+            { name: 'path', title: 'Link', type: 'string' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'quickInfoItems',
+      title: 'Quick info items (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy quick-info rows from old CTA/UI contract. Not rendered by the current Treatment layout.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'iconKey', title: 'Icon key', type: 'string' },
+            { name: 'label', title: 'Label', type: 'internationalizedArrayString' },
+          ],
+        },
+        { type: 'internationalizedArrayString' },
+      ],
+    },
+    {
+      name: 'bottomCta',
+      title: 'Bottom CTA (legacy)',
+      type: 'object',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description:
+        'Legacy bottom CTA copy. Current Treatment layout uses pageSectionBookingCta / fallback BookingCTA.',
+      fields: [
+        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+        { name: 'subtitle', title: 'Subtitle', type: 'internationalizedArrayText' },
+        { name: 'primaryLabel', title: 'Primary label', type: 'internationalizedArrayString' },
+        { name: 'secondaryLabel', title: 'Secondary label', type: 'internationalizedArrayString' },
+        { name: 'primaryPath', title: 'Primary path', type: 'string' },
+        { name: 'secondaryPath', title: 'Secondary path', type: 'string' },
+      ],
+    },
+    {
+      name: 'layout',
+      title: 'Layout object (legacy)',
+      type: 'subTreatmentLayout',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description:
+        'Legacy nested treatment layout object. Root fields are used by the current page; keep this until final migration cleanup.',
+    },
+    {
+      name: 'relatedSpecialists',
+      title: 'Related specialists (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description:
+        'Legacy specialist references. Current specialist bands use Shared Sections → Website bands.',
+      of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
+    },
+    {
+      name: 'ctaTitle',
+      title: 'Closing CTA title (legacy)',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy CTA title queried for compatibility. Current layout uses booking CTA bands.',
+    },
+    {
+      name: 'ctaDescription',
+      title: 'Closing CTA text (legacy)',
       type: 'internationalizedArrayText',
-      group: 'hero',
-      description: 'Short introduction under the hero title. 1–3 sentences describing the treatment.',
-      validation: reqI18n('Hero-ingress'),
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy CTA text queried for compatibility. Current layout uses booking CTA bands.',
     },
     {
-      name: 'heroImage',
-      title: 'Hero image',
-      type: 'image',
-      group: 'hero',
-      options: { hotspot: true },
-      description: 'Image displayed to the right in the hero section. Recommended size: 800×600px or better.',
-      validation: (Rule: any) => Rule.required().error('Hero image is required'),
-    },
-    { name: 'heroImageAlt', title: 'Hero image — alt text', type: 'internationalizedArrayString', group: 'hero', description: 'Descriptive alt text for accessibility, e.g. "Doctor performs hysteroscopy".' },
-    {
-      name: 'heroVideo',
-      title: 'Hero-video URL',
-      type: 'url',
-      group: 'hero',
-      description: 'Optional video URL played in the hero section. Upload an MP4 video (max 10MB, 16:9 format) and paste the URL here.',
-    },
-    { name: 'rating', title: 'Rating / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Short text shown under the hero image, e.g. \'4.9/5 from 200 patients\'.' },
-    { name: 'heroPrice', title: 'Hero — Price info', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
-    { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean', group: 'hero', initialValue: false },
-    { name: 'heroAvailability', title: 'Hero — Availability', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
-    {
-      name: 'heroThemes',
-      title: 'Hero — tema-chips',
-      type: 'array',
-      group: 'hero',
-      description: 'Keywords/theme chips shown in the hero section.',
-      of: [{ type: 'internationalizedArrayString' }],
-    },
-    {
-      name: 'heroPoints',
-      title: 'Hero Points',
-      type: 'array',
-      group: 'hero',
-      description: 'Short benefit points shown in the hero section.',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-          ],
-          preview: {
-            select: { title: 'title', subtitle: 'desc' },
-            prepare({ title, subtitle }: any) {
-              return {
-                title: pickNo(title) || 'Untitled',
-                subtitle: pickNo(subtitle),
-              }
-            },
-          },
-        },
-      ],
-    },
-    { name: 'primaryCtaLabel', title: 'Primary CTA text', type: 'internationalizedArrayString', group: 'hero', description: 'The text on the \'Book appointment\' button in the hero section.' },
-    { name: 'seePricesLabel', title: 'See prices — text', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'seePricesHref', title: 'See prices — link', type: 'string', group: 'hero', description: 'URL to pricing page, e.g. /prices.', validation: validateRelativePath },
-    { name: 'callCtaLabel', title: 'Call us — text', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'bookingService', title: 'Booking service ID', type: 'string', group: 'hero', description: 'Optional service ID sent to the booking system (e.g. \'hysterectomy\').' },
-    // ─── Reasons / Symptoms ──────────────────────────────────────────────────
-
-    {
-      name: 'reasonsTitle',
-      title: 'Symptoms — title',
+      name: 'conversationCtaTitle',
+      title: 'Mid-page CTA title (legacy)',
       type: 'internationalizedArrayString',
-      group: 'symptoms',
-      description: 'Heading for the symptoms/indications section.',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy override still used by the hardcoded mid-page CTA.',
     },
-    { name: 'reasonsLead', title: 'Symptoms — introduction 1', type: 'internationalizedArrayText', group: 'symptoms' },
-    { name: 'reasonsLead2', title: 'Symptoms — introduction 2', type: 'internationalizedArrayText', group: 'symptoms' },
     {
-      name: 'reasonsLayout',
-      title: 'Symptoms — layout',
+      name: 'specialistTitle',
+      title: 'Specialist section title (legacy)',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy specialist section chrome. Current specialist band uses Shared Sections.',
+    },
+    {
+      name: 'specialistDescription',
+      title: 'Specialist section description (legacy)',
+      type: 'internationalizedArrayText',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy specialist section chrome. Current specialist band uses Shared Sections.',
+    },
+    {
+      name: 'specialistCtaLabel',
+      title: 'Specialist CTA label (legacy)',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy specialist CTA copy. Current specialist band uses Shared Sections.',
+    },
+    {
+      name: 'specialistCtaHref',
+      title: 'Specialist CTA link (legacy)',
       type: 'string',
-      group: 'symptoms',
-      options: {
-        list: [
-          { title: 'Prosa (standard)', value: 'prose' },
-          { title: 'Trekkspill', value: 'accordion' },
-          { title: 'Automatic', value: 'auto' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'prose',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      description: 'Legacy specialist CTA link. Current specialist band uses Shared Sections.',
     },
     {
-      name: 'reasons',
-      title: 'Symptoms / indications',
-      type: 'array',
-      group: 'symptoms',
-      description: 'Add symptoms or indications for this treatment.',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
-            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-          ],
-          preview: {
-            select: { title: 'title', n: 'n', subtitle: 'desc' },
-            prepare({ title, n, subtitle }: any) {
-              const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
-              return {
-                title: `${prefix}${pickNo(title) || 'Untitled'}`,
-                subtitle: pickNo(subtitle),
-              }
-            },
-          },
-        },
-      ],
-    },
-    // ─── Flow (Treatment Steps) ───────────────────────────────────────────────
-
-    { name: 'flowTitle', title: 'Process — title', type: 'internationalizedArrayString', group: 'flow', description: 'Heading for the \'How it works\' section.' },
-    { name: 'flowImage', title: 'Process — image', type: 'image', group: 'flow', options: { hotspot: true } },
-    { name: 'flowImageAlt', title: 'Process — image alt', type: 'internationalizedArrayString', group: 'flow' },
-    { name: 'flowLinkLabel', title: 'Process — link text', type: 'internationalizedArrayString', group: 'flow' },
-    { name: 'flowLinkHref', title: 'Process — link', type: 'string', group: 'flow', validation: validateRelativePath },
-    {
-      name: 'flow',
-      title: 'Process — steps',
-      type: 'array',
-      group: 'flow',
-      description: 'Add treatment steps displayed in the \'How it works\' section, e.g. \'Consultation\', \'Examination\', \'Aftercare\'.',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'n', title: 'Step number / label', type: 'internationalizedArrayString' },
-            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-          ],
-          preview: {
-            select: { title: 'title', n: 'n', subtitle: 'desc' },
-            prepare({ title, n, subtitle }: any) {
-              const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
-              return {
-                title: `${prefix}${pickNo(title) || 'Untitled'}`,
-                subtitle: pickNo(subtitle),
-              }
-            },
-          },
-        },
-      ],
-    },
-    // ─── Expert Areas ────────────────────────────────────────────────────────
-    {
-      name: 'expertAreas',
-      title: 'Linked services',
-      type: 'object',
-      group: 'features',
-      fields: [
-        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-        { name: 'description', title: 'Ingress', type: 'internationalizedArrayText' },
-        {
-          name: 'items',
-          title: 'Linked services',
-          type: 'array',
-          of: [
-            {
-              type: 'object',
-              fields: [
-                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-                { name: 'path', title: 'Link', type: 'string', validation: validateRelativePath },
-                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
-                { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
-              ],
-              preview: {
-                select: { title: 'title', subtitle: 'desc', media: 'image' },
-                prepare({ title, subtitle, media }: any) {
-                  return {
-                    title: pickNo(title) || 'Untitled',
-                    subtitle: pickNo(subtitle),
-                    media,
-                  }
-                },
-              },
-            },
-          ],
-        },
-      ],
-    },
-    // ─── Promises (3-column benefits) ────────────────────────────────────────
-    {
-      name: 'promises',
-      title: 'Promises / advantages (3 columns)',
-      type: 'array',
-      group: 'features',
-      description: 'Show three highlighted benefits with image and text.',
-      validation: (Rule: any) => Rule.required().min(1).error('At least one advantage/promise must be added'),
-      of: [
-        {
-          type: 'object',
-          fields: [
-
-            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
-            { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
-          ],
-          preview: {
-            select: { title: 'title', subtitle: 'desc', media: 'image' },
-            prepare({ title, subtitle, media }: any) {
-              return {
-                title: pickNo(title) || 'Untitled',
-                subtitle: pickNo(subtitle),
-                media,
-              }
-            },
-          },
-        },
-      ],
-    },
-    // ─── Text + Image Section ────────────────────────────────────────────────
-    {
-      name: 'textSection',
-      title: 'Text + image section',
-      type: 'object',
-      group: 'features',
-      fields: [
-        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-        { name: 'lead', title: 'Ingress', type: 'internationalizedArrayText' },
-        {
-          name: 'points',
-          title: 'Punkter',
-          type: 'array',
-          of: [
-            {
-              type: 'object',
-              fields: [
-                { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
-                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-              ],
-              preview: {
-                select: { title: 'title', n: 'n', subtitle: 'desc' },
-                prepare({ title, n, subtitle }: any) {
-                  const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
-                  return {
-                    title: `${prefix}${pickNo(title) || 'Untitled'}`,
-                    subtitle: pickNo(subtitle),
-                  }
-                },
-              },
-            },
-          ],
-        },
-        { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
-        { name: 'imageAlt', title: 'Image alt', type: 'internationalizedArrayString' },
-      ],
-    },
-    // ─── Related Section ─────────────────────────────────────────────────────
-    {
-      name: 'relatedSection',
-      title: 'Related services',
-      type: 'object',
-      group: 'features',
-      fields: [
-
-        { name: 'title', title: 'Related — title', type: 'internationalizedArrayString' },
-        { name: 'lead', title: 'Relatert — ingress', type: 'internationalizedArrayText' },
-        { name: 'asIntro', title: 'Relatert rett etter hero', type: 'boolean' },
-        { name: 'asServices', title: 'Related as service carousel', type: 'boolean' },
-        { name: 'seeAllHref', title: 'Related — \'see all\' link', type: 'string', description: 'E.g. /treatments/fertility', validation: validateRelativePath },
-        { name: 'seeAllLabel', title: 'Related — \'see all\' text', type: 'internationalizedArrayString' },
-        {
-          name: 'items',
-          title: 'Related treatments',
-          description: 'Select and sort treatments to display in the carousel (Related services).',
-          type: 'array',
-          of: [
-            {
-              type: 'reference',
-              to: [{ type: 'treatment' }],
-            },
-          ],
-        },
-      ],
-    },
-    // ─── CTA Sections ────────────────────────────────────────────────────────
-    // [DEPRECATED] CTA and Specialist Section fields moved to pageSections
-    /*
-    { name: 'ctaTitle', title: 'Closing CTA — title', type: 'internationalizedArrayString' },
-    { name: 'ctaDescription', title: 'Final CTA — text', type: 'internationalizedArrayText' },
-    { name: 'conversationCtaTitle', title: 'Mid-page CTA — title', type: 'internationalizedArrayString' },
-    // ─── Specialist Section ──────────────────────────────────────────────────
-    { name: 'specialistTitle', title: 'Specialist section — title', type: 'internationalizedArrayString' },
-    { name: 'specialistDescription', title: 'Specialist section — introduction', type: 'internationalizedArrayText' },
-    { name: 'specialistCtaLabel', title: 'Specialist section — CTA text', type: 'internationalizedArrayString' },
-    { name: 'specialistCtaHref', title: 'Specialist section — CTA link', type: 'string', description: 'E.g. /specialists?category=gynecology' },
-    */
-    // ─── Insurance ───────────────────────────────────────────────────────────
-    { name: 'insuranceEyebrow', title: 'Insurance — eyebrow', type: 'internationalizedArrayString', group: 'features' },
-    { name: 'insuranceTitle', title: 'Insurance — title', type: 'internationalizedArrayString', group: 'features' },
-    {
-      name: 'insurancePartners',
-      title: 'Insurance partners',
-      type: 'array',
-      group: 'features',
-      of: [{
-        type: 'object',
-        fields: [
-          { name: 'key', title: 'Key', type: 'string' },
-          { name: 'label', title: 'Name', type: 'internationalizedArrayString' },
-        ],
-        preview: {
-          select: { title: 'label', subtitle: 'key' },
-          prepare({ title, subtitle }: any) {
-            return {
-              title: pickNo(title) || 'Unnamed',
-              subtitle,
-            }
-          },
-        },
-      }],
-    },
-    // ─── UI Labels ───────────────────────────────────────────────────────────
-    { name: 'expertReadMoreLabel', title: 'Expert card — link text', type: 'internationalizedArrayString', group: 'general' },
-    { name: 'scrollLeftLabel', title: 'Karusell — scroll venstre', type: 'internationalizedArrayString', group: 'general' },
-    { name: 'scrollRightLabel', title: 'Carousel — scroll right', type: 'internationalizedArrayString', group: 'general' },
-    {
-      ...pageSectionsField,
-      group: 'general',
+      name: 'homeBreadcrumbLabel',
+      title: 'Breadcrumb — home',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedChrome',
+      description: 'First breadcrumb segment (e.g. Home). Rarely changed.',
     },
     {
-      name: 'seo',
-      title: 'SEO',
-      type: 'seo',
-      group: 'seo',
-      validation: requiredNoEnSeo,
+      name: 'expertReadMoreLabel',
+      title: 'Expert card — link text',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedChrome',
+      description: 'Read more label on expert area cards. Defaults apply if empty.',
     },
     {
-      ...geoSummaryField,
-      group: 'seo',
-      validation: reqI18n('GEO-sammendrag'),
+      name: 'scrollLeftLabel',
+      title: 'Carousel — scroll left',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedChrome',
+    },
+    {
+      name: 'scrollRightLabel',
+      title: 'Carousel — scroll right',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedChrome',
     },
   ],
   orderings: [
     {
       title: 'Manual order',
       name: 'sortOrderAsc',
-      by: [
-        { field: 'sortOrder', direction: 'asc' },
-      ],
+      by: [{ field: 'sortOrder', direction: 'asc' }],
     },
     {
       title: 'Title (A–Z)',
@@ -526,12 +1158,13 @@ export default {
     select: {
       title: 'title',
       subtitle: 'parentCategoryLabel',
+      categoryTitle: 'category.title',
       media: 'heroImage',
     },
-    prepare({ title, subtitle, media }: any) {
+    prepare({ title, subtitle, categoryTitle, media }: any) {
       return {
         title: pickNo(title) || 'Treatment',
-        subtitle: pickNo(subtitle) || 'No category',
+        subtitle: pickNo(subtitle) || pickNo(categoryTitle) || 'No category',
         media,
       }
     },
@@ -545,17 +1178,23 @@ export default {
         issues.push('Treatment name (English) is missing')
       }
 
-      // Validation for the new flat design fields
       if (!document.heroImage) issues.push('Hero image is missing')
       if (!pickNo(document.heroTitle)?.trim()) issues.push('Hero title (Norwegian) is missing')
       if (!pickForLang(document.heroTitle, 'en')?.trim()) {
         issues.push('Hero title (English) is missing')
       }
-      if (!pickNo(document.heroDescription)?.trim()) issues.push('Hero-ingress (norsk) mangler')
-      if (!pickForLang(document.heroDescription, 'en')?.trim()) {
-        issues.push('Hero-ingress (engelsk) mangler')
+      if (!pickNo(document.description)?.trim()) {
+        issues.push('Intro text (Norwegian) is missing')
       }
-      // Specialists validation removed as they are now managed under pageSections
+      if (!pickForLang(document.description, 'en')?.trim()) {
+        issues.push('Intro text (English) is missing')
+      }
+
+      if (!(document.category as {_ref?: string} | undefined)?._ref) {
+        issues.push(
+          'Category is missing — choose a Treatment Category before publishing',
+        )
+      }
 
       const promises = document.promises as unknown[] | undefined
       if (!Array.isArray(promises) || promises.length === 0) {

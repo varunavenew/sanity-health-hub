@@ -3,6 +3,7 @@ import { Link } from "@/lib/router";
 import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AssetImg } from "@/components/AssetImg";
+import { CmsMedia } from "@/components/media/CmsMedia";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
@@ -127,11 +128,19 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
           transition={{ duration: 0.6, delay: 0.1 }}
           className="relative min-h-[380px] lg:min-h-full order-1 lg:order-2"
         >
-          <AssetImg
-            src={specialist.image}
-            alt={specialist.name}
-            className="absolute inset-0 w-full h-full object-cover object-top"
-          />
+          {specialist.heroMedia ? (
+            <CmsMedia
+              media={specialist.heroMedia}
+              alt={specialist.name}
+              className="absolute inset-0 w-full h-full object-cover object-top"
+            />
+          ) : (
+            <AssetImg
+              src={specialist.image}
+              alt={specialist.name}
+              className="absolute inset-0 w-full h-full object-cover object-top"
+            />
+          )}
         </motion.div>
       </div>
       <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
