@@ -34,10 +34,8 @@ import {
 } from './sanity/actions/publishWithNavSync'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
-import {DatasetBadgeNavbar} from './sanity/components/DatasetBadgeNavbar'
 import {deskStructure} from './sanity/deskStructure'
 import {
-  datasetBadgeLabel,
   requireSanityDataset,
   requireSanityProjectId,
 } from './sanity/dataset-env'
@@ -107,18 +105,12 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
 
 export default defineConfig({
   name: 'default',
-  title: datasetBadgeLabel(requireSanityDataset()),
+  title: 'CMedical',
   // `/` for sanity.studio + sanity.io/@…/studio/… links; `/studio` when embedded in Next.js (see next.config.ts env).
   basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
 
   projectId: requireSanityProjectId(),
   dataset: requireSanityDataset(),
-
-  studio: {
-    components: {
-      navbar: DatasetBadgeNavbar,
-    },
-  },
 
   form: {
     components: {

@@ -247,6 +247,59 @@ async function verifyUsedOn(
   return {collectionId, incomingCount, expected}
 }
 
+/**
+ * When no existing pack matches this treatment's partners, create one from
+ * Production inline partners (structure migration — never invents partners).
+ */
+async function ensureInsuranceCollection(
+  treatment: TreatmentDoc,
+  collections: CollectionDoc[],
+  report: Report,
+): Promise<string | null> {
+  const matched = matchCollectionId(treatment, collections)
+  if (matched) return matched
+
+  const partners = normalizePartners(treatment.insurancePartners)
+  if (!partners.length) return null
+
+  const hash = partnersFingerprint(treatment.insurancePartners)
+  const collectionId = `migrated-insurance-collection.treatment.${hash}`
+  const existing = collections.find((c) => c._id === collectionId)
+  if (existing) return existing._id
+
+  const title =
+    plain(treatment.insuranceTitle) ||
+    `Treatment insurance pack ${hash.slice(0, 8)}`
+  const doc = {
+    _id: collectionId,
+    _type: 'insuranceCollection',
+    internalName: `Treatment partners ${hash.slice(0, 8)}`,
+    title,
+    partners: clonePartners(treatment.insurancePartners),
+    description:
+      'Created from Production treatment.insurancePartners (structure migration). Legacy fields preserved on treatments.',
+    notes: `migration: migrate-treatment-insurance-unification.ts; fingerprint: ${hash}`,
+  }
+
+  if (DRY_RUN) {
+    console.log(`[dry-run] create insuranceCollection ${collectionId} partners=${partners.length}`)
+  } else {
+    await client.createOrReplace(doc)
+    console.log(`Created insuranceCollection ${collectionId} partners=${partners.length}`)
+  }
+
+  collections.push({
+    _id: collectionId,
+    internalName: doc.internalName,
+    title: doc.title,
+    partners: doc.partners,
+  })
+  if (!report.collectionsCreated.includes(collectionId)) {
+    report.collectionsCreated.push(collectionId)
+  }
+  return collectionId
+}
+
 async function runPass(report: Report, collections: CollectionDoc[]): Promise<number> {
   const treatments = await client.fetch<TreatmentDoc[]>(
     `*[_type == "treatment" && !(_id in path("drafts.**"))]{
@@ -262,14 +315,18 @@ async function runPass(report: Report, collections: CollectionDoc[]): Promise<nu
 
   let patches = 0
   for (const treatment of treatments) {
-    const collectionId = matchCollectionId(treatment, collections)
+    const collectionId = await ensureInsuranceCollection(treatment, collections, report)
     if (!collectionId) {
-      report.errors.push(`${treatment._id}: no matching insuranceCollection`)
+      // Empty partners — nothing to link; not an error for structure migration
+      report.treatmentsSkipped++
       continue
     }
 
     if (!report.reusedCollectionId) report.reusedCollectionId = collectionId
-    if (!report.collectionsReused.includes(collectionId)) {
+    if (
+      !report.collectionsReused.includes(collectionId) &&
+      !report.collectionsCreated.includes(collectionId)
+    ) {
       report.collectionsReused.push(collectionId)
     }
 

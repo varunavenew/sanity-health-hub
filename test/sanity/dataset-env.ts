@@ -123,8 +123,3 @@ export function assertMigrationDatasetAllowed(): SanityDatasetName {
   return dataset;
 }
 
-export function datasetBadgeLabel(dataset: SanityDatasetName): string {
-  return dataset === "developer"
-    ? "🟢 Developer Dataset"
-    : "🔴 Production Dataset";
-}
