@@ -34,8 +34,6 @@ export const singletonPageFieldsets = [
   {
     name: 'legacy',
     title: 'Legacy',
-    description:
-      'Migration and rollback only. Do not edit unless instructed by a developer.',
     options: {collapsible: true, collapsed: true},
   },
   {
@@ -75,7 +73,7 @@ export function faqCollectionField(group: SingletonPageGroup = 'content') {
     to: [{type: 'faqCollection'}],
     group,
     description:
-      'Managed from Content Library → FAQ Collections. The website prefers this over any legacy FAQ list in the Legacy section.',
+      'Select, replace, clear, or create an FAQ Collection from the Content Library.',
     options: {
       disableNew: false,
     },

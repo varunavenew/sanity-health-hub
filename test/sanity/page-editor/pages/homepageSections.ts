@@ -136,8 +136,6 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
       fields: ['faqSectionTitle', 'faqCollection'],
       collectionRefField: 'faqCollection',
       collectionType: 'faqCollection',
-      notice:
-        'Prefer Homepage FAQ Collection from the Content Library.',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const collection = document.faqCollection as {_ref?: string} | undefined
@@ -194,26 +192,14 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
       description: 'Booking call-to-action on the homepage',
       icon: ComposeIcon,
       fields: ['bookingCta'],
-      notice:
-        'Edit only the homepage Booking CTA. Prefer linking a CTA Collection from the Content Library.',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const booking = document.bookingCta as {ctaCollection?: {_ref?: string}} | undefined
-          if (!booking) {
-            const sections = document.pageSections
-            if (Array.isArray(sections)) {
-              const legacy = sections.find(
-                (item: {_type?: string}) => item?._type === 'pageSectionBookingCta',
-              )
-              if (legacy) return ['Legacy band']
-            }
-            return ['Not configured']
-          }
-          const collectionRef = booking.ctaCollection?._ref
+          const collectionRef = booking?.ctaCollection?._ref
           if (typeof collectionRef === 'string' && collectionRef.length > 0) {
             return ['Collection linked']
           }
-          return ['Inline / default']
+          return ['Not configured']
         }),
     },
     {
@@ -222,8 +208,6 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
       description: 'Internal page title and Studio label',
       icon: CogIcon,
       fields: ['title', 'tagline'],
-      notice:
-        'Page title is used in Studio. Tagline is stored but not shown on the live homepage today.',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) =>
           i18nPreview(document.title) ? ['Ready'] : ['Not configured'],
@@ -232,11 +216,9 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
     {
       id: 'advanced',
       title: 'Advanced',
-      description: 'Developer settings and legacy fields',
+      description: 'Optional homepage bands not edited day to day',
       icon: CogIcon,
-      fields: ['statsBar', 'valueBadges', 'promoBlocksTitle', 'promoBlocks', 'faqs', 'pageSections'],
-      notice:
-        'Developer-only. Legacy FAQ list (when no collection) and Website bands remain for dual-read / rollback.',
+      fields: ['statsBar', 'valueBadges', 'promoBlocksTitle', 'promoBlocks'],
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const stats = countArray(document.statsBar)

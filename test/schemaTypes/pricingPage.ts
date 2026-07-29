@@ -76,24 +76,20 @@ export default {
     faqCollectionField('content'),
     {
       name: 'faqs',
-      title: 'Previous FAQ list (legacy)',
+      title: 'Previous FAQ list',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
       of: [{type: 'reference', to: [{type: 'faq'}]}],
-      description:
-        'Legacy backup. Website dual-reads this only when no FAQ Collection is linked.',
-      hidden: ({document}: {document?: {faqCollection?: unknown}}) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     {
       name: 'priceCategories',
-      title: 'Price categories (legacy)',
+      title: 'Price categories',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
-      description:
-        'Not used on the live Pricing page — prices come from the booking API. Kept for rollback only.',
+      hidden: () => true,
       of: [
         {
           type: 'object',
@@ -148,11 +144,11 @@ export default {
     },
     {
       name: 'insuranceNote',
-      title: 'Insurance note (legacy)',
+      title: 'Insurance note',
       type: 'internationalizedArrayText',
       group: 'content',
       fieldset: 'legacy',
-      description: 'Not rendered on the website today. Use Insurance Collection bands or the Insurance page.',
+      hidden: () => true,
     },
     pageSectionsFieldForGroup('content', 'sharedSections', PRICING_SHARED_SECTIONS),
     {

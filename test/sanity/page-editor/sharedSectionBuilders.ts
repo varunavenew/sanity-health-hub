@@ -93,15 +93,12 @@ export function faqCollectionSection(options?: {
     fields: [titleField, collectionField],
     collectionRefField: collectionField,
     collectionType: 'faqCollection',
-    notice: 'Prefer FAQ Collection from Content Library. Legacy FAQ list stays under Legacy.',
     getChips: (doc) =>
       chipsFromDocument(doc, Boolean(doc), (document) => {
         const collection = document[collectionField] as {_ref?: string} | undefined
         const hasCollection =
           typeof collection?._ref === 'string' && collection._ref.length > 0
         if (hasCollection) return ['Collection linked']
-        const legacy = countArray(document.faqs)
-        if (legacy) return ['Legacy only']
         return ['Empty']
       }),
   }
@@ -193,13 +190,11 @@ export function bookingCtaBandSection(options?: SharedBandOptions): PageSectionD
   return {
     id: 'bookingCta',
     title: 'Booking CTA',
-    description: 'Booking call-to-action. Prefer a CTA Collection from Content Library.',
+    description: 'Booking call-to-action from a CTA Collection.',
     icon: ComposeIcon,
     fields: ['pageSections'],
     pageSectionsItemTypes: ['pageSectionBookingCta'],
-    notice:
-      options?.pageOwnedNotice ||
-      'Preferred CTA source. Prefer linking a CTA Collection. Legacy / hardcoded CTAs are fallback only.',
+    notice: options?.pageOwnedNotice,
     getChips: (doc) =>
       chipsFromDocument(doc, Boolean(doc), (document) => {
         const sections = document.pageSections

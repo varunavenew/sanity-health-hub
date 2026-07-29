@@ -104,15 +104,12 @@ export default {
     },
     {
       name: 'partners',
-      title: 'Insurance partners (legacy plain text)',
+      title: 'Insurance partners (plain text)',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
       of: [{type: 'string'}],
-      description:
-        'Non-translated partner names. Prefer Insurance partners above. Dual-read fallback only.',
-      hidden: ({document}: {document?: {partnersLocalized?: unknown[]}}) =>
-        Array.isArray(document?.partnersLocalized) && document.partnersLocalized.length > 0,
+      hidden: () => true,
     },
     pageSectionsFieldForGroup('content', 'sharedSections', INSURANCE_SHARED_SECTIONS),
     {

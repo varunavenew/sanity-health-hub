@@ -95,12 +95,11 @@ export default {
     },
     {
       name: 'values',
-      title: 'Our values (legacy)',
-      description:
-        'Not rendered on the website today. Kept for rollback only.',
+      title: 'Our values',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
+      hidden: () => true,
       of: [
         {
           type: 'object',

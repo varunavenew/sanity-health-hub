@@ -232,9 +232,7 @@ export default {
     faqCollectionField('content'),
     {
       name: 'faqs',
-      title: 'Previous FAQ list (legacy)',
-      description:
-        'Legacy inline FAQ rows or FAQ Item references. Dual-read only when no FAQ Collection is linked.',
+      title: 'Previous FAQ list',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
@@ -261,8 +259,7 @@ export default {
           preview: i18nFaqItemPreview,
         },
       ],
-      hidden: ({document}: {document?: {faqCollection?: unknown}}) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     pageSectionsFieldForGroup('content', 'sharedSections', SERVICES_SHARED_SECTIONS),
     {
@@ -274,12 +271,6 @@ export default {
     },
     {...geoSummaryField, ...seoFieldsetProps},
   ],
-  validation: (Rule: any) =>
-    Rule.custom((document: {faqCollection?: unknown; faqs?: unknown[]}) => {
-      if (document?.faqCollection) return true
-      if (Array.isArray(document?.faqs) && document.faqs.length > 0) return true
-      return 'Link an FAQ Collection or keep legacy FAQs until migration is complete.'
-    }),
   preview: {
     select: {title: 'title'},
     prepare({title}: {title?: {value?: string; language?: string; _key?: string}[]}) {

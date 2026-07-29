@@ -1,7 +1,7 @@
 /**
  * Contact — page editor config (Homepage framework).
  */
-import {CogIcon, ComposeIcon, EnvelopeIcon} from '@sanity/icons'
+import {ComposeIcon, EnvelopeIcon} from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip} from '../documentMeta'
@@ -87,18 +87,5 @@ export const contactPageEditorConfig: PageEditorConfig = definePageEditorConfig(
     },
     bookingCtaBandSection(),
     seoSection(),
-    {
-      id: 'legacy',
-      title: 'Legacy',
-      description: 'Legacy contact details — clinics supply live contact info.',
-      icon: CogIcon,
-      fields: ['phone', 'email', 'address', 'openingHours'],
-      notice: 'Not shown on the Contact page today. Rollback only.',
-      getChips: (doc) =>
-        chipsFromDocument(doc, Boolean(doc), (document) => {
-          if (document.phone || document.email || document.address) return ['Legacy']
-          return ['Empty']
-        }),
-    },
   ],
 })

@@ -114,14 +114,14 @@ export default {
     {
       name: 'ssFaq',
       title: 'FAQ',
-      description: 'Prefer a FAQ Collection from the Content Library.',
+      description:
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description: 'Backup list. Used only when no FAQ Collection is selected.',
+      title: 'Previous FAQ list',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -294,7 +294,8 @@ export default {
       title: 'Category FAQ',
       type: 'reference',
       to: [{ type: 'faqCollection' }],
-      description: 'FAQ pack from the Content Library.',
+      description:
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       group: 'sharedSections',
       fieldset: 'ssFaq',
       options: {
@@ -306,12 +307,9 @@ export default {
       title: 'Previous FAQ list',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      description:
-        'Backup list when no FAQ Collection is selected. Keep existing items.',
       group: 'sharedSections',
       fieldset: 'faqAdvanced',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     {
       ...pageSectionsField,

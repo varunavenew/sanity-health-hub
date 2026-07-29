@@ -106,15 +106,13 @@ export default {
       name: 'ssFaq',
       title: 'FAQ',
       description:
-        'Same workflow as Homepage and Treatment Category. Prefer a FAQ Collection from the Content Library. Legacy list is backup only.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description:
-        'Backup list. Used only when no Treatment FAQ Collection with valid questions is selected. Keep existing items — do not delete them.',
+      title: 'Previous FAQ list',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -122,15 +120,13 @@ export default {
       name: 'ssAssemblers',
       title: 'Specialists · Insurance · Articles · Booking CTA',
       description:
-        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library — same workflow as Treatment Category.',
+        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'pcInsuranceLegacy',
-      title: 'Legacy Insurance (Page Content)',
-      description:
-        'Final fallback only. Prefer Shared Sections → Insurance → Insurance Collection. Kept until production verification — do not delete.',
+      title: 'Previous insurance fields',
       options: sectionCollapsed,
       group: 'advanced',
     },
@@ -635,7 +631,7 @@ export default {
       type: 'internationalizedArrayString',
       group: 'advanced',
       fieldset: 'pcInsuranceLegacy',
-      description: 'Legacy fallback. Prefer Shared Sections → Insurance band.',
+      hidden: () => true,
     },
     {
       name: 'insuranceTitle',
@@ -643,7 +639,7 @@ export default {
       type: 'internationalizedArrayString',
       group: 'advanced',
       fieldset: 'pcInsuranceLegacy',
-      description: 'Legacy fallback. Prefer Shared Sections → Insurance band.',
+      hidden: () => true,
     },
     {
       name: 'insurancePartners',
@@ -651,8 +647,7 @@ export default {
       type: 'array',
       group: 'advanced',
       fieldset: 'pcInsuranceLegacy',
-      description:
-        'Legacy fallback partner list. Prefer Shared Sections → Insurance Collection. Kept for dual-read until production verification.',
+      hidden: () => true,
       of: [
         {
           type: 'object',
@@ -736,7 +731,7 @@ export default {
       type: 'reference',
       to: [{ type: 'faqCollection' }],
       description:
-        'FAQ pack from the Content Library. Same pattern as Homepage and Treatment Category.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       group: 'sharedSections',
       fieldset: 'ssFaq',
       options: {
@@ -749,10 +744,7 @@ export default {
       type: 'array',
       group: 'sharedSections',
       fieldset: 'faqAdvanced',
-      description:
-        'Backup list used when no Treatment FAQ Collection with valid questions is selected. Existing items are kept — do not delete them.',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
       of: [
         {
           type: 'reference',

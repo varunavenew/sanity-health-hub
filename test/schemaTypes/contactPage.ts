@@ -113,26 +113,27 @@ export default {
     },
     {
       name: 'phone',
-      title: 'Phone (legacy)',
+      title: 'Phone',
       type: 'string',
       group: 'content',
       fieldset: 'legacy',
-      description: 'Not shown on the Contact page — contact details come from clinic documents.',
+      hidden: () => true,
     },
     {
       name: 'email',
-      title: 'Email (legacy)',
+      title: 'Email',
       type: 'string',
       group: 'content',
       fieldset: 'legacy',
-      description: 'Not shown on the Contact page today.',
+      hidden: () => true,
     },
     {
       name: 'address',
-      title: 'Address (legacy)',
+      title: 'Address',
       type: 'object',
       group: 'content',
       fieldset: 'legacy',
+      hidden: () => true,
       fields: [
         {name: 'street', title: 'Street', type: 'string'},
         {name: 'city', title: 'City', type: 'string'},
@@ -141,10 +142,11 @@ export default {
     },
     {
       name: 'openingHours',
-      title: 'Opening hours (legacy)',
+      title: 'Opening hours',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
+      hidden: () => true,
       of: [
         {
           type: 'object',

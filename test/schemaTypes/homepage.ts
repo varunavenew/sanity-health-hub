@@ -18,15 +18,6 @@ export default {
   components: {
     input: createPageSectionDocumentInput(homepagePageEditorConfig),
   },
-  fieldsets: [
-    {
-      name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description:
-        'Retained for production dual-read until that dataset is migrated. Prefer Homepage FAQ Collection.',
-      options: { collapsible: true, collapsed: true },
-    },
-  ],
   fields: [
     {
       name: 'title',
@@ -339,13 +330,12 @@ export default {
       title: 'Booking CTA',
       type: 'pageSectionBookingCta',
       description:
-        'Preferred homepage Booking CTA. Website dual-reads this first, then falls back to a Booking CTA inside Website bands.',
+        'Select, replace, clear, or create a CTA Collection from the Content Library.',
     },
     {
       ...pageSectionsField,
-      title: 'Website bands (legacy)',
-      description:
-        'Legacy multi-band array. Prefer Booking CTA above for the homepage CTA. Other band types are not rendered on Home today. Kept for dual-read / rollback.',
+      title: 'Website bands',
+      hidden: () => true,
     },
     {
       name: 'faqSectionTitle',
@@ -360,21 +350,17 @@ export default {
       type: 'reference',
       to: [{ type: 'faqCollection' }],
       description:
-        'The FAQ pack for this page. Create new, open to edit, or replace with another pack. Stored in Content Library for reuse.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: {
         disableNew: false,
       },
     },
     {
       name: 'faqs',
-      title: 'Previous FAQ list (legacy)',
+      title: 'Previous FAQ list',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      fieldset: 'faqAdvanced',
-      description:
-        'Legacy backup. Website dual-reads this only when no FAQ Collection has questions. Do not delete existing refs until production is migrated.',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     {
       name: 'reviewsSubheading',
