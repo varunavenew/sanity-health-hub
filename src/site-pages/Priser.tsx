@@ -20,6 +20,7 @@ import { formatDurationMinutes } from "@/lib/booking/duration";
 import { bookingCategoryPageIdForClinicService, buildBookingUrl } from "@/lib/bookingLinks";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
 import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
+import { resolveHomepageSpecialists } from "@/lib/sanity/homepage-specialists";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -175,9 +176,28 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [durationByActivityId, setDurationByActivityId] = useState<Record<number, DurationState>>({});
   const durationByActivityIdRef = useRef(durationByActivityId);
   durationByActivityIdRef.current = durationByActivityId;
-  const { sorted }              = useSpecialistsData();
-  const specialists             = sorted.slice(0, 8);
+  const { sorted: allSpecialists } = useSpecialistsData();
   const { data: sanityPricing } = usePricingPage();
+  const specialistsConfig = sanityPricing?.specialistsSection;
+  const specialists = useMemo(
+    () => {
+      const resolved = resolveHomepageSpecialists(specialistsConfig, allSpecialists);
+      // Match previous Pricing behaviour when CMS section is empty: first 8 specialists.
+      if (!specialistsConfig) return allSpecialists.slice(0, 8);
+      return resolved;
+    },
+    [specialistsConfig, allSpecialists],
+  );
+
+  const specialistsEyebrow =
+    specialistsConfig?.eyebrow?.trim() || t("pricing.specialistsEyebrow");
+  const specialistsTitle =
+    specialistsConfig?.heading?.trim() || t("pricing.specialistsTitle");
+  const specialistsSubtitle =
+    specialistsConfig?.intro?.trim() || t("pricing.specialistsSubtitle");
+  const specialistsSeeAllLabel =
+    specialistsConfig?.seeAllLabel?.trim() || t("pricing.seeAllSpecialists");
+  const specialistsSeeAllHref = specialistsConfig?.seeAllHref?.trim() || "/om-oss";
 
   const {
     categories: bookingCategories,
@@ -739,13 +759,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Specialists Section */}
+      {/* Specialists Section — page-owned specialistsSection (not Website bands) */}
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-10">
-            <p className="text-sm text-white/60 mb-3 font-light">{t("pricing.specialistsEyebrow")}</p>
-            <h2 className="text-3xl md:text-4xl font-normal text-white">{t("pricing.specialistsTitle")}</h2>
-            <p className="text-white/70 mt-3 max-w-2xl font-light">{t("pricing.specialistsSubtitle")}</p>
+            {specialistsEyebrow ? (
+              <p className="text-sm text-white/60 mb-3 font-light">{specialistsEyebrow}</p>
+            ) : null}
+            {specialistsTitle ? (
+              <h2 className="text-3xl md:text-4xl font-normal text-white">{specialistsTitle}</h2>
+            ) : null}
+            {specialistsSubtitle ? (
+              <p className="text-white/70 mt-3 max-w-2xl font-light">{specialistsSubtitle}</p>
+            ) : null}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
             {specialists.map((specialist) => (
@@ -773,8 +799,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
               className="rounded-full border border-white text-white bg-transparent hover:bg-white hover:text-brand-dark"
               asChild
             >
-              <Link to="/om-oss">
-                {t("pricing.seeAllSpecialists")}
+              <Link to={specialistsSeeAllHref}>
+                {specialistsSeeAllLabel}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>

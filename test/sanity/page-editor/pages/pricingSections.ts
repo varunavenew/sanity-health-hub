@@ -1,7 +1,7 @@
 /**
  * Pricing — page editor config (Homepage framework).
  */
-import {BoltIcon, StarIcon} from '@sanity/icons'
+import {BoltIcon, StarIcon, UsersIcon} from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countChip, countReferenceArray} from '../documentMeta'
@@ -11,7 +11,6 @@ import {
   faqCollectionSection,
   heroSection,
   seoSection,
-  specialistsBandSection,
 } from '../sharedSectionBuilders'
 
 export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig({
@@ -45,11 +44,28 @@ export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig(
       getChips: () => ['API driven', 'Configured'],
     },
     faqCollectionSection({titleField: 'faqTitle', collectionField: 'faqCollection'}),
-    specialistsBandSection({
-      getPageOwnedChips: () => ['Page-owned'],
-      pageOwnedNotice:
-        'This page already renders specialists via its own Pricing UI (not a shared Specialists band).',
-    }),
+    {
+      id: 'specialists',
+      title: 'Specialists',
+      description: 'Pricing specialists grid — heading, intro, selection, and layout.',
+      icon: UsersIcon,
+      fields: ['specialistsSection'],
+      notice:
+        'This section is page-owned. It is not controlled by Shared Sections / Website bands.',
+      getChips: (doc) =>
+        chipsFromDocument(doc, Boolean(doc), (document) => {
+          const section = document.specialistsSection as
+            | {heading?: unknown; displayMode?: string; layout?: string}
+            | undefined
+          if (!section) return ['Empty']
+          const mode = section.displayMode || 'all'
+          const layout = section.layout || 'grid'
+          return [
+            mode === 'manual' ? 'Manual' : mode === 'category' ? 'Filtered' : 'All Specialists',
+            layout === 'carousel' ? 'Carousel' : 'Grid',
+          ]
+        }),
+    },
     articlesBandSection(),
     bookingCtaBandSection(),
     seoSection(),

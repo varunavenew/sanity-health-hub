@@ -316,6 +316,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
     date
   },
   specialistsSection{
+    ${i18nString("eyebrow")},
     ${i18nString("heading")},
     ${i18nText("intro")},
     displayMode,
@@ -1055,6 +1056,27 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
   "heroImage": heroImage.asset->url,
   ${faqCollectionProjection},
   ${legacyFaqsRefsProjection},
+  specialistsSection{
+    ${i18nString("eyebrow")},
+    ${i18nString("heading")},
+    ${i18nText("intro")},
+    displayMode,
+    layout,
+    maxItems,
+    randomizeOrder,
+    ${i18nString("seeAllLabel")},
+    seeAllLink->{ _type, ${localizedSlug} },
+    "specialists": specialists[]->{
+      _id,
+      name,
+      ${localizedSlug}
+    },
+    "categories": categories[]->{
+      _id,
+      categoryId,
+      ${localizedSlug}
+    }
+  },
   priceCategories[]{
     ${i18nString("categoryName")},
     "categoryRef": category->{ _id, title, ${localizedSlug} },

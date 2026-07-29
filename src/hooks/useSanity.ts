@@ -18,7 +18,7 @@ import { sortByLabel, sortBySortOrder, textForSort, parseSortOrder } from "@/lib
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { applyListingSort } from "@/lib/sanity/sort-utils";
 import { LISTING_SORT_SETTINGS_QUERY } from "@/lib/queries";
-import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
+import { mapHomepageDocument, mapHomepageSpecialistsSection } from "@/lib/sanity/homepage-data";
 import {
   resolveBookingPageCopy,
   type BookingPageCopy,
@@ -626,9 +626,17 @@ export const usePricingPage = () => {
     queryFn: async () => {
       const data = await fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang);
       const withSections = withPageSections(data);
+      const pageSections = (withSections?.pageSections ?? []).filter(
+        (section: { _type?: string }) => section?._type !== "pageSectionSpecialists",
+      );
       return {
         ...withSections,
+        pageSections,
         faqs: resolveFaqsFromCollection(withSections?.faqCollection, withSections?.faqs),
+        specialistsSection: mapHomepageSpecialistsSection(
+          withSections?.specialistsSection,
+          lang,
+        ),
       };
     },
     staleTime: 5 * 60 * 1000,

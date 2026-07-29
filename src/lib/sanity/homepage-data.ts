@@ -276,12 +276,14 @@ function mapSpecialistsSection(
 
   const heading = asPlainString(row.heading);
   const intro = asPlainString(row.intro);
+  const eyebrow = asPlainString(row.eyebrow);
   const seeAllLabel = asPlainString(row.seeAllLabel);
   const maxItems = typeof row.maxItems === "number" ? row.maxItems : undefined;
   const layout = row.layout === "grid" ? "grid" : "carousel";
   const randomizeOrder = row.randomizeOrder === true;
 
   const hasContent =
+    eyebrow ||
     heading ||
     intro ||
     seeAllLabel ||
@@ -296,6 +298,7 @@ function mapSpecialistsSection(
   if (!hasContent) return undefined;
 
   return {
+    eyebrow: eyebrow || undefined,
     heading: heading || undefined,
     intro: intro || undefined,
     displayMode: mode,
@@ -429,6 +432,13 @@ function mapHomepageReviews(
     ctaSubtitle: asPlainString(ctaSubtitle),
     reviews,
   };
+}
+
+export function mapHomepageSpecialistsSection(
+  raw: unknown,
+  lang: SortLocale,
+): HomepageSpecialistsSectionConfig | undefined {
+  return mapSpecialistsSection(raw, lang);
 }
 
 export function mapHomepageDocument(

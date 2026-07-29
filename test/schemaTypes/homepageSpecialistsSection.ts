@@ -33,6 +33,12 @@ export const homepageSpecialistsSectionType = {
   ],
   fields: [
     {
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      type: 'internationalizedArrayString',
+      description: 'Optional small label above the heading (used on Pricing).',
+    },
+    {
       name: 'heading',
       title: 'Heading',
       type: 'internationalizedArrayString',

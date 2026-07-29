@@ -14,7 +14,6 @@ import {createPageSectionDocumentInput} from '../sanity/page-editor/components/P
 import {pricingPageEditorConfig} from '../sanity/page-editor/pages/pricingSections'
 
 const PRICING_SHARED_SECTIONS = [
-  'pageSectionSpecialists',
   'pageSectionArticles',
   'pageSectionBookingCta',
 ] as const
@@ -149,6 +148,14 @@ export default {
       group: 'content',
       fieldset: 'legacy',
       hidden: () => true,
+    },
+    {
+      name: 'specialistsSection',
+      title: 'Specialists',
+      type: 'homepageSpecialistsSection',
+      group: 'content',
+      description:
+        'Specialists grid on the Pricing page. Heading, intro, selection, and layout are edited here — not via Website bands.',
     },
     pageSectionsFieldForGroup('content', 'sharedSections', PRICING_SHARED_SECTIONS),
     {
