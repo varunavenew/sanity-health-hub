@@ -1,5 +1,6 @@
 // Schema: Testimonial — patient quotes for Pricing page (not Google Reviews)
 import {ReviewIcon} from './icons'
+import {pickNo, requiredNoI18n} from './i18n'
 
 export default {
   name: 'testimonial',
@@ -29,54 +30,64 @@ export default {
     {
       name: 'text',
       title: 'Text',
-      type: 'text',
-      rows: 3,
-      validation: (Rule: any) => Rule.required(),
+      type: 'internationalizedArrayText',
+      validation: requiredNoI18n('Quote text'),
     },
     {
       name: 'location',
-      title: 'Sted',
-      type: 'string',
+      title: 'City',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'treatment',
       title: 'Treatment',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Gynecology', value: 'Gynecology' },
-          { title: 'Urology', value: 'Urology' },
-          { title: 'Fertility', value: 'Fertility' },
-        ],
-      },
+      type: 'internationalizedArrayString',
+      description: 'e.g. Gynekologi / Gynecology, Urologi / Urology, Fertilitet / Fertility',
     },
     {
       name: 'sortOrder',
       title: 'Sorting order',
-      type: 'number'    },
+      type: 'number',
+    },
   ],
   orderings: [
     {
       title: 'Published order (manual → A–Z)',
       name: 'sortOrderAsc',
       by: [
-        { field: 'sortOrder', direction: 'asc' },
-        { field: 'name', direction: 'asc' },
+        {field: 'sortOrder', direction: 'asc'},
+        {field: 'name', direction: 'asc'},
       ],
     },
     {
       title: 'Rating (highest first)',
       name: 'ratingDesc',
-      by: [{ field: 'rating', direction: 'desc' }],
+      by: [{field: 'rating', direction: 'desc'}],
     },
   ],
   preview: {
-    select: { title: 'name', subtitle: 'treatment', rating: 'rating' },
-    prepare({ title, subtitle, rating }: any) {
+    select: {title: 'name', subtitle: 'text', rating: 'rating', treatment: 'treatment'},
+    prepare({
+      title,
+      subtitle,
+      rating,
+      treatment,
+    }: {
+      title?: string
+      subtitle?: unknown
+      rating?: number
+      treatment?: unknown
+    }) {
       const stars = '★'.repeat(rating || 0) + '☆'.repeat(Math.max(0, 5 - (rating || 0)))
+      const quote = pickNo(subtitle)?.trim()
+      const treatmentLabel = pickNo(treatment)?.trim()
+      const excerpt = quote
+        ? `${quote.slice(0, 72)}${quote.length > 72 ? '…' : ''}`
+        : ''
+      const line = [stars, excerpt].filter(Boolean).join('  ')
       return {
-        title,
-        subtitle: `${stars}  ${subtitle || ''}`.trim(),
+        title: title || 'Patient quote',
+        subtitle: treatmentLabel ? `${line} · ${treatmentLabel}` : line || undefined,
       }
     },
   },

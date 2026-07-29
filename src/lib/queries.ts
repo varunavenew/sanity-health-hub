@@ -1091,8 +1091,8 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
     _id,
     name,
     rating,
-    text,
-    treatment
+    ${i18nText("text")},
+    ${i18nString("treatment")}
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -1571,7 +1571,7 @@ export const TOP_RATED_PRODUCTS_QUERY = `*[_type == "product"] | order(rating de
 }`;
 
 export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(_createdAt desc){
-  _id, name, age, rating, text, location, treatment
+  _id, name, age, rating, ${i18nText("text")}, ${i18nString("location")}, ${i18nString("treatment")}
 }`;
 
 export const SOCIAL_POSTS_QUERY = `*[_type == "socialPost" && published != false] | order(sortOrder asc, _createdAt desc)[0..11]{
