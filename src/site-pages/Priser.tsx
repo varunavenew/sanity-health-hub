@@ -173,6 +173,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const suspendSpyUntil = useRef(0);
 
   const [durationByActivityId, setDurationByActivityId] = useState<Record<number, DurationState>>({});
+  const durationByActivityIdRef = useRef(durationByActivityId);
+  durationByActivityIdRef.current = durationByActivityId;
   const { sorted }              = useSpecialistsData();
   const specialists             = sorted.slice(0, 8);
   const { data: sanityPricing } = usePricingPage();
@@ -230,80 +232,112 @@ const Priser = ({ isChatOpen }: PageProps) => {
     }
   }, [activeCategory, sortedCategories]);
 
-  // ─── Load durations from freetimes for Metodika services ───────────────────
-  // Same data source as BookingDemo; cached per activity id.
+  // ─── Load durations from wbfreetimes `timelength` (→ durationMinutes) ───────
+  // Same source as BookingDemo. Load per category in small chunks so we do not
+  // blast all ~80 activities at once (upstream 429 / long hang left every row
+  // stuck on status "loading" → "Loading duration...").
   useEffect(() => {
-    const activityIds = sortedCategories
-      .flatMap((category) => category.subcategories)
-      .flatMap((sub) => sub.items)
-      .map((item) => item.apiActivityId)
-      .filter((id): id is number => typeof id === "number");
-
-    if (activityIds.length === 0) return;
+    if (sortedCategories.length === 0) return;
 
     let cancelled = false;
-    let idsToFetch: number[] = [];
+    const inFlightIds = new Set<number>();
+    const FREETIMES_CHUNK = 8;
 
-    setDurationByActivityId((prev) => {
-      idsToFetch = activityIds.filter((id) => {
-        const cached = prev[id];
-        return cached?.status !== "ready" && cached?.status !== "none";
+    async function loadDurationsForIds(idsToFetch: number[]) {
+      if (idsToFetch.length === 0) return;
+
+      for (const id of idsToFetch) inFlightIds.add(id);
+
+      setDurationByActivityId((prev) => {
+        const next = { ...prev };
+        for (const id of idsToFetch) next[id] = { status: "loading" };
+        return next;
       });
-      if (idsToFetch.length === 0) return prev;
 
-      const next = { ...prev };
-      for (const id of idsToFetch) next[id] = { status: "loading" };
-      return next;
-    });
+      const results: Array<
+        | { id: number; status: "ready"; label: string }
+        | { id: number; status: "none" }
+      > = [];
 
-    if (idsToFetch.length === 0) return;
-
-    async function loadDurations() {
       try {
-        const res = await fetch(
-          `/api/booking/freetimes?wbactivityIds=${idsToFetch.join(",")}`,
-        );
-        const json = (await res.json()) as {
-          ok?: boolean;
-          byActivityId?: Record<string, { durationMinutes?: number }[]>;
-        };
+        for (let i = 0; i < idsToFetch.length; i += FREETIMES_CHUNK) {
+          if (cancelled) return;
+          const chunk = idsToFetch.slice(i, i + FREETIMES_CHUNK);
+          const res = await fetch(
+            `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
+          );
+          const json = (await res.json()) as {
+            ok?: boolean;
+            byActivityId?: Record<string, { durationMinutes?: number }[]>;
+            slots?: { durationMinutes?: number }[];
+          };
 
-        if (cancelled) return;
-
-        const results = idsToFetch.map((id) => {
-          const slots = json.byActivityId?.[String(id)] ?? [];
-          const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
-          if (mins == null) return { id, status: "none" as const };
-          return { id, status: "ready" as const, label: formatDurationMinutes(mins) };
-        });
-
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const result of results) {
-            next[result.id] =
-              result.status === "ready"
-                ? { status: "ready", label: result.label }
-                : { status: "none" };
+          for (const id of chunk) {
+            const slots =
+              json.byActivityId?.[String(id)] ??
+              (chunk.length === 1 && Array.isArray(json.slots) ? json.slots : []);
+            const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
+            if (mins == null) {
+              results.push({ id, status: "none" });
+            } else {
+              results.push({
+                id,
+                status: "ready",
+                label: formatDurationMinutes(mins),
+              });
+            }
           }
-          return next;
-        });
+        }
       } catch {
+        for (const id of idsToFetch) {
+          if (!results.some((r) => r.id === id)) {
+            results.push({ id, status: "none" });
+          }
+        }
+      }
+
+      if (cancelled) return;
+
+      setDurationByActivityId((prev) => {
+        const next = { ...prev };
+        for (const result of results) {
+          next[result.id] =
+            result.status === "ready"
+              ? { status: "ready", label: result.label }
+              : { status: "none" };
+          inFlightIds.delete(result.id);
+        }
+        return next;
+      });
+    }
+
+    async function loadAllCategories() {
+      // Resolve the first (above-the-fold) category first, then the rest.
+      for (const category of sortedCategories) {
         if (cancelled) return;
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const id of idsToFetch) next[id] = { status: "none" };
-          return next;
+        const activityIds = category.subcategories
+          .flatMap((sub) => sub.items)
+          .map((item) => item.apiActivityId)
+          .filter((id): id is number => typeof id === "number");
+
+        const idsToFetch = activityIds.filter((id) => {
+          const cached = durationByActivityIdRef.current[id];
+          return cached?.status !== "ready" && cached?.status !== "none";
         });
+
+        await loadDurationsForIds(idsToFetch);
       }
     }
 
-    loadDurations();
+    void loadAllCategories();
+
     return () => {
       cancelled = true;
+      if (inFlightIds.size === 0) return;
       setDurationByActivityId((prev) => {
         const next = { ...prev };
         let changed = false;
-        for (const id of idsToFetch) {
+        for (const id of inFlightIds) {
           if (next[id]?.status === "loading") {
             delete next[id];
             changed = true;
