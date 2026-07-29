@@ -22,7 +22,7 @@ if (typeof window !== 'undefined') {
   };
 }
 
-import {defineConfig, defineLocaleResourceBundle, type SchemaTypeDefinition} from 'sanity'
+import {defineConfig, type SchemaTypeDefinition} from 'sanity'
 import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
@@ -47,25 +47,6 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norwegian'},
   {id: 'en', title: 'English'},
 ] as const
-
-/** When the reference picker is open with no search term and zero matches (e.g. all selected). */
-const referencePickerEmptyBundle = defineLocaleResourceBundle({
-  locale: 'en-US',
-  namespace: 'studio',
-  resources: {
-    'inputs.reference.no-results-for-query':
-      '{{searchTerm, select, empty {All available items have already been selected.} other {No results for “{{searchTerm}}”}}}',
-  },
-})
-
-const referencePickerEmptyBundleNo = defineLocaleResourceBundle({
-  locale: 'nb-NO',
-  namespace: 'studio',
-  resources: {
-    'inputs.reference.no-results-for-query':
-      '{{searchTerm, select, empty {Alle tilgjengelige elementer er allerede valgt.} other {Ingen treff for «{{searchTerm}}»}}}',
-  },
-})
 
 // Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
@@ -124,12 +105,6 @@ export default defineConfig({
       structure: deskStructure,
     }),
     visionTool(),
-    {
-      name: 'reference-picker-empty-state',
-      i18n: {
-        bundles: [referencePickerEmptyBundle, referencePickerEmptyBundleNo],
-      },
-    },
     internationalizedArray({
       languages: SUPPORTED_LANGUAGES.map((l) => ({id: l.id, title: l.title})),
       defaultLanguages: ['no'],
