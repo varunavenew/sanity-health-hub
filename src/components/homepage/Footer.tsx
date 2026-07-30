@@ -43,6 +43,7 @@ export const Footer = () => {
   const email = settings?.email || "info@cmedical.no";
   const address = settings?.address || "Oslo · Bekkestua · Moss · Moelv";
   const social = settings?.socialMedia || {};
+  const socialChannels = buildSocialChannels(social);
 
   return (
     <footer className="bg-[#180404] text-white pt-20 pb-10" role="contentinfo">
