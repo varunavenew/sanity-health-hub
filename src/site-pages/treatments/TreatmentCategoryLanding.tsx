@@ -70,7 +70,15 @@ function CategoryHeroMedia({
   alt: string;
   className: string;
 }) {
-  return <CmsMedia media={media} alt={alt} className={className} />;
+  return (
+    <CmsMedia
+      media={media}
+      alt={alt}
+      className={className}
+      autoPlay
+      interactive={false}
+    />
+  );
 }
 
 const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -600,11 +608,11 @@ const TreatmentCategoryLanding = ({
               <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`}>
                 {audiencesSection.audiences.map((a) => {
                   const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
-                  return (
-                    <div key={a.title} className="bg-background rounded-sm border border-border/40 flex flex-col p-7 overflow-hidden">
+                  const cardInner = (
+                    <>
                       {a.image ? (
-                        <div className="relative aspect-[16/10] -mx-7 -mt-7 mb-6 overflow-hidden bg-secondary">
-                          <img
+                        <div className="relative w-full aspect-[16/10] overflow-hidden bg-secondary">
+                          <AssetImg
                             src={a.image}
                             alt={a.title}
                             loading="lazy"
@@ -612,17 +620,30 @@ const TreatmentCategoryLanding = ({
                           />
                         </div>
                       ) : (
-                        <div className="mb-6 text-foreground/80">
+                        <div className="px-7 pt-7 text-foreground/80">
                           {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
                         </div>
                       )}
-                      <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                      {a.href ? (
-                        <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
-                          {audiencesSection.readMoreLabel}<ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      ) : null}
+                      <div className="p-7 flex flex-col flex-1">
+                        <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                        <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+                        {a.href ? (
+                          <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all self-start">
+                            {audiencesSection.readMoreLabel}<ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        ) : null}
+                      </div>
+                    </>
+                  );
+                  const cardClass =
+                    "bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden group hover:border-foreground/30 transition-colors";
+                  return a.href ? (
+                    <Link key={a.title} to={a.href} className={cardClass}>
+                      {cardInner}
+                    </Link>
+                  ) : (
+                    <div key={a.title} className={cardClass}>
+                      {cardInner}
                     </div>
                   );
                 })}
@@ -657,7 +678,7 @@ const TreatmentCategoryLanding = ({
     symptoms: () =>
       symptomsSection.items.length > 0 ? (
         <SymptomServiceSection
-          background="background"
+          background={symptomsSection.background}
           eyebrow={symptomsSection.eyebrow}
           title={symptomsSection.title}
           description={symptomsSection.description}
@@ -730,7 +751,7 @@ const TreatmentCategoryLanding = ({
 
     results: () =>
       stats.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12 border-t border-brand-dark/5">
+        <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
@@ -768,7 +789,7 @@ const TreatmentCategoryLanding = ({
 
     reviews: () =>
       reviewsSection.reviews.length > 0 ? (
-        <section className="bg-brand-warm pt-10 md:pt-12 pb-14 md:pb-16">
+        <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="max-w-xl mb-10">
@@ -808,6 +829,20 @@ const TreatmentCategoryLanding = ({
     spotlight: () =>
       spotlightSection ? <SpotlightSection spotlight={spotlightSection} /> : null,
 
+    faq: () =>
+      (category?.faqs?.length ?? 0) > 0 ? (
+        <FaqSection
+          faqs={(category?.faqs ?? []).map((faq, i) => ({
+            id: `category-faq-${i}`,
+            question: faq.question,
+            answer: faq.answer,
+          }))}
+          title={category?.faqSectionTitle?.trim() || undefined}
+          description={category?.faqSectionDescription?.trim() || undefined}
+          defaultOpenFirst={Boolean(category?.faqOpenFirst)}
+        />
+      ) : null,
+
     journey: () =>
       journeySection.steps.length > 0 ? (
         <PatientJourneySection
@@ -828,9 +863,33 @@ const TreatmentCategoryLanding = ({
   const DEFAULT_ORDER = [
     "segments", "why", "audiences", "expertAreas",
     "symptoms", "services", "support", "results",
-    "reviews", "spotlight", "journey",
+    "reviews", "spotlight", "faq", "journey",
   ];
-  const order = sectionOrder?.length > 0 ? sectionOrder : DEFAULT_ORDER;
+
+  /**
+   * Prefer Sanity sectionOrder when present, but never drop known sections.
+   * Listed keys keep their relative CMS order; remaining DEFAULT_ORDER keys
+   * are appended so partial orders (e.g. fertility) still render everything.
+   */
+  const order = (() => {
+    if (!sectionOrder?.length) return DEFAULT_ORDER;
+    const allowed = new Set(DEFAULT_ORDER);
+    const seen = new Set<string>();
+    const preferred: string[] = [];
+    for (const key of sectionOrder) {
+      if (!allowed.has(key) || seen.has(key)) continue;
+      preferred.push(key);
+      seen.add(key);
+    }
+    for (const key of DEFAULT_ORDER) {
+      if (!seen.has(key)) preferred.push(key);
+    }
+    return preferred.length ? preferred : DEFAULT_ORDER;
+  })();
+
+  /** Match reference: Journey sits after Specialists, before Insurance. */
+  const orderBeforeShared = order.filter((key) => key !== "journey");
+  const journeyNode = SECTION_RENDERERS.journey?.() ?? null;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -961,24 +1020,17 @@ const TreatmentCategoryLanding = ({
         </header>
       )}
 
-      {/* Dynamic section loop â€” order controlled by Sanity sectionOrder field */}
-      {order.map((key) => {
+      {/* Dynamic section loop — order controlled by Sanity sectionOrder (includes FAQ). */}
+      {orderBeforeShared.map((key) => {
         const render = SECTION_RENDERERS[key];
         return render ? <Fragment key={key}>{render()}</Fragment> : null;
       })}
 
-      {/* FAQ — dual-read: Collection preferred, else legacy faqs[]. Hidden when empty. */}
-      <FaqSection
-        faqs={(category?.faqs ?? []).map((faq, i) => ({
-          id: `category-faq-${i}`,
-          question: faq.question,
-          answer: faq.answer,
-        }))}
-        title={category?.faqSectionTitle?.trim() || undefined}
+      {/* Shared bands: Specialists → Journey → Insurance → Articles → Booking CTA */}
+      <PageSectionsRenderer
+        sections={category?.pageSections}
+        afterSpecialists={journeyNode}
       />
-
-      {/* Sanity CMS page sections — always rendered after sectionOrder content */}
-      <PageSectionsRenderer sections={category?.pageSections} />
     </PageLayout>
   );
 };

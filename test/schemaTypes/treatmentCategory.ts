@@ -5,21 +5,21 @@
 import { CategoryIcon } from './icons'
 import {
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
-import { TreatmentCategoryAutoSlugInput } from '../sanity/components/TreatmentCategoryAutoSlugInput'
+import { TreatmentCategoryDocumentInput } from '../sanity/components/TreatmentCategoryDocumentInput'
 
 const reqI18n = requiredNoEnI18n
 
 /** Match Treatment editor: all page/shared fieldsets collapsed by default. */
 const sectionCollapsed = { collapsible: true, collapsed: true } as const
 
-/** Reference picker: only treatments whose category points at this category document. */
+/** Reference picker: treatments whose categories[] (or legacy category) points here. */
 function treatmentRefsForCategoryFilter({
   document,
 }: {
@@ -31,13 +31,15 @@ function treatmentRefsForCategoryFilter({
       ? document._id
       : `drafts.${publishedId}`
     return {
-      filter: '_type == "treatment" && category._ref in $categoryIds',
+      filter:
+        '_type == "treatment" && (category._ref in $categoryIds || count((categories[]._ref)[@ in $categoryIds]) > 0)',
       params: { categoryIds: [publishedId, draftId] },
     }
   }
   if (document?.categoryId) {
     return {
-      filter: '_type == "treatment" && category->categoryId == $categoryId',
+      filter:
+        '_type == "treatment" && (category->categoryId == $categoryId || count(categories[@->categoryId == $categoryId]) > 0)',
       params: { categoryId: document.categoryId },
     }
   }
@@ -66,7 +68,7 @@ const statItem = {
   preview: {
     select: { value: 'value', label: 'label' },
     prepare({ value, label }: { value?: string; label?: unknown }) {
-      return { title: value || 'Statistics', subtitle: pickNo(label) || undefined }
+      return { title: value || 'Statistics', subtitle: pickStudioEn(label) || undefined }
     },
   },
 }
@@ -77,7 +79,7 @@ export default {
   type: 'document',
   icon: CategoryIcon,
   components: {
-    input: TreatmentCategoryAutoSlugInput,
+    input: TreatmentCategoryDocumentInput,
   },
   groups: [
     { name: 'general', title: 'General', default: true },
@@ -97,9 +99,9 @@ export default {
     },
     {
       name: 'pcStats',
-      title: 'Statistics — numbers',
+      title: 'Numbers that tell a story — numbers',
       description:
-        'KPI numbers (e.g. “98%”). Headings are under Website sections → Statistics — headings.',
+        'KPI numbers (e.g. “98%”). Headings are under Website sections → Numbers that tell a story.',
       options: sectionCollapsed,
       group: 'pageContent',
     },
@@ -113,7 +115,7 @@ export default {
     },
     {
       name: 'ssFaq',
-      title: 'FAQ',
+      title: 'Frequently Asked Questions',
       description:
         'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
@@ -290,6 +292,24 @@ export default {
       ],
     },
     {
+      name: 'faqSectionDescription',
+      title: 'FAQ description',
+      description:
+        'Optional supporting copy under the heading. Use a blank line between paragraphs. When set, the website uses the split FAQ layout.',
+      type: 'internationalizedArrayText',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+    },
+    {
+      name: 'faqOpenFirst',
+      title: 'Open first question by default',
+      description: 'When on, the first FAQ item starts expanded (reference category behaviour).',
+      type: 'boolean',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      initialValue: false,
+    },
+    {
       name: 'faqCollection',
       title: 'Category FAQ',
       type: 'reference',
@@ -359,7 +379,7 @@ export default {
       const idPart = numericId != null ? `#${numericId}` : ''
       const keyPart = subtitle ? `${subtitle}` : ''
       const previewSubtitle = [idPart, keyPart].filter(Boolean).join(' • ')
-      return { title: pickNo(title) || 'Category', subtitle: previewSubtitle, media }
+      return { title: pickStudioEn(title) || 'Category', subtitle: previewSubtitle, media }
     },
   },
 }

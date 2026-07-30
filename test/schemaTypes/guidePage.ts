@@ -2,11 +2,11 @@
 import {GenericIcon} from './icons'
 import {
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnBlockContent,
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -140,7 +140,7 @@ export default {
             },
             prepare({title, media}: {title?: unknown; media?: unknown}) {
               return {
-                title: pickNo(title) || 'Guide section',
+                title: pickStudioEn(title) || 'Guide section',
                 media,
               }
             },
@@ -164,7 +164,7 @@ export default {
   preview: {
     select: {title: 'heroTitle'},
     prepare({title}: {title?: unknown}) {
-      return {title: pickNo(title) || 'Guide'}
+      return {title: pickStudioEn(title) || 'Guide'}
     },
   },
 }

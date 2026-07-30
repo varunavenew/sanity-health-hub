@@ -53,11 +53,23 @@ export {guidePageEditorConfig} from './pages/guideSections'
 export {careersPageEditorConfig} from './pages/careersSections'
 export {privacyPageEditorConfig} from './pages/privacySections'
 export {
+  createTreatmentCategoryPageEditorConfig,
+  fertilitetPageEditorConfig,
+  graviditetPageEditorConfig,
+  gynekologiPageEditorConfig,
+  urologiPageEditorConfig,
+  ortopediPageEditorConfig,
+  flereFagomraderPageEditorConfig,
+  treatmentCategoryPageEditorConfig,
+  TREATMENT_CATEGORY_EDITORS,
+} from './pages/treatmentCategorySections'
+export {
   articlesBandSection,
   bookingCtaBandSection,
   faqCollectionSection,
   heroSection,
   i18nPreview,
+  insuranceBandSection,
   seoSection,
   specialistsBandSection,
 } from './sharedSectionBuilders'

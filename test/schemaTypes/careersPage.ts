@@ -1,6 +1,7 @@
 // Schema: Careers listing page (Karriere)
 import {GenericIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo} from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -18,7 +19,7 @@ const i18nText = {
 const optionRowPreview = {
   select: {value: 'value', label: 'label'},
   prepare({value, label}: {value?: string; label?: unknown}) {
-    return {title: pickNo(label) || value || 'Option'}
+    return {title: pickStudioEn(label) || value || 'Option'}
   },
 }
 
@@ -215,10 +216,7 @@ export default {
   preview: {
     select: {title: 'title'},
     prepare({title}: {title?: unknown}) {
-      const t = Array.isArray(title)
-        ? title.find((x: any) => (x.language || x._key) === 'no')?.value || title[0]?.value
-        : title
-      return {title: (t as string) || 'Careers'}
+      return {title: pickStudioEn(title) || 'Careers'}
     },
   },
 }

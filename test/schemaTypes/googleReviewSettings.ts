@@ -1,6 +1,6 @@
 // Schema: Google Review Settings (singleton)
 import { ReviewIcon } from './icons'
-import { pickNo } from './i18n'
+import { pickStudioEn } from './studioPreview'
 
 export default {
   name: 'googleReviewSettings',
@@ -48,7 +48,7 @@ export default {
   preview: {
     select: { title: 'heading' },
     prepare({ title }: { title?: unknown }) {
-      return { title: pickNo(title) || 'Google review settings' }
+      return { title: pickStudioEn(title) || 'Google review settings' }
     },
   },
 }

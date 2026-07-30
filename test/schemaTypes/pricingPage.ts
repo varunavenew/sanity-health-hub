@@ -1,6 +1,7 @@
 // Schema: Pricing Page
 import {PricingIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo} from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {
@@ -121,9 +122,9 @@ export default {
                   preview: {
                     select: {title: 'name', subtitle: 'price', priceLabel: 'priceLabel'},
                     prepare({title, subtitle, priceLabel}: any) {
-                      const label = pickNo(priceLabel)
+                      const label = pickStudioEn(priceLabel)
                       return {
-                        title: pickNo(title) || 'Unnamed',
+                        title: pickStudioEn(title) || 'Unnamed',
                         subtitle: label || (subtitle != null ? `${subtitle} kr` : ''),
                       }
                     },
@@ -135,7 +136,7 @@ export default {
           preview: {
             select: {title: 'categoryName'},
             prepare({title}: any) {
-              return {title: pickNo(title) || 'Unnamed'}
+              return {title: pickStudioEn(title) || 'Unnamed'}
             },
           },
         },
@@ -170,7 +171,7 @@ export default {
   preview: {
     select: {title: 'title'},
     prepare({title}: any) {
-      return {title: pickNo(title) || 'Pricing'}
+      return {title: pickStudioEn(title) || 'Pricing'}
     },
   },
 }

@@ -40,7 +40,10 @@ function resolveSpecialists(
     config.treatmentCategory?.slug;
 
   if (mode === "category" && categoryKey) {
-    return all.filter((s) => specialistMatchesCategory(s, categoryKey)).slice(0, limit);
+    return all
+      .filter((s) => specialistMatchesCategory(s, categoryKey))
+      .sort((a, b) => a.name.localeCompare(b.name, "nb"))
+      .slice(0, limit);
   }
 
   return all.slice(0, limit);
@@ -86,7 +89,9 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
         }
         eyebrow={config.eyebrow || undefined}
         title={config.title || undefined}
-        description={config.description?.trim() ? config.description : ""}
+        description={
+          config.description?.trim() ? config.description : undefined
+        }
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
       />

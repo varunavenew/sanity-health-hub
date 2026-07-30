@@ -31,6 +31,12 @@ export type PageSectionDefinition = {
    */
   pageSectionsItemTypes?: string[]
   /**
+   * When this section includes `landingPage`, only show these nested field names
+   * (e.g. `['segmentsSection']`). Other landing bands stay on the document.
+   * Used by CategoryLandingPageInput — Studio UX only, JSON paths unchanged.
+   */
+  landingPageFields?: string[]
+  /**
    * Optional preview line for the section card (derived from current document).
    * Keep page-specific logic in the page config, not in shared components.
    */
@@ -44,6 +50,11 @@ export type PageSectionDefinition = {
    * When omitted, preview + meta are used as chips.
    */
   getChips?: (document: Record<string, unknown> | undefined) => string[] | undefined
+  /**
+   * When true, PageSectionListPane hides this card if chips resolve to Empty
+   * (category does not use the section). Always-visible sections omit this.
+   */
+  hideWhenEmpty?: boolean
   /**
    * Optional notice rendered above the fields (e.g. “not editable on this page”).
    * Page configs supply the copy; shared UI only renders it.

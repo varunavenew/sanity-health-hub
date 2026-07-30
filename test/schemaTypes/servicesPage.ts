@@ -3,10 +3,10 @@ import {TreatmentIcon} from './icons'
 import {
   i18nFaqItemPreview,
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {
@@ -100,7 +100,7 @@ export default {
           preview: {
             select: {label: 'label'},
             prepare({label}: {label?: unknown}) {
-              return {title: pickNo(label) || 'Badge'}
+              return {title: pickStudioEn(label) || 'Badge'}
             },
           },
         },
@@ -207,7 +207,7 @@ export default {
             }) {
               const mode =
                 displayMode === 'treatmentsList' ? 'Treatment list' : 'Category link'
-              const label = pickNo(categoryTitle) || categoryId || 'Select category'
+              const label = pickStudioEn(categoryTitle) || categoryId || 'Select category'
               return {title: label, subtitle: mode}
             },
           },
@@ -273,13 +273,8 @@ export default {
   ],
   preview: {
     select: {title: 'title'},
-    prepare({title}: {title?: {value?: string; language?: string; _key?: string}[]}) {
-      const titleStr = Array.isArray(title)
-        ? title.find((t) => (t.language || t._key) === 'no')?.value ||
-          title[0]?.value ||
-          'Services'
-        : title || 'Services'
-      return {title: titleStr}
+    prepare({title}: {title?: unknown}) {
+      return {title: pickStudioEn(title) || 'Services'}
     },
   },
 }

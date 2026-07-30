@@ -9,8 +9,9 @@ import {
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
-import { pageSectionsFieldForGroup } from './pageSections'
+import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
+import { pageSectionsFieldForGroup } from './pageSections'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
 
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
@@ -566,7 +567,7 @@ export default {
           : '',
       ].filter(Boolean)
       return {
-        title: pickNo(title) || 'Clinic',
+        title: pickStudioEn(title) || 'Clinic',
         subtitle: parts.join(' · '),
         media: media as any,
       }

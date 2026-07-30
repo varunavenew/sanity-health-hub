@@ -21,9 +21,9 @@ type CmsMediaProps = {
    */
   autoPlay?: boolean;
   /**
-   * When true (default), show a play overlay. Click opens interactive playback
+   * When true, show a play overlay. Click opens interactive playback
    * with sound (uploaded) or the normal YouTube/Vimeo player (embeds).
-   * Set false when a parent handles click (e.g. Homepage hero CTA).
+   * Default false — landing/hero videos autoplay muted with no controls.
    */
   interactive?: boolean;
 };
@@ -42,7 +42,7 @@ export function CmsMedia({
   style,
   loading = "lazy",
   autoPlay = true,
-  interactive = true,
+  interactive = false,
 }: CmsMediaProps) {
   if (media.kind === "image" && media.src) {
     return (

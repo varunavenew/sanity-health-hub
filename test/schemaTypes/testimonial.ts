@@ -1,6 +1,7 @@
 // Schema: Testimonial — patient quotes for Pricing page (not Google Reviews)
 import {ReviewIcon} from './icons'
-import {pickNo, requiredNoI18n} from './i18n'
+import {requiredNoI18n} from './i18n'
+import {pickStudioEn} from './studioPreview'
 
 export default {
   name: 'testimonial',
@@ -79,8 +80,8 @@ export default {
       treatment?: unknown
     }) {
       const stars = '★'.repeat(rating || 0) + '☆'.repeat(Math.max(0, 5 - (rating || 0)))
-      const quote = pickNo(subtitle)?.trim()
-      const treatmentLabel = pickNo(treatment)?.trim()
+      const quote = pickStudioEn(subtitle)?.trim()
+      const treatmentLabel = pickStudioEn(treatment)?.trim()
       const excerpt = quote
         ? `${quote.slice(0, 72)}${quote.length > 72 ? '…' : ''}`
         : ''

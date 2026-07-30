@@ -1,6 +1,7 @@
 // Schema: Contact Page
 import {ContactIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo} from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -105,7 +106,7 @@ export default {
           preview: {
             select: {title: 'title', subtitle: 'ctaText'},
             prepare({title, subtitle}: any) {
-              return {title: pickNo(title), subtitle: pickNo(subtitle)}
+              return {title: pickStudioEn(title), subtitle: pickStudioEn(subtitle)}
             },
           },
         },
@@ -205,7 +206,7 @@ export default {
   preview: {
     select: {title: 'title'},
     prepare({title}: any) {
-      return {title: pickNo(title) || 'Contact'}
+      return {title: pickStudioEn(title) || 'Contact'}
     },
   },
 }

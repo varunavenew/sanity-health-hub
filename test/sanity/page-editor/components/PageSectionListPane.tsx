@@ -66,16 +66,22 @@ export const PageSectionListPane: UserComponent = (props) => {
   const ready = Boolean(publishedId) && editState.ready
 
   const sections = config?.sections || []
-  const sectionCount = sections.length
 
-  const cards = useMemo(
-    () =>
-      sections.map((section) => ({
+  const cards = useMemo(() => {
+    return sections
+      .map((section) => ({
         section,
         chips: resolveChips(section, document, ready),
-      })),
-    [document, ready, sections],
-  )
+      }))
+      .filter(({section, chips}) => {
+        if (!section.hideWhenEmpty) return true
+        // Hide unused category bands (Empty only). Keep Unknown until document loads.
+        if (!ready) return true
+        return !(chips.length === 1 && chips[0] === 'Empty')
+      })
+  }, [document, ready, sections])
+
+  const sectionCount = cards.length
 
   if (!config || !documentId) {
     return (

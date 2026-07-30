@@ -9,10 +9,10 @@ import {
   i18nSlugFieldFromString,
   pickForLang,
   pickNo,
-  pickSpecialtyLabel,
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
 import {
   BOOKING_ACTIVITY_GROUP_IDS,
@@ -189,7 +189,7 @@ export default {
           preview: {
             select: { label: 'label' },
             prepare({ label }: { label?: unknown }) {
-              return { title: pickSpecialtyLabel({ label }) || 'New specialty' }
+              return { title: pickStudioEn(label) || 'New specialty' }
             },
           },
         },
@@ -250,7 +250,8 @@ export default {
             return { filter: '_type == "treatment"' }
           }
           return {
-            filter: '_type == "treatment" && category._ref in $categoryIds',
+            filter:
+              '_type == "treatment" && (category._ref in $categoryIds || count((categories[]._ref)[@ in $categoryIds]) > 0)',
             params: { categoryIds },
           }
         },
@@ -310,7 +311,7 @@ export default {
           preview: {
             select: { label: 'label' },
             prepare({ label }: { label?: unknown }) {
-              return { title: pickSpecialtyLabel({ label }) || 'New line' }
+              return { title: pickStudioEn(label) || 'New line' }
             },
           },
         },
@@ -651,9 +652,9 @@ export default {
     },
     prepare({ title, role, media, booking, bookingCategoryIds, c0, c1, c2 }: any) {
       const categoryNames = [c0, c1, c2]
-        .map((c) => pickForLang(c, 'en') || pickNo(c))
+        .map((c) => pickStudioEn(c))
         .filter(Boolean)
-      const roleLabel = pickForLang(role, 'en') || pickNo(role) || 'No role'
+      const roleLabel = pickStudioEn(role) || 'No role'
       const idPart =
         Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
           ? ` · Booking #${bookingCategoryIds.join(', #')}`

@@ -5,6 +5,7 @@
 import { HomeIcon } from './icons'
 import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
+import {pickStudioEn} from './studioPreview'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {homepagePageEditorConfig} from '../sanity/page-editor/pages/homepageSections'
 import {HomepageSpecialistsSectionField} from '../sanity/components/HomepageSpecialistsSectionField'
@@ -95,13 +96,9 @@ export default {
                   legacyImage: 'image',
                 },
                 prepare({ title, subtitle, mediaImage, legacyImage }: any) {
-                  const pick = (v: any) =>
-                    Array.isArray(v)
-                      ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                      : (v || '')
                   return {
-                    title: pick(title),
-                    subtitle: pick(subtitle),
+                    title: pickStudioEn(title),
+                    subtitle: pickStudioEn(subtitle),
                     media: mediaImage || legacyImage,
                   }
                 },
@@ -227,11 +224,7 @@ export default {
               preview: {
                 select: { title: 'value', subtitle: 'label' },
                 prepare({ title, subtitle }: any) {
-                  const pick = (v: any) =>
-                    Array.isArray(v)
-                      ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                      : (v || '')
-                  return { title: title || '', subtitle: pick(subtitle) }
+                  return { title: title || '', subtitle: pickStudioEn(subtitle) }
                 },
               },
             },
@@ -254,11 +247,7 @@ export default {
           preview: {
             select: { title: 'value', subtitle: 'label' },
             prepare({ title, subtitle }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: title || '', subtitle: pick(subtitle) }
+              return { title: title || '', subtitle: pickStudioEn(subtitle) }
             },
           },
         },
@@ -281,11 +270,7 @@ export default {
           preview: {
             select: { title: 'label', subtitle: 'icon' },
             prepare({ title, subtitle }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: pick(title), subtitle: subtitle || '' }
+              return { title: pickStudioEn(title), subtitle: subtitle || '' }
             },
           },
         },
@@ -315,11 +300,7 @@ export default {
           preview: {
             select: { title: 'title', subtitle: 'description', media: 'image' },
             prepare({ title, subtitle, media }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: pick(title), subtitle: pick(subtitle), media }
+              return { title: pickStudioEn(title), subtitle: pickStudioEn(subtitle), media }
             },
           },
         },
@@ -424,10 +405,7 @@ export default {
   preview: {
     select: { title: 'title' },
     prepare({ title }: any) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Homepage')
-        : (title || 'Homepage')
-      return { title: titleStr }
+      return { title: pickStudioEn(title) || 'Homepage' }
     },
   },
 }

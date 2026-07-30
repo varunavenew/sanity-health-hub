@@ -23,6 +23,8 @@ export type RouteIndexDoc = {
   slugNb?: string;
   slugEn?: string;
   categoryId?: string;
+  /** All category memberships (categories[] + legacy category). Dual-read. */
+  categoryIds?: string[];
   categorySlugNb?: string;
   categorySlugEn?: string;
 };

@@ -9,13 +9,24 @@ import { PageSectionInsuranceBlock } from "./PageSectionInsuranceBlock";
 
 type Props = {
   sections?: PageSection[] | null;
+  /** Rendered immediately after the specialists block (e.g. patient journey). */
+  afterSpecialists?: ReactNode;
   /** Rendered immediately before the first booking CTA block (e.g. related services carousel). */
   beforeBookingCta?: ReactNode;
 };
 
-export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
+export function PageSectionsRenderer({
+  sections,
+  afterSpecialists,
+  beforeBookingCta,
+}: Props) {
   if (!sections?.length) {
-    return beforeBookingCta ? <>{beforeBookingCta}</> : null;
+    return (
+      <>
+        {afterSpecialists}
+        {beforeBookingCta}
+      </>
+    );
   }
 
   const sortedSections = [...sections].sort((a, b) => {
@@ -28,7 +39,9 @@ export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
     return (order[a._type] ?? 99) - (order[b._type] ?? 99);
   });
 
+  let insertedAfterSpecialists = false;
   let insertedBeforeBooking = false;
+  const hasSpecialists = sortedSections.some((s) => s._type === "pageSectionSpecialists");
 
   return (
     <>
@@ -36,7 +49,13 @@ export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
         const key = section._key ?? section._type;
 
         if (section._type === "pageSectionSpecialists") {
-          return <PageSectionSpecialistsBlock key={key} config={section} />;
+          insertedAfterSpecialists = true;
+          return (
+            <Fragment key={key}>
+              <PageSectionSpecialistsBlock config={section} />
+              {afterSpecialists}
+            </Fragment>
+          );
         }
 
         if (section._type === "pageSectionArticles") {
@@ -62,6 +81,7 @@ export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
 
         return null;
       })}
+      {!hasSpecialists && !insertedAfterSpecialists && afterSpecialists}
       {!insertedBeforeBooking && beforeBookingCta}
     </>
   );

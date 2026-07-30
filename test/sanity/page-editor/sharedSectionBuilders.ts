@@ -14,6 +14,7 @@ import {
   HelpCircleIcon,
   ImagesIcon,
   UsersIcon,
+  CheckmarkCircleIcon,
 } from '@sanity/icons'
 import type {PageSectionDefinition} from './types'
 import {chipsFromDocument, countArray, countChip, countReferenceArray} from './documentMeta'
@@ -108,7 +109,7 @@ export function specialistsBandSection(options?: SharedBandOptions): PageSection
   return {
     id: 'specialists',
     title: 'Specialists',
-    description: 'Specialists band from Shared Sections.',
+    description: 'Specialists carousel — title, filter, limit, and see-all link.',
     icon: UsersIcon,
     fields: ['pageSections'],
     pageSectionsItemTypes: ['pageSectionSpecialists'],
@@ -224,6 +225,39 @@ export function bookingCtaBandSection(options?: SharedBandOptions): PageSectionD
         const ref = band.ctaCollection?._ref
         if (typeof ref === 'string' && ref.length > 0) return ['Collection linked']
         if (i18nPreview(band.title) || i18nPreview(band.primaryLabel)) return ['Configured']
+        return ['Configured']
+      }),
+  }
+}
+
+export function insuranceBandSection(options?: SharedBandOptions): PageSectionDefinition {
+  return {
+    id: 'insurance',
+    title: 'Insurance',
+    description: 'Insurance partners from an Insurance Collection.',
+    icon: CheckmarkCircleIcon,
+    fields: ['pageSections'],
+    pageSectionsItemTypes: ['pageSectionInsurance'],
+    notice:
+      options?.pageOwnedNotice ||
+      'Only Insurance bands. Other shared bands are edited from their own cards.',
+    getChips: (doc) =>
+      chipsFromDocument(doc, Boolean(doc), (document) => {
+        const sections = document.pageSections
+        if (!Array.isArray(sections)) {
+          const owned = options?.getPageOwnedChips?.(document)
+          return owned?.length ? owned : ['Empty']
+        }
+        const band = sections.find(
+          (row: {_type?: string; insuranceCollection?: {_ref?: string}}) =>
+            row?._type === 'pageSectionInsurance',
+        ) as {_type?: string; insuranceCollection?: {_ref?: string}} | undefined
+        if (!band) {
+          const owned = options?.getPageOwnedChips?.(document)
+          return owned?.length ? owned : ['Empty']
+        }
+        const ref = band.insuranceCollection?._ref
+        if (typeof ref === 'string' && ref.length > 0) return ['Collection linked']
         return ['Configured']
       }),
   }

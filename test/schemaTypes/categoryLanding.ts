@@ -2,8 +2,10 @@
  * Rich category landing page (e.g. /fertilitet) — editable per treatmentCategory.
  * Phase 11B.1: Studio fieldsets match website sections (JSON paths unchanged).
  * Phase 14G: Studio labels, descriptions, hides, defaults, grouping only.
+ * Fertility page-editor: CategoryLandingPageInput filters nested bands by section.
  */
 import { i18nTitleItemPreview, requiredNoEnI18n } from './i18n'
+import { CategoryLandingPageInput } from '../sanity/page-editor/components/CategoryLandingPageInput'
 
 const i18nStr = { type: 'internationalizedArrayString' as const }
 const i18nTxt = { type: 'internationalizedArrayText' as const }
@@ -200,18 +202,21 @@ export const categoryLandingPageField = {
   type: 'object',
   validation: (Rule: any) => Rule.required().error('Landing page content is required'),
   options: sectionCollapsed,
+  components: {
+    input: CategoryLandingPageInput,
+  },
   fieldsets: [
     {
       name: 'hero',
       title: 'Hero — headline & buttons',
       description:
-        'Headline and buttons. Media is above under Page Content → Hero.',
+        'Headline and buttons. Media is above under Hero media (or the Hero section card).',
       options: sectionCollapsed,
     },
     {
       name: 'introduction',
-      title: 'Life Stages / Segments',
-      description: 'Life stages under the hero.',
+      title: 'Tell us where you are',
+      description: 'Life stages / segments under the hero.',
       options: sectionCollapsed,
     },
     {
@@ -228,19 +233,19 @@ export const categoryLandingPageField = {
     },
     {
       name: 'expertAreas',
-      title: 'Areas of expertise',
+      title: 'Expert Areas',
       description: 'Specialty cards with images. Different from Support (optional related cards).',
       options: sectionCollapsed,
     },
     {
       name: 'symptoms',
-      title: 'Symptoms (Optional)',
+      title: 'What do you feel?',
       description: 'Leave empty to hide this section on the website.',
       options: sectionCollapsed,
     },
     {
       name: 'services',
-      title: 'Services on this page',
+      title: 'What we offer',
       description: 'These services are shown on this landing page.',
       options: sectionCollapsed,
     },
@@ -252,9 +257,9 @@ export const categoryLandingPageField = {
     },
     {
       name: 'statistics',
-      title: 'Statistics — headings',
+      title: 'Numbers that tell a story — headings',
       description:
-        'Titles for the results band. KPI numbers are under Page Content → Statistics — numbers.',
+        'Titles for the results band. KPI numbers are under Statistics — numbers (or the Numbers section card).',
       options: sectionCollapsed,
     },
     {
@@ -285,10 +290,10 @@ export const categoryLandingPageField = {
   fields: [
     {
       name: 'hero',
-      title: 'Content',
+      title: 'Hero — headline & buttons',
       type: 'object',
       fieldset: 'hero',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fieldsets: [
         {
           name: 'content',
@@ -398,10 +403,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'segmentsSection',
-      title: 'Content',
+      title: 'Tell us where you are',
       type: 'object',
       fieldset: 'introduction',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         {
           name: 'eyebrow',
@@ -442,10 +447,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'whySection',
-      title: 'Content',
+      title: 'Why choose us',
       type: 'object',
       fieldset: 'why',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -484,10 +489,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'audiencesSection',
-      title: 'Content',
+      title: 'Audience',
       type: 'object',
       fieldset: 'audience',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -508,10 +513,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'expertAreasSection',
-      title: 'Content',
+      title: 'Expert Areas',
       type: 'object',
       fieldset: 'expertAreas',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fieldsets: [
         {
           name: 'display',
@@ -554,10 +559,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'symptomsSection',
-      title: 'Content',
+      title: 'What do you feel?',
       type: 'object',
       fieldset: 'symptoms',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         {
           name: 'eyebrow',
@@ -569,6 +574,22 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
         {
+          name: 'background',
+          title: 'Background',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'Page background', value: 'background'},
+              {title: 'Secondary tint', value: 'secondary'},
+              {title: 'Brand light', value: 'brand-light'},
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'background',
+          description:
+            'Section surface. Urology reference uses Secondary tint; Fertility uses Page background.',
+        },
+        {
           name: 'items',
           title: 'Symptom → service pairs',
           type: 'array',
@@ -578,10 +599,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'servicesSection',
-      title: 'Content',
+      title: 'What we offer',
       type: 'object',
       fieldset: 'services',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         {
           name: 'eyebrow',
@@ -646,10 +667,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'supportSection',
-      title: 'Content',
+      title: 'Support',
       type: 'object',
       fieldset: 'support',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
@@ -669,10 +690,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'resultsSection',
-      title: 'Content',
+      title: 'Numbers that tell a story — headings',
       type: 'object',
       fieldset: 'statistics',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -683,10 +704,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'reviewsSection',
-      title: 'Content',
+      title: 'Reviews',
       type: 'object',
       fieldset: 'reviews',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Heading', ...i18nStr },
@@ -700,10 +721,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'spotlightSection',
-      title: 'Content',
+      title: 'Spotlight',
       type: 'object',
       fieldset: 'spotlight',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleEmphasis', title: 'Heading (italic part)', ...i18nStr },
@@ -726,10 +747,10 @@ export const categoryLandingPageField = {
     },
     {
       name: 'journeySection',
-      title: 'Content',
+      title: 'Journey',
       type: 'object',
       fieldset: 'journey',
-      options: sectionCollapsed,
+      options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
@@ -770,6 +791,7 @@ export const categoryLandingPageField = {
           { title: 'Statistics', value: 'results' },
           { title: 'Reviews', value: 'reviews' },
           { title: 'Spotlight', value: 'spotlight' },
+          { title: 'FAQ', value: 'faq' },
           { title: 'Journey', value: 'journey' },
         ],
       },
