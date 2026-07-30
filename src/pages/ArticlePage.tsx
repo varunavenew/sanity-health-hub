@@ -265,12 +265,12 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
             <div className="grid md:grid-cols-3 gap-6">
               {related.map((rel) => (
                 <Link key={rel.slug} to={`/aktuelt/${rel.slug}`} className="group">
-                  <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
+                  <div className="relative aspect-[4/3] rounded-sm overflow-hidden mb-3 bg-secondary">
                     <img
                       src={rel.image}
                       alt={rel.title}
                       loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3">
                       <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
