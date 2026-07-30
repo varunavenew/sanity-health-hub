@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
+import { MapPin, Phone, Mail, Facebook } from "lucide-react";
 import { buildSocialChannels } from "@/components/shared/socialChannels";
 import { Link } from "react-router-dom";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
