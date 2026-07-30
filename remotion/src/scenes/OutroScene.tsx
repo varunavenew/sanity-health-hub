@@ -3,10 +3,12 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } fr
 import { PALETTE } from "../theme";
 
 const STATS = [
-  { v: "45 000+", k: "Årlige pasientbesøk" },
-  { v: "40+", k: "Spesialister" },
-  { v: "98%", k: "Fornøyde pasienter" },
+  { v: "60 000", k: "Årlige pasientbesøk" },
+  { v: "3 500", k: "Operasjoner per år" },
+  { v: "4,8/5", k: "Snittvurdering" },
+  { v: "50+", k: "Spesialister" },
 ];
+
 
 export const OutroScene: React.FC = () => {
   const frame = useCurrentFrame();
