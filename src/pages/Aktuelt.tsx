@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { SocialChannelCards } from "@/components/homepage/SocialChannelCards";
+import { InstagramProfileHeader } from "@/components/homepage/InstagramProfileHeader";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Search, Loader2, FileText, Video, Mic, MessageSquare } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -404,7 +405,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           <SocialChannelCards />
 
           <div className="mt-8 md:mt-10">
-            <p className="text-sm text-muted-foreground font-light mb-4">
+            <InstagramProfileHeader />
+            <p className="text-sm text-muted-foreground font-light mt-6 mb-4">
               Siste innlegg fra Instagram
             </p>
             <SoMeFeed maxPosts={4} compact />
