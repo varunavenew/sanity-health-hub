@@ -53,7 +53,7 @@ const MediaBadge = ({ type }: { type?: Article["mediaType"] }) => {
 };
 
 const ArticleCard = ({ article }: { article: Article }) => {
-  const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
+  const linkTo = `/aktuelt/${article.slug}`;
 
   return (
     <Link to={linkTo} className="group">
@@ -86,7 +86,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
 };
 
 const FeaturedCard = ({ article }: { article: Article }) => {
-  const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
+  const linkTo = `/aktuelt/${article.slug}`;
 
   return (
     <Link to={linkTo} className="group relative block rounded-sm overflow-hidden">
