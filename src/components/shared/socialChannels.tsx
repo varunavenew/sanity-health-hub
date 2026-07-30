@@ -1,4 +1,4 @@
-import { Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import type { SVGProps } from "react";
 
 /** Snapchat ghost — Lucide has no Snapchat glyph, so we ship a matching thin-line one. */
@@ -17,7 +17,7 @@ export const SnapchatIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export interface SocialChannel {
-  id: "instagram" | "linkedin" | "snapchat";
+  id: "instagram" | "facebook" | "linkedin" | "snapchat";
   name: string;
   handle: string;
   description: string;
@@ -28,6 +28,7 @@ export interface SocialChannel {
 /** Fallbacks used when Sanity siteSettings has no value for a channel. */
 export const defaultSocialUrls = {
   instagram: "https://www.instagram.com/cmedical.no",
+  facebook: "https://www.facebook.com/cmedical.no",
   linkedin: "https://www.linkedin.com/company/cmedical",
   snapchat: "https://www.snapchat.com/add/cmedical",
 };
@@ -42,6 +43,14 @@ export const buildSocialChannels = (
     description: "Hverdagen i klinikkene, fagtips og nytt fra spesialistene.",
     url: social.instagram || defaultSocialUrls.instagram,
     Icon: Instagram,
+  },
+  {
+    id: "facebook",
+    name: "Facebook",
+    handle: "CMedical",
+    description: "Nyheter, arrangementer og oppdateringer fra klinikkene.",
+    url: (social as { facebook?: string }).facebook || defaultSocialUrls.facebook,
+    Icon: Facebook,
   },
   {
     id: "linkedin",
