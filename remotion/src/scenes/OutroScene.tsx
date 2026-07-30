@@ -47,7 +47,7 @@ export const OutroScene: React.FC = () => {
 
       <div style={{ position: "absolute", left: 132, top: 660, height: 1, width: line, background: PALETTE.mid, opacity: 0.4 }} />
 
-      <div style={{ position: "absolute", left: 132, top: 716, display: "flex", gap: 130 }}>
+      <div style={{ position: "absolute", left: 132, top: 716, display: "flex", gap: 110 }}>
         {STATS.map((s, i) => {
           const a = spring({ frame: frame - 30 - i * 7, fps, config: { damping: 200 }, durationInFrames: 40 });
           return (
