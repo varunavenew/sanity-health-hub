@@ -9,7 +9,6 @@ const STATS = [
   { v: "50+", k: "Spesialister" },
 ];
 
-
 export const OutroScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -18,42 +17,42 @@ export const OutroScene: React.FC = () => {
   const line = interpolate(
     spring({ frame: frame - 18, fps, config: { damping: 200 }, durationInFrames: 50 }),
     [0, 1],
-    [0, 1656],
+    [0, 904],
   );
 
   return (
     <AbsoluteFill style={{ backgroundColor: PALETTE.deep }}>
       <AbsoluteFill
-        style={{
-          background: `radial-gradient(100% 80% at 50% 40%, ${PALETTE.dark} 0%, ${PALETTE.deep} 72%)`,
-        }}
+        style={{ background: `radial-gradient(80% 55% at 50% 42%, ${PALETTE.dark} 0%, ${PALETTE.deep} 74%)` }}
       />
-      <div style={{ position: "absolute", left: 132, top: 288, width: 1300 }}>
+      <div style={{ position: "absolute", left: 88, top: 560, width: 920 }}>
         <div
           style={{
-            fontSize: 92,
-            lineHeight: 1.02,
+            fontSize: 96,
+            lineHeight: 1.04,
             fontWeight: 200,
             color: PALETTE.light,
             opacity: t,
             transform: `translateY(${interpolate(t, [0, 1], [34, 0])}px)`,
           }}
         >
-          Ett helhetlig helsetilbud,
+          Ett helhetlig
+          <br />
+          helsetilbud,
           <br />
           <span style={{ color: PALETTE.mid, fontStyle: "italic" }}>samlet på ett sted.</span>
         </div>
       </div>
 
-      <div style={{ position: "absolute", left: 132, top: 660, height: 1, width: line, background: PALETTE.mid, opacity: 0.4 }} />
+      <div style={{ position: "absolute", left: 88, top: 1000, height: 1, width: line, background: PALETTE.mid, opacity: 0.4 }} />
 
-      <div style={{ position: "absolute", left: 132, top: 716, display: "flex", gap: 110 }}>
+      <div style={{ position: "absolute", left: 88, top: 1070, display: "grid", gridTemplateColumns: "1fr 1fr", rowGap: 72, columnGap: 80, width: 900 }}>
         {STATS.map((s, i) => {
-          const a = spring({ frame: frame - 30 - i * 7, fps, config: { damping: 200 }, durationInFrames: 40 });
+          const a = spring({ frame: frame - 30 - i * 8, fps, config: { damping: 200 }, durationInFrames: 40 });
           return (
-            <div key={s.k} style={{ opacity: a, transform: `translateY(${interpolate(a, [0, 1], [22, 0])}px)` }}>
-              <div style={{ fontSize: 56, fontWeight: 200, color: PALETTE.light }}>{s.v}</div>
-              <div style={{ fontSize: 20, fontWeight: 300, color: PALETTE.mid, marginTop: 10 }}>{s.k}</div>
+            <div key={s.k} style={{ opacity: a, transform: `translateY(${interpolate(a, [0, 1], [24, 0])}px)` }}>
+              <div style={{ fontSize: 76, fontWeight: 200, color: PALETTE.light }}>{s.v}</div>
+              <div style={{ fontSize: 24, fontWeight: 300, color: PALETTE.mid, marginTop: 10 }}>{s.k}</div>
             </div>
           );
         })}
@@ -62,13 +61,12 @@ export const OutroScene: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          right: 132,
-          bottom: 116,
-          fontSize: 34,
+          left: 88,
+          bottom: 150,
+          fontSize: 44,
           fontWeight: 300,
-          letterSpacing: 0,
           color: PALETTE.yellow,
-          opacity: interpolate(frame, [46, 74], [0, 1], { extrapolateRight: "clamp" }),
+          opacity: interpolate(frame, [56, 86], [0, 1], { extrapolateRight: "clamp" }),
         }}
       >
         CMedical
