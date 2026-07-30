@@ -399,14 +399,15 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-medium text-foreground">Følg oss på sosiale medier</h2>
           </div>
-          <SoMeFeed maxPosts={4} compact />
 
           {/* Channel cards — Instagram, LinkedIn, Snapchat */}
+          <SocialChannelCards />
+
           <div className="mt-8 md:mt-10">
             <p className="text-sm text-muted-foreground font-light mb-4">
-              Du finner oss også her
+              Siste innlegg fra Instagram
             </p>
-            <SocialChannelCards />
+            <SoMeFeed maxPosts={4} compact />
           </div>
         </div>
       </section>
