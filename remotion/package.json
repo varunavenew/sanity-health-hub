@@ -6,9 +6,6 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
-  "peerDependencies": {
-    "typescript": "5.6.3"
-  },
   "dependencies": {
     "@remotion/bundler": "^4.0.502",
     "@remotion/cli": "^4.0.502",
@@ -20,6 +17,7 @@
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "remotion": "^4.0.502"
+    "remotion": "^4.0.502",
+    "typescript": "5.6.3"
   }
 }
