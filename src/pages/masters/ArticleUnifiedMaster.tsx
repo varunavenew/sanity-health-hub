@@ -491,12 +491,12 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               { t: "Hormonbehandling — hva er trygt?", e: "Myter og fakta om moderne MHT, forklart.", c: "Kvinnehelse", img: articleGyn },
             ].map((a) => (
               <Link key={a.t} to="#" className="group">
-                <div className="relative aspect-[16/10] overflow-hidden mb-3 bg-secondary">
+                <div className="relative aspect-[4/3] overflow-hidden mb-3 bg-secondary">
                   <img
                     src={a.img}
                     alt={a.t}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
                     <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
