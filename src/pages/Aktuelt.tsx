@@ -405,11 +405,12 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           <SocialChannelCards />
 
           <div className="mt-8 md:mt-10">
-            <InstagramProfileHeader />
-            <p className="text-sm text-muted-foreground font-light mt-6 mb-4">
-              Siste innlegg fra Instagram
-            </p>
-            <SoMeFeed maxPosts={4} compact />
+            <InstagramProfileHeader>
+              <p className="text-sm text-brand-warm/70 font-light mb-4">
+                Siste innlegg fra Instagram
+              </p>
+              <SoMeFeed maxPosts={4} compact />
+            </InstagramProfileHeader>
           </div>
         </div>
       </section>

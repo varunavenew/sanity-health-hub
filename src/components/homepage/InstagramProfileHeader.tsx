@@ -13,7 +13,7 @@ const stats = [
  * Instagram-style profile header shown above the latest posts grid.
  * Purely presentational — numbers are static brand facts.
  */
-export const InstagramProfileHeader = () => {
+export const InstagramProfileHeader = ({ children }: { children?: React.ReactNode }) => {
   const { data: settings } = useSiteSettings();
   const url = settings?.socialMedia?.instagram || defaultSocialUrls.instagram;
 
@@ -69,6 +69,8 @@ export const InstagramProfileHeader = () => {
           </p>
         </div>
       </div>
+
+      {children ? <div className="mt-6 md:mt-8">{children}</div> : null}
     </div>
   );
 };
