@@ -17,6 +17,12 @@ const styleById: Record<string, ChannelStyle> = {
     fgMuted: "rgba(255,255,255,0.78)",
     iconBg: "rgba(255,255,255,0.18)",
   },
+  facebook: {
+    background: "linear-gradient(135deg, #1877F2 0%, #0B5FCC 100%)",
+    fg: "#FFFFFF",
+    fgMuted: "rgba(255,255,255,0.78)",
+    iconBg: "rgba(255,255,255,0.18)",
+  },
   linkedin: {
     background: "linear-gradient(135deg, #0A66C2 0%, #004182 100%)",
     fg: "#FFFFFF",
@@ -32,7 +38,7 @@ const styleById: Record<string, ChannelStyle> = {
 };
 
 /**
- * Three fully coloured channel cards (Instagram, LinkedIn, Snapchat)
+ * Fully coloured channel cards (Instagram, Facebook, LinkedIn, Snapchat)
  * with centered icon and centered text, in each platform's brand colour.
  */
 export const SocialChannelCards = () => {
@@ -40,7 +46,7 @@ export const SocialChannelCards = () => {
   const channels = buildSocialChannels(settings?.socialMedia || {});
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" role="list">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" role="list">
       {channels.map(({ id, name, handle, description, url, Icon }) => {
         const s = styleById[id] ?? styleById.linkedin;
         return (
