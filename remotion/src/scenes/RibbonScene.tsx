@@ -63,9 +63,10 @@ export const RibbonScene: React.FC<{
 
       <AbsoluteFill
         style={{
-          background: `linear-gradient(to bottom, ${PALETTE.deep} 0%, rgba(30,23,18,0.30) 22%, rgba(30,23,18,0.86) 62%, ${PALETTE.deep} 94%)`,
+          background: `linear-gradient(to bottom, ${PALETTE.deep} 0%, rgba(30,23,18,0.18) 20%, rgba(30,23,18,0.30) 46%, rgba(30,23,18,0.90) 74%, ${PALETTE.deep} 96%)`,
         }}
       />
+
 
       <div style={{ position: "absolute", left: 84, top: 1010, width: 920, opacity: textIn }}>
         {title.split("\n").map((l, i) => (
