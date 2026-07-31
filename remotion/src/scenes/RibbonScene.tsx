@@ -29,8 +29,10 @@ export const RibbonScene: React.FC<{
           transform: `rotate(${rot}deg) scale(${zoom}) translateY(${interpolate(inAll, [0, 1], [120, 0])}px)`,
           opacity: inAll,
           display: "flex",
+          flexDirection: "row",
           gap: GAP,
           justifyContent: "center",
+          alignItems: "stretch",
         }}
       >
         {cols.map((c, i) => {
@@ -38,7 +40,17 @@ export const RibbonScene: React.FC<{
           const travel = Math.max(0, scaled - 1920) * c.speed;
           const y = interpolate(frame, [0, duration], c.dir === 1 ? [0, -travel] : [-travel, 0]);
           return (
-            <div key={i} style={{ width: COL_W, position: "relative", overflow: "hidden", borderRadius: 12 }}>
+            <div
+              key={i}
+              style={{
+                width: COL_W,
+                flex: `0 0 ${COL_W}px`,
+                height: 1920,
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 12,
+              }}
+            >
               <Img
                 src={staticFile(c.src)}
                 style={{ width: COL_W, position: "absolute", top: 0, left: 0, transform: `translateY(${y}px)` }}
@@ -47,6 +59,7 @@ export const RibbonScene: React.FC<{
           );
         })}
       </AbsoluteFill>
+
 
       <AbsoluteFill
         style={{
