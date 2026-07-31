@@ -27,7 +27,7 @@ export const RibbonScene: React.FC<{
       <AbsoluteFill
         style={{
           transform: `rotate(${rot}deg) scale(${zoom}) translateY(${interpolate(inAll, [0, 1], [120, 0])}px)`,
-          opacity: inAll,
+          opacity: interpolate(inAll, [0, 1], [0.45, 1]),
           display: "flex",
           flexDirection: "row",
           gap: GAP,
