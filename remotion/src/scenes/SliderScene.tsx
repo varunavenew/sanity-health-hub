@@ -18,7 +18,7 @@ export const SliderScene: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const PW = 660;
+  const PW = 620;
   const screenW = PW * (1 - 0.044);
   const screenH = Math.round((PW / 430) * 932) - PW * 0.044;
 
@@ -55,7 +55,7 @@ export const SliderScene: React.FC<{
         style={{
           position: "absolute",
           left: (1080 - PW) / 2,
-          top: 560,
+          top: 480,
           transform: `translateY(${interpolate(rise, [0, 1], [90, 0])}px) scale(${zoom})`,
           opacity: rise,
         }}
