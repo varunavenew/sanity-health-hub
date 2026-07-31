@@ -18,13 +18,13 @@ export const SliderScene: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const PW = 760;
+  const PW = 620;
   const screenW = PW * (1 - 0.044);
   const screenH = Math.round((PW / 430) * 932) - PW * 0.044;
 
   const scroll = (shot: Shot) => {
     const scaled = shot.h * (screenW / 430);
-    const max = Math.max(0, scaled - screenH);
+    const max = Math.min(Math.max(0, scaled - screenH), screenH * 1.6);
     return interpolate(frame, [8, duration], [0, -0.7 * max], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -55,7 +55,7 @@ export const SliderScene: React.FC<{
         style={{
           position: "absolute",
           left: (1080 - PW) / 2,
-          top: 470,
+          top: 480,
           transform: `translateY(${interpolate(rise, [0, 1], [90, 0])}px) scale(${zoom})`,
           opacity: rise,
         }}
