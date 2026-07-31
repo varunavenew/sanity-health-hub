@@ -94,7 +94,7 @@ export const BookingScene: React.FC<{
           style={{
             position: "absolute",
             left: 180,
-            top: 780,
+            top: 720,
             opacity: inA,
             transformStyle: "preserve-3d",
             transform: `translateY(${interpolate(inA, [0, 1], [90, 0])}px) rotateY(-11deg) rotateX(4deg)`,
@@ -112,7 +112,7 @@ export const BookingScene: React.FC<{
           style={{
             position: "absolute",
             left: 560,
-            top: 1050,
+            top: 880,
             opacity: inB,
             transformStyle: "preserve-3d",
             transform: `translateY(${interpolate(inB, [0, 1], [140, 0])}px) rotateY(9deg)`,
