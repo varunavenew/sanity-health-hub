@@ -1,66 +1,48 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
 import { PALETTE } from "../theme";
+import { KineticLine, Grain, Marquee } from "../components/Fx";
 
 export const IntroScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const kick = spring({ frame, fps, config: { damping: 200 }, durationInFrames: 30 });
-  const t1 = spring({ frame: frame - 10, fps, config: { damping: 200 }, durationInFrames: 46 });
-  const t2 = spring({ frame: frame - 24, fps, config: { damping: 200 }, durationInFrames: 46 });
-  const t3 = spring({ frame: frame - 40, fps, config: { damping: 200 }, durationInFrames: 46 });
-  const line = interpolate(
-    spring({ frame: frame - 52, fps, config: { damping: 200 }, durationInFrames: 52 }),
-    [0, 1],
-    [0, 620],
-  );
-  const drift = interpolate(frame, [0, 100], [0, -22]);
+  const kick = spring({ frame, fps, config: { damping: 200 }, durationInFrames: 26 });
+  const bar = interpolate(frame, [4, 34], [0, 1], { extrapolateRight: "clamp", easing: (t) => 1 - Math.pow(1 - t, 4) });
+  const push = interpolate(frame, [30, 90], [0, -60]);
+  const scale = interpolate(frame, [0, 90], [1.12, 1]);
+  const flash = interpolate(frame, [0, 8], [1, 0], { extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: PALETTE.deep }}>
-      <AbsoluteFill
-        style={{ background: `radial-gradient(80% 55% at 24% 42%, ${PALETTE.dark} 0%, ${PALETTE.deep} 72%)` }}
-      />
-      <div style={{ position: "absolute", left: 88, top: 640, transform: `translateY(${drift}px)`, width: 940 }}>
-        <div style={{ fontSize: 26, color: PALETTE.yellow, opacity: kick, marginBottom: 40 }}>
-          CMedical — digital plattform
-        </div>
-        {[
-          { txt: "cmedical.no", a: t1, italic: false, col: PALETTE.mid },
-          { txt: "møter", a: t2, italic: true, col: PALETTE.mid },
-          { txt: "en ny flate.", a: t3, italic: false, col: PALETTE.light },
-        ].map((l) => (
-          <div
-            key={l.txt}
-            style={{
-              fontSize: 116,
-              lineHeight: 1.0,
-              fontWeight: 200,
-              fontStyle: l.italic ? "italic" : "normal",
-              color: l.col,
-              opacity: l.a,
-              transform: `translateY(${interpolate(l.a, [0, 1], [44, 0])}px)`,
-            }}
-          >
-            {l.txt}
-          </div>
-        ))}
-        <div style={{ height: 1, width: line, background: PALETTE.mid, opacity: 0.5, marginTop: 64 }} />
-      </div>
+    <AbsoluteFill style={{ backgroundColor: PALETTE.deep, overflow: "hidden" }}>
+      <AbsoluteFill style={{ background: `radial-gradient(85% 55% at 26% 40%, ${PALETTE.dark} 0%, ${PALETTE.deep} 74%)`, transform: `scale(${scale})` }} />
+
+      <Marquee text="CMEDICAL" top={210} size={150} color={PALETTE.dark} opacity={0.55} speed={2.6} />
+      <Marquee text="2026" top={1560} size={130} color={PALETTE.dark} opacity={0.4} speed={1.6} dir={1} />
+
+      {/* gul sveipende strek */}
       <div
         style={{
           position: "absolute",
           left: 88,
-          bottom: 150,
-          fontSize: 26,
-          fontWeight: 300,
-          color: PALETTE.mid,
-          opacity: interpolate(frame, [40, 70], [0, 1], { extrapolateRight: "clamp" }),
+          top: 600,
+          height: 6,
+          width: bar * 780,
+          background: PALETTE.yellow,
         }}
-      >
-        Før / etter — 2026
+      />
+
+      <div style={{ position: "absolute", left: 88, top: 680, width: 940, transform: `translateY(${push}px)` }}>
+        <div style={{ fontSize: 28, color: PALETTE.yellow, opacity: kick, marginBottom: 44 }}>
+          Digital plattform — før / etter
+        </div>
+        <KineticLine text="cmedical.no" size={128} frame={frame} delay={8} color={PALETTE.mid} />
+        <KineticLine text="møter" size={128} frame={frame} delay={22} color={PALETTE.mid} italic />
+        <KineticLine text="en ny flate." size={128} frame={frame} delay={32} color={PALETTE.light} />
       </div>
+
+      <AbsoluteFill style={{ background: PALETTE.light, opacity: flash * 0.9 }} />
+      <Grain />
     </AbsoluteFill>
   );
 };
