@@ -68,7 +68,7 @@ export const MainVideo: React.FC = () => (
           kicker="00 — Prototype"
           title={"Samme system,\nhver flate."}
           note="Prislister, fagområder og booking bygget på samme rutenett — derfor føles alt som én side, ikke ti."
-          shot={S("new-mobile-priser", 21910)}
+          shot={S("new-mobile-priser", 8000)}
           duration={D.proto2}
           reveal={0.4}
         />
@@ -107,7 +107,7 @@ export const MainVideo: React.FC = () => (
           title={"Priser du\nfaktisk finner."}
           note="Fra en lang engelsk tabell til en norsk prisliste med kategorier, varighet og «Bestill time» på hver eneste linje."
           before={S("old-mobile-priser", 5154)}
-          after={S("new-mobile-priser", 21910)}
+          after={S("new-mobile-priser", 8000)}
           duration={D.priserSplit}
           to={0.35}
         />
@@ -119,7 +119,7 @@ export const MainVideo: React.FC = () => (
           kicker="04 — Prissiden, side ved side"
           title="Før. Etter."
           before={S("old-mobile-priser", 5154)}
-          after={S("new-mobile-priser", 21910)}
+          after={S("new-mobile-priser", 8000)}
           duration={D.priserSlider}
         />
       </TransitionSeries.Sequence>
@@ -174,7 +174,7 @@ export const MainVideo: React.FC = () => (
           title={"Fag som\nfortelling."}
           note="Gynekologi og kvinnehelse: hero, temaer, priser og behandlere i én sammenhengende reise."
           before={S("old-mobile-gyn", 5592)}
-          after={S("new-mobile-gyn", 11117)}
+          after={S("new-mobile-gyn", 7000)}
           duration={D.gyn}
           to={0.5}
         />
@@ -189,9 +189,9 @@ export const MainVideo: React.FC = () => (
           duration={D.ribbon}
           cols={[
             { src: "cmp/new-mobile-spesialister.png", h: 5592, speed: 1, dir: -1 },
-            { src: "cmp/new-mobile-priser.png", h: 21910 * 0.25, speed: 1, dir: 1 },
+            { src: "cmp/new-mobile-priser.png", h: 8000 * 0.6, speed: 1, dir: 1 },
             { src: "cmp/new-desktop-priser.png", h: 5400 * (430 / 1440), speed: 1, dir: -1 },
-            { src: "cmp/new-mobile-gyn.png", h: 11117 * 0.5, speed: 1, dir: 1 },
+            { src: "cmp/new-mobile-gyn.png", h: 7000 * 0.7, speed: 1, dir: 1 },
             { src: "cmp/new-mobile-home.png", h: 5592, speed: 1, dir: -1 },
           ]}
         />
