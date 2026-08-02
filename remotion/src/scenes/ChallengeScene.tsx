@@ -56,44 +56,54 @@ export const ChallengeScene: React.FC<{ duration: number }> = ({ duration }) => 
       {FRICTION.map((f, i) => {
         const a = spring({ frame: frame - (34 + i * 16), fps, config: { damping: 200 }, durationInFrames: 30 });
         const pulse = 0.5 + 0.5 * Math.sin((frame - 34 - i * 16) / 8);
+        const dotX = 96 + f.x * PW;
+        const y = 700 + f.y * (PW / 430) * 932;
+        const labelX = 620;
         return (
-          <div
-            key={f.t}
-            style={{
-              position: "absolute",
-              left: 96 + f.x * PW,
-              top: 700 + f.y * (PW / 430) * 932,
-              opacity: a,
-              display: "flex",
-              alignItems: "center",
-              gap: 14,
-            }}
-          >
+          <React.Fragment key={f.t}>
             <div
               style={{
+                position: "absolute",
+                left: dotX,
+                top: y,
                 width: 18,
                 height: 18,
                 borderRadius: 9,
                 background: PALETTE.yellow,
+                opacity: a,
                 boxShadow: `0 0 ${10 + 18 * pulse}px rgba(244,255,120,${0.35 + 0.35 * pulse})`,
-                flexShrink: 0,
               }}
             />
-            <div style={{ height: 1, width: interpolate(a, [0, 1], [0, 60]), background: "rgba(204,186,173,0.6)" }} />
             <div
               style={{
-                fontSize: 25,
+                position: "absolute",
+                left: dotX + 18,
+                top: y + 9,
+                height: 1,
+                width: a * (labelX - dotX - 30),
+                background: "rgba(244,255,120,0.45)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                left: labelX,
+                top: y - 8,
+                fontSize: 26,
                 fontWeight: 300,
                 color: PALETTE.light,
-                whiteSpace: "nowrap",
-                transform: `translateX(${interpolate(a, [0, 1], [-16, 0])}px)`,
+                width: 400,
+                lineHeight: 1.25,
+                opacity: a,
+                transform: `translateX(${interpolate(a, [0, 1], [-18, 0])}px)`,
               }}
             >
               {f.t}
             </div>
-          </div>
+          </React.Fragment>
         );
       })}
+
     </SceneShell>
   );
 };
