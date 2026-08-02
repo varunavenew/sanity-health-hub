@@ -22,7 +22,7 @@ await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/cmedical-promo_v4.mp4",
+  outputLocation: "/mnt/documents/cmedical-promo_v5.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 4,

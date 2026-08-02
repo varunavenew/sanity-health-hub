@@ -13,6 +13,9 @@ import { SplitMobileScene } from "./scenes/SplitMobileScene";
 import { SliderScene } from "./scenes/SliderScene";
 import { StackDesktopScene } from "./scenes/StackDesktopScene";
 import { RibbonScene } from "./scenes/RibbonScene";
+import { StickyNavScene } from "./scenes/StickyNavScene";
+import { OldBookingScene } from "./scenes/OldBookingScene";
+import { BookingFlowScene } from "./scenes/BookingFlowScene";
 import { ProgressBar } from "./components/Fx";
 import { PALETTE } from "./theme";
 
@@ -31,7 +34,10 @@ const D = {
   homeSlider: 140,
   priserSplit: 180,
   priserSlider: 140,
-  booking: 190,
+  priserSticky: 200,
+  oldBooking: 160,
+  booking: 170,
+  bookingFlow: 260,
   spesialister: 140,
   desktop: 170,
   gyn: 120,
@@ -40,7 +46,8 @@ const D = {
 };
 
 const SUM = Object.values(D).reduce((a, b) => a + b, 0);
-export const TOTAL = SUM - 12 * T; // 12 transitions
+export const TOTAL = SUM - 15 * T; // 15 transitions
+
 
 export const MainVideo: React.FC = () => (
   <AbsoluteFill style={{ fontFamily, backgroundColor: PALETTE.deep }}>
@@ -125,12 +132,34 @@ export const MainVideo: React.FC = () => (
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition presentation={wipe({ direction: "from-bottom" })} timing={snap} />
 
+      {/* ---------- sticky kategorimeny ---------- */}
+      <TransitionSeries.Sequence durationInFrames={D.priserSticky}>
+        <StickyNavScene
+          kicker="05 — Prislisten i bruk"
+          title={"Menyen som\nblir med deg."}
+          note="Når du scroller i prislisten på mobil, låser kategorimenyen seg til toppen — og markerer automatisk hvilket fagområde du står i. Ett trykk, og du hopper videre."
+          duration={D.priserSticky}
+        />
+      </TransitionSeries.Sequence>
+      <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={snap} />
+
+      {/* ---------- booking: i dag ---------- */}
+      <TransitionSeries.Sequence durationInFrames={D.oldBooking}>
+        <OldBookingScene
+          kicker="06 — Booking i dag"
+          title={"Slik bestiller\nman i dag."}
+          note="Dagens «Book»-knapp åpner et eget vindu på engelsk: velg land, velg behandlingstype, velg klinikk — før du i det hele tatt ser en tid eller en pris."
+          duration={D.oldBooking}
+        />
+      </TransitionSeries.Sequence>
+      <TransitionSeries.Transition presentation={wipe({ direction: "from-right" })} timing={snap} />
+
       {/* ---------- booking ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.booking}>
         <BookingScene
-          kicker="05 — Booking"
+          kicker="07 — Booking"
           title={"Timebestilling\nsom er en flate."}
-          note="I dag sendes pasienten ut av nettsiden. Nå er bestillingen en del av opplevelsen — samme språk, samme design, fem tydelige steg."
+          note="Nå er bestillingen en del av opplevelsen — samme språk, samme design, fem tydelige steg."
           steps={["Tjeneste", "Sted", "Behandler", "Tid", "Bekreft"]}
           mobile={S("new-mobile-booking", 1508)}
           desktop={{ src: "cmp/new-desktop-booking.png", h: 1679 }}
@@ -139,10 +168,23 @@ export const MainVideo: React.FC = () => (
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={snap} />
 
+      {/* ---------- hele bookingflyten ---------- */}
+      <TransitionSeries.Sequence durationInFrames={D.bookingFlow}>
+        <BookingFlowScene
+          kicker="08 — Hele flyten"
+          title={"Fire skjermer,\nferdig bestilt."}
+          note="Tjeneste med pris og varighet, behandler med bilde og fagfelt, ledige tider på ekte kalender — og en bekreftelse på norsk. Alt uten å forlate siden."
+          duration={D.bookingFlow}
+        />
+      </TransitionSeries.Sequence>
+      <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={snap} />
+
+
+
       {/* ---------- spesialister ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.spesialister}>
         <SplitMobileScene
-          kicker="06 — Spesialistene"
+          kicker="09 — Spesialistene"
           title={"Menneskene\nfram i lyset."}
           note="Over 50 spesialister med egne profiler, fagfelt og direkte timebestilling — istedenfor en flat liste."
           before={S("old-mobile-spesialister", 5592)}
@@ -157,7 +199,7 @@ export const MainVideo: React.FC = () => (
       {/* ---------- desktop ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.desktop}>
         <StackDesktopScene
-          kicker="07 — Desktop"
+          kicker="10 — Desktop"
           title={"Bredere skjerm,\nsamme ro."}
           note="Forsiden på desktop: fra tett komponentmiks til en sammenhengende fortelling som holder tempoet hele veien ned."
           before={S("old-desktop-home", 4844)}
@@ -170,7 +212,7 @@ export const MainVideo: React.FC = () => (
       {/* ---------- fagområde ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.gyn}>
         <SplitMobileScene
-          kicker="08 — Fagområde"
+          kicker="11 — Fagområde"
           title={"Fag som\nfortelling."}
           note="Gynekologi og kvinnehelse: hero, temaer, priser og behandlere i én sammenhengende reise."
           before={S("old-mobile-gyn", 5592)}
