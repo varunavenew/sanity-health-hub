@@ -184,7 +184,7 @@ export const MainVideo: React.FC = () => (
       {/* ---------- spesialister ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.spesialister}>
         <SplitMobileScene
-          kicker="06 — Spesialistene"
+          kicker="09 — Spesialistene"
           title={"Menneskene\nfram i lyset."}
           note="Over 50 spesialister med egne profiler, fagfelt og direkte timebestilling — istedenfor en flat liste."
           before={S("old-mobile-spesialister", 5592)}
@@ -199,7 +199,7 @@ export const MainVideo: React.FC = () => (
       {/* ---------- desktop ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.desktop}>
         <StackDesktopScene
-          kicker="07 — Desktop"
+          kicker="10 — Desktop"
           title={"Bredere skjerm,\nsamme ro."}
           note="Forsiden på desktop: fra tett komponentmiks til en sammenhengende fortelling som holder tempoet hele veien ned."
           before={S("old-desktop-home", 4844)}
@@ -212,7 +212,7 @@ export const MainVideo: React.FC = () => (
       {/* ---------- fagområde ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.gyn}>
         <SplitMobileScene
-          kicker="08 — Fagområde"
+          kicker="11 — Fagområde"
           title={"Fag som\nfortelling."}
           note="Gynekologi og kvinnehelse: hero, temaer, priser og behandlere i én sammenhengende reise."
           before={S("old-mobile-gyn", 5592)}
