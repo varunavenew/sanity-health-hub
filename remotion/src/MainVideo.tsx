@@ -13,6 +13,9 @@ import { SplitMobileScene } from "./scenes/SplitMobileScene";
 import { SliderScene } from "./scenes/SliderScene";
 import { StackDesktopScene } from "./scenes/StackDesktopScene";
 import { RibbonScene } from "./scenes/RibbonScene";
+import { StickyNavScene } from "./scenes/StickyNavScene";
+import { OldBookingScene } from "./scenes/OldBookingScene";
+import { BookingFlowScene } from "./scenes/BookingFlowScene";
 import { ProgressBar } from "./components/Fx";
 import { PALETTE } from "./theme";
 
@@ -31,7 +34,10 @@ const D = {
   homeSlider: 140,
   priserSplit: 180,
   priserSlider: 140,
-  booking: 190,
+  priserSticky: 200,
+  oldBooking: 160,
+  booking: 170,
+  bookingFlow: 260,
   spesialister: 140,
   desktop: 170,
   gyn: 120,
@@ -40,7 +46,8 @@ const D = {
 };
 
 const SUM = Object.values(D).reduce((a, b) => a + b, 0);
-export const TOTAL = SUM - 12 * T; // 12 transitions
+export const TOTAL = SUM - 15 * T; // 15 transitions
+
 
 export const MainVideo: React.FC = () => (
   <AbsoluteFill style={{ fontFamily, backgroundColor: PALETTE.deep }}>
