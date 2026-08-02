@@ -98,19 +98,20 @@ export const StickyNavScene: React.FC<{
         <div
           style={{
             position: "absolute",
-            left: -300,
-            top: navH * 0.2,
+            left: -320,
+            top: navH * 0.1,
             opacity: ringIn,
             transform: `translateX(${interpolate(ringIn, [0, 1], [-40, 0])}px)`,
             textAlign: "right",
-            width: 270,
+            width: 280,
           }}
         >
-          <div style={{ fontSize: 30, color: PALETTE.yellow, fontWeight: 400 }}>Kategorimenyen</div>
-          <div style={{ fontSize: 25, color: PALETTE.mid, fontWeight: 300, lineHeight: 1.35, marginTop: 6 }}>
+          <div style={{ fontSize: 27, color: PALETTE.yellow, fontWeight: 400 }}>Kategorimenyen</div>
+          <div style={{ fontSize: 23, color: PALETTE.mid, fontWeight: 300, lineHeight: 1.35, marginTop: 6 }}>
             låser seg til toppen og markerer hvor du er
           </div>
         </div>
+
       </div>
 
       <Grain />
