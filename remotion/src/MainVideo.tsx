@@ -132,12 +132,34 @@ export const MainVideo: React.FC = () => (
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition presentation={wipe({ direction: "from-bottom" })} timing={snap} />
 
+      {/* ---------- sticky kategorimeny ---------- */}
+      <TransitionSeries.Sequence durationInFrames={D.priserSticky}>
+        <StickyNavScene
+          kicker="05 — Prislisten i bruk"
+          title={"Menyen som\nblir med deg."}
+          note="Når du scroller i prislisten på mobil, låser kategorimenyen seg til toppen — og markerer automatisk hvilket fagområde du står i. Ett trykk, og du hopper videre."
+          duration={D.priserSticky}
+        />
+      </TransitionSeries.Sequence>
+      <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={snap} />
+
+      {/* ---------- booking: i dag ---------- */}
+      <TransitionSeries.Sequence durationInFrames={D.oldBooking}>
+        <OldBookingScene
+          kicker="06 — Booking i dag"
+          title={"Slik bestiller\nman i dag."}
+          note="Dagens «Book»-knapp åpner et eget vindu på engelsk: velg land, velg behandlingstype, velg klinikk — før du i det hele tatt ser en tid eller en pris."
+          duration={D.oldBooking}
+        />
+      </TransitionSeries.Sequence>
+      <TransitionSeries.Transition presentation={wipe({ direction: "from-right" })} timing={snap} />
+
       {/* ---------- booking ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.booking}>
         <BookingScene
-          kicker="05 — Booking"
+          kicker="07 — Booking"
           title={"Timebestilling\nsom er en flate."}
-          note="I dag sendes pasienten ut av nettsiden. Nå er bestillingen en del av opplevelsen — samme språk, samme design, fem tydelige steg."
+          note="Nå er bestillingen en del av opplevelsen — samme språk, samme design, fem tydelige steg."
           steps={["Tjeneste", "Sted", "Behandler", "Tid", "Bekreft"]}
           mobile={S("new-mobile-booking", 1508)}
           desktop={{ src: "cmp/new-desktop-booking.png", h: 1679 }}
@@ -145,6 +167,19 @@ export const MainVideo: React.FC = () => (
         />
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={snap} />
+
+      {/* ---------- hele bookingflyten ---------- */}
+      <TransitionSeries.Sequence durationInFrames={D.bookingFlow}>
+        <BookingFlowScene
+          kicker="08 — Hele flyten"
+          title={"Fire skjermer,\nferdig bestilt."}
+          note="Tjeneste med pris og varighet, behandler med bilde og fagfelt, ledige tider på ekte kalender — og en bekreftelse på norsk. Alt uten å forlate siden."
+          duration={D.bookingFlow}
+        />
+      </TransitionSeries.Sequence>
+      <TransitionSeries.Transition presentation={slide({ direction: "from-right" })} timing={snap} />
+
+
 
       {/* ---------- spesialister ---------- */}
       <TransitionSeries.Sequence durationInFrames={D.spesialister}>
