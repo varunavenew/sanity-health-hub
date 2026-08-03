@@ -1,7 +1,7 @@
 // Schema: Theme Page
 // Reusable schema for thematic focus area pages
 import { ThemeIcon } from './icons'
-import { i18nSlugFieldFromTitle } from './i18n'
+import { i18nSlugFieldFromTitle, resolveLocalizedString } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 
@@ -55,11 +55,7 @@ export default {
           preview: {
             select: { title: 'heading' },
             prepare({ title }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: pick(title) }
+              return { title: resolveLocalizedString(title) || 'Block' }
             },
           },
         },
@@ -80,11 +76,7 @@ export default {
           preview: {
             select: { title: 'title' },
             prepare({ title }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: pick(title) }
+              return { title: resolveLocalizedString(title) || 'Phase' }
             },
           },
         },
@@ -115,10 +107,7 @@ export default {
       media: 'heroImage',
     },
     prepare({ title, media }: any) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Theme page')
-        : (title || 'Theme page')
-      return { title: titleStr, media }
+      return { title: resolveLocalizedString(title) || 'Theme page', media }
     },
   },
 }

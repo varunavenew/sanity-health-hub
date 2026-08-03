@@ -1,6 +1,6 @@
 /**
  * Sanity Studio navbar badge showing which dataset is active.
- * Uses the workspace dataset (from sanity.config) so it works in the browser.
+ * Shown only for developer / unexpected datasets — production stays clean (CMedical).
  */
 import type {CSSProperties} from 'react'
 import {useWorkspace, type NavbarProps} from 'sanity'
@@ -24,34 +24,40 @@ const badgeStyleFor = (dataset: SanityDatasetName): CSSProperties => ({
 
 export function DatasetBadgeNavbar(props: NavbarProps) {
   const {dataset, projectId} = useWorkspace()
-  const normalized =
-    dataset === 'developer' || dataset === 'production'
-      ? dataset
-      : null
+
+  // Production Studio should match the clean CMedical chrome — no dataset pill.
+  if (dataset === 'production') {
+    return props.renderDefault(props)
+  }
+
+  if (dataset === 'developer') {
+    return (
+      <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
+        <div style={{flex: 1, minWidth: 0}}>{props.renderDefault(props)}</div>
+        <div
+          style={badgeStyleFor('developer')}
+          title={`Sanity project ${projectId} · dataset developer`}
+        >
+          {datasetBadgeLabel('developer')}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
       <div style={{flex: 1, minWidth: 0}}>{props.renderDefault(props)}</div>
-      {normalized ? (
-        <div
-          style={badgeStyleFor(normalized)}
-          title={`Sanity project ${projectId} · dataset ${normalized}`}
-        >
-          {datasetBadgeLabel(normalized)}
-        </div>
-      ) : (
-        <div
-          style={{
-            ...badgeStyleFor('production'),
-            background: '#fff7ed',
-            color: '#9a3412',
-            border: '1px solid #fed7aa',
-          }}
-          title={`Unexpected dataset: ${dataset}`}
-        >
-          ⚠ Dataset: {dataset}
-        </div>
-      )}
+      <div
+        style={{
+          ...badgeStyleFor('production'),
+          background: '#fff7ed',
+          color: '#9a3412',
+          border: '1px solid #fed7aa',
+        }}
+        title={`Unexpected dataset: ${dataset}`}
+      >
+        ⚠ Dataset: {dataset}
+      </div>
     </div>
   )
 }

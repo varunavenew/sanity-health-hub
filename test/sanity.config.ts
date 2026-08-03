@@ -105,14 +105,18 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ])
 }
 
+const studioDataset = requireSanityDataset()
+
 export default defineConfig({
   name: 'default',
-  title: datasetBadgeLabel(requireSanityDataset()),
+  // Production hosted Studio should read as "CMedical"; developer keeps an explicit dataset title.
+  title:
+    studioDataset === 'production' ? 'CMedical' : datasetBadgeLabel(studioDataset),
   // `/` for sanity.studio + sanity.io/@…/studio/… links; `/studio` when embedded in Next.js (see next.config.ts env).
   basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
 
   projectId: requireSanityProjectId(),
-  dataset: requireSanityDataset(),
+  dataset: studioDataset,
 
   studio: {
     components: {

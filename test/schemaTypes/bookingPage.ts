@@ -1,7 +1,7 @@
 // Schema: Booking flow copy (Bestill time)
 import { CalendarIcon } from './icons'
 import { geoSummaryField } from './geoSummary'
-import { pickNo } from './i18n'
+import { resolveLocalizedString } from './i18n'
 
 const i18n = (
   name: string,
@@ -148,7 +148,7 @@ export default {
                     select: { title: 'label', subtitle: 'badgeKey' },
                     prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
                       return {
-                        title: pickNo(title) || subtitle || 'Clinic badge',
+                        title: resolveLocalizedString(title) || subtitle || 'Clinic badge',
                         subtitle,
                       }
                     },
@@ -263,7 +263,7 @@ export default {
   preview: {
     select: { title: 'pageTitle' },
     prepare({ title }: { title?: unknown }) {
-      return { title: pickNo(title) || 'Book appointment' }
+      return { title: resolveLocalizedString(title) || 'Book appointment' }
     },
   },
 }

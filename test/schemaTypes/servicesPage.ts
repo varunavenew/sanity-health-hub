@@ -3,9 +3,9 @@ import {TreatmentIcon} from './icons'
 import {
   i18nFaqItemPreview,
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
+  resolveLocalizedString,
 } from './i18n'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
@@ -100,7 +100,7 @@ export default {
           preview: {
             select: {label: 'label'},
             prepare({label}: {label?: unknown}) {
-              return {title: pickNo(label) || 'Badge'}
+              return {title: resolveLocalizedString(label) || 'Badge'}
             },
           },
         },
@@ -207,7 +207,7 @@ export default {
             }) {
               const mode =
                 displayMode === 'treatmentsList' ? 'Treatment list' : 'Category link'
-              const label = pickNo(categoryTitle) || categoryId || 'Select category'
+              const label = resolveLocalizedString(categoryTitle) || categoryId || 'Select category'
               return {title: label, subtitle: mode}
             },
           },

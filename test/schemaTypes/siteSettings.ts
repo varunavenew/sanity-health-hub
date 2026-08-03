@@ -1,7 +1,7 @@
 // Schema: Site Settings
 // Global settings: navigation menu, contact info, social media, 404 page
 import { SettingsIcon } from './icons'
-import { pickNo, requiredNoEnI18n } from './i18n'
+import { requiredNoEnI18n, resolveLocalizedString } from './i18n'
 
 export default {
   name: 'siteSettings',
@@ -168,8 +168,8 @@ export default {
               const pathStr =
                 typeof subtitle === 'string'
                   ? subtitle
-                  : pickNo(subtitle)
-              return { title: pickNo(title) || 'Menyelement', subtitle: pathStr }
+                  : resolveLocalizedString(subtitle)
+              return { title: resolveLocalizedString(title) || 'Menyelement', subtitle: pathStr }
             },
           },
         },
@@ -252,8 +252,8 @@ export default {
               const pathStr =
                 typeof subtitle === 'string'
                   ? subtitle
-                  : pickNo(subtitle)
-              return { title: pickNo(title) || 'Footer link', subtitle: pathStr }
+                  : resolveLocalizedString(subtitle)
+              return { title: resolveLocalizedString(title) || 'Footer link', subtitle: pathStr }
             },
           },
         },

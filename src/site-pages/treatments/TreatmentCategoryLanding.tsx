@@ -65,12 +65,22 @@ function CategoryHeroMedia({
   media,
   alt,
   className,
+  variant = "hero",
 }: {
   media: ResolvedCmsMedia;
   alt: string;
   className: string;
+  variant?: "hero" | "profile" | "background";
 }) {
-  return <CmsMedia media={media} alt={alt} className={className} />;
+  return (
+    <CmsMedia
+      media={media}
+      alt={alt}
+      variant={variant}
+      className={className}
+      loading="eager"
+    />
+  );
 }
 
 const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -525,9 +535,99 @@ const TreatmentCategoryLanding = ({
 
   const isFullWidthHero = hero.layout === "full";
 
+  const isPregnancy =
+    categoryId === "graviditet" || categoryId === "pregnancy";
+
+  /**
+   * Lovable Media band uses the ultralyd image — not the hero portrait.
+   * When Pregnancy spotlight was incorrectly pointed at the hero asset,
+   * reuse the CMS “Tidlig ultralyd” expert-area image (same source as Lovable).
+   */
+  const pregnancySpotlight: CategoryLandingSpotlight | null = (() => {
+    if (!spotlightSection) return null;
+    if (!isPregnancy) return spotlightSection;
+    const heroCandidate =
+      (heroMedia && "src" in heroMedia && typeof (heroMedia as {src?: string}).src === "string"
+        ? (heroMedia as {src: string}).src
+        : "") ||
+      category?.heroImage ||
+      "";
+    const assetKey = (url: string) => {
+      const match = url.match(/\/([a-f0-9]{40,})-/i) || url.match(/images\/[^/]+\/[^/]+\/([^.?/]+)/);
+      return (match?.[1] || url.split("?")[0]).toLowerCase();
+    };
+    const spotUrl = spotlightSection.image || "";
+    const sameAsHero =
+      Boolean(heroCandidate) &&
+      Boolean(spotUrl) &&
+      assetKey(heroCandidate) === assetKey(spotUrl);
+    if (!sameAsHero) return spotlightSection;
+    const ultralyd = expertAreasSection.areas.find((area) =>
+      (area.href || "").includes("ultralyd"),
+    );
+    if (!ultralyd?.image) return spotlightSection;
+    return {
+      ...spotlightSection,
+      image: ultralyd.image,
+      imageAlt: ultralyd.imageAlt || spotlightSection.imageAlt,
+    };
+  })();
+
+  const DEFAULT_ORDER = [
+    "segments", "why", "audiences", "expertAreas",
+    "symptoms", "services", "support", "results",
+    "reviews", "spotlight", "journey",
+  ];
+  /**
+   * Lovable Pregnancy order: Media (spotlight) → Specialists → Journey.
+   * Applied only for graviditet/pregnancy. Other categories keep DEFAULT_ORDER.
+   */
+  const PREGNANCY_ORDER = [
+    "segments",
+    "faq",
+    "why",
+    "expertAreas",
+    "services",
+    "results",
+    "reviews",
+    "spotlight",
+    "specialists",
+    "journey",
+  ];
+  // Prefer CMS sectionOrder when set; otherwise Pregnancy still gets Lovable order
+  // so spotlight→specialists→journey cannot fall back to DEFAULT_ORDER.
+  const order = isPregnancy
+    ? sectionOrder?.length > 0
+      ? sectionOrder
+      : PREGNANCY_ORDER
+    : DEFAULT_ORDER;
+  const orderIncludesFaq = order.includes("faq");
+  const orderIncludesSpecialists = order.includes("specialists");
+
+  const faqItems = (category?.faqs ?? []).map((faq, i) => ({
+    id: `category-faq-${i}`,
+    question: faq.question,
+    answer: faq.answer,
+  }));
+
+  const renderFaq = () => (
+    <FaqSection
+      faqs={faqItems}
+      title={category?.faqSectionTitle?.trim() || undefined}
+      description={category?.faqSectionDescription?.trim() || undefined}
+      defaultOpenFirst={Boolean(category?.faqOpenFirst)}
+    />
+  );
+
+  const specialistSections = (category?.pageSections || []).filter(
+    (section) => section._type === "pageSectionSpecialists",
+  );
+
   /* â”€â”€ Section registry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
      Each key matches a value in the Sanity `sectionOrder` array.
      Sections whose data is empty return null automatically.
+     Optional keys `faq` and `specialists` let CMS place those mid-page
+     (used by Pregnancy); other categories omit them and keep legacy placement.
   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
@@ -620,7 +720,10 @@ const TreatmentCategoryLanding = ({
                       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
                       {a.href ? (
                         <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
-                          {audiencesSection.readMoreLabel}<ArrowRight className="w-3.5 h-3.5" />
+                          {a.ctaLabel.trim() ||
+                            audiencesSection.readMoreLabel.trim() ||
+                            t("hero.readMore")}
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                       ) : null}
                     </div>
@@ -648,7 +751,7 @@ const TreatmentCategoryLanding = ({
                   ) : null}
                 </div>
               </div>
-              <ExpertAreaCards areas={expertAreasSection.areas} layout={expertAreasSection.layout} readMoreLabel={expertAreasSection.readMoreLabel} scrollRef={expertAreasRef} />
+              <ExpertAreaCards areas={expertAreasSection.areas} layout={expertAreasSection.layout} readMoreLabel={expertAreasSection.readMoreLabel.trim() || t("hero.readMore")} scrollRef={expertAreasRef} />
             </div>
           </div>
         </section>
@@ -722,7 +825,7 @@ const TreatmentCategoryLanding = ({
                   <p className="text-base font-light text-muted-foreground leading-relaxed mt-6">{supportSection.description}</p>
                 ) : null}
               </div>
-              <ExpertAreaCards areas={supportSection.areas} layout="grid" readMoreLabel={supportSection.readMoreLabel} />
+              <ExpertAreaCards areas={supportSection.areas} layout="grid" readMoreLabel={supportSection.readMoreLabel.trim() || t("hero.readMore")} />
             </div>
           </div>
         </section>
@@ -806,7 +909,7 @@ const TreatmentCategoryLanding = ({
       ) : null,
 
     spotlight: () =>
-      spotlightSection ? <SpotlightSection spotlight={spotlightSection} /> : null,
+      pregnancySpotlight ? <SpotlightSection spotlight={pregnancySpotlight} /> : null,
 
     journey: () =>
       journeySection.steps.length > 0 ? (
@@ -819,18 +922,14 @@ const TreatmentCategoryLanding = ({
           bookingParams={bookingParams}
         />
       ) : null,
-  };
 
-  /* â”€â”€ Determine render order â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-     Use sectionOrder from Sanity if set; otherwise fall back to the
-     previous hardcoded sequence so existing categories are unaffected.
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  const DEFAULT_ORDER = [
-    "segments", "why", "audiences", "expertAreas",
-    "symptoms", "services", "support", "results",
-    "reviews", "spotlight", "journey",
-  ];
-  const order = sectionOrder?.length > 0 ? sectionOrder : DEFAULT_ORDER;
+    faq: () => renderFaq(),
+
+    specialists: () =>
+      specialistSections.length > 0 ? (
+        <PageSectionsRenderer sections={specialistSections} />
+      ) : null,
+  };
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -846,7 +945,7 @@ const TreatmentCategoryLanding = ({
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full"
                 />
               ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
@@ -952,7 +1051,7 @@ const TreatmentCategoryLanding = ({
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full"
                 />
               </div>
             ) : null}
@@ -961,24 +1060,22 @@ const TreatmentCategoryLanding = ({
         </header>
       )}
 
-      {/* Dynamic section loop â€” order controlled by Sanity sectionOrder field */}
+      {/* Dynamic section loop — order from Sanity sectionOrder when set */}
       {order.map((key) => {
         const render = SECTION_RENDERERS[key];
         return render ? <Fragment key={key}>{render()}</Fragment> : null;
       })}
 
-      {/* FAQ — dual-read: Collection preferred, else legacy faqs[]. Hidden when empty. */}
-      <FaqSection
-        faqs={(category?.faqs ?? []).map((faq, i) => ({
-          id: `category-faq-${i}`,
-          question: faq.question,
-          answer: faq.answer,
-        }))}
-        title={category?.faqSectionTitle?.trim() || undefined}
-      />
+      {/* FAQ after landing bands only when not placed via sectionOrder (e.g. Pregnancy). */}
+      {!orderIncludesFaq ? renderFaq() : null}
 
-      {/* Sanity CMS page sections — always rendered after sectionOrder content */}
-      <PageSectionsRenderer sections={category?.pageSections} />
+      {/* Shared page sections — skip specialists if already rendered mid-page via sectionOrder. */}
+      <PageSectionsRenderer
+        sections={category?.pageSections}
+        excludeTypes={
+          orderIncludesSpecialists ? ["pageSectionSpecialists"] : undefined
+        }
+      />
     </PageLayout>
   );
 };

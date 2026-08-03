@@ -101,12 +101,27 @@ type ObjectInputPropsWithAllMembers = ObjectInputProps & {
   _allMembers?: FormMemberLike[]
 }
 
+export type CreatePageSectionDocumentInputOptions = {
+  /**
+   * When no section id is present in Structure routing:
+   * - `defaultSection` (default): fall back to config.defaultSectionId (Homepage etc.)
+   * - `renderDefault`: show the full native form (Treatment Categories opened
+   *   outside the section list still get the classic editor)
+   */
+  whenNoSection?: 'defaultSection' | 'renderDefault'
+}
+
 /**
  * Factory: document `components.input` for Structure section panes.
  * Filters schema members to the active section and renders them with native
  * ObjectInputMembers (same FormProvider as Studio’s default form view).
  */
-export function createPageSectionDocumentInput(config: PageEditorConfig) {
+export function createPageSectionDocumentInput(
+  config: PageEditorConfig,
+  options: CreatePageSectionDocumentInputOptions = {},
+) {
+  const whenNoSection = options.whenNoSection ?? 'defaultSection'
+
   function PageSectionDocumentInput(props: ObjectInputProps) {
     const {members, ...rest} = props
     const propsWithAll = props as ObjectInputPropsWithAllMembers
@@ -124,8 +139,11 @@ export function createPageSectionDocumentInput(config: PageEditorConfig) {
       return ids
     }, [routerPanesState])
 
+    const sectionFromRoute = resolveSectionId({paneKey, documentId, config, routerPaneIds})
+    const useFullForm = whenNoSection === 'renderDefault' && !sectionFromRoute
+
     const sectionId =
-      resolveSectionId({paneKey, documentId, config, routerPaneIds}) ||
+      sectionFromRoute ||
       config.defaultSectionId ||
       config.sections[0]?.id ||
       ''
@@ -136,6 +154,7 @@ export function createPageSectionDocumentInput(config: PageEditorConfig) {
     // Filtering still uses `_allMembers` so the first paint works even before
     // the group tab state updates.
     useEffect(() => {
+      if (useFullForm) return
       const hasAllFieldsGroup = (props.groups || []).some(
         (group) => group?.name === ALL_FIELDS_GROUP_NAME,
       )
@@ -143,7 +162,7 @@ export function createPageSectionDocumentInput(config: PageEditorConfig) {
       if (!hasAllFieldsGroup) return
       if (selected?.name === ALL_FIELDS_GROUP_NAME) return
       props.onFieldGroupSelect?.(ALL_FIELDS_GROUP_NAME)
-    }, [props.groups, props.onFieldGroupSelect, sectionId])
+    }, [props.groups, props.onFieldGroupSelect, sectionId, useFullForm])
 
     const sourceMembers = useMemo(
       () =>
@@ -155,20 +174,29 @@ export function createPageSectionDocumentInput(config: PageEditorConfig) {
     )
 
     const filteredMembers = useMemo(() => {
-      if (!section) return []
+      if (useFullForm || !section) return []
+      // Category landing bands live inside document fieldsets (e.g. "Website
+      // sections"). Flatten so the right pane is a focused workspace, not a
+      // second navigation nest.
+      const flattenFieldSets = Boolean(section.landingPageFields?.length)
       return filterMembersByFieldNames(sourceMembers, section.fields, {
-        flattenFieldSets: false,
+        flattenFieldSets,
         includeOutsideSelectedGroup: true,
       })
-    }, [sourceMembers, section])
+    }, [sourceMembers, section, useFullForm])
 
     const filteredMembersBeforeAddon = useMemo(() => {
-      if (!section?.fieldsBeforeAddon?.length) return []
+      if (useFullForm || !section?.fieldsBeforeAddon?.length) return []
+      const flattenFieldSets = Boolean(section.landingPageFields?.length)
       return filterMembersByFieldNames(sourceMembers, section.fieldsBeforeAddon, {
-        flattenFieldSets: false,
+        flattenFieldSets,
         includeOutsideSelectedGroup: true,
       })
-    }, [sourceMembers, section])
+    }, [sourceMembers, section, useFullForm])
+
+    if (useFullForm) {
+      return props.renderDefault(props)
+    }
 
     if (!section) {
       return (

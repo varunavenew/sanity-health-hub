@@ -7,10 +7,10 @@ import {
 } from './newsFilterCategories'
 import {
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
   requiredNoEnSlug,
+  resolveLocalizedString,
 } from './i18n'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -149,7 +149,7 @@ export default defineType({
               key?: string
               cats?: unknown
             }) {
-              const title = pickNo(label)?.trim() || key || 'Filter'
+              const title = resolveLocalizedString(label)?.trim() || key || 'Filter'
               const businessTitles = businessTitlesFromStoredCategories(cats)
               const subtitle =
                 key === 'all' || businessTitles.length === 0

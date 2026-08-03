@@ -1,6 +1,6 @@
 // Schema: Clinics listing page (/klinikker) — hero + SEO (singleton)
 import {ClinicIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -96,7 +96,7 @@ export default {
   preview: {
     select: {title: 'heroTitle'},
     prepare({title}: {title?: unknown}) {
-      return {title: pickNo(title) || 'Clinics'}
+      return {title: resolveLocalizedString(title) || 'Clinics'}
     },
   },
 }

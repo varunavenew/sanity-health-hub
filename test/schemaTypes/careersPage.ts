@@ -1,6 +1,6 @@
 // Schema: Careers listing page (Karriere)
 import {GenericIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -18,7 +18,7 @@ const i18nText = {
 const optionRowPreview = {
   select: {value: 'value', label: 'label'},
   prepare({value, label}: {value?: string; label?: unknown}) {
-    return {title: pickNo(label) || value || 'Option'}
+    return {title: resolveLocalizedString(label) || value || 'Option'}
   },
 }
 

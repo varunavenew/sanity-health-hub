@@ -1,6 +1,7 @@
 import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
+import { normalizeFocalPoint } from "@/lib/media/focal-point";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
@@ -58,6 +59,7 @@ export type RawSanitySpecialist = {
   name?: string;
   slug?: string;
   image?: string;
+  imageHotspot?: { x?: number; y?: number; height?: number; width?: number } | null;
   heroMedia?: unknown;
   role?: unknown;
   subtitle?: unknown;
@@ -325,9 +327,11 @@ export function mapSanitySpecialistRow(
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
 
+  const imageHotspot = normalizeFocalPoint(raw.imageHotspot);
   const media = resolveCmsMedia(raw.heroMedia, {
     mediaType: "image",
     imageUrl: raw.image?.trim(),
+    hotspot: raw.imageHotspot,
   });
   const image =
     (media?.kind === "image" ? media.src : media?.poster) || raw.image!.trim();
@@ -337,6 +341,7 @@ export function mapSanitySpecialistRow(
     name: raw.name!.trim(),
     slug: raw.slug!.trim(),
     image,
+    imageHotspot,
     heroMedia: media || undefined,
     title,
     subtitle: readLocalizedString(raw.subtitle, lang) || undefined,

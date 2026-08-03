@@ -36,6 +36,10 @@ import {newsPageEditorConfig} from './page-editor/pages/newsSections'
 import {guidePageEditorConfig} from './page-editor/pages/guideSections'
 import {careersPageEditorConfig} from './page-editor/pages/careersSections'
 import {privacyPageEditorConfig} from './page-editor/pages/privacySections'
+import {
+  createTreatmentCategoryPageEditorConfig,
+  TREATMENT_CATEGORY_EDITORS,
+} from './page-editor/pages/treatmentCategorySections'
 
 /** Fixed-ID singleton editor — IDs match existing published documents. */
 function singletonListItem(
@@ -257,9 +261,20 @@ function medicalContentSection(S: StructureBuilder) {
             .icon(CategoryIcon)
             .schemaType('treatmentCategory')
             .child(
-              S.documentTypeList('treatmentCategory')
+              S.list()
                 .title('Treatment Categories')
-                .defaultOrdering([{field: '_updatedAt', direction: 'desc'}]),
+                .items(
+                  TREATMENT_CATEGORY_EDITORS.map((entry) =>
+                    buildPageSectionListItem(S, {
+                      title: entry.title,
+                      schemaType: 'treatmentCategory',
+                      documentId: entry.documentId,
+                      icon: CategoryIcon,
+                      config: createTreatmentCategoryPageEditorConfig({title: entry.title}),
+                      withLocalePreviews: true,
+                    }),
+                  ),
+                ),
             ),
           S.listItem()
             .title('Treatments')

@@ -8,6 +8,7 @@ import { pageSectionsField } from './pageSections'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {homepagePageEditorConfig} from '../sanity/page-editor/pages/homepageSections'
 import {HomepageSpecialistsSectionField} from '../sanity/components/HomepageSpecialistsSectionField'
+import {resolveLocalizedString} from './i18n'
 
 export default {
   name: 'homepage',
@@ -104,13 +105,9 @@ export default {
                   legacyImage: 'image',
                 },
                 prepare({ title, subtitle, mediaImage, legacyImage }: any) {
-                  const pick = (v: any) =>
-                    Array.isArray(v)
-                      ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                      : (v || '')
                   return {
-                    title: pick(title),
-                    subtitle: pick(subtitle),
+                    title: resolveLocalizedString(title) || 'Slide',
+                    subtitle: resolveLocalizedString(subtitle) || undefined,
                     media: mediaImage || legacyImage,
                   }
                 },
@@ -236,11 +233,10 @@ export default {
               preview: {
                 select: { title: 'value', subtitle: 'label' },
                 prepare({ title, subtitle }: any) {
-                  const pick = (v: any) =>
-                    Array.isArray(v)
-                      ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                      : (v || '')
-                  return { title: title || '', subtitle: pick(subtitle) }
+                  return {
+                    title: title || 'Stat',
+                    subtitle: resolveLocalizedString(subtitle) || undefined,
+                  }
                 },
               },
             },
@@ -263,11 +259,10 @@ export default {
           preview: {
             select: { title: 'value', subtitle: 'label' },
             prepare({ title, subtitle }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: title || '', subtitle: pick(subtitle) }
+              return {
+                title: title || 'Stat',
+                subtitle: resolveLocalizedString(subtitle) || undefined,
+              }
             },
           },
         },
@@ -290,11 +285,10 @@ export default {
           preview: {
             select: { title: 'label', subtitle: 'icon' },
             prepare({ title, subtitle }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: pick(title), subtitle: subtitle || '' }
+              return {
+                title: resolveLocalizedString(title) || 'Badge',
+                subtitle: subtitle || undefined,
+              }
             },
           },
         },
@@ -324,11 +318,11 @@ export default {
           preview: {
             select: { title: 'title', subtitle: 'description', media: 'image' },
             prepare({ title, subtitle, media }: any) {
-              const pick = (v: any) =>
-                Array.isArray(v)
-                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-                  : (v || '')
-              return { title: pick(title), subtitle: pick(subtitle), media }
+              return {
+                title: resolveLocalizedString(title) || 'Promo',
+                subtitle: resolveLocalizedString(subtitle) || undefined,
+                media,
+              }
             },
           },
         },
@@ -438,10 +432,7 @@ export default {
   preview: {
     select: { title: 'title' },
     prepare({ title }: any) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Homepage')
-        : (title || 'Homepage')
-      return { title: titleStr }
+      return { title: resolveLocalizedString(title) || 'Homepage' }
     },
   },
 }

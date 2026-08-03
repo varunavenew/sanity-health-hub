@@ -57,6 +57,8 @@ export interface Specialist {
   subtitle?: string;
   expertise: string[];
   image: ImageRef;
+  /** Sanity photo hotspot (0–1) when editors set a focal point. */
+  imageHotspot?: import("@/lib/media/focal-point").MediaFocalPoint | null;
   /** Resolved hero media (Image / Video) when present. */
   heroMedia?: import("@/lib/sanity/media-dual-read").ResolvedCmsMedia;
   category: SpecialistCategory;

@@ -9,6 +9,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "verify:cms-routes": "tsx src/scripts/verify-cms-routes.ts",
     "backfill:en": "npm run backfill:en --prefix test",
     "backfill:en:dry": "npm run backfill:en:dry --prefix test",

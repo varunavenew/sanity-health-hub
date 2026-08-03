@@ -1,13 +1,19 @@
 "use client";
 
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
+import {
+  ResponsiveVideo,
+  ResponsiveVideoPoster,
+} from "@/components/media/ResponsiveVideo";
 import type { ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
+import type { MediaFocalPoint, SanityHotspot } from "@/lib/media/focal-point";
+import type { MediaVariant } from "@/lib/media/variants";
 import {
   INTERACTIVE_EMBED,
   toExternalVideoEmbedUrl,
 } from "@/lib/video/to-embed-url";
 import { Play } from "lucide-react";
-import { useCallback, useRef, useState, type CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 
 type CmsMediaProps = {
   media: ResolvedCmsMedia;
@@ -15,6 +21,15 @@ type CmsMediaProps = {
   className?: string;
   style?: CSSProperties;
   loading?: "eager" | "lazy";
+  /**
+   * Framing strategy. Default `hero`.
+   * Use `profile` for specialist / portrait heroes (protects faces on ultrawide).
+   */
+  variant?: MediaVariant;
+  /** Extra hotspot when media.hotspot is missing (legacy fields). */
+  hotspot?: SanityHotspot | MediaFocalPoint | null;
+  /** Explicit CSS object-position overrides hotspot. */
+  objectPosition?: string;
   /**
    * When true (default), muted autoplay + loop for heroes.
    * Set false for non-hero contexts that need a normal controlled player.
@@ -29,11 +44,10 @@ type CmsMediaProps = {
 };
 
 /**
- * Renders resolved CMS media.
- * Image → AssetImg; uploaded/direct video → <video>; YouTube/Vimeo → iframe.
+ * Renders resolved CMS media with shared responsive framing.
+ * Image → ResponsiveImage; uploaded/direct video → ResponsiveVideo; embeds → iframe.
  *
- * Hero default: muted autoplay + loop. Images are unchanged.
- * All hero surfaces should use this component so behaviour stays shared.
+ * All hero surfaces should use this (or ResponsiveHeroMedia) so behaviour stays shared.
  */
 export function CmsMedia({
   media,
@@ -41,14 +55,22 @@ export function CmsMedia({
   className = "",
   style,
   loading = "lazy",
+  variant = "hero",
+  hotspot,
+  objectPosition,
   autoPlay = true,
   interactive = true,
 }: CmsMediaProps) {
+  const focal = hotspot ?? media.hotspot ?? null;
+
   if (media.kind === "image" && media.src) {
     return (
-      <AssetImg
+      <ResponsiveImage
         src={media.src}
         alt={alt}
+        variant={variant}
+        hotspot={focal}
+        objectPosition={objectPosition}
         className={className}
         style={style}
         loading={loading}
@@ -58,10 +80,13 @@ export function CmsMedia({
 
   if (media.kind === "video" && media.src) {
     return (
-      <CmsFileVideo
+      <ResponsiveVideo
         src={media.src}
         poster={media.poster}
         alt={alt}
+        variant={variant}
+        hotspot={focal}
+        objectPosition={objectPosition}
         className={className}
         style={style}
         autoPlay={autoPlay}
@@ -78,6 +103,9 @@ export function CmsMedia({
         alt={alt}
         className={className}
         style={style}
+        variant={variant}
+        hotspot={focal}
+        objectPosition={objectPosition}
         autoPlay={autoPlay}
         interactive={interactive}
       />
@@ -87,78 +115,15 @@ export function CmsMedia({
   return null;
 }
 
-function CmsFileVideo({
-  src,
-  poster,
-  alt,
-  className,
-  style,
-  autoPlay,
-  interactive,
-}: {
-  src: string;
-  poster?: string;
-  alt: string;
-  className: string;
-  style?: CSSProperties;
-  autoPlay: boolean;
-  interactive: boolean;
-}) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [expanded, setExpanded] = useState(false);
-
-  const openWithSound = useCallback(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    el.muted = false;
-    el.controls = true;
-    el.loop = false;
-    void el.play().catch(() => {
-      /* gesture unlocks controls even if unmuted play is blocked briefly */
-    });
-    setExpanded(true);
-  }, []);
-
-  return (
-    <div className={`relative overflow-hidden ${className}`} style={style}>
-      <video
-        ref={videoRef}
-        src={src}
-        poster={poster}
-        autoPlay={autoPlay && !expanded}
-        muted={autoPlay && !expanded}
-        loop={autoPlay && !expanded}
-        playsInline
-        preload="metadata"
-        controls={expanded || !autoPlay}
-        aria-label={alt || "Video"}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      {interactive && autoPlay && !expanded ? (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            openWithSound();
-          }}
-          className="absolute inset-0 z-[1] flex items-center justify-center bg-transparent border-0 cursor-pointer group"
-          aria-label={alt ? `Play video: ${alt}` : "Play video with sound"}
-        >
-          <span className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
-            <Play className="w-6 h-6 text-brand-dark ml-0.5" fill="currentColor" />
-          </span>
-        </button>
-      ) : null}
-    </div>
-  );
-}
-
 function CmsEmbedVideo({
   externalUrl,
   poster,
   alt,
   className,
   style,
+  variant,
+  hotspot,
+  objectPosition,
   autoPlay,
   interactive,
 }: {
@@ -167,6 +132,9 @@ function CmsEmbedVideo({
   alt: string;
   className: string;
   style?: CSSProperties;
+  variant: MediaVariant;
+  hotspot?: SanityHotspot | MediaFocalPoint | null;
+  objectPosition?: string;
   autoPlay: boolean;
   interactive: boolean;
 }) {
@@ -201,11 +169,12 @@ function CmsEmbedVideo({
   return (
     <div className={`relative overflow-hidden ${className}`} style={style}>
       {poster && !interactiveMode ? (
-        <AssetImg
+        <ResponsiveVideoPoster
           src={poster}
           alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+          variant={variant}
+          hotspot={hotspot}
+          objectPosition={objectPosition}
         />
       ) : null}
       <iframe
@@ -234,4 +203,3 @@ function CmsEmbedVideo({
     </div>
   );
 }
-

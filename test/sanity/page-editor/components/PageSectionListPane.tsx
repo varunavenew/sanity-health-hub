@@ -31,11 +31,12 @@ function resolveChips(
   document: Record<string, unknown> | undefined,
   ready: boolean,
 ): string[] {
-  if (!ready) return ['Unknown']
+  // No document yet — omit subtitle rather than showing "Unknown".
+  if (!ready) return []
 
   const fromChips = section.getChips?.(document)
   if (fromChips && fromChips.length > 0) {
-    return fromChips.filter((chip) => Boolean(chip && chip.trim()))
+    return fromChips.filter((chip) => Boolean(chip && chip.trim() && chip !== 'Unknown'))
   }
 
   const chips: string[] = []
@@ -43,7 +44,7 @@ function resolveChips(
   const meta = section.getMeta?.(document)
   if (preview?.trim()) chips.push(preview.trim())
   if (meta?.trim()) chips.push(meta.trim())
-  return chips.length > 0 ? chips : ['Unknown']
+  return chips
 }
 
 /**
@@ -66,16 +67,24 @@ export const PageSectionListPane: UserComponent = (props) => {
   const ready = Boolean(publishedId) && editState.ready
 
   const sections = config?.sections || []
-  const sectionCount = sections.length
 
-  const cards = useMemo(
-    () =>
-      sections.map((section) => ({
+  const cards = useMemo(() => {
+    return sections
+      .map((section) => ({
         section,
         chips: resolveChips(section, document, ready),
-      })),
-    [document, ready, sections],
-  )
+      }))
+      .filter(({section, chips}) => {
+        if (!section.hideWhenEmpty) return true
+        // Keep cards visible while loading (no "Unknown" subtitle).
+        // Only hide when a section explicitly reports Empty — missing/zero
+        // content now uses [] so editors see the title with no subtitle.
+        if (!ready) return true
+        return !(chips.length === 1 && chips[0] === 'Empty')
+      })
+  }, [document, ready, sections])
+
+  const sectionCount = cards.length
 
   if (!config || !documentId) {
     return (

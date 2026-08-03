@@ -43,7 +43,7 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const slides = (document.heroBanner as {slides?: unknown[]} | undefined)?.slides
           const count = countArray(slides)
-          if (count === undefined) return ['Unknown']
+          if (count === undefined) return []
           if (count === 0) return ['No slides']
           return [countChip(count, 'Slide', 'Slides')]
         }),
@@ -70,7 +70,7 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countReferenceArray(document.serviceCategories)
-          if (count === undefined) return ['Unknown']
+          if (count === undefined) return []
           if (count === 0) return ['No categories', 'Manual']
           return [countChip(count, 'Category', 'Categories'), 'Manual']
         }),
@@ -94,7 +94,7 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countReferenceArray(document.googleReviews)
-          if (count === undefined) return ['Unknown']
+          if (count === undefined) return []
           if (count === 0) return ['No reviews']
           return [countChip(count, 'Review', 'Reviews')]
         }),
@@ -123,7 +123,7 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countReferenceArray(document.featuredArticles)
-          if (count === undefined) return ['Unknown']
+          if (count === undefined) return []
           if (count === 0) return ['No articles']
           return [countChip(count, 'Article', 'Articles')]
         }),
@@ -183,7 +183,7 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const section = document.resultsStatsSection as {stats?: unknown[]} | undefined
           const count = countArray(section?.stats)
-          if (count === undefined) return ['Unknown']
+          if (count === undefined) return []
           if (count === 0) return ['No statistics']
           return [countChip(count, 'Statistic', 'Statistics')]
         }),
@@ -243,7 +243,7 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
           const badges = countArray(document.valueBadges)
           const promos = countArray(document.promoBlocks)
           if (stats === undefined && badges === undefined && promos === undefined) {
-            return ['Unknown']
+            return []
           }
           const parts: string[] = []
           if (stats && stats > 0) parts.push(countChip(stats, 'Stat', 'Stats'))

@@ -1,6 +1,6 @@
 // Schema: Google Review
 import { ReviewIcon } from './icons'
-import { pickNo } from './i18n'
+import { resolveLocalizedString } from './i18n'
 
 export default {
   name: 'googleReview',
@@ -40,7 +40,7 @@ export default {
   preview: {
     select: { title: 'author', subtitle: 'text' },
     prepare({ title, subtitle }: { title?: string; subtitle?: unknown }) {
-      const excerpt = pickNo(subtitle)
+      const excerpt = resolveLocalizedString(subtitle)
       return {
         title: title || 'Review',
         subtitle: excerpt ? `${excerpt.slice(0, 60)}…` : '',

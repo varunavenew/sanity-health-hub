@@ -158,8 +158,8 @@ export const HeroChat = ({ onIntentDetected }: HeroChatProps) => {
     };
   }, [settings.language, settings.recordingMode, isRecording]);
 
-  const logEvent = (event: string, data?: any) => {
-    console.log(`[AWC Event] ${event}`, data);
+  const logEvent = (_event: string, _data?: unknown) => {
+    /* intentional no-op in production builds */
   };
 
   const startRecording = () => {

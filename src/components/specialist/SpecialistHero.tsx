@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "@/lib/router";
 import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AssetImg } from "@/components/AssetImg";
-import { CmsMedia } from "@/components/media/CmsMedia";
+import { ResponsiveHeroMedia } from "@/components/media/ResponsiveHeroMedia";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
@@ -126,21 +125,17 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative min-h-[380px] lg:min-h-full order-1 lg:order-2"
+          className="relative min-h-[380px] lg:min-h-full order-1 lg:order-2 bg-brand-light"
         >
-          {specialist.heroMedia ? (
-            <CmsMedia
-              media={specialist.heroMedia}
-              alt={specialist.name}
-              className="absolute inset-0 w-full h-full object-cover object-top"
-            />
-          ) : (
-            <AssetImg
-              src={specialist.image}
-              alt={specialist.name}
-              className="absolute inset-0 w-full h-full object-cover object-top"
-            />
-          )}
+          <ResponsiveHeroMedia
+            variant="profile"
+            media={specialist.heroMedia}
+            src={specialist.image}
+            hotspot={specialist.imageHotspot}
+            alt={specialist.name}
+            className="absolute inset-0 w-full h-full"
+            loading="eager"
+          />
         </motion.div>
       </div>
       <div className="h-px w-full bg-foreground/5" aria-hidden="true" />

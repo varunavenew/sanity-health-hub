@@ -8,6 +8,7 @@
  * shared band is simply unused (prefer Empty).
  */
 import {
+  CheckmarkCircleIcon,
   ComposeIcon,
   DocumentTextIcon,
   EarthGlobeIcon,
@@ -121,8 +122,8 @@ export function specialistsBandSection(options?: SharedBandOptions): PageSection
     getChips: (doc) =>
       chipsFromDocument(doc, Boolean(doc), (document) => {
         const sections = document.pageSections
-        if (sections === undefined || sections === null) return ['Unknown']
-        if (!Array.isArray(sections)) return ['Unknown']
+        if (sections === undefined || sections === null) return []
+        if (!Array.isArray(sections)) return []
         const band = sections.find(
           (row: {_type?: string}) => row?._type === 'pageSectionSpecialists',
         ) as
@@ -134,13 +135,13 @@ export function specialistsBandSection(options?: SharedBandOptions): PageSection
           | undefined
         if (!band) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : ['Empty']
+          return owned?.length ? owned : []
         }
         const mode = band.displayMode || 'all'
         if (mode === 'all') return ['All Specialists']
         if (mode === 'category') return ['Filtered by category']
         const count = countArray(band.specialists)
-        if (!count) return ['Empty']
+        if (!count) return []
         return [countChip(count, 'Specialist', 'Specialists')]
       }),
   }
@@ -160,8 +161,8 @@ export function articlesBandSection(options?: SharedBandOptions): PageSectionDef
     getChips: (doc) =>
       chipsFromDocument(doc, Boolean(doc), (document) => {
         const sections = document.pageSections
-        if (sections === undefined || sections === null) return ['Unknown']
-        if (!Array.isArray(sections)) return ['Unknown']
+        if (sections === undefined || sections === null) return []
+        if (!Array.isArray(sections)) return []
         const band = sections.find(
           (row: {_type?: string}) => row?._type === 'pageSectionArticles',
         ) as
@@ -174,12 +175,12 @@ export function articlesBandSection(options?: SharedBandOptions): PageSectionDef
           | undefined
         if (!band) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : ['Empty']
+          return owned?.length ? owned : []
         }
         const mode = band.displayMode || 'latest'
         if (mode === 'manual') {
           const count = countReferenceArray(band.articles)
-          if (!count) return ['Empty']
+          if (!count) return []
           return [countChip(count, 'Article', 'Articles')]
         }
         if (mode === 'category') return ['Filtered by category']
@@ -205,7 +206,7 @@ export function bookingCtaBandSection(options?: SharedBandOptions): PageSectionD
         const sections = document.pageSections
         if (!Array.isArray(sections)) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : ['Empty']
+          return owned?.length ? owned : []
         }
         const band = sections.find(
           (row: {
@@ -224,11 +225,44 @@ export function bookingCtaBandSection(options?: SharedBandOptions): PageSectionD
           | undefined
         if (!band) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : ['Empty']
+          return owned?.length ? owned : []
         }
         const ref = band.ctaCollection?._ref
         if (typeof ref === 'string' && ref.length > 0) return ['Collection linked']
         if (i18nPreview(band.title) || i18nPreview(band.primaryLabel)) return ['Configured']
+        return ['Configured']
+      }),
+  }
+}
+
+export function insuranceBandSection(options?: SharedBandOptions): PageSectionDefinition {
+  return {
+    id: 'insurance',
+    title: 'Insurance',
+    description: 'Insurance partners from an Insurance Collection.',
+    icon: CheckmarkCircleIcon,
+    fields: ['pageSections'],
+    pageSectionsItemTypes: ['pageSectionInsurance'],
+    notice:
+      options?.pageOwnedNotice ||
+      'Only Insurance bands. Other shared bands are edited from their own cards.',
+    getChips: (doc) =>
+      chipsFromDocument(doc, Boolean(doc), (document) => {
+        const sections = document.pageSections
+        if (!Array.isArray(sections)) {
+          const owned = options?.getPageOwnedChips?.(document)
+          return owned?.length ? owned : []
+        }
+        const band = sections.find(
+          (row: {_type?: string; insuranceCollection?: {_ref?: string}}) =>
+            row?._type === 'pageSectionInsurance',
+        ) as {_type?: string; insuranceCollection?: {_ref?: string}} | undefined
+        if (!band) {
+          const owned = options?.getPageOwnedChips?.(document)
+          return owned?.length ? owned : []
+        }
+        const ref = band.insuranceCollection?._ref
+        if (typeof ref === 'string' && ref.length > 0) return ['Collection linked']
         return ['Configured']
       }),
   }
@@ -257,8 +291,7 @@ export function arrayCountChips(
   return (doc) =>
     chipsFromDocument(doc, Boolean(doc), (document) => {
       const count = countArray(document[fieldName])
-      if (count === undefined) return ['Unknown']
-      if (count === 0) return ['Empty']
+      if (count === undefined || count === 0) return []
       return [countChip(count, singular, plural)]
     })
 }
@@ -271,8 +304,7 @@ export function referenceArrayCountChips(
   return (doc) =>
     chipsFromDocument(doc, Boolean(doc), (document) => {
       const count = countReferenceArray(document[fieldName])
-      if (count === undefined) return ['Unknown']
-      if (count === 0) return ['Empty']
+      if (count === undefined || count === 0) return []
       return [countChip(count, singular, plural)]
     })
 }

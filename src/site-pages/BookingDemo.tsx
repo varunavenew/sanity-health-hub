@@ -224,23 +224,6 @@ const BookingDemo = () => {
           groupsJson.categories.length > 0
         ) {
           setBookingServices(groupsJson.categories);
-          if (typeof window !== "undefined") {
-            console.log("[booking/category] wbactivities loaded via /api/booking/activity-groups", {
-              source: "api",
-              categoryCount: groupsJson.categories.length,
-              categories: groupsJson.categories.map((c) => ({
-                id: c.id,
-                clinicServiceId: c.clinicServiceId,
-                label: c.label,
-                serviceCount: c.services?.length ?? 0,
-                services: c.services?.map((s) => ({
-                  name: s.name,
-                  apiActivityId: s.apiActivityId,
-                  price: s.price,
-                })),
-              })),
-            });
-          }
         } else {
           setBookingServices([]);
         }
@@ -467,15 +450,6 @@ const BookingDemo = () => {
       matchingCategory = findBookingCategoryForPage(effectiveKategori, bookingServices);
       if (matchingCategory) {
         applyResolvedCategory(matchingCategory);
-        if (typeof window !== "undefined") {
-          console.log("[booking/category] matched category for URL prefill", {
-            effectiveKategori,
-            categoryListId: resolvedCategoryListId,
-            clinicServiceId: resolvedCategoryClinicId,
-            label: resolvedCategoryLabel,
-            servicesFromWbactivities: matchingCategory.services,
-          });
-        }
       }
     }
 
@@ -529,39 +503,11 @@ const BookingDemo = () => {
         next.specialistChosen = true;
       }
       setBookingData(next);
-      if (matchingCategory && typeof window !== "undefined") {
-        console.log("[booking/category] prefill committed", {
-          categoryId: next.categoryId,
-          categoryLabel: next.category,
-          selectedService: next.service,
-        });
-      }
     }
     // If only kategori was given, expandedCategory is already set above.
   }, [searchParams, specialists, bookingServices, servicesLoading, bookingData.service, bookingData.clinic, bookingData.specialist]);
 
-  // Log services for the active category filter (step 1 UI)
-  useEffect(() => {
-    if (servicesLoading || bookingServices.length === 0) return;
-    const activeId = filterToCategoryId ?? expandedCategory;
-    if (!activeId) return;
-    const cat = bookingServices.find((c) => c.id === activeId);
-    if (!cat) return;
-    if (typeof window !== "undefined") {
-      console.log("[booking/category] services shown for category", {
-        categoryId: cat.id,
-        clinicServiceId: cat.clinicServiceId,
-        label: cat.label,
-        serviceCount: cat.services.length,
-        services: cat.services.map((s) => ({
-          name: s.name,
-          apiActivityId: s.apiActivityId,
-          price: s.price,
-        })),
-      });
-    }
-  }, [filterToCategoryId, expandedCategory, bookingServices, servicesLoading]);
-
+  // Active category filter is derived above; no debug logging in production.
   // Step 1: load duration from wbfreetimes when a category is expanded (cached per activity)
   useEffect(() => {
     if (!expandedCategory) return;

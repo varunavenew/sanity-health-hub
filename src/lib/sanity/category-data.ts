@@ -56,6 +56,8 @@ export type CategoryLandingAudience = {
   title: string;
   desc: string;
   href: string;
+  /** Per-card link text; empty when unset (use section / locale fallback). */
+  ctaLabel: string;
   icon: "couple" | "horizon" | "arch" | "user" | "users" | "clock" | "";
   image?: string;
 };
@@ -227,6 +229,10 @@ export type TreatmentCategoryData = {
   stats: CategoryStat[];
   /** Dual-read: FAQ Collection preferred, else legacy faqs[]. */
   faqSectionTitle?: string;
+  /** Optional FAQ intro copy (shown when provided). */
+  faqSectionDescription?: string;
+  /** When true, open the first FAQ item by default (opt-in per category). */
+  faqOpenFirst?: boolean;
   faqs: CategoryFaq[];
   landingPage: CategoryLandingPage | null;
   pageSections: ReturnType<typeof normalizePageSections>;
@@ -290,6 +296,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       title: asPlainString(a.title),
       desc: asPlainString(a.description),
       href: asPlainString(a.href),
+      ctaLabel: asPlainString(a.ctaLabel),
       icon: (validIcons.includes(icon as (typeof validIcons)[number])
         ? icon
         : "") as CategoryLandingAudience["icon"],
@@ -528,6 +535,8 @@ export function mapTreatmentCategoryDocument(
     treatments,
     stats,
     faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
+    faqSectionDescription: asPlainString(data.faqSectionDescription) || undefined,
+    faqOpenFirst: data.faqOpenFirst === true,
     faqs: resolveFaqsFromCollection(data.faqCollection, data.faqs),
     landingPage: mapLandingPage(landingRaw),
     pageSections: normalizePageSections(data.pageSections),

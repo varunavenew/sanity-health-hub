@@ -1,4 +1,4 @@
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { useRef, useMemo } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
@@ -209,10 +209,12 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
         className="group md:col-span-5 md:col-start-1 block"
       >
         <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-          <AssetImg
+          <ResponsiveImage
             src={sp.image}
             alt={sp.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            variant="card"
+            hotspot={sp.imageHotspot}
+            className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
           {sp.clinics && sp.clinics.length > 0 ? (
             <div className="absolute top-3 left-3 flex items-center gap-1 text-white/90 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
@@ -277,11 +279,13 @@ const SpecialistCard = ({ sp }: { sp: Specialist }) => (
     className="group block"
   >
     <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
-      <AssetImg
+      <ResponsiveImage
         src={sp.image}
         alt={sp.name}
+        variant="card"
+        hotspot={sp.imageHotspot}
         loading="lazy"
-        className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+        className="w-full h-full saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
       />
       <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />

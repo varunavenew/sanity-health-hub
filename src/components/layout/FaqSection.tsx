@@ -14,10 +14,14 @@ interface FaqSectionProps {
   faqs: FaqItem[];
   /** Localised section title. Defaults to "Ofte stilte spørsmål". */
   title?: string;
+  /** Optional supporting copy under the title (Pregnancy Lovable FAQ uses this). */
+  description?: string;
   /** Tailwind background class, defaults to bg-background. */
   background?: string;
   /** Emit FAQPage JSON-LD. Default true. */
   withJsonLd?: boolean;
+  /** When true, open the first FAQ item on mount (opt-in; default closed). */
+  defaultOpenFirst?: boolean;
 }
 
 /**
@@ -29,10 +33,14 @@ interface FaqSectionProps {
 export const FaqSection = ({
   faqs,
   title = "Ofte stilte spørsmål",
+  description,
   background = "bg-background",
   withJsonLd = true,
+  defaultOpenFirst = false,
 }: FaqSectionProps) => {
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openFaq, setOpenFaq] = useState<string | null>(() =>
+    defaultOpenFirst && faqs?.[0]?.id ? faqs[0].id : null,
+  );
 
   if (!faqs || faqs.length === 0) return null;
 
@@ -54,6 +62,11 @@ export const FaqSection = ({
           <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">
             {title}
           </h2>
+          {description?.trim() ? (
+            <p className="text-sm md:text-base font-light text-muted-foreground text-center leading-relaxed mb-10 whitespace-pre-line">
+              {description.trim()}
+            </p>
+          ) : null}
 
           <div className="space-y-0 border-t border-border">
             {faqs.map((faq) => {

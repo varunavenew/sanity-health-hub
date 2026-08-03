@@ -94,6 +94,10 @@ export function getSanityEnvironmentLabel(): "Development" | "Production" | "Pre
 }
 
 export function logSanityConfiguration(source = "Next.js"): void {
+  // Avoid noisy bootstrap logs in production runtimes; keep for local/preview.
+  if (process.env.NODE_ENV === "production" && process.env.VERCEL_ENV === "production") {
+    return;
+  }
   const projectId = requireSanityProjectId();
   const dataset = requireSanityDataset();
   const environment = getSanityEnvironmentLabel();

@@ -8,11 +8,12 @@ import {
   pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
+  resolveLocalizedString,
 } from './i18n'
 import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
-import { TreatmentCategoryAutoSlugInput } from '../sanity/components/TreatmentCategoryAutoSlugInput'
+import { TreatmentCategoryDocumentInput } from '../sanity/components/TreatmentCategoryDocumentInput'
 
 const reqI18n = requiredNoEnI18n
 
@@ -66,7 +67,7 @@ const statItem = {
   preview: {
     select: { value: 'value', label: 'label' },
     prepare({ value, label }: { value?: string; label?: unknown }) {
-      return { title: value || 'Statistics', subtitle: pickNo(label) || undefined }
+      return { title: value || 'Statistics', subtitle: resolveLocalizedString(label) || undefined }
     },
   },
 }
@@ -77,7 +78,7 @@ export default {
   type: 'document',
   icon: CategoryIcon,
   components: {
-    input: TreatmentCategoryAutoSlugInput,
+    input: TreatmentCategoryDocumentInput,
   },
   groups: [
     { name: 'general', title: 'General', default: true },
@@ -361,7 +362,7 @@ export default {
       const idPart = numericId != null ? `#${numericId}` : ''
       const keyPart = subtitle ? `${subtitle}` : ''
       const previewSubtitle = [idPart, keyPart].filter(Boolean).join(' • ')
-      return { title: pickNo(title) || 'Category', subtitle: previewSubtitle, media }
+      return { title: resolveLocalizedString(title) || 'Category', subtitle: previewSubtitle, media }
     },
   },
 }

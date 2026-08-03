@@ -1,6 +1,6 @@
 // Schema: Pricing Page
 import {PricingIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {
@@ -126,9 +126,9 @@ export default {
                   preview: {
                     select: {title: 'name', subtitle: 'price', priceLabel: 'priceLabel'},
                     prepare({title, subtitle, priceLabel}: any) {
-                      const label = pickNo(priceLabel)
+                      const label = resolveLocalizedString(priceLabel)
                       return {
-                        title: pickNo(title) || 'Unnamed',
+                        title: resolveLocalizedString(title) || 'Unnamed',
                         subtitle: label || (subtitle != null ? `${subtitle} kr` : ''),
                       }
                     },
@@ -140,7 +140,7 @@ export default {
           preview: {
             select: {title: 'categoryName'},
             prepare({title}: any) {
-              return {title: pickNo(title) || 'Unnamed'}
+              return {title: resolveLocalizedString(title) || 'Unnamed'}
             },
           },
         },
@@ -167,7 +167,7 @@ export default {
   preview: {
     select: {title: 'title'},
     prepare({title}: any) {
-      return {title: pickNo(title) || 'Pricing'}
+      return {title: resolveLocalizedString(title) || 'Pricing'}
     },
   },
 }

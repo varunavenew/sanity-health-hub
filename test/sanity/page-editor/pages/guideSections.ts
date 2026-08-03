@@ -24,7 +24,7 @@ const GUIDE_HERO_FIELDS = [
 ]
 
 function guideSectionChips(count: number | undefined): string[] {
-  if (count === undefined) return ['Unknown']
+  if (count === undefined) return []
   if (count === 0) return ['No Sections']
   if (count === 1) return ['1 Section']
   return [`${count} Sections`]

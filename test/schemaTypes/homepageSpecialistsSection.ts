@@ -1,6 +1,6 @@
 import {SpecialistIcon} from './icons'
 import {HomepageSpecialistsSectionInput} from '../sanity/components/HomepageSpecialistsSectionInput'
-import {requiredNoEnI18n} from './i18n'
+import {requiredNoEnI18n, resolveLocalizedString} from './i18n'
 
 const INTERNAL_PAGE_REF_TYPES = [
   {type: 'specialistsListingPage'},
@@ -132,13 +132,7 @@ export const homepageSpecialistsSectionType = {
       layout?: string
       maxItems?: number
     }) {
-      const title =
-        Array.isArray(heading) &&
-        (heading.find((e: {language?: string}) => e.language === 'no') as {value?: string})
-          ?.value
-          ? (heading.find((e: {language?: string}) => e.language === 'no') as {value?: string})
-              .value
-          : 'Specialists'
+      const title = resolveLocalizedString(heading) || 'Specialists'
       const parts = [displayMode || 'all', layout || 'carousel']
       if (typeof maxItems === 'number') parts.push(`max ${maxItems}`)
       return {title, subtitle: parts.join(' · ')}

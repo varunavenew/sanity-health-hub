@@ -11,14 +11,32 @@ type Props = {
   sections?: PageSection[] | null;
   /** Rendered immediately before the first booking CTA block (e.g. related services carousel). */
   beforeBookingCta?: ReactNode;
+  /**
+   * Skip these section `_type` values (e.g. when specialists were already
+   * rendered mid-page via `landingPage.sectionOrder`). Omit for default behaviour.
+   */
+  excludeTypes?: Array<PageSection["_type"]>;
 };
 
-export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
+export function PageSectionsRenderer({
+  sections,
+  beforeBookingCta,
+  excludeTypes,
+}: Props) {
   if (!sections?.length) {
     return beforeBookingCta ? <>{beforeBookingCta}</> : null;
   }
 
-  const sortedSections = [...sections].sort((a, b) => {
+  const excluded = new Set(excludeTypes ?? []);
+  const filtered = excluded.size
+    ? sections.filter((section) => !excluded.has(section._type))
+    : sections;
+
+  if (!filtered.length) {
+    return beforeBookingCta ? <>{beforeBookingCta}</> : null;
+  }
+
+  const sortedSections = [...filtered].sort((a, b) => {
     const order: Record<string, number> = {
       pageSectionSpecialists: 1,
       pageSectionInsurance: 2,

@@ -102,16 +102,19 @@ export const treatmentCategoryBottomCtaByKey: Record<string, CategoryBottomCtaCo
   },
   graviditet: {
     ...defaultPageUi,
-    faqSectionTitle: { no: "Ofte stilte spørsmål", en: "Frequently asked questions" },
+    faqSectionTitle: {
+      no: "Det du lurer på — fordelt så det er enkelt å finne.",
+      en: "What you wonder about — organised so it is easy to find.",
+    },
     bottomCta: {
-      title: { no: "Klar for å ta neste steg?", en: "Ready to take the next step?" },
+      title: { no: "Bestill time hos spesialist", en: "Book an appointment with a specialist" },
       subtitle: {
         no: "Bestill time enkelt online. Ingen henvisning nødvendig, og vi har kort ventetid.",
         en: "Book an appointment easily online. No referral required, and we have short waiting times.",
       },
       primaryLabel: {
-        no: "Bestill time hos en fostermedisiner",
-        en: "Book an appointment with a fetal medicine specialist",
+        no: "Bestill time",
+        en: "Book appointment",
       },
       secondaryLabel: { no: "Kontakt oss", en: "Contact us" },
       secondaryPath: "/kontakt",

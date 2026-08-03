@@ -2,8 +2,16 @@
  * Rich category landing page (e.g. /fertilitet) — editable per treatmentCategory.
  * Phase 11B.1: Studio fieldsets match website sections (JSON paths unchanged).
  * Phase 14G: Studio labels, descriptions, hides, defaults, grouping only.
+ * Page-editor: CategoryLandingPageInput filters nested bands by section.
  */
-import { i18nTitleItemPreview, requiredNoEnI18n } from './i18n'
+import {
+  i18nLabelItemPreview,
+  i18nReviewItemPreview,
+  i18nTitleItemPreview,
+  requiredNoEnI18n,
+} from './i18n'
+import {CategoryLandingPageField} from '../sanity/page-editor/components/CategoryLandingPageField'
+import {CategoryLandingPageInput} from '../sanity/page-editor/components/CategoryLandingPageInput'
 
 const i18nStr = { type: 'internationalizedArrayString' as const }
 const i18nTxt = { type: 'internationalizedArrayText' as const }
@@ -33,7 +41,8 @@ const segmentTagLinkItem = {
       validation: reqStr('Link'),
     },
   ],
-  preview: i18nTitleItemPreview,
+  // Field is `label`, not `title` — must not reuse i18nTitleItemPreview.
+  preview: i18nLabelItemPreview,
 }
 
 const segmentItem = {
@@ -103,6 +112,15 @@ const audienceItem = {
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
     { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
     { name: 'href', title: 'Link', type: 'string', validation: reqStr('Link') },
+    {
+      name: 'ctaLabel',
+      title: 'CTA Label',
+      ...i18nStr,
+      description:
+        'Link text on this card. Falls back to section “Read more text”, then Les mer / Read more.',
+      // Not required: existing cards omit this field; frontend falls back.
+      initialValue: i18nDefault('Les mer', 'Read more'),
+    },
     {
       name: 'icon',
       title: 'Icon',
@@ -177,6 +195,7 @@ const symptomItem = {
   preview: {
     select: { title: 'symptom', subtitle: 'service' },
     prepare: i18nTitleItemPreview.prepare,
+    component: i18nTitleItemPreview.component,
   },
 }
 
@@ -189,7 +208,8 @@ const reviewItem = {
     { name: 'author', title: 'Name', type: 'string', validation: reqStr('Name') },
     { name: 'date', title: 'Date / context', ...i18nStr, validation: reqI18n('Date / context') },
   ],
-  preview: i18nTitleItemPreview,
+  // Fields are author/text/date — not title/description.
+  preview: i18nReviewItemPreview,
 }
 
 export const categoryLandingPageField = {
@@ -200,12 +220,16 @@ export const categoryLandingPageField = {
   type: 'object',
   validation: (Rule: any) => Rule.required().error('Landing page content is required'),
   options: sectionCollapsed,
+  components: {
+    field: CategoryLandingPageField,
+    input: CategoryLandingPageInput,
+  },
   fieldsets: [
     {
       name: 'hero',
       title: 'Hero — headline & buttons',
-      description:
-        'Headline and buttons. Media is above under Page Content → Hero.',
+        description:
+        'Headline and buttons. Media is above under Hero media (or the Hero section card).',
       options: sectionCollapsed,
     },
     {
@@ -500,8 +524,10 @@ export const categoryLandingPageField = {
         },
         {
           name: 'readMoreLabel',
-          title: 'Read more text',
+          title: 'Read more text (section default)',
           ...i18nStr,
+          description:
+            'Used when a card has no CTA Label. New cards get their own CTA Label by default.',
           initialValue: i18nDefault('Les mer', 'Read more'),
         },
       ],
@@ -638,7 +664,8 @@ export const categoryLandingPageField = {
                   ],
                 },
               ],
-              preview: i18nTitleItemPreview,
+              // Group title lives on `label`, not `title`.
+              preview: i18nLabelItemPreview,
             },
           ],
         },

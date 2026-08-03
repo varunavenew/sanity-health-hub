@@ -204,6 +204,7 @@ export const PAGE_SECTIONS_GROQ = `
       "clinics": clinics[]->title,
       ${localizedSlug},
       "image": photo.asset->url,
+      "imageHotspot": photo.hotspot,
       "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
     },
     "articles": articles[]->{
@@ -364,6 +365,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "image": photo.asset->url,
+  "imageHotspot": photo.hotspot,
   "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -379,6 +381,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "image": photo.asset->url,
+  "imageHotspot": photo.hotspot,
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
   ${i18nStringLocale("faqSectionTitle")},
@@ -412,6 +415,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
       },
       ${localizedSlug},
       "image": photo.asset->url,
+      "imageHotspot": photo.hotspot,
       "categories": categories[]->{ ${specialistCategoryProjection} },
       ${localizedSeoObject}
     }
@@ -565,6 +569,7 @@ const CATEGORY_LANDING_GROQ = `
         ${i18nStringLocale("title")},
         ${i18nText("description")},
         href,
+        ${i18nStringLocale("ctaLabel")},
         icon,
         "image": image.asset->url
       }
@@ -609,7 +614,8 @@ const CATEGORY_LANDING_GROQ = `
         author,
         ${i18nStringLocale("date")}
       }
-    }
+    },
+    sectionOrder
   }
 `;
 
@@ -627,6 +633,8 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
     ${i18nStringLocale("sub")}
   },
   ${i18nString("faqSectionTitle")},
+  ${i18nText("faqSectionDescription")},
+  faqOpenFirst,
   "faqCollection": faqCollection->{
     _id,
     title,
@@ -685,6 +693,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
     "image": photo.asset->url,
+    "imageHotspot": photo.hotspot,
     specialties
   },
   ${i18nStringLocale('homeBreadcrumbLabel')},

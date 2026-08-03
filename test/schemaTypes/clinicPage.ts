@@ -6,6 +6,7 @@ import {
   i18nSlugFieldFromTitle,
   pickForLang,
   pickNo,
+  resolveLocalizedString,
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
@@ -571,7 +572,7 @@ export default {
           : '',
       ].filter(Boolean)
       return {
-        title: pickNo(title) || 'Clinic',
+        title: resolveLocalizedString(title) || 'Clinic',
         subtitle: parts.join(' · '),
         media: media as any,
       }

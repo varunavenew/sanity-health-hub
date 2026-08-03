@@ -1,8 +1,9 @@
 import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveHeroMedia } from "@/components/media/ResponsiveHeroMedia";
 import { assetSrc, type ImageRef } from "@/lib/media";
+import type { MediaFocalPoint, SanityHotspot } from "@/lib/media/focal-point";
 
 interface SplitHeroProps {
   eyebrow?: string;
@@ -10,6 +11,8 @@ interface SplitHeroProps {
   description?: string;
   image?: ImageRef;
   imageAlt?: string;
+  /** Sanity hotspot when available — improves framing on wide desktops. */
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
   primaryCta?: { label: string; to: string; variant?: "cta" | "contact" };
   secondaryCta?: { label: string; to: string };
 }
@@ -24,6 +27,7 @@ export const SplitHero = ({
   description,
   image,
   imageAlt,
+  imageHotspot,
   primaryCta = { label: "Bestill time", to: "/booking", variant: "cta" },
   secondaryCta,
 }: SplitHeroProps) => {
@@ -91,11 +95,14 @@ export const SplitHero = ({
         </div>
         {/* Right: image */}
         {hasImage ? (
-          <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
-            <AssetImg
+          <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0 bg-brand-warm">
+            <ResponsiveHeroMedia
+              variant="hero"
               src={imageSrc}
+              hotspot={imageHotspot}
               alt={imageAlt || title || ""}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full"
+              loading="eager"
             />
           </div>
         ) : null}

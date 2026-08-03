@@ -114,9 +114,6 @@ export async function POST(request: Request) {
       appointmentRequest,
     );
 
-    console.log("[booking/complete] appointment request", appointmentRequest);
-    console.log("[booking/complete] appointment response", appointmentPayload);
-
     const appointmentId = extractCreatedEntityId(appointmentPayload);
 
     return NextResponse.json({

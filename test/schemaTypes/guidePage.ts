@@ -2,10 +2,10 @@
 import {GenericIcon} from './icons'
 import {
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnBlockContent,
   requiredNoEnI18n,
   requiredNoEnSeo,
+  resolveLocalizedString,
 } from './i18n'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
@@ -140,7 +140,7 @@ export default {
             },
             prepare({title, media}: {title?: unknown; media?: unknown}) {
               return {
-                title: pickNo(title) || 'Guide section',
+                title: resolveLocalizedString(title) || 'Guide section',
                 media,
               }
             },
@@ -164,7 +164,7 @@ export default {
   preview: {
     select: {title: 'heroTitle'},
     prepare({title}: {title?: unknown}) {
-      return {title: pickNo(title) || 'Guide'}
+      return {title: resolveLocalizedString(title) || 'Guide'}
     },
   },
 }

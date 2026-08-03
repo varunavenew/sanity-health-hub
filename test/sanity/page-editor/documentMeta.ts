@@ -27,18 +27,18 @@ export function countChip(count: number, singular: string, plural: string): stri
 }
 
 /**
- * Build chips from a loaded document. If the document is not ready, return Unknown
- * instead of inventing metadata.
+ * Build chips from a loaded document. If the document is not ready or there is
+ * no meaningful summary, return an empty list (no sidebar subtitle) — never "Unknown".
  */
 export function chipsFromDocument(
   document: Record<string, unknown> | undefined,
   ready: boolean,
   compute: (doc: Record<string, unknown>) => string[],
 ): string[] {
-  if (!ready || !document) return ['Unknown']
+  if (!ready || !document) return []
   const chips = compute(document)
     .map((chip) => (typeof chip === 'string' ? chip.trim() : ''))
-    .filter(Boolean)
-  return chips.length > 0 ? chips : ['Unknown']
+    .filter((chip) => Boolean(chip) && chip !== 'Unknown')
+  return chips
 }
 

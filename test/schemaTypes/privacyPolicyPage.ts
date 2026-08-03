@@ -1,6 +1,6 @@
 import {PrivacyIcon} from './icons'
 
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
 
 import {geoSummaryField} from './geoSummary'
 
@@ -206,7 +206,7 @@ export default {
 
     prepare({title}: {title?: unknown}) {
 
-      return {title: pickNo(title) || 'Privacy Policy'}
+      return {title: resolveLocalizedString(title) || 'Privacy Policy'}
 
     },
 

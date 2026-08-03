@@ -3,7 +3,7 @@
  * Matches SubTreatmentLayout on the frontend.
  * All fields are optional — only needed for gynekologi/fertilitet sub-page routes.
  */
-import { pickNo } from './i18n'
+import { resolveLocalizedString } from './i18n'
 
 const i18nString = { type: 'internationalizedArrayString' as const }
 const i18nText = { type: 'internationalizedArrayText' as const }
@@ -11,7 +11,7 @@ const i18nText = { type: 'internationalizedArrayText' as const }
 const titledItemPreview = {
   select: { title: 'title' },
   prepare({ title }: { title?: unknown }) {
-    return { title: pickNo(title) || 'Element' }
+    return { title: resolveLocalizedString(title) || 'Element' }
   },
 }
 
@@ -54,7 +54,7 @@ export const subTreatmentLayoutType = {
           select: { title: 'label', subtitle: 'key' },
           prepare({ title, subtitle }: any) {
             return {
-              title: pickNo(title) || 'Unnamed',
+              title: resolveLocalizedString(title) || 'Unnamed',
               subtitle,
             }
           },

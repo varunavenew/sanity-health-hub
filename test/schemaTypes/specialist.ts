@@ -12,6 +12,7 @@ import {
   pickSpecialtyLabel,
   requiredNoEnI18n,
   requiredNoEnSeo,
+  resolveLocalizedString,
 } from './i18n'
 import { geoSummaryField } from './geoSummary'
 import {
@@ -656,9 +657,9 @@ export default {
     },
     prepare({ title, role, media, booking, bookingCategoryIds, c0, c1, c2 }: any) {
       const categoryNames = [c0, c1, c2]
-        .map((c) => pickForLang(c, 'en') || pickNo(c))
+        .map((c) => resolveLocalizedString(c))
         .filter(Boolean)
-      const roleLabel = pickForLang(role, 'en') || pickNo(role) || 'No role'
+      const roleLabel = resolveLocalizedString(role) || 'No role'
       const idPart =
         Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
           ? ` · Booking #${bookingCategoryIds.join(', #')}`

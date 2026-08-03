@@ -1,16 +1,20 @@
 /**
- * Studio-only preview labels — English-first for editors.
+ * Studio-only preview labels.
  *
- * Priority: internalName → English title → English name → Norwegian title → fallback.
+ * Localized strings follow the active Studio UI language
+ * (EN → NO → first, or NO → EN → first). See resolveLocalizedPreview.
  * Does NOT affect website rendering (frontend GROQ / pickNo / $lang unchanged).
  */
-import {pickForLang, pickNo} from './i18n'
+import {
+  localizedPreview,
+  resolveLocalizedPreview,
+  resolveLocalizedString,
+} from './i18n'
 
-/** English i18n value, then Norwegian, then plain string. */
+/** Resolve internationalized (or plain) values for Studio list rows. */
 export function pickStudioEn(value: unknown): string {
-  const en = pickForLang(value, 'en')?.trim()
-  if (en) return en
-  return pickNo(value)?.trim() || (typeof value === 'string' ? value.trim() : '')
+  // Name kept for call-site stability; resolution follows Studio UI language.
+  return resolveLocalizedPreview(value)
 }
 
 /**
@@ -26,14 +30,11 @@ export function pickStudioLabel(opts: {
   const internal = opts.internalName?.trim()
   if (internal) return internal
 
-  const enTitle = pickStudioEn(opts.title)
-  if (enTitle) return enTitle
+  const localized = resolveLocalizedPreview(opts.title)
+  if (localized) return localized
 
   const plainName = opts.name?.trim()
   if (plainName) return plainName
-
-  const noTitle = pickNo(opts.title)?.trim()
-  if (noTitle) return noTitle
 
   return opts.fallback?.trim() || 'Untitled'
 }
@@ -70,8 +71,8 @@ type CollectionPreviewSource = {
 
 /**
  * Collapsed Shared Section band when it may reference a Content Library pack.
- * When linked: collection internalName → EN title → name → NO title → fallback.
- * When not linked: legacy inline title with the same English-first rule.
+ * When linked: collection internalName → localized title → name → fallback.
+ * When not linked: legacy inline title with the same rule.
  */
 export function pageSectionCollectionBandPreviewFromCollection(opts: {
   collection?: CollectionPreviewSource | null
@@ -141,25 +142,17 @@ export function truncateStudio(text: string, max = 80): string {
 }
 
 /** Studio list preview for FAQ rows (`question` + optional `answer`). */
-export const studioFaqItemPreview = {
-  select: {title: 'question', subtitle: 'answer'},
-  prepare({title, subtitle}: {title?: unknown; subtitle?: unknown}) {
-    const answer = pickStudioEn(subtitle)
-    return {
-      title: pickStudioLabel({title, fallback: 'FAQ'}),
-      subtitle: answer ? truncateStudio(answer) : undefined,
-    }
-  },
-}
+export const studioFaqItemPreview = localizedPreview({
+  titleField: 'question',
+  subtitleField: 'answer',
+  fallback: 'FAQ',
+})
 
 /** Studio list preview for objects with i18n `title` (+ optional `description`). */
-export const studioTitleItemPreview = {
-  select: {title: 'title', subtitle: 'description'},
-  prepare({title, subtitle}: {title?: unknown; subtitle?: unknown}) {
-    const desc = pickStudioEn(subtitle)
-    return {
-      title: pickStudioLabel({title, fallback: 'Untitled'}),
-      subtitle: desc ? truncateStudio(desc) : undefined,
-    }
-  },
+export const studioTitleItemPreview = localizedPreview()
+
+export {
+  localizedPreview,
+  resolveLocalizedPreview,
+  resolveLocalizedString,
 }

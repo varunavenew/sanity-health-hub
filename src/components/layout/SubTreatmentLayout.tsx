@@ -623,7 +623,8 @@ export const SubTreatmentLayout = ({
               <CmsMedia
                 media={resolvedHero}
                 alt={c.heroImageAlt || ""}
-                className="absolute inset-0 w-full h-full object-cover"
+                variant="hero"
+                className="absolute inset-0 w-full h-full"
               />
             ) : c.heroVideo ? (
               <video
@@ -634,13 +635,13 @@ export const SubTreatmentLayout = ({
                 loop
                 playsInline
                 preload="metadata"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="cm-media cm-media--hero absolute inset-0 w-full h-full"
               />
             ) : heroMediaUrl ? (
               <AssetImg
                 src={heroMediaUrl}
                 alt={c.heroImageAlt}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="cm-media cm-media--hero absolute inset-0 w-full h-full"
               />
             ) : (
               <div className="absolute inset-0 bg-secondary" />

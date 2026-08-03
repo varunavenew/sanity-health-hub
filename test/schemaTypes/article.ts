@@ -1,6 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import { ArticleIcon } from './icons'
-import { i18nSlugFieldFromTitle, pickForLang, pickNo } from './i18n'
+import { i18nSlugFieldFromTitle, resolveLocalizedString } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 
@@ -100,9 +100,7 @@ export default defineType({
       }
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB') : 'No date'
       const cat = categoryLabels[category] || category || 'No category'
-      const titleStr = Array.isArray(title)
-        ? pickForLang(title, 'en') || pickNo(title) || 'Untitled'
-        : (title || 'Untitled')
+      const titleStr = resolveLocalizedString(title) || 'Untitled'
       return {
         title: titleStr,
         subtitle: `${cat} · ${date}`,

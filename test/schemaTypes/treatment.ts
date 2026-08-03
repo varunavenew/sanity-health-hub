@@ -11,6 +11,7 @@ import {
   pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
+  resolveLocalizedString,
 } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
@@ -341,8 +342,8 @@ export default {
             select: { title: 'title', subtitle: 'desc' },
             prepare({ title, subtitle }: any) {
               return {
-                title: pickNo(title) || 'Untitled',
-                subtitle: pickNo(subtitle),
+                title: resolveLocalizedString(title) || 'Untitled',
+                subtitle: resolveLocalizedString(subtitle),
               }
             },
           },
@@ -437,10 +438,10 @@ export default {
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
             prepare({ title, n, subtitle }: any) {
-              const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
+              const prefix = resolveLocalizedString(n) ? `${resolveLocalizedString(n)}: ` : ''
               return {
-                title: `${prefix}${pickNo(title) || 'Untitled'}`,
-                subtitle: pickNo(subtitle),
+                title: `${prefix}${resolveLocalizedString(title) || 'Untitled'}`,
+                subtitle: resolveLocalizedString(subtitle),
               }
             },
           },
@@ -503,10 +504,10 @@ export default {
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
             prepare({ title, n, subtitle }: any) {
-              const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
+              const prefix = resolveLocalizedString(n) ? `${resolveLocalizedString(n)}: ` : ''
               return {
-                title: `${prefix}${pickNo(title) || 'Untitled'}`,
-                subtitle: pickNo(subtitle),
+                title: `${prefix}${resolveLocalizedString(title) || 'Untitled'}`,
+                subtitle: resolveLocalizedString(subtitle),
               }
             },
           },
@@ -538,8 +539,8 @@ export default {
             select: { title: 'title', subtitle: 'desc', media: 'image' },
             prepare({ title, subtitle, media }: any) {
               return {
-                title: pickNo(title) || 'Untitled',
-                subtitle: pickNo(subtitle),
+                title: resolveLocalizedString(title) || 'Untitled',
+                subtitle: resolveLocalizedString(subtitle),
                 media,
               }
             },
@@ -576,8 +577,8 @@ export default {
                 select: { title: 'title', subtitle: 'desc', media: 'image' },
                 prepare({ title, subtitle, media }: any) {
                   return {
-                    title: pickNo(title) || 'Untitled',
-                    subtitle: pickNo(subtitle),
+                    title: resolveLocalizedString(title) || 'Untitled',
+                    subtitle: resolveLocalizedString(subtitle),
                     media,
                   }
                 },
@@ -613,10 +614,10 @@ export default {
               preview: {
                 select: { title: 'title', n: 'n', subtitle: 'desc' },
                 prepare({ title, n, subtitle }: any) {
-                  const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
+                  const prefix = resolveLocalizedString(n) ? `${resolveLocalizedString(n)}: ` : ''
                   return {
-                    title: `${prefix}${pickNo(title) || 'Untitled'}`,
-                    subtitle: pickNo(subtitle),
+                    title: `${prefix}${resolveLocalizedString(title) || 'Untitled'}`,
+                    subtitle: resolveLocalizedString(subtitle),
                   }
                 },
               },
@@ -664,7 +665,7 @@ export default {
             select: { title: 'label', subtitle: 'key' },
             prepare({ title, subtitle }: any) {
               return {
-                title: pickNo(title) || 'Unnamed',
+                title: resolveLocalizedString(title) || 'Unnamed',
                 subtitle,
               }
             },
@@ -877,7 +878,7 @@ export default {
           preview: {
             select: { title: 'label' },
             prepare({ title }: any) {
-              return { title: pickNo(title) }
+              return { title: resolveLocalizedString(title) || 'Menu item' }
             },
           },
         },
@@ -1163,8 +1164,8 @@ export default {
     },
     prepare({ title, subtitle, categoryTitle, media }: any) {
       return {
-        title: pickNo(title) || 'Treatment',
-        subtitle: pickNo(subtitle) || pickNo(categoryTitle) || 'No category',
+        title: resolveLocalizedString(title) || 'Treatment',
+        subtitle: resolveLocalizedString(subtitle) || resolveLocalizedString(categoryTitle) || 'No category',
         media,
       }
     },

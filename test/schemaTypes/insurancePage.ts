@@ -1,6 +1,6 @@
 // Schema: Insurance Page (Forsikring)
 import {InsuranceIcon} from './icons'
-import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -13,8 +13,8 @@ const i18nItemPreview = {
   select: {title: 'title', subtitle: 'description'},
   prepare({title, subtitle}: any) {
     return {
-      title: pickNo(title) || 'Unnamed',
-      subtitle: pickNo(subtitle) || undefined,
+      title: resolveLocalizedString(title) || 'Unnamed',
+      subtitle: resolveLocalizedString(subtitle) || undefined,
     }
   },
 }
@@ -64,7 +64,7 @@ export default {
           preview: {
             select: {name: 'name'},
             prepare({name}: any) {
-              return {title: pickNo(name) || 'Partner'}
+              return {title: resolveLocalizedString(name) || 'Partner'}
             },
           },
         },
@@ -127,7 +127,7 @@ export default {
   preview: {
     select: {title: 'title', media: 'heroImage'},
     prepare({title, media}: any) {
-      return {title: pickNo(title) || 'Insurance', media}
+      return {title: resolveLocalizedString(title) || 'Insurance', media}
     },
   },
 }

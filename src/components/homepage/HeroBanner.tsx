@@ -140,8 +140,9 @@ export const HeroBanner = () => {
               <CmsMedia
                 media={slide.media}
                 alt={slide.alt}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                style={{ objectPosition: slide.objectPosition }}
+                variant="hero"
+                objectPosition={slide.objectPosition}
+                className="w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
                 loading={current === 0 ? "eager" : "lazy"}
                 interactive={false}
               />
@@ -154,14 +155,14 @@ export const HeroBanner = () => {
                 loop
                 playsInline
                 preload="metadata"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                className="cm-media cm-media--hero w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
                 style={{ objectPosition: slide.objectPosition }}
               />
             ) : slide.image ? (
               <AssetImg
                 src={slide.image}
                 alt={slide.alt}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                className="cm-media cm-media--hero w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
                 style={{ objectPosition: slide.objectPosition }}
                 loading={current === 0 ? "eager" : "lazy"}
               />

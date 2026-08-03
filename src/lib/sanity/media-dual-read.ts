@@ -1,16 +1,28 @@
 /**
  * Dual-read for the shared Sanity `media` object + legacy hero fields.
  *
- * Priority (video):
- *   1. media.videoFile (upload)
- *   2. media.videoUrl (YouTube / Vimeo / direct)
- *   3. legacy upload / URL fields
+ * Shared `media` (preferred):
+ *   mediaType = image  → image
+ *   mediaType = video  → follow explicit `videoSource`
+ *     upload → videoFile
+ *     url    → videoUrl (YouTube / Vimeo / direct)
  *
- * Image:
- *   media.image → legacy image fields
+ * Legacy flat fields still dual-read when `media` is empty.
+ *
+ * Hotspot / crop from Sanity image fields are preserved for responsive framing.
  */
 
+import {
+  normalizeFocalPoint,
+  type MediaFocalPoint,
+  type SanityCrop,
+  type SanityHotspot,
+} from "../media/focal-point";
+
 export type CmsMediaType = "image" | "video";
+
+/** Explicit video origin on the shared `media` object. */
+export type CmsVideoSource = "upload" | "url";
 
 export type ResolvedCmsMedia = {
   kind: CmsMediaType;
@@ -20,21 +32,46 @@ export type ResolvedCmsMedia = {
   externalUrl?: string;
   /** Optional poster / still. */
   poster?: string;
+  /** Sanity focal point (0–1), when editors set a hotspot. */
+  hotspot?: MediaFocalPoint | null;
+  /** Optional Sanity crop rectangle (reserved for CDN transforms). */
+  crop?: SanityCrop | null;
+  /** Echo of CMS videoSource when kind is video (shared media path). */
+  videoSource?: CmsVideoSource | null;
 };
 
 export type CmsMediaProjection = {
   mediaType?: string | null;
+  videoSource?: string | null;
   imageUrl?: string | null;
   videoFileUrl?: string | null;
   videoUrl?: string | null;
+  hotspot?: SanityHotspot | null;
+  crop?: SanityCrop | null;
 };
 
-/** GROQ fragment projecting a `media` object field. */
+/**
+ * GROQ fragment projecting a `media` object field.
+ * Includes videoSource + hotspot/crop so framing and source choice stay explicit.
+ */
 export const MEDIA_OBJECT_PROJECTION = `{
   mediaType,
+  videoSource,
   "imageUrl": image.asset->url,
   "videoFileUrl": videoFile.asset->url,
-  videoUrl
+  videoUrl,
+  "hotspot": image.hotspot,
+  "crop": image.crop
+}`;
+
+/**
+ * GROQ fragment for a standalone Sanity image field with hotspot
+ * (e.g. specialist `photo`, card thumbnails).
+ */
+export const IMAGE_WITH_FOCAL_PROJECTION = `{
+  "url": asset->url,
+  hotspot,
+  crop
 }`;
 
 function asUrl(value: unknown): string | undefined {
@@ -67,6 +104,59 @@ function looksLikeExternalHost(url: string): boolean {
   }
 }
 
+function attachFocal(
+  base: ResolvedCmsMedia,
+  hotspot?: SanityHotspot | null,
+  crop?: SanityCrop | null,
+): ResolvedCmsMedia {
+  const focal = normalizeFocalPoint(hotspot);
+  return {
+    ...base,
+    hotspot: focal,
+    crop: crop || null,
+  };
+}
+
+function resolveVideoFromUrl(
+  videoUrl: string,
+  imageUrl: string | undefined,
+  hotspot: SanityHotspot | null | undefined,
+  crop: SanityCrop | null | undefined,
+  videoSource: CmsVideoSource,
+): ResolvedCmsMedia {
+  if (looksLikeExternalHost(videoUrl) && !looksLikeDirectVideoFile(videoUrl)) {
+    return attachFocal(
+      { kind: "video", externalUrl: videoUrl, poster: imageUrl, videoSource },
+      hotspot,
+      crop,
+    );
+  }
+  return attachFocal(
+    { kind: "video", src: videoUrl, poster: imageUrl, videoSource },
+    hotspot,
+    crop,
+  );
+}
+
+/**
+ * Resolve explicit `videoSource`.
+ *
+ * Pre-migration docs may lack `videoSource`. In that case only, derive source from
+ * which field is populated (upload if file exists, else URL) so visuals stay stable
+ * until `migrate-media-video-source` has run. Once `videoSource` is set, it is
+ * authoritative — no upload-wins when source is `url`.
+ */
+export function resolveExplicitVideoSource(
+  media: Pick<CmsMediaProjection, "videoSource" | "videoFileUrl" | "videoUrl">,
+): CmsVideoSource | null {
+  if (media.videoSource === "upload" || media.videoSource === "url") {
+    return media.videoSource;
+  }
+  if (asUrl(media.videoFileUrl)) return "upload";
+  if (asUrl(media.videoUrl)) return "url";
+  return null;
+}
+
 /**
  * Resolve preferred `media` object. Returns null when empty so callers can
  * fall back to legacy fields.
@@ -80,21 +170,51 @@ export function resolveMediaObject(media: unknown): ResolvedCmsMedia | null {
   const videoUrl = asUrl(m.videoUrl);
 
   if (type === "video") {
-    if (uploadUrl) {
-      return { kind: "video", src: uploadUrl, poster: imageUrl };
-    }
-    if (videoUrl) {
-      if (looksLikeExternalHost(videoUrl) && !looksLikeDirectVideoFile(videoUrl)) {
-        return { kind: "video", externalUrl: videoUrl, poster: imageUrl };
+    const source = resolveExplicitVideoSource(m);
+
+    if (source === "upload") {
+      if (uploadUrl) {
+        return attachFocal(
+          { kind: "video", src: uploadUrl, poster: imageUrl, videoSource: "upload" },
+          m.hotspot,
+          m.crop,
+        );
       }
-      return { kind: "video", src: videoUrl, poster: imageUrl };
+      // Explicit upload source but missing file — do not fall through to URL.
+      if (imageUrl) {
+        return attachFocal(
+          { kind: "image", src: imageUrl, videoSource: "upload" },
+          m.hotspot,
+          m.crop,
+        );
+      }
+      return null;
     }
-    // Incomplete video selection — try image still rather than nothing
-    if (imageUrl) return { kind: "image", src: imageUrl };
+
+    if (source === "url") {
+      if (videoUrl) {
+        return resolveVideoFromUrl(videoUrl, imageUrl, m.hotspot, m.crop, "url");
+      }
+      if (imageUrl) {
+        return attachFocal(
+          { kind: "image", src: imageUrl, videoSource: "url" },
+          m.hotspot,
+          m.crop,
+        );
+      }
+      return null;
+    }
+
+    // No source and no usable video fields — try image still
+    if (imageUrl) {
+      return attachFocal({ kind: "image", src: imageUrl }, m.hotspot, m.crop);
+    }
     return null;
   }
 
-  if (imageUrl) return { kind: "image", src: imageUrl };
+  if (imageUrl) {
+    return attachFocal({ kind: "image", src: imageUrl }, m.hotspot, m.crop);
+  }
   return null;
 }
 
@@ -105,6 +225,8 @@ export type LegacyHeroMediaInput = {
   videoUrl?: string | null;
   /** When true, videoUrl is always treated as a remote/direct URL (treatment). */
   videoIsRemoteUrl?: boolean;
+  hotspot?: SanityHotspot | null;
+  crop?: SanityCrop | null;
 };
 
 /** Map legacy flat hero fields into the same resolved shape. */
@@ -121,22 +243,46 @@ export function resolveLegacyHeroMedia(legacy: LegacyHeroMediaInput): ResolvedCm
         looksLikeDirectVideoFile(videoUrl)
       ) {
         if (looksLikeExternalHost(videoUrl) && !looksLikeDirectVideoFile(videoUrl)) {
-          return { kind: "video", externalUrl: videoUrl, poster: imageUrl };
+          return attachFocal(
+            { kind: "video", externalUrl: videoUrl, poster: imageUrl, videoSource: "url" },
+            legacy.hotspot,
+            legacy.crop,
+          );
         }
-        return { kind: "video", src: videoUrl, poster: imageUrl };
+        return attachFocal(
+          { kind: "video", src: videoUrl, poster: imageUrl, videoSource: "url" },
+          legacy.hotspot,
+          legacy.crop,
+        );
       }
-      return { kind: "video", src: videoUrl, poster: imageUrl };
+      return attachFocal(
+        { kind: "video", src: videoUrl, poster: imageUrl, videoSource: "url" },
+        legacy.hotspot,
+        legacy.crop,
+      );
     }
-    if (imageUrl) return { kind: "image", src: imageUrl };
+    if (imageUrl) {
+      return attachFocal({ kind: "image", src: imageUrl }, legacy.hotspot, legacy.crop);
+    }
     return null;
   }
 
-  if (imageUrl) return { kind: "image", src: imageUrl };
+  if (imageUrl) {
+    return attachFocal({ kind: "image", src: imageUrl }, legacy.hotspot, legacy.crop);
+  }
   if (videoUrl) {
     if (looksLikeExternalHost(videoUrl) && !looksLikeDirectVideoFile(videoUrl)) {
-      return { kind: "video", externalUrl: videoUrl, poster: imageUrl };
+      return attachFocal(
+        { kind: "video", externalUrl: videoUrl, poster: imageUrl, videoSource: "url" },
+        legacy.hotspot,
+        legacy.crop,
+      );
     }
-    return { kind: "video", src: videoUrl, poster: imageUrl };
+    return attachFocal(
+      { kind: "video", src: videoUrl, poster: imageUrl, videoSource: "url" },
+      legacy.hotspot,
+      legacy.crop,
+    );
   }
   return null;
 }
@@ -147,4 +293,31 @@ export function resolveCmsMedia(
   legacy: LegacyHeroMediaInput,
 ): ResolvedCmsMedia | null {
   return resolveMediaObject(media) || resolveLegacyHeroMedia(legacy);
+}
+
+/** Resolve a standalone image field projected with IMAGE_WITH_FOCAL_PROJECTION. */
+export function resolveImageWithFocal(image: unknown): {
+  url: string;
+  hotspot: MediaFocalPoint | null;
+  crop: SanityCrop | null;
+} | null {
+  if (!image) return null;
+  if (typeof image === "string") {
+    const url = asUrl(image);
+    return url ? { url, hotspot: null, crop: null } : null;
+  }
+  if (typeof image !== "object") return null;
+  const row = image as {
+    url?: string | null;
+    asset?: { url?: string | null };
+    hotspot?: SanityHotspot | null;
+    crop?: SanityCrop | null;
+  };
+  const url = asUrl(row.url) || asUrl(row.asset?.url);
+  if (!url) return null;
+  return {
+    url,
+    hotspot: normalizeFocalPoint(row.hotspot),
+    crop: row.crop || null,
+  };
 }

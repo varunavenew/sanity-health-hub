@@ -33,6 +33,8 @@ export {
   resolveSectionId,
 } from './components/PageSectionDocumentInput'
 export {PageSectionsArrayInput} from './components/PageSectionsArrayInput'
+export {CategoryLandingPageInput} from './components/CategoryLandingPageInput'
+export {CategoryLandingPageField} from './components/CategoryLandingPageField'
 export {SectionList, SectionCard, SectionPreview} from './components/SectionList'
 export {Inspector, InspectorHeader, InspectorContent} from './components/Inspector'
 export {
@@ -53,11 +55,23 @@ export {guidePageEditorConfig} from './pages/guideSections'
 export {careersPageEditorConfig} from './pages/careersSections'
 export {privacyPageEditorConfig} from './pages/privacySections'
 export {
+  createTreatmentCategoryPageEditorConfig,
+  fertilitetPageEditorConfig,
+  graviditetPageEditorConfig,
+  gynekologiPageEditorConfig,
+  urologiPageEditorConfig,
+  ortopediPageEditorConfig,
+  flereFagomraderPageEditorConfig,
+  treatmentCategoryPageEditorConfig,
+  TREATMENT_CATEGORY_EDITORS,
+} from './pages/treatmentCategorySections'
+export {
   articlesBandSection,
   bookingCtaBandSection,
   faqCollectionSection,
   heroSection,
   i18nPreview,
+  insuranceBandSection,
   seoSection,
   specialistsBandSection,
 } from './sharedSectionBuilders'

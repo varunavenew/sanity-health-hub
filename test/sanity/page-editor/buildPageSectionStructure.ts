@@ -4,6 +4,11 @@
  *
  * Edit view uses native `S.view.form()` so Sanity owns FormBuilder/FormProvider.
  * Section filtering happens in document `components.input` (ObjectInputMembers).
+ *
+ * Do NOT attach a nested `.child()` that builds editors from `params.type`
+ * without a guaranteed type — that throws SerializeError and crashes Structure
+ * (e.g. stale URLs like `…;category-*-root;insurance`).
+ * Open collection/references via intent links (OpenCollectionButton) instead.
  */
 import type {ComponentType} from 'react'
 import type {StructureBuilder} from 'sanity/structure'
@@ -69,17 +74,6 @@ export function buildPageSectionListItem(S: StructureBuilder, options: BuildPage
                 ]
               : []),
           ])
-          .child((childId, options) =>
-            S.editor({
-              id: childId,
-              options: {
-                id: childId,
-                type: options?.params?.type,
-                template: options?.params?.template,
-              },
-            }),
-          )
       }),
   )
 }
-

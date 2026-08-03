@@ -1,4 +1,4 @@
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { Link, useNavigate } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -78,10 +78,12 @@ export const RelatedSpecialists = ({
             >
               <Link to={`${specialistsPath}/${s.slug}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <AssetImg
+                  <ResponsiveImage
                     src={s.image}
                     alt={s.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-out"
+                    variant="card"
+                    hotspot={s.imageHotspot}
+                    className="w-full h-full group-hover:scale-[1.05] transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
