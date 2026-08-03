@@ -418,7 +418,7 @@ function settingsSection(S: StructureBuilder) {
  */
 export const deskStructure: StructureResolver = (S) =>
   S.list()
-    .title('Content')
+    .title('Menu')
     .items([
       pagesSection(S),
       medicalContentSection(S),

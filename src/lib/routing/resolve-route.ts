@@ -172,7 +172,10 @@ export function resolveCmsRoute(
     if (category) {
       const treatment = index.treatments.find((t) => {
         if (!treatmentSlugMatches(t, detailSlug, lang)) return false;
-        if (category.categoryId && t.categoryId === category.categoryId) return true;
+        if (category.categoryId) {
+          if (t.categoryId === category.categoryId) return true;
+          if (t.categoryIds?.includes(category.categoryId)) return true;
+        }
         return categoryRouteSegmentMatches(prefix, {
           categoryId: t.categoryId,
           slugNb: t.categorySlugNb,
@@ -308,16 +311,29 @@ export function staticParamsFromRouteIndex(
 
     for (const doc of index.treatments) {
       const treatmentSlug = docSlug(doc, lang);
-      const categorySlug = normalizeSlugSegment(
-        lang === "en" ? doc.categorySlugEn || doc.categorySlugNb || "" : doc.categorySlugNb || "",
-      );
-      if (categorySlug && treatmentSlug) {
-        push(locale, [categorySlug, treatmentSlug]);
-        if (
-          locale === "no" &&
-          doc.categoryId === FLERE_FAGOMRADER_CATEGORY_ID
-        ) {
-          push(locale, ["flere-fagomrader", treatmentSlug]);
+      const membershipIds =
+        doc.categoryIds && doc.categoryIds.length > 0
+          ? doc.categoryIds
+          : doc.categoryId
+            ? [doc.categoryId]
+            : [];
+
+      for (const catId of membershipIds) {
+        const cat = index.categories.find((c) => c.categoryId === catId);
+        const categorySlug = normalizeSlugSegment(
+          cat
+            ? lang === "en"
+              ? cat.slugEn || cat.slugNb || ""
+              : cat.slugNb || ""
+            : lang === "en"
+              ? doc.categorySlugEn || doc.categorySlugNb || ""
+              : doc.categorySlugNb || "",
+        );
+        if (categorySlug && treatmentSlug) {
+          push(locale, [categorySlug, treatmentSlug]);
+          if (locale === "no" && catId === FLERE_FAGOMRADER_CATEGORY_ID) {
+            push(locale, ["flere-fagomrader", treatmentSlug]);
+          }
         }
       }
     }

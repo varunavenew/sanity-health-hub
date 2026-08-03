@@ -22,7 +22,7 @@ if (typeof window !== 'undefined') {
   };
 }
 
-import {defineConfig, defineLocaleResourceBundle, type SchemaTypeDefinition} from 'sanity'
+import {defineConfig, type SchemaTypeDefinition} from 'sanity'
 import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
@@ -34,13 +34,13 @@ import {
 } from './sanity/actions/publishWithNavSync'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
-import {DatasetBadgeNavbar} from './sanity/components/DatasetBadgeNavbar'
 import {deskStructure} from './sanity/deskStructure'
 import {
   datasetBadgeLabel,
   requireSanityDataset,
   requireSanityProjectId,
 } from './sanity/dataset-env'
+import {DatasetBadgeNavbar} from './sanity/components/DatasetBadgeNavbar'
 import {uniqueReferenceFormInput} from './sanity/components/uniqueReferenceInputs'
 
 // Languages enabled for field-level localization across the project.
@@ -49,25 +49,6 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norwegian'},
   {id: 'en', title: 'English'},
 ] as const
-
-/** When the reference picker is open with no search term and zero matches (e.g. all selected). */
-const referencePickerEmptyBundle = defineLocaleResourceBundle({
-  locale: 'en-US',
-  namespace: 'studio',
-  resources: {
-    'inputs.reference.no-results-for-query':
-      '{{searchTerm, select, empty {All available items have already been selected.} other {No results for “{{searchTerm}}”}}}',
-  },
-})
-
-const referencePickerEmptyBundleNo = defineLocaleResourceBundle({
-  locale: 'nb-NO',
-  namespace: 'studio',
-  resources: {
-    'inputs.reference.no-results-for-query':
-      '{{searchTerm, select, empty {Alle tilgjengelige elementer er allerede valgt.} other {Ingen treff for «{{searchTerm}}»}}}',
-  },
-})
 
 // Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
@@ -120,6 +101,7 @@ export default defineConfig({
 
   studio: {
     components: {
+      // Developer-only dataset pill; production navbar stays clean (CMedical).
       navbar: DatasetBadgeNavbar,
     },
   },
@@ -136,12 +118,6 @@ export default defineConfig({
       structure: deskStructure,
     }),
     visionTool(),
-    {
-      name: 'reference-picker-empty-state',
-      i18n: {
-        bundles: [referencePickerEmptyBundle, referencePickerEmptyBundleNo],
-      },
-    },
     internationalizedArray({
       languages: SUPPORTED_LANGUAGES.map((l) => ({id: l.id, title: l.title})),
       defaultLanguages: ['no'],

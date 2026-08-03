@@ -2,11 +2,13 @@
 import { localizedSeoObject } from "@/lib/sanity/seo-groq";
 import { MEDIA_OBJECT_PROJECTION } from "@/lib/sanity/media-dual-read";
 import {
+  localizedPrimaryCategorySlugField,
   localizedRefSlugField,
   localizedSlug,
   orderSlugAsc,
   slugMatchesParam,
   slugMatchesRefParam,
+  treatmentBelongsToCategoryParam,
 } from "@/lib/sanity/slug-groq";
 
 const i18nPageSectionString = (field: string) =>
@@ -317,6 +319,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
     date
   },
   specialistsSection{
+    ${i18nString("eyebrow")},
     ${i18nString("heading")},
     ${i18nText("intro")},
     displayMode,
@@ -459,6 +462,7 @@ export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"]{
 
 const CATEGORY_LANDING_GROQ = `
   landingPage{
+    sectionOrder,
     ${i18nStringLocale("srOnlyTitle")},
     ${i18nStringLocale("breadcrumbHomeLabel")},
     hero{
@@ -578,6 +582,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nText("description")},
+      background,
       items[]{
         ${i18nStringLocale("symptom")},
         ${i18nStringLocale("service")},
@@ -658,13 +663,17 @@ const localizedParentCategory = `"parentCategory": coalesce(
   parentCategoryLabel[_key == $lang][0].value,
   parentCategoryLabel[language == "no"][0].value,
   parentCategoryLabel[_key == "no"][0].value,
+  categories[0]->title[language == $lang][0].value,
+  categories[0]->title[_key == $lang][0].value,
+  categories[0]->title[language == "no"][0].value,
+  categories[0]->title[_key == "no"][0].value,
   category->title[language == $lang][0].value,
   category->title[_key == $lang][0].value,
   category->title[language == "no"][0].value,
   category->title[_key == "no"][0].value
 )`;
 
-export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesParam("treatmentSlug")} && (${slugMatchesRefParam("category", "categorySlug")} || category->categoryId == $categorySlug)][0]{
+export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
   _id,
   ${localizedSlug},
   ${i18nString('title')},
@@ -675,8 +684,8 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   "heroImage": heroImage.asset->url,
   ${i18nString('heroImageAlt')},
   ${localizedParentCategory},
-  ${localizedRefSlugField("category", "parentSlug")},
-  "categoryNumericId": category->categoryNumericId,
+  ${localizedPrimaryCategorySlugField("parentSlug")},
+  "categoryNumericId": coalesce(categories[0]->categoryNumericId, category->categoryNumericId),
   ${i18nString("faqSectionTitle")},
   "faqCollection": faqCollection->{
     _id,
@@ -750,7 +759,17 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
       ${i18nString('eyebrow')},
       ${i18nString('title')},
       ${i18nText('desc')},
-      "path": "/behandlinger/" + category->slug[language == $lang][0].value.current + "/" + slug[language == $lang][0].value.current,
+      "path": "/behandlinger/" + coalesce(
+        categories[0]->slug[language == $lang][0].value.current,
+        categories[0]->slug[_key == $lang][0].value.current,
+        category->slug[language == $lang][0].value.current,
+        category->slug[_key == $lang][0].value.current
+      ) + "/" + coalesce(
+        slug[language == $lang][0].value.current,
+        slug[_key == $lang][0].value.current,
+        slug[language == "no"][0].value.current,
+        slug.current
+      ),
       "image": heroImage.asset->url,
       ${i18nString('heroImageAlt')}
     }
@@ -1064,6 +1083,27 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
   "heroImage": heroImage.asset->url,
   ${faqCollectionProjection},
   ${legacyFaqsRefsProjection},
+  specialistsSection{
+    ${i18nString("eyebrow")},
+    ${i18nString("heading")},
+    ${i18nText("intro")},
+    displayMode,
+    layout,
+    maxItems,
+    randomizeOrder,
+    ${i18nString("seeAllLabel")},
+    seeAllLink->{ _type, ${localizedSlug} },
+    "specialists": specialists[]->{
+      _id,
+      name,
+      ${localizedSlug}
+    },
+    "categories": categories[]->{
+      _id,
+      categoryId,
+      ${localizedSlug}
+    }
+  },
   priceCategories[]{
     ${i18nString("categoryName")},
     "categoryRef": category->{ _id, title, ${localizedSlug} },
@@ -1078,8 +1118,8 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
     _id,
     name,
     rating,
-    text,
-    treatment
+    ${i18nText("text")},
+    ${i18nString("treatment")}
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -1197,7 +1237,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   },
   faqs[]{${localizedFaqRow}},
   specialists[]->{ name, ${localizedSlug}, "image": photo.asset->url, role },
-  treatments[]->{ title, ${localizedSlug}, ${localizedRefSlugField("category", "categorySlug")}, "categoryLabel": parentCategoryLabel },
+  treatments[]->{ title, ${localizedSlug}, ${localizedPrimaryCategorySlugField("categorySlug")}, "categoryLabel": parentCategoryLabel },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
@@ -1232,13 +1272,24 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     _id,
     _type,
     ${localizedSlugBoth},
-    "categoryId": category->categoryId,
+    "categoryId": coalesce(categories[0]->categoryId, category->categoryId),
+    "categoryIds": array::compact(array::unique(
+      (categories[]->categoryId) + [category->categoryId]
+    )),
     "categorySlugNb": coalesce(
+      categories[0]->slug[language == "no"][0].value.current,
+      categories[0]->slug[_key == "no"][0].value.current,
+      categories[0]->slug[0].value.current,
       category->slug[language == "no"][0].value.current,
       category->slug[_key == "no"][0].value.current,
       category->slug[0].value.current
     ),
     "categorySlugEn": coalesce(
+      categories[0]->slug[language == "en"][0].value.current,
+      categories[0]->slug[_key == "en"][0].value.current,
+      categories[0]->slug[language == "no"][0].value.current,
+      categories[0]->slug[_key == "no"][0].value.current,
+      categories[0]->slug[0].value.current,
       category->slug[language == "en"][0].value.current,
       category->slug[_key == "en"][0].value.current,
       category->slug[language == "no"][0].value.current,
@@ -1558,7 +1609,7 @@ export const TOP_RATED_PRODUCTS_QUERY = `*[_type == "product"] | order(rating de
 }`;
 
 export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(_createdAt desc){
-  _id, name, age, rating, text, location, treatment
+  _id, name, age, rating, ${i18nText("text")}, ${i18nString("location")}, ${i18nString("treatment")}
 }`;
 
 export const SOCIAL_POSTS_QUERY = `*[_type == "socialPost" && published != false] | order(sortOrder asc, _createdAt desc)[0..11]{

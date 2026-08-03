@@ -1,12 +1,12 @@
 /**
- * Treatment Category document input - Studio UX only.
+ * Treatment Category document input — Studio UX only.
  *
  * - Categories opened via page-editor section panes: filtered section form
  *   (same framework as Homepage / Fertility prototype).
  * - Opened outside section panes: full classic form.
  * - Auto-slug from title always runs (unchanged behaviour).
  *
- * Composition note: AutoSlug's renderDefault callback is typed as InputProps.
+ * Composition note: AutoSlug's `renderDefault` callback is typed as InputProps.
  * We close over the outer ObjectInputProps so SectionFilteredInput stays correctly typed
  * (AutoSlug does not rewrite props before calling renderDefault).
  */

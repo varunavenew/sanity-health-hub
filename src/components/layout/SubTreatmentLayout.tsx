@@ -895,7 +895,10 @@ export const SubTreatmentLayout = ({
 
       <PageSectionsRenderer
         sections={pageSections?.filter(
-          (s) => s._type !== "pageSectionBookingCta" && s._type !== "pageSectionSpecialists"
+          (s) =>
+            s._type !== "pageSectionBookingCta" &&
+            s._type !== "pageSectionSpecialists" &&
+            s._type !== "pageSectionInsurance",
         )}
       />
 

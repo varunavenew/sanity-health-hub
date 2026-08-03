@@ -1,7 +1,14 @@
+/**
+ * Unified FAQ accordion.
+ *
+ * - `centered` (default): homepage-style centered stack with +/- toggles
+ * - `split`: category-landing style (title + description sticky left, accordion right)
+ *   matching Lovable graviditet / similar reference pages
+ */
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, ChevronDown } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 export interface FaqItem {
@@ -14,30 +21,32 @@ interface FaqSectionProps {
   faqs: FaqItem[];
   /** Localised section title. Defaults to "Ofte stilte spørsmål". */
   title?: string;
-  /** Optional supporting copy under the title (Pregnancy Lovable FAQ uses this). */
+  /** Optional supporting copy under the title (split layout / Pregnancy FAQ). */
   description?: string;
   /** Tailwind background class, defaults to bg-background. */
   background?: string;
   /** Emit FAQPage JSON-LD. Default true. */
   withJsonLd?: boolean;
+  /**
+   * `centered` — stacked (homepage).
+   * `split` — two-column category landing (auto when description is set).
+   */
+  layout?: "centered" | "split";
   /** When true, open the first FAQ item on mount (opt-in; default closed). */
   defaultOpenFirst?: boolean;
 }
 
-/**
- * Unified FAQ accordion. Matches the home (LifePhasesSection) layout exactly
- * — centered, max-w-3xl, top/bottom borders, plus/minus toggle — and is used
- * everywhere we render a FAQ block so the same UI pattern always reads the
- * same visual language.
- */
 export const FaqSection = ({
   faqs,
   title = "Ofte stilte spørsmål",
   description,
   background = "bg-background",
   withJsonLd = true,
+  layout,
   defaultOpenFirst = false,
 }: FaqSectionProps) => {
+  const resolvedLayout =
+    layout ?? (description?.trim() ? "split" : "centered");
   const [openFaq, setOpenFaq] = useState<string | null>(() =>
     defaultOpenFirst && faqs?.[0]?.id ? faqs[0].id : null,
   );
@@ -53,6 +62,71 @@ export const FaqSection = ({
       acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
   };
+
+  const descriptionParagraphs = (description || "")
+    .split(/\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  if (resolvedLayout === "split") {
+    return (
+      <section className={`py-20 md:py-28 ${background}`}>
+        {withJsonLd && <JsonLd data={jsonLd} />}
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
+            <div>
+              <div className="lg:sticky lg:top-28">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+                  {title}
+                </h2>
+                {descriptionParagraphs.map((para, i) => (
+                  <p
+                    key={i}
+                    className={`text-base font-light text-muted-foreground leading-relaxed ${
+                      i < descriptionParagraphs.length - 1 ? "mb-3" : ""
+                    }`}
+                  >
+                    {para}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <div className="border-t border-border/60">
+              {faqs.map((faq) => {
+                const isOpen = openFaq === faq.id;
+                return (
+                  <div key={faq.id} className="border-b border-border/60">
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : faq.id)}
+                      className="flex w-full flex-1 items-center justify-between py-6 text-left text-lg md:text-xl font-normal text-foreground"
+                      aria-expanded={isOpen}
+                    >
+                      <span>{faq.question}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-out ${
+                        isOpen ? "max-h-96 pb-8" : "max-h-0"
+                      }`}
+                    >
+                      <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={`py-16 md:py-24 ${background}`}>

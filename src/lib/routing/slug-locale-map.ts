@@ -173,31 +173,48 @@ export function buildSlugLocaleMap(index: CmsRouteIndex | null | undefined): Slu
     const treatmentPair = slugPairFromDoc(doc);
     if (!treatmentPair) continue;
 
-    const categoryId = doc.categoryId || "";
-    const catNb = normalizeSlugSegment(doc.categorySlugNb || categoryId);
-    const catEn = normalizeSlugSegment(doc.categorySlugEn || catNb);
-    if (!catNb || !catEn) continue;
+    const membershipIds =
+      doc.categoryIds && doc.categoryIds.length > 0
+        ? doc.categoryIds
+        : doc.categoryId
+          ? [doc.categoryId]
+          : [];
 
-    const nbInner = `${catNb}/${treatmentPair.slugNb}`;
-    const enInner = `${catEn}/${treatmentPair.slugEn}`;
-    addPathPairWithBehandlinger(map, nbInner, enInner);
+    for (const categoryId of membershipIds) {
+      const cat = index.categories.find((c) => c.categoryId === categoryId);
+      const catNb = normalizeSlugSegment(
+        cat?.slugNb ||
+          (categoryId === doc.categoryId ? doc.categorySlugNb : "") ||
+          categoryId,
+      );
+      const catEn = normalizeSlugSegment(
+        cat?.slugEn ||
+          (categoryId === doc.categoryId ? doc.categorySlugEn : "") ||
+          catNb,
+      );
+      if (!catNb || !catEn) continue;
 
-    if (categoryId) {
-      const nbMarketing = behandlingerCategorySegment(categoryId, "no");
-      const enMarketing = behandlingerCategorySegment(categoryId, "en");
-      if (nbMarketing !== catNb || enMarketing !== catEn) {
-        addPathPairWithBehandlinger(
-          map,
-          `${nbMarketing}/${treatmentPair.slugNb}`,
-          `${enMarketing}/${treatmentPair.slugEn}`,
-        );
-      }
-      if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
-        addPathPairWithBehandlinger(
-          map,
-          `flere-fagomrader/${treatmentPair.slugNb}`,
-          `${enMarketing}/${treatmentPair.slugEn}`,
-        );
+      const nbInner = `${catNb}/${treatmentPair.slugNb}`;
+      const enInner = `${catEn}/${treatmentPair.slugEn}`;
+      addPathPairWithBehandlinger(map, nbInner, enInner);
+
+      if (categoryId) {
+        const nbMarketing = behandlingerCategorySegment(categoryId, "no");
+        const enMarketing = behandlingerCategorySegment(categoryId, "en");
+        if (nbMarketing !== catNb || enMarketing !== catEn) {
+          addPathPairWithBehandlinger(
+            map,
+            `${nbMarketing}/${treatmentPair.slugNb}`,
+            `${enMarketing}/${treatmentPair.slugEn}`,
+          );
+        }
+        if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
+          addPathPairWithBehandlinger(
+            map,
+            `flere-fagomrader/${treatmentPair.slugNb}`,
+            `${enMarketing}/${treatmentPair.slugEn}`,
+          );
+        }
       }
     }
   }

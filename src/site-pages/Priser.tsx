@@ -20,6 +20,7 @@ import { formatDurationMinutes } from "@/lib/booking/duration";
 import { bookingCategoryPageIdForClinicService, buildBookingUrl } from "@/lib/bookingLinks";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
 import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
+import { resolveHomepageSpecialists } from "@/lib/sanity/homepage-specialists";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -173,9 +174,30 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const suspendSpyUntil = useRef(0);
 
   const [durationByActivityId, setDurationByActivityId] = useState<Record<number, DurationState>>({});
-  const { sorted }              = useSpecialistsData();
-  const specialists             = sorted.slice(0, 8);
+  const durationByActivityIdRef = useRef(durationByActivityId);
+  durationByActivityIdRef.current = durationByActivityId;
+  const { sorted: allSpecialists } = useSpecialistsData();
   const { data: sanityPricing } = usePricingPage();
+  const specialistsConfig = sanityPricing?.specialistsSection;
+  const specialists = useMemo(
+    () => {
+      const resolved = resolveHomepageSpecialists(specialistsConfig, allSpecialists);
+      // Match previous Pricing behaviour when CMS section is empty: first 8 specialists.
+      if (!specialistsConfig) return allSpecialists.slice(0, 8);
+      return resolved;
+    },
+    [specialistsConfig, allSpecialists],
+  );
+
+  const specialistsEyebrow =
+    specialistsConfig?.eyebrow?.trim() || t("pricing.specialistsEyebrow");
+  const specialistsTitle =
+    specialistsConfig?.heading?.trim() || t("pricing.specialistsTitle");
+  const specialistsSubtitle =
+    specialistsConfig?.intro?.trim() || t("pricing.specialistsSubtitle");
+  const specialistsSeeAllLabel =
+    specialistsConfig?.seeAllLabel?.trim() || t("pricing.seeAllSpecialists");
+  const specialistsSeeAllHref = specialistsConfig?.seeAllHref?.trim() || "/om-oss";
 
   const {
     categories: bookingCategories,
@@ -230,80 +252,112 @@ const Priser = ({ isChatOpen }: PageProps) => {
     }
   }, [activeCategory, sortedCategories]);
 
-  // ─── Load durations from freetimes for Metodika services ───────────────────
-  // Same data source as BookingDemo; cached per activity id.
+  // ─── Load durations from wbfreetimes `timelength` (→ durationMinutes) ───────
+  // Same source as BookingDemo. Load per category in small chunks so we do not
+  // blast all ~80 activities at once (upstream 429 / long hang left every row
+  // stuck on status "loading" → "Loading duration...").
   useEffect(() => {
-    const activityIds = sortedCategories
-      .flatMap((category) => category.subcategories)
-      .flatMap((sub) => sub.items)
-      .map((item) => item.apiActivityId)
-      .filter((id): id is number => typeof id === "number");
-
-    if (activityIds.length === 0) return;
+    if (sortedCategories.length === 0) return;
 
     let cancelled = false;
-    let idsToFetch: number[] = [];
+    const inFlightIds = new Set<number>();
+    const FREETIMES_CHUNK = 8;
 
-    setDurationByActivityId((prev) => {
-      idsToFetch = activityIds.filter((id) => {
-        const cached = prev[id];
-        return cached?.status !== "ready" && cached?.status !== "none";
+    async function loadDurationsForIds(idsToFetch: number[]) {
+      if (idsToFetch.length === 0) return;
+
+      for (const id of idsToFetch) inFlightIds.add(id);
+
+      setDurationByActivityId((prev) => {
+        const next = { ...prev };
+        for (const id of idsToFetch) next[id] = { status: "loading" };
+        return next;
       });
-      if (idsToFetch.length === 0) return prev;
 
-      const next = { ...prev };
-      for (const id of idsToFetch) next[id] = { status: "loading" };
-      return next;
-    });
+      const results: Array<
+        | { id: number; status: "ready"; label: string }
+        | { id: number; status: "none" }
+      > = [];
 
-    if (idsToFetch.length === 0) return;
-
-    async function loadDurations() {
       try {
-        const res = await fetch(
-          `/api/booking/freetimes?wbactivityIds=${idsToFetch.join(",")}`,
-        );
-        const json = (await res.json()) as {
-          ok?: boolean;
-          byActivityId?: Record<string, { durationMinutes?: number }[]>;
-        };
+        for (let i = 0; i < idsToFetch.length; i += FREETIMES_CHUNK) {
+          if (cancelled) return;
+          const chunk = idsToFetch.slice(i, i + FREETIMES_CHUNK);
+          const res = await fetch(
+            `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
+          );
+          const json = (await res.json()) as {
+            ok?: boolean;
+            byActivityId?: Record<string, { durationMinutes?: number }[]>;
+            slots?: { durationMinutes?: number }[];
+          };
 
-        if (cancelled) return;
-
-        const results = idsToFetch.map((id) => {
-          const slots = json.byActivityId?.[String(id)] ?? [];
-          const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
-          if (mins == null) return { id, status: "none" as const };
-          return { id, status: "ready" as const, label: formatDurationMinutes(mins) };
-        });
-
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const result of results) {
-            next[result.id] =
-              result.status === "ready"
-                ? { status: "ready", label: result.label }
-                : { status: "none" };
+          for (const id of chunk) {
+            const slots =
+              json.byActivityId?.[String(id)] ??
+              (chunk.length === 1 && Array.isArray(json.slots) ? json.slots : []);
+            const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
+            if (mins == null) {
+              results.push({ id, status: "none" });
+            } else {
+              results.push({
+                id,
+                status: "ready",
+                label: formatDurationMinutes(mins),
+              });
+            }
           }
-          return next;
-        });
+        }
       } catch {
+        for (const id of idsToFetch) {
+          if (!results.some((r) => r.id === id)) {
+            results.push({ id, status: "none" });
+          }
+        }
+      }
+
+      if (cancelled) return;
+
+      setDurationByActivityId((prev) => {
+        const next = { ...prev };
+        for (const result of results) {
+          next[result.id] =
+            result.status === "ready"
+              ? { status: "ready", label: result.label }
+              : { status: "none" };
+          inFlightIds.delete(result.id);
+        }
+        return next;
+      });
+    }
+
+    async function loadAllCategories() {
+      // Resolve the first (above-the-fold) category first, then the rest.
+      for (const category of sortedCategories) {
         if (cancelled) return;
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const id of idsToFetch) next[id] = { status: "none" };
-          return next;
+        const activityIds = category.subcategories
+          .flatMap((sub) => sub.items)
+          .map((item) => item.apiActivityId)
+          .filter((id): id is number => typeof id === "number");
+
+        const idsToFetch = activityIds.filter((id) => {
+          const cached = durationByActivityIdRef.current[id];
+          return cached?.status !== "ready" && cached?.status !== "none";
         });
+
+        await loadDurationsForIds(idsToFetch);
       }
     }
 
-    loadDurations();
+    void loadAllCategories();
+
     return () => {
       cancelled = true;
+      if (inFlightIds.size === 0) return;
       setDurationByActivityId((prev) => {
         const next = { ...prev };
         let changed = false;
-        for (const id of idsToFetch) {
+        for (const id of inFlightIds) {
           if (next[id]?.status === "loading") {
             delete next[id];
             changed = true;
@@ -705,13 +759,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Specialists Section */}
+      {/* Specialists Section — page-owned specialistsSection (not Website bands) */}
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-10">
-            <p className="text-sm text-white/60 mb-3 font-light">{t("pricing.specialistsEyebrow")}</p>
-            <h2 className="text-3xl md:text-4xl font-normal text-white">{t("pricing.specialistsTitle")}</h2>
-            <p className="text-white/70 mt-3 max-w-2xl font-light">{t("pricing.specialistsSubtitle")}</p>
+            {specialistsEyebrow ? (
+              <p className="text-sm text-white/60 mb-3 font-light">{specialistsEyebrow}</p>
+            ) : null}
+            {specialistsTitle ? (
+              <h2 className="text-3xl md:text-4xl font-normal text-white">{specialistsTitle}</h2>
+            ) : null}
+            {specialistsSubtitle ? (
+              <p className="text-white/70 mt-3 max-w-2xl font-light">{specialistsSubtitle}</p>
+            ) : null}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
             {specialists.map((specialist) => (
@@ -739,8 +799,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
               className="rounded-full border border-white text-white bg-transparent hover:bg-white hover:text-brand-dark"
               asChild
             >
-              <Link to="/om-oss">
-                {t("pricing.seeAllSpecialists")}
+              <Link to={specialistsSeeAllHref}>
+                {specialistsSeeAllLabel}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>

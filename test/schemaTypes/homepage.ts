@@ -5,10 +5,10 @@
 import { HomeIcon } from './icons'
 import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
+import {pickStudioEn} from './studioPreview'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {homepagePageEditorConfig} from '../sanity/page-editor/pages/homepageSections'
 import {HomepageSpecialistsSectionField} from '../sanity/components/HomepageSpecialistsSectionField'
-import {resolveLocalizedString} from './i18n'
 
 export default {
   name: 'homepage',
@@ -19,15 +19,6 @@ export default {
   components: {
     input: createPageSectionDocumentInput(homepagePageEditorConfig),
   },
-  fieldsets: [
-    {
-      name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description:
-        'Retained for production dual-read until that dataset is migrated. Prefer Homepage FAQ Collection.',
-      options: { collapsible: true, collapsed: true },
-    },
-  ],
   fields: [
     {
       name: 'title',
@@ -106,8 +97,8 @@ export default {
                 },
                 prepare({ title, subtitle, mediaImage, legacyImage }: any) {
                   return {
-                    title: resolveLocalizedString(title) || 'Slide',
-                    subtitle: resolveLocalizedString(subtitle) || undefined,
+                    title: pickStudioEn(title),
+                    subtitle: pickStudioEn(subtitle),
                     media: mediaImage || legacyImage,
                   }
                 },
@@ -233,10 +224,7 @@ export default {
               preview: {
                 select: { title: 'value', subtitle: 'label' },
                 prepare({ title, subtitle }: any) {
-                  return {
-                    title: title || 'Stat',
-                    subtitle: resolveLocalizedString(subtitle) || undefined,
-                  }
+                  return { title: title || '', subtitle: pickStudioEn(subtitle) }
                 },
               },
             },
@@ -259,10 +247,7 @@ export default {
           preview: {
             select: { title: 'value', subtitle: 'label' },
             prepare({ title, subtitle }: any) {
-              return {
-                title: title || 'Stat',
-                subtitle: resolveLocalizedString(subtitle) || undefined,
-              }
+              return { title: title || '', subtitle: pickStudioEn(subtitle) }
             },
           },
         },
@@ -285,10 +270,7 @@ export default {
           preview: {
             select: { title: 'label', subtitle: 'icon' },
             prepare({ title, subtitle }: any) {
-              return {
-                title: resolveLocalizedString(title) || 'Badge',
-                subtitle: subtitle || undefined,
-              }
+              return { title: pickStudioEn(title), subtitle: subtitle || '' }
             },
           },
         },
@@ -318,11 +300,7 @@ export default {
           preview: {
             select: { title: 'title', subtitle: 'description', media: 'image' },
             prepare({ title, subtitle, media }: any) {
-              return {
-                title: resolveLocalizedString(title) || 'Promo',
-                subtitle: resolveLocalizedString(subtitle) || undefined,
-                media,
-              }
+              return { title: pickStudioEn(title), subtitle: pickStudioEn(subtitle), media }
             },
           },
         },
@@ -333,13 +311,12 @@ export default {
       title: 'Booking CTA',
       type: 'pageSectionBookingCta',
       description:
-        'Preferred homepage Booking CTA. Website dual-reads this first, then falls back to a Booking CTA inside Website bands.',
+        'Select, replace, clear, or create a CTA Collection from the Content Library.',
     },
     {
       ...pageSectionsField,
-      title: 'Website bands (legacy)',
-      description:
-        'Legacy multi-band array. Prefer Booking CTA above for the homepage CTA. Other band types are not rendered on Home today. Kept for dual-read / rollback.',
+      title: 'Website bands',
+      hidden: () => true,
     },
     {
       name: 'faqSectionTitle',
@@ -354,21 +331,17 @@ export default {
       type: 'reference',
       to: [{ type: 'faqCollection' }],
       description:
-        'The FAQ pack for this page. Create new, open to edit, or replace with another pack. Stored in Content Library for reuse.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: {
         disableNew: false,
       },
     },
     {
       name: 'faqs',
-      title: 'Previous FAQ list (legacy)',
+      title: 'Previous FAQ list',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      fieldset: 'faqAdvanced',
-      description:
-        'Legacy backup. Website dual-reads this only when no FAQ Collection has questions. Do not delete existing refs until production is migrated.',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     {
       name: 'reviewsSubheading',
@@ -432,7 +405,7 @@ export default {
   preview: {
     select: { title: 'title' },
     prepare({ title }: any) {
-      return { title: resolveLocalizedString(title) || 'Homepage' }
+      return { title: pickStudioEn(title) || 'Homepage' }
     },
   },
 }

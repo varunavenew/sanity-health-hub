@@ -1,6 +1,7 @@
 // Schema: Pricing Page
 import {PricingIcon} from './icons'
-import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo} from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {
@@ -14,7 +15,6 @@ import {createPageSectionDocumentInput} from '../sanity/page-editor/components/P
 import {pricingPageEditorConfig} from '../sanity/page-editor/pages/pricingSections'
 
 const PRICING_SHARED_SECTIONS = [
-  'pageSectionSpecialists',
   'pageSectionArticles',
   'pageSectionBookingCta',
 ] as const
@@ -76,24 +76,20 @@ export default {
     faqCollectionField('content'),
     {
       name: 'faqs',
-      title: 'Previous FAQ list (legacy)',
+      title: 'Previous FAQ list',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
       of: [{type: 'reference', to: [{type: 'faq'}]}],
-      description:
-        'Legacy backup. Website dual-reads this only when no FAQ Collection is linked.',
-      hidden: ({document}: {document?: {faqCollection?: unknown}}) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     {
       name: 'priceCategories',
-      title: 'Price categories (legacy)',
+      title: 'Price categories',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
-      description:
-        'Not used on the live Pricing page — prices come from the booking API. Kept for rollback only.',
+      hidden: () => true,
       of: [
         {
           type: 'object',
@@ -126,9 +122,9 @@ export default {
                   preview: {
                     select: {title: 'name', subtitle: 'price', priceLabel: 'priceLabel'},
                     prepare({title, subtitle, priceLabel}: any) {
-                      const label = resolveLocalizedString(priceLabel)
+                      const label = pickStudioEn(priceLabel)
                       return {
-                        title: resolveLocalizedString(title) || 'Unnamed',
+                        title: pickStudioEn(title) || 'Unnamed',
                         subtitle: label || (subtitle != null ? `${subtitle} kr` : ''),
                       }
                     },
@@ -140,7 +136,7 @@ export default {
           preview: {
             select: {title: 'categoryName'},
             prepare({title}: any) {
-              return {title: resolveLocalizedString(title) || 'Unnamed'}
+              return {title: pickStudioEn(title) || 'Unnamed'}
             },
           },
         },
@@ -148,11 +144,19 @@ export default {
     },
     {
       name: 'insuranceNote',
-      title: 'Insurance note (legacy)',
+      title: 'Insurance note',
       type: 'internationalizedArrayText',
       group: 'content',
       fieldset: 'legacy',
-      description: 'Not rendered on the website today. Use Insurance Collection bands or the Insurance page.',
+      hidden: () => true,
+    },
+    {
+      name: 'specialistsSection',
+      title: 'Specialists',
+      type: 'homepageSpecialistsSection',
+      group: 'content',
+      description:
+        'Specialists grid on the Pricing page. Heading, intro, selection, and layout are edited here — not via Website bands.',
     },
     pageSectionsFieldForGroup('content', 'sharedSections', PRICING_SHARED_SECTIONS),
     {
@@ -167,7 +171,7 @@ export default {
   preview: {
     select: {title: 'title'},
     prepare({title}: any) {
-      return {title: resolveLocalizedString(title) || 'Pricing'}
+      return {title: pickStudioEn(title) || 'Pricing'}
     },
   },
 }

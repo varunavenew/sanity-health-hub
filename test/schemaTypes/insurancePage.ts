@@ -1,6 +1,7 @@
 // Schema: Insurance Page (Forsikring)
 import {InsuranceIcon} from './icons'
-import {i18nSlugFieldFromTitle, requiredNoEnSeo, resolveLocalizedString} from './i18n'
+import {i18nSlugFieldFromTitle, requiredNoEnSeo} from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -13,8 +14,8 @@ const i18nItemPreview = {
   select: {title: 'title', subtitle: 'description'},
   prepare({title, subtitle}: any) {
     return {
-      title: resolveLocalizedString(title) || 'Unnamed',
-      subtitle: resolveLocalizedString(subtitle) || undefined,
+      title: pickStudioEn(title) || 'Unnamed',
+      subtitle: pickStudioEn(subtitle) || undefined,
     }
   },
 }
@@ -64,7 +65,7 @@ export default {
           preview: {
             select: {name: 'name'},
             prepare({name}: any) {
-              return {title: resolveLocalizedString(name) || 'Partner'}
+              return {title: pickStudioEn(name) || 'Partner'}
             },
           },
         },
@@ -104,15 +105,12 @@ export default {
     },
     {
       name: 'partners',
-      title: 'Insurance partners (legacy plain text)',
+      title: 'Insurance partners (plain text)',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
       of: [{type: 'string'}],
-      description:
-        'Non-translated partner names. Prefer Insurance partners above. Dual-read fallback only.',
-      hidden: ({document}: {document?: {partnersLocalized?: unknown[]}}) =>
-        Array.isArray(document?.partnersLocalized) && document.partnersLocalized.length > 0,
+      hidden: () => true,
     },
     pageSectionsFieldForGroup('content', 'sharedSections', INSURANCE_SHARED_SECTIONS),
     {
@@ -127,7 +125,7 @@ export default {
   preview: {
     select: {title: 'title', media: 'heroImage'},
     prepare({title, media}: any) {
-      return {title: resolveLocalizedString(title) || 'Insurance', media}
+      return {title: pickStudioEn(title) || 'Insurance', media}
     },
   },
 }

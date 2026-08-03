@@ -10,8 +10,8 @@ import {
   requiredNoEnI18n,
   requiredNoEnSeo,
   requiredNoEnSlug,
-  resolveLocalizedString,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
@@ -149,7 +149,7 @@ export default defineType({
               key?: string
               cats?: unknown
             }) {
-              const title = resolveLocalizedString(label)?.trim() || key || 'Filter'
+              const title = pickStudioEn(label)?.trim() || key || 'Filter'
               const businessTitles = businessTitlesFromStoredCategories(cats)
               const subtitle =
                 key === 'all' || businessTitles.length === 0
@@ -404,11 +404,8 @@ export default defineType({
       title: 'title',
     },
     prepare({title}) {
-      const titleValue = Array.isArray(title)
-        ? title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value
-        : title
       return {
-        title: titleValue || 'News page',
+        title: pickStudioEn(title) || 'News page',
       }
     },
   },

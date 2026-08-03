@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { AssetImg } from "@/components/AssetImg";
 import { CmsMedia } from "@/components/media/CmsMedia";
@@ -79,6 +79,8 @@ function CategoryHeroMedia({
       variant={variant}
       className={className}
       loading="eager"
+      autoPlay
+      interactive={false}
     />
   );
 }
@@ -539,9 +541,9 @@ const TreatmentCategoryLanding = ({
     categoryId === "graviditet" || categoryId === "pregnancy";
 
   /**
-   * Lovable Media band uses the ultralyd image — not the hero portrait.
+   * Lovable Media band uses the ultralyd image ΓÇö not the hero portrait.
    * When Pregnancy spotlight was incorrectly pointed at the hero asset,
-   * reuse the CMS “Tidlig ultralyd” expert-area image (same source as Lovable).
+   * reuse the CMS ΓÇ£Tidlig ultralydΓÇ¥ expert-area image (same source as Lovable).
    */
   const pregnancySpotlight: CategoryLandingSpotlight | null = (() => {
     if (!spotlightSection) return null;
@@ -573,14 +575,15 @@ const TreatmentCategoryLanding = ({
     };
   })();
 
+  /** Baseline order for non-Pregnancy categories (matches main + FAQ in CMS order). */
   const DEFAULT_ORDER = [
     "segments", "why", "audiences", "expertAreas",
     "symptoms", "services", "support", "results",
-    "reviews", "spotlight", "journey",
+    "reviews", "spotlight", "faq", "journey",
   ];
   /**
-   * Lovable Pregnancy order: Media (spotlight) → Specialists → Journey.
-   * Applied only for graviditet/pregnancy. Other categories keep DEFAULT_ORDER.
+   * Lovable Pregnancy order: FAQ mid-page, Media (spotlight) -> Specialists -> Journey.
+   * Applied only for graviditet/pregnancy when CMS sectionOrder is empty.
    */
   const PREGNANCY_ORDER = [
     "segments",
@@ -594,15 +597,35 @@ const TreatmentCategoryLanding = ({
     "specialists",
     "journey",
   ];
-  // Prefer CMS sectionOrder when set; otherwise Pregnancy still gets Lovable order
-  // so spotlight→specialists→journey cannot fall back to DEFAULT_ORDER.
-  const order = isPregnancy
-    ? sectionOrder?.length > 0
-      ? sectionOrder
-      : PREGNANCY_ORDER
-    : DEFAULT_ORDER;
+  /**
+   * Prefer Sanity sectionOrder when present, but never drop known sections.
+   * specialists is allowed for Pregnancy mid-page placement.
+   */
+  const order = (() => {
+    const fallback = isPregnancy ? PREGNANCY_ORDER : DEFAULT_ORDER;
+    if (!sectionOrder?.length) return fallback;
+    const allowed = new Set([...DEFAULT_ORDER, "specialists"]);
+    const seen = new Set();
+    const preferred = [];
+    for (const key of sectionOrder) {
+      if (!allowed.has(key) || seen.has(key)) continue;
+      preferred.push(key);
+      seen.add(key);
+    }
+    for (const key of fallback) {
+      if (!seen.has(key)) preferred.push(key);
+    }
+    return preferred.length ? preferred : fallback;
+  })();
   const orderIncludesFaq = order.includes("faq");
   const orderIncludesSpecialists = order.includes("specialists");
+  /**
+   * When specialists are mid-page via sectionOrder, keep journey in the loop.
+   * Otherwise park journey after the shared specialists band (main behaviour).
+   */
+  const orderForLoop = orderIncludesSpecialists
+    ? order
+    : order.filter((key) => key !== "journey");
 
   const faqItems = (category?.faqs ?? []).map((faq, i) => ({
     id: `category-faq-${i}`,
@@ -623,12 +646,12 @@ const TreatmentCategoryLanding = ({
     (section) => section._type === "pageSectionSpecialists",
   );
 
-  /* â”€â”€ Section registry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /* ├óΓÇ¥Γé¼├óΓÇ¥Γé¼ Section registry ├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼
      Each key matches a value in the Sanity `sectionOrder` array.
      Sections whose data is empty return null automatically.
      Optional keys `faq` and `specialists` let CMS place those mid-page
      (used by Pregnancy); other categories omit them and keep legacy placement.
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  ├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼ */
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
       segmentsSection.segments.length > 0 ? (
@@ -936,7 +959,7 @@ const TreatmentCategoryLanding = ({
       <JsonLd data={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd} />
       <h1 className="sr-only">{landing.srOnlyTitle}</h1>
 
-      {/* Hero â€” always first, not part of sectionOrder */}
+      {/* Hero ├óΓé¼ΓÇ¥ always first, not part of sectionOrder */}
       {isFullWidthHero ? (
         <header className="relative">
           <div className="relative min-h-[420px] lg:min-h-[520px] flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
@@ -953,7 +976,7 @@ const TreatmentCategoryLanding = ({
             <div className="relative z-10 max-w-4xl w-full">
               <nav aria-label="breadcrumb" className="text-xs font-light text-white/70 flex items-center gap-2 mb-6">
                 <Link to="/" className="hover:text-white transition-colors">{breadcrumbHomeLabel}</Link>
-                <span aria-hidden="true">›</span>
+                <span aria-hidden="true">ΓÇ║</span>
                 <span className="text-white/90">{categoryTitle}</span>
               </nav>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
@@ -1002,7 +1025,7 @@ const TreatmentCategoryLanding = ({
           <div className="lg:hidden px-6 md:px-16 pb-4">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
               <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
-              <span aria-hidden="true">›</span>
+              <span aria-hidden="true">ΓÇ║</span>
               <span className="text-foreground/80">{categoryTitle}</span>
             </nav>
             <h2 className="text-4xl font-light text-foreground leading-[1.05]">
@@ -1015,7 +1038,7 @@ const TreatmentCategoryLanding = ({
               <div className="max-w-xl w-full">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
                   <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
-                  <span aria-hidden="true">›</span>
+                  <span aria-hidden="true">ΓÇ║</span>
                   <span className="text-foreground/80">{categoryTitle}</span>
                 </nav>
                 <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
@@ -1060,8 +1083,8 @@ const TreatmentCategoryLanding = ({
         </header>
       )}
 
-      {/* Dynamic section loop — order from Sanity sectionOrder when set */}
-      {order.map((key) => {
+      {/* Dynamic section loop — CMS sectionOrder (+ Pregnancy defaults / merge). */}
+      {orderForLoop.map((key) => {
         const render = SECTION_RENDERERS[key];
         return render ? <Fragment key={key}>{render()}</Fragment> : null;
       })}
@@ -1069,11 +1092,16 @@ const TreatmentCategoryLanding = ({
       {/* FAQ after landing bands only when not placed via sectionOrder (e.g. Pregnancy). */}
       {!orderIncludesFaq ? renderFaq() : null}
 
-      {/* Shared page sections — skip specialists if already rendered mid-page via sectionOrder. */}
+      {/* Shared bands: Specialists → Journey (when not mid-page) → Insurance → Booking CTA */}
       <PageSectionsRenderer
         sections={category?.pageSections}
         excludeTypes={
           orderIncludesSpecialists ? ["pageSectionSpecialists"] : undefined
+        }
+        afterSpecialists={
+          orderIncludesSpecialists
+            ? undefined
+            : (SECTION_RENDERERS.journey?.() ?? null)
         }
       />
     </PageLayout>

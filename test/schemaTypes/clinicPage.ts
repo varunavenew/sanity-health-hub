@@ -6,12 +6,12 @@ import {
   i18nSlugFieldFromTitle,
   pickForLang,
   pickNo,
-  resolveLocalizedString,
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
-import { pageSectionsFieldForGroup } from './pageSections'
+import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
+import { pageSectionsFieldForGroup } from './pageSections'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
 
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
@@ -83,15 +83,13 @@ export default {
       name: 'ssFaq',
       title: 'FAQ',
       description:
-        'Same workflow as Homepage, Treatment Category, Treatment, and Specialist. Prefer a FAQ Collection from the Content Library. Legacy list is backup only.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description:
-        'Backup list. Used only when no Clinic FAQ Collection with valid questions is selected. Keep existing items — do not delete them.',
+      title: 'Previous FAQ list',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -324,7 +322,7 @@ export default {
       type: 'reference',
       to: [{ type: 'faqCollection' }],
       description:
-        'FAQ pack from the Content Library. Same pattern as Homepage, Treatment Category, Treatment, and Specialist.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       group: 'sharedSections',
       fieldset: 'ssFaq',
       options: {
@@ -337,10 +335,7 @@ export default {
       type: 'array',
       group: 'sharedSections',
       fieldset: 'faqAdvanced',
-      description:
-        'Backup list used when no Clinic FAQ Collection with valid questions is selected. Existing items are kept — do not delete them.',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
       of: [
         {
           type: 'reference',
@@ -572,7 +567,7 @@ export default {
           : '',
       ].filter(Boolean)
       return {
-        title: resolveLocalizedString(title) || 'Clinic',
+        title: pickStudioEn(title) || 'Clinic',
         subtitle: parts.join(' · '),
         media: media as any,
       }

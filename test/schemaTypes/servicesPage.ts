@@ -5,8 +5,8 @@ import {
   i18nSlugFieldFromTitle,
   requiredNoEnI18n,
   requiredNoEnSeo,
-  resolveLocalizedString,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {
@@ -100,7 +100,7 @@ export default {
           preview: {
             select: {label: 'label'},
             prepare({label}: {label?: unknown}) {
-              return {title: resolveLocalizedString(label) || 'Badge'}
+              return {title: pickStudioEn(label) || 'Badge'}
             },
           },
         },
@@ -207,7 +207,7 @@ export default {
             }) {
               const mode =
                 displayMode === 'treatmentsList' ? 'Treatment list' : 'Category link'
-              const label = resolveLocalizedString(categoryTitle) || categoryId || 'Select category'
+              const label = pickStudioEn(categoryTitle) || categoryId || 'Select category'
               return {title: label, subtitle: mode}
             },
           },
@@ -232,9 +232,7 @@ export default {
     faqCollectionField('content'),
     {
       name: 'faqs',
-      title: 'Previous FAQ list (legacy)',
-      description:
-        'Legacy inline FAQ rows or FAQ Item references. Dual-read only when no FAQ Collection is linked.',
+      title: 'Previous FAQ list',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
@@ -261,8 +259,7 @@ export default {
           preview: i18nFaqItemPreview,
         },
       ],
-      hidden: ({document}: {document?: {faqCollection?: unknown}}) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     pageSectionsFieldForGroup('content', 'sharedSections', SERVICES_SHARED_SECTIONS),
     {
@@ -274,21 +271,10 @@ export default {
     },
     {...geoSummaryField, ...seoFieldsetProps},
   ],
-  validation: (Rule: any) =>
-    Rule.custom((document: {faqCollection?: unknown; faqs?: unknown[]}) => {
-      if (document?.faqCollection) return true
-      if (Array.isArray(document?.faqs) && document.faqs.length > 0) return true
-      return 'Link an FAQ Collection or keep legacy FAQs until migration is complete.'
-    }),
   preview: {
     select: {title: 'title'},
-    prepare({title}: {title?: {value?: string; language?: string; _key?: string}[]}) {
-      const titleStr = Array.isArray(title)
-        ? title.find((t) => (t.language || t._key) === 'no')?.value ||
-          title[0]?.value ||
-          'Services'
-        : title || 'Services'
-      return {title: titleStr}
+    prepare({title}: {title?: unknown}) {
+      return {title: pickStudioEn(title) || 'Services'}
     },
   },
 }

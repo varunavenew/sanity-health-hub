@@ -9,11 +9,10 @@ import {
   i18nSlugFieldFromString,
   pickForLang,
   pickNo,
-  pickSpecialtyLabel,
   requiredNoEnI18n,
   requiredNoEnSeo,
-  resolveLocalizedString,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
 import {
   BOOKING_ACTIVITY_GROUP_IDS,
@@ -67,15 +66,13 @@ export default {
       name: 'ssFaq',
       title: 'FAQ',
       description:
-        'Same workflow as Homepage, Treatment Category, and Treatment. Prefer a FAQ Collection from the Content Library. Legacy list is backup only.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description:
-        'Backup list. Used only when no Specialist FAQ Collection with valid questions is selected. Keep existing items — do not delete them.',
+      title: 'Previous FAQ list',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -192,7 +189,7 @@ export default {
           preview: {
             select: { label: 'label' },
             prepare({ label }: { label?: unknown }) {
-              return { title: pickSpecialtyLabel({ label }) || 'New specialty' }
+              return { title: pickStudioEn(label) || 'New specialty' }
             },
           },
         },
@@ -253,7 +250,8 @@ export default {
             return { filter: '_type == "treatment"' }
           }
           return {
-            filter: '_type == "treatment" && category._ref in $categoryIds',
+            filter:
+              '_type == "treatment" && (category._ref in $categoryIds || count((categories[]._ref)[@ in $categoryIds]) > 0)',
             params: { categoryIds },
           }
         },
@@ -313,7 +311,7 @@ export default {
           preview: {
             select: { label: 'label' },
             prepare({ label }: { label?: unknown }) {
-              return { title: pickSpecialtyLabel({ label }) || 'New line' }
+              return { title: pickStudioEn(label) || 'New line' }
             },
           },
         },
@@ -429,7 +427,7 @@ export default {
       type: 'reference',
       to: [{ type: 'faqCollection' }],
       description:
-        'FAQ pack from the Content Library. Same pattern as Homepage, Treatment Category, and Treatment.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       group: 'sharedSections',
       fieldset: 'ssFaq',
       options: {
@@ -442,10 +440,7 @@ export default {
       type: 'array',
       group: 'sharedSections',
       fieldset: 'faqAdvanced',
-      description:
-        'Backup list used when no Specialist FAQ Collection with valid questions is selected. Existing items are kept — do not delete them.',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
     },
     {
@@ -657,9 +652,9 @@ export default {
     },
     prepare({ title, role, media, booking, bookingCategoryIds, c0, c1, c2 }: any) {
       const categoryNames = [c0, c1, c2]
-        .map((c) => resolveLocalizedString(c))
+        .map((c) => pickStudioEn(c))
         .filter(Boolean)
-      const roleLabel = resolveLocalizedString(role) || 'No role'
+      const roleLabel = pickStudioEn(role) || 'No role'
       const idPart =
         Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
           ? ` · Booking #${bookingCategoryIds.join(', #')}`

@@ -1,6 +1,7 @@
 // Schema: About Page
 import {GenericIcon} from './icons'
 import {i18nSlugFieldFromTitle} from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -95,12 +96,11 @@ export default {
     },
     {
       name: 'values',
-      title: 'Our values (legacy)',
-      description:
-        'Not rendered on the website today. Kept for rollback only.',
+      title: 'Our values',
       type: 'array',
       group: 'content',
       fieldset: 'legacy',
+      hidden: () => true,
       of: [
         {
           type: 'object',
@@ -124,12 +124,7 @@ export default {
   preview: {
     select: {title: 'title', media: 'heroImage'},
     prepare({title, media}: any) {
-      const titleStr = Array.isArray(title)
-        ? title.find((t: any) => (t.language || t._key) === 'no')?.value ||
-          title[0]?.value ||
-          'About us'
-        : title || 'About us'
-      return {title: titleStr, media}
+      return {title: pickStudioEn(title) || 'About us', media}
     },
   },
 }

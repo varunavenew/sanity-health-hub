@@ -1,6 +1,7 @@
 import {SpecialistIcon} from './icons'
 import {HomepageSpecialistsSectionInput} from '../sanity/components/HomepageSpecialistsSectionInput'
-import {requiredNoEnI18n, resolveLocalizedString} from './i18n'
+import {requiredNoEnI18n} from './i18n'
+import {pickStudioEn} from './studioPreview'
 
 const INTERNAL_PAGE_REF_TYPES = [
   {type: 'specialistsListingPage'},
@@ -32,6 +33,12 @@ export const homepageSpecialistsSectionType = {
     },
   ],
   fields: [
+    {
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      type: 'internationalizedArrayString',
+      description: 'Optional small label above the heading (used on Pricing).',
+    },
     {
       name: 'heading',
       title: 'Heading',
@@ -132,7 +139,7 @@ export const homepageSpecialistsSectionType = {
       layout?: string
       maxItems?: number
     }) {
-      const title = resolveLocalizedString(heading) || 'Specialists'
+      const title = pickStudioEn(heading) || 'Specialists'
       const parts = [displayMode || 'all', layout || 'carousel']
       if (typeof maxItems === 'number') parts.push(`max ${maxItems}`)
       return {title, subtitle: parts.join(' · ')}

@@ -265,15 +265,6 @@ export const pageSectionBookingCta = {
   name: 'pageSectionBookingCta',
   title: 'Booking Call To Action',
   type: 'object',
-  fieldsets: [
-    {
-      name: 'legacyAdvanced',
-      title: 'Legacy / Advanced',
-      description:
-        'This page uses a CTA Collection. Legacy fields are preserved for backward compatibility until migration is complete.',
-      options: appearanceCollapsed,
-    },
-  ],
   fields: [
     {
       name: 'ctaCollection',
@@ -281,33 +272,17 @@ export const pageSectionBookingCta = {
       type: 'reference',
       to: [{type: 'ctaCollection'}],
       description:
-        'Preferred. Website dual-read uses this pack when it has usable content; otherwise legacy inline fields below. Leave empty to keep page-owned inline copy.',
+        'Select, replace, clear, or create a CTA Collection from the Content Library.',
       options: {
         disableNew: false,
       },
     },
+    // Reserved / legacy inline fields kept in the document for FE dual-read,
+    // but hidden from Studio now that collection UX is the source of truth.
     ...bookingCtaReservedBandFields,
     ...bookingCtaContentFields.map((field) => ({
       ...field,
-      fieldset: 'legacyAdvanced',
-      hidden: ({
-        parent,
-        ...ctx
-      }: {
-        parent?: {ctaCollection?: unknown; showSecondaryButton?: boolean}
-        document?: unknown
-        value?: unknown
-      }) => {
-        if (parent?.ctaCollection) return true
-        const baseHidden = (field as {hidden?: unknown}).hidden
-        if (typeof baseHidden === 'function') {
-          return (baseHidden as (args: typeof ctx & {parent?: typeof parent}) => boolean)({
-            ...ctx,
-            parent,
-          })
-        }
-        return Boolean(baseHidden)
-      },
+      hidden: () => true,
     })),
   ],
   preview: createPageSectionCollectionBandPreview({
@@ -321,15 +296,6 @@ export const pageSectionInsurance = {
   name: 'pageSectionInsurance',
   title: 'Insurance Partners',
   type: 'object',
-  fieldsets: [
-    {
-      name: 'legacyAdvanced',
-      title: 'Legacy / Advanced',
-      description:
-        'This page uses an Insurance Collection. Legacy fields are preserved for backward compatibility until migration is complete.',
-      options: appearanceCollapsed,
-    },
-  ],
   fields: [
     {
       name: 'insuranceCollection',
@@ -337,16 +303,15 @@ export const pageSectionInsurance = {
       type: 'reference',
       to: [{type: 'insuranceCollection'}],
       description:
-        'Preferred. Website dual-read uses this pack when it has partners; otherwise legacy inline fields below. Leave empty to keep page-owned partners.',
+        'Select, replace, clear, or create an Insurance Collection from the Content Library.',
       options: {
         disableNew: false,
       },
     },
+    // Legacy inline partners/title kept for FE dual-read; hidden in Studio.
     ...insuranceContentFields.map((field) => ({
       ...field,
-      fieldset: 'legacyAdvanced',
-      hidden: ({parent}: {parent?: {insuranceCollection?: unknown}}) =>
-        Boolean(parent?.insuranceCollection),
+      hidden: () => true,
     })),
   ],
   preview: createPageSectionCollectionBandPreview({
@@ -400,15 +365,13 @@ export function pageSectionsFieldForGroup(
   fieldset: string = 'sharedSections',
   allowedTypes?: readonly PageSectionBandType[],
 ) {
-  // undefined → all band types; [] → none (hidden legacy rollback); non-empty → allowlist
+  // undefined → all band types; [] → none (hidden); non-empty → allowlist
   if (allowedTypes !== undefined && allowedTypes.length === 0) {
     return {
       ...pageSectionsField,
       group,
       fieldset: 'legacy',
-      title: 'Website bands (not used on this page)',
-      description:
-        'This page does not expose shared bands. Field kept hidden for data integrity / rollback.',
+      title: 'Website bands',
       hidden: true,
       of: ALL_PAGE_SECTION_TYPES.map((type) => ({type})),
     }

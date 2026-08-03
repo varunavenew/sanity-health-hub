@@ -1,9 +1,10 @@
 // Schema: Theme Page
 // Reusable schema for thematic focus area pages
 import { ThemeIcon } from './icons'
-import { i18nSlugFieldFromTitle, resolveLocalizedString } from './i18n'
+import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
+import {pickStudioEn} from './studioPreview'
 
 export default {
   name: 'themePage',
@@ -55,7 +56,7 @@ export default {
           preview: {
             select: { title: 'heading' },
             prepare({ title }: any) {
-              return { title: resolveLocalizedString(title) || 'Block' }
+              return { title: pickStudioEn(title) }
             },
           },
         },
@@ -76,7 +77,7 @@ export default {
           preview: {
             select: { title: 'title' },
             prepare({ title }: any) {
-              return { title: resolveLocalizedString(title) || 'Phase' }
+              return { title: pickStudioEn(title) }
             },
           },
         },
@@ -107,7 +108,7 @@ export default {
       media: 'heroImage',
     },
     prepare({ title, media }: any) {
-      return { title: resolveLocalizedString(title) || 'Theme page', media }
+      return { title: pickStudioEn(title) || 'Theme page', media }
     },
   },
 }

@@ -5,7 +5,7 @@
  *
  * Keep names/types identical so dual-read needs no permanent mapping layer.
  */
-import {resolveLocalizedString} from './i18n'
+import {pickStudioEn} from './studioPreview'
 
 const quickInfoIconOptions = {
   list: [
@@ -76,7 +76,7 @@ export const bookingCtaContentFields = [
           select: {text: 'text', icon: 'icon'},
           prepare({text, icon}: {text?: unknown; icon?: string}) {
             return {
-              title: resolveLocalizedString(text) || 'Quick info',
+              title: pickStudioEn(text) || 'Quick info',
               subtitle: icon === 'shield' ? 'Shield' : 'Clock',
             }
           },
@@ -243,7 +243,7 @@ export const insuranceContentFields = [
           select: {title: 'label', subtitle: 'key'},
           prepare({title, subtitle}: {title?: unknown; subtitle?: string}) {
             return {
-              title: resolveLocalizedString(title) || 'Partner',
+              title: pickStudioEn(title) || 'Partner',
               subtitle: subtitle || undefined,
             }
           },

@@ -37,10 +37,7 @@ export const clinicsPageEditorConfig: PageEditorConfig = definePageEditorConfig(
       notice:
         'Clinic cards on this page are loaded automatically from individual Clinic documents (page-owned listing behaviour). Edit clinic details under Pages → Clinics.',
     },
-    articlesBandSection({
-      pageOwnedNotice:
-        'Optional shared Articles band. Empty means unused. Clinic listing is page-owned above.',
-    }),
+    articlesBandSection(),
     bookingCtaBandSection(),
     seoSection(),
   ],

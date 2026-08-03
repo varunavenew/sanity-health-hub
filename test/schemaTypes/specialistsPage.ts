@@ -3,6 +3,7 @@ import { SpecialistIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
 import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
+import {pickStudioEn} from './studioPreview'
 
 export default {
   name: 'specialistsPage',
@@ -55,10 +56,7 @@ export default {
   preview: {
     select: { title: 'title' },
     prepare({ title }: any) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Specialists')
-        : (title || 'Specialists')
-      return { title: titleStr }
+      return { title: pickStudioEn(title) || 'Specialists' }
     },
   },
 }

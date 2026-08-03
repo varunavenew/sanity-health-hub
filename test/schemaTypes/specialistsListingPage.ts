@@ -1,6 +1,7 @@
 // Schema: Specialists directory (/spesialister) — hero + SEO (singleton)
 import { SpecialistIcon } from './icons'
 import { i18nSlugFieldFromTitle, requiredNoEnI18n } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
@@ -109,12 +110,7 @@ export default {
   preview: {
     select: { title: 'heroTitle' },
     prepare({ title }: { title?: unknown }) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: { language?: string; _key?: string; value?: string }) => (t.language || t._key) === 'no')?.value ||
-            (title[0] as { value?: string })?.value ||
-            'Spesialistoversikt')
-        : (title || 'Spesialistoversikt')
-      return { title: titleStr }
+      return { title: pickStudioEn(title) || 'Specialists overview' }
     },
   },
 }

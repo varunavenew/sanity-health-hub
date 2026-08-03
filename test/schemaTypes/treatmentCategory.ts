@@ -5,11 +5,10 @@
 import { CategoryIcon } from './icons'
 import {
   i18nSlugFieldFromTitle,
-  pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
-  resolveLocalizedString,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
@@ -20,7 +19,7 @@ const reqI18n = requiredNoEnI18n
 /** Match Treatment editor: all page/shared fieldsets collapsed by default. */
 const sectionCollapsed = { collapsible: true, collapsed: true } as const
 
-/** Reference picker: only treatments whose category points at this category document. */
+/** Reference picker: treatments whose categories[] (or legacy category) points here. */
 function treatmentRefsForCategoryFilter({
   document,
 }: {
@@ -32,13 +31,15 @@ function treatmentRefsForCategoryFilter({
       ? document._id
       : `drafts.${publishedId}`
     return {
-      filter: '_type == "treatment" && category._ref in $categoryIds',
+      filter:
+        '_type == "treatment" && (category._ref in $categoryIds || count((categories[]._ref)[@ in $categoryIds]) > 0)',
       params: { categoryIds: [publishedId, draftId] },
     }
   }
   if (document?.categoryId) {
     return {
-      filter: '_type == "treatment" && category->categoryId == $categoryId',
+      filter:
+        '_type == "treatment" && (category->categoryId == $categoryId || count(categories[@->categoryId == $categoryId]) > 0)',
       params: { categoryId: document.categoryId },
     }
   }
@@ -67,7 +68,7 @@ const statItem = {
   preview: {
     select: { value: 'value', label: 'label' },
     prepare({ value, label }: { value?: string; label?: unknown }) {
-      return { title: value || 'Statistics', subtitle: resolveLocalizedString(label) || undefined }
+      return { title: value || 'Statistics', subtitle: pickStudioEn(label) || undefined }
     },
   },
 }
@@ -98,9 +99,9 @@ export default {
     },
     {
       name: 'pcStats',
-      title: 'Statistics — numbers',
+      title: 'Numbers that tell a story — numbers',
       description:
-        'KPI numbers (e.g. “98%”). Headings are under Website sections → Statistics — headings.',
+        'KPI numbers (e.g. “98%”). Headings are under Website sections → Numbers that tell a story.',
       options: sectionCollapsed,
       group: 'pageContent',
     },
@@ -114,15 +115,15 @@ export default {
     },
     {
       name: 'ssFaq',
-      title: 'FAQ',
-      description: 'Prefer a FAQ Collection from the Content Library.',
+      title: 'Frequently Asked Questions',
+      description:
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description: 'Backup list. Used only when no FAQ Collection is selected.',
+      title: 'Previous FAQ list',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -291,11 +292,30 @@ export default {
       ],
     },
     {
+      name: 'faqSectionDescription',
+      title: 'FAQ description',
+      description:
+        'Optional supporting copy under the heading. Use a blank line between paragraphs. When set, the website uses the split FAQ layout.',
+      type: 'internationalizedArrayText',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+    },
+    {
+      name: 'faqOpenFirst',
+      title: 'Open first question by default',
+      description: 'When on, the first FAQ item starts expanded (reference category behaviour).',
+      type: 'boolean',
+      group: 'sharedSections',
+      fieldset: 'ssFaq',
+      initialValue: false,
+    },
+    {
       name: 'faqCollection',
       title: 'Category FAQ',
       type: 'reference',
       to: [{ type: 'faqCollection' }],
-      description: 'FAQ pack from the Content Library.',
+      description:
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       group: 'sharedSections',
       fieldset: 'ssFaq',
       options: {
@@ -307,12 +327,9 @@ export default {
       title: 'Previous FAQ list',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      description:
-        'Backup list when no FAQ Collection is selected. Keep existing items.',
       group: 'sharedSections',
       fieldset: 'faqAdvanced',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
     },
     {
       ...pageSectionsField,
@@ -362,7 +379,7 @@ export default {
       const idPart = numericId != null ? `#${numericId}` : ''
       const keyPart = subtitle ? `${subtitle}` : ''
       const previewSubtitle = [idPart, keyPart].filter(Boolean).join(' • ')
-      return { title: resolveLocalizedString(title) || 'Category', subtitle: previewSubtitle, media }
+      return { title: pickStudioEn(title) || 'Category', subtitle: previewSubtitle, media }
     },
   },
 }

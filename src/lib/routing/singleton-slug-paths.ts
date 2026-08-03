@@ -92,13 +92,17 @@ function treatmentSlugMatches(
 function treatmentMatchesCategory(
   row: {
     categoryId?: string;
+    categoryIds?: string[];
     categorySlugNb?: string;
     categorySlugEn?: string;
   },
   categorySlug: string,
   category?: { categoryId?: string },
 ): boolean {
-  if (category?.categoryId && row.categoryId === category.categoryId) return true;
+  if (category?.categoryId) {
+    if (row.categoryId === category.categoryId) return true;
+    if (row.categoryIds?.includes(category.categoryId)) return true;
+  }
   return (
     categoryRouteSegmentMatches(categorySlug, {
       categoryId: row.categoryId,

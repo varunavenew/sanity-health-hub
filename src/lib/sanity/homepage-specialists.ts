@@ -10,6 +10,7 @@ export type HomepageSpecialistsCategoryRef = {
 };
 
 export type HomepageSpecialistsSectionConfig = {
+  eyebrow?: string;
   heading?: string;
   intro?: string;
   displayMode?: HomepageSpecialistsDisplayMode;

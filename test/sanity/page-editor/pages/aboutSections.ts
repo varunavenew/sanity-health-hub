@@ -2,7 +2,7 @@
  * About Us — page editor config (Homepage framework).
  * Maps About fields onto section cards; does not change GROQ or frontend.
  */
-import {DocumentTextIcon, PinIcon, CogIcon} from '@sanity/icons'
+import {DocumentTextIcon, PinIcon} from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip} from '../documentMeta'
@@ -60,25 +60,8 @@ export const aboutPageEditorConfig: PageEditorConfig = definePageEditorConfig({
         }),
     },
     specialistsBandSection(),
-    articlesBandSection({
-      pageOwnedNotice:
-        'Optional shared Articles band. Empty means unused — this page has no page-owned articles UI.',
-    }),
+    articlesBandSection(),
     bookingCtaBandSection(),
     seoSection(),
-    {
-      id: 'legacy',
-      title: 'Legacy',
-      description: 'Rollback-only fields. Prefer modern sections above.',
-      icon: CogIcon,
-      fields: ['values'],
-      notice: 'Developer / rollback only. Not rendered on the website today.',
-      getChips: (doc) =>
-        chipsFromDocument(doc, Boolean(doc), (document) => {
-          const count = countArray(document.values)
-          if (!count) return ['Empty']
-          return [countChip(count, 'Value', 'Values'), 'Legacy']
-        }),
-    },
   ],
 })

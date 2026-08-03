@@ -151,7 +151,7 @@ export const SpecialistsScroller = ({
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex w-full max-w-full min-w-0 gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+            className="flex w-full max-w-full min-w-0 gap-4 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",

@@ -33,7 +33,7 @@ export default {
           { title: 'General', value: 'generelt' },
           { title: 'Pricing', value: 'pricing' },
           { title: 'Urology', value: 'urologi' },
-          { title: 'Finansiering', value: 'finansiering' },
+          { title: 'Financing', value: 'finansiering' },
           { title: 'Practical', value: 'praktisk' },
         ],
       },
@@ -65,9 +65,17 @@ export default {
       subtitle: 'category',
     },
     prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
+      const categoryLabels: Record<string, string> = {
+        tjenester: 'Services',
+        generelt: 'General',
+        pricing: 'Pricing',
+        urologi: 'Urology',
+        finansiering: 'Financing',
+        praktisk: 'Practical',
+      }
       return {
         title: pickStudioLabel({ title, fallback: 'FAQ' }),
-        subtitle,
+        subtitle: subtitle ? categoryLabels[subtitle] || subtitle : undefined,
       }
     },
   },

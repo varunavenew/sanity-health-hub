@@ -196,7 +196,12 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       title: 'Frequently Asked Questions',
       description: 'FAQ heading, description, and FAQ Collection from Content Library.',
       icon: HelpCircleIcon,
-      fields: ['faqSectionTitle', 'faqCollection'],
+      fields: [
+        'faqSectionTitle',
+        'faqSectionDescription',
+        'faqOpenFirst',
+        'faqCollection',
+      ],
       collectionRefField: 'faqCollection',
       collectionType: 'faqCollection',
       getChips: (doc) =>

@@ -172,6 +172,8 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     description: string;
+    /** Section surface — matches SymptomServiceSection backgrounds. */
+    background: "background" | "brand-light" | "secondary";
     items: CategoryLandingSymptom[];
   };
   servicesSection: {
@@ -229,7 +231,7 @@ export type TreatmentCategoryData = {
   stats: CategoryStat[];
   /** Dual-read: FAQ Collection preferred, else legacy faqs[]. */
   faqSectionTitle?: string;
-  /** Optional FAQ intro copy (shown when provided). */
+  /** Optional FAQ intro copy — enables split FAQ layout when set. */
   faqSectionDescription?: string;
   /** When true, open the first FAQ item by default (opt-in per category). */
   faqOpenFirst?: boolean;
@@ -450,6 +452,11 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(symptomsSection.eyebrow),
       title: asPlainString(symptomsSection.title),
       description: asPlainString(symptomsSection.description),
+      background: (() => {
+        const rawBg = asPlainString(symptomsSection.background);
+        if (rawBg === "brand-light" || rawBg === "secondary") return rawBg;
+        return "background";
+      })(),
       items: symptoms,
     },
     servicesSection: {

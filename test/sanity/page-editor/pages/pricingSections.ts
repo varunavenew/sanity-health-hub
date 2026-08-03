@@ -1,17 +1,16 @@
 /**
  * Pricing — page editor config (Homepage framework).
  */
-import {BoltIcon, CogIcon, StarIcon} from '@sanity/icons'
+import {BoltIcon, StarIcon, UsersIcon} from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
-import {chipsFromDocument, countArray, countChip, countReferenceArray} from '../documentMeta'
+import {chipsFromDocument, countChip, countReferenceArray} from '../documentMeta'
 import {
   articlesBandSection,
   bookingCtaBandSection,
   faqCollectionSection,
   heroSection,
   seoSection,
-  specialistsBandSection,
 } from '../sharedSectionBuilders'
 
 export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig({
@@ -41,38 +40,34 @@ export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig(
       description: 'Live prices come from the booking API.',
       icon: BoltIcon,
       fields: [],
-      notice:
-        'Prices on the website are loaded from the booking API. Legacy price lists are rollback-only under Legacy.',
+      notice: 'Prices on the website are loaded from the booking API.',
       getChips: () => ['API driven', 'Configured'],
     },
     faqCollectionSection({titleField: 'faqTitle', collectionField: 'faqCollection'}),
-    specialistsBandSection({
-      getPageOwnedChips: () => ['Page-owned'],
-      pageOwnedNotice:
-        'This page already renders specialists via its own Pricing UI (not a shared Specialists band). Adding a shared band would duplicate the frontend until Phase 3 cleanup.',
-    }),
-    articlesBandSection({
-      pageOwnedNotice:
-        'Optional shared Articles band. Empty means unused — Pricing has no page-owned articles UI.',
-    }),
-    bookingCtaBandSection(),
-    seoSection(),
     {
-      id: 'legacy',
-      title: 'Legacy',
-      description: 'Rollback-only price lists, insurance note, and FAQ list.',
-      icon: CogIcon,
-      fields: ['faqs', 'priceCategories', 'insuranceNote'],
-      notice: 'Not used on the live Pricing page. Prefer modern sections above.',
+      id: 'specialists',
+      title: 'Specialists',
+      description: 'Pricing specialists grid — heading, intro, selection, and layout.',
+      icon: UsersIcon,
+      fields: ['specialistsSection'],
+      notice:
+        'This section is page-owned. It is not controlled by Shared Sections / Website bands.',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
-          const cats = countArray(document.priceCategories) || 0
-          const faqs = countArray(document.faqs) || 0
-          if (!cats && !faqs && !document.insuranceNote) return ['Empty']
-          const chips: string[] = ['Legacy']
-          if (cats) chips.unshift(countChip(cats, 'Category', 'Categories'))
-          return chips
+          const section = document.specialistsSection as
+            | {heading?: unknown; displayMode?: string; layout?: string}
+            | undefined
+          if (!section) return ['Empty']
+          const mode = section.displayMode || 'all'
+          const layout = section.layout || 'grid'
+          return [
+            mode === 'manual' ? 'Manual' : mode === 'category' ? 'Filtered' : 'All Specialists',
+            layout === 'carousel' ? 'Carousel' : 'Grid',
+          ]
         }),
     },
+    articlesBandSection(),
+    bookingCtaBandSection(),
+    seoSection(),
   ],
 })

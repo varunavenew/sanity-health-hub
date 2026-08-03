@@ -11,8 +11,8 @@ import {
   pickNo,
   requiredNoEnI18n,
   requiredNoEnSeo,
-  resolveLocalizedString,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
@@ -107,15 +107,13 @@ export default {
       name: 'ssFaq',
       title: 'FAQ',
       description:
-        'Same workflow as Homepage and Treatment Category. Prefer a FAQ Collection from the Content Library. Legacy list is backup only.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'faqAdvanced',
-      title: 'Legacy FAQ (Advanced)',
-      description:
-        'Backup list. Used only when no Treatment FAQ Collection with valid questions is selected. Keep existing items — do not delete them.',
+      title: 'Previous FAQ list',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -123,15 +121,13 @@ export default {
       name: 'ssAssemblers',
       title: 'Specialists · Insurance · Articles · Booking CTA',
       description:
-        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library — same workflow as Treatment Category.',
+        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
     {
       name: 'pcInsuranceLegacy',
-      title: 'Legacy Insurance (Page Content)',
-      description:
-        'Final fallback only. Prefer Shared Sections → Insurance → Insurance Collection. Kept until production verification — do not delete.',
+      title: 'Previous insurance fields',
       options: sectionCollapsed,
       group: 'advanced',
     },
@@ -198,17 +194,33 @@ export default {
       group: 'general',
     },
     {
-      name: 'category',
-      title: 'Category',
-      type: 'reference',
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
       group: 'general',
-      to: [{ type: 'treatmentCategory' }],
+      of: [{type: 'reference', to: [{type: 'treatmentCategory'}]}],
+      options: {sortable: true},
       description:
-        'Required. Which Treatment Category this belongs to. Used for breadcrumbs, menu placement, and booking category.',
+        'Required. Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). Drag to reorder.',
       validation: (Rule: any) =>
-        Rule.required().error(
-          'Category is required. Choose a Treatment Category before publishing — breadcrumbs, menus, and booking depend on it.',
-        ),
+        Rule.required()
+          .min(1)
+          .error(
+            'Select at least one Treatment Category before publishing — breadcrumbs, menus, and booking depend on it.',
+          )
+          .unique()
+          .error('Each category can only be selected once'),
+    },
+    {
+      name: 'category',
+      title: 'Category (legacy)',
+      type: 'reference',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      to: [{type: 'treatmentCategory'}],
+      description:
+        'Legacy single category. Kept for dual-read until all documents use Categories. Prefer Categories above.',
+      hidden: () => true,
     },
 
     // ── Page Content ──────────────────────────────────────────────────────────
@@ -342,8 +354,8 @@ export default {
             select: { title: 'title', subtitle: 'desc' },
             prepare({ title, subtitle }: any) {
               return {
-                title: resolveLocalizedString(title) || 'Untitled',
-                subtitle: resolveLocalizedString(subtitle),
+                title: pickStudioEn(title) || 'Untitled',
+                subtitle: pickStudioEn(subtitle),
               }
             },
           },
@@ -438,10 +450,10 @@ export default {
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
             prepare({ title, n, subtitle }: any) {
-              const prefix = resolveLocalizedString(n) ? `${resolveLocalizedString(n)}: ` : ''
+              const prefix = pickStudioEn(n) ? `${pickStudioEn(n)}: ` : ''
               return {
-                title: `${prefix}${resolveLocalizedString(title) || 'Untitled'}`,
-                subtitle: resolveLocalizedString(subtitle),
+                title: `${prefix}${pickStudioEn(title) || 'Untitled'}`,
+                subtitle: pickStudioEn(subtitle),
               }
             },
           },
@@ -504,10 +516,10 @@ export default {
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
             prepare({ title, n, subtitle }: any) {
-              const prefix = resolveLocalizedString(n) ? `${resolveLocalizedString(n)}: ` : ''
+              const prefix = pickStudioEn(n) ? `${pickStudioEn(n)}: ` : ''
               return {
-                title: `${prefix}${resolveLocalizedString(title) || 'Untitled'}`,
-                subtitle: resolveLocalizedString(subtitle),
+                title: `${prefix}${pickStudioEn(title) || 'Untitled'}`,
+                subtitle: pickStudioEn(subtitle),
               }
             },
           },
@@ -539,8 +551,8 @@ export default {
             select: { title: 'title', subtitle: 'desc', media: 'image' },
             prepare({ title, subtitle, media }: any) {
               return {
-                title: resolveLocalizedString(title) || 'Untitled',
-                subtitle: resolveLocalizedString(subtitle),
+                title: pickStudioEn(title) || 'Untitled',
+                subtitle: pickStudioEn(subtitle),
                 media,
               }
             },
@@ -577,8 +589,8 @@ export default {
                 select: { title: 'title', subtitle: 'desc', media: 'image' },
                 prepare({ title, subtitle, media }: any) {
                   return {
-                    title: resolveLocalizedString(title) || 'Untitled',
-                    subtitle: resolveLocalizedString(subtitle),
+                    title: pickStudioEn(title) || 'Untitled',
+                    subtitle: pickStudioEn(subtitle),
                     media,
                   }
                 },
@@ -614,10 +626,10 @@ export default {
               preview: {
                 select: { title: 'title', n: 'n', subtitle: 'desc' },
                 prepare({ title, n, subtitle }: any) {
-                  const prefix = resolveLocalizedString(n) ? `${resolveLocalizedString(n)}: ` : ''
+                  const prefix = pickStudioEn(n) ? `${pickStudioEn(n)}: ` : ''
                   return {
-                    title: `${prefix}${resolveLocalizedString(title) || 'Untitled'}`,
-                    subtitle: resolveLocalizedString(subtitle),
+                    title: `${prefix}${pickStudioEn(title) || 'Untitled'}`,
+                    subtitle: pickStudioEn(subtitle),
                   }
                 },
               },
@@ -636,7 +648,7 @@ export default {
       type: 'internationalizedArrayString',
       group: 'advanced',
       fieldset: 'pcInsuranceLegacy',
-      description: 'Legacy fallback. Prefer Shared Sections → Insurance band.',
+      hidden: () => true,
     },
     {
       name: 'insuranceTitle',
@@ -644,7 +656,7 @@ export default {
       type: 'internationalizedArrayString',
       group: 'advanced',
       fieldset: 'pcInsuranceLegacy',
-      description: 'Legacy fallback. Prefer Shared Sections → Insurance band.',
+      hidden: () => true,
     },
     {
       name: 'insurancePartners',
@@ -652,8 +664,7 @@ export default {
       type: 'array',
       group: 'advanced',
       fieldset: 'pcInsuranceLegacy',
-      description:
-        'Legacy fallback partner list. Prefer Shared Sections → Insurance Collection. Kept for dual-read until production verification.',
+      hidden: () => true,
       of: [
         {
           type: 'object',
@@ -665,7 +676,7 @@ export default {
             select: { title: 'label', subtitle: 'key' },
             prepare({ title, subtitle }: any) {
               return {
-                title: resolveLocalizedString(title) || 'Unnamed',
+                title: pickStudioEn(title) || 'Unnamed',
                 subtitle,
               }
             },
@@ -737,7 +748,7 @@ export default {
       type: 'reference',
       to: [{ type: 'faqCollection' }],
       description:
-        'FAQ pack from the Content Library. Same pattern as Homepage and Treatment Category.',
+        'Select, replace, clear, or create an FAQ Collection from the Content Library.',
       group: 'sharedSections',
       fieldset: 'ssFaq',
       options: {
@@ -750,10 +761,7 @@ export default {
       type: 'array',
       group: 'sharedSections',
       fieldset: 'faqAdvanced',
-      description:
-        'Backup list used when no Treatment FAQ Collection with valid questions is selected. Existing items are kept — do not delete them.',
-      hidden: ({ document }: { document?: { faqCollection?: unknown } }) =>
-        Boolean(document?.faqCollection),
+      hidden: () => true,
       of: [
         {
           type: 'reference',
@@ -878,7 +886,7 @@ export default {
           preview: {
             select: { title: 'label' },
             prepare({ title }: any) {
-              return { title: resolveLocalizedString(title) || 'Menu item' }
+              return { title: pickStudioEn(title) }
             },
           },
         },
@@ -1159,13 +1167,18 @@ export default {
     select: {
       title: 'title',
       subtitle: 'parentCategoryLabel',
-      categoryTitle: 'category.title',
+      categoryTitle: 'categories.0.title',
+      legacyCategoryTitle: 'category.title',
       media: 'heroImage',
     },
-    prepare({ title, subtitle, categoryTitle, media }: any) {
+    prepare({ title, subtitle, categoryTitle, legacyCategoryTitle, media }: any) {
       return {
-        title: resolveLocalizedString(title) || 'Treatment',
-        subtitle: resolveLocalizedString(subtitle) || resolveLocalizedString(categoryTitle) || 'No category',
+        title: pickStudioEn(title) || 'Treatment',
+        subtitle:
+          pickStudioEn(subtitle) ||
+          pickStudioEn(categoryTitle) ||
+          pickStudioEn(legacyCategoryTitle) ||
+          'No category',
         media,
       }
     },
@@ -1191,9 +1204,15 @@ export default {
         issues.push('Intro text (English) is missing')
       }
 
-      if (!(document.category as {_ref?: string} | undefined)?._ref) {
+      const categories = document.categories as {_ref?: string}[] | undefined
+      const hasCategories =
+        Array.isArray(categories) && categories.some((c) => Boolean(c?._ref))
+      const hasLegacyCategory = Boolean(
+        (document.category as {_ref?: string} | undefined)?._ref,
+      )
+      if (!hasCategories && !hasLegacyCategory) {
         issues.push(
-          'Category is missing — choose a Treatment Category before publishing',
+          'Category is missing — choose at least one Treatment Category before publishing',
         )
       }
 

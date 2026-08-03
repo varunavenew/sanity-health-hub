@@ -5,8 +5,8 @@ import {
   requiredNoEnBlockContent,
   requiredNoEnI18n,
   requiredNoEnSeo,
-  resolveLocalizedString,
 } from './i18n'
+import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
@@ -140,7 +140,7 @@ export default {
             },
             prepare({title, media}: {title?: unknown; media?: unknown}) {
               return {
-                title: resolveLocalizedString(title) || 'Guide section',
+                title: pickStudioEn(title) || 'Guide section',
                 media,
               }
             },
@@ -164,7 +164,7 @@ export default {
   preview: {
     select: {title: 'heroTitle'},
     prepare({title}: {title?: unknown}) {
-      return {title: resolveLocalizedString(title) || 'Guide'}
+      return {title: pickStudioEn(title) || 'Guide'}
     },
   },
 }

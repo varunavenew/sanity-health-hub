@@ -1,7 +1,7 @@
 /**
  * Insurance — page editor config (Homepage framework).
  */
-import {CheckmarkCircleIcon, CogIcon, HeartIcon, UsersIcon} from '@sanity/icons'
+import {CheckmarkCircleIcon, HeartIcon, UsersIcon} from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip} from '../documentMeta'
@@ -57,30 +57,11 @@ export const insurancePageEditorConfig: PageEditorConfig = definePageEditorConfi
           return [countChip(count, 'Step', 'Steps')]
         }),
     },
-    articlesBandSection({
-      pageOwnedNotice:
-        'Optional shared Articles band. Empty means unused. Partners / Benefits / Steps are page-owned sections above.',
-    }),
+    articlesBandSection(),
     bookingCtaBandSection({
       pageOwnedNotice:
-        'Optional shared Booking CTA. Insurance uses page-owned contact CTAs (not a Booking CTA band). Empty means unused, not missing partners content.',
+        'Optional shared Booking CTA. Insurance uses page-owned contact CTAs when this band is empty.',
     }),
     seoSection(),
-    {
-      id: 'legacy',
-      title: 'Legacy',
-      description: 'Plain-text partners fallback. Prefer Partners above.',
-      icon: CogIcon,
-      fields: ['partners'],
-      notice: 'Hidden automatically when localized partners exist.',
-      getChips: (doc) =>
-        chipsFromDocument(doc, Boolean(doc), (document) => {
-          const localized = countArray(document.partnersLocalized)
-          if (localized) return ['Hidden', 'Modern partners']
-          const count = countArray(document.partners)
-          if (!count) return ['Empty']
-          return [countChip(count, 'Partner', 'Partners'), 'Legacy']
-        }),
-    },
   ],
 })
