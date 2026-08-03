@@ -1,6 +1,9 @@
 /**
- * Sanity Studio navbar badge showing which dataset is active.
- * Shown only for developer / unexpected datasets — production stays clean (CMedical).
+ * Sanity Studio navbar badge — local developer safety only.
+ *
+ * Hosted / production Studio must never show "Developer Dataset" or
+ * "Production Dataset" labels. Badge appears only on localhost when the
+ * active dataset is `developer`.
  */
 import type {CSSProperties} from 'react'
 import {useWorkspace, type NavbarProps} from 'sanity'
@@ -22,11 +25,17 @@ const badgeStyleFor = (dataset: SanityDatasetName): CSSProperties => ({
   whiteSpace: 'nowrap',
 })
 
+function isLocalStudioHost(): boolean {
+  if (typeof window === 'undefined') return false
+  const host = window.location.hostname
+  return host === 'localhost' || host === '127.0.0.1'
+}
+
 export function DatasetBadgeNavbar(props: NavbarProps) {
   const {dataset, projectId} = useWorkspace()
 
-  // Production Studio should match the clean CMedical chrome — no dataset pill.
-  if (dataset === 'production') {
+  // Hosted Studio (sanity.studio / sanity.io) and production dataset: clean chrome.
+  if (!isLocalStudioHost() || dataset === 'production') {
     return props.renderDefault(props)
   }
 
@@ -44,20 +53,6 @@ export function DatasetBadgeNavbar(props: NavbarProps) {
     )
   }
 
-  return (
-    <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
-      <div style={{flex: 1, minWidth: 0}}>{props.renderDefault(props)}</div>
-      <div
-        style={{
-          ...badgeStyleFor('production'),
-          background: '#fff7ed',
-          color: '#9a3412',
-          border: '1px solid #fed7aa',
-        }}
-        title={`Unexpected dataset: ${dataset}`}
-      >
-        ⚠ Dataset: {dataset}
-      </div>
-    </div>
-  )
+  // Unexpected local dataset — still no "Production Dataset" wording.
+  return props.renderDefault(props)
 }

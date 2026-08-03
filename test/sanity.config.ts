@@ -36,7 +36,6 @@ import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 import {deskStructure} from './sanity/deskStructure'
 import {
-  datasetBadgeLabel,
   requireSanityDataset,
   requireSanityProjectId,
 } from './sanity/dataset-env'
@@ -90,9 +89,8 @@ const studioDataset = requireSanityDataset()
 
 export default defineConfig({
   name: 'default',
-  // Production hosted Studio should read as "CMedical"; developer keeps an explicit dataset title.
-  title:
-    studioDataset === 'production' ? 'CMedical' : datasetBadgeLabel(studioDataset),
+  // Always "CMedical" — never surface Developer/Production dataset names in Studio chrome.
+  title: 'CMedical',
   // `/` for sanity.studio + sanity.io/@…/studio/… links; `/studio` when embedded in Next.js (see next.config.ts env).
   basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
 
@@ -101,7 +99,7 @@ export default defineConfig({
 
   studio: {
     components: {
-      // Developer-only dataset pill; production navbar stays clean (CMedical).
+      // Badge only on localhost + developer dataset — never on hosted/production Studio.
       navbar: DatasetBadgeNavbar,
     },
   },
