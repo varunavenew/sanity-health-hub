@@ -541,9 +541,9 @@ const TreatmentCategoryLanding = ({
     categoryId === "graviditet" || categoryId === "pregnancy";
 
   /**
-   * Lovable Media band uses the ultralyd image ΓÇö not the hero portrait.
+   * Lovable Media band uses the ultralyd image — not the hero portrait.
    * When Pregnancy spotlight was incorrectly pointed at the hero asset,
-   * reuse the CMS ΓÇ£Tidlig ultralydΓÇ¥ expert-area image (same source as Lovable).
+   * reuse the CMS “Tidlig ultralyd” expert-area image (same source as Lovable).
    */
   const pregnancySpotlight: CategoryLandingSpotlight | null = (() => {
     if (!spotlightSection) return null;
@@ -646,12 +646,12 @@ const TreatmentCategoryLanding = ({
     (section) => section._type === "pageSectionSpecialists",
   );
 
-  /* ├óΓÇ¥Γé¼├óΓÇ¥Γé¼ Section registry ├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼
+  /* ├ó”Γé¼├ó”Γé¼ Section registry ├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼
      Each key matches a value in the Sanity `sectionOrder` array.
      Sections whose data is empty return null automatically.
      Optional keys `faq` and `specialists` let CMS place those mid-page
      (used by Pregnancy); other categories omit them and keep legacy placement.
-  ├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼├óΓÇ¥Γé¼ */
+  ├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼├ó”Γé¼ */
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
       segmentsSection.segments.length > 0 ? (
@@ -959,7 +959,7 @@ const TreatmentCategoryLanding = ({
       <JsonLd data={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd} />
       <h1 className="sr-only">{landing.srOnlyTitle}</h1>
 
-      {/* Hero ├óΓé¼ΓÇ¥ always first, not part of sectionOrder */}
+      {/* Hero ├óΓé¼” always first, not part of sectionOrder */}
       {isFullWidthHero ? (
         <header className="relative">
           <div className="relative min-h-[420px] lg:min-h-[520px] flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
@@ -976,7 +976,7 @@ const TreatmentCategoryLanding = ({
             <div className="relative z-10 max-w-4xl w-full">
               <nav aria-label="breadcrumb" className="text-xs font-light text-white/70 flex items-center gap-2 mb-6">
                 <Link to="/" className="hover:text-white transition-colors">{breadcrumbHomeLabel}</Link>
-                <span aria-hidden="true">ΓÇ║</span>
+                <span aria-hidden="true">›</span>
                 <span className="text-white/90">{categoryTitle}</span>
               </nav>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
@@ -1025,7 +1025,7 @@ const TreatmentCategoryLanding = ({
           <div className="lg:hidden px-6 md:px-16 pb-4">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
               <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
-              <span aria-hidden="true">ΓÇ║</span>
+              <span aria-hidden="true">›</span>
               <span className="text-foreground/80">{categoryTitle}</span>
             </nav>
             <h2 className="text-4xl font-light text-foreground leading-[1.05]">
@@ -1038,7 +1038,7 @@ const TreatmentCategoryLanding = ({
               <div className="max-w-xl w-full">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
                   <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
-                  <span aria-hidden="true">ΓÇ║</span>
+                  <span aria-hidden="true">›</span>
                   <span className="text-foreground/80">{categoryTitle}</span>
                 </nav>
                 <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">

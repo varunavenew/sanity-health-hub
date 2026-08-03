@@ -17,8 +17,14 @@ const MISSING_DATASET_ERROR = [
 ].join("\n");
 
 export function requireSanityDataset(): SanityDatasetName {
+  // Explicit deploy/CI override — must win over dotenv-injected .env.local values
+  // (sanity deploy loads .env.local with override:true, which would otherwise force developer).
+  const forced =
+    process.env.SANITY_STUDIO_FORCE_DATASET?.trim() ||
+    process.env.SANITY_DATASET_FORCE?.trim();
   // SANITY_STUDIO_* is required for the Studio browser bundle (Vite only exposes that prefix).
   const dataset =
+    forced ||
     process.env.SANITY_STUDIO_DATASET?.trim() ||
     process.env.SANITY_STUDIO_API_DATASET?.trim() ||
     process.env.SANITY_DATASET?.trim() ||
@@ -35,6 +41,11 @@ export function requireSanityDataset(): SanityDatasetName {
   const onVercelProduction = process.env.VERCEL_ENV === "production";
   const isLocalDev =
     process.env.NODE_ENV !== "production" && !process.env.VERCEL;
+
+  // Force override is intentional production deploy from a developer workstation.
+  if (forced === "production") {
+    return dataset;
+  }
 
   if (
     isLocalDev &&

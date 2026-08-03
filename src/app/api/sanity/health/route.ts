@@ -2,26 +2,36 @@ import { NextResponse } from "next/server";
 import { sanityClient, SANITY_DATASET, SANITY_PROJECT_ID } from "@/lib/sanityClient";
 
 /**
- * Development helper: confirms which Sanity project/dataset the Next server uses
- * and how many `googleReview` / `homepage` documents exist (public read).
- * GET /api/sanity/health — disabled in production.
+ * Confirms which Sanity project/dataset this Next deployment reads.
+ *
+ * Production: returns only projectId + dataset (no document counts).
+ * Development: also returns sample document counts for local debugging.
+ *
+ * GET /api/sanity/health
  */
 export async function GET() {
+  const base = {
+    ok: true as const,
+    projectId: SANITY_PROJECT_ID,
+    dataset: SANITY_DATASET,
+    useCdn: false,
+    apiVersion: "2024-01-01",
+  };
+
   if (process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(base);
   }
 
   try {
-    const [googleReviewCount, googleReviewSettingsCount, homepageCount] = await Promise.all([
-      sanityClient.fetch<number>(`count(*[_type == "googleReview"])`),
-      sanityClient.fetch<number>(`count(*[_type == "googleReviewSettings"])`),
-      sanityClient.fetch<number>(`count(*[_type == "homepage"])`),
-    ]);
+    const [googleReviewCount, googleReviewSettingsCount, homepageCount] =
+      await Promise.all([
+        sanityClient.fetch<number>(`count(*[_type == "googleReview"])`),
+        sanityClient.fetch<number>(`count(*[_type == "googleReviewSettings"])`),
+        sanityClient.fetch<number>(`count(*[_type == "homepage"])`),
+      ]);
 
     return NextResponse.json({
-      ok: true,
-      projectId: SANITY_PROJECT_ID,
-      dataset: SANITY_DATASET,
+      ...base,
       counts: {
         googleReview: googleReviewCount,
         googleReviewSettings: googleReviewSettingsCount,

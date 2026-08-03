@@ -9,6 +9,7 @@
     "start": "npx sanity start",
     "build": "npx sanity build",
     "deploy": "npx sanity deploy",
+    "deploy:production": "node scripts/deploy-studio-production.cjs",
     "deploy-graphql": "sanity graphql deploy",
     "backfill:en": "tsx sanity/backfill-english-i18n.ts",
     "backfill:en:dry": "DRY_RUN=1 tsx sanity/backfill-english-i18n.ts",
