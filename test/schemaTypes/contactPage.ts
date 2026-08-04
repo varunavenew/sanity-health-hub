@@ -10,18 +10,81 @@ import {contactPageEditorConfig} from '../sanity/page-editor/pages/contactSectio
 
 const CONTACT_SHARED_SECTIONS = ['pageSectionBookingCta'] as const
 
-const crI18n = (
-  name: string,
-  title: string,
-  description?: string,
-  type: 'internationalizedArrayString' | 'internationalizedArrayText' = 'internationalizedArrayString',
+/** Primary labels for the Contact Request modal (opened from CTA cards). */
+const MODAL_PRIMARY_FIELDS: Array<{
+  name: string
+  title: string
+  description?: string
+  type?: 'internationalizedArrayString' | 'internationalizedArrayText'
+}> = [
+  {name: 'dialogTitle', title: 'Title'},
+  {name: 'dialogDescription', title: 'Intro', type: 'internationalizedArrayText'},
+  {name: 'nameLabel', title: 'Name — label'},
+  {name: 'namePlaceholder', title: 'Name — placeholder'},
+  {name: 'phoneLabel', title: 'Phone — label'},
+  {name: 'phonePlaceholder', title: 'Phone — placeholder'},
+  {name: 'clinicLabel', title: 'Clinic — label'},
+  {name: 'clinicPlaceholder', title: 'Clinic — placeholder'},
+  {name: 'categoryLabel', title: 'Specialty — label'},
+  {name: 'categoryPlaceholder', title: 'Specialty — placeholder'},
+  {name: 'categoryOtherLabel', title: 'Specialty — other / not sure'},
+  {name: 'timingLabel', title: 'When to contact — heading'},
+  {name: 'timingAsapLabel', title: 'Option — as soon as possible'},
+  {name: 'timingSpecificLabel', title: 'Option — select day and time'},
+  {name: 'dayLabel', title: 'Day — label'},
+  {name: 'timeOfDayLabel', title: 'Time slot — label'},
+  {name: 'timeOfDayPlaceholder', title: 'Time slot — placeholder'},
+  {name: 'timeMorningLabel', title: 'Time — morning'},
+  {name: 'timeAfternoonLabel', title: 'Time — afternoon'},
+  {name: 'timeEveningLabel', title: 'Time — evening'},
+  {name: 'detailsLabel', title: 'Details — label'},
+  {
+    name: 'detailsOptionalSuffix',
+    title: 'Details — optional suffix',
+    description: "E.g. '(optional)'",
+  },
+  {name: 'detailsPlaceholder', title: 'Details — placeholder'},
+  {name: 'cancelButton', title: 'Button — cancel'},
+  {name: 'submitButton', title: 'Button — send'},
+  {name: 'submittingButton', title: 'Button — sending'},
+  {name: 'privacyNote', title: 'Privacy footnote', type: 'internationalizedArrayText'},
+]
+
+/** Validation / toast copy for the Contact Request modal — collapsed by default. */
+const MODAL_VALIDATION_FIELDS: Array<{
+  name: string
+  title: string
+  type?: 'internationalizedArrayString' | 'internationalizedArrayText'
+}> = [
+  {name: 'toastValidationTitle', title: 'Validation — toast title'},
+  {name: 'toastValidationDescription', title: 'Validation — toast message'},
+  {name: 'validationNameRequired', title: 'Validation — name required'},
+  {name: 'validationPhoneRequired', title: 'Validation — phone required'},
+  {name: 'validationClinicRequired', title: 'Validation — clinic required'},
+  {name: 'validationCategoryRequired', title: 'Validation — specialty required'},
+  {name: 'toastSuccessTitle', title: 'Success — toast title'},
+  {
+    name: 'toastSuccessDescription',
+    title: 'Success — toast message',
+    type: 'internationalizedArrayText',
+  },
+]
+
+const modalField = (
+  def: {
+    name: string
+    title: string
+    description?: string
+    type?: 'internationalizedArrayString' | 'internationalizedArrayText'
+  },
+  fieldset: 'contactModal' | 'contactModalValidation',
 ) => ({
-  name,
-  title,
-  type,
-  group: 'content',
-  fieldset: 'advanced',
-  description,
+  name: def.name,
+  title: def.title,
+  type: def.type ?? 'internationalizedArrayString',
+  group: 'content' as const,
+  fieldset,
+  description: def.description,
 })
 
 export default {
@@ -33,7 +96,22 @@ export default {
     input: createPageSectionDocumentInput(contactPageEditorConfig),
   },
   groups: [...singletonPageGroups],
-  fieldsets: [...singletonPageFieldsets],
+  fieldsets: [
+    ...singletonPageFieldsets,
+    {
+      name: 'contactModal',
+      title: 'Contact request modal',
+      description:
+        'Labels for the callback modal opened from Contact Cards (not the page form).',
+      options: {collapsible: true, collapsed: false},
+    },
+    {
+      name: 'contactModalValidation',
+      title: 'Modal validation & toasts',
+      description: 'Validation and success messages for the contact request modal.',
+      options: {collapsible: true, collapsed: true},
+    },
+  ],
   fields: [
     {
       name: 'title',
@@ -113,6 +191,107 @@ export default {
       ],
     },
     {
+      name: 'clinicsSection',
+      title: 'Section — clinics',
+      description:
+        'Clinic list on Contact. Empty clinic list = all published clinics (same pattern as About).',
+      type: 'object',
+      group: 'content',
+      fields: [
+        {
+          name: 'showSection',
+          title: 'Show section',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'title',
+          title: 'Heading',
+          type: 'internationalizedArrayString',
+          description: 'For example: "Our clinics" / "Våre klinikker"',
+        },
+        {
+          name: 'clinics',
+          title: 'Clinics',
+          type: 'array',
+          of: [{type: 'reference', to: [{type: 'clinicPage'}]}],
+          description:
+            'Clinics shown on the Contact page, in list order. Populate with every clinic you want listed. An empty list falls back to all published clinics on the website — keep this filled so Studio matches the live page.',
+        },
+      ],
+    },
+    {
+      name: 'contactForm',
+      title: 'Contact form',
+      description:
+        'Page form (“Send us a message”). Leave empty to use default website copy.',
+      type: 'object',
+      group: 'content',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        {name: 'title', title: 'Title', type: 'internationalizedArrayString'},
+        {name: 'subtitle', title: 'Subtitle', type: 'internationalizedArrayText'},
+        {name: 'nameLabel', title: 'Name — label', type: 'internationalizedArrayString'},
+        {
+          name: 'namePlaceholder',
+          title: 'Name — placeholder',
+          type: 'internationalizedArrayString',
+        },
+        {name: 'phoneLabel', title: 'Phone — label', type: 'internationalizedArrayString'},
+        {
+          name: 'phonePlaceholder',
+          title: 'Phone — placeholder',
+          type: 'internationalizedArrayString',
+        },
+        {name: 'emailLabel', title: 'Email — label', type: 'internationalizedArrayString'},
+        {
+          name: 'emailPlaceholder',
+          title: 'Email — placeholder',
+          type: 'internationalizedArrayString',
+        },
+        {name: 'clinicLabel', title: 'Clinic — label', type: 'internationalizedArrayString'},
+        {
+          name: 'clinicPlaceholder',
+          title: 'Clinic — placeholder',
+          type: 'internationalizedArrayString',
+        },
+        {name: 'subjectLabel', title: 'Subject — label', type: 'internationalizedArrayString'},
+        {
+          name: 'subjectPlaceholder',
+          title: 'Subject — placeholder',
+          type: 'internationalizedArrayString',
+        },
+        {name: 'messageLabel', title: 'Message — label', type: 'internationalizedArrayString'},
+        {
+          name: 'messagePlaceholder',
+          title: 'Message — placeholder',
+          type: 'internationalizedArrayText',
+        },
+        {name: 'submitButton', title: 'Submit button', type: 'internationalizedArrayString'},
+        {
+          name: 'successTitle',
+          title: 'Success message — title',
+          type: 'internationalizedArrayString',
+        },
+        {
+          name: 'successDescription',
+          title: 'Success message — body',
+          type: 'internationalizedArrayText',
+        },
+        {
+          name: 'errorTitle',
+          title: 'Error message — title',
+          type: 'internationalizedArrayString',
+        },
+        {
+          name: 'errorDescription',
+          title: 'Error message — body',
+          type: 'internationalizedArrayText',
+        },
+      ],
+    },
+    // Legacy phone/email/address kept hidden for backward compatibility.
+    {
       name: 'phone',
       title: 'Phone',
       type: 'string',
@@ -158,41 +337,9 @@ export default {
         },
       ],
     },
-    crI18n('dialogTitle', 'Contact modal — title'),
-    crI18n('dialogDescription', 'Contact modal — intro', undefined, 'internationalizedArrayText'),
-    crI18n('nameLabel', 'Field — name (label)'),
-    crI18n('namePlaceholder', 'Field — name (placeholder)'),
-    crI18n('phoneLabel', 'Field — phone (label)'),
-    crI18n('phonePlaceholder', 'Field — phone (placeholder)'),
-    crI18n('clinicLabel', 'Field — clinic (label)'),
-    crI18n('clinicPlaceholder', 'Field — clinic (placeholder)'),
-    crI18n('categoryLabel', 'Field — specialty (label)'),
-    crI18n('categoryPlaceholder', 'Field — specialty (placeholder)'),
-    crI18n('categoryOtherLabel', 'Field — other / not sure'),
-    crI18n('timingLabel', 'When to contact — heading'),
-    crI18n('timingAsapLabel', 'Option — as soon as possible'),
-    crI18n('timingSpecificLabel', 'Option — select day and time'),
-    crI18n('dayLabel', 'Field — day'),
-    crI18n('timeOfDayLabel', 'Field — time slot (label)'),
-    crI18n('timeOfDayPlaceholder', 'Field — time slot (placeholder)'),
-    crI18n('timeMorningLabel', 'Time — morning'),
-    crI18n('timeAfternoonLabel', 'Time — afternoon'),
-    crI18n('timeEveningLabel', 'Time — evening'),
-    crI18n('detailsLabel', 'Field — details (label)'),
-    crI18n('detailsOptionalSuffix', 'Field — details (optional suffix)', "E.g. '(optional)'"),
-    crI18n('detailsPlaceholder', 'Field — details (placeholder)'),
-    crI18n('cancelButton', 'Button — cancel'),
-    crI18n('submitButton', 'Button — send'),
-    crI18n('submittingButton', 'Button — sending'),
-    crI18n('privacyNote', 'Privacy footnote', undefined, 'internationalizedArrayText'),
-    crI18n('toastValidationTitle', 'Validation — toast title'),
-    crI18n('toastValidationDescription', 'Validation — toast message (general)'),
-    crI18n('validationNameRequired', 'Validation — name'),
-    crI18n('validationPhoneRequired', 'Validation — phone'),
-    crI18n('validationClinicRequired', 'Validation — clinic'),
-    crI18n('validationCategoryRequired', 'Validation — specialty'),
-    crI18n('toastSuccessTitle', 'Success — toast title'),
-    crI18n('toastSuccessDescription', 'Success — toast message', undefined, 'internationalizedArrayText'),
+    // Contact request modal — flat field names preserved for existing GROQ + data
+    ...MODAL_PRIMARY_FIELDS.map((f) => modalField(f, 'contactModal')),
+    ...MODAL_VALIDATION_FIELDS.map((f) => modalField(f, 'contactModalValidation')),
     pageSectionsFieldForGroup('content', 'sharedSections', CONTACT_SHARED_SECTIONS),
     {
       name: 'seo',

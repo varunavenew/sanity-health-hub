@@ -902,6 +902,34 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage" && ${publishedOnly}]
     ctaLink,
     variant
   },
+  clinicsSection{
+    showSection,
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    "clinics": clinics[]->{
+      ${CLINIC_LIST_ROW_PROJECTION}
+    }
+  },
+  contactForm{
+    ${i18nString("title")},
+    ${i18nText("subtitle")},
+    ${i18nString("nameLabel")},
+    ${i18nString("namePlaceholder")},
+    ${i18nString("phoneLabel")},
+    ${i18nString("phonePlaceholder")},
+    ${i18nString("emailLabel")},
+    ${i18nString("emailPlaceholder")},
+    ${i18nString("clinicLabel")},
+    ${i18nString("clinicPlaceholder")},
+    ${i18nString("subjectLabel")},
+    ${i18nString("subjectPlaceholder")},
+    ${i18nString("messageLabel")},
+    ${i18nText("messagePlaceholder")},
+    ${i18nString("submitButton")},
+    ${i18nString("successTitle")},
+    ${i18nText("successDescription")},
+    ${i18nString("errorTitle")},
+    ${i18nText("errorDescription")}
+  },
   ${CONTACT_REQUEST_DIALOG_I18N_FIELDS.join(",\n  ")},
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},

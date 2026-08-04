@@ -564,6 +564,56 @@ export const usePrivacyPolicyPage = () => {
 };
 
 // ─── Contact Page ────────────────────────────────────────────────────
+export type ContactFormCopy = {
+  title: string;
+  subtitle: string;
+  nameLabel: string;
+  namePlaceholder: string;
+  phoneLabel: string;
+  phonePlaceholder: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  clinicLabel: string;
+  clinicPlaceholder: string;
+  subjectLabel: string;
+  subjectPlaceholder: string;
+  messageLabel: string;
+  messagePlaceholder: string;
+  submitButton: string;
+  successTitle: string;
+  successDescription: string;
+  errorTitle: string;
+  errorDescription: string;
+};
+
+function mapContactForm(raw: Record<string, unknown> | null | undefined): ContactFormCopy | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const str = (value: unknown) => (typeof value === "string" ? value.trim() : "");
+  const mapped: ContactFormCopy = {
+    title: str(raw.title),
+    subtitle: str(raw.subtitle),
+    nameLabel: str(raw.nameLabel),
+    namePlaceholder: str(raw.namePlaceholder),
+    phoneLabel: str(raw.phoneLabel),
+    phonePlaceholder: str(raw.phonePlaceholder),
+    emailLabel: str(raw.emailLabel),
+    emailPlaceholder: str(raw.emailPlaceholder),
+    clinicLabel: str(raw.clinicLabel),
+    clinicPlaceholder: str(raw.clinicPlaceholder),
+    subjectLabel: str(raw.subjectLabel),
+    subjectPlaceholder: str(raw.subjectPlaceholder),
+    messageLabel: str(raw.messageLabel),
+    messagePlaceholder: str(raw.messagePlaceholder),
+    submitButton: str(raw.submitButton),
+    successTitle: str(raw.successTitle),
+    successDescription: str(raw.successDescription),
+    errorTitle: str(raw.errorTitle),
+    errorDescription: str(raw.errorDescription),
+  };
+  const hasAny = Object.values(mapped).some((v) => v.length > 0);
+  return hasAny ? mapped : undefined;
+}
+
 export const useContactPage = () => {
   const lang = useSanityLang();
   return useQuery({
@@ -582,12 +632,32 @@ export const useContactPage = () => {
         ctaAction: str(card.ctaAction) || "navigate",
         variant: str(card.variant) || "solid",
       }));
+      const rawSection = data.clinicsSection as
+        | {
+            showSection?: boolean;
+            title?: string;
+            clinics?: unknown[];
+          }
+        | undefined;
+      const curatedClinics = rawSection?.clinics?.length
+        ? mapClinicListRows(rawSection.clinics, lang, { preserveOrder: true })
+        : undefined;
+      const clinicsSection = rawSection
+        ? {
+            showSection: rawSection.showSection !== false,
+            title:
+              typeof rawSection.title === "string" ? rawSection.title.trim() : "",
+            clinics: curatedClinics,
+          }
+        : undefined;
       return {
         ...data,
         title: str(data.title),
         introText: str(data.introText),
         subtitle: str(data.introText),
         ctaCards,
+        clinicsSection,
+        contactForm: mapContactForm(data.contactForm),
         pageSections: normalizePageSections(data.pageSections),
         contactRequestDialog: resolveContactRequestDialogCopy(
           data as Partial<ContactRequestDialogCopy>,
@@ -815,11 +885,17 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
 export function mapClinicListRows(
   rows: unknown[] | null | undefined,
   lang: "no" | "en",
+  options?: { preserveOrder?: boolean },
 ): SanityClinicListRow[] {
   const published = filterPublishedDocuments(rows || [])
     .map((c) => normalizeClinicRow(c as Record<string, unknown>))
     .filter((c) => c.label && c.address);
-  return sortBySortOrder(dedupeBySlug(published), (c) => c.sortOrder, (c) => c.label, lang);
+  const deduped = dedupeBySlug(published);
+  if (options?.preserveOrder) {
+    // Keep Sanity reference-array order (Contact curated list / drag-and-drop).
+    return deduped;
+  }
+  return sortBySortOrder(deduped, (c) => c.sortOrder, (c) => c.label, lang);
 }
 
 export const useClinics = () => {

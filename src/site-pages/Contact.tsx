@@ -39,6 +39,9 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const heroDescription = contactPage?.introText?.trim() || "";
   const heroImage = contactPage?.heroImage;
   const hasHeroContent = Boolean(heroTitle || heroDescription || heroImage);
+  const formCopy = contactPage?.contactForm;
+  const pick = (cms: string | undefined, fallback: string) =>
+    cms?.trim() ? cms.trim() : fallback;
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -53,8 +56,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: t("contact.toast.title"),
-      description: t("contact.toast.description"),
+      title: pick(formCopy?.successTitle, t("contact.toast.title")),
+      description: pick(formCopy?.successDescription, t("contact.toast.description")),
     });
     setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
   };
@@ -108,7 +111,12 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         />
       </div>
 
-      <ClinicGrid />
+      {contactPage?.clinicsSection?.showSection !== false ? (
+        <ClinicGrid
+          title={contactPage?.clinicsSection?.title}
+          clinics={contactPage?.clinicsSection?.clinics}
+        />
+      ) : null}
 
       {ctaCards.length > 0 && (
         <section className="py-16 md:py-24 bg-brand-dark">
@@ -163,53 +171,61 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-light mb-3 text-brand-dark text-center">
-              {t("contact.sendMessage")}
+              {pick(formCopy?.title, t("contact.sendMessage"))}
             </h2>
             <p className="text-brand-dark/60 text-center font-light mb-10">
-              {t("contact.responseTime")}
+              {pick(formCopy?.subtitle, t("contact.responseTime"))}
             </p>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="contact-name" className="text-sm font-medium mb-2 block text-brand-dark">{t("contact.form.name")}</label>
+                  <label htmlFor="contact-name" className="text-sm font-medium mb-2 block text-brand-dark">
+                    {pick(formCopy?.nameLabel, t("contact.form.name"))}
+                  </label>
                   <Input
                     id="contact-name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder={t("contact.form.namePlaceholder")}
+                    placeholder={pick(formCopy?.namePlaceholder, t("contact.form.namePlaceholder"))}
                     required
                     className="h-12 rounded-sm border-brand-dark/20 bg-white"
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-phone" className="text-sm font-medium mb-2 block text-brand-dark">{t("contact.form.phone")}</label>
+                  <label htmlFor="contact-phone" className="text-sm font-medium mb-2 block text-brand-dark">
+                    {pick(formCopy?.phoneLabel, t("contact.form.phone"))}
+                  </label>
                   <Input
                     id="contact-phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+47 000 00 000"
+                    placeholder={pick(formCopy?.phonePlaceholder, "+47 000 00 000")}
                     className="h-12 rounded-sm border-brand-dark/20 bg-white"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="contact-email" className="text-sm font-medium mb-2 block text-brand-dark">{t("contact.form.email")}</label>
+                <label htmlFor="contact-email" className="text-sm font-medium mb-2 block text-brand-dark">
+                  {pick(formCopy?.emailLabel, t("contact.form.email"))}
+                </label>
                 <Input
                   id="contact-email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder={t("contact.form.emailPlaceholder")}
+                  placeholder={pick(formCopy?.emailPlaceholder, t("contact.form.emailPlaceholder"))}
                   required
                   className="h-12 rounded-sm border-brand-dark/20 bg-white"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-2 block text-brand-dark">{t("contact.form.clinic")}</label>
+                <label className="text-sm font-medium mb-2 block text-brand-dark">
+                  {pick(formCopy?.clinicLabel, t("contact.form.clinic"))}
+                </label>
                 <Select value={formData.clinic} onValueChange={(value) => setFormData({ ...formData, clinic: value })}>
                   <SelectTrigger className="h-12 rounded-sm border-brand-dark/20 bg-white">
-                    <SelectValue placeholder={t("contact.form.clinicPlaceholder")} />
+                    <SelectValue placeholder={pick(formCopy?.clinicPlaceholder, t("contact.form.clinicPlaceholder"))} />
                   </SelectTrigger>
                   <SelectContent>
                     {clinics.map((clinic) => (
@@ -221,23 +237,27 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                 </Select>
               </div>
               <div>
-                <label htmlFor="contact-subject" className="text-sm font-medium mb-2 block text-brand-dark">{t("contact.form.subject")}</label>
+                <label htmlFor="contact-subject" className="text-sm font-medium mb-2 block text-brand-dark">
+                  {pick(formCopy?.subjectLabel, t("contact.form.subject"))}
+                </label>
                 <Input
                   id="contact-subject"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  placeholder={t("contact.form.subjectPlaceholder")}
+                  placeholder={pick(formCopy?.subjectPlaceholder, t("contact.form.subjectPlaceholder"))}
                   required
                   className="h-12 rounded-sm border-brand-dark/20 bg-white"
                 />
               </div>
               <div>
-                <label htmlFor="contact-message" className="text-sm font-medium mb-2 block text-brand-dark">{t("contact.form.message")}</label>
+                <label htmlFor="contact-message" className="text-sm font-medium mb-2 block text-brand-dark">
+                  {pick(formCopy?.messageLabel, t("contact.form.message"))}
+                </label>
                 <Textarea
                   id="contact-message"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder={t("contact.form.messagePlaceholder")}
+                  placeholder={pick(formCopy?.messagePlaceholder, t("contact.form.messagePlaceholder"))}
                   rows={6}
                   required
                   className="rounded-sm border-brand-dark/20 bg-white"
@@ -249,7 +269,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                   size="lg"
                   className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-full px-8 font-light"
                 >
-                  {t("contact.form.submit")}
+                  {pick(formCopy?.submitButton, t("contact.form.submit"))}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>

@@ -17,7 +17,10 @@ export function proxy(request: NextRequest) {
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
     pathname === "/llms.txt" ||
-    /\.(ico|png|jpg|jpeg|gif|webp|svg|txt|xml|woff2?|otf|ttf)$/i.test(pathname)
+    pathname === "/site.webmanifest" ||
+    /\.(ico|png|jpg|jpeg|gif|webp|svg|txt|xml|webmanifest|woff2?|otf|ttf)$/i.test(
+      pathname,
+    )
   ) {
     return NextResponse.next();
   }

@@ -81,7 +81,18 @@ async function run() {
     process.exit(1)
   }
 
-  if (existing.dialogTitle) {
+  const title = existing.dialogTitle
+  const hasValue =
+    Array.isArray(title) &&
+    title.some(
+      (row) =>
+        row &&
+        typeof row === 'object' &&
+        typeof (row as { value?: unknown }).value === 'string' &&
+        String((row as { value?: unknown }).value).trim().length > 0,
+    )
+
+  if (hasValue) {
     console.log('✓ contactPage already has contact dialog copy')
     return
   }
