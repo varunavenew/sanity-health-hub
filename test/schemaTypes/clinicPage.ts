@@ -207,14 +207,7 @@ export default {
         'Legacy hero / primary photo. Prefer Hero Media → Image. Website dual-reads both.',
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
-      validation: (Rule: any) =>
-        Rule.custom((value: unknown, context: { document?: { heroMedia?: { mediaType?: string; image?: unknown } } }) => {
-          const media = context.document?.heroMedia
-          if (media?.mediaType === 'image' && media.image) return true
-          if (media?.mediaType === 'video') return true
-          if (value) return true
-          return 'Main image is required (or set Hero Media)'
-        }),
+      // Optional — existing clinics (e.g. Ski) publish without a hero; do not block Publish.
     },
     {
       name: 'heroMedia',
@@ -406,7 +399,7 @@ export default {
             ],
           },
           initialValue: 'info',
-          validation: reqStr('Method'),
+          // Optional — older clinics may omit booking entirely; Studio must not block Publish.
         },
         {
           name: 'serviceProviderId',
@@ -459,26 +452,18 @@ export default {
       group: 'advanced',
       fieldset: 'advancedTech',
       options: { collapsible: true, collapsed: false },
-      description: 'Latitude / longitude for the embedded map on the clinic page.',
-      validation: (Rule: any) =>
-        Rule.required().custom((value: { lat?: number; lng?: number } | undefined) => {
-          if (value?.lat == null || value?.lng == null) {
-            return 'Latitude and longitude are required'
-          }
-          return true
-        }),
+      description:
+        'Optional latitude / longitude for the embedded map. Website falls back to Address when empty.',
       fields: [
         {
           name: 'lat',
           title: 'Latitude',
           type: 'number',
-          validation: reqStr('Latitude'),
         },
         {
           name: 'lng',
           title: 'Longitude',
           type: 'number',
-          validation: reqStr('Longitude'),
         },
       ],
     },
@@ -504,23 +489,9 @@ export default {
       validation: (Rule: any) => Rule.integer().min(0).error('Must be 0 or higher'),
     },
   ],
-  validation: (Rule: any) =>
-    Rule.custom((document: Record<string, unknown> | undefined) => {
-      if (!document) return true
-      const issues: string[] = []
-      const faqs = document.faqs as unknown[] | undefined
-      const hasFaqs = Array.isArray(faqs) && faqs.length > 0
-      const hasFaqCollection = Boolean(
-        (document.faqCollection as { _ref?: string } | undefined)?._ref,
-      )
-      if ((hasFaqs || hasFaqCollection) && !pickNo(document.faqSectionTitle)?.trim()) {
-        issues.push('FAQ heading (Norwegian) is missing')
-      }
-      if ((hasFaqs || hasFaqCollection) && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
-        issues.push('FAQ heading (English) is missing')
-      }
-      return issues.length ? issues.join('. ') : true
-    }),
+  // Document-level FAQ heading was removed: every clinic has faqCollection from
+  // migration but empty faqSectionTitle; the clinic page hardcodes the FAQ title.
+  // Requiring NO+EN headings blocked Publish on all clinics (e.g. Moss rename).
   orderings: [
     {
       title: 'Manual order',

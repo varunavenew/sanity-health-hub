@@ -33,7 +33,7 @@ console.log("  SANITY_STUDIO_FORCE_DATASET=production");
 console.log("  studioHost=cmedical-v2");
 console.log("");
 
-const result = spawnSync("npx", ["sanity", "deploy"], {
+const result = spawnSync("npx", ["sanity", "deploy", "-y", "--schema-required"], {
   cwd: testDir,
   env,
   stdio: "inherit",
