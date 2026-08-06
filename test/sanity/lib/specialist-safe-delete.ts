@@ -177,15 +177,58 @@ export function validateRemove(
   return null
 }
 
+/** Incoming refs to published id and draft id (same graph on both datasets). */
+export async function fetchIncomingReferenceIds(
+  client: SanityClient,
+  specialistId: string,
+): Promise<string[]> {
+  const baseId = publishedIdOf(specialistId)
+  const draftId = draftIdOf(baseId)
+  const referringIds: string[] = await client.fetch(
+    `*[references($id) || references($draftId)]._id`,
+    {id: baseId, draftId},
+  )
+  return referringIds
+}
+
+/**
+ * Wait until the Content Lake reference index reports no inbound refs.
+ * `visibility: 'sync'` on patches guarantees document reads, but production
+ * delete integrity can still lag the reference index briefly.
+ */
+export async function waitUntilNoIncomingReferences(
+  client: SanityClient,
+  specialistId: string,
+  options?: {timeoutMs?: number; intervalMs?: number},
+): Promise<void> {
+  const timeoutMs = options?.timeoutMs ?? 15000
+  const intervalMs = options?.intervalMs ?? 250
+  const baseId = publishedIdOf(specialistId)
+  const started = Date.now()
+
+  for (;;) {
+    const remaining = await fetchIncomingReferenceIds(client, baseId)
+    const blockers = remaining.filter((id) => publishedIdOf(id) !== baseId)
+    if (blockers.length === 0) return
+    if (Date.now() - started >= timeoutMs) {
+      throw new Error(
+        `References were patched, but the dataset still reports inbound references after ${timeoutMs}ms:\n${blockers
+          .map((id) => `• ${id}`)
+          .join('\n')}\n\nRetry delete in a moment.`,
+      )
+    }
+    await new Promise((r) => setTimeout(r, intervalMs))
+  }
+}
+
 /** Build cleanup plan from the reference graph (published + drafts). */
 export async function planSpecialistCleanup(
   client: SanityClient,
   specialistId: string,
 ): Promise<CleanupPlan> {
   const baseId = publishedIdOf(specialistId)
-  const referringIds: string[] = await client.fetch(`*[references($id)]._id`, {
-    id: baseId,
-  })
+  const draftId = draftIdOf(baseId)
+  const referringIds = await fetchIncomingReferenceIds(client, baseId)
 
   const expanded = new Set<string>()
   for (const id of referringIds) {
@@ -202,10 +245,15 @@ export async function planSpecialistCleanup(
   for (const id of expanded) {
     const doc = (await client.getDocument(id)) as SanityDoc | null
     if (!doc) continue
-    const hits = findSpecialistRefHits(doc, baseId)
+    // Refs normally store the published id; also clear rare draft-id refs.
+    const hits = [
+      ...findSpecialistRefHits(doc, baseId),
+      ...findSpecialistRefHits(doc, draftId),
+    ]
     if (hits.length === 0) continue
 
-    const block = validateRemove(doc, baseId)
+    const block =
+      validateRemove(doc, baseId) || validateRemove(doc, draftId)
     if (block) blocked.push(block)
 
     docs.push({
@@ -247,19 +295,26 @@ export async function cleanupSpecialistReferences(
   let tx = client.transaction()
   let referencesRemoved = 0
 
+  const draftId = draftIdOf(baseId)
+  const targetIds = new Set([baseId, draftId])
+
   for (const entry of plan.docs) {
     const doc = (await client.getDocument(entry.documentId)) as SanityDoc | null
     if (!doc) continue
 
     // Re-validate against latest doc before patching
-    const block = validateRemove(doc, baseId)
+    const block =
+      validateRemove(doc, baseId) || validateRemove(doc, draftId)
     if (block) {
       throw new Error(
         `Cannot delete this specialist — ${block.documentTitle} (${block.documentId}): ${block.reason}`,
       )
     }
 
-    const hits = findSpecialistRefHits(doc, baseId)
+    const hits = [
+      ...findSpecialistRefHits(doc, baseId),
+      ...findSpecialistRefHits(doc, draftId),
+    ]
     if (hits.length === 0) continue
 
     const byArray = new Map<string, SpecialistRefHit[]>()
@@ -281,7 +336,11 @@ export async function cleanupSpecialistReferences(
       const arr = getAtPath(doc, arrayPath)
       if (!Array.isArray(arr)) continue
       const before = arr.length
-      const next = arr.filter((item) => !isReferenceTo(item, baseId))
+      const next = arr.filter((item) => {
+        if (!item || typeof item !== 'object') return true
+        const ref = item as {_type?: string; _ref?: string}
+        return !(ref._type === 'reference' && ref._ref && targetIds.has(ref._ref))
+      })
       referencesRemoved += before - next.length
       sets[arrayPath] = next
     }
@@ -297,6 +356,9 @@ export async function cleanupSpecialistReferences(
   }
 
   await tx.commit({visibility: 'sync'})
+
+  // Same gate native delete uses — do not return until the index is clear.
+  await waitUntilNoIncomingReferences(client, baseId)
 
   return {
     documentsUpdated: plan.docs.length,

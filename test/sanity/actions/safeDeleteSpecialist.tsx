@@ -17,7 +17,10 @@ import {
 } from 'sanity'
 import {TrashIcon} from '@sanity/icons'
 import {useToast} from '@sanity/ui'
-import {cleanupSpecialistReferences} from '../lib/specialist-safe-delete'
+import {
+  cleanupSpecialistReferences,
+  waitUntilNoIncomingReferences,
+} from '../lib/specialist-safe-delete'
 
 function publishedId(id: string): string {
   return id.replace(/^drafts\./, '')
@@ -48,8 +51,30 @@ export function createSpecialistDeleteAction(
     const runCleanupAndDelete = useCallback(async () => {
       setBusy(true)
       try {
+        // 1) Patch drafts + published (single tx, visibility sync + index wait)
         await cleanupSpecialistReferences(client, props.id)
+        // 2) Re-confirm reference index is empty on this dataset before delete
+        //    (production can lag briefly after multi-doc patches)
+        await waitUntilNoIncomingReferences(client, props.id)
+        // 3) Native delete — same DocumentOperation as default Delete
         deleteOp.execute()
+        // 4) Do not toast / dismiss until both draft + published are gone
+        const baseId = publishedId(props.id)
+        const draftId = `drafts.${baseId}`
+        const deadline = Date.now() + 15000
+        for (;;) {
+          const stillThere = await client.fetch(
+            `count(*[_id in [$id, $draftId]])`,
+            {id: baseId, draftId},
+          )
+          if (stillThere === 0) break
+          if (Date.now() >= deadline) {
+            throw new Error(
+              'Reference cleanup finished, but the specialist documents were not deleted in time. Retry delete.',
+            )
+          }
+          await new Promise((r) => setTimeout(r, 250))
+        }
         toast.push({
           status: 'success',
           title: 'Specialist deleted',
@@ -67,7 +92,7 @@ export function createSpecialistDeleteAction(
           description: message,
           duration: 12000,
         })
-        // Abort — do not call deleteOp.execute()
+        // Abort — do not treat as success if cleanup / wait / delete failed
         setConfirmOpen(false)
         props.onComplete()
       } finally {
