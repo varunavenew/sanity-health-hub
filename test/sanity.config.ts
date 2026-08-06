@@ -32,6 +32,7 @@ import {
   NAV_SYNC_PAGE_TYPES,
   PublishWithNavSync,
 } from './sanity/actions/publishWithNavSync'
+import {createSpecialistDeleteAction} from './sanity/actions/safeDeleteSpecialist'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 import {deskStructure} from './sanity/deskStructure'
@@ -216,6 +217,15 @@ export default defineConfig({
       if (NAV_SYNC_PAGE_TYPES.has(context.schemaType)) {
         actions = actions.map((action) =>
           action.action === 'publish' ? PublishWithNavSync : action,
+        )
+      }
+
+      // Specialist Delete: wrap native Delete — cleanup refs, then delete (no wizard).
+      if (context.schemaType === 'specialist') {
+        actions = actions.map((action) =>
+          action.action === 'delete'
+            ? createSpecialistDeleteAction(action)
+            : action,
         )
       }
 
