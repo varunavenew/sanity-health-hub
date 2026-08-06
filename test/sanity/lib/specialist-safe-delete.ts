@@ -178,45 +178,109 @@ export function validateRemove(
 }
 
 /** Incoming refs to published id and draft id (same graph on both datasets). */
+export async function fetchIncomingReferences(
+  client: SanityClient,
+  specialistId: string,
+): Promise<Array<{_id: string; _type: string}>> {
+  const baseId = publishedIdOf(specialistId)
+  const draftId = draftIdOf(baseId)
+  return client.fetch(`*[references($id) || references($draftId)]{_id,_type}`, {
+    id: baseId,
+    draftId,
+  })
+}
+
+/** @deprecated use fetchIncomingReferences */
 export async function fetchIncomingReferenceIds(
   client: SanityClient,
   specialistId: string,
 ): Promise<string[]> {
-  const baseId = publishedIdOf(specialistId)
-  const draftId = draftIdOf(baseId)
-  const referringIds: string[] = await client.fetch(
-    `*[references($id) || references($draftId)]._id`,
-    {id: baseId, draftId},
-  )
-  return referringIds
+  const rows = await fetchIncomingReferences(client, specialistId)
+  return rows.map((r) => r._id)
 }
 
 /**
- * Wait until the Content Lake reference index reports no inbound refs.
- * `visibility: 'sync'` on patches guarantees document reads, but production
- * delete integrity can still lag the reference index briefly.
+ * Load remaining inbound refs and resolve exact field paths for logging/abort.
+ * Skips the specialist document itself (published + draft).
+ */
+export async function inspectIncomingReferences(
+  client: SanityClient,
+  specialistId: string,
+): Promise<{
+  refs: Array<{_id: string; _type: string}>
+  details: SpecialistRefHit[]
+}> {
+  const baseId = publishedIdOf(specialistId)
+  const draftId = draftIdOf(baseId)
+  const refs = (await fetchIncomingReferences(client, baseId)).filter(
+    (r) => publishedIdOf(r._id) !== baseId,
+  )
+  const details: SpecialistRefHit[] = []
+
+  for (const ref of refs) {
+    const doc = (await client.getDocument(ref._id)) as SanityDoc | null
+    if (!doc) {
+      details.push({
+        documentId: ref._id,
+        documentType: ref._type,
+        documentTitle: ref._id,
+        fieldPath: '(document missing / unreadable)',
+        arrayPath: '',
+        arrayIndex: -1,
+        isRequiredRelatedList: false,
+      })
+      continue
+    }
+    details.push(
+      ...findSpecialistRefHits(doc, baseId),
+      ...findSpecialistRefHits(doc, draftId),
+    )
+  }
+
+  return {refs, details}
+}
+
+/**
+ * Poll references() until empty (production reference-index lag).
+ * Max 10 attempts, 500ms between tries — no long arbitrary sleep.
  */
 export async function waitUntilNoIncomingReferences(
   client: SanityClient,
   specialistId: string,
-  options?: {timeoutMs?: number; intervalMs?: number},
 ): Promise<void> {
-  const timeoutMs = options?.timeoutMs ?? 15000
-  const intervalMs = options?.intervalMs ?? 250
   const baseId = publishedIdOf(specialistId)
-  const started = Date.now()
+  const maxAttempts = 10
+  const intervalMs = 500
 
-  for (;;) {
-    const remaining = await fetchIncomingReferenceIds(client, baseId)
-    const blockers = remaining.filter((id) => publishedIdOf(id) !== baseId)
-    if (blockers.length === 0) return
-    if (Date.now() - started >= timeoutMs) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const {refs, details} = await inspectIncomingReferences(client, baseId)
+    console.info('[specialist-delete] post-patch references()', {
+      attempt,
+      maxAttempts,
+      specialistId: baseId,
+      count: refs.length,
+      refs,
+      fieldPaths: details.map((d) => ({
+        documentId: d.documentId,
+        documentType: d.documentType,
+        fieldPath: d.fieldPath,
+      })),
+    })
+
+    if (refs.length === 0) return
+
+    if (attempt === maxAttempts) {
+      const lines = details.map(
+        (d) =>
+          `• ${d.documentTitle} (${d.documentId}) @ ${d.fieldPath}`,
+      )
       throw new Error(
-        `References were patched, but the dataset still reports inbound references after ${timeoutMs}ms:\n${blockers
-          .map((id) => `• ${id}`)
-          .join('\n')}\n\nRetry delete in a moment.`,
+        `Cannot delete — references() still non-empty after ${maxAttempts} checks:\n${
+          lines.length > 0 ? lines.join('\n') : refs.map((r) => `• ${r._id}`).join('\n')
+        }`,
       )
     }
+
     await new Promise((r) => setTimeout(r, intervalMs))
   }
 }
@@ -228,7 +292,9 @@ export async function planSpecialistCleanup(
 ): Promise<CleanupPlan> {
   const baseId = publishedIdOf(specialistId)
   const draftId = draftIdOf(baseId)
-  const referringIds = await fetchIncomingReferenceIds(client, baseId)
+  const referringIds = (await fetchIncomingReferences(client, baseId)).map(
+    (r) => r._id,
+  )
 
   const expanded = new Set<string>()
   for (const id of referringIds) {
@@ -355,13 +421,103 @@ export async function cleanupSpecialistReferences(
     })
   }
 
+  // Must await — delete must not start until this resolves.
   await tx.commit({visibility: 'sync'})
-
-  // Same gate native delete uses — do not return until the index is clear.
-  await waitUntilNoIncomingReferences(client, baseId)
+  console.info('[specialist-delete] patch transaction committed', {
+    specialistId: baseId,
+    documentsUpdated: plan.docs.length,
+    referencesRemoved,
+  })
 
   return {
     documentsUpdated: plan.docs.length,
     referencesRemoved,
   }
 }
+
+function isReferenceIntegrityError(err: unknown): boolean {
+  const message = err instanceof Error ? err.message : String(err)
+  const lower = message.toLowerCase()
+  return (
+    lower.includes('refer to it') ||
+    lower.includes('references this document') ||
+    lower.includes('documenthasexistingreferences') ||
+    (lower.includes('cannot delete') && lower.includes('refer')) ||
+    (typeof err === 'object' &&
+      err !== null &&
+      String((err as {message?: string}).message || '')
+        .toLowerCase()
+        .includes('refer'))
+  )
+}
+
+/**
+ * Final delete: only after references() is empty.
+ * Retries delete up to 10 times if mutate integrity still lags GROQ.
+ */
+export async function deleteSpecialistAfterRefsClear(
+  client: SanityClient,
+  specialistId: string,
+): Promise<void> {
+  const baseId = publishedIdOf(specialistId)
+  const draftId = draftIdOf(baseId)
+  const maxAttempts = 10
+  const intervalMs = 500
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const {refs, details} = await inspectIncomingReferences(client, baseId)
+    console.info('[specialist-delete] pre-delete references()', {
+      attempt,
+      maxAttempts,
+      specialistId: baseId,
+      count: refs.length,
+      refs,
+      fieldPaths: details.map((d) => ({
+        documentId: d.documentId,
+        documentType: d.documentType,
+        fieldPath: d.fieldPath,
+      })),
+    })
+
+    if (refs.length > 0) {
+      if (attempt === maxAttempts) {
+        const lines = details.map(
+          (d) =>
+            `• ${d.documentTitle} (${d.documentId}) @ ${d.fieldPath}`,
+        )
+        throw new Error(
+          `Cannot delete — references() still non-empty after ${maxAttempts} checks:\n${
+            lines.length > 0
+              ? lines.join('\n')
+              : refs.map((r) => `• ${r._id} (${r._type})`).join('\n')
+          }`,
+        )
+      }
+      await new Promise((r) => setTimeout(r, intervalMs))
+      continue
+    }
+
+    // references() empty → attempt awaited delete (not fire-and-forget deleteOp)
+    try {
+      console.info('[specialist-delete] executing delete', {
+        attempt,
+        ids: [baseId, draftId],
+      })
+      await client
+        .transaction()
+        .delete(baseId)
+        .delete(draftId)
+        .commit({visibility: 'sync'})
+      console.info('[specialist-delete] delete committed', {specialistId: baseId})
+      return
+    } catch (err) {
+      console.error('[specialist-delete] delete failed', {attempt, err})
+      if (!isReferenceIntegrityError(err) || attempt === maxAttempts) {
+        throw err
+      }
+      // Mutate integrity lag: wait and re-check references() before retrying delete
+      await new Promise((r) => setTimeout(r, intervalMs))
+    }
+  }
+}
+

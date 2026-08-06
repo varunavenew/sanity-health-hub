@@ -3,7 +3,7 @@
  *
  * Before deleting: cleans all incoming strong references via the reference
  * graph (drafts + published). If cleanup would violate validation (e.g.
- * relatedSpecialistsSection.specialists min 1), abort with an error toast
+ * relatedSpecialistsSection.specialists min-1), abort with an error toast
  * and do not delete.
  *
  * UX stays native: same Delete menu item + confirm dialog. No wizard.
@@ -19,7 +19,7 @@ import {TrashIcon} from '@sanity/icons'
 import {useToast} from '@sanity/ui'
 import {
   cleanupSpecialistReferences,
-  waitUntilNoIncomingReferences,
+  deleteSpecialistAfterRefsClear,
 } from '../lib/specialist-safe-delete'
 
 function publishedId(id: string): string {
@@ -28,7 +28,7 @@ function publishedId(id: string): string {
 
 /**
  * Factory: wrap the default Delete action for specialists only.
- * Keeps native confirm dialog; runs cleanup on confirm before delete.execute().
+ * Keeps native confirm dialog; runs cleanup on confirm before delete.
  */
 export function createSpecialistDeleteAction(
   OriginalDelete: DocumentActionComponent,
@@ -38,7 +38,10 @@ export function createSpecialistDeleteAction(
   ) => {
     const original = OriginalDelete(props)
     const {delete: deleteOp} = useDocumentOperation(props.id, props.type)
-    const client = useClient({apiVersion: '2024-01-01'})
+    // Non-CDN client so references() matches mutate integrity as closely as possible
+    const client = useClient({apiVersion: '2024-01-01'}).withConfig({
+      useCdn: false,
+    })
     const toast = useToast()
     const [busy, setBusy] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
@@ -51,30 +54,10 @@ export function createSpecialistDeleteAction(
     const runCleanupAndDelete = useCallback(async () => {
       setBusy(true)
       try {
-        // 1) Patch drafts + published (single tx, visibility sync + index wait)
+        // 1) await patch tx.commit({visibility:'sync'}) — drafts + published
         await cleanupSpecialistReferences(client, props.id)
-        // 2) Re-confirm reference index is empty on this dataset before delete
-        //    (production can lag briefly after multi-doc patches)
-        await waitUntilNoIncomingReferences(client, props.id)
-        // 3) Native delete — same DocumentOperation as default Delete
-        deleteOp.execute()
-        // 4) Do not toast / dismiss until both draft + published are gone
-        const baseId = publishedId(props.id)
-        const draftId = `drafts.${baseId}`
-        const deadline = Date.now() + 15000
-        for (;;) {
-          const stillThere = await client.fetch(
-            `count(*[_id in [$id, $draftId]])`,
-            {id: baseId, draftId},
-          )
-          if (stillThere === 0) break
-          if (Date.now() >= deadline) {
-            throw new Error(
-              'Reference cleanup finished, but the specialist documents were not deleted in time. Retry delete.',
-            )
-          }
-          await new Promise((r) => setTimeout(r, 250))
-        }
+        // 2) poll references() up to 10× (500ms); only then awaited delete
+        await deleteSpecialistAfterRefsClear(client, props.id)
         toast.push({
           status: 'success',
           title: 'Specialist deleted',
@@ -92,13 +75,12 @@ export function createSpecialistDeleteAction(
           description: message,
           duration: 12000,
         })
-        // Abort — do not treat as success if cleanup / wait / delete failed
         setConfirmOpen(false)
         props.onComplete()
       } finally {
         setBusy(false)
       }
-    }, [client, props, deleteOp, toast])
+    }, [client, props, toast])
 
     if (!original) return null
 
