@@ -131,6 +131,8 @@
     "migrate:site-settings-reputation": "tsx sanity/migrate-site-settings-business-reputation.ts",
     "migrate:site-settings-email-defaults:dry": "DRY_RUN=1 tsx sanity/migrate-site-settings-email-defaults.ts",
     "migrate:site-settings-email-defaults": "tsx sanity/migrate-site-settings-email-defaults.ts",
+    "migrate:site-settings-email-defaults:production:dry": "node scripts/migrate-site-settings-email-defaults-production.cjs --dry-run",
+    "migrate:site-settings-email-defaults:production": "node scripts/migrate-site-settings-email-defaults-production.cjs",
     "migrate:cleanup-review-collections:dry": "cross-env DRY_RUN=1 tsx sanity/cleanup-review-collections.ts",
     "migrate:cleanup-review-collections": "tsx sanity/cleanup-review-collections.ts",
     "migrate:homepage-reviews:dry": "DRY_RUN=1 tsx sanity/migrate-homepage-reviews.ts",
