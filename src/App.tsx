@@ -76,6 +76,7 @@ import SpecialistAtelier from "./pages/specialist-design/AtelierVariant";
 import { useUiTranslations } from "./hooks/useUiTranslations";
 import { useServiceImagesSync } from "./hooks/useServiceImages";
 import Rediger from "./pages/Rediger";
+import Lansering from "./pages/Lansering";
 import { EditableProvider } from "./lib/editable/EditableContext";
 import { EditModeBar } from "./components/editable/EditModeBar";
 
@@ -252,6 +253,8 @@ const AppContent = () => {
         <Route path="/spesialist-design/atelier" element={<SpecialistAtelier isChatOpen={false} />} />
         {/* Internal editor */}
         <Route path="/rediger" element={<Rediger />} />
+        <Route path="/lansering" element={<Lansering />} />
+
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
