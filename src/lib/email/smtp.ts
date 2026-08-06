@@ -68,12 +68,45 @@ export type SendContactEmailInput = {
 
 export async function sendContactEmail(input: SendContactEmailInput): Promise<void> {
   const transporter = getMailTransporter();
-  await transporter.sendMail({
+  const mailOptions = {
     from: `"${input.fromName.replace(/"/g, "")}" <${input.fromEmail}>`,
     to: input.to,
     replyTo: input.replyTo,
     subject: input.subject,
     html: input.html,
     text: input.text,
-  });
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    const e = err as Error & {
+      code?: string;
+      responseCode?: number;
+      command?: string;
+      response?: string;
+    };
+    console.error("[contact/smtp] transporter.sendMail failed", {
+      mailOptions: {
+        from: mailOptions.from,
+        to: mailOptions.to,
+        replyTo: mailOptions.replyTo,
+        subject: mailOptions.subject,
+        hasHtml: Boolean(mailOptions.html?.trim()),
+        hasText: Boolean(mailOptions.text?.trim()),
+        htmlLength: mailOptions.html?.length ?? 0,
+        textLength: mailOptions.text?.length ?? 0,
+      },
+      nodemailer: {
+        name: e.name,
+        message: e.message,
+        code: e.code,
+        responseCode: e.responseCode,
+        command: e.command,
+        response: e.response,
+        stack: e.stack,
+      },
+    });
+    throw err;
+  }
 }

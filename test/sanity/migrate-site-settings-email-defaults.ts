@@ -11,11 +11,11 @@
  *   npm run migrate:site-settings-email-defaults:dry
  *   npm run migrate:site-settings-email-defaults
  *
- * Production dataset (explicit — do not use unless requested):
- *   ALLOW_PRODUCTION_MIGRATION=true SANITY_DATASET_FORCE=production \
- *     npm run migrate:site-settings-email-defaults
+ * Production (Windows-safe — prefer this over bash-style env prefixes):
+ *   npm run migrate:site-settings-email-defaults:production:dry
+ *   npm run migrate:site-settings-email-defaults:production
  */
-import {sanityClient, DATASET} from './config'
+import {sanityClient, DATASET, PROJECT_ID} from './config'
 import {singletonDocumentIds} from './lib/patch-singleton'
 
 const DRY_RUN = process.env.DRY_RUN === '1'
@@ -241,51 +241,67 @@ function mergeEmailSettings(existing: EmailSettings | null | undefined): {
   return {merged, filledKeys, skippedKeys, createdObject}
 }
 
+function summarizePayload(emailSettings: EmailSettings) {
+  return {
+    enableContactEmails: emailSettings.enableContactEmails,
+    senderName: emailSettings.senderName,
+    senderEmail: emailSettings.senderEmail,
+    fallbackEmail: emailSettings.fallbackEmail,
+    contactFormSubject: emailSettings.contactFormSubject,
+    clinicSubject: emailSettings.clinicEmailTemplate?.subject,
+    clinicBodyLen: emailSettings.clinicEmailTemplate?.body?.length ?? 0,
+    confirmEnabled: emailSettings.confirmationEmail?.enabled,
+    confirmSubject: emailSettings.confirmationEmail?.subject,
+    confirmBodyLen: emailSettings.confirmationEmail?.body?.length ?? 0,
+  }
+}
+
 async function patchDoc(id: string, emailSettings: EmailSettings) {
+  const payload = summarizePayload(emailSettings)
+  console.log(`  patch payload for ${id}:`, payload)
+
   if (DRY_RUN) {
-    console.log(`[dry-run] would set ${id}.emailSettings =`, {
-      enableContactEmails: emailSettings.enableContactEmails,
-      senderName: emailSettings.senderName,
-      senderEmail: emailSettings.senderEmail,
-      fallbackEmail: emailSettings.fallbackEmail,
-      contactFormSubject: emailSettings.contactFormSubject,
-      clinicSubject: emailSettings.clinicEmailTemplate?.subject,
-      clinicBodyLen: emailSettings.clinicEmailTemplate?.body?.length ?? 0,
-      confirmEnabled: emailSettings.confirmationEmail?.enabled,
-      confirmSubject: emailSettings.confirmationEmail?.subject,
-      confirmBodyLen: emailSettings.confirmationEmail?.body?.length ?? 0,
-    })
+    console.log(`[dry-run] would set ${id}.emailSettings (no commit)`)
     return
   }
 
-  // Ensure the object path exists, then set the full merged object.
-  await sanityClient
+  const result = await sanityClient
     .patch(id)
     .setIfMissing({emailSettings: {}})
     .set({emailSettings})
     .commit({autoGenerateArrayKeys: true})
-  console.log(`✓ patched ${id}`)
-}
 
-async function assertDeveloperOnly() {
-  if (DATASET !== 'developer') {
-    console.error(
-      `Refusing to run: dataset is "${DATASET}". This investigation run is developer-only.`,
-    )
-    process.exit(1)
-  }
+  console.log(`✓ patched ${id} (rev=${result._rev ?? 'n/a'})`)
 }
 
 async function run() {
-  await assertDeveloperOnly()
+  const publishedId = SITE_SETTINGS_ID
+  const draftId = `drafts.${SITE_SETTINGS_ID}`
+  const forceDataset =
+    process.env.SANITY_DATASET_FORCE?.trim() ||
+    process.env.SANITY_STUDIO_FORCE_DATASET?.trim() ||
+    '(none)'
+  const allowProd = process.env.ALLOW_PRODUCTION_MIGRATION === 'true'
 
-  console.log(
-    `Site Settings Email Settings seed — dataset=${DATASET} DRY_RUN=${DRY_RUN ? '1' : '0'}`,
-  )
+  console.log('=== Email Settings migration — runtime target ===')
+  console.log(`  projectId: ${PROJECT_ID}`)
+  console.log(`  dataset (resolved): ${DATASET}`)
+  console.log(`  SANITY_DATASET_FORCE / STUDIO_FORCE: ${forceDataset}`)
+  console.log(`  ALLOW_PRODUCTION_MIGRATION: ${allowProd}`)
+  console.log(`  DRY_RUN: ${DRY_RUN}`)
+  console.log(`  published ID: ${publishedId}`)
+  console.log(`  draft ID: ${draftId}`)
   console.log('SMTP credentials are never written to Sanity.')
 
+  if (DATASET !== 'production' && allowProd) {
+    console.warn(
+      '⚠ ALLOW_PRODUCTION_MIGRATION=true but resolved dataset is NOT production.',
+      'Check SANITY_DATASET_FORCE=production (Windows: use npm run …:production).',
+    )
+  }
+
   const ids = singletonDocumentIds(SITE_SETTINGS_ID)
-  console.log(`Target documents: ${ids.join(', ')}`)
+  console.log(`Target document IDs: ${ids.join(', ')}`)
 
   const docs = await sanityClient.fetch<SiteSettingsDoc[]>(
     `*[_id in $ids]{
@@ -305,6 +321,10 @@ async function run() {
     {ids},
   )
 
+  console.log(
+    `Documents found: ${docs.length} → ${docs.map((d) => d._id).join(', ') || '(none)'}`,
+  )
+
   if (!docs.length) {
     console.error(`✗ Missing ${SITE_SETTINGS_ID} — refusing to recreate the singleton.`)
     process.exit(1)
@@ -312,7 +332,7 @@ async function run() {
 
   for (const expectedId of ids) {
     if (!docs.some((d) => d._id === expectedId)) {
-      console.log(`⚠ ${expectedId} not found (will skip; publish/sync may create it later)`)
+      console.log(`⚠ ${expectedId} not found (will skip; sync may create draft later)`)
     }
   }
 
@@ -327,20 +347,17 @@ async function run() {
     console.log(
       `\n${id}: emailSettings ${beforeNull ? 'MISSING (will create)' : 'present (will merge empty fields only)'}`,
     )
+    if (!beforeNull) {
+      console.log('  before:', summarizePayload(doc.emailSettings ?? {}))
+    }
 
     const {merged, filledKeys, skippedKeys, createdObject} = mergeEmailSettings(
       doc.emailSettings,
     )
 
-    // filledKeys always includes create marker when null — still need real field fills
     const realFills = filledKeys.filter((k) => k !== 'emailSettings (created)')
-    if (realFills.length === 0 && !createdObject) {
+    if (realFills.length === 0) {
       console.log(`✓ ${id} — Email Settings already populated (nothing to seed)`)
-      continue
-    }
-    if (realFills.length === 0 && createdObject) {
-      // Should not happen — defaults always fill when object is null
-      console.log(`✓ ${id} — nothing to seed`)
       continue
     }
 
@@ -362,18 +379,20 @@ async function run() {
   // Sync draft from published when draft is missing (Studio often edits draft).
   const published = await sanityClient.fetch<Record<string, unknown> | null>(
     `*[_id == $id][0]`,
-    {id: SITE_SETTINGS_ID},
+    {id: publishedId},
   )
   const draftExists = await sanityClient.fetch<boolean>(
     `defined(*[_id == $id][0]._id)`,
-    {id: `drafts.${SITE_SETTINGS_ID}`},
+    {id: draftId},
   )
   if (published && !draftExists && !DRY_RUN) {
     await sanityClient.createOrReplace({
       ...published,
-      _id: `drafts.${SITE_SETTINGS_ID}`,
+      _id: draftId,
     })
-    console.log(`✓ synced drafts.${SITE_SETTINGS_ID} from published`)
+    console.log(`✓ synced ${draftId} from published`)
+  } else if (published && !draftExists && DRY_RUN) {
+    console.log(`[dry-run] would sync ${draftId} from published`)
   }
 
   const after = await sanityClient.fetch(
@@ -393,9 +412,14 @@ async function run() {
     {ids},
   )
   console.log('\n=== POST-MIGRATION VERIFICATION ===')
+  console.log(`projectId=${PROJECT_ID} dataset=${DATASET}`)
   console.log(JSON.stringify(after, null, 2))
 
-  // Assert expected values on every doc that exists
+  if (DRY_RUN) {
+    console.log('\n✓ Dry-run complete — no writes. Re-run without DRY_RUN to apply.')
+    return
+  }
+
   const expected = {
     enableContactEmails: true,
     senderName: 'CMedical',
@@ -426,7 +450,7 @@ async function run() {
       ['fallbackEmail', es?.fallbackEmail, expected.fallbackEmail],
       ['clinicEmailTemplate.subject', es?.clinicEmailTemplate?.subject, expected.clinicSubject],
       [
-        'clinicEmailTemplate.body length',
+        'clinicEmailTemplate.body ok',
         (es?.clinicEmailTemplate?.body || '').includes('{{name}}') &&
           (es?.clinicEmailTemplate?.body || '').includes('CMedical Website'),
         true,
@@ -434,7 +458,7 @@ async function run() {
       ['confirmationEmail.enabled', es?.confirmationEmail?.enabled, expected.confirmEnabled],
       ['confirmationEmail.subject', es?.confirmationEmail?.subject, expected.confirmSubject],
       [
-        'confirmationEmail.body length',
+        'confirmationEmail.body ok',
         (es?.confirmationEmail?.body || '').includes('{{name}}') &&
           (es?.confirmationEmail?.body || '').includes('Your enquiry summary'),
         true,
@@ -452,11 +476,13 @@ async function run() {
     console.error('\n✗ Verification failed — see checks above')
     process.exit(1)
   }
-  console.log('\n✓ All Email Settings fields populated as expected on developer dataset')
+  console.log(
+    `\n✓ All Email Settings fields populated as expected on dataset "${DATASET}" (project ${PROJECT_ID})`,
+  )
 }
 
 run().catch((err) => {
   console.error(err)
   process.exit(1)
 })
-
+
