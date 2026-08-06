@@ -13,6 +13,11 @@ import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
 import { pageSectionsFieldForGroup } from './pageSections'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
@@ -161,6 +166,8 @@ export default {
       title: 'Email',
       type: 'string',
       group: 'general',
+      description:
+        'Clinic inbox. Contact page form submissions for this clinic are delivered here.',
       validation: (Rule: any) => Rule.email().error('Must be a valid email address'),
     },
     {
@@ -202,11 +209,14 @@ export default {
       title: 'Main image (legacy)',
       type: 'image',
       group: 'pageContent',
-      options: { hotspot: true },
-      description:
+      options: mediaImageOptions('clinic'),
+      description: mediaDescription(
+        'clinic',
         'Legacy hero / primary photo. Prefer Hero Media → Image. Website dual-reads both.',
+      ),
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
+      validation: softImageRules('clinic'),
       // Optional — existing clinics (e.g. Ski) publish without a hero; do not block Publish.
     },
     {
@@ -214,8 +224,10 @@ export default {
       title: 'Hero Media',
       type: 'media',
       group: 'pageContent',
-      description:
-        'Preferred clinic hero media (Image or Video). Upload Video takes priority over Video URL.',
+      description: mediaDescription(
+        'clinic',
+        'Preferred clinic hero media (Image or Video).',
+      ),
     },
     {
       name: 'description',
@@ -290,7 +302,9 @@ export default {
       of: [
         {
           type: 'image',
-          options: { hotspot: true },
+          options: mediaImageOptions('gallery'),
+          description: mediaDescription('gallery'),
+          validation: softImageRules('gallery'),
           fields: [{ name: 'alt', title: 'Alt text', type: 'string' }],
         },
       ],

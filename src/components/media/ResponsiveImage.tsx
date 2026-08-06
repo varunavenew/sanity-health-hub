@@ -7,19 +7,23 @@ import {
   resolveObjectPosition,
   type MediaFocalPoint,
   type SanityHotspot,
+  type SanityCrop,
 } from "@/lib/media/focal-point";
 import {
   mergeMediaClassName,
   mediaVariantFallbackPosition,
   type MediaVariant,
 } from "@/lib/media/variants";
+import { presetForVariant } from "@/lib/media/delivery";
 import type { CSSProperties } from "react";
 
-export type ResponsiveImageProps = Omit<AssetImgProps, "style"> & {
+export type ResponsiveImageProps = Omit<AssetImgProps, "style" | "preset"> & {
   /** Framing strategy — see `MediaVariant`. Default: hero */
   variant?: MediaVariant;
   /** Sanity hotspot (0–1) or normalized focal point */
   hotspot?: SanityHotspot | MediaFocalPoint | null;
+  /** Sanity crop — applied to CDN URL when present */
+  crop?: SanityCrop | null;
   /** Explicit CSS object-position overrides hotspot */
   objectPosition?: string;
   style?: CSSProperties;
@@ -28,14 +32,17 @@ export type ResponsiveImageProps = Omit<AssetImgProps, "style"> & {
 /**
  * Project-wide responsive image primitive.
  * Applies variant fit rules + Sanity focal point without changing layout boxes.
+ * Delivery (srcset / sizes / auto=format) is handled by AssetImg.
  */
 export function ResponsiveImage({
   variant = "hero",
   hotspot,
+  crop,
   objectPosition,
   className,
   style,
   alt = "",
+  loading,
   ...props
 }: ResponsiveImageProps) {
   const fallback = mediaVariantFallbackPosition(variant);
@@ -48,16 +55,19 @@ export function ResponsiveImage({
     normalizeFocalPoint(hotspot),
     position,
   );
+  const preset = presetForVariant(variant);
 
   return (
     <AssetImg
       {...props}
       alt={alt}
+      preset={preset}
+      crop={crop}
+      loading={loading}
       className={mergeMediaClassName(variant, className)}
       style={{
         ...style,
         objectPosition: position,
-        // CSS variable for variant utilities / background-position consumers
         ["--media-focal" as string]: focal["--media-focal"] ?? position,
       }}
     />

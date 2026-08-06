@@ -12,6 +12,11 @@ import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {guidePageEditorConfig} from '../sanity/page-editor/pages/guideSections'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const GUIDE_SHARED_SECTIONS = ['pageSectionBookingCta'] as const
 
@@ -65,8 +70,10 @@ export default {
       title: 'Hero media',
       type: 'media',
       group: 'hero',
-      description:
-        'Optional hero image or video. Upload Video takes priority over Video URL. Leave empty for title-only hero.',
+      description: mediaDescription(
+        'hero',
+        'Optional hero image or video. Leave empty for title-only hero.',
+      ),
     },
     {
       name: 'primaryCtaLabel',
@@ -130,7 +137,9 @@ export default {
               name: 'image',
               title: 'Image',
               type: 'image',
-              options: {hotspot: true},
+              options: mediaImageOptions('card'),
+              description: mediaDescription('card'),
+              validation: softImageRules('card'),
             },
           ],
           preview: {

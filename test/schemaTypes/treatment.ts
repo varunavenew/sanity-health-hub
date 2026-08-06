@@ -16,6 +16,12 @@ import {pickStudioEn} from './studioPreview'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import {
+  composeImageValidation,
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const reqI18n = requiredNoEnI18n
 
@@ -212,6 +218,22 @@ export default {
           .error('Each category can only be selected once'),
     },
     {
+      name: 'pageRole',
+      title: 'Page role',
+      type: 'string',
+      group: 'general',
+      description:
+        'Treatment/service pages can appear in Related Services. Team pages are routable but are excluded from Related Services on other treatments.',
+      options: {
+        list: [
+          {title: 'Treatment / service', value: 'service'},
+          {title: 'Team page', value: 'team'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'service',
+    },
+    {
       name: 'category',
       title: 'Category (legacy)',
       type: 'reference',
@@ -259,8 +281,10 @@ export default {
       type: 'media',
       group: 'pageContent',
       fieldset: 'pcHero',
-      description:
-        'Preferred hero media (Image or Video). Upload Video takes priority over Video URL.',
+      description: mediaDescription(
+        'hero',
+        'Preferred hero media (Image or Video).',
+      ),
     },
     {
       name: 'heroImage',
@@ -268,12 +292,14 @@ export default {
       type: 'image',
       group: 'pageContent',
       fieldset: 'pcHero',
-      options: { hotspot: true },
-      description:
+      options: mediaImageOptions('hero'),
+      description: mediaDescription(
+        'hero',
         'Legacy. Prefer Hero Media → Image. Required until Hero Media is set; website dual-reads both.',
+      ),
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
-      validation: (Rule: any) =>
+      validation: composeImageValidation('hero', (Rule: any) =>
         Rule.custom((value: unknown, context: { document?: { heroMedia?: { mediaType?: string; image?: unknown } } }) => {
           const media = context.document?.heroMedia
           if (media?.mediaType === 'image' && media.image) return true
@@ -281,6 +307,7 @@ export default {
           if (value) return true
           return 'Hero image is required (or set Hero Media)'
         }),
+      ),
     },
     {
       name: 'heroImageAlt',
@@ -475,7 +502,9 @@ export default {
       type: 'image',
       group: 'pageContent',
       fieldset: 'pcProcess',
-      options: { hotspot: true },
+      options: mediaImageOptions('treatment'),
+      description: mediaDescription('treatment'),
+      validation: softImageRules('treatment'),
     },
     {
       name: 'flowImageAlt',
@@ -544,7 +573,7 @@ export default {
             { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
             { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
             { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
           ],
           preview: {
@@ -582,7 +611,7 @@ export default {
                 { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
                 { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
                 { name: 'path', title: 'Link', type: 'string', validation: validateRelativePath },
-                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+                { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
                 { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
               ],
               preview: {
@@ -636,7 +665,7 @@ export default {
             },
           ],
         },
-        { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+        { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
         { name: 'imageAlt', title: 'Image alt', type: 'internationalizedArrayString' },
       ],
     },
@@ -722,9 +751,18 @@ export default {
         {
           name: 'items',
           title: 'Related treatments',
-          description: 'Manual selection and order for this page’s related band.',
+          description:
+            'Manual selection and order for this page’s related band. Team pages cannot be selected.',
           type: 'array',
-          of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
+          of: [
+            {
+              type: 'reference',
+              to: [{type: 'treatment'}],
+              options: {
+                filter: 'pageRole != "team" || !defined(pageRole)',
+              },
+            },
+          ],
         },
       ],
     },

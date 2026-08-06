@@ -64,7 +64,7 @@ export async function buildHomeMetadata(locale: string): Promise<Metadata> {
   const data = await fetchHomepageDocument(sanityLang);
   const seo = data?.seo;
   const { title, description } = resolveMetaStrings(seo, lang, HOME_DEFAULTS);
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
+  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
 
   return buildPageMetadata({
     locale,
@@ -90,7 +90,7 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -126,7 +126,7 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
       description: PRIVACY_FALLBACK.en.description,
     },
   });
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
+  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
 
   return buildPageMetadata({
     locale,
@@ -152,7 +152,7 @@ export async function buildAboutMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -186,7 +186,7 @@ export async function buildInsuranceMetadata(locale: string): Promise<Metadata> 
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -207,7 +207,7 @@ export async function buildNewsMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -228,7 +228,7 @@ export async function buildSpecialistsAboutMetadata(locale: string): Promise<Met
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -250,7 +250,7 @@ export async function buildServicesMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -280,7 +280,7 @@ export async function buildPricingMetadata(locale: string): Promise<Metadata> {
     title: resolvedTitle,
     description: resolvedDescription,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -320,7 +320,7 @@ export async function buildSpecialistsListingMetadata(
     title,
     description,
     ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -360,7 +360,7 @@ export async function buildClinicsListingMetadata(
     title,
     description,
     ogImage: (() => {
-      const u = data?.heroImage || (seo?.ogImage ? getImageUrl(seo.ogImage) : "");
+      const u = data?.heroImage || (seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "");
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
@@ -414,7 +414,7 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
     paths,
     title: resolvedTitle,
     description: resolvedDescription,
-    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage) : undefined,
+    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined,
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -448,7 +448,7 @@ export async function buildKarriereListingMetadata(
     paths,
     title,
     description,
-    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage) : undefined,
+    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined,
     noIndex: !!seo?.noIndex,
     type: "website",
   });

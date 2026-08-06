@@ -7,6 +7,11 @@ import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {contactPageEditorConfig} from '../sanity/page-editor/pages/contactSections'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const CONTACT_SHARED_SECTIONS = ['pageSectionBookingCta'] as const
 
@@ -126,7 +131,9 @@ export default {
       title: 'Hero image',
       type: 'image',
       group: 'hero',
-      options: {hotspot: true},
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'introText',

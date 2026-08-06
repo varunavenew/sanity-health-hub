@@ -5,6 +5,11 @@ import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 import {pickStudioEn} from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default {
   name: 'themePage',
@@ -23,7 +28,9 @@ export default {
       name: 'heroImage',
       title: 'Hero image',
       type: 'image',
-      options: { hotspot: true },
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'introTexts',

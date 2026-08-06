@@ -8,6 +8,14 @@
  */
 import {HeroIcon} from './icons'
 import {pickStudioEn} from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+  softVideoRules,
+  videoDescription,
+  VIDEO_GUIDELINE,
+} from './mediaGuidelines'
 
 /** Shared button fields (aligned with ctaModule action model). */
 const heroCtaButtonFields = [
@@ -197,17 +205,21 @@ export default {
       title: 'Image',
       type: 'image',
       fieldset: 'media',
-      options: {hotspot: true},
-      description: 'Primary desktop / default hero image.',
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero', 'Primary desktop / default hero image.'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'mobileImage',
       title: 'Mobile image',
       type: 'image',
       fieldset: 'media',
-      options: {hotspot: true},
-      description:
+      options: mediaImageOptions('heroMobile'),
+      description: mediaDescription(
+        'heroMobile',
         'Optional. Used on small screens instead of Image (homepage slide pattern).',
+      ),
+      validation: softImageRules('heroMobile'),
     },
     {
       name: 'imageAlt',
@@ -228,9 +240,11 @@ export default {
       title: 'Video file',
       type: 'file',
       fieldset: 'media',
-      options: {accept: 'video/*'},
-      description:
+      options: {accept: VIDEO_GUIDELINE.accept},
+      description: videoDescription(
         'Optional uploaded background video (homepage slide pattern). Future-ready.',
+      ),
+      validation: softVideoRules(),
     },
 
     // ── Buttons ────────────────────────────────────────────────────────────

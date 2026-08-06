@@ -70,6 +70,7 @@ export function CmsMedia({
         alt={alt}
         variant={variant}
         hotspot={focal}
+        crop={media.crop}
         objectPosition={objectPosition}
         className={className}
         style={style}

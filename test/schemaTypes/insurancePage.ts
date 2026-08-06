@@ -7,6 +7,11 @@ import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {insurancePageEditorConfig} from '../sanity/page-editor/pages/insuranceSections'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const INSURANCE_SHARED_SECTIONS = ['pageSectionArticles', 'pageSectionBookingCta'] as const
 
@@ -44,7 +49,9 @@ export default {
       title: 'Hero image',
       type: 'image',
       group: 'hero',
-      options: {hotspot: true},
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'introText',

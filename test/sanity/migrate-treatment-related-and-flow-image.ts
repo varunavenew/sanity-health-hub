@@ -123,10 +123,11 @@ async function run() {
     console.log(`   Parsed ${entries.length} entries.`);
 
     console.log("\n🏥 Fetching treatment slug → _id …");
-    const treatments: Array<{ _id: string; slug?: string; categorySlug?: string; flowImage?: any; relatedSection?: any }> =
+    const treatments: Array<{ _id: string; slug?: string; categorySlug?: string; pageRole?: string; flowImage?: any; relatedSection?: any }> =
         await sanityClient.fetch(
             `*[_type == "treatment" && !(_id in path("drafts.**"))]{
          _id,
+         pageRole,
          flowImage,
          relatedSection,
          "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
@@ -144,7 +145,9 @@ async function run() {
             flowImageByKey.set(key, t.flowImage);
             relatedSectionByKey.set(key, t.relatedSection);
             if (!siblingsByCategory.has(t.categorySlug)) siblingsByCategory.set(t.categorySlug, []);
-            siblingsByCategory.get(t.categorySlug)!.push({ key, id: t._id });
+            if (t.pageRole !== "team" && t.slug !== "teamet") {
+                siblingsByCategory.get(t.categorySlug)!.push({ key, id: t._id });
+            }
         }
     }
     console.log(`   Loaded ${treatmentIdByKey.size} treatments.`);

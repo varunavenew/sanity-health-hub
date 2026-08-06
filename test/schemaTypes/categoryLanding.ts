@@ -12,6 +12,11 @@ import {
 } from './i18n'
 import {CategoryLandingPageField} from '../sanity/page-editor/components/CategoryLandingPageField'
 import {CategoryLandingPageInput} from '../sanity/page-editor/components/CategoryLandingPageInput'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const i18nStr = { type: 'internationalizedArrayString' as const }
 const i18nTxt = { type: 'internationalizedArrayText' as const }
@@ -141,9 +146,12 @@ const audienceItem = {
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: { hotspot: true },
-      description:
+      options: mediaImageOptions('card'),
+      description: mediaDescription(
+        'card',
         'Optional. When set, shown instead of the icon on the audience card.',
+      ),
+      validation: softImageRules('card'),
     },
   ],
   preview: i18nTitleItemPreview,
@@ -161,7 +169,9 @@ const expertAreaCard = {
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: { hotspot: true },
+      options: mediaImageOptions('card'),
+      description: mediaDescription('card'),
+      validation: softImageRules('card'),
     },
     { name: 'imageAlt', title: 'Image alt text', ...i18nStr },
   ],
@@ -180,7 +190,9 @@ const symptomItem = {
       name: 'image',
       title: 'Image (optional)',
       type: 'image',
-      options: { hotspot: true },
+      options: mediaImageOptions('card'),
+      description: mediaDescription('card'),
+      validation: softImageRules('card'),
       // Queried/mapped but not rendered by SymptomServiceSection.
       hidden: true,
     },
@@ -484,8 +496,9 @@ export const categoryLandingPageField = {
           name: 'image',
           title: 'Side image',
           type: 'image',
-          options: { hotspot: true },
-          description: 'Shown to the right of the steps.',
+          options: mediaImageOptions('category'),
+          description: mediaDescription('category', 'Shown to the right of the steps.'),
+          validation: softImageRules('category'),
         },
         {
           name: 'imageAlt',
@@ -762,7 +775,9 @@ export const categoryLandingPageField = {
           name: 'image',
           title: 'Image',
           type: 'image',
-          options: { hotspot: true },
+          options: mediaImageOptions('card'),
+          description: mediaDescription('card'),
+          validation: softImageRules('card'),
         },
         { name: 'imageAlt', title: 'Image alt text', ...i18nStr },
       ],

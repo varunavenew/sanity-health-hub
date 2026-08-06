@@ -2,6 +2,11 @@
 import { CalendarIcon } from './icons'
 import { geoSummaryField } from './geoSummary'
 import { pickStudioEn } from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const i18n = (
   name: string,
@@ -141,7 +146,9 @@ export default {
                       name: 'badgeImage',
                       title: 'Image (optional)',
                       type: 'image',
-                      options: { hotspot: true },
+                      options: mediaImageOptions('card'),
+                      description: mediaDescription('card'),
+                      validation: softImageRules('card'),
                     },
                   ],
                   preview: {

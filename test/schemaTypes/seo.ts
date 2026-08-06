@@ -4,6 +4,11 @@
 // language, so consumers continue to read `seo.metaTitle` / `seo.metaDescription`
 // as plain strings.
 import { SEOIcon } from './icons'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default {
   name: 'seo',
@@ -27,6 +32,9 @@ export default {
       name: 'ogImage',
       title: 'OG Image (sharing)',
       type: 'image',
+      options: mediaImageOptions('seo'),
+      description: mediaDescription('seo'),
+      validation: softImageRules('seo'),
     },
     {
       name: 'noIndex',

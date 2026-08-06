@@ -12,6 +12,7 @@ import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './s
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 
 import {privacyPageEditorConfig} from '../sanity/page-editor/pages/privacySections'
+import {mediaDescription} from './mediaGuidelines'
 
 
 
@@ -105,9 +106,10 @@ export default {
 
       group: 'hero',
 
-      description:
-
-        'Optional hero image or video. Upload Video takes priority over Video URL. Leave empty for title-only hero.',
+      description: mediaDescription(
+        'hero',
+        'Optional hero image or video. Leave empty for title-only hero.',
+      ),
 
     },
 

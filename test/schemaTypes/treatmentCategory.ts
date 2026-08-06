@@ -13,6 +13,14 @@ import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 import { TreatmentCategoryDocumentInput } from '../sanity/components/TreatmentCategoryDocumentInput'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+  softVideoRules,
+  videoDescription,
+  VIDEO_GUIDELINE,
+} from './mediaGuidelines'
 
 const reqI18n = requiredNoEnI18n
 
@@ -220,8 +228,10 @@ export default {
       type: 'media',
       group: 'pageContent',
       fieldset: 'pcHero',
-      description:
-        'Preferred hero media (Image or Video). Upload Video takes priority over Video URL. Legacy fields below are kept until migration is verified.',
+      description: mediaDescription(
+        'category',
+        'Preferred hero media (Image or Video). Legacy fields below are kept until migration is verified.',
+      ),
     },
     {
       name: 'heroMediaType',
@@ -247,8 +257,12 @@ export default {
       type: 'image',
       group: 'pageContent',
       fieldset: 'pcHero',
-      options: { hotspot: true },
-      description: 'Legacy. Prefer Hero Media → Image. Also used as video poster.',
+      options: mediaImageOptions('category'),
+      description: mediaDescription(
+        'category',
+        'Legacy. Prefer Hero Media → Image. Also used as video poster.',
+      ),
+      validation: softImageRules('category'),
       hidden: ({ document }: { document?: { heroMedia?: unknown; heroMediaType?: string } }) =>
         Boolean(document?.heroMedia) || document?.heroMediaType === 'video',
     },
@@ -258,8 +272,11 @@ export default {
       type: 'file',
       group: 'pageContent',
       fieldset: 'pcHero',
-      options: { accept: 'video/*' },
-      description: 'Legacy uploaded video. Prefer Hero Media → Upload Video.',
+      options: { accept: VIDEO_GUIDELINE.accept },
+      description: videoDescription(
+        'Legacy uploaded video. Prefer Hero Media → Upload Video.',
+      ),
+      validation: softVideoRules(),
       hidden: ({ document }: { document?: { heroMedia?: unknown; heroMediaType?: string } }) =>
         Boolean(document?.heroMedia) || (document?.heroMediaType ?? 'image') !== 'video',
     },

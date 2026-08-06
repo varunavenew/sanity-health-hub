@@ -21,6 +21,7 @@ import {
   type VideoHTMLAttributes,
 } from "react";
 import { AssetImg } from "@/components/AssetImg";
+import { optimizeSanityImageUrl } from "@/lib/sanity/image-url";
 
 export type ResponsiveVideoProps = {
   src: string;
@@ -89,6 +90,9 @@ export function ResponsiveVideo({
     variant,
     "absolute inset-0 h-full w-full",
   );
+  const posterUrl = poster
+    ? optimizeSanityImageUrl(poster, { width: 1920, quality: 78 })
+    : undefined;
 
   return (
     <div
@@ -101,7 +105,7 @@ export function ResponsiveVideo({
       <video
         ref={videoRef}
         src={src}
-        poster={poster}
+        poster={posterUrl}
         autoPlay={isAuto}
         muted={muted ?? isAuto}
         loop={loop ?? isAuto}

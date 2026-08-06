@@ -12,7 +12,6 @@ import { resolveTreatmentInsurance } from "@/lib/sanity/insurance-dual-read";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import {
   Accordion,
   AccordionContent,
@@ -812,6 +811,7 @@ export const SubTreatmentLayout = ({
         </section>
       ) : null}
 
+      {c.promises.length > 0 ? (
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
@@ -845,21 +845,34 @@ export const SubTreatmentLayout = ({
           </div>
         </div>
       </section>
+      ) : null}
 
-      {c.textSection ? (
+      {c.textSection && (c.textSection.title || c.textSection.lead || (c.textSection.points?.length ?? 0) > 0 || c.textSection.image) ? (
         <section className="py-20 md:py-28 bg-background">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-28">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
-                    {c.textSection.title}
-                  </h2>
+                  {c.textSection.title ? (
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+                      {c.textSection.title}
+                    </h2>
+                  ) : null}
                   {c.textSection.lead && (
                     <p className="text-base font-light text-muted-foreground leading-relaxed">
                       {c.textSection.lead}
                     </p>
                   )}
+                  {c.textSection.image ? (
+                    <div className="relative mt-8 aspect-[4/5] overflow-hidden bg-secondary rounded-sm">
+                      <AssetImg
+                        src={c.textSection.image}
+                        alt={c.textSection.imageAlt}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <div className="lg:col-span-7">
@@ -902,14 +915,20 @@ export const SubTreatmentLayout = ({
         )}
       />
 
-      {/* MID-PAGE CONVERSION BAND */}
+      {/* MID-PAGE CONVERSION BAND — CMS title only (conversationCtaTitle / ctaTitle) */}
+      {(c.conversationCtaTitle || c.ctaTitle) ? (
       <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
               <h2 className="text-xl md:text-3xl font-light leading-tight">
-                {c.conversationCtaTitle ?? "Snakk med en av våre spesialister"}
+                {c.conversationCtaTitle || c.ctaTitle}
               </h2>
+              {c.ctaDescription ? (
+                <p className="mt-3 text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                  {c.ctaDescription}
+                </p>
+              ) : null}
             </div>
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center w-full md:w-auto">
               <Button
@@ -918,15 +937,16 @@ export const SubTreatmentLayout = ({
                 className="px-6 w-full md:w-auto h-14 md:h-12"
                 onClick={() => (window.location.href = buildBookingUrl(c.booking))}
               >
-                {c.primaryCtaLabel || "Se ledige tider og book"}
+                {c.primaryCtaLabel || c.callCtaLabel}
               </Button>
               <div className="w-full md:w-auto">
-                <CallUsClinicPicker variant="light" label={c.callCtaLabel || "Ring oss"} className="w-full h-14 md:h-12" />
+                <CallUsClinicPicker variant="light" label={c.callCtaLabel} className="w-full h-14 md:h-12" />
               </div>
             </div>
           </div>
         </div>
       </section>
+      ) : null}
 
       <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
 

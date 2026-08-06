@@ -44,6 +44,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
     cms?.trim() ? cms.trim() : fallback;
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -53,13 +54,61 @@ const Contact = ({ isChatOpen }: ContactProps) => {
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: pick(formCopy?.successTitle, t("contact.toast.title")),
-      description: pick(formCopy?.successDescription, t("contact.toast.description")),
-    });
-    setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          clinic: formData.clinic,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      let payload: { ok?: boolean } = {};
+      try {
+        payload = (await res.json()) as { ok?: boolean };
+      } catch {
+        payload = {};
+      }
+
+      if (!res.ok || !payload.ok) {
+        toast({
+          title: pick(formCopy?.errorTitle, t("contact.toast.errorTitle", "Something went wrong")),
+          description: pick(
+            formCopy?.errorDescription,
+            t("contact.toast.errorDescription", "Could not send your message. Please try again."),
+          ),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: pick(formCopy?.successTitle, t("contact.toast.title")),
+        description: pick(formCopy?.successDescription, t("contact.toast.description")),
+      });
+      setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
+    } catch {
+      toast({
+        title: pick(formCopy?.errorTitle, t("contact.toast.errorTitle", "Something went wrong")),
+        description: pick(
+          formCopy?.errorDescription,
+          t("contact.toast.errorDescription", "Could not send your message. Please try again."),
+        ),
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -267,6 +316,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                 <Button 
                   type="submit" 
                   size="lg"
+                  disabled={isSubmitting}
                   className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-full px-8 font-light"
                 >
                   {pick(formCopy?.submitButton, t("contact.form.submit"))}

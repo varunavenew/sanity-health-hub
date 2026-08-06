@@ -17,6 +17,11 @@ import {
 } from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {servicesPageEditorConfig} from '../sanity/page-editor/pages/servicesSections'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const SERVICES_SHARED_SECTIONS = [
   'pageSectionSpecialists',
@@ -71,7 +76,9 @@ export default {
       title: 'Hero image',
       type: 'image',
       group: 'hero',
-      options: {hotspot: true},
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'introText',

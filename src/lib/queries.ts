@@ -756,6 +756,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
     ${i18nString('seeAllLabel')},
     items[]->{
       _id,
+      pageRole,
       ${i18nString('eyebrow')},
       ${i18nString('title')},
       ${i18nText('desc')},
@@ -772,7 +773,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
       ),
       "image": heroImage.asset->url,
       ${i18nString('heroImageAlt')}
-    }
+    }[coalesce(pageRole, "service") != "team"]
   },
   heroPoints[]{ ${i18nString('title')}, ${i18nText('desc')} },
   flow[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
@@ -1383,6 +1384,13 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && ${publishedOnly
   phone,
   email,
   address,
+  emailSettings{
+    enableContactEmails,
+    senderName,
+    senderEmail,
+    fallbackEmail,
+    contactFormSubject
+  },
   socialMedia,
   "treatmentPageUi": treatmentPageUi{
     ${i18nNestedString("treatmentPageUi", "notFoundTitle")},

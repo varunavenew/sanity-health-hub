@@ -19,6 +19,11 @@ import {
   bookingActivityGroupList,
 } from './bookingActivityGroups'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import {
+  composeImageValidation,
+  mediaDescription,
+  mediaImageOptions,
+} from './mediaGuidelines'
 
 const reqI18n = requiredNoEnI18n
 
@@ -130,12 +135,14 @@ export default {
       title: 'Profile image (legacy)',
       type: 'image',
       group: 'general',
-      options: { hotspot: true },
-      description:
+      options: mediaImageOptions('specialist'),
+      description: mediaDescription(
+        'specialist',
         'Legacy portrait. Prefer Hero Media → Image. Website dual-reads both until migration is verified.',
+      ),
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
-      validation: (Rule: any) =>
+      validation: composeImageValidation('specialist', (Rule: any) =>
         Rule.custom((value: unknown, context: { document?: { heroMedia?: { mediaType?: string; image?: unknown } } }) => {
           const media = context.document?.heroMedia
           if (media?.mediaType === 'image' && media.image) return true
@@ -143,14 +150,17 @@ export default {
           if (value) return true
           return 'Profile picture is required for publishing (or set Hero Media)'
         }),
+      ),
     },
     {
       name: 'heroMedia',
       title: 'Hero Media',
       type: 'media',
       group: 'general',
-      description:
-        'Preferred profile / hero media (Image or Video). Upload Video takes priority over Video URL.',
+      description: mediaDescription(
+        'specialist',
+        'Preferred profile / hero media (Image or Video).',
+      ),
     },
     {
       name: 'role',

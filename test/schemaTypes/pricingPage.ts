@@ -13,6 +13,11 @@ import {
 } from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {pricingPageEditorConfig} from '../sanity/page-editor/pages/pricingSections'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const PRICING_SHARED_SECTIONS = [
   'pageSectionArticles',
@@ -43,7 +48,9 @@ export default {
       title: 'Hero image',
       type: 'image',
       group: 'hero',
-      options: {hotspot: true},
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'introText',

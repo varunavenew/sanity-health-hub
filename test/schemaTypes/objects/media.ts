@@ -9,6 +9,14 @@
  */
 import {ImageIcon} from '@sanity/icons'
 import type {ComponentType, ReactNode} from 'react'
+import {
+  composeImageValidation,
+  mediaDescription,
+  mediaImageOptions,
+  softVideoRules,
+  videoDescription,
+  VIDEO_GUIDELINE,
+} from '../mediaGuidelines'
 
 export type MediaType = 'image' | 'video'
 export type VideoSource = 'upload' | 'url'
@@ -78,15 +86,19 @@ export const mediaObject = {
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: {hotspot: true},
-      description: 'Shown when Media Type is Image.',
+      options: mediaImageOptions('general'),
+      description: mediaDescription(
+        'general',
+        'Shown when Media Type is Image. Match dimensions to the parent field (hero, specialist, clinic, etc.).',
+      ),
       hidden: ({parent}: {parent?: MediaParent}) => isVideo(parent),
-      validation: (Rule: any) =>
+      validation: composeImageValidation('general', (Rule: any) =>
         Rule.custom((value: unknown, context: {parent?: MediaParent}) => {
           if (!isImage(context.parent)) return true
           if ((value as {asset?: {_ref?: string}} | undefined)?.asset?._ref) return true
           return 'Image is required when Media Type is Image'
         }),
+      ),
     },
     {
       name: 'videoSource',
@@ -114,23 +126,27 @@ export const mediaObject = {
       title: 'Upload Video',
       type: 'file',
       options: {
-        accept: 'video/mp4,video/webm,video/quicktime,video/*',
+        accept: VIDEO_GUIDELINE.accept,
       },
-      description: 'MP4, WebM, or MOV (when supported). Stored as a Sanity asset.',
+      description: videoDescription(
+        'Stored as a Sanity asset. Prefer external YouTube/Vimeo for longer videos.',
+      ),
       hidden: ({parent}: {parent?: MediaParent}) => !isUploadSource(parent),
-      validation: (Rule: any) =>
+      validation: (Rule: any) => [
         Rule.custom((value: unknown, context: {parent?: MediaParent}) => {
           if (!isUploadSource(context.parent)) return true
           if ((value as {asset?: {_ref?: string}} | undefined)?.asset?._ref) return true
           return 'Upload a video file when Video Source is Uploaded Video'
         }),
+        softVideoRules()(Rule),
+      ],
     },
     {
       name: 'videoUrl',
       title: 'Video URL',
       type: 'url',
       description:
-        'YouTube, Vimeo, or a direct MP4/WebM URL. Store the URL only — never embed HTML.',
+        'YouTube, Vimeo, or a direct MP4/WebM URL. Store the URL only — never embed HTML.\n\nPrefer external URLs for videos longer than ~30 seconds.',
       hidden: ({parent}: {parent?: MediaParent}) => !isUrlSource(parent),
       validation: (Rule: any) =>
         Rule.uri({allowRelative: false, scheme: ['http', 'https']})

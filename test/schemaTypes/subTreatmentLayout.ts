@@ -4,6 +4,11 @@
  * All fields are optional — only needed for gynekologi/fertilitet sub-page routes.
  */
 import { pickStudioEn } from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const i18nString = { type: 'internationalizedArrayString' as const }
 const i18nText = { type: 'internationalizedArrayText' as const }
@@ -89,7 +94,7 @@ export const subTreatmentLayoutType = {
       type: 'array',
       of: [{ type: 'internationalizedArrayString' }],
     },
-    { name: 'heroImage', title: 'Hero image (right column)', type: 'image', options: { hotspot: true } },
+    { name: 'heroImage', title: 'Hero image (right column)', type: 'image', options: mediaImageOptions('hero'), description: mediaDescription('hero'), validation: softImageRules('hero') },
     { name: 'heroImageAlt', title: 'Hero image — alt', ...i18nString },
     { name: 'heroVideo', title: 'Hero-video URL', type: 'url' },
     { name: 'primaryCtaLabel', title: 'Primary CTA text', ...i18nString },
@@ -135,7 +140,7 @@ export const subTreatmentLayoutType = {
     },
     { name: 'flowEyebrow', title: 'Process — eyebrow', ...i18nString },
     { name: 'flowTitle', title: 'Process — title', ...i18nString },
-    { name: 'flowImage', title: 'Process — image', type: 'image', options: { hotspot: true } },
+    { name: 'flowImage', title: 'Process — image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
     { name: 'flowImageAlt', title: 'Process — image alt', ...i18nString },
     { name: 'flowLinkLabel', title: 'Process — link text', ...i18nString },
     { name: 'flowLinkHref', title: 'Process — link', type: 'string', validation: validateRelativePath },
@@ -173,7 +178,7 @@ export const subTreatmentLayoutType = {
                 { name: 'title', title: 'Title', ...i18nString },
                 { name: 'desc', title: 'Description', ...i18nText },
                 { name: 'path', title: 'Link', type: 'string', validation: validateRelativePath },
-                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+                { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
                 { name: 'imageAlt', title: 'Image — alt', ...i18nString },
               ],
               preview: titledItemPreview,
@@ -193,7 +198,7 @@ export const subTreatmentLayoutType = {
             { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
             { name: 'title', title: 'Title', ...i18nString },
             { name: 'desc', title: 'Description', ...i18nText },
-            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
             { name: 'imageAlt', title: 'Image — alt', ...i18nString },
           ],
           preview: titledItemPreview,
@@ -223,7 +228,7 @@ export const subTreatmentLayoutType = {
             },
           ],
         },
-        { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+        { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
         { name: 'imageAlt', title: 'Image alt', ...i18nString },
       ],
     },

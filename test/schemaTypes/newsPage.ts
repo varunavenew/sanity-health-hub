@@ -13,6 +13,11 @@ import {
 } from './i18n'
 import {pickStudioEn} from './studioPreview'
 import {pageSectionsFieldForGroup} from './pageSections'
+import {
+  composeImageValidation,
+  mediaDescription,
+  mediaImageOptions,
+} from './mediaGuidelines'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {newsPageEditorConfig} from '../sanity/page-editor/pages/newsSections'
@@ -325,8 +330,9 @@ export default defineType({
               name: 'image',
               title: 'Image',
               type: 'image',
-              options: {hotspot: true},
-              validation: (Rule: any) => Rule.required(),
+              options: mediaImageOptions('card'),
+              description: mediaDescription('card'),
+              validation: composeImageValidation('card', (Rule: any) => Rule.required()),
             },
             {
               name: 'imageUrl',

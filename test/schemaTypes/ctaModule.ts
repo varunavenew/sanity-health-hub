@@ -11,6 +11,11 @@
 import {CtaIcon} from './icons'
 import {pickStudioEn} from './studioPreview'
 import type {ReactNode} from 'react'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 /** Shared button fields used by primary / secondary CTAs. */
 const ctaButtonFields = [
@@ -230,8 +235,12 @@ export default {
       name: 'image',
       title: 'Image (optional)',
       type: 'image',
-      options: {hotspot: true},
-      description: 'Used when background is “With image” or layout is split.',
+      options: mediaImageOptions('card'),
+      description: mediaDescription(
+        'card',
+        'Used when background is “With image” or layout is split.',
+      ),
+      validation: softImageRules('card'),
       fields: [
         {
           name: 'alt',

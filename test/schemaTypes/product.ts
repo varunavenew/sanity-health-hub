@@ -1,6 +1,11 @@
 import {defineField, defineType} from 'sanity'
 import { ProductIcon } from './icons'
 import { i18nSlugFieldFromString } from './i18n'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default defineType({
   name: 'product',
@@ -46,7 +51,9 @@ export default defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: {hotspot: true},
+      options: mediaImageOptions('card'),
+      description: mediaDescription('card'),
+      validation: softImageRules('card'),
     }),
     defineField({
       name: 'tags',

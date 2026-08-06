@@ -9,6 +9,14 @@ import {pickStudioEn} from './studioPreview'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {homepagePageEditorConfig} from '../sanity/page-editor/pages/homepageSections'
 import {HomepageSpecialistsSectionField} from '../sanity/components/HomepageSpecialistsSectionField'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+  softVideoRules,
+  videoDescription,
+  VIDEO_GUIDELINE,
+} from './mediaGuidelines'
 
 export default {
   name: 'homepage',
@@ -46,24 +54,32 @@ export default {
                   name: 'media',
                   title: 'Media',
                   type: 'media',
-                  description:
-                    'Preferred. Image or Video for this slide. Upload Video takes priority over Video URL.',
+                  description: mediaDescription(
+                    'hero',
+                    'Preferred. Image or Video for this slide.',
+                  ),
                 },
                 {
                   name: 'mobileImage',
                   title: 'Mobile Image',
                   type: 'image',
-                  options: { hotspot: true },
-                  description:
+                  options: mediaImageOptions('heroMobile'),
+                  description: mediaDescription(
+                    'heroMobile',
                     'Optional. Used instead of the main Image on mobile screens. Desktop keeps using Media.',
+                  ),
+                  validation: softImageRules('heroMobile'),
                 },
                 {
                   name: 'image',
                   title: 'Image (legacy)',
                   type: 'image',
-                  options: { hotspot: true },
-                  description:
+                  options: mediaImageOptions('hero'),
+                  description: mediaDescription(
+                    'hero',
                     'Legacy. Prefer Media → Image. Kept until migration is verified; website dual-reads both.',
+                  ),
+                  validation: softImageRules('hero'),
                   hidden: ({parent}: {parent?: {media?: unknown}}) => Boolean(parent?.media),
                 },
                 {
@@ -71,10 +87,12 @@ export default {
                   title: 'Video File (legacy)',
                   type: 'file',
                   options: {
-                    accept: 'video/*',
+                    accept: VIDEO_GUIDELINE.accept,
                   },
-                  description:
+                  description: videoDescription(
                     'Legacy. Prefer Media → Upload Video. Website dual-reads both until migration is verified.',
+                  ),
+                  validation: softVideoRules(),
                   hidden: ({parent}: {parent?: {media?: unknown}}) => Boolean(parent?.media),
                 },
                 { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
@@ -139,8 +157,12 @@ export default {
           name: 'backgroundImage',
           title: 'Background Image',
           type: 'image',
-          options: { hotspot: true },
-          description: 'Optional textured background image (e.g. blur-skin). Terracotta used as fallback.',
+          options: mediaImageOptions('background'),
+          description: mediaDescription(
+            'background',
+            'Optional textured background image (e.g. blur-skin). Terracotta used as fallback.',
+          ),
+          validation: softImageRules('background'),
         },
         {
           name: 'value',
@@ -291,7 +313,7 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('card'), description: mediaDescription('card'), validation: softImageRules('card') },
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
             { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
             { name: 'ctaText', title: 'CTA text', type: 'internationalizedArrayString' },

@@ -6,6 +6,11 @@
  * Keep names/types identical so dual-read needs no permanent mapping layer.
  */
 import {pickStudioEn} from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const quickInfoIconOptions = {
   list: [
@@ -162,8 +167,12 @@ export const bookingCtaReservedBandFields = [
     name: 'image',
     title: 'Image (optional)',
     type: 'image',
-    options: {hotspot: true},
-    description: 'Reserved. Not shown on the website via Shared Sections today.',
+    options: mediaImageOptions('card'),
+    description: mediaDescription(
+      'card',
+      'Reserved. Not shown on the website via Shared Sections today.',
+    ),
+    validation: softImageRules('card'),
     hidden: true,
     fields: [
       {

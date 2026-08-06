@@ -4,6 +4,11 @@ import { i18nSlugFieldFromTitle } from './i18n'
 import {pickStudioEn} from './studioPreview'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default defineType({
   name: 'article',
@@ -22,7 +27,9 @@ export default defineType({
       name: 'primaryImage',
       title: 'Main image',
       type: 'image',
-      options: {hotspot: true},
+      options: mediaImageOptions('article'),
+      description: mediaDescription('article'),
+      validation: softImageRules('article'),
       fields: [
         defineField({
           name: 'alt',

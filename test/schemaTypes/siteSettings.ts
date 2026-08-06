@@ -3,6 +3,11 @@
 import { SettingsIcon } from './icons'
 import { requiredNoEnI18n } from './i18n'
 import { pickStudioEn } from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default {
   name: 'siteSettings',
@@ -11,6 +16,7 @@ export default {
   icon: SettingsIcon,
   groups: [
     { name: 'general', title: 'General', default: true },
+    { name: 'email', title: 'Email' },
     { name: 'businessReputation', title: 'Business Reputation' },
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'footer', title: 'Footer' },
@@ -62,6 +68,120 @@ export default {
       title: 'Email',
       type: 'string',
       group: 'general',
+      description:
+        'Public contact email (footer, etc.). Also used as fallback for Contact form delivery when Email Settings → Fallback email is empty.',
+    },
+    {
+      name: 'emailSettings',
+      title: 'Email Settings',
+      type: 'object',
+      group: 'email',
+      description:
+        'Outbound email for the Contact page form. SMTP credentials stay in environment variables — never store passwords here.',
+      options: {
+        collapsible: false,
+      },
+      fields: [
+        {
+          name: 'enableContactEmails',
+          title: 'Enable Contact Emails',
+          type: 'boolean',
+          initialValue: true,
+          description: 'When off, the Contact form API rejects submissions without sending.',
+        },
+        {
+          name: 'senderName',
+          title: 'Sender Name',
+          type: 'string',
+          initialValue: 'CMedical',
+          description: 'Display name in the From header (e.g. CMedical).',
+        },
+        {
+          name: 'senderEmail',
+          title: 'Sender Email',
+          type: 'string',
+          description:
+            'From address. Must be allowed by SMTP2GO. Leave empty to use SMTP_USER from the environment.',
+          validation: (Rule: any) => Rule.email(),
+        },
+        {
+          name: 'fallbackEmail',
+          title: 'Fallback Email',
+          type: 'string',
+          description:
+            'Used when the selected clinic has no email. Leave empty to use General → Email.',
+          validation: (Rule: any) => Rule.email(),
+        },
+        {
+          name: 'contactFormSubject',
+          title: 'Contact form subject (legacy)',
+          type: 'string',
+          initialValue: 'New Contact Form Submission',
+          description:
+            'Legacy clinic subject. Used only when “Email sent to Clinic → Subject” is empty. Prefer the clinic template subject below.',
+          hidden: ({parent}: {parent?: {clinicEmailTemplate?: {subject?: string}}}) =>
+            Boolean(parent?.clinicEmailTemplate?.subject?.trim()),
+        },
+        {
+          name: 'clinicEmailTemplate',
+          title: 'Email sent to Clinic',
+          type: 'object',
+          description:
+            'Message delivered to the selected clinic (or fallback inbox). Leave blank to keep the built-in default template.',
+          options: {collapsible: true, collapsed: false},
+          fields: [
+            {
+              name: 'subject',
+              title: 'Subject',
+              type: 'string',
+              description:
+                'Clinic email subject. Supports placeholders (see body field). Falls back to legacy subject / default when empty.',
+            },
+            {
+              name: 'body',
+              title: 'Email Body',
+              type: 'text',
+              rows: 14,
+              description:
+                'Plain-text body sent to the clinic. Supports placeholders:\n{{name}} {{email}} {{phone}} {{clinic}} {{subject}} {{message}} {{date}} {{website}} {{senderName}}\n\nLeave empty to use the built-in default layout.',
+            },
+          ],
+        },
+        {
+          name: 'confirmationEmail',
+          title: 'Confirmation Email',
+          type: 'object',
+          description:
+            'Optional auto-reply to the visitor after the clinic email is sent.',
+          options: {collapsible: true, collapsed: false},
+          fields: [
+            {
+              name: 'enabled',
+              title: 'Enable Confirmation Email',
+              type: 'boolean',
+              initialValue: false,
+              description:
+                'When on, a confirmation is sent to the visitor after the clinic email succeeds.',
+            },
+            {
+              name: 'subject',
+              title: 'Subject',
+              type: 'string',
+              description: 'Confirmation subject. Supports the same placeholders as the body.',
+              hidden: ({parent}: {parent?: {enabled?: boolean}}) => parent?.enabled === false,
+            },
+            {
+              name: 'body',
+              title: 'Email Body',
+              type: 'text',
+              rows: 14,
+              description:
+                'Plain-text confirmation body. Supports placeholders:\n{{name}} {{email}} {{phone}} {{clinic}} {{subject}} {{message}} {{date}} {{website}} {{senderName}}\n\nRequired when confirmation is enabled (otherwise a simple default is used).',
+              hidden: ({parent}: {parent?: {enabled?: boolean}}) => parent?.enabled === false,
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'address',
@@ -329,8 +449,12 @@ export default {
       title: 'Image',
       type: 'image',
       group: 'notFound',
-      description: 'Optional image displayed on the 404 page',
-      options: { hotspot: true },
+      description: mediaDescription(
+        'card',
+        'Optional image displayed on the 404 page',
+      ),
+      options: mediaImageOptions('card'),
+      validation: softImageRules('card'),
     },
     {
       name: 'notFoundCtaLabel',

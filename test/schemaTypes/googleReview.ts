@@ -1,6 +1,11 @@
 // Schema: Google Review
 import { ReviewIcon } from './icons'
 import { pickStudioEn } from './studioPreview'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default {
   name: 'googleReview',
@@ -35,6 +40,9 @@ export default {
       name: 'avatar',
       title: 'Profile image',
       type: 'image',
+      options: mediaImageOptions('avatar'),
+      description: mediaDescription('avatar'),
+      validation: softImageRules('avatar'),
     },
   ],
   preview: {

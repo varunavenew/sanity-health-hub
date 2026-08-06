@@ -5,6 +5,7 @@ import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-ali
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
+import { isRelatedServiceEligible } from "@/lib/sanity/treatment-page-role";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -334,15 +335,19 @@ export function mapTreatmentDocument(
         .map((item) => {
           const r = item as Record<string, unknown>;
           return {
+            pageRole: asPlainString(r.pageRole) || undefined,
             eyebrow: asPlainString(r.eyebrow),
             title: asPlainString(r.title),
             desc: asPlainString(r.desc),
             path: asPlainString(r.path),
             image: asPlainString(r.image) || undefined,
-            imageAlt: asPlainString(r.imageAlt) || undefined,
+            imageAlt:
+              asPlainString(r.imageAlt) ||
+              asPlainString(r.heroImageAlt) ||
+              undefined,
           };
         })
-        .filter((r) => r.title && r.path);
+        .filter((r) => r.title && r.path && isRelatedServiceEligible(r.pageRole));
     })(),
     pageSections: normalizePageSections(data.pageSections),
     canonicalSlug: asPlainString(data.slug) || undefined,

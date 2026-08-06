@@ -1,6 +1,11 @@
 // Schema: Block Content (rik tekst)
 // Reusable Portable Text schema for body text
 import { BlockContentIcon } from './icons'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 export default {
   name: 'blockContent',
@@ -51,7 +56,9 @@ export default {
     },
     {
       type: 'image',
-      options: { hotspot: true },
+      options: mediaImageOptions('general'),
+      description: mediaDescription('general'),
+      validation: softImageRules('general'),
       fields: [
         { name: 'alt', title: 'Alt text', type: 'string' },
         { name: 'caption', title: 'Caption', type: 'string' },

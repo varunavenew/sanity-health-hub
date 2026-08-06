@@ -7,6 +7,11 @@ import {pageSectionsFieldForGroup} from './pageSections'
 import {seoFieldsetProps, singletonPageFieldsets, singletonPageGroups} from './singletonPageLayout'
 import {createPageSectionDocumentInput} from '../sanity/page-editor/components/PageSectionDocumentInput'
 import {aboutPageEditorConfig} from '../sanity/page-editor/pages/aboutSections'
+import {
+  mediaDescription,
+  mediaImageOptions,
+  softImageRules,
+} from './mediaGuidelines'
 
 const ABOUT_SHARED_SECTIONS = [
   'pageSectionSpecialists',
@@ -50,7 +55,9 @@ export default {
       title: 'Hero image',
       type: 'image',
       group: 'hero',
-      options: {hotspot: true},
+      options: mediaImageOptions('hero'),
+      description: mediaDescription('hero'),
+      validation: softImageRules('hero'),
     },
     {
       name: 'heroImageAlt',

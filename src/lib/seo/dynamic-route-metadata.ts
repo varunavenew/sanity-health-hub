@@ -32,7 +32,7 @@ function metadataFromSeo(
 ): Metadata {
   const lang = appLocaleFromParam(locale);
   const { title, description } = resolveMetaStrings(seo, lang, fallbacks);
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
+  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
 
   return buildPageMetadata({
     locale,
