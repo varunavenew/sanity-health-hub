@@ -77,6 +77,45 @@ export type Database = {
         }
         Relationships: []
       }
+      launch_checklist: {
+        Row: {
+          ansvarlig: string
+          ferdig: boolean
+          id: string
+          kommentar: string
+          oppgave: string
+          seksjon: string
+          sort_order: number
+          status: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          ansvarlig?: string
+          ferdig?: boolean
+          id?: string
+          kommentar?: string
+          oppgave: string
+          seksjon: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Update: {
+          ansvarlig?: string
+          ferdig?: boolean
+          id?: string
+          kommentar?: string
+          oppgave?: string
+          seksjon?: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: []
+      }
       page_approvals: {
         Row: {
           category: string
