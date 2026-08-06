@@ -76,6 +76,7 @@ import SpecialistAtelier from "./pages/specialist-design/AtelierVariant";
 import { useUiTranslations } from "./hooks/useUiTranslations";
 import { useServiceImagesSync } from "./hooks/useServiceImages";
 import Rediger from "./pages/Rediger";
+import Lansering from "./pages/Lansering";
 import { EditableProvider } from "./lib/editable/EditableContext";
 import { EditModeBar } from "./components/editable/EditModeBar";
 
