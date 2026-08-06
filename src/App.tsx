@@ -253,6 +253,8 @@ const AppContent = () => {
         <Route path="/spesialist-design/atelier" element={<SpecialistAtelier isChatOpen={false} />} />
         {/* Internal editor */}
         <Route path="/rediger" element={<Rediger />} />
+        <Route path="/lansering" element={<Lansering />} />
+
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
