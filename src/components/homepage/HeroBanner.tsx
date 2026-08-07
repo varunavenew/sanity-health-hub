@@ -6,7 +6,6 @@ import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 // Static fallback images
-import gynekologiHeroAsset from "@/assets/services/gynekologi-hero.jpg.asset.json";
 import kvinnehelseHeroOriginal from "@/assets/hero/kvinnehelse-hero.jpg";
 import kvinnehelseHeroV2Asset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
