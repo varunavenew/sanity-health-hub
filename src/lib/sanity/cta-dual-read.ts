@@ -1,7 +1,9 @@
 /**
  * Dual-read Booking CTA resolution: prefer CTA Collection body when usable,
  * otherwise fall back to page-section legacy inline fields.
- * Empty result → BookingCTA / PageSectionBookingCtaBlock apply existing FE defaults.
+ * Empty result → callers treat the band as empty.
+ * Treatment layout may still render a hardcoded BookingCTA when no usable band exists
+ * (see docs/BOOKING_CTA_FALLBACK_AUDIT.md).
  */
 
 import type { BookingCtaQuickInfoItem } from "@/lib/sanity/page-sections";

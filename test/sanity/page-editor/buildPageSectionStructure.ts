@@ -27,6 +27,69 @@ export type BuildPageSectionStructureOptions = {
   withLocalePreviews?: boolean
 }
 
+export type BuildDocumentPageSectionChildOptions = {
+  documentId: string
+  schemaType: string
+  config: PageEditorConfig
+  title?: string
+  withLocalePreviews?: boolean
+}
+
+/**
+ * Section list → filtered document panes for a single document id.
+ * Used by fixed singletons and by documentTypeList `.child((id) => …)`.
+ */
+export function buildDocumentPageSectionChild(
+  S: StructureBuilder,
+  options: BuildDocumentPageSectionChildOptions,
+) {
+  const {
+    documentId,
+    schemaType,
+    config,
+    title = config.title,
+    withLocalePreviews = true,
+  } = options
+
+  const publishedId = documentId.replace(/^drafts\./, '')
+  const PreviewNo = createLocalePreviewPane({locale: 'no', schemaType})
+  const PreviewEn = createLocalePreviewPane({locale: 'en', schemaType})
+
+  return S.component(PageSectionListPane)
+    .id(`${publishedId}-sections`)
+    .title(title)
+    .options({
+      documentId: publishedId,
+      schemaType,
+      config,
+    })
+    .canHandleIntent((intentName, params) =>
+      Boolean(
+        intentName === 'edit' &&
+          params?.type === schemaType &&
+          params?.id === publishedId,
+      ),
+    )
+    .child((sectionId: string) => {
+      const section = config.sections.find((entry) => entry.id === sectionId)
+
+      return S.document()
+        .schemaType(schemaType)
+        .documentId(publishedId)
+        .id(`${publishedId}-section-${sectionId}`)
+        .title(section?.title || sectionId)
+        .views([
+          S.view.form().id('edit').title('Edit'),
+          ...(withLocalePreviews
+            ? [
+                S.view.component(PreviewNo).id('preview-no').title('View').icon(NorwegianFlagIcon),
+                S.view.component(PreviewEn).id('preview-en').title('View').icon(EnglishFlagIcon),
+              ]
+            : []),
+        ])
+    })
+}
+
 export function buildPageSectionListItem(S: StructureBuilder, options: BuildPageSectionStructureOptions) {
   const {
     title,
@@ -37,43 +100,18 @@ export function buildPageSectionListItem(S: StructureBuilder, options: BuildPage
     withLocalePreviews = true,
   } = options
 
-  const PreviewNo = createLocalePreviewPane({locale: 'no', schemaType})
-  const PreviewEn = createLocalePreviewPane({locale: 'en', schemaType})
-
   let item = S.listItem().title(title).id(`${documentId}-root`).schemaType(schemaType)
   if (icon) {
     item = item.icon(icon)
   }
 
   return item.child(
-    S.component(PageSectionListPane)
-      .id(`${documentId}-sections`)
-      .title(title)
-      .options({
-        documentId,
-        schemaType,
-        config,
-      })
-      .canHandleIntent((intentName, params) =>
-        Boolean(intentName === 'edit' && params?.type === schemaType && params?.id === documentId),
-      )
-      .child((sectionId: string) => {
-        const section = config.sections.find((entry) => entry.id === sectionId)
-
-        return S.document()
-          .schemaType(schemaType)
-          .documentId(documentId)
-          .id(`${documentId}-section-${sectionId}`)
-          .title(section?.title || sectionId)
-          .views([
-            S.view.form().id('edit').title('Edit'),
-            ...(withLocalePreviews
-              ? [
-                  S.view.component(PreviewNo).id('preview-no').title('View').icon(NorwegianFlagIcon),
-                  S.view.component(PreviewEn).id('preview-en').title('View').icon(EnglishFlagIcon),
-                ]
-              : []),
-          ])
-      }),
+    buildDocumentPageSectionChild(S, {
+      documentId,
+      schemaType,
+      config,
+      title,
+      withLocalePreviews,
+    }),
   )
 }

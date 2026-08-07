@@ -25,6 +25,19 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { Link } from "@/lib/router";
 import type { PageSection } from "@/lib/sanity/page-sections";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import {
+  hasBenefitsSection,
+  hasExpertAreasSection,
+  hasFaqSection,
+  hasInsuranceSection,
+  hasMidCtaSection,
+  hasProcessSection,
+  hasRelatedSection,
+  hasSymptomsSection,
+  hasTextSection,
+  isBlacklistedReasonTitle,
+  filterMeaningfulPageSections,
+} from "@/lib/sanity/section-visibility";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { type ReactNode, useEffect, useMemo, useRef } from "react";
 
@@ -111,24 +124,8 @@ interface Props {
   faqs?: { question: string; answer: string }[];
 }
 
-const REASONS_BLACKLIST = [
-  "erfarne spesialister",
-  "våre spesialister",
-  "spesialister med dybde",
-  "ingen ventetid",
-  "ingen henvisning",
-  "korte ventetider",
-  "kort ventetid",
-  "alt under samme tak",
-];
-
-const isBlacklistedReason = (title: string): boolean => {
-  const normalized = title.trim().toLowerCase();
-  return REASONS_BLACKLIST.some(
-    (blacklisted) =>
-      normalized === blacklisted || normalized.startsWith(blacklisted),
-  );
-};
+const isBlacklistedReason = (title: string): boolean =>
+  isBlacklistedReasonTitle(title);
 
 const parseHeroTitle = (heroTitle: string | ReactNode): ReactNode => {
   if (typeof heroTitle !== "string") return heroTitle;
@@ -650,7 +647,7 @@ export const SubTreatmentLayout = ({
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
-      {c.relatedAsIntro && c.related.length > 0 ? (
+      {c.relatedAsIntro && hasRelatedSection(c) ? (
         <RelatedBlock
           title={c.relatedTitle || ""}
           lead={c.relatedLead}
@@ -659,15 +656,17 @@ export const SubTreatmentLayout = ({
         />
       ) : null}
 
-      <ReasonsEditorial
-        title={c.reasonsTitle}
-        lead={c.reasonsLead}
-        lead2={c.reasonsLead2}
-        items={c.reasons}
-        layout={c.reasonsLayout}
-      />
+      {hasSymptomsSection(c) ? (
+        <ReasonsEditorial
+          title={c.reasonsTitle}
+          lead={c.reasonsLead}
+          lead2={c.reasonsLead2}
+          items={c.reasons}
+          layout={c.reasonsLayout}
+        />
+      ) : null}
 
-      {c.flow && c.flow.length > 0 ? (
+      {hasProcessSection(c) ? (
         c.flowImage ? (
           <section className="bg-brand-light text-foreground">
             <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-16 pt-12 pb-4">
@@ -751,17 +750,17 @@ export const SubTreatmentLayout = ({
         )
       ) : null}
 
-      {c.expertAreas && c.expertAreas.items.length > 0 ? (
+      {hasExpertAreasSection(c) ? (
         <section className="bg-secondary/40 py-20 md:py-28">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
                 <div className="lg:col-span-6">
                   <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                    {c.expertAreas.title}
+                    {c.expertAreas?.title}
                   </h2>
                 </div>
-                {c.expertAreas.description ? (
+                {c.expertAreas?.description ? (
                   <div className="lg:col-span-6 lg:pt-3">
                     <p className="text-base font-light text-muted-foreground leading-relaxed">
                       {c.expertAreas.description}
@@ -774,7 +773,7 @@ export const SubTreatmentLayout = ({
                 className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
                 style={{ scrollbarWidth: "none" }}
               >
-                {c.expertAreas.items.map((area) => (
+                {(c.expertAreas?.items ?? []).map((area) => (
                   <Link
                     key={`${area.title}-${area.href}`}
                     to={area.href}
@@ -811,7 +810,7 @@ export const SubTreatmentLayout = ({
         </section>
       ) : null}
 
-      {c.promises.length > 0 ? (
+      {hasBenefitsSection(c) ? (
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
@@ -847,7 +846,7 @@ export const SubTreatmentLayout = ({
       </section>
       ) : null}
 
-      {c.textSection && (c.textSection.title || c.textSection.lead || (c.textSection.points?.length ?? 0) > 0 || c.textSection.image) ? (
+      {hasTextSection(c) ? (
         <section className="py-20 md:py-28 bg-background">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
@@ -897,26 +896,30 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {/* FAQ — dual-read is resolved in treatment-data; hidden when empty. */}
-      <FaqSection
-        faqs={(faqs ?? []).map((faq, index) => ({
-          id: `treatment-faq-${index}`,
-          question: faq.question,
-          answer: faq.answer,
-        }))}
-        title={faqSectionTitle?.trim() || undefined}
-      />
+      {hasFaqSection(faqs) ? (
+        <FaqSection
+          faqs={(faqs ?? []).map((faq, index) => ({
+            id: `treatment-faq-${index}`,
+            question: faq.question,
+            answer: faq.answer,
+          }))}
+          title={faqSectionTitle?.trim() || undefined}
+        />
+      ) : null}
 
       <PageSectionsRenderer
-        sections={pageSections?.filter(
-          (s) =>
-            s._type !== "pageSectionBookingCta" &&
-            s._type !== "pageSectionSpecialists" &&
-            s._type !== "pageSectionInsurance",
+        sections={filterMeaningfulPageSections(
+          pageSections?.filter(
+            (s) =>
+              s._type !== "pageSectionBookingCta" &&
+              s._type !== "pageSectionSpecialists" &&
+              s._type !== "pageSectionInsurance",
+          ),
         )}
       />
 
       {/* MID-PAGE CONVERSION BAND — CMS title only (conversationCtaTitle / ctaTitle) */}
-      {(c.conversationCtaTitle || c.ctaTitle) ? (
+      {hasMidCtaSection(c) ? (
       <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -951,15 +954,19 @@ export const SubTreatmentLayout = ({
       <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
 
       {(() => {
-        const specialistsSections = pageSections?.filter((s) => s._type === "pageSectionSpecialists");
-        return specialistsSections && specialistsSections.length > 0 ? (
+        const specialistsSections = filterMeaningfulPageSections(
+          pageSections?.filter((s) => s._type === "pageSectionSpecialists"),
+        );
+        return specialistsSections.length > 0 ? (
           <PageSectionsRenderer sections={specialistsSections} />
         ) : null;
       })()}
 
-      {insuranceSection ? <PageSectionInsuranceBlock config={insuranceSection} /> : null}
+      {insuranceSection && hasInsuranceSection(insuranceSection) ? (
+        <PageSectionInsuranceBlock config={insuranceSection} />
+      ) : null}
 
-      {c.related.length > 0 && !c.relatedAsIntro ? (
+      {hasRelatedSection(c) && !c.relatedAsIntro ? (
         <RelatedServicesCarousel
           title={c.relatedTitle || ""}
           items={c.related}
@@ -970,8 +977,12 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {(() => {
-        const bookingCtaSections = pageSections?.filter((s) => s._type === "pageSectionBookingCta");
-        if (bookingCtaSections && bookingCtaSections.length > 0) {
+        // Keep hardcoded fallback until Booking CTA bands are seeded on all
+        // treatments (see docs/BOOKING_CTA_FALLBACK_AUDIT.md — 17 prod / 1 dev).
+        const bookingCtaSections = filterMeaningfulPageSections(
+          pageSections?.filter((s) => s._type === "pageSectionBookingCta"),
+        );
+        if (bookingCtaSections.length > 0) {
           return <PageSectionsRenderer sections={bookingCtaSections} />;
         }
         return <BookingCTA bookingCategoryId={c.booking.kategori} />;

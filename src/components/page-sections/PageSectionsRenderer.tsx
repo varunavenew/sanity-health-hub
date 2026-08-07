@@ -2,6 +2,11 @@
 
 import { Fragment, type ReactNode } from "react";
 import type { PageSection } from "@/lib/sanity/page-sections";
+import {
+  ensurePageSectionKeys,
+  filterMeaningfulPageSections,
+  hasPageSection,
+} from "@/lib/sanity/section-visibility";
 import { PageSectionArticlesBlock } from "./PageSectionArticlesBlock";
 import { PageSectionBookingCtaBlock } from "./PageSectionBookingCtaBlock";
 import { PageSectionSpecialistsBlock } from "./PageSectionSpecialistsBlock";
@@ -36,9 +41,11 @@ export function PageSectionsRenderer({
   }
 
   const excluded = new Set(excludeTypes ?? []);
-  const filtered = excluded.size
-    ? sections.filter((section) => !excluded.has(section._type))
-    : sections;
+  const filtered = filterMeaningfulPageSections(
+    excluded.size
+      ? sections.filter((section) => !excluded.has(section._type))
+      : sections,
+  );
 
   if (!filtered.length) {
     return (
@@ -49,15 +56,17 @@ export function PageSectionsRenderer({
     );
   }
 
-  const sortedSections = [...filtered].sort((a, b) => {
-    const order: Record<string, number> = {
-      pageSectionSpecialists: 1,
-      pageSectionInsurance: 2,
-      pageSectionArticles: 3,
-      pageSectionBookingCta: 4,
-    };
-    return (order[a._type] ?? 99) - (order[b._type] ?? 99);
-  });
+  const sortedSections = ensurePageSectionKeys(
+    [...filtered].sort((a, b) => {
+      const order: Record<string, number> = {
+        pageSectionSpecialists: 1,
+        pageSectionInsurance: 2,
+        pageSectionArticles: 3,
+        pageSectionBookingCta: 4,
+      };
+      return (order[a._type] ?? 99) - (order[b._type] ?? 99);
+    }),
+  );
 
   let insertedAfterSpecialists = false;
   let insertedBeforeBooking = false;
@@ -66,7 +75,7 @@ export function PageSectionsRenderer({
   return (
     <>
       {sortedSections.map((section) => {
-        const key = section._key ?? section._type;
+        const key = section._key;
 
         if (section._type === "pageSectionSpecialists") {
           insertedAfterSpecialists = true;
@@ -87,6 +96,7 @@ export function PageSectionsRenderer({
         }
 
         if (section._type === "pageSectionBookingCta") {
+          if (!hasPageSection(section)) return null;
           if (!insertedBeforeBooking && beforeBookingCta) {
             insertedBeforeBooking = true;
             return (

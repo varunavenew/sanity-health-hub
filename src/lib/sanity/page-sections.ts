@@ -2,6 +2,7 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SanitySpecialist } from "@/hooks/useSanity";
 import { resolveBookingCtaFromCollection } from "@/lib/sanity/cta-dual-read";
 import { resolveInsuranceFromCollection } from "@/lib/sanity/insurance-dual-read";
+import { ensurePageSectionKeys } from "@/lib/sanity/section-visibility";
 
 export type PageSectionSpecialistsConfig = {
   _type: "pageSectionSpecialists";
@@ -118,7 +119,7 @@ export function sanitySpecialistToCard(s: SanitySpecialist): Specialist {
 export function normalizePageSections(raw: unknown): PageSection[] {
   if (!Array.isArray(raw)) return [];
 
-  return raw
+  const normalized = raw
     .map((item): PageSection | null => {
       if (!item || typeof item !== "object") return null;
       const block = item as Record<string, unknown>;
@@ -230,6 +231,8 @@ export function normalizePageSections(raw: unknown): PageSection[] {
       return null;
     })
     .filter((x): x is PageSection => x != null);
+
+  return ensurePageSectionKeys(normalized);
 }
 
 function str(value: unknown): string {

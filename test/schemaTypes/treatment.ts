@@ -15,7 +15,7 @@ import {
 import {pickStudioEn} from './studioPreview'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
-import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import { TreatmentDocumentInput } from '../sanity/components/TreatmentDocumentInput'
 import {
   composeImageValidation,
   mediaDescription,
@@ -42,7 +42,7 @@ export default {
   type: 'document',
   icon: TreatmentIcon,
   components: {
-    input: AutoSlugFromTitleInput,
+    input: TreatmentDocumentInput,
   },
   groups: [
     { name: 'general', title: 'General', default: true },
@@ -295,7 +295,7 @@ export default {
       options: mediaImageOptions('hero'),
       description: mediaDescription(
         'hero',
-        'Legacy. Prefer Hero Media → Image. Required until Hero Media is set; website dual-reads both.',
+        'Legacy. Prefer Hero Media → Image. Required only when Hero Media is unset; website dual-reads both.',
       ),
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
@@ -563,9 +563,7 @@ export default {
       type: 'array',
       group: 'pageContent',
       fieldset: 'pcBenefits',
-      description: 'Highlighted benefits with image and text.',
-      validation: (Rule: any) =>
-        Rule.required().min(1).error('At least one advantage/promise must be added'),
+      description: 'Highlighted benefits with image and text. Leave empty to hide on the website.',
       of: [
         {
           type: 'object',
@@ -1230,7 +1228,19 @@ export default {
         issues.push('Treatment name (English) is missing')
       }
 
-      if (!document.heroImage) issues.push('Hero image is missing')
+      if (!document.heroImage) {
+        const media = document.heroMedia as
+          | {mediaType?: string; image?: unknown; videoUrl?: unknown}
+          | undefined
+        const hasHeroMedia =
+          (media?.mediaType === 'image' && Boolean(media.image)) ||
+          media?.mediaType === 'video' ||
+          Boolean(media?.image) ||
+          Boolean(media?.videoUrl)
+        if (!hasHeroMedia) {
+          issues.push('Hero media is missing — set Hero Media or a legacy Hero image')
+        }
+      }
       if (!pickNo(document.heroTitle)?.trim()) issues.push('Hero title (Norwegian) is missing')
       if (!pickForLang(document.heroTitle, 'en')?.trim()) {
         issues.push('Hero title (English) is missing')
@@ -1252,11 +1262,6 @@ export default {
         issues.push(
           'Category is missing — choose at least one Treatment Category before publishing',
         )
-      }
-
-      const promises = document.promises as unknown[] | undefined
-      if (!Array.isArray(promises) || promises.length === 0) {
-        issues.push('At least one advantage/promise must be added')
       }
 
       const seo = document.seo as Record<string, unknown> | undefined
