@@ -30,6 +30,7 @@ function resolvePreviewUrl(schemaType: string, slug?: string) {
     treatmentCategory: '/tjenester/',
     specialist: '/spesialister/',
     themePage: '/tema/',
+    clinicianGuidePage: '/',
     homepage: '/',
     aboutPage: '/om-oss',
     contactPage: '/kontakt',
@@ -49,7 +50,7 @@ function resolvePreviewUrl(schemaType: string, slug?: string) {
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
     'article', 'newsItem', 'treatment', 'treatmentCategory', 'specialist',
-    'themePage', 'homepage', 'aboutPage', 'contactPage',
+    'themePage', 'clinicianGuidePage', 'homepage', 'aboutPage', 'contactPage',
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
   ]
 
@@ -125,6 +126,7 @@ export default defineConfig({
               .items([
                 S.documentTypeListItem('treatmentCategory').title('Fagområder'),
                 S.documentTypeListItem('themePage').title('Temasider'),
+                S.documentTypeListItem('clinicianGuidePage').title('Fastlegeveiledere'),
                 S.documentTypeListItem('treatment').title('Underbehandlinger'),
                 newsItemItem,
                 articleItem,
@@ -243,7 +245,7 @@ export default defineConfig({
       const i18nTypes = new Set([
         'article', 'newsItem', 'aboutPage', 'treatment', 'treatmentCategory',
         'homepage', 'contactPage', 'clinicPage', 'servicesPage',
-        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage',
+        'insurancePage', 'themePage', 'clinicianGuidePage', 'pricingPage', 'specialistsPage',
         'specialist',
       ])
       if (!i18nTypes.has(context.schemaType)) return prev
