@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Phone, Clock, Shield, ChevronDown } from "lucide-react";
+import { ArrowRight, Calendar, Phone, Check, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { clinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
@@ -93,11 +93,11 @@ export const BookingCTA = () => {
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8">
             <span className="flex items-center gap-2 text-sm text-white">
-              <Clock className="w-4 h-4" aria-hidden="true" />
+              <Check className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               {t("booking.availableTime")}
             </span>
             <span className="flex items-center gap-2 text-sm text-white">
-              <Shield className="w-4 h-4" aria-hidden="true" />
+              <Check className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               {t("booking.noReferral")}
             </span>
           </div>
