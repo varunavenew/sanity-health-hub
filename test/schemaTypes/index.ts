@@ -23,6 +23,7 @@ import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
 import faq from './faq'
 import themePage from './themePage'
+import clinicianGuidePage, { clinicianGuideObjectTypes } from './clinicianGuidePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
 import testimonial from './testimonial'
@@ -42,6 +43,7 @@ export const schemaTypes = [
   clinicPage,
   
   themePage,
+  clinicianGuidePage,
   specialistsPage,
 
   // Content
@@ -67,4 +69,7 @@ export const schemaTypes = [
 
   // Polymorphic section objects (used by sections[] arrays)
   ...allSectionTypes,
+
+  // Building blocks for fastlegeveilederen
+  ...clinicianGuideObjectTypes,
 ]
