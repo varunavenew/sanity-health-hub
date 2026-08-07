@@ -69,4 +69,7 @@ export const schemaTypes = [
 
   // Polymorphic section objects (used by sections[] arrays)
   ...allSectionTypes,
+
+  // Building blocks for fastlegeveilederen
+  ...clinicianGuideObjectTypes,
 ]
