@@ -13,11 +13,12 @@ import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero-v2.jpg.asset.json";
 import mobilFertilitetAsset from "@/assets/services/mobil-fertilitet-hero.jpg.asset.json";
 import mobilFlereAsset from "@/assets/services/mobil-flere-hero.jpg.asset.json";
+import mobilKvinnehelseAsset from "@/assets/hero/mobil-graviditet-hero.jpg.asset.json";
 
 const kvinnehelseHero = kvinnehelseHeroV2Asset.url;
 const fertilityHero = fertilityHeroAsset.url;
 const robotkirurgiHero = tverrfagligTeamAsset.url;
-const mobilKvinnehelse = gynekologiHeroAsset.url;
+const mobilKvinnehelse = mobilKvinnehelseAsset.url;
 const mobilFertilitet = mobilFertilitetAsset.url;
 const mobilTverrfaglig = mobilFlereAsset.url;
 
