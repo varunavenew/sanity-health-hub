@@ -13,10 +13,8 @@ import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
 import imgMoss from "@/assets/clinics/moss.jpg";
 import imgMoelv from "@/assets/clinics/moelv.jpg";
 
-const imgMajorstuenCard = majorstuenVenteromTv.url;
-
 const clinicImages: Record<string, string> = {
-  majorstuen: imgMajorstuenCard,
+  majorstuen: imgMajorstuen,
   bekkestua: imgBekkestua,
   moss: imgMoss,
   moelv: imgMoelv,
