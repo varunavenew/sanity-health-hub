@@ -44,6 +44,7 @@ export const schemaTypes = [
   
   themePage,
   clinicianGuidePage,
+  specialistsPage,
 
   // Content
   treatmentCategory,
