@@ -42,8 +42,8 @@ export const clinics: Clinic[] = [
       "fysioterapeut", "uroterapi",
     ],
     detail: {
-      description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Kirkeveien 64B. Her tilbyr vi det bredeste spekteret av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
-      parking: "Gateparkering tilgjengelig i nærområdet. Nærmeste parkeringshus er Colosseum Park (5 min gange).",
+      description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 B. Her tilbyr vi det bredeste spekteret av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
+      parking: "Gateparkering tilgjengelig i nærområdet. Nærmeste parkeringshus er Colosseum Park (2 min gange).",
       publicTransport: "Majorstuen T-banestasjon (alle linjer) – 3 minutters gange. Trikk 11, 12 og 19 stopper rett utenfor.",
       accessibility: "Universelt utformet med heis og trinnfri adkomst.",
     },
