@@ -35,6 +35,12 @@ export const Footer = () => {
         { label: t("footer.moreServices"), path: "/flere-fagomrader" },
       ];
 
+  // Ensure "Flere tjenester" is always present in the footer services list
+  const moreServicesPath = "/flere-fagomrader";
+  if (!serviceLinks.some((l: any) => l.path === moreServicesPath)) {
+    serviceLinks.push({ label: t("footer.moreServices"), path: moreServicesPath });
+  }
+
   // Clinic links from Sanity or static
   const clinicLinks = clinics && clinics.length > 0
     ? clinics.map((c: any) => ({ label: c.label || c.title, slug: c.slug || c.id }))
