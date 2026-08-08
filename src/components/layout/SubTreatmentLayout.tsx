@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
-import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { Link } from "@/lib/router";
 import type { PageSection } from "@/lib/sanity/page-sections";
@@ -35,7 +34,7 @@ import {
   hasRelatedSection,
   hasSymptomsSection,
   hasTextSection,
-  isBlacklistedReasonTitle,
+  isMeaningfulReasonItem,
   filterMeaningfulPageSections,
 } from "@/lib/sanity/section-visibility";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
@@ -124,9 +123,6 @@ interface Props {
   faqs?: { question: string; answer: string }[];
 }
 
-const isBlacklistedReason = (title: string): boolean =>
-  isBlacklistedReasonTitle(title);
-
 const parseHeroTitle = (heroTitle: string | ReactNode): ReactNode => {
   if (typeof heroTitle !== "string") return heroTitle;
 
@@ -156,9 +152,7 @@ function ReasonsEditorial({
   items: { n: string; title: string; desc: string | ReactNode }[];
   layout?: "prose" | "accordion" | "auto";
 }) {
-  const cleanItems = (items ?? []).filter(
-    (item) => !isBlacklistedReason(item.title) && (typeof item.desc === "string" ? item.desc.trim() : !!item.desc),
-  );
+  const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
 
   if (cleanItems.length === 0) return null;
 
@@ -442,7 +436,6 @@ export const SubTreatmentLayout = ({
   faqSectionTitle,
   faqs,
 }: Props) => {
-  const { specialists } = useSpecialistsData();
   const expertAreasRef = useRef<HTMLDivElement>(null);
   const promisesRef = useRef<HTMLDivElement>(null);
 
@@ -472,8 +465,6 @@ export const SubTreatmentLayout = ({
       }),
     [pageSections, c.insuranceEyebrow, c.insuranceTitle, c.insurancePartners],
   );
-
-  // Obsolete specialists resolving logic removed as page builder pageSectionSpecialists is used instead
 
   return (
     <PageLayout isChatOpen={isChatOpen}>

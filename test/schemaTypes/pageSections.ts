@@ -155,7 +155,9 @@ export const pageSectionSpecialists = {
     }) {
       return {
         title: pickStudioLabel({title, fallback: 'Specialists Band'}),
-        subtitle: `${displayMode || 'all'} · ${variant || 'carousel'}`,
+        subtitle: displayMode
+          ? `${displayMode} · ${variant === 'carousel' || variant === 'gridDark' || variant === 'gridLight' ? variant : 'layout unset'}`
+          : 'Not configured',
       }
     },
   },
@@ -255,7 +257,7 @@ export const pageSectionArticles = {
     prepare({ title, displayMode }: { title?: unknown; displayMode?: string }) {
       return {
         title: pickStudioLabel({title, fallback: 'Latest Articles'}),
-        subtitle: displayMode || 'latest',
+        subtitle: displayMode || 'Not configured',
       }
     },
   },

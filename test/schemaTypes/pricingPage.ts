@@ -163,7 +163,7 @@ export default {
       type: 'homepageSpecialistsSection',
       group: 'content',
       description:
-        'Specialists grid on the Pricing page. Heading, intro, selection, and layout are edited here — not via Website bands.',
+        'Specialists grid on the Pricing page. Heading, intro, display mode, and max items are edited here — not via Website bands. Layout is fixed (dark grid) on the website.',
     },
     pageSectionsFieldForGroup('content', 'sharedSections', PRICING_SHARED_SECTIONS),
     {

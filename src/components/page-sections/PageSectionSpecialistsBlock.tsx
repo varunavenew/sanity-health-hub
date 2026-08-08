@@ -12,6 +12,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { type PageSectionSpecialistsConfig } from "@/lib/sanity/page-sections";
 import type { SanitySpecialist } from "@/hooks/useSanity";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
+import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
 
 type Props = {
   config: PageSectionSpecialistsConfig;
@@ -21,10 +22,13 @@ function resolveSpecialists(
   config: PageSectionSpecialistsConfig,
   all: Specialist[],
 ): Specialist[] {
-  const limit = config.limit ?? 8;
-  const mode = config.displayMode ?? "all";
+  const mode = resolveSpecialistsDisplayMode(config.displayMode);
+  if (!mode) return [];
 
-  if (mode === "manual" && config.specialists?.length) {
+  const limit = typeof config.limit === "number" ? config.limit : 8;
+
+  if (mode === "manual") {
+    if (!config.specialists?.length) return [];
     const slugs = config.specialists
       .map((raw) => (raw as SanitySpecialist).slug)
       .filter(Boolean);
@@ -39,13 +43,15 @@ function resolveSpecialists(
     config.treatmentCategory?.categoryId ||
     config.treatmentCategory?.slug;
 
-  if (mode === "category" && categoryKey) {
+  if (mode === "category") {
+    if (!categoryKey) return [];
     return all
       .filter((s) => specialistMatchesCategory(s, categoryKey))
       .sort((a, b) => a.name.localeCompare(b.name, "nb"))
       .slice(0, limit);
   }
 
+  // mode === "all" — only when explicitly stored
   return all.slice(0, limit);
 }
 
@@ -75,6 +81,10 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
       count: specialists.length,
       defaultValue: `Se alle ${specialists.length} spesialister`,
     });
+
+  if (!resolveSpecialistsDisplayMode(config.displayMode)) {
+    return null;
+  }
 
   if (variant === "carousel") {
     if (specialists.length === 0) return null;

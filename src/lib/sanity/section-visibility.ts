@@ -16,6 +16,10 @@ import type {
   PageSectionInsuranceConfig,
   PageSectionSpecialistsConfig,
 } from "@/lib/sanity/page-sections";
+import {
+  resolveArticlesDisplayMode,
+  resolveSpecialistsDisplayMode,
+} from "@/lib/sanity/specialists-display-mode";
 
 /** Non-empty trimmed string (or ReactNode treated as present). */
 export function hasText(value: unknown): boolean {
@@ -85,7 +89,7 @@ export function isBlacklistedReasonTitle(title: unknown): boolean {
   );
 }
 
-type ReasonItem = { title: string; desc?: unknown };
+type ReasonItem = {title?: unknown; desc?: unknown};
 type FlowItem = unknown;
 type PromiseItem = unknown;
 type ExpertAreas = { items?: unknown[] } | null | undefined;
@@ -96,13 +100,19 @@ type TextSectionBand = {
   image?: unknown;
 } | null | undefined;
 
-/** Symptoms / reasons — matches ReasonsEditorial clean-item rules. */
+/**
+ * Single rule for Symptoms / reasons items — shared by visibility gate and renderer.
+ * Blacklisted titles excluded; item must have a non-empty description.
+ */
+export function isMeaningfulReasonItem(item: ReasonItem): boolean {
+  if (isBlacklistedReasonTitle(item.title)) return false;
+  if (typeof item.desc === "string") return item.desc.trim().length > 0;
+  return Boolean(item.desc);
+}
+
+/** Symptoms / reasons — same rule as ReasonsEditorial clean-items filter. */
 export function hasSymptomsSection(content: { reasons?: ReasonItem[] }): boolean {
-  return (content.reasons ?? []).some(
-    (item) =>
-      !isBlacklistedReasonTitle(item.title) &&
-      (typeof item.desc === "string" ? item.desc.trim().length > 0 : Boolean(item.desc)),
-  );
+  return (content.reasons ?? []).some(isMeaningfulReasonItem);
 }
 
 export function hasProcessSection(content: { flow?: FlowItem[] }): boolean {
@@ -159,20 +169,25 @@ export function hasInsuranceSection(
 }
 
 /**
- * Specialists / articles bands may resolve clientside; presence of the band
- * with a display mode is enough for the outer gate — blocks still return null
- * when the resolved list is empty.
+ * Specialists / articles bands may resolve clientside; require an explicit
+ * stored displayMode so missing config never silently becomes "all"/"latest".
  */
 export function hasSpecialistsBand(
   config: PageSectionSpecialistsConfig | null | undefined,
 ): boolean {
-  return Boolean(config?._type === "pageSectionSpecialists");
+  return (
+    config?._type === "pageSectionSpecialists" &&
+    Boolean(resolveSpecialistsDisplayMode(config.displayMode))
+  );
 }
 
 export function hasArticlesBand(
   config: PageSectionArticlesConfig | null | undefined,
 ): boolean {
-  return Boolean(config?._type === "pageSectionArticles");
+  return (
+    config?._type === "pageSectionArticles" &&
+    Boolean(resolveArticlesDisplayMode(config.displayMode))
+  );
 }
 
 export function hasPageSection(section: PageSection | null | undefined): boolean {

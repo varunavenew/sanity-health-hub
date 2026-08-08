@@ -180,15 +180,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const { data: sanityPricing } = usePricingPage();
   const specialistsConfig = sanityPricing?.specialistsSection;
   const specialists = useMemo(
-    () => {
-      const resolved = resolveHomepageSpecialists(specialistsConfig, allSpecialists);
-      // Match previous Pricing behaviour when CMS section is empty: first 8 specialists.
-      if (!specialistsConfig) return allSpecialists.slice(0, 8);
-      return resolved;
-    },
+    () => resolveHomepageSpecialists(specialistsConfig, allSpecialists),
     [specialistsConfig, allSpecialists],
   );
 
+  // Copy comes from CMS when present; i18n fills gaps only when the section actually renders.
   const specialistsEyebrow =
     specialistsConfig?.eyebrow?.trim() || t("pricing.specialistsEyebrow");
   const specialistsTitle =
@@ -759,7 +755,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Specialists Section — page-owned specialistsSection (not Website bands) */}
+      {/* Specialists Section — page-owned specialistsSection (not Website bands).
+          Intentional fixed dark grid (CMS layout is not used on Pricing).
+          Hide when displayMode is missing/invalid or resolution returns no specialists. */}
+      {specialists.length > 0 ? (
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-10">
@@ -773,6 +772,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               <p className="text-white/70 mt-3 max-w-2xl font-light">{specialistsSubtitle}</p>
             ) : null}
           </div>
+          {/* Fixed Pricing presentation — do not branch on specialistsConfig.layout */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
             {specialists.map((specialist) => (
               <Link to={`/spesialister/${specialist.slug}`} key={specialist.slug} className="group block">
@@ -807,6 +807,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* Testimonials Section */}
       {testimonials.length > 0 && (

@@ -76,8 +76,9 @@ export function resolveInsuranceFromCollection(
 }
 
 /**
- * Treatment insurance: Shared Sections band (collection dual-read) → legacy band
- * inline → legacy Page Content fields. Guarantees zero regression during migration.
+ * Treatment insurance: Shared Sections band (collection dual-read) → legacy
+ * Page Content fields. When an insurance band exists but has no partners,
+ * return null (empty = hide) — do not fall through to legacy defaults.
  */
 export function resolveTreatmentInsurance(
   pageSections: PageSection[] | undefined,
@@ -88,8 +89,9 @@ export function resolveTreatmentInsurance(
   },
 ): PageSectionInsuranceConfig | null {
   const band = pageSections?.find((s) => s._type === "pageSectionInsurance");
-  if (band && (band.partners?.length ?? 0) > 0) {
-    return band;
+  if (band) {
+    if ((band.partners?.length ?? 0) > 0) return band;
+    return null;
   }
 
   const partners =

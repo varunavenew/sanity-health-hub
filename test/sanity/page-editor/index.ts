@@ -66,7 +66,6 @@ export {
   TREATMENT_CATEGORY_EDITORS,
 } from './pages/treatmentCategorySections'
 export {
-  createTreatmentPageEditorConfig,
   treatmentPageEditorConfig,
 } from './pages/treatmentSections'
 export {

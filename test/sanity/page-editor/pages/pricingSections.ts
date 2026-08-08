@@ -5,6 +5,7 @@ import {BoltIcon, StarIcon, UsersIcon} from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countChip, countReferenceArray} from '../documentMeta'
+import {specialistsDisplayModeChip} from '../specialistsDisplayMode'
 import {
   articlesBandSection,
   bookingCtaBandSection,
@@ -47,23 +48,21 @@ export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig(
     {
       id: 'specialists',
       title: 'Specialists',
-      description: 'Pricing specialists grid — heading, intro, selection, and layout.',
+      description:
+        'Pricing specialists dark grid — heading, intro, display mode, and max items. Layout is fixed on the website.',
       icon: UsersIcon,
       fields: ['specialistsSection'],
       notice:
-        'This section is page-owned. It is not controlled by Shared Sections / Website bands.',
+        'This section is page-owned. It is not controlled by Shared Sections / Website bands. Website layout is always a fixed dark grid (Layout is not editable here).',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const section = document.specialistsSection as
-            | {heading?: unknown; displayMode?: string; layout?: string}
+            | {displayMode?: string; maxItems?: number}
             | undefined
-          if (!section) return ['Empty']
-          const mode = section.displayMode || 'all'
-          const layout = section.layout || 'grid'
-          return [
-            mode === 'manual' ? 'Manual' : mode === 'category' ? 'Filtered' : 'All Specialists',
-            layout === 'carousel' ? 'Carousel' : 'Grid',
-          ]
+          if (!section) return ['Not configured']
+          const parts = [specialistsDisplayModeChip(section.displayMode), 'Fixed grid']
+          if (typeof section.maxItems === 'number') parts.push(`max ${section.maxItems}`)
+          return parts
         }),
     },
     articlesBandSection(),

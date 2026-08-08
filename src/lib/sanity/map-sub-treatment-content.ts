@@ -72,16 +72,8 @@ export function mapTreatmentToSubTreatmentContent(
     scrollRightLabel: treatment.scrollRightLabel || (isEn ? "Scroll right" : "Scroll høyre"),
     insuranceEyebrow: treatment.insuranceEyebrow || (isEn ? "Insurance partners" : "Forsikringspartnere"),
     insuranceTitle: treatment.insuranceTitle || (isEn ? "We work with the leading insurance providers" : "Vi samarbeider med de største forsikringsselskapene"),
-    insurancePartners: treatment.insurancePartners ?? [
-      { key: "gjensidige", label: "Gjensidige" },
-      { key: "if", label: "If" },
-      { key: "fremtind", label: "Fremtind" },
-      { key: "storebrand", label: "Storebrand" },
-      { key: "tryg", label: "Tryg" },
-      { key: "vertikal", label: "Vertikal" },
-      { key: "codan", label: "Codan" },
-      { key: "eika", label: "Eika" },
-    ],
+    // Partners come from CMS / Insurance Collection dual-read. Empty = section hidden.
+    insurancePartners: treatment.insurancePartners ?? [],
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
     heroTitle: treatment.heroTitle || "",

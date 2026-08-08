@@ -2,6 +2,7 @@ import {SpecialistIcon} from './icons'
 import {HomepageSpecialistsSectionInput} from '../sanity/components/HomepageSpecialistsSectionInput'
 import {requiredNoEnI18n} from './i18n'
 import {pickStudioEn} from './studioPreview'
+import {specialistsDisplayModeChip} from '../sanity/page-editor/specialistsDisplayMode'
 
 const INTERNAL_PAGE_REF_TYPES = [
   {type: 'specialistsListingPage'},
@@ -85,6 +86,7 @@ export const homepageSpecialistsSectionType = {
       name: 'maxItems',
       title: 'Maximum Specialists',
       type: 'number',
+      initialValue: 8,
       validation: (Rule: any) => Rule.min(1).max(48),
     },
     {
@@ -99,6 +101,11 @@ export const homepageSpecialistsSectionType = {
         layout: 'radio',
       },
       initialValue: 'carousel',
+      // Pricing reuses this object for selection/copy only — its frontend is a fixed
+      // dark grid and never reads `layout`. Hide the control there so editors are not
+      // offered an unsupported option. Homepage still uses Carousel / Grid.
+      hidden: ({document}: {document?: {_type?: string}}) =>
+        document?._type === 'pricingPage',
     },
     {
       name: 'seeAllLabel',
@@ -140,7 +147,10 @@ export const homepageSpecialistsSectionType = {
       maxItems?: number
     }) {
       const title = pickStudioEn(heading) || 'Specialists'
-      const parts = [displayMode || 'all', layout || 'carousel']
+      const parts = [
+        specialistsDisplayModeChip(displayMode),
+        layout === 'grid' ? 'grid' : layout === 'carousel' ? 'carousel' : 'Layout unset',
+      ]
       if (typeof maxItems === 'number') parts.push(`max ${maxItems}`)
       return {title, subtitle: parts.join(' · ')}
     },

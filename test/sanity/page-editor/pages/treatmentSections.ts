@@ -2,6 +2,7 @@
  * Treatment page editor — Studio UX only.
  *
  * Section cards map onto existing `treatment` field paths.
+ * Card order matches SubTreatmentLayout render order (website body).
  * Document JSON, GROQ, and frontend mapping are unchanged.
  */
 import {
@@ -42,6 +43,13 @@ function nestedArrayChips(
     })
 }
 
+/**
+ * Website body order (SubTreatmentLayout):
+ * Hero → Related (when asIntro) → Symptoms → Process → Expert areas → Benefits →
+ * Text → FAQ → Articles → Mid CTA → Specialists → Insurance → Related → Booking CTA
+ *
+ * Related is one card (placement controlled by “Show right after hero”).
+ */
 function treatmentSections(): PageSectionDefinition[] {
   return [
     {
@@ -80,6 +88,15 @@ function treatmentSections(): PageSectionDefinition[] {
         }),
     },
     {
+      id: 'related',
+      title: 'Related',
+      description:
+        'Related treatments. On the website: after Hero when “Show right after hero” is on; otherwise after Insurance.',
+      icon: UlistIcon,
+      fields: ['relatedSection'],
+      getChips: nestedArrayChips('relatedSection', 'items', 'Item', 'Items'),
+    },
+    {
       id: 'symptoms',
       title: 'Symptoms',
       description: 'Reasons / symptoms band. Leave empty to hide on the website.',
@@ -91,10 +108,14 @@ function treatmentSections(): PageSectionDefinition[] {
         'reasonsLayout',
         'reasons',
       ],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
-          const count = countArray(document.reasons)
+          // Align with FE isMeaningfulReasonItem: item needs a non-empty description.
+          const reasons = Array.isArray(document.reasons) ? document.reasons : []
+          const count = reasons.filter((row: {desc?: unknown}) => {
+            if (typeof row?.desc === 'string') return row.desc.trim().length > 0
+            return Boolean(row?.desc)
+          }).length
           if (!count) return []
           return [countChip(count, 'Item', 'Items')]
         }),
@@ -112,7 +133,6 @@ function treatmentSections(): PageSectionDefinition[] {
         'flowLinkHref',
         'flow',
       ],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countArray(document.flow)
@@ -121,12 +141,19 @@ function treatmentSections(): PageSectionDefinition[] {
         }),
     },
     {
+      id: 'expertAreas',
+      title: 'Expert areas',
+      description: 'Linked service cards. Leave empty to hide on the website.',
+      icon: UsersIcon,
+      fields: ['expertAreas'],
+      getChips: nestedArrayChips('expertAreas', 'items', 'Card', 'Cards'),
+    },
+    {
       id: 'benefits',
       title: 'Benefits',
       description: 'Promises / advantages. Leave empty to hide on the website.',
       icon: BlockElementIcon,
       fields: ['promises'],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countArray(document.promises)
@@ -135,21 +162,11 @@ function treatmentSections(): PageSectionDefinition[] {
         }),
     },
     {
-      id: 'expertAreas',
-      title: 'Expert areas',
-      description: 'Linked service cards. Leave empty to hide on the website.',
-      icon: UsersIcon,
-      fields: ['expertAreas'],
-      hideWhenEmpty: true,
-      getChips: nestedArrayChips('expertAreas', 'items', 'Card', 'Cards'),
-    },
-    {
       id: 'textSection',
       title: 'Text section',
       description: 'Optional text + points band. Leave empty to hide on the website.',
       icon: DocumentTextIcon,
       fields: ['textSection'],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const band = document.textSection as Record<string, unknown> | undefined
@@ -163,24 +180,11 @@ function treatmentSections(): PageSectionDefinition[] {
         }),
     },
     {
-      id: 'related',
-      title: 'Related',
-      description: 'Related treatments carousel. Leave empty to hide on the website.',
-      icon: UlistIcon,
-      fields: ['relatedSection'],
-      hideWhenEmpty: true,
-      getChips: nestedArrayChips('relatedSection', 'items', 'Item', 'Items'),
-    },
-    {
       ...faqCollectionSection({
         titleField: 'faqSectionTitle',
         collectionField: 'faqCollection',
       }),
-      fields: [
-        'faqSectionTitle',
-        'faqCollection',
-      ],
-      hideWhenEmpty: true,
+      fields: ['faqSectionTitle', 'faqCollection'],
       description:
         'FAQ Collection from Content Library. Leave empty to hide on the website.',
     },
@@ -189,28 +193,6 @@ function treatmentSections(): PageSectionDefinition[] {
         pageOwnedNotice:
           'Only the Articles band for this treatment. Other shared bands have their own cards.',
       }),
-      hideWhenEmpty: true,
-    },
-    {
-      ...specialistsBandSection({
-        pageOwnedNotice:
-          'Only the Specialists band for this treatment. Insurance and Booking CTA have their own cards.',
-      }),
-      hideWhenEmpty: true,
-    },
-    {
-      ...insuranceBandSection({
-        pageOwnedNotice:
-          'Only the Insurance band for this treatment. Other shared bands have their own cards.',
-      }),
-      hideWhenEmpty: true,
-    },
-    {
-      ...bookingCtaBandSection({
-        pageOwnedNotice:
-          'Add a Booking CTA band (prefer CTA Collection). If no usable band exists, the website still shows a default Booking CTA until remaining pages are seeded.',
-      }),
-      hideWhenEmpty: true,
     },
     {
       id: 'midCta',
@@ -219,7 +201,6 @@ function treatmentSections(): PageSectionDefinition[] {
         'Optional mid-page conversion band. Leave titles empty to hide on the website.',
       icon: ComposeIcon,
       fields: ['conversationCtaTitle', 'ctaTitle', 'ctaDescription'],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const has =
@@ -229,14 +210,41 @@ function treatmentSections(): PageSectionDefinition[] {
         }),
     },
     {
+      ...specialistsBandSection({
+        pageOwnedNotice:
+          'Only the Specialists band for this treatment. Insurance and Booking CTA have their own cards.',
+      }),
+    },
+    {
+      ...insuranceBandSection({
+        pageOwnedNotice:
+          'Only the Insurance band for this treatment. Other shared bands have their own cards.',
+      }),
+    },
+    {
+      ...bookingCtaBandSection({
+        pageOwnedNotice:
+          'Add a Booking CTA band (prefer CTA Collection). If no usable band exists, the website still shows a default Booking CTA until remaining pages are seeded.',
+        emptyBandChip: 'Website fallback',
+      }),
+    },
+    {
       id: 'general',
       title: 'General',
-      description: 'Treatment name, URL slugs, and categories.',
+      description: 'Treatment name, URL slugs, and Treatment Categories.',
       icon: DocumentTextIcon,
       fields: ['title', 'slug', 'categories', 'pageRole'],
+      notice:
+        'Assign one or more Treatment Categories. The first entry is primary for breadcrumbs, booking, and URLs.',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
-          return i18nPreview(document.title) ? ['Configured'] : ['Empty']
+          const cats = document.categories as {_ref?: string}[] | undefined
+          const catCount =
+            Array.isArray(cats) ? cats.filter((row) => Boolean(row?._ref)).length : 0
+          if (catCount > 0) {
+            return [countChip(catCount, 'Category', 'Categories')]
+          }
+          return ['No category']
         }),
     },
     {
@@ -257,7 +265,10 @@ function treatmentSections(): PageSectionDefinition[] {
       description: 'Legacy and technical fields. Ask engineering before changing.',
       icon: ComposeIcon,
       fields: [
-        'category',
+        'sortOrder',
+        'parentCategoryLabel',
+        'subItems',
+        'expertReadMoreLabel',
         'homeBreadcrumbLabel',
         'srOnlyTitle',
         'themesAriaLabel',
@@ -276,16 +287,10 @@ function treatmentSections(): PageSectionDefinition[] {
         'linkedServices',
         'quickInfoItems',
         'bottomCta',
-        'relatedSpecialists',
         'specialistTitle',
         'specialistDescription',
         'specialistCtaLabel',
         'specialistCtaHref',
-        'insuranceEyebrow',
-        'insuranceTitle',
-        'insurancePartners',
-        'faqs',
-        'layout',
       ],
       getChips: () => ['Technical'],
     },
@@ -295,18 +300,7 @@ function treatmentSections(): PageSectionDefinition[] {
 /** Shared page-editor config for every treatment document. */
 export const treatmentPageEditorConfig: PageEditorConfig = definePageEditorConfig({
   title: 'Treatment',
-  subtitle: 'Edit the page section by section — same fields as before.',
+  subtitle: 'Sections follow the same order as the website.',
   defaultSectionId: 'hero',
   sections: treatmentSections(),
 })
-
-export function createTreatmentPageEditorConfig(options?: {
-  title?: string
-}): PageEditorConfig {
-  return definePageEditorConfig({
-    title: options?.title || 'Treatment',
-    subtitle: 'Edit the page section by section — same fields as before.',
-    defaultSectionId: 'hero',
-    sections: treatmentSections(),
-  })
-}

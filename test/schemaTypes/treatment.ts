@@ -207,7 +207,7 @@ export default {
       of: [{type: 'reference', to: [{type: 'treatmentCategory'}]}],
       options: {sortable: true},
       description:
-        'Required. Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). Drag to reorder.',
+        'Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). Drag to reorder.',
       validation: (Rule: any) =>
         Rule.required()
           .min(1)
@@ -234,15 +234,16 @@ export default {
       initialValue: 'service',
     },
     {
+      // Stored for historical dual-read / rollback only. Never shown in Studio.
+      // Prefer categories[]; migrate-treatment-categories.ts copies category → categories[].
       name: 'category',
-      title: 'Category (legacy)',
+      title: 'category',
       type: 'reference',
       group: 'advanced',
       fieldset: 'advancedLegacy',
       to: [{type: 'treatmentCategory'}],
-      description:
-        'Legacy single category. Kept for dual-read until all documents use Categories. Prefer Categories above.',
       hidden: () => true,
+      readOnly: true,
     },
 
     // ── Page Content ──────────────────────────────────────────────────────────
@@ -372,6 +373,8 @@ export default {
       description: 'Short benefit points in the hero (titles shown on the site).',
       of: [
         {
+          name: 'heroPoint',
+          title: 'Hero point',
           type: 'object',
           fields: [
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
@@ -468,6 +471,8 @@ export default {
       fieldset: 'pcSymptoms',
       of: [
         {
+          name: 'reasonItem',
+          title: 'Symptom',
           type: 'object',
           fields: [
             { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
@@ -536,6 +541,8 @@ export default {
       fieldset: 'pcProcess',
       of: [
         {
+          name: 'flowStep',
+          title: 'Step',
           type: 'object',
           fields: [
             { name: 'n', title: 'Step number / label', type: 'internationalizedArrayString' },
@@ -566,6 +573,8 @@ export default {
       description: 'Highlighted benefits with image and text. Leave empty to hide on the website.',
       of: [
         {
+          name: 'promiseItem',
+          title: 'Benefit',
           type: 'object',
           fields: [
             { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
@@ -604,6 +613,8 @@ export default {
           type: 'array',
           of: [
             {
+              name: 'expertAreaItem',
+              title: 'Linked service',
               type: 'object',
               fields: [
                 { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
@@ -644,6 +655,8 @@ export default {
           type: 'array',
           of: [
             {
+              name: 'textSectionPoint',
+              title: 'Point',
               type: 'object',
               fields: [
                 { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
@@ -1255,10 +1268,7 @@ export default {
       const categories = document.categories as {_ref?: string}[] | undefined
       const hasCategories =
         Array.isArray(categories) && categories.some((c) => Boolean(c?._ref))
-      const hasLegacyCategory = Boolean(
-        (document.category as {_ref?: string} | undefined)?._ref,
-      )
-      if (!hasCategories && !hasLegacyCategory) {
+      if (!hasCategories) {
         issues.push(
           'Category is missing — choose at least one Treatment Category before publishing',
         )
