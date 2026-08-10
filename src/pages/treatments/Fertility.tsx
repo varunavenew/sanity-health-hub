@@ -123,27 +123,35 @@ const segments = [
 
 const audiences = [
   {
-    title: "Heterofile par",
+    title: "Mann og kvinne i parforhold",
     desc:
-      "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
+      "Har dere prøvd en stund – uten å lykkes? Mange av parene som kommer til oss har forsøkt å bli gravide over tid. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt.",
     href: "/behandlinger/fertilitet/infertilitet",
     image: getServiceImageFromHref("/behandlinger/fertilitet/infertilitet") ?? audienceCouple,
   },
   {
-    title: "De ventende",
+    title: "To kvinner i parforhold",
     desc:
-      "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
-    href: "/behandlinger/fertilitet/fertilitetsutredning",
-    image: getServiceImageFromHref("/behandlinger/fertilitet/fertilitetsutredning") ?? audienceWaiting,
+      "Flere og flere kvinner velger å få barn sammen som par. Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse for deres situasjon.",
+    href: "/behandlinger/fertilitet/assistert-befruktning",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? audienceWaiting,
   },
   {
-    title: "Singel",
+    title: "Singel kvinne",
     desc:
-      "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
+      "Ønsker du å få barn på egen hånd – eller bevare muligheten for senere? Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden.",
     href: "/behandlinger/fertilitet/donorbehandling",
     image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? audienceSingle,
   },
+  {
+    title: "Singel mann",
+    desc:
+      "Ønsker du å få innsikt i din fertilitet? En sædanalyse gir viktig informasjon om sædkvaliteten din – og kunnskap gjør det lettere å ta gode valg, både nå og i fremtiden.",
+    href: "/behandlinger/fertilitet/saedanalyse",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/saedanalyse") ?? audienceWaiting,
+  },
 ];
+
 
 const expertAreas = [
   {
