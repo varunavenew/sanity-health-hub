@@ -421,3 +421,10 @@ body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus-within {
 body.cm-edit-mode [data-editable-scope] {
   caret-color: hsl(var(--brand-dark));
 }
+
+/* ===== No italic in headings (client preference) =====
+   Headings must never render in italic anywhere on the site. */
+h1, h2, h3, h4, h5, h6,
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 * {
+  font-style: normal;
+}
