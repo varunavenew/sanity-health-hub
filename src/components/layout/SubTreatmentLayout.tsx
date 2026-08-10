@@ -953,8 +953,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  seeAllLabel={c.specialistCtaLabel}
  />
 
-      {/* SAMARBEIDSPARTNERE / FORSIKRING — før booking CTA */}
-      <InsurancePartners />
+      {/* SAMARBEIDSPARTNERE / FORSIKRING — før booking CTA.
+          Vises ikke på fertilitetstjenester (ikke dekket av helseforsikring). */}
+      {!/\/fertilitet(\/|$)/.test(c.canonical) && <InsurancePartners />}
+
 
       {/* RELATERTE TJENESTER — søsken-tjenester som horisontal karusell */}
       {c.siblingServices && c.siblingServices.length > 0 && (
