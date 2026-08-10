@@ -535,7 +535,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-28 bg-brand-dark">
+      <section className="py-14 md:py-28 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white mb-6">

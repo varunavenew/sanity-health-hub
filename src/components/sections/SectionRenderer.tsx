@@ -39,7 +39,7 @@ const HeroBlock = (s: Section) => {
  <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/85 via-brand-dark/60 to-brand-dark/20" aria-hidden />
  </>
  )}
- <div className="container mx-auto px-6 md:px-16 py-24 md:py-36 relative max-w-3xl">
+ <div className="container mx-auto px-6 md:px-16 py-16 md:py-36 relative max-w-3xl">
  {s.heading && (
  <h1 className={`text-4xl md:text-6xl font-light mb-6 leading-[1.05] ${hasImage ? "text-brand-light" : "text-foreground"}`}>
  {s.heading}

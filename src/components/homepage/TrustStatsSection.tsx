@@ -33,7 +33,7 @@ export const TrustStatsSection = () => {
  const navigate = useNavigate();
  
  return (
- <section className="py-20 md:py-28 bg-brand-dark">
+ <section className="py-14 md:py-28 bg-brand-dark">
  <div className="container mx-auto px-6 md:px-16">
  {/* Header */}
  <div className="mb-12">

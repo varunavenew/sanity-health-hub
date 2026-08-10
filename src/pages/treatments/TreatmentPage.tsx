@@ -120,7 +120,7 @@ const SpecialistCarouselSection = ({
     <section className="py-14 md:py-20 bg-secondary">
       <div className="container mx-auto px-6 md:px-8">
         <div className="max-w-3xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-4 mb-8 md:mb-10">
             <div>
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
                 Møt våre spesialister

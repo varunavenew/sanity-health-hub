@@ -21,7 +21,7 @@ export const PageHero = ({
   dark = true 
 }: PageHeroProps) => {
   return (
-    <header className={`pt-32 pb-20 md:pt-40 md:pb-28 ${dark ? 'bg-brand-dark' : 'bg-gradient-to-b from-secondary/50 to-background'}`}>
+    <header className={`pt-32 pb-14 md:pt-40 md:pb-28 ${dark ? 'bg-brand-dark' : 'bg-gradient-to-b from-secondary/50 to-background'}`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl">
           {badge && (

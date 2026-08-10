@@ -237,7 +237,7 @@ const ReasonsEditorial = ({
      "text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40";
 
    return (
-     <section className="py-20 md:py-28 bg-background">
+     <section className="py-14 md:py-28 bg-background">
        <div className="container mx-auto px-6 md:px-16">
          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
            {/* Sticky left intro */}
@@ -433,9 +433,9 @@ const RelatedServicesCarousel = ({
   };
 
   return (
-    <section className="bg-background py-20 md:py-28 overflow-hidden">
+    <section className="bg-background py-14 md:py-28 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6 mb-8 md:mb-12">
           <div className="max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
               Relaterte tjenester
@@ -695,11 +695,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
   {/* RELATED (as intro) — for landing pages where the cards are the actual treatments inside this service */}
   {c.relatedAsIntro && c.related.length > 0 && (
-    <section className="bg-secondary/40 py-20 md:py-28">
+    <section className="bg-secondary/40 py-14 md:py-28">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           {c.relatedLead ? (
-            <div className="grid lg:grid-cols-12 gap-6 md:gap-14 lg:gap-24 mb-10 md:mb-14">
+            <div className="section-head">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                   {c.relatedTitle ?? "Dette inngår i tjenesten"}
@@ -735,7 +735,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
   {/* 3. RELATED (as services) — treatments included in this service, shown before flow */}
   {c.relatedAsServices && c.related.length > 0 && (
-    <section className="bg-secondary/40 py-20 md:py-28">
+    <section className="bg-secondary/40 py-14 md:py-28">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-12">
@@ -799,7 +799,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </section>
  ) : (
- <section className="bg-brand-light text-foreground py-20 md:py-28">
+ <section className="bg-brand-light text-foreground py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -839,10 +839,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
  {/* 3b. EXPERT AREAS — image cards (optional) */}
  {c.expertAreas && c.expertAreas.items.length > 0 && (
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+ <div className="section-head">
  <div className="lg:col-span-6">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  {c.expertAreas.title}
@@ -887,7 +887,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
       {/* 4. RELATED — moved above promises so methods/subsider stands first */}
       {!c.relatedAsIntro && !c.relatedAsServices && c.related.length > 0 && (
-        <section className="bg-secondary/40 py-20 md:py-28">
+        <section className="bg-secondary/40 py-14 md:py-28">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="max-w-2xl mb-12">
@@ -904,7 +904,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
 
       {/* 4b. PROMISES — three image cards (swapped above reviews) */}
-      <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
+      <section className="bg-secondary/40 pt-16 md:pt-32 pb-16 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
           <div ref={promisesRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>

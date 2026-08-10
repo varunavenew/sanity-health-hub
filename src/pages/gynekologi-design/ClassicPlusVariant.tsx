@@ -35,7 +35,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Back link */}
-      <div className="bg-brand-warm pt-24 md:pt-28">
+      <div className="bg-brand-warm pt-16 md:pt-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <Link
             to="/gynekologi-design"
@@ -48,7 +48,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       </div>
 
       {/* HERO – two-image composition with sticky meta */}
-      <section className="bg-brand-warm pt-10 md:pt-14 pb-20 md:pb-28">
+      <section className="bg-brand-warm pt-10 md:pt-14 pb-14 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 items-center">
             {/* LEFT: all text, left-aligned */}
@@ -95,7 +95,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Services – numbered editorial list, the new twist (moved up under hero) */}
-      <section className="bg-background py-20 md:py-24 border-t border-border/60">
+      <section className="bg-background py-14 md:py-24 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-14 md:mb-16">
             <div className="col-span-12 md:col-span-5">
@@ -147,7 +147,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
 
       {/* Continued description – calm, single column (moved below services) */}
       {restDescription.length > 0 && (
-        <section className="bg-brand-warm py-20 md:py-24">
+        <section className="bg-brand-warm py-14 md:py-24">
           <div className="container mx-auto px-6 md:px-16 max-w-3xl">
             {restDescription.map((p, i) => (
               <p
@@ -162,7 +162,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       )}
 
       {/* Specialists – horizontal strip on warm bg */}
-      <section className="bg-background py-20 md:py-28 border-t border-border/60">
+      <section className="bg-background py-14 md:py-28 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="flex items-end justify-between mb-12 md:mb-14">
             <div className="max-w-xl">
@@ -191,7 +191,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
 
       {/* FAQ – inline +/- accordion, classic feel */}
-      <section className="bg-background py-20 md:py-28">
+      <section className="bg-background py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
@@ -228,7 +228,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-brand-warm py-20 md:py-28 border-t border-border/60">
+      <section className="bg-brand-warm py-14 md:py-28 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
           <div>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">

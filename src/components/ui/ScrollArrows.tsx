@@ -118,7 +118,7 @@ export const ScrollArrows = ({
     // Ingen scroll å navigere i — men en eventuell tekstlenke skal fortsatt vises.
     if (!trailing) return null;
     return (
-      <div className="flex items-center justify-end w-full max-w-full mt-5 md:mt-6">
+      <div className="flex items-center justify-end w-full max-w-full carousel-nav">
         {trailing}
       </div>
     );
@@ -139,7 +139,7 @@ export const ScrollArrows = ({
 
   return (
     <div
-      className={`${vis} items-center gap-3 md:gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
+      className={`${vis} items-center gap-3 md:gap-4 w-full max-w-full overflow-x-clip carousel-nav ${className}`}
     >
       {/* Fremdriftslinje + teller (venstrejustert) */}
       <div className={`${trailing ? "" : "flex-1"} min-w-0 flex items-center gap-3`}>

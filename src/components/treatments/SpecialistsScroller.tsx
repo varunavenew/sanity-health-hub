@@ -77,10 +77,10 @@ export const SpecialistsScroller = ({
       : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto";
 
   return (
-    <section className="pt-14 md:pt-20 pb-20 md:pb-14 bg-secondary/30 overflow-hidden">
+    <section className="pt-14 md:pt-20 pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {/* Header — identical to home */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6 mb-8 md:mb-12">
           <div className="max-w-xl">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               {title}
@@ -128,7 +128,7 @@ export const SpecialistsScroller = ({
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+            className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",

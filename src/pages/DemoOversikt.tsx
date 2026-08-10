@@ -83,7 +83,7 @@ const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
  </div>
  </section>
 
- <section className="bg-background pb-24 md:pb-32">
+ <section className="bg-background pb-16 md:pb-32">
  <div className="container mx-auto px-6 md:px-16 max-w-5xl">
  <div className="space-y-16 md:space-y-20">
  {groups.map((g) => (

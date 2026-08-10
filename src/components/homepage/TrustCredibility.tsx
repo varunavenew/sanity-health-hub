@@ -57,7 +57,7 @@ const specialists = [
 
 export const TrustCredibility = () => {
  return (
- <section className="py-20 md:py-28 bg-[hsl(25,15%,15%)] text-[hsl(30,20%,96%)]">
+ <section className="py-14 md:py-28 bg-[hsl(25,15%,15%)] text-[hsl(30,20%,96%)]">
  <div className="container mx-auto px-6 md:px-16">
  {/* Section header */}
  <div className="max-w-3xl mb-16">
@@ -84,7 +84,7 @@ export const TrustCredibility = () => {
 
  {/* Specialists section */}
  <div className="border-t border-white/10 pt-16">
- <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-10">
+ <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-8 mb-8 md:mb-10">
  <div>
  <h3 className="text-2xl md:text-3xl font-light mb-2">Møt våre spesialister</h3>
  <p className="text-white/90 font-light">

@@ -72,7 +72,7 @@ const CARD_ITEMS: CardItem[] = [
 ];
 
 const TipsCardsVariant = () => (
-  <section className="bg-brand-light py-20 md:py-28">
+  <section className="bg-brand-light py-14 md:py-28">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-light text-foreground mb-10 md:mb-14">
@@ -169,7 +169,7 @@ const FEATURE_ITEMS: FeatureItem[] = [
 ];
 
 const TipsFeatureVariant = () => (
-  <section className="bg-brand-light py-20 md:py-28">
+  <section className="bg-brand-light py-14 md:py-28">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-light text-foreground mb-10 md:mb-14">
@@ -270,7 +270,7 @@ const COMPACT_ITEMS: CompactItem[] = [
 ];
 
 const TipsCompactVariant = () => (
-  <section className="bg-brand-light py-20 md:py-28">
+  <section className="bg-brand-light py-14 md:py-28">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-light text-foreground mb-10 md:mb-14">
@@ -318,7 +318,7 @@ const TipsEditorialVariant = () => {
   const [lead, ...rest] = CARD_ITEMS;
   const { Icon: LeadIcon, label: leadLabel } = FORMAT_META[lead.format];
   return (
-    <section className="bg-brand-light py-20 md:py-28">
+    <section className="bg-brand-light py-14 md:py-28">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-end justify-between mb-10 md:mb-14 gap-6">
@@ -377,7 +377,7 @@ const TipsEditorialVariant = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TipsScrollerVariant = () => (
-  <section className="bg-brand-dark py-20 md:py-28">
+  <section className="bg-brand-dark py-14 md:py-28">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-end justify-between mb-10 md:mb-14 gap-6">
@@ -434,7 +434,7 @@ const TIMELINE_ITEMS: TimelineItem[] = [
 ];
 
 const TipsTimelineVariant = () => (
-  <section className="bg-brand-light py-20 md:py-28">
+  <section className="bg-brand-light py-14 md:py-28">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-light text-foreground mb-10 md:mb-14">

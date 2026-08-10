@@ -251,7 +251,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       </header>
 
       {/* 2. SEGMENT-SEKSJON — Fortell oss hvor du er */}
-      <section className="bg-brand-light text-foreground py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
@@ -281,7 +281,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
             (samme mønster som NIPT / GynekologiSubPage). På undertjenester
             erstatter denne seksjonen "Fortell oss hvor du er", siden brukeren
             allerede har valgt sitt steg i livet. */}
-      <section className="py-20 md:py-28 bg-background">
+      <section className="py-14 md:py-28 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
             <div>
@@ -389,10 +389,10 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST */}
-      <section className="bg-secondary/40 py-20 md:py-28">
+      <section className="bg-secondary/40 py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+            <div className="section-head">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                   Eksperter som jobber med det de kan aller best.
@@ -452,10 +452,10 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       />
 
       {/* 6. VET DU ALLEREDE HVA DU TRENGER — full liste */}
-      <section className="bg-background text-foreground py-20 md:py-28">
+      <section className="bg-background text-foreground py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+            <div className="section-head">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
                   Vet du allerede hva du trenger?
@@ -488,7 +488,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 7. RESULTATER */}
-      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+      <section className="bg-brand-light text-foreground py-14 md:py-28 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 mb-14">
@@ -530,7 +530,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 8. PASIENTSITATER */}
-      <section className="bg-brand-warm py-20 md:py-24">
+      <section className="bg-brand-warm py-14 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-xl mb-10">
@@ -592,7 +592,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
 
       {/* 10. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING */}
       <section className="bg-background">
-        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16 py-14 md:py-28">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16">
             <div>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">

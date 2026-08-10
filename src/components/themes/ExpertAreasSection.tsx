@@ -25,10 +25,10 @@ export const ExpertAreasSection = ({
   items,
 }: ExpertAreasSectionProps) => {
   return (
-    <section className="bg-secondary/40 py-20 md:py-28">
+    <section className="bg-secondary/40 py-14 md:py-28">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+          <div className="section-head">
             <div className="lg:col-span-6">
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                 {title}

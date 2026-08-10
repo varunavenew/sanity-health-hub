@@ -478,10 +478,10 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
  ============================================================ */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+ <div className="section-head">
  <div className="lg:col-span-6">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Eksperter som jobber med det de kan aller best.
@@ -551,10 +551,10 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  6. HVA VI TILBYR — gruppert oversikt
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+ <section className="bg-brand-light text-foreground pt-14 md:pt-28 pb-16 md:pb-20">
   <div className="page-shell">
    <div className="max-w-6xl mx-auto">
-     <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+     <div className="section-head">
       <div className="lg:col-span-6">
        <h2 className="text-3xl md:text-5xl font-light leading-tight">
         Hva vi tilbyr
@@ -607,7 +607,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+ <div className="section-head">
  <div className="lg:col-span-5">
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Tall som forteller en historie.

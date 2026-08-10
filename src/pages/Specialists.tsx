@@ -61,7 +61,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           { name: "Spesialister", path: "/spesialister" },
         ]}
       />
-      <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
+      <section className="bg-brand-dark pt-24 pb-10 md:pt-16 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
             

@@ -40,7 +40,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Back */}
-      <div className="bg-brand-warm pt-24 md:pt-28">
+      <div className="bg-brand-warm pt-16 md:pt-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <Link
             to="/gynekologi-design"
@@ -53,7 +53,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
       </div>
 
       {/* HERO – tighter, more editorial */}
-      <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-28">
+      <section className="bg-brand-warm pt-12 md:pt-16 pb-14 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 items-end mb-12 md:mb-16">
             <div className="col-span-12 md:col-span-8">
@@ -89,7 +89,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
 
       {/* Continued description */}
       {restDescription.length > 0 && (
-        <section className="bg-background py-20 md:py-28 border-t border-border/60">
+        <section className="bg-background py-14 md:py-28 border-t border-border/60">
           <div className="container mx-auto px-6 md:px-16 max-w-3xl">
             {restDescription.map((p, i) => (
               <p
@@ -104,7 +104,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
       )}
 
       {/* Tjenester – full list, clearly grouped, premium gallery rhythm */}
-      <section className="bg-background pb-24 md:pb-32">
+      <section className="bg-background pb-16 md:pb-32">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-20">
             <div className="col-span-12 md:col-span-5">
@@ -159,7 +159,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Specialists – portrait wall on warm bg */}
-      <section className="bg-brand-warm py-20 md:py-28">
+      <section className="bg-brand-warm py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="flex items-end justify-between mb-12 md:mb-16">
             <div className="max-w-xl">
@@ -188,7 +188,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
       <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
 
       {/* FAQ */}
-      <section className="bg-background py-20 md:py-28">
+      <section className="bg-background py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
@@ -209,7 +209,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-brand-warm py-20 md:py-28 border-t border-border/60">
+      <section className="bg-brand-warm py-14 md:py-28 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
           <div>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">

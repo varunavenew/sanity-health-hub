@@ -46,7 +46,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Back */}
-      <div className="bg-background pt-24 md:pt-28">
+      <div className="bg-background pt-16 md:pt-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <Link
             to="/gynekologi-design"
@@ -96,7 +96,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       {/* THE INDEX — primary focus, immediately after intro.
           Each chapter is led by a brand-format portrait image (4:5)
           paired with a numbered, calm service list. */}
-      <section className="bg-brand-warm py-20 md:py-28 border-t border-border/40">
+      <section className="bg-brand-warm py-14 md:py-28 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-20">
             <div className="col-span-12 md:col-span-5">
@@ -196,7 +196,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
 
       {/* Continued description — calm aftermath of the register */}
       {restDescription.length > 0 && (
-        <section className="bg-background py-24 md:py-32">
+        <section className="bg-background py-16 md:py-32">
           <div className="container mx-auto px-6 md:px-16 max-w-3xl">
             {restDescription.map((p, i) => (
               <p
@@ -211,7 +211,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       )}
 
       {/* Specialists — clean editorial row */}
-      <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
+      <section className="bg-brand-warm py-16 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-14 md:mb-16">
             <div className="max-w-xl">
@@ -240,7 +240,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
 
       {/* FAQ */}
-      <section className="bg-background py-24 md:py-32 border-t border-border/40">
+      <section className="bg-background py-16 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
@@ -261,7 +261,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Closing CTA — calm, not loud */}
-      <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
+      <section className="bg-brand-warm py-16 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl text-center">
           <h2 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-8">
             Time innen kort tid.<br />

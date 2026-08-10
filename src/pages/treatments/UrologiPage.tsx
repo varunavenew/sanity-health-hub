@@ -289,10 +289,10 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
 
 
  {/* 3. EKSPERTER */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+ <div className="section-head">
  <div className="lg:col-span-6">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Eksperter som jobber med det de kan aller best.
@@ -357,10 +357,10 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  />
 
  {/* 4b. STATS */}
- <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
+ <section className="bg-brand-light text-foreground pt-14 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+ <div className="section-head">
  <div className="lg:col-span-5">
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Tall som forteller en historie.
@@ -408,10 +408,10 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </section>
 
   {/* 4. HVA VI TILBYR — gruppert oversikt */}
-  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+  <section className="bg-brand-light text-foreground pt-14 md:pt-28 pb-16 md:pb-20">
    <div className="container mx-auto px-6 md:px-16">
     <div className="max-w-6xl mx-auto">
-     <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+     <div className="section-head">
       <div className="lg:col-span-6">
        <h2 className="text-3xl md:text-5xl font-light leading-tight">
         Hva vi tilbyr
@@ -459,7 +459,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
 
 
  {/* 5. REVIEWS */}
- <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
+ <section className="bg-brand-warm pt-12 md:pt-16 pb-14 md:pb-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
@@ -533,8 +533,8 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
 
  {/* 7. PASIENTREISEN */}
  <section className="bg-background">
- <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
+ <div className="container mx-auto px-6 md:px-16 py-14 md:py-28">
+ <div className="max-w-6xl mx-auto section-head-plain">
  <div className="lg:col-span-5">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
  Fra første kontakt til riktig behandling.

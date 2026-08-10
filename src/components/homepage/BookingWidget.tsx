@@ -51,7 +51,7 @@ export const BookingWidget = () => {
   const availableTreatments = selectedSpecialty ? treatments[selectedSpecialty] || [] : [];
 
   return (
-    <section className="py-20 md:py-28 bg-brand-dark">
+    <section className="py-14 md:py-28 bg-brand-dark">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-4xl mx-auto">
           {/* Badge */}

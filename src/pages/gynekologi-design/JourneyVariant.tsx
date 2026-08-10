@@ -88,7 +88,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
 
-        <div className="absolute inset-0 flex items-end pb-20 md:pb-28">
+        <div className="absolute inset-0 flex items-end pb-14 md:pb-28">
           <div className="container mx-auto px-6 md:px-16 max-w-6xl text-white">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] tracking-tight max-w-4xl mb-8">
               CMedical Kvinnehelse – direkte tilgang til riktig ekspertise.
@@ -105,7 +105,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Intro */}
-      <section className="bg-background py-20 md:py-28">
+      <section className="bg-background py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           {gynekologiContent.description.split("\n\n").map((p, i) => (
             <p
@@ -119,7 +119,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Patient journey */}
-      <section className="bg-brand-warm py-20 md:py-28">
+      <section className="bg-brand-warm py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -147,7 +147,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Tjenester – grouped, real services */}
-      <section className="bg-background py-20 md:py-28">
+      <section className="bg-background py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 md:mb-16 max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-6">
@@ -194,7 +194,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Specialists */}
-      <section className="bg-brand-warm py-20 md:py-28">
+      <section className="bg-brand-warm py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -214,7 +214,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
       <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
 
       {/* FAQ */}
-      <section className="bg-background py-20 md:py-28">
+      <section className="bg-background py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
@@ -235,7 +235,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Closing booking band */}
-      <section className="bg-brand-dark py-20 md:py-28 text-white">
+      <section className="bg-brand-dark py-14 md:py-28 text-white">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>

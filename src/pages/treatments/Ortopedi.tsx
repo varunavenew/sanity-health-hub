@@ -167,7 +167,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* BODY PART NAVIGATION */}
- <section className="bg-brand-light py-20 md:py-28">
+ <section className="bg-brand-light py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -233,7 +233,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* CHECKLISTS */}
- <section className="bg-background py-20 md:py-28">
+ <section className="bg-background py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -271,7 +271,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  />
 
  {/* JOURNEY */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -295,7 +295,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  {/* SPECIALISTS */}
  {ortoSpecialists.length > 0 && (
  <section className="bg-brand-warm">
- <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
+ <div className="container mx-auto px-6 md:px-16 pt-14 md:pt-28 pb-10 md:pb-14">
  <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
  <div>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Spesialistene som følger deg.</h2>
@@ -325,7 +325,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  )}
 
  {/* REVIEWS */}
- <section className="bg-brand-warm py-20 md:py-24">
+ <section className="bg-brand-warm py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
@@ -354,7 +354,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* FAQ */}
- <section className="bg-background py-20 md:py-24">
+ <section className="bg-background py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-tight tracking-tight mb-10 text-center">Det folk spør om</h2>
  <Accordion type="single" collapsible className="w-full">
@@ -369,7 +369,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* DARK CTA */}
- <section className="bg-brand-dark text-white py-20 md:py-24">
+ <section className="bg-brand-dark text-white py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
  <div className="lg:col-span-7">
@@ -395,7 +395,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  {/* INSURANCE */}
  <section className="bg-brand-light text-foreground py-14 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24 items-start">
+ <div className="max-w-6xl mx-auto section-head-plain items-start">
  <div className="lg:col-span-4">
  
  <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
