@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { MediaChip } from "@/components/ui/MediaChip";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { Link } from "react-router-dom";
 import {
@@ -498,9 +499,9 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
+                    <MediaChip>
                       {a.c}
-                    </span>
+                    </MediaChip>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
