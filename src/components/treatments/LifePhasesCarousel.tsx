@@ -52,7 +52,7 @@ export const LifePhasesCarousel = ({ phases }: Props) => {
               </p>
               {(p.tags ?? []).length > 0 && (
                 <div className="mb-4">
-                  {(p.tags ?? []).slice(0, 4).map((tag) => (
+                  {(p.tags ?? []).map((tag) => (
                     <Link
                       key={tag.label}
                       to={tag.href}
