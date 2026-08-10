@@ -432,16 +432,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
           </div>
 
           <PricingTestimonialGrid />
-                <p className="text-foreground/80 mb-4 font-light leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-                <div className="flex items-center justify-between">
-                  <p className="font-normal text-foreground">{testimonial.name}</p>
-                  <span className="text-xs text-muted-foreground">{testimonial.treatment}</span>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
