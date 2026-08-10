@@ -162,7 +162,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "symptomer",
         heading: "Symptomer",
-        content: "Symptomene på endometriose er individuelle. Det vanligste symptomet er smerter ved menstruasjonen eller utenom. Smertene kan variere i styrke fra minimale menstruasjonssmerter til invalidiserende smerter. Andre symptomer kan være kvalme, diaré eller forstoppelse, økt trettbarhet, smerter ved vannlatning eller ved samleie. Omtrent 10% av kvinner rammes, og hele 30% av disse lider av underlivssmerter.",
+        content: "Vanlige symptomer inkluderer:\n- Uregelmessig menstruasjon/blødningsforstyrrelser\n- Hetetokter og/eller nattesvette\n- Hjernetåke/konsentrasjonsvansker\n- Økt irritabilitet\n- Tar lettere til tårene/emosjonell\n- Redusert hukommelse\n- Søvnproblemer\n- Endringer i hud og hår\n- Smerter i ledd og muskler\n- Hyppigere hodepine\n- Redusert sexlyst\n- Urinveisinfeksjoner og tørrhet i skjeden\n\nPå lengre sikt øker risikoen for tilstander som beinskjørhet, hjerte- og karsykdommer, høyt kolesterol og blodtrykk, depresjon og muligens demens. Dette skyldes nedgang i østrogen-, progesteron- og testosteronproduksjonen. Heldigvis finnes trygge og effektive behandlingsalternativer som hjelper deg med å håndtere symptomene, gir økt livskvalitet og reduserer risiko for fremtidige helseproblemer.",
       },
       {
         id: "kirurgi",
@@ -316,6 +316,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
     heroImage: gynekologiImg,
     description: "Cyster på eggstokkene er veldig vanlig og i de fleste tilfeller helt ufarlig.\n\nHver måned modnes ett egg i en av eggstokkene. Dette ligger inni i en vannpose som blir ca 2 cm stor før den sprekker. Av og til kan det dannes flere slike vannposer eller cyster som ikke sprekker, men som får vokse videre. Disse kan iblant bli ganske store og gi smerter og ubehag nederst i magen, særlig ved samleie og bevegelse. Disse cystene kalles funksjonelle cyster og blir som oftest borte av seg selv etter omtrent tre menstruasjonssykluser.\n\nHar du spørsmål knyttet til dette kan du alltid kontakte oss.",
     sections: [
+      {
+        id: "tegn",
+        heading: "Tegn",
+        content: "- Smerter ved trykk i nedre del av magen\n- Oppblåsthet\n- Smerter ved samleie\n- Uregelmessige menstruasjoner\n- Akutte sterke smerter om en cyste sprekker eller vrir seg",
+      },
       {
         id: "former-for-cyste",
         heading: "Former for cyste",
