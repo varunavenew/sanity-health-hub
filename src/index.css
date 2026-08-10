@@ -401,6 +401,17 @@
 
 /* Hide native scrollbar for horizontal card carousels — dots handle indication */
 @layer utilities {
+  /* Shared focal point for hero/carousel images.
+     Mobile crops are much narrower, so faces sit higher in the frame. */
+  .hero-focal {
+    object-position: var(--focal-mobile, center 25%);
+  }
+  @media (min-width: 768px) {
+    .hero-focal {
+      object-position: var(--focal-desktop, center 30%);
+    }
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

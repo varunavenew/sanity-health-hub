@@ -33,6 +33,9 @@ interface HeroSlide {
   cta: string;
   ctaPath: string;
   objectPosition: string;
+  /** Focal point used on mobile crops so faces stay visible */
+  mobileObjectPosition?: string;
+
 }
 
 export const HeroBanner = () => {
@@ -53,6 +56,7 @@ export const HeroBanner = () => {
       cta: t("hero.readMore"),
       ctaPath: "/gynekologi",
       objectPosition: "center 20%",
+      mobileObjectPosition: "center 22%",
     },
     {
       id: "fertilitet",
@@ -64,6 +68,7 @@ export const HeroBanner = () => {
       cta: t("hero.readMore"),
       ctaPath: "/fertilitet",
       objectPosition: "center 40%",
+      mobileObjectPosition: "center 25%",
     },
     {
       id: "tverrfaglig",
@@ -75,6 +80,7 @@ export const HeroBanner = () => {
       cta: t("hero.readMore"),
       ctaPath: "/behandlinger/gynekologi/tverrfaglig",
       objectPosition: "center 40%",
+      mobileObjectPosition: "center 18%",
     },
   ];
 
@@ -138,8 +144,11 @@ export const HeroBanner = () => {
               muted
               loop
               playsInline
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
+              className="hero-focal w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{
+                ["--focal-mobile" as any]: slide.mobileObjectPosition ?? "center 25%",
+                ["--focal-desktop" as any]: slide.objectPosition,
+              }}
             />
           ) : (
             <>
@@ -147,20 +156,26 @@ export const HeroBanner = () => {
                 <img
                   src={slide.mobileImage}
                   alt={slide.alt}
-                  className="md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                  style={{ objectPosition: "center" }}
+                  className="hero-focal md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  style={{
+                    ["--focal-mobile" as any]: slide.mobileObjectPosition ?? "center 25%",
+                  }}
                   loading={current === 0 ? "eager" : "lazy"}
                 />
               )}
               <img
                 src={slide.image}
                 alt={slide.alt}
-                className={`${slide.mobileImage ? "hidden md:block" : ""} w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]`}
-                style={{ objectPosition: slide.objectPosition }}
+                className={`hero-focal ${slide.mobileImage ? "hidden md:block" : ""} w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]`}
+                style={{
+                  ["--focal-mobile" as any]: slide.mobileObjectPosition ?? "center 25%",
+                  ["--focal-desktop" as any]: slide.objectPosition,
+                }}
                 loading={current === 0 ? "eager" : "lazy"}
               />
             </>
           )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 pb-20 md:pb-24">
             <div className="page-shell">

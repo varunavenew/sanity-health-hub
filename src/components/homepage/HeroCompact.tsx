@@ -66,8 +66,11 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               <img
                 src={category.mobileImage ?? category.image}
                 alt=""
-                style={{ objectPosition: category.objectPosition ?? "center" }}
-                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  ["--focal-mobile" as any]: category.mobileObjectPosition ?? "center 25%",
+                  ["--focal-desktop" as any]: category.objectPosition ?? "center",
+                }}
+                className="hero-focal absolute inset-0 w-full h-full object-cover"
                 loading={index === 0 ? "eager" : "lazy"}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/30 to-transparent" aria-hidden="true" />
