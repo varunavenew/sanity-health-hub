@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage, getDedicatedServiceImage } from "@/data/serviceImages";
@@ -150,9 +151,9 @@ const renderRichContent = (text: string): ReactNode => {
     const line = lines[i];
     if (!line.trim()) { i++; continue; }
     if (line.trim().startsWith("- ")) {
-      const items: string[] = [];
+      const items: ReactNode[] = [];
       while (i < lines.length && lines[i].trim().startsWith("- ")) {
-        items.push(stripMarkdown(lines[i].trim().slice(2)));
+        items.push(renderInline(lines[i].trim().slice(2)));
         i++;
       }
       blocks.push(
@@ -166,7 +167,7 @@ const renderRichContent = (text: string): ReactNode => {
         paragraph.push(lines[i].trim());
         i++;
       }
-      blocks.push(<p key={`p-${key++}`}>{stripMarkdown(paragraph.join(" "))}</p>);
+      blocks.push(<p key={`p-${key++}`}>{renderInline(paragraph.join(" "))}</p>);
     }
   }
   return <>{blocks}</>;
