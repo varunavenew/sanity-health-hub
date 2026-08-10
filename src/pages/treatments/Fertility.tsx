@@ -610,12 +610,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </div>
      </div>
 
-     <div className="space-y-12">
+     <div className="space-y-14">
       {serviceGroups.map((group) => (
        <div key={group.label}>
-        <p className="text-xs font-light text-foreground/60 mb-4">
+        <h3 className="text-lg md:text-xl font-normal text-foreground mb-5">
          {group.label}
-        </p>
+        </h3>
         <ul className="border-t border-brand-dark/10">
          {group.items.map((s) => (
           <li key={s.title} className="border-b border-brand-dark/10">
@@ -623,9 +623,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             to={s.href}
             className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
            >
-            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+            <h4 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
              {s.title}
-            </h3>
+            </h4>
             <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
              {s.desc}
             </p>
