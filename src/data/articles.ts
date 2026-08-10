@@ -167,9 +167,9 @@ export const articles: Article[] = [
   },
   {
     slug: "cmedical-og-nors-care-inngar-samarbeid-vil-styrke-kvinners-kunnskap-om-egen-helse",
-    title: "CMedical og Nors Care inngår samarbeid – vil styrke kvinners kunnskap om egen helse",
+    title: "CMedical og Nørs Care inngår samarbeid – vil styrke kvinners kunnskap om egen helse",
     excerpt:
-      "CMedical og Nors Care, som står bak kvinnehelseappen Nørs, samarbeider for å øke kunnskapen om fertilitet og kvinnehelse gjennom hele livet.",
+      "CMedical og Nørs Care, som står bak kvinnehelseappen Nørs, samarbeider for å øke kunnskapen om fertilitet og kvinnehelse gjennom hele livet.",
     image: img("3480faeccb875c3efde636db2e2a32f0c473c967-3456x4608.jpg"),
     date: "2025-10-02",
     category: "Nytt fra oss",
