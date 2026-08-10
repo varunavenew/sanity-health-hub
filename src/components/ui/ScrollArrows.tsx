@@ -39,6 +39,7 @@ export const ScrollArrows = ({
   visibility = "all",
   className = "",
   slideCount,
+  trailing,
 }: ScrollArrowsProps) => {
   const [count, setCount] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -113,7 +114,15 @@ export const ScrollArrows = ({
     [scrollRef],
   );
 
-  if (!overflowing || count <= 1) return null;
+  if (!overflowing || count <= 1) {
+    // Ingen scroll å navigere i — men en eventuell tekstlenke skal fortsatt vises.
+    if (!trailing) return null;
+    return (
+      <div className="flex items-center justify-end w-full max-w-full mt-5 md:mt-6">
+        {trailing}
+      </div>
+    );
+  }
 
   const total = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
   const current = total > 0 ? (activeIdx % total) + 1 : 1;
@@ -172,6 +181,9 @@ export const ScrollArrows = ({
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
+
+      {/* Tekstlenke helt til høyre — egen kolonne, aldri overlapp */}
+      {trailing && <div className="shrink-0">{trailing}</div>}
     </div>
   );
 };
