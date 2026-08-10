@@ -141,50 +141,46 @@ export const ScrollArrows = ({
     <div
       className={`${vis} items-center gap-3 md:gap-4 w-full max-w-full overflow-x-clip carousel-nav ${className}`}
     >
-      {/* Fremdriftslinje + teller (venstrejustert) */}
-      <div className={`${trailing ? "" : "flex-1"} min-w-0 flex items-center gap-3`}>
+      {/* Fremdriftsstrek + piler — alltid til venstre */}
+      <div className={`flex items-center gap-3 md:gap-4 min-w-0 ${trailing ? "flex-1" : "flex-1"}`}>
         <div
-          className={`relative h-px flex-1 min-w-0 bg-brand-dark/15 ${trailing ? "hidden md:block" : ""}`}
-
+          className="relative h-px flex-1 min-w-[48px] bg-brand-dark/15"
           role="progressbar"
           aria-valuemin={1}
           aria-valuemax={total}
           aria-valuenow={current}
+          aria-label="Fremdrift i karusell"
         >
           <div
             className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-200"
             style={{ width: `${Math.max(6, progress * 100)}%` }}
           />
         </div>
-        <span className="text-sm font-light text-muted-foreground whitespace-nowrap tabular-nums">
-          {current} av {total}
-        </span>
-      </div>
 
-      {/* Piler til høyre */}
-      <div className="flex items-center gap-2 shrink-0">
-        <button
-          type="button"
-          onClick={() => step(-1)}
-          disabled={atStart}
-          aria-label="Forrige"
-          className={btn}
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => step(1)}
-          disabled={atEnd}
-          aria-label="Neste"
-          className={btn}
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => step(-1)}
+            disabled={atStart}
+            aria-label="Forrige"
+            className={btn}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => step(1)}
+            disabled={atEnd}
+            aria-label="Neste"
+            className={btn}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Tekstlenke helt til høyre — egen kolonne, aldri overlapp */}
-      {trailing && <div className="shrink-0 ml-auto">{trailing}</div>}
+      {trailing && <div className="shrink-0">{trailing}</div>}
     </div>
   );
 };
