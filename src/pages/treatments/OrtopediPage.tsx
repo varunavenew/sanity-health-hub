@@ -21,6 +21,7 @@ import {
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { ClinicPillarsSection } from "@/components/treatments/ClinicPillarsSection";
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import spotlightImg from "@/assets/hero/hero-treatment.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
@@ -490,6 +491,18 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
+
+      <ClinicPillarsSection
+        title="Landets fremste ortopeder — uten ventetid."
+        intro="Hos CMedical møter du noen av landets fremste ortopediske kirurger. Du får den samme ekspertisen som ved de store universitetssykehusene — uten henvisning og uten lang ventetid."
+        pillars={[
+          { n: "01", title: "Alt under samme tak", desc: "Utredning, bildediagnostikk og kirurgi samlet — for skulder, kne, hofte, hånd og albue, fot og ankel." },
+          { n: "02", title: "Ledende kompetanse", desc: "Noen av landets fremste kirurger tar seg av selv de mest komplekse tilfellene." },
+          { n: "03", title: "Tett oppfølging", desc: "Ett tverrfaglig team med fysioterapeut og osteopat følger deg fra første konsultasjon til kontroll etter behandling." },
+        ]}
+        image={ortopediHero}
+        imageAlt="Ortopedisk behandling hos CMedical"
+      />
 
   {/* 6. SPESIALISTER */}
 

@@ -21,6 +21,7 @@ import {
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { ClinicPillarsSection } from "@/components/treatments/ClinicPillarsSection";
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import spotlightImg from "@/assets/hero/cmedical-hands.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
@@ -509,6 +510,18 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
+
+      <ClinicPillarsSection
+        title="Nordens ledende urologimiljø — samlet på ett sted."
+        intro="Hos CMedical møter du flere av Nordens ledende spesialister innen urologi — med direkte tilgang til riktig ekspertise, uten omveier."
+        pillars={[
+          { n: "01", title: "Ledende på robotkirurgi", desc: "Som eneste private aktør i Norge tilbyr vi robotassistert kirurgi — over 400 robotoperasjoner i året innen blant annet prostata, blære og nyrer." },
+          { n: "02", title: "Ledende kompetanse", desc: "Flere av Nordens fremste urologer, i tverrfaglige team med blant annet osteopat, ernæringsfysiolog, psykolog og sexolog." },
+          { n: "03", title: "Rask hjelp", desc: "Ingen henvisning og kort ventetid — de fleste får time innen en uke." },
+        ]}
+        image={expertProstata}
+        imageAlt="Robotassistert urologisk kirurgi hos CMedical"
+      />
 
   {/* 6. SPESIALISTER */}
 
