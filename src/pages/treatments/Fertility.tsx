@@ -813,8 +813,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         text="En grundig kartlegging av eggstokkreserve, hormoner og anatomi — slik at du vet hvor du står. Du møter en spesialist som går gjennom funnene og legger en plan tilpasset deg og din partner."
         ctaLabel="Les mer om fertilitetsutredning"
         ctaHref="/behandlinger/fertilitet/fertilitetsutredning"
-        image={fertilityHeroImg}
-        imageAlt="Konsultasjon med fertilitetsspesialist hos CMedical"
+        image={fertUtredningAsset.url}
+        imageAlt="Mor holder nyfødt barn"
       />
 
       <SpecialistsScroller
