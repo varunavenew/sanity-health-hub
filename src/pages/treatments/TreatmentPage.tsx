@@ -363,7 +363,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         <img
           src={treatment.heroImage}
           alt={treatment.title}
-          className="w-full h-full object-cover object-[center_30%]"
+          className="hero-focal w-full h-full object-cover"
           loading="eager"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/40 to-transparent" />

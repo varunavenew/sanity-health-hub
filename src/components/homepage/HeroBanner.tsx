@@ -56,6 +56,7 @@ export const HeroBanner = () => {
       cta: t("hero.readMore"),
       ctaPath: "/gynekologi",
       objectPosition: "center 20%",
+      mobileObjectPosition: "center 22%",
     },
     {
       id: "fertilitet",
@@ -67,6 +68,7 @@ export const HeroBanner = () => {
       cta: t("hero.readMore"),
       ctaPath: "/fertilitet",
       objectPosition: "center 40%",
+      mobileObjectPosition: "center 25%",
     },
     {
       id: "tverrfaglig",
@@ -78,6 +80,7 @@ export const HeroBanner = () => {
       cta: t("hero.readMore"),
       ctaPath: "/behandlinger/gynekologi/tverrfaglig",
       objectPosition: "center 40%",
+      mobileObjectPosition: "center 18%",
     },
   ];
 
