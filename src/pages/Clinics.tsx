@@ -8,16 +8,17 @@ import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
 
 
-import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
-import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
-import imgMoss from "@/assets/clinics/moss.jpg";
-import imgMoelv from "@/assets/clinics/moelv.jpg";
+import imgVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
+import imgKorridorLys from "@/assets/clinics/interior/korridor-lys.jpg.asset.json";
+import imgKorridorVenteplass from "@/assets/clinics/interior/korridor-venteplass.jpg.asset.json";
+import imgKorridorDempet from "@/assets/clinics/interior/korridor-dempet.jpg.asset.json";
+import imgKunstverk from "@/assets/clinics/interior/kunstverk.jpg.asset.json";
 
 const clinicImages: Record<string, string> = {
-  majorstuen: imgMajorstuen,
-  bekkestua: imgBekkestua,
-  moss: imgMoss,
-  moelv: imgMoelv,
+  majorstuen: imgVenteromBredt.url,
+  bekkestua: imgKorridorLys.url,
+  moss: imgKorridorVenteplass.url,
+  moelv: imgKorridorDempet.url,
 };
 
 
@@ -81,7 +82,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  
  title="Finn din nærmeste klinikk"
  description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
- image={imgMajorstuen}
+ image={imgKunstverk.url}
  imageAlt="CMedical klinikk"
  primaryCta={{ label: "Bestill time", to: "/booking" }}
  secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
@@ -96,7 +97,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         {list.map((clinic: Clinic, idx: number) => {
  const detailHref = `/klinikker/${clinic.slug}`;
  const serviceCount = clinic.services?.length || 0;
- const image = (clinic as any).primaryImage || clinicImages[clinic.slug];
+ const image = clinicImages[clinic.slug] || (clinic as any).primaryImage;
  const reverse = idx % 2 === 1;
 
  return (

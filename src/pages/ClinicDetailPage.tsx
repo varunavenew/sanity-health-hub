@@ -15,10 +15,24 @@ import majorstuenKorridorSittegruppe from "@/assets/clinics/majorstuen/korridor-
 import majorstuenHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
 import majorstuenKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import majorstuenVenteromDetalj from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
+import intVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
+import intVenteromDetalj2 from "@/assets/clinics/interior/venterom-detalj2.jpg.asset.json";
+import intKorridorLys from "@/assets/clinics/interior/korridor-lys.jpg.asset.json";
+import intKorridorVenteplass from "@/assets/clinics/interior/korridor-venteplass.jpg.asset.json";
+import intKorridorDempet from "@/assets/clinics/interior/korridor-dempet.jpg.asset.json";
+import intHvileromGardin from "@/assets/clinics/interior/hvilerom-gardin.jpg.asset.json";
+import intKunstverk from "@/assets/clinics/interior/kunstverk.jpg.asset.json";
 
 const clinicGalleries: Record<string, { src: string; alt: string }[]> = {
   majorstuen: [
-    { src: majorstuenVenteromTv.url, alt: "Venterom med skjerm, planter og lounge-stoler på CMedical Majorstuen" },
+    { src: intVenteromBredt.url, alt: "Venterom med lounge-stoler, planter og skjerm på CMedical Majorstuen" },
+    { src: intVenteromDetalj2.url, alt: "Detalj fra venterommet med stoler og planter på CMedical Majorstuen" },
+    { src: intKorridorLys.url, alt: "Lys korridor med trepanel og planter på CMedical Majorstuen" },
+    { src: intKorridorVenteplass.url, alt: "Korridor med liten sittegruppe på CMedical Majorstuen" },
+    { src: intKorridorDempet.url, alt: "Korridor med dempet belysning på CMedical Majorstuen" },
+    { src: intHvileromGardin.url, alt: "Hvilerom med gardiner og dempet lys på CMedical Majorstuen" },
+    { src: intKunstverk.url, alt: "Kunstverk i resepsjonsområdet på CMedical Majorstuen" },
+    { src: majorstuenVenteromTv.url, alt: "Venterom med skjerm og planter på CMedical Majorstuen" },
     { src: majorstuenKorridorSittegruppe.url, alt: "Korridor med sittegruppe og treverk på CMedical Majorstuen" },
     { src: majorstuenKorridor.url, alt: "Lys korridor med trepanel på CMedical Majorstuen" },
     { src: majorstuenHvilerom.url, alt: "Rolig hvilerom med dempet lys på CMedical Majorstuen" },
