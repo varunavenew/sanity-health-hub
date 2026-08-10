@@ -30,7 +30,7 @@ const SpecialistDesignHub = ({ isChatOpen = false }: Props) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
+      <section className="bg-brand-warm pt-[4.5rem] md:pt-40 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
           <p className="text-xs text-muted-foreground font-light mb-6">
             Designforslag · Spesialistprofil

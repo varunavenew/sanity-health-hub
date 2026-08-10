@@ -152,7 +152,7 @@ const MasterMalForrigeUke = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
   1. HERO — split screen 50/50, autoplay video kant-i-kant
   ============================================================ */}
-  <header className="bg-brand-light pt-24 lg:pt-0">
+  <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
   <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
   {/* Left — copy + CTA */}
   <div className="flex items-center page-edge-text-left py-16 lg:py-24">

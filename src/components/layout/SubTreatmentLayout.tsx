@@ -556,7 +556,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   {(() => {
     const heroImg = c.heroImage ?? c.flowImage;
     return (
-      <header className="bg-brand-light pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
         {/* Mobile-only: breadcrumb + title above the image (hybrid order) */}
         <div className="lg:hidden page-edge-text-left pb-4">
           <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">

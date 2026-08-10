@@ -82,7 +82,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
       {/* ───────────── HERO – split screen ─────────────
           Topp-meta = dato + område (fra Nyhet).
           Forfatter + del er flyttet INN i headeren (fra Fagartikkel). */}
-      <header className="bg-brand-light pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[560px] lg:min-h-[680px]">
           {/* Venstre – meta + tittel + ingress + forfatter */}
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20">

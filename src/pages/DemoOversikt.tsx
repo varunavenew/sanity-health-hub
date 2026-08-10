@@ -71,7 +71,7 @@ const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
 
  return (
  <PageLayout isChatOpen={isChatOpen}>
- <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
+ <section className="bg-brand-warm pt-[4.5rem] md:pt-40 pb-16 md:pb-20">
  <div className="container mx-auto px-6 md:px-16 max-w-5xl">
  <h1 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-6">
  Alle demoer på ett sted

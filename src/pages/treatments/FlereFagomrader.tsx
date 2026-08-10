@@ -85,7 +85,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <h1 className="sr-only">Flere tjenester hos CMedical</h1>
 
  {/* HERO */}
- <header className="bg-brand-light pt-24 lg:pt-0">
+ <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">

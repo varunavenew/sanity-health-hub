@@ -104,7 +104,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
       <h1 className="sr-only">Donorbehandling hos CMedical</h1>
 
       {/* 1. HERO — split 50/50 */}
-      <header className="bg-brand-light pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
           <div className="flex items-center page-edge-text-left py-16 lg:py-24">
             <div className="max-w-xl w-full">

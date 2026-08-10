@@ -274,7 +274,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
   1. HERO — split screen 50/50, autoplay video kant-i-kant
   ============================================================ */}
-  <header className="bg-brand-light pt-24 lg:pt-0">
+  <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
   <div className="lg:hidden page-edge-text-left pb-4">
     <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
       <Link to="/" className="hover:text-foreground">Hjem</Link>

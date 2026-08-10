@@ -199,7 +199,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </h1>
 
  {/* 1. HERO — split 50/50 */}
- <header className="bg-brand-light pt-24 lg:pt-0">
+ <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
  <div className="lg:hidden px-6 md:px-16 pb-4">
    <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
      <Link to="/" className="hover:text-foreground">Hjem</Link>
