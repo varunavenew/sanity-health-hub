@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ScrollArrowsProps {
@@ -11,11 +11,17 @@ interface ScrollArrowsProps {
    * original slide count so the counter shows N (not 2N).
    */
   slideCount?: number;
+  /**
+   * Valgfri tekstlenke («Se alle behandlinger» o.l.). Navigasjonen ligger til
+   * venstre, lenken til høyre på samme rad — de skal aldri overlappe.
+   */
+  trailing?: ReactNode;
   /** Legacy props — kept for backwards compat, no longer used. */
   align?: "end" | "center" | "start";
   size?: "default" | "compact";
   placement?: "above" | "inline" | "below";
 }
+
 
 /**
  * CarouselNav — én felles navigasjon for alle horisontale karuseller.
