@@ -1,15 +1,14 @@
-import { RefObject, useEffect, useLayoutEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ScrollArrowsProps {
   scrollRef: RefObject<HTMLElement>;
-  /** Where the indicator is visible. Default: mobile only. */
+  /** Where the indicator is visible. Default: all breakpoints. */
   visibility?: "mobile" | "all" | "desktop";
   className?: string;
   /**
    * For seamless/looping carousels that duplicate children, pass the
-   * original slide count so the dot bar shows N dots (not 2N) and
-   * active index wraps via modulo.
+   * original slide count so the counter shows N (not 2N).
    */
   slideCount?: number;
   /** Legacy props — kept for backwards compat, no longer used. */
@@ -19,66 +18,66 @@ interface ScrollArrowsProps {
 }
 
 /**
- * Mobile pagination dots for any horizontal scroller.
+ * CarouselNav — én felles navigasjon for alle horisontale karuseller.
  *
- * Kunde-ønske: dots i stedet for prev/next-piler på kort-karuseller —
- * samme stil som under hero/«tjenester»-seksjonen. Komponentnavnet beholdes
- * (ScrollArrows) for å unngå brede refactors; alle eksisterende
- * `<ScrollArrows scrollRef={ref} />` rendrer nå dots automatisk.
+ * Design: tynn fremdriftslinje (venstrejustert) + teller «X av Y», med
+ * venstre/høyre-piler til høyre. Ingen prikke-rader (de ble både rotete
+ * og bredere enn viewporten på mobil).
  *
- * Hvordan det fungerer:
- *  - Hver direkte child i scroll-containeren regnes som ett "kort"/slide.
- *  - Aktiv prikk = kortet hvis senter er nærmest viewportens senter.
- *  - Klikk på en prikk scroller til tilsvarende kort (snap-friendly).
- *  - Plasseres i en portal rett under scrolleren, sentrert, så
- *    eksisterende call sites ikke trenger layout-endringer.
+ * Komponentnavnet beholdes (ScrollArrows) slik at alle eksisterende
+ * call sites (`<ScrollArrows scrollRef={ref} />`) får den nye navigasjonen
+ * automatisk. Touch-swipe i selve scrolleren påvirkes ikke.
  */
 export const ScrollArrows = ({
   scrollRef,
-  visibility = "mobile",
+  visibility = "all",
   className = "",
   slideCount,
 }: ScrollArrowsProps) => {
   const [count, setCount] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
   const [overflowing, setOverflowing] = useState(false);
-  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
+  const rafRef = useRef(0);
 
-  // Observe scroller: child count, active slide, overflow state
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
-    const computeActive = () => {
-      const center = el.scrollLeft + el.clientWidth / 2;
+    const compute = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setProgress(max > 0 ? Math.min(1, Math.max(0, el.scrollLeft / max)) : 0);
+      setAtStart(el.scrollLeft <= 2);
+      setAtEnd(el.scrollLeft >= max - 2);
+
+      // Første kort som er (nesten) helt synlig fra venstre
       const kids = Array.from(el.children) as HTMLElement[];
-      let bestIdx = 0;
-      let bestDist = Infinity;
-      kids.forEach((c, i) => {
-        const cardCenter = c.offsetLeft + c.offsetWidth / 2;
-        const d = Math.abs(cardCenter - center);
-        if (d < bestDist) {
-          bestDist = d;
-          bestIdx = i;
+      const left = el.scrollLeft;
+      let idx = 0;
+      for (let i = 0; i < kids.length; i++) {
+        if (kids[i].offsetLeft + kids[i].offsetWidth > left + 8) {
+          idx = i;
+          break;
         }
-      });
-      setActiveIdx(bestIdx);
+      }
+      setActiveIdx(idx);
     };
 
     const update = () => {
       setCount(el.children.length);
       setOverflowing(el.scrollWidth - el.clientWidth > 4);
-      computeActive();
+      compute();
     };
 
     update();
 
-    let raf = 0;
     const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        computeActive();
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0;
+        compute();
       });
     };
     el.addEventListener("scroll", onScroll, { passive: true });
@@ -97,43 +96,21 @@ export const ScrollArrows = ({
     };
   }, [scrollRef]);
 
-  // Track scroller position for portal placement (just below the carousel)
-  useLayoutEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const update = () => {
-      const r = el.getBoundingClientRect();
-      setPos({
-        top: r.bottom + window.scrollY + 8, // 8px below scroller
-        left: r.left + window.scrollX,
-        width: r.width,
-      });
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      ro.disconnect();
-    };
-  }, [scrollRef]);
+  const step = useCallback(
+    (dir: -1 | 1) => {
+      const el = scrollRef.current;
+      if (!el) return;
+      const first = el.children[0] as HTMLElement | undefined;
+      const amount = first ? first.offsetWidth + 16 : el.clientWidth * 0.8;
+      el.scrollBy({ left: dir * amount, behavior: "smooth" });
+    },
+    [scrollRef],
+  );
 
-  const goTo = (i: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.children[i] as HTMLElement | undefined;
-    if (!card) return;
-    const left = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
-    el.scrollTo({ left, behavior: "smooth" });
-  };
+  if (!overflowing || count <= 1) return null;
 
-  if (!overflowing || count <= 1 || !pos || typeof document === "undefined") return null;
-
-  const displayCount = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
-  const displayActive = displayCount > 0 ? activeIdx % displayCount : 0;
+  const total = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
+  const current = total > 0 ? (activeIdx % total) + 1 : 1;
 
   const vis =
     visibility === "mobile"
@@ -142,35 +119,53 @@ export const ScrollArrows = ({
       ? "hidden md:flex"
       : "flex";
 
-  return createPortal(
+  const btn =
+    "w-11 h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent";
+
+  return (
     <div
-      className={`${vis} items-center justify-center absolute z-20 pointer-events-none ${className}`}
-      style={{
-        top: pos.top,
-        left: pos.left,
-        width: pos.width,
-      }}
+      className={`${vis} items-center gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
     >
-      <div
-        className="flex items-center gap-2 pointer-events-auto"
-        role="tablist"
-        aria-label="Karusell-indikator"
-      >
-        {Array.from({ length: displayCount }).map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={`Gå til kort ${i + 1}`}
-            aria-selected={i === displayActive}
-            role="tab"
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === displayActive ? "w-6 bg-brand-dark" : "w-1.5 bg-brand-dark/25"
-            }`}
+      {/* Fremdriftslinje + teller (venstrejustert) */}
+      <div className="flex-1 min-w-0 flex items-center gap-3">
+        <div
+          className="relative h-px flex-1 min-w-0 bg-brand-dark/15"
+          role="progressbar"
+          aria-valuemin={1}
+          aria-valuemax={total}
+          aria-valuenow={current}
+        >
+          <div
+            className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-200"
+            style={{ width: `${Math.max(6, progress * 100)}%` }}
           />
-        ))}
+        </div>
+        <span className="text-sm font-light text-muted-foreground whitespace-nowrap tabular-nums">
+          {current} av {total}
+        </span>
       </div>
-    </div>,
-    document.body,
+
+      {/* Piler til høyre */}
+      <div className="flex items-center gap-2 shrink-0">
+        <button
+          type="button"
+          onClick={() => step(-1)}
+          disabled={atStart}
+          aria-label="Forrige"
+          className={btn}
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => step(1)}
+          disabled={atEnd}
+          aria-label="Neste"
+          className={btn}
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
   );
 };
