@@ -190,7 +190,7 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
                   </span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
-                  {ctaTitle.replace(/Over\s*150\s*000\+?\s*/i, '').replace(/^[a-zæøå]/, (c) => c.toUpperCase()) || 'Fornøyde pasienter siden 2002.'}
+                  {ctaTitle.replace(/Over\s*(150|60)\s*000\+?\s*/i, '').replace(/^[a-zæøå]/, (c) => c.toUpperCase()) || 'Pasientbesøk i året.'}
                 </h2>
               </div>
 
