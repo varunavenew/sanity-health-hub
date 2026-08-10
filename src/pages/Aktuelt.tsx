@@ -13,6 +13,7 @@ import {
   type Article,
 } from "@/data/articles";
 import { useArticles, useSpecialists } from "@/hooks/useSanity";
+import heroBgAsset from "@/assets/blur-skin-mid.jpg.asset.json";
 
 interface AktueltProps {
   isChatOpen: boolean;
