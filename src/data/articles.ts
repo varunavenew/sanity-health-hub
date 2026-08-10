@@ -24,6 +24,8 @@ export const filterCategories = [
 export const normalizeCategory = (cat: string) =>
   cat === "Nyheter" ? "Nytt fra oss" : cat;
 
+import foreldreSammen from "@/assets/artikkel-foreldre-sammen.webp.asset.json";
+
 const IMG = "https://cdn.sanity.io/images/bk8rw7yi/production";
 const img = (id: string) => `${IMG}/${id}?q=75&fit=clip&auto=format&w=1200`;
 
@@ -33,7 +35,7 @@ export const articles: Article[] = [
     title: "«Vi har alltid visst at vi ville bli foreldre sammen»",
     excerpt:
       "To som lenge har visst at de ville bygge familie sammen forteller om veien til å bli foreldre — med assistert befruktning og tett oppfølging fra spesialistene ved Livio Oslo, en del av CMedical.",
-    image: img("32d26b009155315ee9079e632d50526ed728d822-4853x5037.jpg"),
+    image: foreldreSammen.url,
     date: "2026-06-20",
     category: "Pasienthistorier",
     pinned: true,
