@@ -176,11 +176,25 @@ const expertAreas = [
     image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
   },
   {
+    title: "Bli donor",
+    desc:
+      "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
+    href: "/behandlinger/fertilitet/donorbehandling",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
+  },
+  {
     title: "Sædanalyse",
     desc:
       "Sædprøve, hormonprøver og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
     href: "/behandlinger/fertilitet/saedanalyse",
     image: getServiceImageFromHref("/behandlinger/fertilitet/saedanalyse") ?? audienceCouple,
+  },
+  {
+    title: "Mannlig infertilitet",
+    desc:
+      "Utredning og behandling av mannlig fruktbarhet — i samarbeid med urologene våre.",
+    href: "/behandlinger/urologi/infertilitet",
+    image: getServiceImageFromHref("/behandlinger/urologi/infertilitet") ?? audienceCouple,
   },
 ];
 
@@ -192,6 +206,8 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
       { title: "Fertilitetsutredning", desc: "Blodprøver, ultralyd og sædanalyse", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "Infertilitet", desc: "Forstå årsaker og veien videre", href: "/behandlinger/fertilitet/infertilitet" },
       { title: "Sædanalyse", desc: "Mannlig fertilitet og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
+      { title: "Mannlig infertilitet", desc: "Utredning av mannlig fruktbarhet", href: "/behandlinger/urologi/infertilitet" },
+      { title: "Egglederundersøkelse (HyFoSy)", desc: "Skånsom undersøkelse av eggledere", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "Hysteroskopi", desc: "Skånsom vurdering av livmorhulen", href: "/behandlinger/fertilitet/hysteroskopi" },
     ],
   },
@@ -199,8 +215,10 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Behandling",
     items: [
       { title: "Assistert befruktning", desc: "IVF, ICSI og inseminasjon (IUI)", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Hormonstimulering", desc: "Eggløsningsstimulering og hormonbehandling", href: "/behandlinger/fertilitet/assistert-befruktning" },
       { title: "Donorbehandling", desc: "Donorsæd, donoregg og partnerdonasjon", href: "/behandlinger/fertilitet/donorbehandling" },
       { title: "Nedfrysning av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/eggfrys" },
+      { title: "Nedfrysing av spermceller", desc: "Bevar mulighetene dine", href: "/behandlinger/fertilitet/eggfrys" },
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
     ],
   },
