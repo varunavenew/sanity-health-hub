@@ -380,30 +380,38 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
  Det beste fra to klinikker — samlet på ett sted.
  </h2>
- <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
- Livio og CMedical Sandvika har slått seg sammen. Det betyr mer
- erfaring, samme team — og et tilbud som dekker hele veien.
+ <div className="space-y-5 mb-12">
+ <p className="text-base font-light text-muted-foreground leading-relaxed">
+ Velkommen til CMedical komplette private fertilitetstilbud. Hos oss i CMedical får du erfaring,
+ spisskompetanse og moderne teknologi samlet på ett sted – enten du er ny pasient eller kommer fra
+ en annen klinikk.
  </p>
+ <p className="text-base font-light text-muted-foreground leading-relaxed">
+ Livio Oslo er nå en del av CMedical. Som Norges eldste fertilitetsklinikk bringer Livio med seg
+ lang erfaring og solid fagkompetanse inn i CMedical. Sammen tilbyr vi et helhetlig og trygt
+ fertilitetstilbud, basert på kvalitet, kontinuitet og omsorg.
+ </p>
+ </div>
 
  <div className="divide-y divide-border/60 border-t border-border/60">
  {[
  {
  n: "01",
- title: "Et trygt sted å starte",
+ title: "IVF og kirurgi på ett sted",
  desc:
- "Klinikk og laboratorium under samme tak. Ingen lange transporter, ingen mellommenn — bare oss og dere.",
+ "CMedical er den første klinikken i Norden med IVF-behandling og kirurgi samlet på ett sted, og vi tilbyr forskningsbasert behandling kombinert med personlig tilpasset oppfølging.",
  },
  {
  n: "02",
- title: "Ledende kompetanse",
+ title: "Moderne teknologi i laboratoriet",
  desc:
- "Spesialister med erfaring fra Rikshospitalet, Livio og internasjonale fertilitetssentre.",
+ "CMedical Fertilitet benytter det nyeste innen teknologiske hjelpemidler. Vi har en time-lapse-inkubator som sikrer nøyaktig og trygg overvåkning av befruktede egg, samt elektronisk overvåkning av alle steg i en prøverørsbehandling. Alle apparater er tilkoblet et eksternt alarmsystem som sikrer trygg oppbevaring av humane celler.",
  },
  {
  n: "03",
- title: "Tett oppfølging",
+ title: "Tett oppfølging hele veien",
  desc:
- "Vi følger dere før, under og etter — også gjennom de vanskelige beskjedene.",
+ "Fertilitetsbehandling kan oppleves som både følelsesmessig og fysisk krevende. Synes du det er vanskelig å sette seg inn i alt? Du er ikke alene. Ta gjerne kontakt med oss for en uforpliktende og kostnadsfri prat med en av våre sykepleiere, eller bestill time til konsultasjon.",
  },
  ].map((step) => (
  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
@@ -422,9 +430,17 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  ))}
   </div>
 
+  <p className="mt-8 text-sm font-light text-muted-foreground leading-relaxed">
+   Bestill time online eller på telefon{" "}
+   <a href="tel:+4722600050" className="text-foreground underline underline-offset-4 hover:no-underline">
+    22 60 00 50
+   </a>{" "}
+   (Velg «Majorstuen – tastevalg 1»).
+  </p>
+
   <Link
    to="/om-oss"
-   className="inline-flex items-center gap-2 mt-10 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
+   className="inline-flex items-center gap-2 mt-8 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
   >
    Les mer om klinikken
    <ArrowRight className="w-3.5 h-3.5" />
