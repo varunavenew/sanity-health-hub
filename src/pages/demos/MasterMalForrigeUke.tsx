@@ -347,15 +347,12 @@ const MasterMalForrigeUke = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {audiences.map((a) => (
               <div
                 key={a.title}
                 className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
               >
-                <div className="mb-6 text-foreground/80">
-                  <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
-                </div>
                 <h3 className="text-lg font-normal text-foreground mb-3">
                   {a.title}
                 </h3>
