@@ -1,5 +1,4 @@
-import { RefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ScrollArrowsProps {
@@ -41,7 +40,6 @@ export const ScrollArrows = ({
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
   const [overflowing, setOverflowing] = useState(false);
-  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
   const rafRef = useRef(0);
 
   useEffect(() => {
@@ -100,30 +98,6 @@ export const ScrollArrows = ({
     };
   }, [scrollRef]);
 
-  // Track scroller position for portal placement (just below the carousel)
-  useLayoutEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const update = () => {
-      const r = el.getBoundingClientRect();
-      const vw = document.documentElement.clientWidth;
-      const left = Math.max(0, r.left + window.scrollX);
-      // Never let the nav be wider than the viewport (iOS zoom-out bug)
-      const width = Math.max(0, Math.min(r.width, vw - Math.max(0, r.left)));
-      setPos({ top: r.bottom + window.scrollY + 12, left, width });
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      ro.disconnect();
-    };
-  }, [scrollRef]);
-
   const step = useCallback(
     (dir: -1 | 1) => {
       const el = scrollRef.current;
@@ -135,7 +109,7 @@ export const ScrollArrows = ({
     [scrollRef],
   );
 
-  if (!overflowing || count <= 1 || !pos || typeof document === "undefined") return null;
+  if (!overflowing || count <= 1) return null;
 
   const total = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
   const current = total > 0 ? (activeIdx % total) + 1 : 1;
@@ -150,10 +124,9 @@ export const ScrollArrows = ({
   const btn =
     "w-11 h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent";
 
-  return createPortal(
+  return (
     <div
-      className={`${vis} items-center gap-4 absolute z-20 overflow-x-clip ${className}`}
-      style={{ top: pos.top, left: pos.left, width: pos.width, maxWidth: "100%" }}
+      className={`${vis} items-center gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
     >
       {/* Fremdriftslinje + teller (venstrejustert) */}
       <div className="flex-1 min-w-0 flex items-center gap-3">
@@ -195,7 +168,6 @@ export const ScrollArrows = ({
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
 };
