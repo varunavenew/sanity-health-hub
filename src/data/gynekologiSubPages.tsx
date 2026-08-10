@@ -21,7 +21,7 @@ const standardPromises = [
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {
-    title: "Spesialister med dybde",
+    title: "Erfarne spesialister",
     desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
   },
   {

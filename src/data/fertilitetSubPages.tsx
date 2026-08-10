@@ -10,7 +10,7 @@ const standardPromises = [
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stille spørsmål underveis og ta med deg noen om du ønsker det.",
   },
   {
-    title: "Spesialister med dybde",
+    title: "Erfarne spesialister",
     desc: "Hos oss møter du leger og embryologer med erfaring fra ledende fertilitetssentre — ikke en generalist på utplassering.",
   },
   {
