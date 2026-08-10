@@ -85,14 +85,14 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
         ]}
       />
       {/* Hero — skin texture background with dark overlay for legible light text */}
-      <section className="relative flex items-center min-h-[38svh] md:min-h-[44svh] pt-[4.5rem] pb-10 md:py-16 overflow-hidden">
+      <section className="relative flex items-center min-h-[38svh] md:min-h-[40svh] pt-[4.5rem] pb-10 md:pt-16 md:pb-16 overflow-hidden">
         <img
           src={heroBgAsset.url}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-brand-dark/80" aria-hidden="true" />
+        <div className="absolute inset-0 bg-brand-dark/75" aria-hidden="true" />
         <div className="relative container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-warm mb-3">
