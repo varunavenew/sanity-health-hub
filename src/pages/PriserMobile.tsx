@@ -210,13 +210,13 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
           <div className="max-w-5xl mx-auto">
             {/* Sticky horizontal category filter bar (Wolt-style) */}
             <div
-              className="sticky z-30 -mx-4 my-4 bg-background border-y border-brand-mid/30 shadow-sm"
+              className="sticky z-30 -mx-4 my-4 bg-background border-y border-brand-mid/30 shadow-sm relative"
               style={{ top: `${navTop}px` }}
             >
               <div
                 ref={navScrollerRef}
-                className="flex gap-2 overflow-x-auto px-4 py-2 scrollbar-hide [scroll-behavior:smooth]"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                className="flex gap-2 overflow-x-auto overflow-y-visible px-4 pr-10 py-2 scrollbar-hide [scroll-behavior:smooth] [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain]"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', touchAction: 'pan-x pan-y' }}
               >
                 {ordered.map((cat) => {
                   const isActive = activeCategory === cat.id;
