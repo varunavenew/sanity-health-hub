@@ -136,6 +136,15 @@ const nextConfig: NextConfig = {
       // EN treatment slug changed to match the term English searchers use (PCOS, not the NO abbreviation PMOS).
       { source: "/en/gynecology/pmos", destination: "/en/gynecology/pcos", permanent: true },
       { source: "/en/behandlinger/gynekologi/pmos", destination: "/en/behandlinger/gynekologi/pcos", permanent: true },
+
+      // "sleeve-gastrektomi" recreated under flere-fagomrader/ovrige — "bariatrisk-kirurgi" was never a real category.
+      { source: "/no/bariatrisk-kirurgi/sleeve-gastrektomi", destination: "/no/ovrige/sleeve-gastrektomi", permanent: true },
+      { source: "/no/bariatrisk-kirurgi/:path*", destination: "/no/ovrige/:path*", permanent: true },
+
+      // "flere-fagomrader" was a duplicate of the real category slug "ovrige" — sitemap/static
+      // generation no longer emits it (see resolve-route.ts), redirect any existing links/bookmarks.
+      { source: "/no/flere-fagomrader", destination: "/no/ovrige", permanent: true },
+      { source: "/no/flere-fagomrader/:path*", destination: "/no/ovrige/:path*", permanent: true },
     ];
   },
 };

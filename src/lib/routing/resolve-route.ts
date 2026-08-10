@@ -273,9 +273,6 @@ export function staticParamsFromRouteIndex(
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
       if (slug) push(locale, [slug]);
-      if (locale === "no" && doc.categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
-        push(locale, ["flere-fagomrader"]);
-      }
     }
 
     for (const listingType of LISTING_PAGE_KEYS) {
@@ -331,9 +328,6 @@ export function staticParamsFromRouteIndex(
         );
         if (categorySlug && treatmentSlug) {
           push(locale, [categorySlug, treatmentSlug]);
-          if (locale === "no" && catId === FLERE_FAGOMRADER_CATEGORY_ID) {
-            push(locale, ["flere-fagomrader", treatmentSlug]);
-          }
         }
       }
     }
