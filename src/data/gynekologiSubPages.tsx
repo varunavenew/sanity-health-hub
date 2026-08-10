@@ -119,7 +119,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
 
 
   endometriose: {
-    seoTitle: "Endometriose | CMedical — utredning og behandling",
+    seoTitle: "Endometriose og adenomyose | CMedical — utredning og behandling",
     seoDescription:
       "Spesialisert utredning og behandling av endometriose. Vi tar smertene dine på alvor — uten henvisning og uten ventetid.",
     canonical: "/behandlinger/gynekologi/endometriose",
@@ -144,15 +144,15 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi forklarer hva vi finner — med tydelige ord og bilder du forstår." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell behandling, smertelindring eller kirurgi — vi finner det som passer deg." },
     ],
-    reasonsTitle: "Når bør du mistenke endometriose?",
+    reasonsTitle: "Symptomer ved endometriose",
     reasonsLead:
-      "Endometriose kan se ut som mange andre tilstander, og blir ofte oversett i mange år. Disse symptomene bør tas på alvor.",
+      "Det mest typiske tegnet på endometriose er kraftige smerter i nedre mage og rygg, som forverres ved menstruasjon og eggløsning. Sykdommen skaper en vedvarende betennelsesreaksjon (inflammasjon) i bekkenet. Dette kan irritere naboorganer og føre til generelle plager som utmattelse (fatigue), kvalme og oppblåst mage. Andre vanlige symptomer er smerter ved samleie, smerter eller ubehag ved vannlating og avføring.",
     reasons: [
       { n: "01", title: "Sterke menssmerter", desc: "Smerter som ikke lindres av vanlige smertestillende, eller som hindrer deg i å fungere normalt." },
       { n: "02", title: "Smerter ved samleie", desc: "Dype smerter under eller etter samleie er ikke normalt og kan tyde på endometriose." },
       { n: "03", title: "Kronisk bekkensmerte", desc: "Vedvarende smerter i nedre del av magen, også utenom mensen." },
       { n: "04", title: "Tarm- og urinplager ved mens", desc: "Smerter ved avføring eller vannlating, særlig i forbindelse med menstruasjonen." },
-      { n: "05", title: "Problemer med å bli gravid", desc: "Endometriose er en kjent årsak til fertilitetsproblemer — og kan behandles." },
+      { n: "05", title: "Ufrivillig barnløshet", desc: "De fleste med endometriose kan få barn, men flere trenger medisinsk hjelp. Vi har egen fertilitetsavdeling som kan bistå med dette." },
       { n: "06", title: "Utmattelse og kvalme", desc: "Kraftig tretthet og kvalme rundt mensen kan være tegn på underliggende sykdom." },
     ],
     promises: standardPromises,
@@ -228,7 +228,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       "Urogynekologi handler om plager i bekkenbunnen – særlig vaginale fremfall (prolaps) og urinlekkasje. Hos oss møter du noen av Nordens fremste eksperter, og tilstandene utredes og behandles samlet av vårt uro-gynekologiske team.",
     heroPoints: [
       { title: "Samlet kompetanse", desc: "Fremfall og lekkasje vurderes sammen — ikke i hver sin silo." },
-      { title: "Hele spekteret", desc: "Fra bekkenbunnstrening og pessar til moderne kirurgi, inkludert robotassistert." },
+      
       { title: "Uavhengig av livsfase", desc: "Du kan ha urogynekologiske plager uten å ha født — og uten å være i overgangsalderen." },
       { title: "Erfarne spesialister", desc: "Urogynekologi krever volum og rutine. Våre kirurger gjør dette ofte." },
     ],
@@ -248,50 +248,21 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først." },
     ],
-    textSection: {
-      title: "Vaginale fremfall (prolaps)",
-      lead:
-        "Vaginalt fremfall, også kjent som prolaps innebærer at skjedens fremre eller bakre vegg, eller livmor eller bare livmorhals buker ned i skjeden eller ut av skjedeinngangen, dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
-      points: [
-        {
-          n: "Behandling",
-          title: "Tilpasset alvorlighetsgrad",
-          desc:
-            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis du opplever symptomer på vaginalt fremfall.",
-        },
-        {
-          n: "Eksperter",
-          title: "Nordens fremste på fremfall",
-          desc:
-            "Hos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
-        },
-      ],
-      image: imgUrogynekologiHero,
-      imageAlt: "Urogynekologi hos CMedical",
-    },
-    reasonsTitle: "Urinlekkasje (inkontinens)",
+    reasonsTitle: "Hva er urogynekologi?",
     reasonsLead:
-      "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
-    reasonsLead2:
-      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+      "Urogynekologi er fagområdet som utreder og behandler plager i bekkenbunnen — først og fremst vaginale fremfall (prolaps) og urinlekkasje. Under finner du egne sider med utdypende informasjon om hver av tilstandene.",
     reasons: [
       {
         n: "01",
-        title: "Stressinkontinens",
+        title: "Vaginale fremfall (prolaps)",
         desc:
-          "Urinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.",
+          "Når skjedevegg, livmor eller livmorhals buker ned i skjeden. Les mer på siden om vaginale fremfall.",
       },
       {
         n: "02",
-        title: "Tranginkontinens",
+        title: "Urinlekkasje (inkontinens)",
         desc:
-          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Du er ofte plaget av hyppig toalettbesøk, hvor du ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
-      },
-      {
-        n: "03",
-        title: "Blandingsinkontinens",
-        desc:
-          "Kombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person. Er du plaget med dette anbefaler vi deg å ta kontakt med oss.",
+          "Stress-, trang- og blandingsinkontinens. Les mer på siden om urinlekkasje.",
       },
     ],
     promises: standardPromises,
@@ -377,10 +348,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     primaryCtaLabel: "Bestill utredning",
     flowTitle: "Slik utreder vi PMOS",
     flow: [
-      { n: "Steg 01", title: "Samtale", desc: "Vi kartlegger syklus, symptomer, familiehistorikk og hva som er viktig for deg nå." },
-      { n: "Steg 02", title: "Undersøkelse og prøver", desc: "Ultralyd av eggstokker, hormonprøver og metabolsk screening." },
-      { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi går gjennom funnene og forklarer hva PMOS betyr for akkurat deg." },
-      { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på dine mål." },
+      { n: "Steg 01", title: "Samtale", desc: "Kartlegging av syklus, symptomer, familiehistorikk og dine behov." },
+      { n: "Steg 02", title: "Undersøkelser", desc: "Ultralyd av eggstokker og blodprøver." },
+      { n: "Steg 03", title: "Diagnose", desc: "Gjennomgang av funnene og hva det betyr for deg." },
+      { n: "Steg 04", title: "Behandling", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på aktuelle funn og dine ønsker." },
     ],
     reasonsTitle: "Tegn på PMOS",
     reasonsLead:
@@ -406,7 +377,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
 
   /* ───────────────────────── VULVALIDELSER ───────────────────────── */
   vulvalidelser: {
-    seoTitle: "Vulvalidelser | CMedical — spesialisert utredning",
+    seoTitle: "Vulvalidelser og vulvodyni | CMedical — spesialisert utredning",
     seoDescription:
       "Smerter og ubehag i vulva blir ofte oversett. Vi har spesialister som forstår — og finner svar.",
     canonical: "/behandlinger/gynekologi/vulvalidelser",
@@ -1229,7 +1200,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/vaginisme",
     parent,
     title: "Vaginisme",
-    heroTitle: <>Kroppen sier <span className="italic">stopp</span> — vi hjelper deg videre</>,
+    heroTitle: <>Vaginisme</>,
     heroDescription:
       "Vaginisme beskriver smerter i bekkenbunnsmuskulaturen som ofte oppstår ved forsøk på samleie, bruk av tampong, gynekologisk undersøkelse, sykling eller trange klær. Smertene skyldes ufrivillige sammentrekninger. Det finnes god behandling — og du er ikke alene.",
     heroPoints: [
