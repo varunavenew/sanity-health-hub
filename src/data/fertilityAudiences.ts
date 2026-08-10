@@ -1,7 +1,7 @@
 import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
-import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
+import toKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import mannligFertilitetAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
 import heterofiltParAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
 
