@@ -52,19 +52,17 @@ export const ScrollArrows = ({
       setAtStart(el.scrollLeft <= 2);
       setAtEnd(el.scrollLeft >= max - 2);
 
-      const center = el.scrollLeft + el.clientWidth / 2;
+      // Første kort som er (nesten) helt synlig fra venstre
       const kids = Array.from(el.children) as HTMLElement[];
-      let bestIdx = 0;
-      let bestDist = Infinity;
-      kids.forEach((c, i) => {
-        const cardCenter = c.offsetLeft + c.offsetWidth / 2;
-        const d = Math.abs(cardCenter - center);
-        if (d < bestDist) {
-          bestDist = d;
-          bestIdx = i;
+      const left = el.scrollLeft;
+      let idx = 0;
+      for (let i = 0; i < kids.length; i++) {
+        if (kids[i].offsetLeft + kids[i].offsetWidth > left + 8) {
+          idx = i;
+          break;
         }
-      });
-      setActiveIdx(bestIdx);
+      }
+      setActiveIdx(idx);
     };
 
     const update = () => {
