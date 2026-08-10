@@ -210,12 +210,12 @@
   /* På mørk bakgrunn */
   .chip-filter-dark {
     background-color: transparent;
-    color: hsl(var(--brand-light, 33 33% 93%));
-    border-color: hsl(var(--brand-light, 33 33% 93%) / 0.45);
+    color: #f2ece6;
+    border-color: rgb(242 236 230 / 0.5);
   }
   .chip-filter-dark:hover {
-    border-color: hsl(var(--brand-light, 33 33% 93%) / 0.8);
-    background-color: hsl(var(--brand-light, 33 33% 93%) / 0.08);
+    border-color: rgb(242 236 230 / 0.85);
+    background-color: rgb(242 236 230 / 0.1);
   }
   .chip-filter-dark[data-active="true"] {
     background-color: #ccbaad;
