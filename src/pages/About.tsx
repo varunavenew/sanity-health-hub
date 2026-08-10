@@ -64,7 +64,7 @@ const About = ({ isChatOpen }: AboutProps) => {
 
   const seoTitle = "Om oss – Faglig trygghet og personlig omsorg";
   const seoDescription =
-    "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Siden 2002 har over 150 000 pasienter fått behandling hos oss.";
+    "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Hvert år har vi over 60 000 pasientbesøk ved klinikkene våre.";
 
   useEffect(() => {
     document.title = `${seoTitle} | CMedical`;
