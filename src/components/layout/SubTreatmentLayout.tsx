@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode, ComponentType, SVGProps } from "react";
+import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -139,6 +139,15 @@ const REASONS_BLACKLIST = [
   "kort ventetid",
   "alt under samme tak",
 ];
+
+export const slugifyTitle = (t: string): string =>
+  t
+    .toLowerCase()
+    .replace(/[æ]/g, "ae")
+    .replace(/[ø]/g, "o")
+    .replace(/[å]/g, "a")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 const isBlacklisted = (title: string): boolean => {
   const t = title.trim().toLowerCase();
