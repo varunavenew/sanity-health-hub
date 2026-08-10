@@ -330,15 +330,16 @@
         seksjonsskillet usynlig → avstanden halveres.
      ============================================================ */
   :root {
-    --section-gap: 3.5rem;        /* mobil */
-    --section-gap-tight: 1.75rem; /* halvert */
+    --section-gap: 3rem;          /* mobil */
+    --section-gap-tight: 1.5rem;  /* halvert */
   }
   @media (min-width: 768px) {
     :root {
-      --section-gap: 5.5rem;
-      --section-gap-tight: 2.75rem;
+      --section-gap: 5rem;
+      --section-gap-tight: 2.5rem;
     }
   }
+
 
   /* 1) Normaliser store seksjonspaddinger til felles token */
   section:not([class*="pt-[4.5rem]"]):is([class*="py-14"], [class*="py-16"], [class*="py-20"], [class*="py-24"], [class*="py-28"], [class*="pt-14"], [class*="pt-16"], [class*="pt-20"], [class*="pt-24"], [class*="pt-28"]) {
@@ -366,6 +367,25 @@
   section[class~="bg-brand-dark"]:has(+ section[class~="bg-brand-dark"]) {
     padding-bottom: var(--section-gap-tight);
   }
+
+  /* 2c) Footeren er mørk — samme regel gjelder mot siste CTA-seksjon.
+     Fjerner det store hullet mellom «Ring oss»-CTA-en og footeren. */
+  footer[role="contentinfo"] {
+    padding-top: var(--section-gap);
+  }
+  main > section[class~="bg-brand-dark"]:last-of-type,
+  main > div:last-child > section[class~="bg-brand-dark"]:last-child,
+  main > div:last-of-type > section[class~="bg-brand-dark"]:last-of-type {
+    padding-bottom: var(--section-gap-tight);
+  }
+  main:has(> section[class~="bg-brand-dark"]:last-of-type) + footer[role="contentinfo"],
+  main:has(> div:last-child > section[class~="bg-brand-dark"]:last-child) + footer[role="contentinfo"],
+  main:has(> div:last-of-type > section[class~="bg-brand-dark"]:last-of-type) + footer[role="contentinfo"] {
+    padding-top: var(--section-gap-tight);
+  }
+
+
+
 
 
 

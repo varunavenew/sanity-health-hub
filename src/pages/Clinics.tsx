@@ -1,3 +1,4 @@
+import { ListPageHero } from "@/components/layout/ListPageHero";
 import { Link } from "react-router-dom";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
@@ -6,14 +7,12 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics } from "@/hooks/useSanity";
 import { clinics as staticClinics, withCanonicalAddress, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
-import { SplitHero } from "@/components/layout/SplitHero";
 
 
 import imgVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
 import imgKorridorLys from "@/assets/clinics/interior/korridor-lys.jpg.asset.json";
 import imgKorridorVenteplass from "@/assets/clinics/interior/korridor-venteplass.jpg.asset.json";
 import imgKorridorDempet from "@/assets/clinics/interior/korridor-dempet.jpg.asset.json";
-import imgKunstverk from "@/assets/clinics/interior/kunstverk.jpg.asset.json";
 
 const clinicImages: Record<string, string> = {
   majorstuen: imgVenteromBredt.url,
@@ -78,16 +77,12 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  }}
  />
 
- {/* Hero */}
- <SplitHero
- 
- title="Finn din nærmeste klinikk"
- description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
- image={imgKunstverk.url}
- imageAlt="CMedical klinikk"
- primaryCta={{ label: "Bestill time", to: "/booking" }}
- secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+ {/* Hero — felles liste-hero */}
+ <ListPageHero
+   title="Finn din nærmeste klinikk"
+   description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
  />
+
 
  {/* Clinic split-screen rows */}
  <section className="bg-background" aria-labelledby="clinics-heading">
