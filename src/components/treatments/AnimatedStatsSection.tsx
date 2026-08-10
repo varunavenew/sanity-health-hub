@@ -24,7 +24,7 @@ export function AnimatedStatsSection({
 }: AnimatedStatsSectionProps) {
  const bgClass = background === "brand-light" ? "bg-brand-light" : "bg-background";
  return (
- <section className={`${bgClass} text-foreground py-20 md:py-28 border-t border-brand-dark/10`}>
+ <section className={`${bgClass} text-foreground py-14 md:py-28 border-t border-brand-dark/10`}>
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">

@@ -51,7 +51,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       />
 
       {/* Editorial header */}
-      <header className="bg-brand-warm pt-20 md:pt-24 pb-6 md:pb-8">
+      <header className="bg-brand-warm pt-14 md:pt-24 pb-6 md:pb-8">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl">
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-brand-dark mb-3">

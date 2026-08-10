@@ -250,7 +250,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. MØRK SEGMENT-SEKSJON — Livsfaser
  ============================================================ */}
- <section className="bg-brand-light text-foreground py-20 md:py-28">
+ <section className="bg-brand-light text-foreground py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -351,7 +351,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
  ============================================================ */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
@@ -420,7 +420,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  6. VET DU ALLEREDE HVA DU TRENGER? — full liste (handlingsvalg)
  ============================================================ */}
- <section className="bg-background text-foreground py-20 md:py-28">
+ <section className="bg-background text-foreground py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
@@ -463,7 +463,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+ <section className="bg-brand-light text-foreground py-14 md:py-28 border-t border-brand-dark/5">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
@@ -516,7 +516,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  8. PASIENTSITATER — sosial bevis
  ============================================================ */}
- <section className="bg-brand-warm py-20 md:py-24">
+ <section className="bg-brand-warm py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
@@ -591,7 +591,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  6. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING — split
  ============================================================ */}
  <section className="bg-background">
- <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+ <div className="container mx-auto px-6 md:px-16 py-14 md:py-28">
  <div className="max-w-6xl mx-auto section-head-plain">
  <div className="lg:col-span-5">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">

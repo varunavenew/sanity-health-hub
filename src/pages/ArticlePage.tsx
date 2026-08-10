@@ -185,7 +185,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
         ]}
       />
       {/* Header */}
-      <div className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
+      <div className="bg-brand-dark pt-24 pb-10 md:pt-16 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <Link
             to="/aktuelt"

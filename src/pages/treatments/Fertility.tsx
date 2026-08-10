@@ -522,7 +522,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
        4b. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
        ============================================================ */}
-      <section className="bg-secondary/40 py-20 md:py-28">
+      <section className="bg-secondary/40 py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="section-head">
@@ -592,7 +592,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
   6. HVA VI TILBYR — gruppert oversikt
   ============================================================ */}
-  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+  <section className="bg-brand-light text-foreground pt-14 md:pt-28 pb-16 md:pb-20">
    <div className="container mx-auto px-6 md:px-16">
     <div className="max-w-6xl mx-auto">
      <div className="section-head">

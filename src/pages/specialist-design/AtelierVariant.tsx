@@ -31,7 +31,7 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Hero — narrow column */}
-      <header className="bg-brand-light pt-32 md:pt-44 pb-20 md:pb-28">
+      <header className="bg-brand-light pt-32 md:pt-44 pb-14 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -61,7 +61,7 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
 
       {/* Lead paragraph */}
       {lead && (
-        <section className="bg-brand-light pt-20 md:pt-28 pb-10 md:pb-14">
+        <section className="bg-brand-light pt-14 md:pt-28 pb-10 md:pb-14">
           <div className="container mx-auto px-6 md:px-16 max-w-3xl">
             <p className="text-2xl md:text-3xl font-light text-brand-dark leading-[1.45]">{lead}</p>
           </div>
@@ -70,7 +70,7 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
 
       {/* Rest of rich bio (paragraphs, images, video, embeds, links) */}
       {remaining.length > 0 && (
-        <section className="bg-brand-light pb-20 md:pb-28">
+        <section className="bg-brand-light pb-14 md:pb-28">
           <div className="container mx-auto px-6 md:px-16 max-w-3xl space-y-6">
             {remaining.map((b, i) => <RichBioBlock key={i} block={b} tone="warm" />)}
           </div>
@@ -98,7 +98,7 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
 
       {/* Reviews — sequential quotes */}
       {reviews.length > 0 && (
-        <section className="bg-brand-warm py-20 md:py-28">
+        <section className="bg-brand-warm py-14 md:py-28">
           <div className="container mx-auto px-6 md:px-16 max-w-3xl">
             <p className="text-xs text-brand-dark/50 font-light mb-3">Pasienterfaringer</p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark mb-12">Hva pasientene sier</h2>
@@ -141,7 +141,7 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
       </section>
 
       {/* Focused dark CTA */}
-      <section className="bg-brand-dark py-20 md:py-24">
+      <section className="bg-brand-dark py-14 md:py-24">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <p className="text-xs text-brand-light/50 font-light mb-6">Ta kontakt</p>
           <h2 className="text-3xl md:text-5xl font-light text-brand-light leading-[1.1] mb-10">

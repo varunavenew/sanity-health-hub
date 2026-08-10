@@ -66,7 +66,7 @@ export const ClinicBookingBlock = ({
   const emailHref = email ? `mailto:${email}` : null;
 
   return (
-    <section className="bg-brand-dark py-20 md:py-28" aria-labelledby="booking-heading">
+    <section className="bg-brand-dark py-14 md:py-28" aria-labelledby="booking-heading">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">
           <h2

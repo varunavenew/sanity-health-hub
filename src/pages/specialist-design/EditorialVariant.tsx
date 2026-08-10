@@ -89,7 +89,7 @@ const Variant1 = ({ isChatOpen = false }: Props) => {
       </header>
 
       {/* Bio — sticky margin metadata + full rich content */}
-      <section className="bg-background py-20 md:py-28">
+      <section className="bg-background py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="section-head-plain">
             <aside className="lg:col-span-4 lg:sticky lg:top-28 self-start space-y-8 text-sm font-light">

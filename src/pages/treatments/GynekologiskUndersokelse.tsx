@@ -153,7 +153,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  1. HERO — split (text + sjekkpunkter)
  ============================================================ */}
- <header className="bg-brand-light pb-20 md:pb-28">
+ <header className="bg-brand-light pb-14 md:pb-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
  <div>
@@ -227,7 +227,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. KONSULTASJONEN — mørkt, fire trinn
  ============================================================ */}
- <section className="bg-brand-light text-foreground py-20 md:py-28">
+ <section className="bg-brand-light text-foreground py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -255,7 +255,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  3. HVEM PASSER DET FOR — split
  ============================================================ */}
- <section className="bg-background py-20 md:py-28">
+ <section className="bg-background py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto section-head-plain">
  <div className="lg:col-span-5">
@@ -300,7 +300,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  4. VÅRE LØFTER — tre kort
  ============================================================ */}
- <section className="bg-brand-light py-20 md:py-24">
+ <section className="bg-brand-light py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
  {promises.map((p) => (
@@ -323,7 +323,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  5. ETTER UNDERSØKELSEN — relaterte spesialfelt
  ============================================================ */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-12">
@@ -374,7 +374,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  6. SLUTT-CTA
  ============================================================ */}
- <section className="bg-brand-dark text-white py-20 md:py-24">
+ <section className="bg-brand-dark text-white py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
  <div className="lg:col-span-7">

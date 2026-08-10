@@ -32,7 +32,7 @@ const stories = [
 
 export const VisualStorytelling = () => {
  return (
- <section className="py-20 md:py-28 bg-background">
+ <section className="py-14 md:py-28 bg-background">
  <div className="container mx-auto px-6 md:px-16">
  {/* Section header */}
  <div className="text-center max-w-3xl mx-auto mb-16">

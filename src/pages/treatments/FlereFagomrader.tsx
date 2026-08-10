@@ -144,7 +144,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* CLUSTERS */}
- <section className="bg-brand-light py-20 md:py-28">
+ <section className="bg-brand-light py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -170,7 +170,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* ALL SPECIALISTS */}
- <section className="bg-background py-20 md:py-28">
+ <section className="bg-background py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -198,7 +198,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* JOURNEY */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -220,7 +220,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* REVIEWS */}
- <section className="bg-brand-warm py-20 md:py-24">
+ <section className="bg-brand-warm py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
@@ -250,7 +250,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* FAQ */}
- <section className="bg-background py-20 md:py-24">
+ <section className="bg-background py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-tight tracking-tight mb-10 text-center">Det folk spør om</h2>
  <Accordion type="single" collapsible className="w-full">
@@ -265,7 +265,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* DARK CTA */}
- <section className="bg-brand-dark text-white py-20 md:py-24">
+ <section className="bg-brand-dark text-white py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
  <div className="lg:col-span-7">

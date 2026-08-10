@@ -303,7 +303,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
 
 
       {/* 2b. SPLIT-FAQ */}
-      <section className="py-20 md:py-28 bg-background">
+      <section className="py-14 md:py-28 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
             <div>
@@ -416,7 +416,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 4. EKSPERTER */}
-      <section className="bg-secondary/40 py-20 md:py-28">
+      <section className="bg-secondary/40 py-14 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="section-head">
@@ -467,7 +467,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
 
 
       {/* 6. HVA VI TILBYR — gruppert oversikt */}
-      <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+      <section className="bg-brand-light text-foreground pt-14 md:pt-28 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="section-head">
@@ -517,7 +517,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 7. RESULTATER */}
-      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+      <section className="bg-brand-light text-foreground py-14 md:py-28 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 mb-14">
@@ -559,7 +559,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 8. PASIENTSITATER */}
-      <section className="bg-brand-warm py-20 md:py-24">
+      <section className="bg-brand-warm py-14 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-xl mb-10">
@@ -620,7 +620,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
 
       {/* 10. FRA FØRSTE KONTAKT TIL RIKTIG OPPFØLGING */}
       <section className="bg-background">
-        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16 py-14 md:py-28">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16">
             <div>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">

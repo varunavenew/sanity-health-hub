@@ -95,7 +95,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
  </section>
 
  {/* HJELPENDE NAVIGASJON — populære destinasjoner */}
- <section className="bg-background py-20 md:py-24">
+ <section className="bg-background py-14 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-12">

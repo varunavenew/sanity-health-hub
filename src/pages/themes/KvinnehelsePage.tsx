@@ -99,7 +99,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
  ]}
  />
  {/* Hero — title on top, video full-width below (samme mønster som /om-oss) */}
- <header className="bg-brand-warm pt-24 md:pt-28 pb-10 md:pb-14">
+ <header className="bg-brand-warm pt-16 md:pt-28 pb-10 md:pb-14">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
  <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">

@@ -40,7 +40,7 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
       />
 
       {/* Hero */}
-      <section className="bg-brand-dark pt-24 pb-14 md:pt-28 md:pb-20">
+      <section className="bg-brand-dark pt-24 pb-14 md:pt-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}

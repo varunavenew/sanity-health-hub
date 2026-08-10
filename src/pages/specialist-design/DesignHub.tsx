@@ -45,7 +45,7 @@ const SpecialistDesignHub = ({ isChatOpen = false }: Props) => {
         </div>
       </section>
 
-      <section className="bg-background pb-24 md:pb-32">
+      <section className="bg-background pb-16 md:pb-32">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
           <ul className="divide-y divide-border/60">
             {variants.map((v) => (

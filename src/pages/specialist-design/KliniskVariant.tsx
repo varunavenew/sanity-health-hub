@@ -25,7 +25,7 @@ const Variant2 = ({ isChatOpen = false }: Props) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Hero */}
-      <header className="bg-brand-warm/40 pt-28 md:pt-36 pb-12 md:pb-16">
+      <header className="bg-brand-warm/40 pt-16 md:pt-36 pb-12 md:pb-16">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid md:grid-cols-12 gap-10 md:gap-14 items-end">
             <motion.div
@@ -129,7 +129,7 @@ const Variant2 = ({ isChatOpen = false }: Props) => {
       </section>
 
       {/* Bio — long form with marginalia (full rich content incl. media) */}
-      <section className="bg-background pb-20 md:pb-28">
+      <section className="bg-background pb-14 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid lg:grid-cols-12 gap-10">
             <div className="lg:col-span-3">
