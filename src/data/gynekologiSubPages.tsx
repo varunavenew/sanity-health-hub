@@ -228,7 +228,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       "Urogynekologi handler om plager i bekkenbunnen – særlig vaginale fremfall (prolaps) og urinlekkasje. Hos oss møter du noen av Nordens fremste eksperter, og tilstandene utredes og behandles samlet av vårt uro-gynekologiske team.",
     heroPoints: [
       { title: "Samlet kompetanse", desc: "Fremfall og lekkasje vurderes sammen — ikke i hver sin silo." },
-      { title: "Hele spekteret", desc: "Fra bekkenbunnstrening og pessar til moderne kirurgi, inkludert robotassistert." },
+      
       { title: "Uavhengig av livsfase", desc: "Du kan ha urogynekologiske plager uten å ha født — og uten å være i overgangsalderen." },
       { title: "Erfarne spesialister", desc: "Urogynekologi krever volum og rutine. Våre kirurger gjør dette ofte." },
     ],
@@ -248,50 +248,21 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først." },
     ],
-    textSection: {
-      title: "Vaginale fremfall (prolaps)",
-      lead:
-        "Vaginalt fremfall, også kjent som prolaps innebærer at skjedens fremre eller bakre vegg, eller livmor eller bare livmorhals buker ned i skjeden eller ut av skjedeinngangen, dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
-      points: [
-        {
-          n: "Behandling",
-          title: "Tilpasset alvorlighetsgrad",
-          desc:
-            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis du opplever symptomer på vaginalt fremfall.",
-        },
-        {
-          n: "Eksperter",
-          title: "Nordens fremste på fremfall",
-          desc:
-            "Hos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
-        },
-      ],
-      image: imgUrogynekologiHero,
-      imageAlt: "Urogynekologi hos CMedical",
-    },
-    reasonsTitle: "Urinlekkasje (inkontinens)",
+    reasonsTitle: "Hva er urogynekologi?",
     reasonsLead:
-      "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
-    reasonsLead2:
-      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+      "Urogynekologi er fagområdet som utreder og behandler plager i bekkenbunnen — først og fremst vaginale fremfall (prolaps) og urinlekkasje. Under finner du egne sider med utdypende informasjon om hver av tilstandene.",
     reasons: [
       {
         n: "01",
-        title: "Stressinkontinens",
+        title: "Vaginale fremfall (prolaps)",
         desc:
-          "Urinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.",
+          "Når skjedevegg, livmor eller livmorhals buker ned i skjeden. Les mer på siden om vaginale fremfall.",
       },
       {
         n: "02",
-        title: "Tranginkontinens",
+        title: "Urinlekkasje (inkontinens)",
         desc:
-          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Du er ofte plaget av hyppig toalettbesøk, hvor du ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
-      },
-      {
-        n: "03",
-        title: "Blandingsinkontinens",
-        desc:
-          "Kombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person. Er du plaget med dette anbefaler vi deg å ta kontakt med oss.",
+          "Stress-, trang- og blandingsinkontinens. Les mer på siden om urinlekkasje.",
       },
     ],
     promises: standardPromises,
