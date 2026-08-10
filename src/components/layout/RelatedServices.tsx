@@ -1,4 +1,5 @@
 import { ArrowRight, Wallet, Building2, Phone, type LucideIcon } from "lucide-react";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { Link, useLocation } from "react-router-dom";
 import { useRef } from "react";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
@@ -65,7 +66,7 @@ export const RelatedServices = ({
             </Link>
           ))}
         </div>
-        <ScrollArrows scrollRef={scrollRef} />
+        <ScrollArrows scrollRef={scrollRef} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
@@ -337,7 +338,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </Link>
  ))}
  </div>
- <ScrollArrows scrollRef={expertAreasRef} />
+ <ScrollArrows scrollRef={expertAreasRef} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
  </div>
  </div>
  </section>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Phone, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -211,7 +212,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
- <ScrollArrows scrollRef={segmentsRef} />
+ <ScrollArrows scrollRef={segmentsRef} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
 
 
  {/* Second opinion dark stripe */}
@@ -319,7 +320,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </Link>
  ))}
  </div>
- <ScrollArrows scrollRef={specialistsRef} />
+ <ScrollArrows scrollRef={specialistsRef} trailing={<CarouselCta to="/spesialister">Se alle spesialister</CarouselCta>} />
 
  </section>
  )}
