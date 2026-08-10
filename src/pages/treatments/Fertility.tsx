@@ -120,7 +120,7 @@ const segments = [
  },
  {
  id: "donor",
- title: "Jeg ønsker å bli donør",
+ title: "Jeg ønsker å bli donor",
  desc:
  "Som egg- eller sæddonor kan du hjelpe andre med å bli foreldre. Vi forklarer hva det innebærer, hvilke krav som gjelder og hvordan forløpet foregår — etter norsk lov.",
  tags: [
