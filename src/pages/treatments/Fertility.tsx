@@ -430,13 +430,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  ))}
   </div>
 
-  <p className="mt-8 text-sm font-light text-muted-foreground leading-relaxed">
-   Bestill time online eller på telefon{" "}
-   <a href="tel:+4722600050" className="text-foreground underline underline-offset-4 hover:no-underline">
-    22 60 00 50
-   </a>{" "}
-   (Velg «Majorstuen – tastevalg 1»).
-  </p>
+   <p className="mt-8 text-sm font-light text-muted-foreground leading-relaxed">
+    {"\n"}
+   </p>
 
   <Link
    to="/om-oss"
