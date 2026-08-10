@@ -88,7 +88,7 @@ export const TestimonialSection = () => {
     <section id="tilbakemeldinger" className="py-20 bg-background">
       <div className="container mx-auto px-6 md:px-16">
         <div className="text-center mb-16">
-          <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-2xl md:rounded-full text-sm font-light mb-4">
+          <div className="text-sm font-light text-muted-foreground mb-4">
             Basert på over 1000 pasienter
           </div>
           <h2 className="text-2xl md:text-3xl font-light leading-tight mb-4">Trygghet, omsorg og helsehjelp i livets ulike faser</h2>
@@ -129,7 +129,7 @@ export const TestimonialSection = () => {
                     <p className="text-sm text-muted-foreground">{testimonial.location}</p>
                   </div>
                   {testimonial.treatment && (
-                    <div className={`text-xs px-3 py-1 rounded-full ${
+                    <div className={`text-xs ${
                       testimonial.treatment === 'Gynekologi'
                         ? 'bg-pink-100 text-pink-700'
                         : testimonial.treatment === 'Fertilitet'
@@ -173,7 +173,7 @@ export const TestimonialSection = () => {
                   <p className="text-xs text-muted-foreground">{testimonial.location}</p>
                 </div>
                 {testimonial.treatment && (
-                  <div className={`text-xs px-3 py-1 rounded-full ${
+                  <div className={`text-xs ${
                     testimonial.treatment === 'Gynekologi' 
                       ? 'bg-pink-100 text-pink-700' 
                       : testimonial.treatment === 'Fertilitet'

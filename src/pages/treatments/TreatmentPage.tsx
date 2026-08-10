@@ -175,9 +175,9 @@ const SpecialistCarouselSection = ({
                 </div>
                 {spec.expertise.length > 0 && (
                   <div className="px-5 pb-3">
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
                       {spec.expertise.slice(0, 4).map((tag) => (
-                        <span key={tag} className="text-xs px-2.5 py-1 rounded-2xl md:rounded-full bg-secondary text-muted-foreground font-light">{tag}</span>
+                        <span key={tag} className="text-xs text-muted-foreground font-light">{tag}</span>
                       ))}
                     </div>
                   </div>

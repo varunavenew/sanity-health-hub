@@ -46,12 +46,12 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               {specialist.name}
             </motion.h1>
 
-            {/* Role / title — prominent free-text line under the name */}
+            {/* Role / title + sted (ren tekst, ikke chip) på samme linje */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="text-lg md:text-xl font-light text-foreground/80 mb-6 flex flex-wrap items-center gap-x-2"
+              className="text-lg md:text-xl font-light text-foreground/80 mb-6 flex flex-wrap items-center gap-x-2 gap-y-1"
             >
               <span>{specialist.title}</span>
               {specialist.subtitle && specialist.subtitle !== specialist.title && (
@@ -60,46 +60,39 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                   <span>{specialist.subtitle}</span>
                 </>
               )}
+              {specialist.clinics && specialist.clinics.length > 0 && (
+                <>
+                  <span className="text-foreground/30">·</span>
+                  <span className="inline-flex items-center gap-1.5 text-base md:text-lg text-foreground/70">
+                    <MapPin className="w-4 h-4 text-foreground/50" aria-hidden="true" />
+                    {specialist.clinics.join(", ")}
+                  </span>
+                </>
+              )}
             </motion.p>
 
-            {/* Tag groups: locations + expertise — same hover as service-page tags */}
-            {((specialist.clinics && specialist.clinics.length > 0) ||
-              (specialist.expertise && specialist.expertise.length > 0)) && (
+            {/* Fagområde-tagger — klikkbare, derfor chip-utseende */}
+            {specialist.expertise && specialist.expertise.length > 0 && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.15 }}
-                className="space-y-2 mb-8"
+                className="mb-8"
               >
-                {specialist.clinics && specialist.clinics.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {specialist.clinics.map((clinic) => (
-                      <Link
-                        key={clinic}
-                        to={`/klinikker/${slugify(clinic)}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-brand-warm hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
-                      >
-                        <MapPin className="w-3 h-3" aria-hidden="true" />
-                        {clinic}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-                {specialist.expertise && specialist.expertise.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {specialist.expertise.map((tag) => (
-                      <Link
-                        key={tag}
-                        to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
-                        className="inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
-                      >
-                        {tag}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {specialist.expertise.map((tag) => (
+                    <Link
+                      key={tag}
+                      to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
+                      className="inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
               </motion.div>
             )}
+
 
             {/* CTAs — optional: either, both, or none */}
             <motion.div

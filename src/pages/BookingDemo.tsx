@@ -1025,7 +1025,7 @@ const BookingDemo = () => {
  <div className="flex items-center gap-3 ml-auto mr-4">
  <div className="flex items-center gap-1.5">
  {availableClinicsForCategory.length === clinics.length ? (
- <span className="text-xs px-2 py-0.5 rounded-2xl md:rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
+ <span className="text-xs text-brand-dark/60 font-light">
  Alle klinikker
  </span>
  ) : availableClinicsForCategory.length > 0 ? (
@@ -1038,7 +1038,7 @@ const BookingDemo = () => {
  return (
  <span
  key={clinic.id}
- className="text-xs px-2 py-0.5 rounded-2xl md:rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light"
+ className="text-xs text-brand-dark/60 font-light"
  >
  {clinicName}
  </span>
