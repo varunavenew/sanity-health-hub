@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
 import { getServiceImageFromHref } from "@/data/serviceImages";
@@ -63,33 +64,6 @@ const segments = [
   },
 ];
 
-const audiences = [
-  {
-    title: "Likekjønnede par",
-    desc:
-      "Partnerdonasjon eller IUI med donorsæd. Du og partner velger sammen hvilken vei som passer dere best.",
-    href: "/behandlinger/fertilitet/assistert-befruktning-par-og-single",
-    image:
-      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning-par-og-single") ??
-      audienceCouple,
-  },
-  {
-    title: "Single",
-    desc:
-      "IUI med donorsæd er ofte det enkleste første steget når du ønsker barn på egen hånd. Vi følger deg trygt gjennom hele forløpet.",
-    href: "/behandlinger/fertilitet/assistert-befruktning",
-    image:
-      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? audienceSingle,
-  },
-  {
-    title: "Heterofile par",
-    desc:
-      "Når egne egg eller sæd ikke er et alternativ, kan donorbehandling være veien videre. Vi gjør en grundig vurdering først.",
-    href: "/behandlinger/fertilitet/fertilitetsutredning",
-    image:
-      getServiceImageFromHref("/behandlinger/fertilitet/fertilitetsutredning") ?? audienceWaiting,
-  },
-];
 
 const services = [
   { title: "Inseminasjon (IUI) med donor", desc: "Skånsom og enkel — ofte første steg", href: `${FERT}/assistert-befruktning` },
