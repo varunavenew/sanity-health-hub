@@ -26,7 +26,7 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Har dere prøvd en stund – uten å lykkes? Mange av parene som kommer til oss har forsøkt å bli gravide over tid. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt.",
     href: `${AUDIENCE_LANDING}#mann-og-kvinne-i-parforhold`,
-    image: getServiceImageFromHref("/behandlinger/fertilitet/infertilitet") ?? audienceCouple,
+    image: heterofiltParAsset.url,
   },
   {
     title: "To kvinner i parforhold",
