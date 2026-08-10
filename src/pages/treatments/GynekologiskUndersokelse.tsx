@@ -14,7 +14,7 @@ interface PageProps {
 
 const heroPoints = [
  {
- title: "Ingen ventetid",
+ title: "Kort ventetid",
  desc: "Du finner time hos oss innen få dager — ikke etter måneder i offentlig kø.",
  },
  {
@@ -192,7 +192,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground">
                 <span className="inline-flex items-center gap-2">
                   <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  Ingen ventetid
+                  Kort ventetid
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
@@ -382,7 +382,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  Bestill gynekologisk undersøkelse
  </h2>
  <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
- Ingen ventetid. Ingen fastlege nødvendig. Du bestiller direkte
+ Kort ventetid. Ingen fastlege nødvendig. Du bestiller direkte
  — og vi sørger for at du møter riktig spesialist.
  </p>
  </div>

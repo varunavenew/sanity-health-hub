@@ -62,7 +62,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "gynekologi/tverrfaglig": {
     title: "Tverrfaglig team: Osteopat, Sexolog, Psykolog, Ernæring",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     heroVideo: tverrfagligTeamVideo.url,
@@ -127,7 +127,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/urinlekkasje": {
     title: "Urinlekkasje",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
@@ -180,7 +180,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/overgangsalder": {
     title: "Overgangsalder",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Symptomer på overgangsalderen starter ofte i første halvdel av 40-årene, opplevelsene kan variere mye fra kvinne til kvinne. For noen er overgangen knapt merkbar, mens andre opplever så store utfordringer at det påvirker hverdagen deres betydelig.\n\nHos CMedical møter du et dedikert ekspert-team av spesialister på overgangsalder. Våre eksperter er medlemmer av British Menopause Society og samarbeider tett med Newson Health i Storbritannia, som er verdens ledende klinikk innen overgangsalder. Behandlingsmetodikken vår bygger på «de fire søylene» – hormoner, relasjoner, ernæring og fysisk form – som sammen sikrer en helhetlig tilnærming til dine behov.",
@@ -233,7 +233,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/vaginale-fremfall": {
     title: "Vaginale fremfall",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Vaginalt fremfall, også kjent som prolaps, innebærer at skjedens fremre eller bakre vegg, eller livmor/livmorhals, buker ned i skjeden eller ut av skjedeinngangen. Dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
@@ -254,7 +254,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/blodningsforstyrrelser": {
     title: "Blødningsforstyrrelser",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Blødningsforstyrrelser kan være at intervallet mellom menstruasjonene endrer seg, at de blir hyppigere eller sjeldnere. Det kan være at mengden blod som kommer hver gang øker eller minker, eller det kan være blødninger som kommer mellom menstruasjoner.\n\nHvis du opplever menstruasjonen som plagsomt stor, uregelmessig eller smertefull, bør dette undersøkes hos gynekolog. Da vil vi gjøre ultralyd og ta ulike prøver for å finne ut av hvorfor du har blødningsforstyrrelser.",
@@ -280,7 +280,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/celleforandringer": {
     title: "Celleforandringer",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Celleforandringer er forstadier til kreft og kalles dysplasier. Det finnes flere stadier i økende alvorlighetsgrad. Hvorvidt celleforandringene skal behandles avhenger av hvor alvorlige de er og hvilken type HPV du har.",
@@ -311,7 +311,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/cyster": {
     title: "Cyster på eggstokkene",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Cyster på eggstokkene er veldig vanlig og i de fleste tilfeller helt ufarlig.\n\nHver måned modnes ett egg i en av eggstokkene. Dette ligger inni i en vannpose som blir ca 2 cm stor før den sprekker. Av og til kan det dannes flere slike vannposer eller cyster som ikke sprekker, men som får vokse videre. Disse kan iblant bli ganske store og gi smerter og ubehag nederst i magen, særlig ved samleie og bevegelse. Disse cystene kalles funksjonelle cyster og blir som oftest borte av seg selv etter omtrent tre menstruasjonssykluser.\n\nHar du spørsmål knyttet til dette kan du alltid kontakte oss.",
@@ -347,7 +347,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/fjerne-livmor": {
     title: "Fjerne livmor",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Fjerning av livmor (hysterektomi) anbefales ved plagsomme muskelknuter (myomer), blødningsforstyrrelser, kreft i livmor eller livmorhals. Det kan også være aktuelt ved endometriose eller ved vedvarende celleforandringer i livmorhals. Ved operasjonen fjernes livmoren i sin helhet, eggstokker blir stående igjen dersom du ikke er kommet i overgangsalderen.",
@@ -373,7 +373,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/graviditet": {
     title: "Graviditet",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: heroPregnancy,
     description: "Vi ønsker deg velkommen til oppfølging gjennom hele svangerskapet. Vi tilbyr fosterdiagnostikk, som NIPT og tidlig ultralyd. Hos oss jobber fødselsleger, gynekologspesialister og fostermedisinere. Deres kompetanse er din trygghet.",
@@ -419,7 +419,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/kirurgi": {
     title: "Gynekologisk kirurgi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: heroTech,
     description: "CMedical tilbyr vi en rekke gynekologiske operasjoner utført av håndplukkede kirurger, som er ledende innen sine felt. Hos oss er både trygghet og god kommunikasjon viktig, og vi sørger for at du føler deg godt ivaretatt gjennom hele behandlingsforløpet.\n\nNår en operasjon er den beste løsningen for deg, vil vår operasjonskoordinator hjelpe deg med å finne en passende dato. Du får grundig informasjon om inngrepet og oppfølgingen, og kirurgen vil være tilgjengelig for deg også etter operasjonen.",
@@ -445,7 +445,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/hormonforstyrrelser": {
     title: "Hormonforstyrrelser",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Hormonforstyrrelser refererer til unormale nivåer av hormoner i kroppen, enten det er for mye, for lite eller ujevn produksjon av visse hormoner. Les mer under om ulike sykdommer.",
@@ -472,7 +472,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/hysteroskopi": {
     title: "Hysteroskopi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne.\n\nFordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre. Hysteroskopi er et effektivt verktøy for å kartlegge:\n- Uregelmessige blødninger\n- Mistanke om polypper eller muskelknuter i livmoren\n- Vanskeligheter med å bli gravid\n- Forandringer i livmorslimhinnen\n\nGjennom moderne teknologi og skånsomt utviklede instrumenter legger vi vekt på å gi deg en trygg opplevelse med minst mulig ubehag under undersøkelsen hos oss i CMedical.",
@@ -493,7 +493,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/labiaplastikk": {
     title: "Labiaplastikk",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Det er normalt med ulik størrelse og utseende på kjønnslepper. Noen ganger gir store kjønnslepper smerter ved fysisk aktivitet som sykling, ridning, eller er i veien ved samleie. Da kan kirurgisk reduksjon av kjønnsleppene være løsningen.",
@@ -547,7 +547,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/spontanabort": {
     title: "Spontanabort",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "I følge internasjonale retningslinjer blir dessverre ikke kvinner med spontanabort fulgt opp tilstrekkelig i Norge. Spontanabort oppleves for de aller fleste som et tap og da hjelper det lite å høre at det er naturens gang. Uavhengig om dere har barn fra før, om dere har forsøkt lenge eller kort å bli gravid er det viktig å bli tatt på alvor med de tankene dere har.\n\nSelve aborten kan også ha vært en tung og smertefull opplevelse og mange kjenner seg utrygge på om alt er ute av kroppen. Med både ultralyd og samtale vil vi klargjøre og berolige.\n\nI dag vil de fleste få beskjed om å vente til opp mot tre spontanaborter før det utredes om alt er som det skal. Det skal du slippe hos oss. Vi gjør en vurdering om det ligger noen bakgrunn for at du har abortert.\n\nKun en prosent av alle gravide ender med en uønsket senabort, men det er ganske mange par som tar vanskelige valg etter tidlig fosterdiagnostisering og NIPT-test. Det å ha noen å snakke med rundt disse valgene kan være med å gjøre prosessen lettere. Hos CMedical kan du snakke med våre spesialister om vanskelige tanker.\n\nGjennom mange år har vi fulgt par som har mistet barnet i mors liv, under eller etter fødsel. Vi vil veilede dere som par både i den livskrisen dere er i, også vurdere andre tiltak ved eventuelt neste svangerskap og følge deg eller dere tett opp.",
@@ -562,7 +562,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/fodselsskader": {
     title: "Fødselsskader",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Fødselsskader er en samlebetegnelse på plager som kan oppstå etter en fødsel. Det kan være bristninger og arrvev, svekket bekkenbunn, diastase i magemuskulaturen, vaginale fremfall, urin- eller avføringslekkasje, eller smerter ved samleie. De fleste av disse plagene kan utredes og behandles. Plager etter fødsel bør undersøkes hos gynekolog. Det gjelder enten fødselen var nylig eller for flere år siden.",
@@ -585,7 +585,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/fostermedisin": {
     title: "Fostermedisin",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.",
@@ -601,7 +601,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/pmos": {
     title: "PMOS",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PMOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at du mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har du landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen: Uregelmessige og sjeldne menstruasjoner; Polycystiske eggstokker; Hyperandrogenisme (økt behåring, akne og mannlig hårtap).\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
@@ -614,7 +614,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/vulvalidelser": {
     title: "Vulvalidelser",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Kompliserte sykdommer som vulvasykdommer trenger en tverrfaglig tilnærming. Vårt multidisiplinære team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut. Avhengig av vulvovaginal lidelse og diagnose, vil du få tilbud om videre konsultasjon med andre spesialister.",
@@ -660,7 +660,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "urologi/blaere": {
     title: "Blære og urinveier",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere. Blærefunksjonen er viktig for at kroppen skal opprettholde riktig væskebalanse og kvitte seg med avfallsstoffer. Når dette ikke fungerer, bør du kontakte en urolog.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis du opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
@@ -697,7 +697,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/forhud": {
     title: "Forhud",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Forhuden er den hudfolden som dekker penishodet hos menn. Hos CMedical har vi urologer som kan hjelpe deg med plager knyttet til forhuden, som trang forhud og sårhet. Etter en konsultasjon med urolog kan vi diskutere ulike behandlingsalternativer basert på dine symptomer og behov.",
@@ -719,7 +719,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/infertilitet": {
     title: "Mannlig infertilitet",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Når par opplever problemer med å få barn, er det verdt å merke seg at i omtrent 1/3 av tilfellene er årsaken ofte mannens sædkvalitet. De siste 50 årene har menns sædkvalitet blitt redusert med over 50 %. Dette skyldes flere faktorer, som arv, miljø og livsstil. Ønsker du å ta en sædtest for å sjekke kvaliteten eller få en fertilitetsutredning, så kan vi hjelpe deg. Vi samarbeider med urologer som er spesialister innen mannlig infertilitet for å gi deg den beste oppfølgingen.",
@@ -741,7 +741,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/nyrer": {
     title: "Nyrer",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robotassistert kirurgi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep – inkludert nefrektomi (fjerning av nyre).",
@@ -783,7 +783,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/prostata": {
     title: "Prostata",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Prostata er en liten kjertel som ligger under urinblæren. Den produserer væske som blandes med sperm for å danne sæd, og er med på å transportere og beskytte spermcellene under ejakulasjon. Regelmessig kontroll er viktig for å oppdage og behandle eventuelle problemer knyttet til prostata tidlig.\n\nProstata vokser når du blir eldre, og er du i 50–60 årene oppfordrer vi deg til å sjekke prostata jevnlig. Våre spesialister anbefaler én prostatakontroll og en årlig blodprøve for å overvåke utviklingen over tid.",
@@ -815,7 +815,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/refertilisering": {
     title: "Refertilisering",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Sterilisering er en enkel og vanlig prevensjonsmetode for menn. Metoden innebærer at du kutter sædlederen som transporterer sædceller fra testiklene til sædblæren.\n\nAngrer du på steriliseringen, kan sædlederne sys sammen igjen. Dette kalles refertilisering.",
@@ -847,7 +847,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/robotkirurgi": {
     title: "Robotassistert kirurgi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: robotkirurgiHeroImg.url,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden.",
@@ -900,7 +900,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/sterilisering": {
     title: "Sterilisering",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Sterilisering (vasektomi) er en enkel, trygg og effektiv behandling for permanent prevensjon. Hvis du er helt sikker på at du ikke ønsker flere barn i fremtiden, kan sterilisering være et alternativ.",
@@ -927,7 +927,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/testikler": {
     title: "Testikler og pung",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Testikler er mannens reproduktive organ og som produserer sædceller og mannlige hormoner, inkludert testosteron. Testiklene er plassert i pungen og pungen sørger for en litt lavere temperatur enn kroppen for å beskytte spermiene. Opplever du plager i testikler eller pung kan du ta kontakt med oss.",
@@ -958,7 +958,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "fertilitet/infertilitet": {
     title: "Infertilitet",
-    subtitle: "Uten henvisning • Ingen ventetid",
+    subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
     description: "Svært mange opplever at det er vanskelig å bli gravid på egenhånd. Så mange som 1 av 6 gjennomlever infertilitet, altså at graviditet ikke har lykkes til tross for gjentatte forsøk i ett år eller mer. Det finnes flere årsaker til ufrivillig barnløshet, og du skal vite at du er ikke alene.",
@@ -995,7 +995,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/assistert-befruktning": {
     title: "Assistert befruktning",
-    subtitle: "Uten henvisning • Ingen ventetid",
+    subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
     description: "Det finnes flere ulike behandlingsmetoder ved assistert befruktning. Vi utarbeider behandlingsmetoden slik at den er tilpasset nettopp deg og dine behov. Du kan være trygg på at vi gjør grundige undersøkelser med ett mål for øyet – å hjelpe deg med å oppfylle drømmen om et barn.",
@@ -1043,7 +1043,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // "fertilitet/ivf" fjernet — IVF er nå et avsnitt inne på "Assistert befruktning".
   "fertilitet/eggfrys": {
     title: "Eggfrys",
-    subtitle: "Uten henvisning • Ingen ventetid",
+    subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
     description: "Om du ønsker å vente med en eventuell graviditet, vil kanskje det å fryse ned egg være riktig for deg. På denne måten kan fremtidige deg, selv om fruktbarheten er redusert eller borte, kunne bli gravid. Ved nedfrysning av egg henter vi ut flere modne egg som legges på frys ubefruktet.\n\nEtter opptining vil egget befruktes med donorsæd, eller sæd fra partner, før det settes tilbake i livmoren. Denne prosedyren kalles for IVF, også populært kalt prøverørsbehandling.",
@@ -1085,7 +1085,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/donorbehandling": {
     title: "Donorbehandling",
-    subtitle: "Uten henvisning • Ingen ventetid",
+    subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
     description: "Behandling med donorsæd eller donerte egg kan være aktuelt for mange. I Norge er det ikke tillatt med samtidig donasjon av egg og sæd (såkalt dobbeldonasjon) og single kvinner i Norge får derfor ikke tilbud om eggdonasjon i henhold til bioteknologiloven. Unntak fra dette er i et likekjønnet par der den ene kvinnen kan få sine egg befruktet med donorsæd og gi befruktet egg til den andre kvinne for å oppnå graviditet (såkalt partnerdonasjon).\n\nSynes du det er vanskelig å forstå alt? Du er ikke alene. Har du spørsmål er du velkommen til å ringe oss.",
@@ -1117,7 +1117,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/hysteroskopi": {
     title: "Hysteroskopi",
-    subtitle: "Uten henvisning • Ingen ventetid",
+    subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
     description: "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne.\n\nFordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre.",
@@ -1145,7 +1145,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/saedanalyse": {
     title: "Sædanalyse",
-    subtitle: "Uten henvisning • Ingen ventetid",
+    subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
     description: "En sædanalyse er en trygg og enkel måte å kartlegge mannens sædkvalitet på. Prøven gir viktig informasjon om antall, bevegelighet og utseende på spermiene, og brukes ofte som første steg når du ønsker å undersøke fertilitet eller planlegger assistert befruktning.\n\nPrøven tas ved utløsning og kan leveres på klinikken. Analysen gir et tydelig bilde av sædkvaliteten og kan bidra til å avgjøre om videre utredning eller behandling er nødvendig.\n\nSædanalyse kan også være første steg dersom du ønsker å fryse ned spermier for fremtidig bruk – for eksempel før medisinsk behandling eller andre inngrep som kan påvirke fertiliteten.",
@@ -1185,7 +1185,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "ortopedi/fot-ankel": {
     title: "Fot og ankel",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Vi tilbyr alle subspesialiteter innen ortopedisk fot- og ankelkirurgi, og våre spesialister kan utføre alle typer inngrep. Ved flere diagnoser benytter vi avanserte minimalt invasive operasjonsmetoder kalt **MIS (Minimally Invasive Surgery)** og **MICA (Minimally Invasive Chevron-Akin)**. Dette er operasjonsmetoder — ikke diagnoser — som lar oss korrigere feilstillinger og senerelaterte plager gjennom svært små snitt, med mindre vevsskade, mindre smerte og raskere rehabilitering. Hvilken metode som er aktuell for deg avhenger av diagnosen og funn ved undersøkelse.",
@@ -1226,7 +1226,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/hofte": {
     title: "Hofte",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
@@ -1248,7 +1248,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/hand-albue": {
     title: "Hånd og albue",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to — i såkalte «to-spann» — slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
@@ -1281,7 +1281,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/kne": {
     title: "Kne",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
@@ -1313,7 +1313,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/skulder": {
     title: "Skulder",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
@@ -1349,7 +1349,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "flere-fagomrader/endokrinologi": {
     title: "Endokrinologi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Endokrinologi er en medisinsk spesialitet som handler om hormonsystemet og sykdommer knyttet til kjertler som produserer hormoner, som for eksempel skjoldbruskkjertelen, binyrene, hypofysen og biskjoldkjertlene. Endokrinologer utreder, behandler og følger opp pasienter med hormonelle forstyrrelser. For å finne ut om du har en hormonell sykdom starter vi med en grundig konsultasjon og undersøkelse, som ofte inkluderer blodprøver og eventuelt bildeundersøkelser. Har du plager knyttet til hormoner, stoffskifte, diabetes eller andre endokrine tilstander, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
@@ -1371,7 +1371,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/ernaringsfysiolog": {
     title: "Ernæringsfysiolog",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Ernæringsfysiologi er et felt som ser på hvordan mat påvirker kroppen og helsen. Ernæringsfysiologer studerer næringsstoffer i mat, vurderer ernæringsbehov, og gir råd for å oppmuntre til en sunn livsstil.\n\nVår kliniske ernæringsfysiolog gir deg veiledning innen kosthold og livsstil, skreddersydd til deg og dine behov.",
@@ -1406,7 +1406,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/gastrokirurgi": {
     title: "Mage- og tarmlidelser (Gastrokirurgi)",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Mage og tarmkirurgi (gastrokirurgi) omhandler kirurgiske inngrep i fordøyelsessystemet. Hos oss møter du erfarne spesialister innen fagfeltet. Vi tilbyr et helhetlig og tverrfaglig tilbud, der avansert medisinsk teknologi møter tett oppfølging fra kirurger og klinisk ernæringsfysiolog.",
@@ -1473,7 +1473,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/plastikkirurgi": {
     title: "Plastikkirurgi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Plastisk kirurgi kan hjelpe til med å gjenopprette kroppens form og funksjon etter for eksempel kreftsykdom, brannskader, graviditet og fødsel. Dette inkluderer inngrep som bukplastikk, brystkirurgi og andre rekonstruktive behandlinger. Vår plastiske kirurg har lang erfaring med løsninger godt tilpasset den enkelte pasient. Med avanserte teknikker og et trygt medisinsk miljø er du i de beste hender. Bestill en konsultasjon for en personlig vurdering og profesjonell veiledning.",
@@ -1495,7 +1495,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/psykologi": {
     title: "Psykologi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Du trenger ikke å ha en psykisk lidelse eller diagnose for å gå til psykolog. Mange ønsker å ha en nøytral samtalepartner over kortere eller lengre tid for å sortere tanker og følelser, eller motta støtte gjennom en utfordrende periode med f.eks. endometriose-, vulvodyni- eller fertilitetsbehandling. Hos oss jobber våre spesialister i unike tverrfaglige team for å hjelpe deg best mulig.",
@@ -1524,7 +1524,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/revmatologi": {
     title: "Revmatologi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Revmatologi er en spesialitet innen medisin som handler om å forstå og behandle problemer med ledd, muskler og bindevev i kroppen. Revmatologer utreder, behandler og følger opp pasienter med revmatisme. For å finne ut om du har revmatisme starter vi med grundig konsultasjon og undersøkelse, som ofte innebærer ultralyd og blodprøver. Har du plager, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon. Diagnoser: Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus. Revmatologer (spesialleger) bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten. Vi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme.",
@@ -1547,7 +1547,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/robotkirurgi": {
     title: "Robotassistert kirurgi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: heroTech,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)",
@@ -1611,7 +1611,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/sexologi": {
     title: "Sexologi",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Når du rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
@@ -1640,7 +1640,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/areknuter": {
     title: "Åreknutebehandling",
-    subtitle: "Ingen ventetid • Ingen henvisning",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Åreknuter er veldig vanlig, og nesten 30 % av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner. Risikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina. Åreknuter oppstår i de overfladiske venene grunnet svikt i klaffene. Synlige åreknuter på forsiden og på innsiden av leggen/låret tyder på at årsaken kommer fra lysken (70 %). Åreknuter foran og/eller bak på leggen tyder på at årsaken kommer fra knehasen (20 %). I tillegg finnes det flere årsaker til utvikling av åreknuter (10 %). Noen få har flere årsaker eller en kombinasjon. Det vanligste er å ha åreknuter i bare ett bein, men 1/3 av alle med åreknuter har det i begge beina. En god undersøkelse med ultralyd vil avdekke årsakene, og du vil få tilpasset en moderne og effektiv behandling.\n\nSymptomer: Symptomer varierer fra person til person. Mange andre tilstander kan gi tilsvarende symptomer, og derfor er det vanskelig å garantere at alle symptomer forsvinner etter behandling. De vanligste symptomene er: smerter, tunge eller trøtte bein, prikkende ubehag, kløe, nattekramper i leggene. Hevelse: Lindres symptomene dine ved bruk av støttestrømper, gir det en bedre prognose for lindring. Hvis du ikke ønsker behandling etter konsultasjon, anbefaler vi støttestrømper – men disse vil kun lindre symptomer, aldri fjerne åreknutene. Støttestrømper (klasse 2) kjøpes hos ulike apotek, men vi anbefaler personlig oppmøte hos bandagist.",

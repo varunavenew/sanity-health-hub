@@ -116,7 +116,7 @@ const journey = [
 
 const reviews = [
  { text: "Endelig fikk jeg svar på noe jeg hadde gått med i årevis. Legen var profesjonell, rolig og forklarte alt på en måte jeg faktisk forstod.", author: "Thomas", date: "Google · 3 måneder siden" },
- { text: "Ingen ventetid, ingen mas. Bestilte time, møtte legen dagen etter, fikk svar samme dag. Akkurat slik det burde fungere.", author: "Anders", date: "Legelisten · 1 måned siden" },
+ { text: "Kort ventetid, ingen mas. Bestilte time, møtte legen dagen etter, fikk svar samme dag. Akkurat slik det burde fungere.", author: "Anders", date: "Legelisten · 1 måned siden" },
  { text: "Tok kontakt med en gang jeg merket noe var galt med prostata. Kort ventetid og grundig oppfølging. Anbefaler varmt.", author: "Knut", date: "Google · 5 måneder siden" },
 ];
 
@@ -157,7 +157,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
  Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du
  kanskje frykter. CMedical er eneste private aktør i Norge som tilbyr
- robotoperasjoner. Ingen ventetid, ingen henvisning nødvendig.
+ robotoperasjoner. Kort ventetid, ingen henvisning nødvendig.
  </p>
  {(() => {
  const entry = getCategoryEntryPrice("urologi");
