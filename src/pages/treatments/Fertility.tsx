@@ -64,15 +64,15 @@ const segments = [
  desc:
  "Vi gjør en grundig fertilitetssjekk — hormoner, eggstokkreserve og ultralyd — så du får tydelige svar i stedet for usikkerhet.",
   tags: [
-  { label: "Fertilitetsutredning", href: `${FERT}/fertilitetsutredning` },
-  { label: "Hormoner", href: `${FERT}/fertilitetsutredning` },
-  { label: "AMH", href: `${FERT}/fertilitetsutredning` },
-  { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
-  { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
-  { label: "Rådgivning online", href: `${FERT}/infertilitet` },
-  ],
-  cta: "Les mer",
-  href: `${FERT}/fertilitetsutredning`,
+   { label: "Fertilitetsutredning", href: `${FERT}/fertilitetsutredning` },
+   { label: "Hormoner og AMH", href: `${FERT}/fertilitetsutredning` },
+   { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
+   { label: "Egglederundersøkelse (HyFoSy)", href: `${FERT}/fertilitetsutredning` },
+   { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
+   { label: "Rådgivning online", href: `${FERT}/infertilitet` },
+   ],
+   cta: "Les mer",
+   href: `${FERT}/fertilitetsutredning`,
  },
  {
  id: "gravid",
@@ -80,12 +80,10 @@ const segments = [
  desc:
  "Har du prøvd i 6–12 måneder uten å lykkes? Vi utreder grundig og legger en plan sammen med deg — fra inseminasjon til IVF.",
  tags: [
-  { label: "IVF", href: `${FERT}/assistert-befruktning` },
-  { label: "Inseminasjon", href: `${FERT}/assistert-befruktning` },
   { label: "Utredning", href: `${FERT}/fertilitetsutredning` },
-  { label: "Assistert befruktning", href: `${FERT}/assistert-befruktning` },
-  { label: "Donor-IVF", href: `${FERT}/donorbehandling` },
   { label: "Eggløsningsstimulering", href: `${FERT}/assistert-befruktning` },
+  { label: "Assistert befruktning (IVF, inseminasjon)", href: `${FERT}/assistert-befruktning` },
+  { label: "Donorbehandling", href: `${FERT}/donorbehandling` },
   { label: "Second opinion", href: `${FERT}/fertilitetsutredning` },
  ],
  cta: "Bestill utredning",
@@ -98,9 +96,8 @@ const segments = [
  "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
  tags: [
  { label: "Nedfrysing av egg", href: `${FERT}/eggfrys` },
- { label: "Eggdonasjon", href: `${FERT}/donorbehandling` },
+ { label: "Nedfrysing av spermceller", href: `${FERT}/eggfrys` },
  { label: "Spermiefrys", href: `${FERT}/eggfrys` },
- { label: "Eggløsningsstimulering", href: `${FERT}/assistert-befruktning` },
  ],
   cta: "Les mer",
   href: "/behandlinger/fertilitet/eggfrys",
@@ -113,6 +110,8 @@ const segments = [
  tags: [
  { label: "Sædanalyse", href: `${FERT}/saedanalyse` },
  { label: "Mannlig fertilitet", href: `${FERT}/saedanalyse` },
+ { label: "Mannlig infertilitet", href: "/behandlinger/urologi/infertilitet" },
+ { label: "Hormonstimulering av menn", href: `${FERT}/saedanalyse` },
  { label: "Rådgivning online", href: `${FERT}/infertilitet` },
  ],
  cta: "Bestill analyse",
@@ -120,13 +119,12 @@ const segments = [
  },
  {
  id: "donor",
- title: "Jeg ønsker å bli donor",
+ title: "Jeg vil bli donor",
  desc:
  "Som egg- eller sæddonor kan du hjelpe andre med å bli foreldre. Vi forklarer hva det innebærer, hvilke krav som gjelder og hvordan forløpet foregår — etter norsk lov.",
  tags: [
- { label: "Eggdonasjon", href: `${FERT}/donorbehandling` },
- { label: "Sæddonasjon", href: `${FERT}/donorbehandling` },
- { label: "Donorbehandling", href: `${FERT}/donorbehandling` },
+ { label: "Eggdonor", href: `${FERT}/donorbehandling` },
+ { label: "Spermdonor", href: `${FERT}/donorbehandling` },
  ],
  cta: "Les mer",
  href: `${FERT}/donorbehandling`,
