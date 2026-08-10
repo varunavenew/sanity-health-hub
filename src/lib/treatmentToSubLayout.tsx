@@ -92,6 +92,16 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
   "flere-fagomrader/sexologi",
 ]);
 
+/**
+ * Sider som fagansvarlig eksplisitt vil ha som åpen brødtekst (ikke nedtrekk).
+ * Alle andre sider bruker "auto": tunge seksjoner blir accordion automatisk.
+ */
+const FORCE_PROSE: ReadonlySet<string> = new Set([
+  "graviditet/nipt",
+  "gynekologi/blodningsforstyrrelser",
+  "gynekologi/overgangsalder",
+]);
+
 /** Strip simple markdown (bold/italic/links) for derived descriptions. */
 const stripMarkdown = (s: string): string =>
   s
@@ -326,7 +336,11 @@ export const treatmentToSubLayout = ({
       : "Når bør du ta kontakt",
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
     reasons,
-    reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`) ? "accordion" : "prose",
+    reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`)
+      ? "accordion"
+      : FORCE_PROSE.has(`${categoryId}/${subId}`)
+        ? "prose"
+        : "auto",
     promises: STANDARD_PROMISES,
     relatedTitle: data.relatedTitleOverride ?? (related.length > 0
       ? (relatedIsChildren
