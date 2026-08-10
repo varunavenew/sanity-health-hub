@@ -10,7 +10,15 @@ import { useTranslation } from "react-i18next";
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = {};
 
-export const Footer = () => {
+export 
+// Ski-klinikken er lagt ned — filtrer den bort uansett hva CMS leverer.
+const stripSki = (s: string) =>
+  s
+    .split(/\s*[·,]\s*/)
+    .filter((part) => part.trim().toLowerCase() !== "ski")
+    .join(" · ");
+
+const Footer = () => {
   const { t } = useTranslation();
   const { data: settings } = useSiteSettings();
   const { categories } = useServiceCategories();
@@ -48,7 +56,7 @@ export const Footer = () => {
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";
-  const address = settings?.address || "Oslo · Bekkestua · Moss · Moelv";
+  const address = stripSki(settings?.address || "Oslo · Bekkestua · Moss · Moelv");
   const social = settings?.socialMedia || {};
   const socialChannels = buildSocialChannels(social);
 

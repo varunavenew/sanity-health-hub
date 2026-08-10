@@ -7,6 +7,14 @@ import { useSiteSettings } from '@/hooks/useSanity';
 import { useTranslation } from 'react-i18next';
 import { serviceCategories } from '@/data/serviceCategories';
 
+
+// Ski-klinikken er lagt ned — filtrer den bort uansett hva CMS leverer.
+const stripSki = (s: string) =>
+  s
+    .split(/\s*[·,]\s*/)
+    .filter((part) => part.trim().toLowerCase() !== "ski")
+    .join(" · ");
+
 const BurgerMenu = () => {
   const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +59,7 @@ const BurgerMenu = () => {
 
  const ctaButton = siteSettings?.ctaButton || { label: t('nav.bookAppointment'), path: '/booking' };
  const phone = siteSettings?.phone || '22 00 12 34';
- const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
+ const address = stripSki(siteSettings?.address || 'Oslo · Bekkestua · Moss · Moelv');
 
  useEffect(() => {
  if (!isMenuOpen) return;
