@@ -193,21 +193,11 @@ const Services = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Fagområder — Featured services (full-bleed, no gaps) */}
-      <section className="bg-background pb-10 md:pb-14">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0">
-          {featuredServices.map((item: any, idx: number) => (
-            <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] overflow-hidden">
-              <img src={item.image} alt={item.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 flex items-center justify-between">
-                <span className="text-base md:text-lg font-light text-white">{item.label}</span>
-                <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
-              </div>
-            </motion.button>
-          ))}
-        </div>
-      </section>
+      {/* Fagområder — samme kort som på hjem */}
+      <div className="pb-10 md:pb-14">
+        <HeroCompact showHeader={false} />
+      </div>
+
 
       {/* Flere tjenester — unified list section */}
       {additionalServices.length > 0 && (
