@@ -1872,16 +1872,132 @@ export const treatmentContent: Record<string, TreatmentData> = {
         content: "Hos oss er det plass til ulike veier til det samme ønsket – å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, og kvinner som ønsker å bli mor på egen hånd nå eller bevare mulighetene for å bli gravid i fremtiden. Uansett livssituasjon møter vi deg eller dere med respekt, trygghet og forståelse. Noen har prøvd lenge uten å lykkes. Andre er helt i startfasen og ønsker å vite mer om mulighetene. For mange kan det være et stort steg å ta kontakt – derfor er vi opptatt av å gjøre veien inn så trygg og forutsigbar som mulig. Rammene for behandling er regulert av Bioteknologiloven. For kvinner er øvre aldersgrense ved inseminasjon eller innsetting av befruktet egg satt til 46 år. I forkant av behandling må alle testes for hepatitt B og C samt HIV. Blodprøvene må være tatt i løpet av de siste 24 månedene før oppstart av IVF-behandling.",
       },
       {
-        heading: "Mann og kvinne i parforhold — Har dere prøvd en stund uten å lykkes?",
-        content: "Mange av parene som kommer til oss har forsøkt å bli gravide over tid. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt. Et trygt første steg: Noen ønsker å starte med en uforpliktende samtale, mens andre er klare for fertilitetsutredning. Første gang setter vi av god tid, så dere kan senke skuldrene og bli godt ivaretatt. Vi blir kjent med dere som par: I første konsultasjon ønsker vi å forstå helheten – hvor lenge dere har prøvd, om dere har barn fra før, hva dere håper på, og hvordan dere opplever situasjonen. Undersøkelser som gir svar: For kvinnen ofte blodprøver for hormonnivå + gynekologisk undersøkelse og ultralyd. For mannen: sædprøve for vurdering av sædkvalitet. Veien videre – tilpasset dere: Noen ganger finner vi ingen konkret årsak, og det kan i seg selv gi trygghet til å fortsette på egen hånd. Andre ganger anbefaler vi behandling. Mulige alternativer: hormonstimulering, inseminasjon, IVF (prøverørsbehandling), donorsæd (ved behov). Vi tilpasser behandlingen til dere som par, basert på behov og situasjon, og er her for å støtte dere begge hele veien.",
+        heading: "Mann og kvinne i parforhold",
+        content: `Har dere prøvd en stund – uten å lykkes?
+Mange av parene som kommer til oss har forsøkt å bli gravide over tid. For noen har det gått måneder, for andre flere år. Noen er helt klare for å søke hjelp, mens andre trenger litt tid før de tar steget. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt.
+
+Et trygt første steg
+Noen ønsker å starte med en uforpliktende samtale, mens andre er klare for fertilitetsutredning. Når dere kommer til oss første gang, setter vi av god tid – slik at dere kan senke skuldrene og bli godt ivaretatt.
+
+Vi blir kjent med dere som par
+I første konsultasjon ønsker vi å forstå helheten:
+- Hvor lenge dere har prøvd
+- Om dere har barn fra før
+- Hva dere håper på
+- Hvordan dere opplever situasjonen
+
+Dette gir oss et godt grunnlag for å anbefale riktig vei videre.
+
+Undersøkelser som gir svar
+For kvinnen gjør vi ofte:
+- Blodprøver for hormonnivå
+- Gynekologisk undersøkelse og ultralyd
+
+For mannen:
+- Sædprøve for vurdering av sædkvalitet
+
+Sammen gir dette oss et bilde av muligheter og eventuelle utfordringer.
+
+Veien videre – tilpasset dere
+Noen ganger finner vi ingen konkret årsak, og det kan i seg selv gi trygghet til å fortsette på egen hånd. Andre ganger anbefaler vi behandling.
+
+Mulige alternativer:
+- Hormonstimulering
+- Inseminasjon
+- IVF (prøverørsbehandling)
+- Donorsæd (ved behov)
+- Fertilitetskirurgi
+
+Vi tilpasser behandlingen til dere som par, basert på behov og situasjon. Vi vet at dette kan være en følelsesmessig krevende prosess, hvor vi er her for å støtte dere begge hele veien.`,
       },
       {
-        heading: "To kvinner i parforhold — Flere og flere kvinner velger å få barn sammen som par.",
-        content: "Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse. Når dere tar kontakt, starter vi med en samtale hvor vi blir kjent med dere og deres ønsker. Sammen finner vi ut hvilken behandling som passer best og hvordan prosessen kan tilpasses deres liv. Donorsæd – trygt og oversiktlig: Vi hjelper dere gjennom hele prosessen – valg av donor i tråd med gjeldende lovverk, bestilling, transport og trygg oppbevaring av donorsæd, og oppfølging underveis. Behandlingsalternativer: Inseminasjon – ofte førstevalg, skånsom behandling, kan gjøres i naturlig syklus. IVF (prøverørsbehandling) – aktuelt dersom inseminasjon ikke gir ønsket resultat, høyere sannsynlighet per forsøk, mulighet for å fryse befruktede egg. En prosess på deres premisser: Vi tilpasser behandlingen til dere og deres livssituasjon – og er samtidig en trygg støtte gjennom en prosess som kan romme både forventning, sårbarhet og håp.",
+        heading: "To kvinner i parforhold",
+        content: `Flere og flere kvinner velger å få barn sammen som par. Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse for deres situasjon.
+
+Når dere tar kontakt, starter vi med en samtale hvor vi blir kjent med dere og deres ønsker. Sammen finner vi ut:
+- Hvilken behandling som passer best
+- Hvordan prosessen kan tilpasses deres liv
+
+Donorsæd – trygt og oversiktlig
+Vi hjelper dere gjennom hele prosessen:
+- Valg av donor i tråd med gjeldende lovverk
+- Bestilling, transport og trygg oppbevaring av donorsæd
+- Oppfølging underveis
+
+Behandlingsalternativer
+
+Inseminasjon
+- Ofte førstevalg
+- Skånsom behandling
+- Kan gjøres i naturlig syklus
+
+IVF (prøverørsbehandling)
+- Aktuelt dersom inseminasjon ikke gir ønsket resultat
+- Høyere sannsynlighet per forsøk
+- Mulighet for å fryse befruktede egg
+
+En prosess på deres premisser
+Vi tilpasser behandlingen til dere og deres livssituasjon – og er samtidig en trygg støtte gjennom en prosess som kan romme både forventning, sårbarhet og håp.`,
       },
       {
-        heading: "Singel kvinne — Ønsker du å få barn på egen hånd, eller bevare muligheten for senere?",
-        content: "Å velge å få barn alene er et stort og viktig valg. Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden. Vi møter deg med respekt og trygghet, og tilpasser behandling og oppfølging til din situasjon.",
+        heading: "Singel kvinne",
+        content: `Ønsker du å få barn på egen hånd – eller bevare muligheten for senere?
+Å velge å få barn alene er et stort og viktig valg. Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden.
+
+Start med en uforpliktende samtale
+Første steg er en rolig samtale hvor vi:
+- Blir kjent med deg og din situasjon
+- Snakker om ønsker og forventninger
+- Går gjennom muligheter og alternativer
+
+Du får god tid til å stille spørsmål.
+
+Kartlegging av fertilitet
+For å kunne gi deg best mulig råd gjør vi:
+- Blodprøver for hormonnivå
+- Ultralyd av livmor og eggstokker
+
+Dette gir oss et tydelig bilde av fertiliteten din og hva som kan være riktig vei videre.
+
+Fryse ned egg
+For noen er det aktuelt å bevare muligheten for graviditet senere. Vi hjelper deg med å vurdere om nedfrysing av egg er riktig for deg, og når det eventuelt bør gjøres.
+
+Inseminasjon eller IVF?
+Valg av behandling er individuelt:
+
+Inseminasjon
+- Ofte førstevalg
+- Skånsom og enkel metode
+- Kan gjøres i naturlig syklus
+
+IVF
+- Aktuelt ved behov for høyere sannsynlighet
+- Innebærer hormonstimulering og egguttak
+
+Donorsæd
+Behandlingen skjer med donorsæd fra godkjente sædbanker. I henhold til norsk lov er donor ikke anonym, noe som gir barnet rett til informasjon senere i livet.
+
+Din reise – ditt tempo
+Dette er viktig og personlig prosess. Noen ønsker å starte raskt, mens andre trenger tid. Vi tilpasser til deg og dine ønsker – og er her for å støtte deg hele veien i ditt tempo.`,
+      },
+      {
+        heading: "Singel mann",
+        content: `Ønsker du å få innsikt i din fertilitet?
+Mange menn tar kontakt for å få en bedre forståelse av egen fertilitet, enten av nysgjerrighet, som en del av familieplanlegging, eller før et eventuelt senere ønske om barn.
+
+Et enkelt første steg: sædanalyse
+En sædanalyse gir viktig informasjon om sædkvaliteten din. Prøven vurderes med tanke på blant annet:
+- Antall sædceller
+- Bevegelighet
+- Form
+
+Resultatet kan gi trygghet – eller avdekke forhold det kan være nyttig å følge opp.
+
+Hva skjer videre?
+Dersom analysen viser avvik, hjelper vi deg med videre vurdering og eventuelle tiltak. For noen kan det være aktuelt med flere undersøkelser eller henvisning videre.
+
+Kunnskap gir muligheter
+Å få innsikt i egen fertilitet kan gjøre det lettere å ta gode valg – både nå og i fremtiden.`,
       },
     ],
     linkedServices: [
