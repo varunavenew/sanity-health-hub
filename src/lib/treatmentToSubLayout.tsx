@@ -77,6 +77,7 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
   // Fertilitet — distinct treatments/diagnostics
   "fertilitet/infertilitet",
   "fertilitet/assistert-befruktning",
+  "fertilitet/assistert-befruktning-for-par-og-single",
   "fertilitet/donorbehandling",
   "fertilitet/eggfrys",
   "fertilitet/saedanalyse",
