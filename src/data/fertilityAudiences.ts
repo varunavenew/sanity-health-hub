@@ -33,8 +33,7 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Flere og flere kvinner velger å få barn sammen som par. Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse for deres situasjon.",
     href: `${AUDIENCE_LANDING}#to-kvinner-i-parforhold`,
-    image:
-      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? audienceWaiting,
+    image: toKvinnerAsset.url,
   },
   {
     title: "Singel kvinne",
