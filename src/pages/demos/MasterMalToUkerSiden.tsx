@@ -623,7 +623,6 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
- </div>
  <div className="max-w-6xl mx-auto mt-12 md:mt-14">
  <Button
  asChild
@@ -635,6 +634,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  Bestill time
  </Link>
  </Button>
+ </div>
  </div>
  </section>
 
