@@ -16,7 +16,7 @@ export const SpecialistsSection = () => {
     <section className="pt-10 md:pt-14 pb-16 md:pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6 mb-8 md:mb-12">
           <div className="max-w-xl">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               {t("specialists.title")}

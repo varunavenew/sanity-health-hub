@@ -63,7 +63,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   return (
     <section className="py-14 md:py-20 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6 mb-8 md:mb-10">
           <div>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
               Hva pasientene sier om {categoryTitle.toLowerCase()}

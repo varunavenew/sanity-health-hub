@@ -182,7 +182,7 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
         <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
           <div className="max-w-5xl">
             {/* Editorial composition: restrained number + heading + CTA */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 md:gap-8 mb-8 md:mb-12">
               <div className="space-y-2">
                 <div className="flex items-baseline gap-3">
                   <span className="text-6xl md:text-7xl font-light leading-none tracking-tight text-brand-dark">
