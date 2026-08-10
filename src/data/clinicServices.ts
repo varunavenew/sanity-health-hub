@@ -40,6 +40,7 @@ export const clinics: Clinic[] = [
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
       "revmatolog", "urolog", "hudhelse", "areknuter", "sprengte-blodkar",
       "fysioterapeut", "uroterapi", "osteopati", "robotkirurgi",
+      "endokrinolog", "overvektskirurgi",
     ],
     detail: {
       description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 A og B. Her tilbyr vi et bredt spekter av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
@@ -57,7 +58,7 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Bærumsveien+205+1357+Bekkestua",
-    services: ["gynekolog", "hudhelse", "ernaringsfysiolog"],
+    services: ["gynekolog", "hudhelse", "hudlege", "ernaringsfysiolog"],
     detail: {
       description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudhelse i moderne og rolige omgivelser.",
       parking: "Gratis parkering tilgjengelig rett utenfor klinikken.",
