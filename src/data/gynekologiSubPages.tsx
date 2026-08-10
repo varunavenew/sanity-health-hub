@@ -119,7 +119,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
 
 
   endometriose: {
-    seoTitle: "Endometriose | CMedical — utredning og behandling",
+    seoTitle: "Endometriose og adenomyose | CMedical — utredning og behandling",
     seoDescription:
       "Spesialisert utredning og behandling av endometriose. Vi tar smertene dine på alvor — uten henvisning og uten ventetid.",
     canonical: "/behandlinger/gynekologi/endometriose",
@@ -377,10 +377,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     primaryCtaLabel: "Bestill utredning",
     flowTitle: "Slik utreder vi PMOS",
     flow: [
-      { n: "Steg 01", title: "Samtale", desc: "Vi kartlegger syklus, symptomer, familiehistorikk og hva som er viktig for deg nå." },
-      { n: "Steg 02", title: "Undersøkelse og prøver", desc: "Ultralyd av eggstokker, hormonprøver og metabolsk screening." },
-      { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi går gjennom funnene og forklarer hva PMOS betyr for akkurat deg." },
-      { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på dine mål." },
+      { n: "Steg 01", title: "Samtale", desc: "Kartlegging av syklus, symptomer, familiehistorikk og dine behov." },
+      { n: "Steg 02", title: "Undersøkelser", desc: "Ultralyd av eggstokker og blodprøver." },
+      { n: "Steg 03", title: "Diagnose", desc: "Gjennomgang av funnene og hva det betyr for deg." },
+      { n: "Steg 04", title: "Behandling", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på aktuelle funn og dine ønsker." },
     ],
     reasonsTitle: "Tegn på PMOS",
     reasonsLead:
@@ -406,7 +406,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
 
   /* ───────────────────────── VULVALIDELSER ───────────────────────── */
   vulvalidelser: {
-    seoTitle: "Vulvalidelser | CMedical — spesialisert utredning",
+    seoTitle: "Vulvalidelser og vulvodyni | CMedical — spesialisert utredning",
     seoDescription:
       "Smerter og ubehag i vulva blir ofte oversett. Vi har spesialister som forstår — og finner svar.",
     canonical: "/behandlinger/gynekologi/vulvalidelser",
