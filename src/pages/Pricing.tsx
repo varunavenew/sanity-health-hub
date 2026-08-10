@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, ArrowRight, ChevronDown, Shield, CheckCircle, CreditCard, Wallet, Clock, Calendar, X } from "lucide-react";
+import { Search, ArrowRight, Check, ChevronDown, Shield, CheckCircle, CreditCard, Wallet, Clock, Calendar, X } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
