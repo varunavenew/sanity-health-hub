@@ -360,7 +360,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  Det beste fra to klinikker — samlet på ett sted.
  </h2>
  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
- Livio og CMedical Sandvika har slått seg sammen. Det betyr mer
+ Livio og CMedical har slått seg sammen. Det betyr mer
  erfaring, samme team — og et tilbud som dekker hele veien.
  </p>
 
@@ -414,7 +414,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  <div className="lg:col-span-5 relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-full overflow-hidden">
  <img
  src={heroClinicLounge}
- alt="CMedical fertilitetsklinikk i Sandvika"
+ alt="CMedical fertilitetsklinikk"
  loading="lazy"
  className="absolute inset-0 w-full h-full object-cover"
  />

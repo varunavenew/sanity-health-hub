@@ -360,7 +360,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
                 Det beste fra to klinikker — samlet på ett sted.
               </h2>
               <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
-                Livio og CMedical Sandvika har slått seg sammen. Det betyr mer
+                Livio og CMedical har slått seg sammen. Det betyr mer
                 erfaring, samme team — og et tilbud som dekker hele veien.
               </p>
 
@@ -385,7 +385,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
           <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
             <img
               src={heroClinicLounge}
-              alt="CMedical fertilitetsklinikk i Sandvika"
+              alt="CMedical fertilitetsklinikk"
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />

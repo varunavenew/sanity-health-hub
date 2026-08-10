@@ -226,7 +226,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
           </div>
 
           <div className="lg:col-span-5 lg:self-center relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-[520px] overflow-hidden">
-            <img src={heroClinicLounge} alt="CMedical fertilitetsklinikk i Sandvika" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+            <img src={heroClinicLounge} alt="CMedical fertilitetsklinikk" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
           </div>
         </div>
       </section>
