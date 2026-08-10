@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { Button } from "@/components/ui/button";
