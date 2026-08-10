@@ -24,8 +24,6 @@ export const filterCategories = [
 export const normalizeCategory = (cat: string) =>
   cat === "Nyheter" ? "Nytt fra oss" : cat;
 
-import foreldreSammen from "@/assets/artikkel-foreldre-sammen.webp.asset.json";
-
 const IMG = "https://cdn.sanity.io/images/bk8rw7yi/production";
 const img = (id: string) => `${IMG}/${id}?q=75&fit=clip&auto=format&w=1200`;
 
@@ -35,7 +33,7 @@ export const articles: Article[] = [
     title: "«Vi har alltid visst at vi ville bli foreldre sammen»",
     excerpt:
       "To som lenge har visst at de ville bygge familie sammen forteller om veien til å bli foreldre — med assistert befruktning og tett oppfølging fra spesialistene ved Livio Oslo, en del av CMedical.",
-    image: foreldreSammen.url,
+    image: img("53dc57a4228ced56fab1393ba6328b9f17ce2b6e-2560x3840.jpg"),
     date: "2026-06-20",
     category: "Pasienthistorier",
     pinned: true,
@@ -59,7 +57,7 @@ export const articles: Article[] = [
     title: "Madeleine Engen – vinner av Kvinnehelseprisen HER Awards 2026",
     excerpt:
       "Gynekolog Madeleine Engen hedres med Kvinnehelseprisen under HER Awards 2026 for sitt arbeid med å løfte fram fødselsskader og gi kvinner en stemme i helsevesenet.",
-    image: img("d362bd71e8041ad17a85c756ec9bc7c6d638b817-5464x8192.jpg"),
+    image: img("63778bc92991fd62e22595617c3b460b05a03f98-800x1000.jpg"),
     date: "2026-05-22",
     category: "Nytt fra oss",
     featured: true,
@@ -81,7 +79,7 @@ export const articles: Article[] = [
     title: "Når kroppen ikke fungerer etter fødsel – og ingen lytter",
     excerpt:
       "Gynekolog Madeleine Engen om vaginalt fremfall – en av de vanligste og mest oversette fødselsskadene. Ifølge WHO får 36 prosent av kvinner som føder vaginalt permanente sekveler.",
-    image: img("d31e037d4dbce186dfade4ab6bca8a970aff5284-6000x4000.jpg"),
+    image: img("d362bd71e8041ad17a85c756ec9bc7c6d638b817-5464x8192.jpg"),
     date: "2026-04-18",
     category: "Fagartikler",
     mediaType: "article",
