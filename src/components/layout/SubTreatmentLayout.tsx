@@ -155,12 +155,24 @@ const isBlacklisted = (title: string): boolean => {
   return REASONS_BLACKLIST.some((b) => t === b || t.startsWith(b));
 };
 
+/** Rough text length of a ReactNode tree — used to detect heavy sections. */
+const nodeTextLength = (node: ReactNode): number => {
+  if (node === null || node === undefined || typeof node === "boolean") return 0;
+  if (typeof node === "string") return node.length;
+  if (typeof node === "number") return String(node).length;
+  if (Array.isArray(node)) return node.reduce<number>((a, n) => a + nodeTextLength(n), 0);
+  if (typeof node === "object" && "props" in (node as { props?: unknown })) {
+    return nodeTextLength(((node as { props?: { children?: ReactNode } }).props ?? {}).children);
+  }
+  return 0;
+};
+
 const ReasonsEditorial = ({
    title,
    lead,
    lead2,
    items,
-   layout = "prose",
+   layout = "auto",
 }: {
    title: string;
    lead?: string;
@@ -168,6 +180,7 @@ const ReasonsEditorial = ({
    items: { n: string; title: string; desc: ReactNode }[];
    layout?: "prose" | "accordion" | "auto";
 }) => {
+
    // Filter out blacklisted items and items with no real content.
    const cleanItems = (items ?? []).filter(
      (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
@@ -176,6 +189,7 @@ const ReasonsEditorial = ({
    // Open the accordion item matching the URL hash (e.g. #singel-kvinne).
    const values = cleanItems.map((r) => slugifyTitle(r.title));
    const [openValue, setOpenValue] = useState<string>("");
+   const [expanded, setExpanded] = useState(false);
 
    useEffect(() => {
      const applyHash = () => {
@@ -199,9 +213,24 @@ const ReasonsEditorial = ({
 
    if (cleanItems.length === 0) return null;
 
+   // Rough weight of the section — long, heavy sections become an accordion
+   // so readers can pick what to open instead of scrolling a wall of text.
+   const totalChars = cleanItems.reduce(
+     (a, r) => a + r.title.length + nodeTextLength(r.desc),
+     0,
+   );
+   const isHeavy = cleanItems.length >= 5 || totalChars > 1800;
+
    // "prose" viser innholdet åpent uten klikk. Alt annet (accordion/auto)
    // rendres som FAQ-løsning med åpne/lukke.
-   const effectiveLayout: "prose" | "accordion" = layout === "prose" ? "prose" : "accordion";
+   const effectiveLayout: "prose" | "accordion" =
+     layout === "prose" ? "prose" : layout === "accordion" ? "accordion" : isHeavy ? "accordion" : "prose";
+
+   // Prose-seksjoner som fortsatt er litt lange: vis innledning + «Les mer».
+   const useReadMore =
+     layout !== "prose" && effectiveLayout === "prose" && cleanItems.length > 1 && totalChars > 900;
+   const visibleItems = useReadMore && !expanded ? cleanItems.slice(0, 1) : cleanItems;
+
 
 
    const proseClasses =
@@ -272,18 +301,28 @@ const ReasonsEditorial = ({
              ) : (
                // FORM A — one continuous article. Subheadings are inline
                // mid-titles, never click-to-open.
-               <article className="space-y-10">
-                 {cleanItems.map((r, idx) => (
-                   <div key={r.n} className={idx === 0 ? "" : ""}>
-                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
-                       {r.title}
-                     </h3>
-                     <div className={proseClasses}>
-                       {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-                     </div>
-                   </div>
-                 ))}
-               </article>
+                <article className="space-y-10">
+                  {visibleItems.map((r) => (
+                    <div key={r.n}>
+                      <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
+                        {r.title}
+                      </h3>
+                      <div className={proseClasses}>
+                        {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                      </div>
+                    </div>
+                  ))}
+                  {useReadMore && !expanded && (
+                    <button
+                      type="button"
+                      onClick={() => setExpanded(true)}
+                      className="text-sm font-normal text-foreground underline underline-offset-4 hover:opacity-70"
+                    >
+                      Les mer
+                    </button>
+                  )}
+                </article>
+
              )}
            </div>
          </div>
