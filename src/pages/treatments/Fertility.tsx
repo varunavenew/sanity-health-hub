@@ -36,6 +36,7 @@ import journeyResult from "@/assets/fertility/journey-03-result.jpg";
 import audienceCouple from "@/assets/fertility/audience-couple.jpg";
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
+import fertUtredningAsset from "@/assets/fertilitet/fertilitet-utredning.jpg.asset.json";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 const fertilityHeroImg = fertilityHeroAsset.url;
 import fertilityHeroVideo from "@/assets/fertilitet-hero-v2.mp4.asset.json";
@@ -812,8 +813,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         text="En grundig kartlegging av eggstokkreserve, hormoner og anatomi — slik at du vet hvor du står. Du møter en spesialist som går gjennom funnene og legger en plan tilpasset deg og din partner."
         ctaLabel="Les mer om fertilitetsutredning"
         ctaHref="/behandlinger/fertilitet/fertilitetsutredning"
-        image={fertilityHeroImg}
-        imageAlt="Konsultasjon med fertilitetsspesialist hos CMedical"
+        image={fertUtredningAsset.url}
+        imageAlt="Mor holder nyfødt barn"
       />
 
       <SpecialistsScroller
