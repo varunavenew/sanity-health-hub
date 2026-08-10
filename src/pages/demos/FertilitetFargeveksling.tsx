@@ -76,7 +76,7 @@ const segments = [
  id: "gravid",
  title: "Jeg vil bli gravid",
  desc:
- "Har du prøvd i 6–12 måneder uten å lykkes? Vi finner årsaken og legger en plan — fra inseminasjon til IVF.",
+ "Har du prøvd i 6–12 måneder uten å lykkes? Vi utreder grundig og legger en plan sammen med deg — fra inseminasjon til IVF.",
  tags: [
   { label: "IVF", href: `${FERT}/assistert-befruktning` },
   { label: "Inseminasjon", href: `${FERT}/assistert-befruktning` },
