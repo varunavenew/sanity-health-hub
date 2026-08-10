@@ -28,7 +28,7 @@ const staticFaqs = [
   {
     id: "selskapet",
     question: "Selskapet",
-    answer: "CMedical er Nordens ledende klinikk for livet og underlivet, med særlig vekt på kvinnehelse. Vi er også opptatt av menns helse og fertilitet som angår alle som er involvert i å skape liv. Siden 2002 har over 150 000 pasienter fått behandling hos oss.",
+    answer: "CMedical er Nordens ledende klinikk for livet og underlivet, med særlig vekt på kvinnehelse. Vi er også opptatt av menns helse og fertilitet som angår alle som er involvert i å skape liv. Hvert år har vi over 60 000 pasientbesøk ved klinikkene våre.",
   },
   {
     id: "forsikring",
