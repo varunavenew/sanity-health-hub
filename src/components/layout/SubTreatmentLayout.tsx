@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode, ComponentType, SVGProps } from "react";
+import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -140,6 +140,15 @@ const REASONS_BLACKLIST = [
   "alt under samme tak",
 ];
 
+export const slugifyTitle = (t: string): string =>
+  t
+    .toLowerCase()
+    .replace(/[æ]/g, "ae")
+    .replace(/[ø]/g, "o")
+    .replace(/[å]/g, "a")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 const isBlacklisted = (title: string): boolean => {
   const t = title.trim().toLowerCase();
   return REASONS_BLACKLIST.some((b) => t === b || t.startsWith(b));
@@ -162,6 +171,31 @@ const ReasonsEditorial = ({
    const cleanItems = (items ?? []).filter(
      (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
    );
+
+   // Open the accordion item matching the URL hash (e.g. #singel-kvinne).
+   const values = cleanItems.map((r) => slugifyTitle(r.title));
+   const [openValue, setOpenValue] = useState<string>("");
+
+   useEffect(() => {
+     const applyHash = () => {
+       const hash = decodeURIComponent(window.location.hash.replace("#", ""));
+       if (!hash || !values.includes(hash)) return;
+       setOpenValue(hash);
+       requestAnimationFrame(() => {
+         setTimeout(() => {
+           const el = document.getElementById(`acc-${hash}`);
+           if (!el) return;
+           const top = el.getBoundingClientRect().top + window.scrollY - 96;
+           window.scrollTo({ top, behavior: "smooth" });
+         }, 260);
+       });
+     };
+     applyHash();
+     window.addEventListener("hashchange", applyHash);
+     return () => window.removeEventListener("hashchange", applyHash);
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [values.join("|")]);
+
    if (cleanItems.length === 0) return null;
 
    // Denne seksjonen skal alltid være en FAQ-løsning (åpne/lukke),
@@ -200,7 +234,9 @@ const ReasonsEditorial = ({
                <Accordion
                  type="single"
                  collapsible
+                 value={openValue}
                  onValueChange={(val) => {
+                   setOpenValue(val);
                    if (!val) return;
                    requestAnimationFrame(() => {
                      setTimeout(() => {
@@ -217,8 +253,8 @@ const ReasonsEditorial = ({
                  {cleanItems.map((r, i) => (
                    <AccordionItem
                      key={r.n}
-                     value={`reason-${i}`}
-                     id={`acc-reason-${i}`}
+                     value={values[i]}
+                     id={`acc-${values[i]}`}
                      className="border-b border-border/60 scroll-mt-24"
                    >
                      <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
