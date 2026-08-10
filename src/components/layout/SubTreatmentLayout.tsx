@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from 
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
@@ -16,6 +16,7 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { prepareRelatedCards } from "@/lib/relatedCards";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 import {
   Accordion,
@@ -306,11 +307,9 @@ const RelatedBlock = ({
   columns?: 2 | 3;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  if (items.length === 0) return null;
-  const resolved = items.map((a) => ({
-    ...a,
-    image: a.image ?? getServiceImageFromHref(a.href),
-  }));
+  const { pathname } = useLocation();
+  const resolved = prepareRelatedCards(items, pathname);
+  if (resolved.length === 0) return null;
   const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
     <>
@@ -382,11 +381,10 @@ const RelatedServicesCarousel = ({
   seeAll: { href: string; label: string } | null;
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const resolved = items.map((a) => ({
-    ...a,
-    image: a.image ?? getServiceImageFromHref(a.href),
-  }));
+  const { pathname } = useLocation();
+  const resolved = prepareRelatedCards(items, pathname);
   const showArrows = resolved.length > 2;
+  if (resolved.length === 0) return null;
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -809,7 +807,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
 
   <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
-  {c.expertAreas.items.map((a) => (
+  {prepareRelatedCards(c.expertAreas.items, c.canonical).map((a) => (
   <Link
   key={a.title}
   to={a.href}
@@ -843,7 +841,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             <div className="max-w-6xl mx-auto">
               <div className="max-w-2xl mb-12">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  {c.relatedTitle ?? "Du er kanskje også interessert i"}
+                  {c.relatedTitle ?? "Veien videre"}
                 </h2>
               </div>
 

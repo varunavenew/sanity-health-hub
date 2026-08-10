@@ -1,5 +1,5 @@
 import { ArrowRight, Wallet, Building2, Phone, type LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useRef } from "react";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { getIcon } from "@/lib/icons";
@@ -24,7 +24,11 @@ export const RelatedServices = ({
   services,
   currentPath
 }: RelatedServicesProps) => {
-  const filteredServices = services.filter(s => s.link !== currentPath);
+  const { pathname } = useLocation();
+  const self = (currentPath ?? pathname).replace(/\/+$/, "");
+  const filteredServices = services.filter(
+    (s) => s.link.replace(/\/+$/, "") !== self,
+  );
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
