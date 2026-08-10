@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from "react";
+import { PricingTestimonialGrid } from "@/components/pricing/PricingTestimonials";
 import { ArrowRight, Plus, Minus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -21,29 +22,6 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 
 interface PageProps { isChatOpen: boolean }
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Maria S.",
-    rating: 5,
-    text: "Fantastisk opplevelse fra start til slutt. Spesialistene tok seg god tid og jeg følte meg trygg hele veien.",
-    treatment: "Gynekologi"
-  },
-  {
-    id: 2,
-    name: "Anders L.",
-    rating: 5,
-    text: "Profesjonell og diskret behandling. Veldig fornøyd med prisene og servicen.",
-    treatment: "Urologi"
-  },
-  {
-    id: 3,
-    name: "Sofie H.",
-    rating: 5,
-    text: "Utrolig takknemlig for den hjelpen vi fikk. Moderne utstyr og dyktige spesialister.",
-    treatment: "Fertilitet"
-  },
-];
 
 const staticFaqs = [
   {
@@ -453,17 +431,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.id}
-                className="bg-white rounded-2xl p-6 shadow-sm"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-foreground text-foreground" />
-                  ))}
-                </div>
+          <PricingTestimonialGrid />
                 <p className="text-foreground/80 mb-4 font-light leading-relaxed">
                   "{testimonial.text}"
                 </p>
