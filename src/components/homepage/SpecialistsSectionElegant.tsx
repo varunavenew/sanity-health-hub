@@ -12,7 +12,7 @@ export const SpecialistsSectionElegant = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="pt-10 md:pt-14 pb-16 md:pb-0 bg-secondary/30 overflow-hidden">
+    <section className="pt-10 md:pt-14 pb-14 md:pb-16 bg-secondary/30 overflow-hidden">
       <div className="page-shell">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12">
