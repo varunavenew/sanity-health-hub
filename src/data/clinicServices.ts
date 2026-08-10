@@ -39,7 +39,7 @@ export const clinics: Clinic[] = [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
       "revmatolog", "urolog", "hudhelse", "areknuter", "sprengte-blodkar",
-      "fysioterapeut", "uroterapi",
+      "fysioterapeut", "uroterapi", "osteopati", "robotkirurgi",
     ],
     detail: {
       description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 A og B. Her tilbyr vi et bredt spekter av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
@@ -57,7 +57,7 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Bærumsveien+205+1357+Bekkestua",
-    services: ["gynekolog", "hudhelse"],
+    services: ["gynekolog", "hudhelse", "ernaringsfysiolog"],
     detail: {
       description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudhelse i moderne og rolige omgivelser.",
       parking: "Gratis parkering tilgjengelig rett utenfor klinikken.",
@@ -75,7 +75,7 @@ export const clinics: Clinic[] = [
     bookingSystem: "external",
     externalBookingUrl: "https://colosseumfaust.no/spesialister/",
     mapsUrl: "https://maps.google.com/?q=Lilleengveien+8+1523+Moss",
-    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi"],
+    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi", "areknuter"],
     detail: {
       description: "CMedical Moss holder til i Lilleengveien 8 og tilbyr et bredt spekter av tjenester inkludert gynekologi, ortopedi, gastrokirurgi og fysioterapi.",
       parking: "Gratis parkering rett utenfor klinikken.",

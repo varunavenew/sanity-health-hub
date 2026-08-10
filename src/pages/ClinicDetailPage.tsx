@@ -43,25 +43,27 @@ const clinicGalleries: Record<string, { src: string; alt: string }[]> = {
 // Lookup: service-ID → display label + optional link
 const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
  fertilitet: { label: "Fertilitet", path: "/behandlinger/fertilitet" },
- fostermedisiner: { label: "Fostermedisin" },
+ fostermedisiner: { label: "Fostermedisin", path: "/behandlinger/graviditet/ultralyd" },
  gynekolog: { label: "Gynekologi", path: "/behandlinger/gynekologi" },
  ernaringsfysiolog: { label: "Ernæringsfysiolog", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
  psykolog: { label: "Psykolog", path: "/behandlinger/flere-fagomrader/psykologi" },
  sexolog: { label: "Sexolog", path: "/behandlinger/flere-fagomrader/sexologi" },
- gastrokirurg: { label: "Gastrokirurgi" },
+ gastrokirurg: { label: "Gastrokirurgi", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
  ortoped: { label: "Ortopedi", path: "/behandlinger/ortopedi" },
  handterapeut: { label: "Håndterapeut" },
- revmatolog: { label: "Revmatolog" },
+ revmatolog: { label: "Revmatolog", path: "/behandlinger/flere-fagomrader/revmatologi" },
  urolog: { label: "Urologi", path: "/behandlinger/urologi" },
  hudhelse: { label: "Hudhelse", path: "/behandlinger/flere-fagomrader/hudhelse" },
- areknuter: { label: "Åreknuter" },
- "sprengte-blodkar": { label: "Sprengte blodkar" },
+ areknuter: { label: "Åreknutebehandling", path: "/behandlinger/flere-fagomrader/areknuter" },
+ "sprengte-blodkar": { label: "Sprengte blodkar", path: "/behandlinger/flere-fagomrader/hudhelse" },
  fysioterapeut: { label: "Fysioterapeut" },
  uroterapi: { label: "Uroterapi" },
- plastikkirurgi: { label: "Plastikkirurgi" },
- karkirurgi: { label: "Karkirurgi" },
+ plastikkirurgi: { label: "Plastikkirurgi", path: "/behandlinger/flere-fagomrader/plastikkirurgi" },
+ karkirurgi: { label: "Karkirurgi", path: "/behandlinger/flere-fagomrader/areknuter" },
  hjertespesialist: { label: "Hjertespesialist" },
  almennlege: { label: "Allmennlege" },
+ osteopati: { label: "Osteopati", path: "/behandlinger/flere-fagomrader/osteopati" },
+ robotkirurgi: { label: "Robotassistert kirurgi", path: "/behandlinger/flere-fagomrader/robotkirurgi" },
 };
 
 interface ClinicDetailPageProps {
@@ -290,14 +292,17 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="max-w-3xl mx-auto">
  <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
  <p className="text-sm text-muted-foreground font-light mb-6">
- CMedical {clinic.label} tilbyr {clinic.services.length} ulike fagområder. Klikk for å lese mer.
+ CMedical {clinic.label} tilbyr {clinic.services.length} ulike fagområder.{" "}
+ {clinic.services.every((id: string) => SERVICE_LABELS[id]?.path)
+ ? "Klikk for å lese mer."
+ : "Klikk på fagområdene med pil for å lese mer."}
  </p>
 
  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
  {clinic.services.map((id: string) => {
  const svc = SERVICE_LABELS[id] || { label: id };
  const content = (
- <span className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
+ <span className={`flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light transition-colors${svc.path ? " group-hover:text-brand-dark" : ""}`}>
  <span>{svc.label}</span>
  {svc.path && (
  <ArrowRight className="w-3.5 h-3.5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} aria-hidden="true" />
@@ -305,7 +310,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  </span>
  );
  return (
- <li key={id} className="group">
+ <li key={id} className={svc.path ? "group" : ""}>
  {svc.path ? (
  <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
  {content}
