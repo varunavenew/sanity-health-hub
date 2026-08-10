@@ -53,87 +53,87 @@
 
 @layer base {
   :root {
-    --background: 30 32% 93%;
-    --foreground: 0 71% 5.5%;
-    --card: 30 32% 93%;
-    --card-foreground: 0 71% 5.5%;
+    --background: 30 31.6% 92.5%;
+    --foreground: 0 71.4% 5.5%;
+    --card: 30 31.6% 92.5%;
+    --card-foreground: 0 71.4% 5.5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 71% 5.5%;
-    --primary: 22.5 22% 21%;
-    --primary-foreground: 30 32% 93%;
+    --popover-foreground: 0 71.4% 5.5%;
+    --primary: 22.5 22.2% 21.2%;
+    --primary-foreground: 30 31.6% 92.5%;
     --secondary: 25 23% 74%;
-    --secondary-foreground: 0 71% 5.5%;
+    --secondary-foreground: 0 71.4% 5.5%;
     --muted: 30 24% 88%;
     --muted-foreground: 22 15% 30%;
-    --accent: 65 100% 73.5%;
-    --accent-foreground: 0 71% 5.5%;
+    --accent: 64.9 100% 73.5%;
+    --accent-foreground: 0 71.4% 5.5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 25 20% 82%;
     --input: 25 20% 86%;
-    --ring: 22.5 22% 21%;
-    --brand-dark: 22.5 22% 21%;
-    --brand-yellow: 65 100% 73.5%;
-    --brand-warm: 30 32% 93%;
+    --ring: 22.5 22.2% 21.2%;
+    --brand-dark: 22.5 22.2% 21.2%;
+    --brand-yellow: 64.9 100% 73.5%;
+    --brand-warm: 30 31.6% 92.5%;
     --brand-mid: 25 23% 74%;
-    --brand-beige: 30 32% 93%;
+    --brand-beige: 30 31.6% 92.5%;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
-    --chat-background: 30 32% 93%;
-    --chat-foreground: 0 71% 5.5%;
+    --chat-background: 30 31.6% 92.5%;
+    --chat-foreground: 0 71.4% 5.5%;
     --chat-border: 25 20% 82%;
     --chat-ai-bubble: 25 23% 74%;
     --user-bubble: 65 100% 80%;
     
-    --sidebar-background: 30 32% 93%;
-    --sidebar-foreground: 0 71% 5.5%;
-    --sidebar-primary: 22.5 22% 21%;
-    --sidebar-primary-foreground: 30 32% 93%;
+    --sidebar-background: 30 31.6% 92.5%;
+    --sidebar-foreground: 0 71.4% 5.5%;
+    --sidebar-primary: 22.5 22.2% 21.2%;
+    --sidebar-primary-foreground: 30 31.6% 92.5%;
     --sidebar-accent: 25 23% 74%;
-    --sidebar-accent-foreground: 0 71% 5.5%;
+    --sidebar-accent-foreground: 0 71.4% 5.5%;
     --sidebar-border: 25 20% 82%;
-    --sidebar-ring: 22.5 22% 21%;
+    --sidebar-ring: 22.5 22.2% 21.2%;
   }
 
   .dark {
-    --background: 22.5 22% 21%;
+    --background: 22.5 22.2% 21.2%;
     --foreground: 0 0% 100%;
     --card: 22 22% 25%;
     --card-foreground: 0 0% 100%;
     --popover: 22 22% 25%;
     --popover-foreground: 0 0% 100%;
     --primary: 0 0% 100%;
-    --primary-foreground: 22.5 22% 21%;
+    --primary-foreground: 22.5 22.2% 21.2%;
     --secondary: 22 22% 28%;
     --secondary-foreground: 0 0% 100%;
     --muted: 22 22% 28%;
     --muted-foreground: 0 0% 70%;
-    --accent: 65 100% 73.5%;
-    --accent-foreground: 0 71% 5.5%;
+    --accent: 64.9 100% 73.5%;
+    --accent-foreground: 0 71.4% 5.5%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 22 18% 30%;
     --input: 22 18% 30%;
     --ring: 0 0% 85%;
-    --brand-dark: 22.5 22% 21%;
-    --brand-yellow: 65 100% 73.5%;
-    --brand-warm: 30 32% 93%;
+    --brand-dark: 22.5 22.2% 21.2%;
+    --brand-yellow: 64.9 100% 73.5%;
+    --brand-warm: 30 31.6% 92.5%;
     --brand-mid: 25 23% 74%;
     
-    --chat-background: 22.5 22% 21%;
+    --chat-background: 22.5 22.2% 21.2%;
     --chat-foreground: 0 0% 100%;
     --chat-border: 22 18% 30%;
     --chat-ai-bubble: 22 22% 28%;
-    --user-bubble: 65 100% 73.5%;
+    --user-bubble: 64.9 100% 73.5%;
     
-    --sidebar-background: 22.5 22% 21%;
+    --sidebar-background: 22.5 22.2% 21.2%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 65 100% 73.5%;
-    --sidebar-primary-foreground: 0 71% 5.5%;
+    --sidebar-primary: 64.9 100% 73.5%;
+    --sidebar-primary-foreground: 0 71.4% 5.5%;
     --sidebar-accent: 22 22% 28%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 22 18% 30%;
-    --sidebar-ring: 65 100% 73.5%;
+    --sidebar-ring: 64.9 100% 73.5%;
   }
 }
 
@@ -213,11 +213,11 @@
 }
 
 .gradient-primary {
-  background: linear-gradient(135deg, hsl(65 100% 73.5%), hsl(65 90% 78%));
+  background: linear-gradient(135deg, hsl(64.9 100% 73.5%), hsl(65 90% 78%));
 }
 
 .gradient-hero {
-  background: linear-gradient(180deg, hsl(22.5 22% 21%), hsl(22 22% 18%));
+  background: linear-gradient(180deg, hsl(22.5 22.2% 21.2%), hsl(22 22% 18%));
 }
 
 .gradient-skin {
@@ -239,13 +239,13 @@
 }
 
 .glass-dark {
-  background: hsla(22.5 22% 21% / 0.85);
+  background: hsla(22.5 22.2% 21.2% / 0.85);
   backdrop-filter: blur(12px);
   border: 1px solid hsl(22 18% 30%);
 }
 
 .glow-yellow {
-  box-shadow: 0 4px 24px hsl(65 100% 73.5% / 0.25);
+  box-shadow: 0 4px 24px hsl(64.9 100% 73.5% / 0.25);
 }
 
 .glow-soft {
@@ -253,7 +253,7 @@
 }
 
 .glow-accent {
-  box-shadow: 0 4px 24px hsl(65 100% 73.5% / 0.3);
+  box-shadow: 0 4px 24px hsl(64.9 100% 73.5% / 0.3);
 }
 
 @keyframes float {
