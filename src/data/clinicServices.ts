@@ -39,7 +39,7 @@ export const clinics: Clinic[] = [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
       "revmatolog", "urolog", "hudhelse", "areknuter", "sprengte-blodkar",
-      "fysioterapeut", "uroterapi",
+      "fysioterapeut", "uroterapi", "osteopati", "robotkirurgi",
     ],
     detail: {
       description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 A og B. Her tilbyr vi et bredt spekter av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
