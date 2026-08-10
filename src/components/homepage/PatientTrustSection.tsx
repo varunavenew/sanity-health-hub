@@ -20,11 +20,11 @@ export const PatientTrustSection = () => {
             <div className="space-y-1">
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl md:text-5xl font-light leading-none tracking-tight text-brand-beige">
-                  150&thinsp;000<span className="text-brand-beige/70 font-extralight ml-1">+</span>
+                  60&thinsp;000<span className="text-brand-beige/70 font-extralight ml-1">+</span>
                 </span>
               </div>
               <p className="text-base md:text-lg font-light text-brand-beige leading-tight">
-                Fornøyde pasienter siden 2002.
+                Pasientbesøk i året.
               </p>
             </div>
 

@@ -171,6 +171,24 @@ const bookingServices = [
  { name: "Uforpliktende samtale på telefon om prostata med uroterapeut", price: "0", duration: "15 minutter" },
  ]
  },
+ {
+ id: "overvektskirurgi",
+ label: "Overvektskirurgi",
+ services: [
+ { name: "Digital konsultasjon fedme vurdering for robotkirurgi", price: "0", duration: "45 minutter" },
+ { name: "Konsultasjon overvektskirurgi", price: "2900", duration: "45 minutter" },
+ { name: "Kontroll / oppfølging overvektskirurgi", price: "1900", duration: "30 minutter" },
+ ]
+ },
+ {
+ id: "hudlege",
+ label: "Hudlege",
+ services: [
+ { name: "Konsultasjon hudlege", price: "2100", duration: "30 minutter" },
+ { name: "Føflekkkontroll", price: "2100", duration: "30 minutter" },
+ { name: "Kontroll / oppfølging hudlege", price: "1700", duration: "20 minutter" },
+ ]
+ },
 ];
 
 // Deterministic mock availability — same inputs always produce the same slots,
