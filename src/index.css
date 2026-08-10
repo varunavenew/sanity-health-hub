@@ -341,7 +341,7 @@
   }
 
   /* 1) Normaliser store seksjonspaddinger til felles token */
-  section:is([class*="py-14"], [class*="py-16"], [class*="py-20"], [class*="py-24"], [class*="py-28"], [class*="pt-14"], [class*="pt-16"], [class*="pt-20"], [class*="pt-24"], [class*="pt-28"]) {
+  section:not([class*="pt-[4.5rem]"]):is([class*="py-14"], [class*="py-16"], [class*="py-20"], [class*="py-24"], [class*="py-28"], [class*="pt-14"], [class*="pt-16"], [class*="pt-20"], [class*="pt-24"], [class*="pt-28"]) {
     padding-top: var(--section-gap);
   }
   section:is([class*="py-14"], [class*="py-16"], [class*="py-20"], [class*="py-24"], [class*="py-28"], [class*="pb-14"], [class*="pb-16"], [class*="pb-20"], [class*="pb-24"], [class*="pb-28"]) {
@@ -350,7 +350,7 @@
 
   /* 2) Halvert luft mellom naboseksjoner med lik bakgrunn — lys */
   section:is([class~="bg-background"], [class~="bg-brand-light"], [class~="bg-brand-warm"], [class~="bg-secondary"], [class~="bg-secondary/30"], [class~="bg-secondary/40"], [class~="bg-secondary/50"], [class~="bg-white"])
-    + section:is([class~="bg-background"], [class~="bg-brand-light"], [class~="bg-brand-warm"], [class~="bg-secondary"], [class~="bg-secondary/30"], [class~="bg-secondary/40"], [class~="bg-secondary/50"], [class~="bg-white"]) {
+    + section:not([class*="pt-[4.5rem]"]):is([class~="bg-background"], [class~="bg-brand-light"], [class~="bg-brand-warm"], [class~="bg-secondary"], [class~="bg-secondary/30"], [class~="bg-secondary/40"], [class~="bg-secondary/50"], [class~="bg-white"]) {
     padding-top: var(--section-gap-tight);
   }
   section:is([class~="bg-background"], [class~="bg-brand-light"], [class~="bg-brand-warm"], [class~="bg-secondary"], [class~="bg-secondary/30"], [class~="bg-secondary/40"], [class~="bg-secondary/50"], [class~="bg-white"]):has(
