@@ -107,7 +107,7 @@ export const ResultsStatsSection = ({
 
       <div className="relative container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-4 md:gap-6 lg:gap-24 mb-10 md:mb-14">
+          <div className="section-head">
             <div className="lg:col-span-5">
               <h2 className="text-2xl md:text-3xl font-light leading-tight">{title}</h2>
             </div>

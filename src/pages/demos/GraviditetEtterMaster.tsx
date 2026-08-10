@@ -378,7 +378,7 @@ const GraviditetEtterMaster = ({ isChatOpen }: PageProps) => {
       <section className="bg-secondary/40 py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+            <div className="section-head">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                   Eksperter som jobber med det de kan aller best.
@@ -441,7 +441,7 @@ const GraviditetEtterMaster = ({ isChatOpen }: PageProps) => {
       <section className="bg-background text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+            <div className="section-head">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
                   Vet du allerede hva du trenger?

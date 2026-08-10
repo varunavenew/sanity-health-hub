@@ -257,7 +257,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <section className="bg-background py-20 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
+ <div className="max-w-6xl mx-auto section-head-plain">
  <div className="lg:col-span-5">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
  Du trenger ikke ha en diagnose for å bestille

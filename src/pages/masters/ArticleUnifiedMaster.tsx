@@ -165,7 +165,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
       {/* ───────────── BRØDTEKST + STICKY INNHOLDSFORTEGNELSE ───────────── */}
       <article className="bg-background py-14 md:py-20">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="max-w-6xl mx-auto section-head-plain">
             {/* Sidebar — sticky scroll-spy, skjult under lg */}
             <aside className="hidden lg:block lg:col-span-3 lg:order-1 lg:self-start lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
               <div>

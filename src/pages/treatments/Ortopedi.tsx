@@ -395,7 +395,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  {/* INSURANCE */}
  <section className="bg-brand-light text-foreground py-14 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24 items-start">
+ <div className="max-w-6xl mx-auto section-head-plain items-start">
  <div className="lg:col-span-4">
  
  <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
