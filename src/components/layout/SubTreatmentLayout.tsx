@@ -189,6 +189,7 @@ const ReasonsEditorial = ({
    // Open the accordion item matching the URL hash (e.g. #singel-kvinne).
    const values = cleanItems.map((r) => slugifyTitle(r.title));
    const [openValue, setOpenValue] = useState<string>("");
+   const [expanded, setExpanded] = useState(false);
 
    useEffect(() => {
      const applyHash = () => {
@@ -212,9 +213,23 @@ const ReasonsEditorial = ({
 
    if (cleanItems.length === 0) return null;
 
+   // Rough weight of the section — long, heavy sections become an accordion
+   // so readers can pick what to open instead of scrolling a wall of text.
+   const totalChars = cleanItems.reduce(
+     (a, r) => a + r.title.length + nodeTextLength(r.desc),
+     0,
+   );
+   const isHeavy = cleanItems.length >= 5 || totalChars > 1800;
+
    // "prose" viser innholdet åpent uten klikk. Alt annet (accordion/auto)
    // rendres som FAQ-løsning med åpne/lukke.
-   const effectiveLayout: "prose" | "accordion" = layout === "prose" ? "prose" : "accordion";
+   const effectiveLayout: "prose" | "accordion" =
+     layout === "prose" ? "prose" : layout === "accordion" ? "accordion" : isHeavy ? "accordion" : "prose";
+
+   // Prose-seksjoner som fortsatt er litt lange: vis innledning + «Les mer».
+   const useReadMore = effectiveLayout === "prose" && cleanItems.length > 1 && totalChars > 900;
+   const visibleItems = useReadMore && !expanded ? cleanItems.slice(0, 1) : cleanItems;
+
 
 
    const proseClasses =
