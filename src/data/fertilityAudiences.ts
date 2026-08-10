@@ -1,6 +1,4 @@
-import { getServiceImageFromHref } from "@/data/serviceImages";
-
-import audienceSingle from "@/assets/fertility/audience-single.jpg";
+import singelKvinneAsset from "@/assets/fertility/singel-kvinne.png.asset.json";
 import toKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import mannligFertilitetAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
 import heterofiltParAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
