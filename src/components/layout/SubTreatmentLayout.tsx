@@ -300,18 +300,28 @@ const ReasonsEditorial = ({
              ) : (
                // FORM A — one continuous article. Subheadings are inline
                // mid-titles, never click-to-open.
-               <article className="space-y-10">
-                 {cleanItems.map((r, idx) => (
-                   <div key={r.n} className={idx === 0 ? "" : ""}>
-                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
-                       {r.title}
-                     </h3>
-                     <div className={proseClasses}>
-                       {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-                     </div>
-                   </div>
-                 ))}
-               </article>
+                <article className="space-y-10">
+                  {visibleItems.map((r) => (
+                    <div key={r.n}>
+                      <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
+                        {r.title}
+                      </h3>
+                      <div className={proseClasses}>
+                        {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                      </div>
+                    </div>
+                  ))}
+                  {useReadMore && !expanded && (
+                    <button
+                      type="button"
+                      onClick={() => setExpanded(true)}
+                      className="text-sm font-normal text-foreground underline underline-offset-4 hover:opacity-70"
+                    >
+                      Les mer
+                    </button>
+                  )}
+                </article>
+
              )}
            </div>
          </div>
