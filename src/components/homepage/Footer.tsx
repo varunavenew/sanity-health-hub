@@ -17,7 +17,7 @@ const stripSki = (s: string) =>
     .filter((part) => part.trim().toLowerCase() !== "ski")
     .join(" · ");
 
-export const Footer = () => {
+export const Footer = ({ extraBottomSpace = false }: { extraBottomSpace?: boolean } = {}) => {
   const { t } = useTranslation();
   const { data: settings } = useSiteSettings();
   const { categories } = useServiceCategories();
@@ -60,7 +60,7 @@ export const Footer = () => {
   const socialChannels = buildSocialChannels(social);
 
   return (
-    <footer className="bg-[#180404] text-white pt-14 pb-6 md:pt-20 md:pb-10" role="contentinfo">
+    <footer className={`bg-[#180404] text-white pt-14 md:pt-20 md:pb-10 ${extraBottomSpace ? "pb-[calc(1.5rem+64px+env(safe-area-inset-bottom))]" : "pb-6"}`} role="contentinfo">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-2 md:grid-cols-4 items-start gap-x-8 gap-y-10 mb-10 md:mb-14">
           {/* Column 1: Tjenester */}
