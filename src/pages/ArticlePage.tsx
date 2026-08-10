@@ -197,7 +197,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, rgba(66,51,42,0.96) 0%, rgba(66,51,42,0.85) 22%, rgba(66,51,42,0.45) 48%, rgba(66,51,42,0.10) 72%, rgba(66,51,42,0) 100%)",
+              "linear-gradient(to top, rgba(24,4,4,0.97) 0%, rgba(66,51,42,0.94) 18%, rgba(66,51,42,0.78) 34%, rgba(66,51,42,0.45) 55%, rgba(66,51,42,0.14) 78%, rgba(66,51,42,0) 100%)",
           }}
         />
         {/* Lett topp-skygge så «Tilbake»-lenken alltid er lesbar */}
