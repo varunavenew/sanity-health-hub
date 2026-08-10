@@ -294,10 +294,6 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
                   istedenfor segment-seksjonen over. Innholdet fordeles strategisk
                   så du raskt kan lese akkurat det som er relevant for deg.
                 </p>
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Første punkt er åpent som standard, så det viktigste alltid
-                  møter leseren først — uten ekstra scroll.
-                </p>
               </div>
             </div>
 

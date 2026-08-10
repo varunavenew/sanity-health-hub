@@ -316,10 +316,6 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                   de vanligste — så du raskt finner svaret som er relevant for
                   akkurat deg.
                 </p>
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Første punkt er åpent som standard, så det viktigste alltid
-                  møter leseren først.
-                </p>
               </div>
             </div>
 
