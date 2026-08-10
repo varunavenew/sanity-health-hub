@@ -462,11 +462,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
- Alle er velkomne
- <br />
- <span className="text-foreground/70">— uansett utgangspunkt.</span>
- </h2>
+  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+  Assistert befruktning&nbsp;—
+  <br />
+  <span className="text-foreground/70">for par og single</span>
+  </h2>
  </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
