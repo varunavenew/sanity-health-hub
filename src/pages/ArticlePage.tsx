@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { articles } from "@/data/articles";
@@ -132,6 +132,15 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
     ? { ...sanityArticle, image: sanityArticle.image || staticArticle?.image || "" }
     : staticArticle;
   const content = slug ? articleContent[slug] : undefined;
+
+  // Parallax / fade for the mobile hero
+  const [scrollY, setScrollY] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Build related articles from Sanity first, then static fallback
   const related = useMemo(() => {
