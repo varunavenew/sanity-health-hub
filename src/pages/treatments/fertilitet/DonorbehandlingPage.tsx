@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
-import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
@@ -414,7 +413,6 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
       />
 
       {/* 10. CTA */}
-      <InsurancePartners />
       <BookingCTA />
     </EditableAutoScope></PageLayout>
   );
