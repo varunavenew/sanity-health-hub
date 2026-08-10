@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { BackLink } from "@/components/ui/BackLink";
+import { MediaChip } from "@/components/ui/MediaChip";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
@@ -172,7 +174,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-medium text-foreground mb-2">Artikkelen ble ikke funnet</h1>
-            <Link to="/aktuelt" className="text-brand-dark underline">Tilbake til Aktuelt</Link>
+            <BackLink to="/aktuelt" className="justify-center">Tilbake til Aktuelt</BackLink>
           </div>
         </div>
       </PageLayout>
@@ -217,13 +219,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
           className="absolute inset-x-0 bottom-0 px-6 pb-16"
           style={{ transform: `translate3d(0, ${scrollY * -0.12}px, 0)` }}
         >
-          <Link
-            to="/aktuelt"
-            className="inline-flex items-center gap-2 text-brand-warm hover:text-white text-sm transition-colors mb-5"
-          >
-            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-            Tilbake til Aktuelt
-          </Link>
+          <BackLink to="/aktuelt" tone="onImage" className="mb-5">Tilbake til Aktuelt</BackLink>
           <div className="flex items-center gap-3 mb-3">
             <span className="text-brand-warm text-xs">{article.category}</span>
             <span className="text-brand-warm/90 text-xs flex items-center gap-1.5">
@@ -250,13 +246,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
 
       <div className="hidden md:block bg-brand-dark pt-16 pb-14">
         <div className="container mx-auto px-6 md:px-16">
-          <Link
-            to="/aktuelt"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors mb-6"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Tilbake til Aktuelt
-          </Link>
+          <BackLink to="/aktuelt" tone="onImage" className="mb-6">Tilbake til Aktuelt</BackLink>
           <div className="flex items-center gap-3 mb-4">
             <span className="text-white/80 text-xs">
               {article.category}
@@ -337,9 +327,9 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3">
-                      <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
+                      <MediaChip>
                         {rel.category}
-                      </span>
+                      </MediaChip>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -190,13 +191,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </div>
 
  <div className="flex items-center gap-6">
- <Link
- to={detailHref}
- className="inline-flex items-center gap-1.5 text-sm font-normal text-brand-dark hover:gap-2.5 transition-all border-b border-brand-dark/40 hover:border-brand-dark pb-1"
- >
- Les mer om klinikken
- <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
- </Link>
+ <ReadMoreLink to={detailHref} tone="standalone">Les mer om klinikken</ReadMoreLink>
  {clinic.mapsUrl && (
  <a
  href={clinic.mapsUrl}

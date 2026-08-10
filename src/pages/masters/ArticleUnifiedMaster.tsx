@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { BackLink } from "@/components/ui/BackLink";
+import { MediaChip } from "@/components/ui/MediaChip";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, Calendar, Clock, Quote, Share2, ChevronRight,
@@ -87,13 +90,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           {/* Venstre – meta + tittel + ingress + forfatter */}
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20">
             <div className="max-w-xl w-full">
-              <Link
-                to="/aktuelt"
-                className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground text-sm font-light transition-colors mb-8"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Tilbake til Aktuelt
-              </Link>
+              <BackLink to="/aktuelt" className="mb-8">Tilbake til Aktuelt</BackLink>
 
               {/* Meta: dato + område (denne varianten foretrukket) */}
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
@@ -434,9 +431,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                   <s.Icon className="w-6 h-6 text-brand-dark mb-4" strokeWidth={1.5} />
                   <h3 className="text-base font-medium text-foreground mb-1.5">{s.t}</h3>
                   <p className="text-sm font-light text-foreground/70 mb-4">{s.d}</p>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-light text-foreground group-hover:gap-2 transition-all">
-                    Les mer <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
+                  <ReadMoreLink>Les mer</ReadMoreLink>
                 </Link>
               ))}
             </div>
@@ -499,9 +494,9 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
+                    <MediaChip>
                       {a.c}
-                    </span>
+                    </MediaChip>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">

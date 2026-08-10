@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { BackLink } from "@/components/ui/BackLink";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -34,13 +35,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
       {/* Hero */}
       <section className="bg-brand-dark py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-8 max-w-3xl">
-          <button
-            onClick={() => navigate("/behandlinger/gynekologi/overgangsalder")}
-            className="text-white/60 hover:text-white text-sm font-light flex items-center gap-1 mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Tilbake til overgangsalder
-          </button>
+          <BackLink to="/behandlinger/gynekologi/overgangsalder" tone="onImage" className="mb-6">Tilbake til overgangsalder</BackLink>
           <h1 className="text-3xl md:text-4xl font-normal text-white mb-4">
             {sanityData?.title || "Fastlegeveiledning overgangsalder"}
           </h1>
@@ -328,14 +323,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
 
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button
-              onClick={() => navigate("/behandlinger/gynekologi/overgangsalder")}
-              variant="outline"
-              className="rounded-md font-light"
-            >
-              <ArrowLeft className="mr-2 w-4 h-4" />
-              Tilbake til overgangsalder
-            </Button>
+            <BackLink to="/behandlinger/gynekologi/overgangsalder">Tilbake til overgangsalder</BackLink>
             <Button
               onClick={() => navigate("/booking?kategori=gynekologi")}
               className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-md font-light"

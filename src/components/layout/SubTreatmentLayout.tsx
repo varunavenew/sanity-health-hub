@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from "react";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -377,10 +378,7 @@ const RelatedBlock = ({
             <div className="p-7 flex flex-col flex-1">
               <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
               <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                Les mer
-                <ArrowRight className="w-3.5 h-3.5" />
-              </span>
+              <ReadMoreLink>Les mer</ReadMoreLink>
             </div>
           </Link>
         ))}
@@ -872,10 +870,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
   {a.desc}
   </p>
-  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-  Les mer
-  <ArrowRight className="w-3.5 h-3.5" />
-  </span>
+  <ReadMoreLink>Les mer</ReadMoreLink>
   </div>
   </Link>
   ))}

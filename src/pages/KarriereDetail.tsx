@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { BackLink } from "@/components/ui/BackLink";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useJobListing } from "@/hooks/useSanity";
 import {
@@ -54,12 +55,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
           <p className="text-muted-foreground mb-6">
             Denne stillingen finnes ikke lenger eller lenken er feil.
           </p>
-          <Link to="/karriere">
-            <Button variant="outline" className="rounded-2xl md:rounded-full">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Tilbake til ledige stillinger
-            </Button>
-          </Link>
+          <BackLink to="/karriere">Tilbake til ledige stillinger</BackLink>
         </div>
       </PageLayout>
     );

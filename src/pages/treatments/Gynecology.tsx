@@ -1,4 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
@@ -406,13 +407,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  ))}
   </div>
 
-  <Link
-   to="/om-oss"
-   className="inline-flex items-center gap-2 mt-10 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
-  >
-   Les mer om klinikken
-   <ArrowRight className="w-3.5 h-3.5" />
-  </Link>
+  <ReadMoreLink to="/om-oss" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
  </div>
  </div>
 
@@ -459,10 +454,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
          <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
           {a.desc}
          </p>
-         <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-          Les mer
-          <ArrowRight className="w-3.5 h-3.5" />
-         </span>
+         <ReadMoreLink>Les mer</ReadMoreLink>
         </div>
        </Link>
       ))}
@@ -520,10 +512,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
  {a.desc}
  </p>
- <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
- Les mer
- <ArrowRight className="w-3.5 h-3.5" />
- </span>
+ <ReadMoreLink>Les mer</ReadMoreLink>
  </div>
  </Link>
  ))}

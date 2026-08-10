@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { Button } from "@/components/ui/button";
@@ -173,11 +174,18 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
             <h2 className="text-2xl font-normal text-foreground mb-8 text-center">
               Ofte stilte spørsmål
             </h2>
-            <div className="border-t border-border rounded-lg bg-white overflow-hidden">
+            <Accordion type="single" collapsible className="border-t border-border rounded-lg bg-white overflow-hidden">
               {staticContent.faqs.map((faq, i) => (
-                <FaqItem key={i} question={faq.question} answer={faq.answer} />
+                <AccordionItem key={i} value={`faq-${i}`} className="border-b border-border last:border-b-0 px-6">
+                  <AccordionTrigger className="text-base font-normal text-foreground text-left py-5">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground text-sm md:text-base leading-relaxed font-light pb-5 pr-8">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           </div>
         </div>
       </section>
@@ -185,27 +193,5 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
   );
 };
 
-const FaqItem = ({ question, answer }: { question: string; answer: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="border-b border-border last:border-b-0">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-5 px-6 text-left hover:bg-secondary/30 transition-colors"
-      >
-        <span className="text-base font-normal text-foreground">{question}</span>
-        {isOpen ? (
-          <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-        ) : (
-          <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-        )}
-      </button>
-      <div className={`overflow-hidden transition-all duration-300 ease-out ${isOpen ? "max-h-60 pb-5 px-6" : "max-h-0"}`}>
-        <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-light pr-8">{answer}</p>
-      </div>
-    </div>
-  );
-};
 
 export default RobotkirurgiPage;

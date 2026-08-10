@@ -1,4 +1,6 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { MediaChip } from "@/components/ui/MediaChip";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { SocialChannelCards } from "@/components/homepage/SocialChannelCards";
 import { InstagramProfileHeader } from "@/components/homepage/InstagramProfileHeader";
@@ -68,9 +70,9 @@ const ArticleCard = ({ article }: { article: Article }) => {
           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 left-3">
-          <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
+          <MediaChip>
             {article.category}
-          </span>
+          </MediaChip>
         </div>
         <MediaBadge type={article.mediaType} />
       </div>
@@ -103,9 +105,9 @@ const FeaturedCard = ({ article }: { article: Article }) => {
       <MediaBadge type={article.mediaType} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full mb-2">
+        <MediaChip tone="light" className="mb-2">
           {article.category}
-        </span>
+        </MediaChip>
         <h3 className="text-base md:text-lg font-medium text-white leading-snug mb-2 line-clamp-2">
           {article.title}
         </h3>
@@ -117,9 +119,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
             <Calendar className="w-3 h-3" />
             {formatDate(article.date)}
           </span>
-          <span className="inline-flex items-center gap-1 text-white/90 text-xs font-medium group-hover:gap-2 transition-all">
-            Les mer <ArrowRight className="w-3.5 h-3.5" />
-          </span>
+          <ReadMoreLink tone="onImage">Les mer</ReadMoreLink>
         </div>
       </div>
     </Link>
@@ -373,12 +373,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
                   Spesialister du kan bestille time hos
                 </h2>
               </div>
-              <Link
-                to="/spesialister"
-                className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
-              >
-                Se alle <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <ReadMoreLink to="/spesialister" tone="standalone">Se alle spesialister</ReadMoreLink>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {featuredSpecialists.map((s) => (
