@@ -219,19 +219,19 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
         >
           <Link
             to="/aktuelt"
-            className="inline-flex items-center gap-2 text-brand-light hover:text-white text-sm transition-colors mb-5"
+            className="inline-flex items-center gap-2 text-brand-warm hover:text-white text-sm transition-colors mb-5"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Tilbake til Aktuelt
           </Link>
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-brand-light text-xs">{article.category}</span>
-            <span className="text-brand-light/90 text-xs flex items-center gap-1.5">
+            <span className="text-brand-warm text-xs">{article.category}</span>
+            <span className="text-brand-warm/90 text-xs flex items-center gap-1.5">
               <Calendar className="w-3 h-3" aria-hidden="true" />
               {formatDate(article.date)}
             </span>
           </div>
-          <h1 className="text-2xl font-light text-brand-light leading-tight">
+          <h1 className="text-2xl font-light text-brand-warm leading-tight">
             {article.title}
           </h1>
         </div>
@@ -242,8 +242,8 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
           style={{ opacity: Math.max(0, 1 - scrollY / 160) }}
           aria-hidden="true"
         >
-          <span className="text-brand-light/80 text-xs">Sveip ned for å lese</span>
-          <ChevronDown className="w-4 h-4 text-brand-light/80 animate-bounce" />
+          <span className="text-brand-warm/80 text-xs">Sveip ned for å lese</span>
+          <ChevronDown className="w-4 h-4 text-brand-warm/80 animate-bounce" />
         </div>
       </div>
 
