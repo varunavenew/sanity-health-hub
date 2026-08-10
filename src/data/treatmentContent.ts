@@ -1175,26 +1175,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "fertilitet/teamet": {
-    title: "Fertilitetsteamet",
-    subtitle: "Møt teamet som hjelper deg med å oppfylle barneønsket.",
-    parentCategory: "Fertilitet",
-    heroImage: heroFamily,
-    description: "Vårt fertilitetsteam består av erfarne reproduksjonsmedisinere, gynekologer, embryologer, sykepleiere og psykologer som alle er dedikert til å hjelpe deg.\n\nVi legger stor vekt på personlig oppfølging og tett kommunikasjon gjennom hele behandlingsforløpet. Du skal føle deg trygg og ivaretatt hos oss.",
-    benefits: [
-      "Erfarne reproduksjonsmedisinere og gynekologer",
-      "Spesialiserte embryologer med internasjonal erfaring",
-      "Dedikerte fertilitets-sykepleiere for daglig oppfølging",
-      "Psykolog for emosjonell støtte under behandlingen",
-      "Tverrfaglig samarbeid for best mulig resultat",
-    ],
-    faqs: [
-      { question: "Hvem er min kontaktperson?", answer: "Du får en dedikert fertilitets-sykepleier som er din hovedkontaktperson gjennom hele behandlingen." },
-      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
-
   // ==========================================
   // ORTOPEDI
   // ==========================================
