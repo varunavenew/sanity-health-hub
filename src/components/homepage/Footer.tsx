@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = {};
 
-export 
 // Ski-klinikken er lagt ned — filtrer den bort uansett hva CMS leverer.
 const stripSki = (s: string) =>
   s
@@ -18,7 +17,7 @@ const stripSki = (s: string) =>
     .filter((part) => part.trim().toLowerCase() !== "ski")
     .join(" · ");
 
-const Footer = () => {
+export const Footer = () => {
   const { t } = useTranslation();
   const { data: settings } = useSiteSettings();
   const { categories } = useServiceCategories();
