@@ -318,18 +318,16 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {children}
           </main>
 
-          {/* Footer — pad bottom on mobile ONLY on pages that render the floating LeadPopup CTA */}
+          {/* Footer — bottom clearance for the floating CTA is added inside the footer itself
+              (same dark bg) so no light stripe appears under the footer */}
           {(() => {
             const normalized = location.pathname.replace(/\/+$/, "") || "/";
             const hasFloatingCta =
               normalized === "/fertilitet" ||
               normalized === "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi";
-            return (
-              <div className={hasFloatingCta ? "pb-[calc(96px+env(safe-area-inset-bottom))] md:pb-0" : ""}>
-                <Footer />
-              </div>
-            );
+            return <Footer extraBottomSpace={hasFloatingCta} />;
           })()}
+
         </div>
       </div>
 

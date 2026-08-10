@@ -138,7 +138,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  BREADCRUMB
  ============================================================ */}
- <div className="bg-brand-light pt-24 lg:pt-28 pb-4">
+ <div className="bg-brand-light pt-[4.5rem] lg:pt-28 pb-4">
  <div className="container mx-auto px-6 md:px-16">
  <nav className="text-xs font-light text-foreground/60 flex items-center gap-2">
  <Link to="/" className="hover:text-foreground">Hjem</Link>

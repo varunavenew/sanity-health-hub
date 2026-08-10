@@ -31,7 +31,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const servicePath = categoryToServicePath[specialist.category] || "/tjenester";
 
   return (
-    <header className="bg-brand-light pt-24 lg:pt-0">
+    <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
       <div className="grid lg:grid-cols-2 min-h-[560px] lg:min-h-[640px]">
         {/* Left — text */}
         <div className="flex items-center page-edge-text-left py-14 lg:py-20 order-2 lg:order-1">

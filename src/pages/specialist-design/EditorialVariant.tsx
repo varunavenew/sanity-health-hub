@@ -26,7 +26,7 @@ const Variant1 = ({ isChatOpen = false }: Props) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Hero — portrait monolith */}
-      <header className="relative bg-brand-light pt-20 lg:pt-0">
+      <header className="relative bg-brand-light pt-[4.5rem] lg:pt-0">
         <div className="grid lg:grid-cols-12 lg:min-h-[88vh]">
           <div className="relative lg:col-span-7 min-h-[60vh] lg:min-h-full">
             <img src={specialist.image} alt={specialist.name} className="absolute inset-0 w-full h-full object-cover object-top" />

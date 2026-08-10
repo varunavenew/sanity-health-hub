@@ -106,7 +106,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <h1 className="sr-only">Ortopedi hos CMedical — skulder, kne, hofte, hånd og fot</h1>
 
  {/* HERO */}
- <header className="bg-brand-light pt-24 lg:pt-0">
+ <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
  <div className="lg:hidden px-6 md:px-16 pb-4">
    <h2 className="text-4xl font-light text-foreground leading-[1.05]">
      Ortopedi

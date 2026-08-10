@@ -255,7 +255,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         ]}
       />
       {/* Hero */}
-      <section className="relative overflow-hidden bg-brand-dark pt-24 pb-10 md:pt-16 md:pb-14">
+      <section className="relative overflow-hidden bg-brand-dark pt-[4.5rem] pb-10 md:pt-16 md:pb-14">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroBgAsset.url})` }}

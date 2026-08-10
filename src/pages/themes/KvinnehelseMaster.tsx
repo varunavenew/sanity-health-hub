@@ -86,7 +86,7 @@ const MasterLabel = ({ children }: { children: React.ReactNode }) => (
 );
 
 const HeroWithVideo = ({ title, ctaLink, ctaText, navigate }: any) => (
-  <header className="bg-brand-warm pt-16 md:pt-20 pb-10 md:pb-14">
+  <header className="bg-brand-warm pt-[4.5rem] md:pt-20 pb-10 md:pb-14">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-5xl mx-auto mb-10 md:mb-14">
         <VideoPlayer

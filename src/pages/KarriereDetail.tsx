@@ -35,7 +35,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
   if (isLoading && !staticJob) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
-        <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 max-w-3xl">
+        <div className="pt-[5.5rem] pb-20 container mx-auto px-6 md:px-16 max-w-3xl">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-2/3" />
             <div className="h-4 bg-muted rounded w-1/3" />
@@ -49,7 +49,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
   if (!job) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
-        <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 text-center">
+        <div className="pt-[5.5rem] pb-20 container mx-auto px-6 md:px-16 text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Stillingen ble ikke funnet</h1>
           <p className="text-muted-foreground mb-6">
             Denne stillingen finnes ikke lenger eller lenken er feil.
@@ -133,7 +133,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
           },
         }}
       />
-      <div className="pt-28 pb-20 container mx-auto px-6 md:px-16">
+      <div className="pt-[5.5rem] pb-20 container mx-auto px-6 md:px-16">
         <Link
           to="/karriere"
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"

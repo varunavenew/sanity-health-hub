@@ -86,7 +86,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
         ]}
       />
       {/* Hero — tittel øverst, video full bredde under (samme mønster som /kvinnehelse) */}
-      <header className="bg-brand-warm pt-16 md:pt-28 pb-10 md:pb-14">
+      <header className="bg-brand-warm pt-[4.5rem] md:pt-28 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
             

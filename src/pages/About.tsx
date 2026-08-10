@@ -104,7 +104,7 @@ const About = ({ isChatOpen }: AboutProps) => {
       />
 
       {/* Letter-style content */}
-      <article className="bg-brand-warm pt-20">
+      <article className="bg-brand-warm pt-[4.5rem]">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
             <header className="mb-8 pb-6 border-b border-brand-dark/10">

@@ -31,7 +31,7 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Hero — narrow column */}
-      <header className="bg-brand-light pt-32 md:pt-44 pb-14 md:pb-28">
+      <header className="bg-brand-light pt-[4.5rem] md:pt-44 pb-14 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
