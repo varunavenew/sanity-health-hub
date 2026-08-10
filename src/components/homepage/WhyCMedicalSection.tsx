@@ -93,9 +93,6 @@ export const WhyCMedicalSection = () => {
  >
  {/* Header */}
  <div className="px-8 lg:px-16 py-16 lg:pt-32 lg:pb-16">
- <p className="text-sm text-white/60 font-light mb-4">
- Hvorfor CMedical
- </p>
  <h2 className="text-2xl md:text-3xl font-light text-white mb-6 leading-tight">
  Behandling handler om å
  <br />

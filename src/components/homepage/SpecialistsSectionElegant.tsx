@@ -26,7 +26,6 @@ export const SpecialistsSectionElegant = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-muted-foreground font-light mb-3">{t("specialists.subtitle")}</p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               {t("specialists.title")}
             </h2>

@@ -37,9 +37,6 @@ export const TrustStatsSection = () => {
  <div className="container mx-auto px-6 md:px-16">
  {/* Header */}
  <div className="mb-12">
- <p className="text-sm text-accent font-medium mb-4">
- Hvorfor velge CMedical
- </p>
  <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white leading-tight">
  Nordens ledende klinikk for{" "}
  <span className="text-white/80 italic">livet</span>

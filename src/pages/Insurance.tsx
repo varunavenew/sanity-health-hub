@@ -67,10 +67,6 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/30 rounded-2xl md:rounded-full mb-6">
-                <Shield className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground font-light">Våre samarbeidspartnere</span>
-              </div>
               <h2 className="text-2xl md:text-3xl font-light text-foreground">Vi har avtale med alle store forsikringsselskaper</h2>
             </div>
             <div className="flex flex-wrap justify-center gap-3">

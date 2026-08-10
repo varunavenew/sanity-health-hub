@@ -112,7 +112,6 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-end justify-between mb-8 max-w-6xl mx-auto">
           <div>
-            <p className="text-xs text-muted-foreground mb-2 font-light">Følg oss</p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground">Fra våre sosiale medier</h2>
           </div>
           <div className="flex items-center gap-3">

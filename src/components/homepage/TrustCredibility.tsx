@@ -61,9 +61,6 @@ export const TrustCredibility = () => {
  <div className="container mx-auto px-6 md:px-16">
  {/* Section header */}
  <div className="max-w-3xl mb-16">
- <p className="text-sm font-light text-accent mb-3">
- Hvorfor velge CMedical
- </p>
  <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-6 leading-tight">
  Trygg behandling fra{" "}
  <span className="text-foreground font-normal">Nordens ledende</span> spesialister

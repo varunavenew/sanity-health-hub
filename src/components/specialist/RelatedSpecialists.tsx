@@ -24,9 +24,6 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
           className="flex items-end justify-between mb-10"
         >
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-2">
-              Samme fagområde
-            </p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground">
               Andre spesialister
             </h2>
