@@ -290,9 +290,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
                   Det du lurer på — fordelt så det er enkelt å finne.
                 </h2>
                 <p className="text-base font-light text-muted-foreground leading-relaxed mb-3">
-                  På undertjenester med mye fagstoff bruker vi denne split-løsningen
-                  istedenfor segment-seksjonen over. Innholdet fordeles strategisk
-                  så du raskt kan lese akkurat det som er relevant for deg.
+                  Her har vi samlet de vanligste spørsmålene — så du raskt
+                  finner svaret som er relevant for akkurat deg.
                 </p>
               </div>
             </div>

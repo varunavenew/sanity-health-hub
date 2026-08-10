@@ -261,7 +261,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  Et helhetlig tilbud — samlet på ett sted.
  </h2>
  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
- Bruk denne seksjonen til å fortelle historien bak temaet — bakgrunn, filosofi eller hva som gjør tilbudet vårt unikt. Tekst kan kombineres med en nummerert liste eller stå alene.
+ Vi samler utredning, behandling og oppfølging under samme tak — med spesialister som kjenner hele forløpet ditt.
  </p>
  <div className="divide-y divide-border/60 border-t border-border/60">
  {[
