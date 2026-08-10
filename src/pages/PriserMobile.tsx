@@ -225,11 +225,8 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                       key={cat.id}
                       ref={(el) => { pillRefs.current[cat.id] = el; }}
                       onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
-                      className={`inline-flex items-center justify-center px-3 py-1.5 min-h-[36px] rounded-2xl text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
-                        isActive
-                          ? 'bg-brand-dark text-brand-warm border-brand-dark'
-                          : 'bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark'
-                      }`}
+                      className="chip-filter chip-filter-light min-h-[36px] md:min-h-[36px] rounded-2xl"
+                      data-active={isActive}
                       aria-current={isActive ? 'true' : undefined}
                     >
                       {cat.label}
