@@ -48,14 +48,17 @@ export function prepareRelatedCards<T extends RelatedCardItem>(
   const out: T[] = [];
 
   for (const item of items) {
+    const hash = item.href.includes("#") ? `#${item.href.split("#")[1]}` : "";
     const target = normalizeCardPath(item.href);
-    if (current && target === current) continue;
-    if (seen.has(target)) continue;
-    seen.add(target);
+    const key = `${target}${hash}`;
+    // Anchor links into the current page are legitimate; plain self-links are not.
+    if (current && target === current && !hash) continue;
+    if (seen.has(key)) continue;
+    seen.add(key);
     out.push({
       ...item,
       title: TITLE_CANONICAL[item.title.trim().toLowerCase()] ?? item.title,
-      href: item.href.includes("#") ? item.href : target,
+      href: `${target}${hash}`,
       image: getServiceImageFromHref(target) ?? item.image,
     });
   }
