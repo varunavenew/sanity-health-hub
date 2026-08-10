@@ -1,4 +1,5 @@
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
@@ -10,15 +11,6 @@ export const SpecialistsSection = () => {
   const { sorted: specialists } = useSpecialistsData();
   const { t } = useTranslation();
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 320;
-      scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   return (
     <section className="pt-10 md:pt-14 pb-16 md:pb-14 bg-secondary/30 overflow-hidden">
@@ -34,23 +26,7 @@ export const SpecialistsSection = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            {/* Navigation arrows */}
-            <div className="hidden md:flex items-center gap-2">
-              <button 
-                onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
-                aria-label={t("specialists.scrollLeft")}
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => scroll('right')}
-                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
-                aria-label={t("specialists.scrollRight")}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+
             <Button 
               variant="cta-outline"
               asChild
@@ -126,10 +102,8 @@ export const SpecialistsSection = () => {
         </div>
       </div>
 
-      {/* Mobile scroll hint */}
-      <div className="md:hidden flex justify-center mt-4">
-        <span className="text-xs text-muted-foreground">{t("specialists.swipeHint")}</span>
-      </div>
+      <ScrollArrows scrollRef={scrollContainerRef} className="px-6 md:px-16" />
+
 
     </section>
   );

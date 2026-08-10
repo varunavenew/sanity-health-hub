@@ -155,6 +155,10 @@
     /* Fluid base font-size: scales tekst proporsjonalt med bred skjerm.
        16px @ ≤1280px → ~19px @ 1920px+. All rem-basert tekst skalerer med. */
     font-size: clamp(16px, 0.9rem + 0.18vw, 19px);
+    /* Sikkerhetsnett: ingenting skal kunne gjøre dokumentet bredere enn
+       viewporten (iOS Safari zoomer ellers ut hele siden). */
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   * {
@@ -171,7 +175,15 @@
     font-family: 'ABC Ginto Normal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 400;
     letter-spacing: -0.01em;
+    overflow-x: clip;
+    max-width: 100%;
   }
+
+  #root {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
   
   h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
