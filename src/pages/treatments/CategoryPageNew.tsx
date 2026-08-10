@@ -11,6 +11,7 @@ import {
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { getCategoryEntryPrice } from "@/data/priceList";
 import {
@@ -213,40 +214,17 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  </div>
  </section>
 
- {/* ── 5. Spesialistene – full-bleed grid, no gaps ── */}
- {categorySpecialists.length > 0 && (
- <section className="bg-brand-warm pt-8 md:pt-10 pb-0">
- <div className="container mx-auto px-6 md:px-16 max-w-6xl">
- <div className="mb-10 md:mb-14 max-w-2xl">
- <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
- Spesialistene som følger deg
- </h2>
- </div>
- </div>
-
- <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
- {categorySpecialists.map((s) => (
- <Link
- key={s.slug}
- to={`/spesialister/${s.slug}`}
- className="group block relative aspect-[3/4] overflow-hidden bg-muted"
- >
- <img
- src={s.image}
- alt={s.name}
- loading="lazy"
- className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
- />
- <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
- <h3 className="text-base md:text-lg font-light text-foreground mb-0.5">
- {s.name}
- </h3>
- </div>
- </Link>
- ))}
- </div>
- </section>
- )}
+      {/* ── 5. Spesialistene — felles karusell ── */}
+      {categorySpecialists.length > 0 && (
+        <SpecialistCarousel
+          specialists={categorySpecialists as any}
+          title="Spesialistene som følger deg"
+          description=""
+          seeAllHref="/spesialister"
+          seeAllLabel="Se alle spesialister"
+          className="bg-brand-warm pt-10 md:pt-14 pb-14 md:pb-16 overflow-hidden"
+        />
+      )}
 
  {/* ── 6. Reviews ── */}
  <CategoryReviews categoryId={categoryId} categoryTitle={content.title} />

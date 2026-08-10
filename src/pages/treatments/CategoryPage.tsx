@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
+import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -201,103 +202,16 @@ const staticCategoryData: Record<string, CategoryData> = {
 };
 
 // Specialists component for category pages
-const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string; categoryTitle: string }) => {
- const scrollContainerRef = useRef<HTMLDivElement>(null);
- const { specialists } = useSpecialistsData();
- 
- const categorySpecialists = specialists.filter(
- (specialist) => specialist.category === categoryId
- );
-
- const scroll = (direction: 'left' | 'right') => {
- if (scrollContainerRef.current) {
- scrollContainerRef.current.scrollBy({
- left: direction === 'left' ? -320 : 320,
- behavior: 'smooth'
- });
- }
- };
-
- if (categorySpecialists.length === 0) return null;
-
- return (
- <section className="py-14 md:py-20 bg-brand-light overflow-hidden">
- <div className="container mx-auto px-6 md:px-16">
- <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6 mb-8 md:mb-12">
- <div className="max-w-xl">
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
- Møt våre {categoryTitle.toLowerCase()}-spesialister
- </h2>
- <p className="text-muted-foreground font-light">
- Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
- </p>
- </div>
- <div className="flex items-center gap-3">
- <div className="hidden md:flex items-center gap-2">
- <button onClick={() => scroll('left')} aria-label="Scroll spesialister til venstre" className="w-10 h-10 rounded-full border border-foreground/30 flex items-center justify-center hover:bg-brand-dark/10 transition-colors text-foreground">
- <ChevronLeft className="w-5 h-5" aria-hidden="true" />
- </button>
- <button onClick={() => scroll('right')} aria-label="Scroll spesialister til høyre" className="w-10 h-10 rounded-full border border-foreground/30 flex items-center justify-center hover:bg-brand-dark/10 transition-colors text-foreground">
- <ChevronRight className="w-5 h-5" aria-hidden="true" />
- </button>
- </div>
- <Button variant="cta" className="rounded-2xl">
- Se alle {categorySpecialists.length} spesialister
- <ArrowRight className="ml-2 w-4 h-4" />
- </Button>
- </div>
- </div>
- </div>
-
- <div 
- ref={scrollContainerRef}
- className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16 snap-x snap-mandatory"
- style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
- >
- {categorySpecialists.map((specialist) => (
- <Link to={`/spesialister/${specialist.slug}`} key={specialist.name} className="group flex-shrink-0 w-[280px] snap-start">
- <div className="relative aspect-[3/4] overflow-hidden bg-brand-dark">
- <img src={specialist.image} alt={specialist.name} className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-500 group-hover:scale-105" />
- <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
- <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
- <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
-
- {specialist.clinics && specialist.clinics.length > 0 && (
- <div className="absolute top-3 left-3 flex items-center gap-1 text-white/80 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
- <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
- {specialist.clinics.join(' · ')}
- </div>
- )}
-
- <div className="absolute bottom-0 left-0 right-0 p-4">
- <h3 className="font-normal text-white mb-0.5">{specialist.name}</h3>
- <p className="text-sm text-muted-foreground font-light">
- {specialist.title}
- {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
- </p>
- </div>
- </div>
- <p className="text-sm text-muted-foreground font-normal px-1 mt-1.5">{specialist.expertise.join(', ')}</p>
- </Link>
- ))}
- 
- <Link to="/spesialister" className="flex-shrink-0 w-[280px] snap-start">
- <div className="aspect-[3/4] bg-brand-dark/10 border border-foreground/20 flex flex-col items-center justify-center hover:bg-brand-light transition-colors">
- <div className="w-16 h-16 rounded-full bg-accent/30 flex items-center justify-center mb-4">
- <ArrowRight className="w-6 h-6 text-brand-dark" aria-hidden="true" />
- </div>
- <p className="text-foreground font-normal mb-1">Se alle</p>
- <p className="text-foreground/60 text-sm font-light">{categorySpecialists.length} spesialister</p>
- </div>
- </Link>
- </div>
-
- <div className="md:hidden flex justify-center mt-4 gap-1">
- <span className="text-xs text-foreground/60">Sveip for å se flere →</span>
- </div>
- </section>
- );
-};
+const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string; categoryTitle: string }) => (
+  <SpecialistCarousel
+    category={categoryId}
+    title={`Møt våre ${categoryTitle.toLowerCase()}-spesialister`}
+    description="Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."
+    seeAllHref="/spesialister"
+    seeAllLabel="Se alle spesialister"
+    className="pt-10 md:pt-14 pb-14 md:pb-16 bg-brand-light overflow-hidden"
+  />
+);
 
 /**
  * ─── LAYOUT ALIGNMENT RULE ───
