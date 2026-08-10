@@ -99,7 +99,7 @@ const lifePhases = [
   { label: "Urogynekologi", href: "/behandlinger/gynekologi/urogynekologi" },
   { label: "Vaginale fremfall", href: "/behandlinger/gynekologi/vaginale-fremfall" },
   { label: "Urininkontinens", href: "/behandlinger/gynekologi/urinlekkasje" },
-  { label: "Bekkenbunnsdysfunksjon", href: "/behandlinger/gynekologi/urogynekologi" },
+  
   { label: "Tyngdefølelse i underlivet", href: "/behandlinger/gynekologi/urogynekologi" },
   ],
   href: "/behandlinger/gynekologi/urogynekologi",

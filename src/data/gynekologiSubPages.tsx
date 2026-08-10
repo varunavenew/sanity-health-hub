@@ -1229,7 +1229,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/vaginisme",
     parent,
     title: "Vaginisme",
-    heroTitle: <>Kroppen sier <span className="italic">stopp</span> — vi hjelper deg videre</>,
+    heroTitle: <>Vaginisme</>,
     heroDescription:
       "Vaginisme beskriver smerter i bekkenbunnsmuskulaturen som ofte oppstår ved forsøk på samleie, bruk av tampong, gynekologisk undersøkelse, sykling eller trange klær. Smertene skyldes ufrivillige sammentrekninger. Det finnes god behandling — og du er ikke alene.",
     heroPoints: [
