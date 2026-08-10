@@ -4,7 +4,7 @@ import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import heroBgAsset from "@/assets/blur-skin-mid.jpg.asset.json";
+import { ListPageHero } from "@/components/layout/ListPageHero";
 
 
 interface SpecialistsProps {
@@ -84,26 +84,12 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           { name: "Spesialister", path: "/spesialister" },
         ]}
       />
-      {/* Hero — skin texture background with dark overlay for legible light text */}
-      <section className="relative flex items-center min-h-[38svh] md:min-h-[40svh] !pt-24 !pb-24 overflow-hidden">
-        <img
-          src={heroBgAsset.url}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-brand-dark/75" aria-hidden="true" />
-        <div className="relative container mx-auto px-6 md:px-16">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-warm mb-3">
-              Våre spesialister
-            </h1>
-            <p className="text-brand-warm/80 font-light text-base md:text-lg">
-              Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Hero — felles liste-hero (skin-tekstur, samme høyde og H1-linje overalt) */}
+      <ListPageHero
+        title="Våre spesialister"
+        description="Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."
+      />
+
 
       {/* Mobile filters — same pattern as /priser: sticky, horizontally scrollable pill rows */}
       <div

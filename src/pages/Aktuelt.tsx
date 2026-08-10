@@ -15,7 +15,7 @@ import {
   type Article,
 } from "@/data/articles";
 import { useArticles, useSpecialists } from "@/hooks/useSanity";
-import heroBgAsset from "@/assets/blur-skin-mid.jpg.asset.json";
+import { ListPageHero } from "@/components/layout/ListPageHero";
 
 interface AktueltProps {
   isChatOpen: boolean;
@@ -254,23 +254,13 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           { name: "Aktuelt", path: "/aktuelt" },
         ]}
       />
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-brand-dark pt-[4.5rem] pb-10 md:pt-16 md:pb-14">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroBgAsset.url})` }}
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-brand-dark/45" aria-hidden="true" />
-        <div className="container mx-auto px-6 md:px-16 relative">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl md:text-4xl font-light text-brand-beige mb-3">Aktuelt</h1>
-            <p className="text-brand-beige/80 font-light text-sm">
-              Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Hero — felles liste-hero */}
+      <ListPageHero
+        title="Aktuelt"
+        description="Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical."
+      />
+
+
 
       {/* Search & Filters (no SoMe — that lives further down the page) */}
       <section className="bg-background border-b border-border">
