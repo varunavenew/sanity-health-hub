@@ -1,4 +1,4 @@
-import { Quote, User } from "lucide-react";
+import { User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { googleReviews, type GoogleReview } from "@/data/googleReviews";
 import { Specialist } from "@/data/specialists";
@@ -71,10 +71,6 @@ export const SpecialistReviews = ({ specialist }: SpecialistReviewsProps) => {
                 key={review.id}
                 className="p-7 rounded-sm bg-white border border-brand-dark/10"
               >
-                <Quote
-                  className="w-7 h-7 text-brand-dark/10 rotate-180 mb-3"
-                  aria-hidden="true"
-                />
                 <div className="mb-3">
                   <PartialStars rating={review.rating} />
                 </div>

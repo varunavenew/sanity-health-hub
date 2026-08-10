@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Phone, Quote, Check } from "lucide-react";
+import { ArrowRight, Star, Phone, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
@@ -334,7 +334,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {reviews.map((r, i) => (
  <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10 shrink-0 w-[78vw] md:w-auto snap-center">
- <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
  <Star key={s} className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />

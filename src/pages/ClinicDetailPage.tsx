@@ -10,32 +10,18 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 
 // Local interior gallery per clinic — extra photos shown below the primary image.
-import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
-import majorstuenKorridorSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
-import majorstuenHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
-import majorstuenKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
-import majorstuenVenteromDetalj from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
 import intVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
-import intVenteromDetalj2 from "@/assets/clinics/interior/venterom-detalj2.jpg.asset.json";
 import intKorridorLys from "@/assets/clinics/interior/korridor-lys.jpg.asset.json";
-import intKorridorVenteplass from "@/assets/clinics/interior/korridor-venteplass.jpg.asset.json";
-import intKorridorDempet from "@/assets/clinics/interior/korridor-dempet.jpg.asset.json";
 import intHvileromGardin from "@/assets/clinics/interior/hvilerom-gardin.jpg.asset.json";
 import intKunstverk from "@/assets/clinics/interior/kunstverk.jpg.asset.json";
 
 const clinicGalleries: Record<string, { src: string; alt: string }[]> = {
+  // Én rad med fire ulike motiv: venterom, korridor, hvilerom, kunst/detalj.
   majorstuen: [
     { src: intVenteromBredt.url, alt: "Venterom med lounge-stoler, planter og skjerm på CMedical Majorstuen" },
-    { src: intVenteromDetalj2.url, alt: "Detalj fra venterommet med stoler og planter på CMedical Majorstuen" },
     { src: intKorridorLys.url, alt: "Lys korridor med trepanel og planter på CMedical Majorstuen" },
-    { src: intKorridorVenteplass.url, alt: "Korridor med liten sittegruppe på CMedical Majorstuen" },
-    { src: intKorridorDempet.url, alt: "Korridor med dempet belysning på CMedical Majorstuen" },
     { src: intHvileromGardin.url, alt: "Hvilerom med gardiner og dempet lys på CMedical Majorstuen" },
     { src: intKunstverk.url, alt: "Kunstverk i resepsjonsområdet på CMedical Majorstuen" },
-    { src: majorstuenVenteromTv.url, alt: "Venterom med skjerm og planter på CMedical Majorstuen" },
-    { src: majorstuenKorridorSittegruppe.url, alt: "Korridor med sittegruppe og treverk på CMedical Majorstuen" },
-    { src: majorstuenKorridor.url, alt: "Lys korridor med trepanel på CMedical Majorstuen" },
-    { src: majorstuenHvilerom.url, alt: "Rolig hvilerom med dempet lys på CMedical Majorstuen" },
   ],
 
 };
@@ -292,10 +278,10 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="max-w-3xl mx-auto">
  <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
  <p className="text-sm text-muted-foreground font-light mb-6">
- CMedical {clinic.label} tilbyr {clinic.services.length} ulike fagområder.{" "}
+ CMedical {clinic.label} tilbyr {clinic.services.length} ulike tjenester.{" "}
  {clinic.services.every((id: string) => SERVICE_LABELS[id]?.path)
  ? "Klikk for å lese mer."
- : "Klikk på fagområdene med pil for å lese mer."}
+ : "Klikk på tjenestene med pil for å lese mer."}
  </p>
 
  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
@@ -334,7 +320,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               .filter((g: any) => g?.src)
               .map((g: any) => ({ src: g.src, alt: g.alt || `CMedical ${clinic.label}` }))
           : [];
-        const gallery = sanityGallery.length > 0 ? sanityGallery : clinicGalleries[clinic.slug];
+        const gallery = (sanityGallery.length > 0 ? sanityGallery : clinicGalleries[clinic.slug])?.slice(0, 4);
         if (!(gallery && gallery.length > 0) && !clinic.primaryImage) return null;
         return (
         <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>

@@ -399,7 +399,7 @@ const Godkjenning = () => {
   }, [requests]);
 
   const isServiceCategory = (category: string) =>
-    category === "Fagområder" || category.includes("underbehandlinger");
+    category === "Tjenester" || category.includes("underbehandlinger");
 
   const grouped = useMemo(() => {
     // Both "sider" and "tjenester" (nå "Innholdgodkjenning") lister ALLE sider samlet.

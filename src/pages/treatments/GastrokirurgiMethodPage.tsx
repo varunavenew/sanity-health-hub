@@ -41,7 +41,7 @@ const GastrokirurgiMethodPage = ({ isChatOpen }: Props) => {
     categoryId: "flere-fagomrader",
     subId: methodId,
     parentOverride: GASTRO_PARENT,
-    grandparent: { name: "Flere fagområder", path: "/behandlinger/flere-fagomrader" },
+    grandparent: { name: "Flere tjenester", path: "/behandlinger/flere-fagomrader" },
     canonicalOverride: `/behandlinger/flere-fagomrader/gastrokirurgi/${methodId}`,
   });
 

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Phone, Quote } from "lucide-react";
+import { ArrowRight, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
@@ -73,7 +73,7 @@ const insurance = ["Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertik
 
 const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  useEffect(() => {
- document.title = "Flere fagområder | CMedical — hud, psykologi, sexologi og mer";
+ document.title = "Flere tjenester | CMedical — hud, psykologi, sexologi og mer";
  }, []);
 
  const clustersRef = useRef<HTMLDivElement>(null);
@@ -82,7 +82,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
 
  return (
  <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
- <h1 className="sr-only">Flere fagområder hos CMedical</h1>
+ <h1 className="sr-only">Flere tjenester hos CMedical</h1>
 
  {/* HERO */}
  <header className="bg-brand-light pt-24 lg:pt-0">
@@ -90,7 +90,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
- Flere fagområder
+ Flere tjenester
  </h2>
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
  Vi har samlet noen av Nordens fremste spesialister innen hud, psykologi,
@@ -123,7 +123,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="relative min-h-[420px] lg:min-h-full">
  <img
  src={flereHero}
- alt="Flere fagområder hos CMedical"
+ alt="Flere tjenester hos CMedical"
  className="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
  />
  </div>
@@ -230,7 +230,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {reviews.map((r, i) => (
  <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10 shrink-0 w-[85vw] md:w-auto snap-center">
- <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
  <Star key={s} className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />

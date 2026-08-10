@@ -56,7 +56,7 @@
     "noReferral": "Ingen henvisning",
     "noWaiting": "Kort ventetid",
     "findTreatment": "Finn behandlingen som passer for deg",
-    "searchPlaceholder": "Søk etter behandling eller fagområde...",
+    "searchPlaceholder": "Søk etter behandling eller tjeneste...",
     "seeAllTreatments": "Se behandlinger innen {{name}}"
   },
   "specialists": {

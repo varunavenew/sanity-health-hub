@@ -62,7 +62,7 @@ const staticCategoryData: Record<string, CategoryData> = {
  id: "urologi", title: "Urologi", subtitle: "Kort ventetid • Ingen henvisning",
  description: "Urologi er en medisinsk spesialitet som omhandler plager og sykdommer knyttet til mannens underliv og urinorganer hos begge kjønn herunder penis, prostata, testikler urinblære og nyrer. Har du smerter, forstyrrelser med vannlating eller bare ønsker en generell sjekk vil vår gruppe av spesialister kunne hjelpe.\n\nI CMedical har vi flere av Nordens ledende spesialister innen urologi.",
  servicesHeading: "Urologispesialister",
- servicesIntro: "Våre spesialister jobber med de fagområdene de kan best. Vi har noen av Nordens ledende spesialister på følgende områder:",
+ servicesIntro: "Våre spesialister jobber med de tjenestene de kan best. Vi har noen av Nordens ledende spesialister på følgende områder:",
  heroImage: urologiImg,
  services: [
  { name: "Blære og urinveier", path: "/behandlinger/urologi/blaere" },
@@ -153,10 +153,10 @@ const staticCategoryData: Record<string, CategoryData> = {
  ],
  },
  "flere-fagomrader": {
- id: "flere-fagomrader", title: "Flere fagområder", subtitle: "Kort ventetid • Ingen henvisning",
+ id: "flere-fagomrader", title: "Flere tjenester", subtitle: "Kort ventetid • Ingen henvisning",
  description: "Vi har samlet noen av Nordens fremste spesialister innen gastrokirurgi, revmatologi, dermatologi, ernæringsfysologi, karkirurgi, osteopati, psykologi og sexologi. Ofte jobber spesialistene i kryssdisiplinære team for å gi deg den beste behandlingen. Husk at du alltid kan ta kontakt med oss hvis du lurer på noe.",
  servicesHeading: "Spesialist",
- servicesIntro: "Ledende spesialister som utelukkende jobber med fagområdet de kan aller best, og vi har noen av Nordens ledende på disse områdene:",
+ servicesIntro: "Ledende spesialister som utelukkende jobber med tjenesten de kan aller best, og vi har noen av Nordens ledende på disse områdene:",
  heroImage: flereFagomraderImg,
  services: [
  { name: "Endokrinologi", path: "/behandlinger/flere-fagomrader/endokrinologi" },

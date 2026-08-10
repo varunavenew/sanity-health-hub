@@ -152,7 +152,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={servicesPage?.seo?.metaTitle || "Tjenester – Finn behandlingen som passer for deg"}
-        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, graviditet, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."}
+        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, graviditet, fertilitet, urologi, ortopedi og flere tjenester. Ingen henvisning, kort ventetid."}
         canonical="/tjenester"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -173,7 +173,7 @@ const Services = ({ isChatOpen }: PageProps) => {
           <div ref={searchRef} className="relative max-w-lg mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-foreground/60" aria-hidden="true" />
-              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller fagområde..." aria-label="Søk etter behandling eller fagområde" className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/30 bg-card text-[15px] font-light text-foreground placeholder:text-foreground/60 focus:outline-none focus:border-foreground transition-all" />
+              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller tjeneste..." aria-label="Søk etter behandling eller tjeneste" className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/30 bg-card text-[15px] font-light text-foreground placeholder:text-foreground/60 focus:outline-none focus:border-foreground transition-all" />
             </div>
             <AnimatePresence>
               {showResults && (
@@ -203,7 +203,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       {/* Flere tjenester — unified list section */}
       {additionalServices.length > 0 && (
         <ServicesListSection
-          title="Flere fagområder"
+          title="Flere tjenester"
           description="Klikk og book direkte, eller les mer om den enkelte tjenesten."
           items={additionalServices.map((s) => ({ title: s.label, href: s.path }))}
           bookingCta

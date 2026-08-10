@@ -35,7 +35,7 @@ const CATEGORY_LABEL: Record<CategoryId, { name: string; path: string }> = {
   urologi: { name: "Urologi", path: "/urologi" },
   ortopedi: { name: "Ortopedi", path: "/behandlinger/ortopedi" },
   graviditet: { name: "Graviditet", path: "/behandlinger/graviditet" },
-  "flere-fagomrader": { name: "Flere fagområder", path: "/behandlinger/flere-fagomrader" },
+  "flere-fagomrader": { name: "Flere tjenester", path: "/behandlinger/flere-fagomrader" },
 };
 
 const SPECIALIST_LABEL: Record<CategoryId, string> = {
@@ -49,7 +49,7 @@ const SPECIALIST_LABEL: Record<CategoryId, string> = {
 
 const STANDARD_PROMISES = [
   {
-    title: "Du bestemmer hva du er komfortabel med",
+    title: "Du bestemmer tempoet",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {

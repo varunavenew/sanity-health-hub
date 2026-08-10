@@ -10,7 +10,7 @@ const reasons = [
  icon: Users,
  title: "Tverrfaglige spesialistteam",
  description:
- "Erfarne spesialister arbeider tett sammen på tvers av fagområder – for helhetlig utredning og behandling.",
+ "Erfarne spesialister arbeider tett sammen på tvers av tjenester – for helhetlig utredning og behandling.",
  },
  {
  icon: Heart,

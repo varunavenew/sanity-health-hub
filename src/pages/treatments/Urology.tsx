@@ -1,7 +1,7 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Phone, Quote, Check } from "lucide-react";
+import { ArrowRight, Star, Phone, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
@@ -379,7 +379,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="grid md:grid-cols-3 gap-6">
  {reviews.map((r, i) => (
  <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10">
- <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
  <Star key={s} className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />

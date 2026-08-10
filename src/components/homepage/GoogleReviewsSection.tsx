@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Star, Quote, ArrowRight, User, ShieldCheck, FileX, Clock } from "lucide-react";
+import { Star, ArrowRight, User, ShieldCheck, FileX, Clock } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +43,6 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 
   return (
     <div className="group relative flex-shrink-0 w-[380px] p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300">
-      <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
       <div className="mb-4">
         <PartialStars rating={review.rating || 5} />
       </div>
@@ -155,7 +154,6 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
                 key={`${review.id}-${idx}`}
                 className={`flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 ${mobileLoop ? "" : "snap-center"}`}
               >
-                <Quote className="w-7 h-7 text-brand-dark/10 rotate-180 mb-3" />
                 <div className="mb-3">
                   <PartialStars rating={review.rating || 5} />
                 </div>

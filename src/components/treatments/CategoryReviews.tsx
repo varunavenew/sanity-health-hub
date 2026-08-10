@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Quote, User } from "lucide-react";
+import { User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
@@ -106,7 +106,6 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
                 key={`${review.id}-${index}`}
                 className="flex-shrink-0 w-[380px] p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
               >
-                <Quote className="w-8 h-8 text-brand-dark/10 rotate-180 mb-3" />
                 <div className="mb-4">
                   <PartialStars rating={review.rating} />
                 </div>
@@ -147,7 +146,6 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
                 key={`${review.id}-${idx}`}
                 className={`flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 ${mobileLoop ? "" : "snap-center"}`}
               >
-                <Quote className="w-7 h-7 text-brand-dark/10 rotate-180 mb-3" />
                 <div className="mb-3">
                   <PartialStars rating={review.rating} />
                 </div>

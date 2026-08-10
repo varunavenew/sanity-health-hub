@@ -86,7 +86,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
           {
             icon: "Calendar",
             title: "Vil du at vi skal kontakte deg?",
-            description: "Fyll ut et kort skjema – velg klinikk, fagområde og når det passer best at vi ringer.",
+            description: "Fyll ut et kort skjema – velg klinikk, tjeneste og når det passer best at vi ringer.",
             ctaText: "Be om å bli kontaktet",
             ctaAction: "openContactDialog",
             variant: "solid",
