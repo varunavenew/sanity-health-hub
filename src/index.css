@@ -198,6 +198,52 @@
 
 @layer components {
   /* ============================================================
+     FILTER-CHIPS — felles løsning for filtre på mørk og lys bakgrunn
+     Ingen hvite flater. Valgt/uvalgt-skille via skin-paletten.
+     ============================================================ */
+  .chip-filter {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 md:px-4 py-1.5 md:py-1
+           min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap
+           border transition-colors shrink-0;
+  }
+
+  /* På mørk bakgrunn */
+  .chip-filter-dark {
+    background-color: transparent;
+    color: hsl(var(--brand-light, 33 33% 93%));
+    border-color: hsl(var(--brand-light, 33 33% 93%) / 0.45);
+  }
+  .chip-filter-dark:hover {
+    border-color: hsl(var(--brand-light, 33 33% 93%) / 0.8);
+    background-color: hsl(var(--brand-light, 33 33% 93%) / 0.08);
+  }
+  .chip-filter-dark[data-active="true"] {
+    background-color: #ccbaad;
+    border-color: #ccbaad;
+    color: #180404;
+  }
+  .chip-filter-dark[data-active="true"]:hover {
+    background-color: #d8c9be;
+    border-color: #d8c9be;
+  }
+
+  /* På lys bakgrunn */
+  .chip-filter-light {
+    background-color: transparent;
+    color: #42332a;
+    border-color: rgb(66 51 42 / 0.3);
+  }
+  .chip-filter-light:hover {
+    border-color: rgb(66 51 42 / 0.6);
+    background-color: rgb(204 186 173 / 0.25);
+  }
+  .chip-filter-light[data-active="true"] {
+    background-color: #42332a;
+    border-color: #42332a;
+    color: #f2ece6;
+  }
+
+  /* ============================================================
      SEKSJONSRYTME — felles vertikale spacing-tokens
      Brukes i ALLE seksjonstyper: overskrift → ingress → innhold.
      Mobil: stramt og naturlig. Desktop: to kolonner med luft.
