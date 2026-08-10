@@ -227,7 +227,8 @@ const ReasonsEditorial = ({
      layout === "prose" ? "prose" : layout === "accordion" ? "accordion" : isHeavy ? "accordion" : "prose";
 
    // Prose-seksjoner som fortsatt er litt lange: vis innledning + «Les mer».
-   const useReadMore = effectiveLayout === "prose" && cleanItems.length > 1 && totalChars > 900;
+   const useReadMore =
+     layout !== "prose" && effectiveLayout === "prose" && cleanItems.length > 1 && totalChars > 900;
    const visibleItems = useReadMore && !expanded ? cleanItems.slice(0, 1) : cleanItems;
 
 
