@@ -40,7 +40,7 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Ønsker du å få barn på egen hånd – eller bevare muligheten for senere? Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden.",
     href: `${AUDIENCE_LANDING}#singel-kvinne`,
-    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? audienceSingle,
+    image: singelKvinneAsset.url,
   },
   {
     title: "Singel mann",
