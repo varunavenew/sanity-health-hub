@@ -16,6 +16,7 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { prepareRelatedCards } from "@/lib/relatedCards";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 import {
   Accordion,
@@ -306,11 +307,9 @@ const RelatedBlock = ({
   columns?: 2 | 3;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  if (items.length === 0) return null;
-  const resolved = items.map((a) => ({
-    ...a,
-    image: a.image ?? getServiceImageFromHref(a.href),
-  }));
+  const { pathname } = useLocation();
+  const resolved = prepareRelatedCards(items, pathname);
+  if (resolved.length === 0) return null;
   const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
     <>
@@ -382,10 +381,8 @@ const RelatedServicesCarousel = ({
   seeAll: { href: string; label: string } | null;
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const resolved = items.map((a) => ({
-    ...a,
-    image: a.image ?? getServiceImageFromHref(a.href),
-  }));
+  const { pathname } = useLocation();
+  const resolved = prepareRelatedCards(items, pathname);
   const showArrows = resolved.length > 2;
 
   const scroll = (dir: "left" | "right") => {
@@ -843,7 +840,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             <div className="max-w-6xl mx-auto">
               <div className="max-w-2xl mb-12">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  {c.relatedTitle ?? "Du er kanskje også interessert i"}
+                  {c.relatedTitle ?? "Veien videre"}
                 </h2>
               </div>
 
