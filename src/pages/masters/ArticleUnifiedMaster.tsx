@@ -243,7 +243,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                   className="w-full"
                 />
                 <figcaption className="text-xs font-light text-muted-foreground mt-3 px-6 md:px-0">
-                  Foto: CMedical Sandvika
+                  Foto: CMedical
                 </figcaption>
               </figure>
 
@@ -381,7 +381,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               Ida Bjørntvedt
             </h2>
             <p className="text-sm font-light text-foreground/70 mb-5">
-              Spesialist i gynekologi · CMedical Sandvika
+              Spesialist i gynekologi · CMedical
             </p>
             <p className="text-base font-light leading-relaxed text-foreground/80 mb-6 max-w-md">
               Bjørntvedt har spesialisert seg på hormonelle plager og overgangsalder, og

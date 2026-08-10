@@ -161,7 +161,7 @@ const FEATURE_ITEMS: FeatureItem[] = [
     title: "Slik forbereder du deg til en gynekologisk undersøkelse",
     description:
       "En kort film hvor spesialisten forklarer steg for steg hva som skjer — slik at du vet hva du kan forvente.",
-    bullets: ["8 min", "Spilt inn i Sandvika 2025", "Tekstet på norsk"],
+    bullets: ["8 min", "Spilt inn 2025", "Tekstet på norsk"],
     image: clinicHero,
     href: "#",
     cta: "Se filmen",
