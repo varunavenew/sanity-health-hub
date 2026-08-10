@@ -1,6 +1,4 @@
-import { getServiceImageFromHref } from "@/data/serviceImages";
-
-import audienceSingle from "@/assets/fertility/audience-single.jpg";
+import singelKvinneAsset from "@/assets/fertility/singel-kvinne.png.asset.json";
 import toKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import mannligFertilitetAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
 import heterofiltParAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
@@ -40,7 +38,7 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Ønsker du å få barn på egen hånd – eller bevare muligheten for senere? Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden.",
     href: `${AUDIENCE_LANDING}#singel-kvinne`,
-    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? audienceSingle,
+    image: singelKvinneAsset.url,
   },
   {
     title: "Singel mann",
