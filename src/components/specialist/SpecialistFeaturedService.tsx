@@ -12,7 +12,7 @@ function featuredServiceHref(
   servicesPath: string,
 ): string {
   if (categoryId === "flere-fagomrader") return servicesPath;
-  return `/behandlinger/${slug}`;
+  return `/${slug}`;
 }
 
 interface SpecialistFeaturedServiceProps {

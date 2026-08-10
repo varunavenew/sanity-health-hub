@@ -28,11 +28,11 @@ function categorySegment(cat: CategoryRow, lang: "no" | "en"): string {
 }
 
 function treatmentPath(categorySegment: string, treatmentSlug: string): string {
-  return `/behandlinger/${categorySegment}/${treatmentSlug}`;
+  return `/${categorySegment}/${treatmentSlug}`;
 }
 
 /**
- * Map clinic service IDs to localized labels and `/behandlinger/…` paths from CMS categories.
+ * Map clinic service IDs to localized labels and category/treatment paths from CMS categories.
  */
 export function buildClinicServiceLinks(
   categories: CategoryRow[] | undefined,
@@ -49,7 +49,7 @@ export function buildClinicServiceLinks(
     if (!segment) continue;
 
     const categoryLabel = (cat.title || "").trim() || categoryId;
-    const categoryPath = `/behandlinger/${segment}`;
+    const categoryPath = `/${segment}`;
 
     map[categoryId] = { label: categoryLabel, path: categoryPath };
     map[normalizeCategoryFilterKey(categoryId)] = map[categoryId];

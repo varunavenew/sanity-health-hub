@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteUrl } from "@/lib/env";
+import { isProductionDeploy, siteUrl } from "@/lib/env";
 import { resolveOgImageUrl } from "@/lib/seo/defaults";
 
 export type AppLocaleStr = "nb" | "en";
@@ -68,7 +68,12 @@ export function buildPageMetadata(opts: {
         "x-default": nbAbsolute,
       },
     },
-    robots: opts.noIndex
+    // Non-production deploys must never be indexable, regardless of what
+    // any individual page/document's `noIndex` field says — previously this
+    // only checked `opts.noIndex`, so staging silently served `index, follow`
+    // on every page since content documents have no reason to be flagged
+    // noindex themselves.
+    robots: opts.noIndex || !isProductionDeploy()
       ? { index: false, follow: false }
       : {
           index: true,

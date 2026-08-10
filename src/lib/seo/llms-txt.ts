@@ -4,23 +4,23 @@ import { slugForLocale, slugPairFromDoc } from "@/lib/routing/cms-route-types";
 
 const STATIC_PATHS = {
   no: {
-    home: "/nb",
-    services: "/nb/tjenester",
-    specialists: "/nb/spesialister",
-    clinics: "/nb/klinikker",
-    booking: "/nb/booking",
-    contact: "/nb/kontakt",
-    about: "/nb/om-oss",
-    pricing: "/nb/priser",
-    insurance: "/nb/forsikring",
-    news: "/nb/aktuelt",
-    guide: "/nb/guide",
+    home: "/no",
+    services: "/no/tjenester",
+    specialists: "/no/spesialister",
+    clinics: "/no/klinikker",
+    booking: "/no/booking",
+    contact: "/no/kontakt",
+    about: "/no/om-oss",
+    pricing: "/no/priser",
+    insurance: "/no/forsikring",
+    news: "/no/aktuelt",
+    guide: "/no/guide",
     treatments: [
-      "/nb/behandlinger/gynekologi",
-      "/nb/behandlinger/fertilitet",
-      "/nb/behandlinger/urologi",
-      "/nb/behandlinger/ortopedi",
-      "/nb/behandlinger/graviditet",
+      "/no/gynekologi",
+      "/no/fertilitet",
+      "/no/urologi",
+      "/no/ortopedi",
+      "/no/graviditet",
     ],
   },
   en: {
@@ -36,11 +36,11 @@ const STATIC_PATHS = {
     news: "/en/news",
     guide: "/en/guide",
     treatments: [
-      "/en/behandlinger/gynecology",
-      "/en/behandlinger/fertility",
-      "/en/behandlinger/urology",
-      "/en/behandlinger/orthopedics",
-      "/en/behandlinger/pregnancy",
+      "/en/gynecology",
+      "/en/fertility",
+      "/en/urology",
+      "/en/orthopedics",
+      "/en/pregnancy",
     ],
   },
 } as const;
@@ -55,7 +55,7 @@ function pathFromIndex(
   const pair = slugPairFromDoc(entry);
   if (!pair) return null;
   const slug = slugForLocale(pair, locale);
-  return slug ? `/${locale === "en" ? "en" : "nb"}${slug.startsWith("/") ? slug : `/${slug}`}` : null;
+  return slug ? `/${locale === "en" ? "en" : "no"}${slug.startsWith("/") ? slug : `/${slug}`}` : null;
 }
 
 function listingPath(
@@ -65,7 +65,7 @@ function listingPath(
 ): string | null {
   if (!index?.listings[key]) return null;
   const slug = slugForLocale(index.listings[key]!, locale);
-  return slug ? `/${locale === "en" ? "en" : "nb"}${slug.startsWith("/") ? slug : `/${slug}`}` : null;
+  return slug ? `/${locale === "en" ? "en" : "no"}${slug.startsWith("/") ? slug : `/${slug}`}` : null;
 }
 
 export function buildLlmsTxt(index: CmsRouteIndex | null = null): string {

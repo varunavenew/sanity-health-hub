@@ -1,42 +1,31 @@
 "use client";
 
-import CmsThemePage from "@/site-pages/CmsThemePage";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useNavigate } from "@/lib/router";
-import { useThemePage } from "@/hooks/useSanity";
+import {
+  useClinicianGuidePage,
+  type ClinicianGuideBlock,
+  type ClinicianGuidePageData,
+  type ClinicianGuideSection,
+} from "@/hooks/useSanity";
 
-const THEME_SLUG = "fastlegeveiledning-overgangsalder";
+const GUIDE_SLUG = "fastlegeveiledning-overgangsalder";
 
 interface PageProps {
   isChatOpen: boolean;
 }
 
-function themePageHasBody(
-  data: {
-    introTexts?: string[];
-    sections?: Array<{
-      heading?: string;
-      paragraphs?: string[];
-      bulletPoints?: string[];
-    }>;
-  } | null | undefined,
-): boolean {
+function guidePageHasBody(data: ClinicianGuidePageData | null | undefined): boolean {
   if (!data) return false;
-  if ((data.introTexts?.length ?? 0) > 0) return true;
-  return (data.sections ?? []).some(
-    (section) =>
-      Boolean(section.heading?.trim()) ||
-      (section.paragraphs?.length ?? 0) > 0 ||
-      (section.bulletPoints?.length ?? 0) > 0,
-  );
+  return (data.introTexts?.length ?? 0) > 0 || (data.sections?.length ?? 0) > 0;
 }
 
-/** Live route: CMS theme page when populated, otherwise legacy static article. */
+/** Live route: clinicianGuidePage CMS content when populated, otherwise legacy static article. */
 export default function FastlegeveiledningOvergangsalder({ isChatOpen }: PageProps) {
-  const { data, isLoading } = useThemePage(THEME_SLUG);
+  const { data, isLoading } = useClinicianGuidePage(GUIDE_SLUG);
 
   if (isLoading) {
     return (
@@ -48,11 +37,175 @@ export default function FastlegeveiledningOvergangsalder({ isChatOpen }: PagePro
     );
   }
 
-  if (themePageHasBody(data)) {
-    return <CmsThemePage isChatOpen={isChatOpen} themeSlug={THEME_SLUG} />;
+  if (guidePageHasBody(data)) {
+    return <CmsClinicianGuidePage isChatOpen={isChatOpen} data={data as ClinicianGuidePageData} />;
   }
 
   return <FastlegeveiledningOvergangsalderStatic isChatOpen={isChatOpen} cmsTitle={data?.title} />;
+}
+
+function CmsClinicianGuidePage({
+  isChatOpen,
+  data,
+}: PageProps & { data: ClinicianGuidePageData }) {
+  const navigate = useNavigate();
+  const backLinkUrl = data.backLinkUrl || "/gynekologi/overgangsalder";
+  const backLinkLabel = data.backLinkLabel || "Tilbake";
+  const ctaLink = data.ctaLink || "/booking?kategori=gynekologi";
+  const ctaText = data.ctaText || "Bestill time";
+
+  return (
+    <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={data.title}
+        description={data.subtitle || data.introTexts[0] || ""}
+        canonical={`/${GUIDE_SLUG}`}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Gynekologi", path: "/gynekologi" },
+          { name: "Overgangsalder", path: "/gynekologi/overgangsalder" },
+          { name: data.title, path: `/${GUIDE_SLUG}` },
+        ]}
+      />
+      {/* Hero */}
+      <section className="bg-brand-dark py-16 md:py-24">
+        <div className="container mx-auto px-6 md:px-8 max-w-3xl">
+          <button
+            onClick={() => navigate(backLinkUrl)}
+            className="text-white/60 hover:text-white text-sm font-light flex items-center gap-1 mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            {backLinkLabel}
+          </button>
+          <h1 className="text-3xl md:text-4xl font-normal text-white mb-4">{data.title}</h1>
+          {data.subtitle && <p className="text-white/70 font-light">{data.subtitle}</p>}
+        </div>
+      </section>
+
+      {/* Content */}
+      <article className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-6 md:px-8 max-w-3xl prose-article">
+          {data.introTexts.map((text, i) => (
+            <p key={i} className="text-foreground/80 font-light leading-relaxed mb-8">
+              {text}
+            </p>
+          ))}
+          {data.disclaimer && (
+            <p className="text-foreground/60 font-light text-sm italic mb-12">{data.disclaimer}</p>
+          )}
+
+          {data.sections.map((section) => (
+            <GuideSection key={section._key} section={section} />
+          ))}
+
+          {data.sources.length > 0 && (
+            <section className="mb-12">
+              <h2 className="text-2xl font-normal text-foreground mb-6 pb-3 border-b border-border">Kilder</h2>
+              <ol className="list-decimal pl-6 space-y-2 mb-6 text-sm text-foreground/80 font-light leading-relaxed">
+                {data.sources.map((source, i) => (
+                  <li key={i}>{source}</li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {data.closingNote && (
+            <p className="text-sm text-muted-foreground italic mb-12">{data.closingNote}</p>
+          )}
+
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              onClick={() => navigate(backLinkUrl)}
+              variant="outline"
+              className="rounded-md font-light"
+            >
+              <ArrowLeft className="mr-2 w-4 h-4" />
+              {backLinkLabel}
+            </Button>
+            <Button
+              onClick={() => navigate(ctaLink)}
+              className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-md font-light"
+            >
+              {ctaText}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </article>
+    </PageLayout>
+  );
+}
+
+function GuideSection({ section }: { section: ClinicianGuideSection }) {
+  return (
+    <section className="mb-12">
+      <h2 className="text-2xl font-normal text-foreground mb-6 pb-3 border-b border-border">
+        {section.heading}
+      </h2>
+      <div className="text-foreground/80 font-light leading-relaxed">
+        {section.blocks.map((block) => (
+          <GuideBlock key={block._key} block={block} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function GuideBlock({ block }: { block: ClinicianGuideBlock }) {
+  switch (block._type) {
+    case "guideSubheading": {
+      if (!block.text) return null;
+      return block.level === "h4" ? (
+        <h4 className="font-medium text-foreground mb-2 mt-4">{block.text}</h4>
+      ) : (
+        <h3 className="text-lg font-normal text-foreground mb-3 mt-6">{block.text}</h3>
+      );
+    }
+    case "guideParagraph": {
+      if (!block.text) return null;
+      if (block.style === "note") {
+        return <p className="text-sm text-muted-foreground mb-4">{block.text}</p>;
+      }
+      if (block.style === "lead") {
+        return (
+          <p className="mb-2">
+            <strong>{block.text}</strong>
+          </p>
+        );
+      }
+      return <p className="mb-4">{block.text}</p>;
+    }
+    case "guideList": {
+      const items = block.items || [];
+      if (items.length === 0) return null;
+      const listClassName = `${block.style === "number" ? "list-decimal" : "list-disc"} pl-6 space-y-1 mb-6`;
+      return block.style === "number" ? (
+        <ol className={listClassName}>
+          {items.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ol>
+      ) : (
+        <ul className={listClassName}>
+          {items.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ul>
+      );
+    }
+    case "guideQuote": {
+      if (!block.text) return null;
+      return (
+        <div className="bg-secondary/30 rounded-xl p-6 mb-6 border-l-4 border-foreground/20">
+          <p className="italic text-foreground/70 font-light">{block.text}</p>
+          {block.source && <p className="text-sm text-muted-foreground mt-2">– {block.source}</p>}
+        </div>
+      );
+    }
+    default:
+      return null;
+  }
 }
 
 function FastlegeveiledningOvergangsalderStatic({
@@ -70,7 +223,7 @@ function FastlegeveiledningOvergangsalderStatic({
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Gynekologi", path: "/gynekologi" },
-          { name: "Overgangsalder", path: "/behandlinger/gynekologi/overgangsalder" },
+          { name: "Overgangsalder", path: "/gynekologi/overgangsalder" },
           { name: "Fastlegeveiledning", path: "/fastlegeveiledning-overgangsalder" },
         ]}
       />
@@ -78,7 +231,7 @@ function FastlegeveiledningOvergangsalderStatic({
       <section className="bg-brand-dark py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-8 max-w-3xl">
           <button
-            onClick={() => navigate("/behandlinger/gynekologi/overgangsalder")}
+            onClick={() => navigate("/gynekologi/overgangsalder")}
             className="text-white/60 hover:text-white text-sm font-light flex items-center gap-1 mb-6 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -372,7 +525,7 @@ function FastlegeveiledningOvergangsalderStatic({
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
-              onClick={() => navigate("/behandlinger/gynekologi/overgangsalder")}
+              onClick={() => navigate("/gynekologi/overgangsalder")}
               variant="outline"
               className="rounded-md font-light"
             >
@@ -401,4 +554,3 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
     </div>
   </section>
 );
-
