@@ -512,7 +512,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Eksperter som jobber med det de kan aller best.
+                  Utredning og behandling — tilpasset din situasjon.
                 </h2>
               </div>
               <div className="lg:col-span-6 lg:pt-3">
