@@ -449,6 +449,22 @@ const rawPriceCategories: PriceCategory[] = [
       },
     ]
   },
+  {
+    id: 'forebyggende-helse',
+    label: 'Forebyggende helse',
+    path: '/behandlinger/flere-fagomrader',
+    subcategories: [
+      {
+        label: 'Forebyggende helse',
+        path: '/behandlinger/flere-fagomrader',
+        items: [
+          { name: "Helsesjekk (plassholder — pris kommer)", price: "Ta kontakt", duration: "", requiresConsultation: true, info: "Plassholder: endelig pris leveres av kunden." },
+          { name: "Blodprøvepakke (plassholder — pris kommer)", price: "Ta kontakt", duration: "", requiresConsultation: true, info: "Plassholder: endelig pris leveres av kunden." },
+          { name: "Livsstils- og risikovurdering (plassholder — pris kommer)", price: "Ta kontakt", duration: "", requiresConsultation: true, info: "Plassholder: endelig pris leveres av kunden." },
+        ]
+      },
+    ]
+  },
 ];
 
 // Auto-enrich "Flere tjenester" categories so they share the same accordion-in-accordion
