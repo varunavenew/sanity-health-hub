@@ -195,7 +195,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
             Tilbake til Aktuelt
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <span className="bg-white/10 text-white/80 text-xs px-3 py-1 rounded-2xl md:rounded-full">
+            <span className="text-white/80 text-xs">
               {article.category}
             </span>
             <span className="text-white/70 text-xs flex items-center gap-1.5">

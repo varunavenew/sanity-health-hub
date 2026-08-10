@@ -32,7 +32,7 @@ export const HeroSection = () => {
       <div className="relative container mx-auto px-6 md:px-16 py-20">
         <div className="max-w-2xl space-y-8">
           {/* Trust badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl md:rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-sm">
+          <div className="inline-flex items-center gap-2 text-white/90 text-sm">
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             Over 60 000 pasientbesøk i året
           </div>
