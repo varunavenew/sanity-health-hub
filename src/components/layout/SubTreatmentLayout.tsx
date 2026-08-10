@@ -158,15 +158,16 @@ const ReasonsEditorial = ({
    items: { n: string; title: string; desc: ReactNode }[];
    layout?: "prose" | "accordion" | "auto";
 }) => {
-   const isMobile = useIsMobile();
    // Filter out blacklisted items and items with no real content.
    const cleanItems = (items ?? []).filter(
      (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
    );
    if (cleanItems.length === 0) return null;
 
-   const effectiveLayout: "prose" | "accordion" =
-     layout === "auto" ? (cleanItems.length > 4 ? "accordion" : "prose") : layout;
+   // Denne seksjonen skal alltid være en FAQ-løsning (åpne/lukke),
+   // uansett antall punkter — aldri løpende brødtekst.
+   const effectiveLayout: "prose" | "accordion" = "accordion";
+
 
    const proseClasses =
      "text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40";
@@ -199,7 +200,6 @@ const ReasonsEditorial = ({
                <Accordion
                  type="single"
                  collapsible
-                 defaultValue={isMobile ? undefined : `reason-0`}
                  onValueChange={(val) => {
                    if (!val) return;
                    requestAnimationFrame(() => {
