@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export interface ServiceListItem {
  title: string;
@@ -84,20 +84,17 @@ export function ServicesListSection({
  {cta && (
 				<Link
  to={cta.href!}
- className="bg-background text-foreground p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
+ className="bg-brand-dark text-white p-6 flex items-start justify-between gap-4 hover:bg-brand-dark/90 transition-colors group"
  >
  <div>
- <div className="flex items-center gap-2 mb-1.5">
- <CalendarCheck className="w-4 h-4 text-foreground" strokeWidth={1.5} />
- <h3 className="text-base font-normal">{cta.title}</h3>
- </div>
+ <h3 className="text-base font-normal mb-1.5">{cta.title}</h3>
  {cta.desc && (
- <p className="text-sm font-light text-muted-foreground leading-snug">
+ <p className="text-sm font-light text-white/70 leading-snug">
  {cta.desc}
  </p>
  )}
  </div>
- <ArrowRight className="w-4 h-4 mt-1 flex-shrink-0 text-foreground group-hover:translate-x-0.5 transition-transform" />
+ <ArrowRight className="w-4 h-4 mt-1 flex-shrink-0 text-white group-hover:translate-x-0.5 transition-transform" />
  </Link>
  )}
  </div>
