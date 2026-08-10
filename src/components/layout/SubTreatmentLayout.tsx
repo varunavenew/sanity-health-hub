@@ -704,7 +704,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
  {/* 3. FLOW — per fagansvarlig: kun vist på "Gynekologisk undersøkelse"-siden.
      Seksjonen «Slik foregår det» ble fjernet globalt fra alle andre undersider. */}
-  {c.canonical === "/behandlinger/gynekologi/undersokelse" && (
+  {["/behandlinger/gynekologi/undersokelse", "/behandlinger/gynekologi/pcos"].includes(c.canonical) && (
     c.flowImage ? (
  <section className="bg-brand-light text-foreground">
  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">

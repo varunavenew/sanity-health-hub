@@ -144,15 +144,15 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi forklarer hva vi finner — med tydelige ord og bilder du forstår." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell behandling, smertelindring eller kirurgi — vi finner det som passer deg." },
     ],
-    reasonsTitle: "Når bør du mistenke endometriose?",
+    reasonsTitle: "Symptomer ved endometriose",
     reasonsLead:
-      "Endometriose kan se ut som mange andre tilstander, og blir ofte oversett i mange år. Disse symptomene bør tas på alvor.",
+      "Det mest typiske tegnet på endometriose er kraftige smerter i nedre mage og rygg, som forverres ved menstruasjon og eggløsning. Sykdommen skaper en vedvarende betennelsesreaksjon (inflammasjon) i bekkenet. Dette kan irritere naboorganer og føre til generelle plager som utmattelse (fatigue), kvalme og oppblåst mage. Andre vanlige symptomer er smerter ved samleie, smerter eller ubehag ved vannlating og avføring.",
     reasons: [
       { n: "01", title: "Sterke menssmerter", desc: "Smerter som ikke lindres av vanlige smertestillende, eller som hindrer deg i å fungere normalt." },
       { n: "02", title: "Smerter ved samleie", desc: "Dype smerter under eller etter samleie er ikke normalt og kan tyde på endometriose." },
       { n: "03", title: "Kronisk bekkensmerte", desc: "Vedvarende smerter i nedre del av magen, også utenom mensen." },
       { n: "04", title: "Tarm- og urinplager ved mens", desc: "Smerter ved avføring eller vannlating, særlig i forbindelse med menstruasjonen." },
-      { n: "05", title: "Problemer med å bli gravid", desc: "Endometriose er en kjent årsak til fertilitetsproblemer — og kan behandles." },
+      { n: "05", title: "Ufrivillig barnløshet", desc: "De fleste med endometriose kan få barn, men flere trenger medisinsk hjelp. Vi har egen fertilitetsavdeling som kan bistå med dette." },
       { n: "06", title: "Utmattelse og kvalme", desc: "Kraftig tretthet og kvalme rundt mensen kan være tegn på underliggende sykdom." },
     ],
     promises: standardPromises,
