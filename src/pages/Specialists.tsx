@@ -4,6 +4,8 @@ import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import heroBgAsset from "@/assets/blur-skin-mid.jpg.asset.json";
+
 
 interface SpecialistsProps {
   isChatOpen: boolean;
