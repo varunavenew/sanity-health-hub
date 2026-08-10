@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { BackLink } from "@/components/ui/BackLink";
 import { useParams, Link } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users } from "lucide-react";
@@ -139,9 +140,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="bg-brand-warm pt-[4.5rem] pb-16">
  <div className="container mx-auto px-6 md:px-16 text-center">
  <h1 className="text-2xl font-light text-brand-dark mb-4">Klinikken ble ikke funnet</h1>
- <Button asChild variant="outline">
- <Link to="/klinikker">Tilbake til klinikker</Link>
- </Button>
+ <BackLink to="/klinikker">Tilbake til klinikker</BackLink>
  </div>
  </div>
  </PageLayout>

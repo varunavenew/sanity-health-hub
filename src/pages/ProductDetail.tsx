@@ -1,4 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { BackLink } from "@/components/ui/BackLink";
 import { ArrowLeft, ShoppingBag, Star, Check, Search, User, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -98,14 +99,7 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
 
       {/* Back button */}
       <div className="container mx-auto max-w-7xl px-4 py-6">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/")}
-          className="mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Tilbake
-        </Button>
+        <BackLink to="/" className="mb-6">Tilbake</BackLink>
       </div>
 
       {/* Product detail */}
