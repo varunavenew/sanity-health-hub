@@ -188,7 +188,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "symptomer",
         heading: "Symptomer",
-        content: "Overgangsalderen kan først merkes gjennom uregelmessige menstruasjoner og hetetokter, endringer i humør og en generell reduksjon i energinivå. Etter hvert kan symptomene øke, og de kan oppleves både fysisk og psykisk vanskelige.\n\nVanlige symptomer inkluderer:\n- Blødningsforstyrrelser\n- Hetetokter\n- Hjernetåke/konsentrasjonsvansker\n- Redusert hukommelse\n- Ta lettere til tårene/emosjonell\n- Søvnproblemer\n- Endringer i hud og hår\n- Smerter i ledd og muskler\n- Hyppigere hodepine\n- Redusert sexlyst\n- Økt irritabilitet\n- Urinveisinfeksjoner og tørrhet i skjeden\n\nMenopausen er egentlig bare en dato i kvinners liv, definert som uteblitt menstruasjon i 12 måneder. Tiden før dette med symptomer kalles perimenopausal, tiden etter for postmenopausal. På lengre sikt øker risikoen for tilstander som beinskjørhet, hjerte- og karsykdommer, høyt kolesterol, høyt blodtrykk, depresjon og demens. Dette skyldes nedgang i østrogen-, progesteron- og testosteronproduksjonen. Heldigvis finnes trygge og effektive behandlingsalternativer som hjelper deg med å håndtere symptomene, gir økt livskvalitet og reduserer risiko for fremtidige helseproblemer.",
+        content: "Vanlige symptomer inkluderer:\n- Uregelmessig menstruasjon/blødningsforstyrrelser\n- Hetetokter og/eller nattesvette\n- Hjernetåke/konsentrasjonsvansker\n- Økt irritabilitet\n- Tar lettere til tårene/emosjonell\n- Redusert hukommelse\n- Søvnproblemer\n- Endringer i hud og hår\n- Smerter i ledd og muskler\n- Hyppigere hodepine\n- Redusert sexlyst\n- Urinveisinfeksjoner og tørrhet i skjeden\n\nPå lengre sikt øker risikoen for tilstander som beinskjørhet, hjerte- og karsykdommer, høyt kolesterol og blodtrykk, depresjon og muligens demens. Dette skyldes nedgang i østrogen-, progesteron- og testosteronproduksjonen. Heldigvis finnes trygge og effektive behandlingsalternativer som hjelper deg med å håndtere symptomene, gir økt livskvalitet og reduserer risiko for fremtidige helseproblemer.",
       },
       {
         id: "behandling",
@@ -267,7 +267,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "prevensjon",
         heading: "Prevensjon",
-        content: "Dersom du bruker prevensjon kan du få uregelmessige blødninger på grunn av det. Det er sjelden farlig, og som oftest er det bare å bytte prevensjonsmiddel så blir det bedre. Opplever du plager kan du alltid ta kontakt med oss eller bestille time.",
+        content: "Dersom du bruker prevensjon kan du få uregelmessige blødninger. Det kan ofte løses ved å bytte prevensjonsmiddel.",
       },
     ],
     relatedSpecialists: ["birgitte-mitlid-mork", "birgitte-aspenes"],
@@ -316,6 +316,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
     heroImage: gynekologiImg,
     description: "Cyster på eggstokkene er veldig vanlig og i de fleste tilfeller helt ufarlig.\n\nHver måned modnes ett egg i en av eggstokkene. Dette ligger inni i en vannpose som blir ca 2 cm stor før den sprekker. Av og til kan det dannes flere slike vannposer eller cyster som ikke sprekker, men som får vokse videre. Disse kan iblant bli ganske store og gi smerter og ubehag nederst i magen, særlig ved samleie og bevegelse. Disse cystene kalles funksjonelle cyster og blir som oftest borte av seg selv etter omtrent tre menstruasjonssykluser.\n\nHar du spørsmål knyttet til dette kan du alltid kontakte oss.",
     sections: [
+      {
+        id: "tegn",
+        heading: "Tegn",
+        content: "- Smerter ved trykk i nedre del av magen\n- Oppblåsthet\n- Smerter ved samleie\n- Uregelmessige menstruasjoner\n- Akutte sterke smerter om en cyste sprekker eller vrir seg",
+      },
       {
         id: "former-for-cyste",
         heading: "Former for cyste",
@@ -563,12 +568,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
     description: "Fødselsskader er en samlebetegnelse på plager som kan oppstå etter en fødsel. Det kan være bristninger og arrvev, svekket bekkenbunn, diastase i magemuskulaturen, vaginale fremfall, urin- eller avføringslekkasje, eller smerter ved samleie. De fleste av disse plagene kan utredes og behandles. Plager etter fødsel bør undersøkes hos gynekolog. Det gjelder enten fødselen var nylig eller for flere år siden.",
     sections: [
       { heading: "Bristninger og arrvev", content: "Under fødselen kan det oppstå rifter i skjeden, mellomkjøttet (perineum) eller lukkemuskelen rundt endetarmen. Rifter graderes fra grad 1 til grad 4. Ved grad 3 og 4 er lukkemuskelen skadet, og dette kalles sfinkterskader. De fleste rifter leger seg godt. Noen kan likevel gi langvarige plager som smerter, stramme arr, nedsatt følsomhet eller ubehag ved samleie." },
-      { heading: "Svekket bekkenbunn", content: "Bekkenbunnen er muskulaturen som holder underlivsorganene på plass. Under graviditet og fødsel strekkes og belastes den, og hos noen blir den varig svekket. Det kan gi urinlekkasje, tyngdefølelse i underlivet, fremfall eller problemer med avføring. Målrettet bekkenbunnstrening hos fysioterapeut er ofte første behandlingsvalg. I noen tilfeller kan kirurgi være aktuelt." },
+      { heading: "Svekket bekkenbunn", content: "Bekkenbunnen er muskulaturen som holder underlivsorganene på plass. Under graviditet og fødsel strekkes og belastes den, og hos noen blir den varig svekket. Det kan gi urinlekkasje, tyngdefølelse i underlivet, fremfall eller problemer med avføring. Målrettet bekkenbunnstrening hos fysioterapeut eller osteopat er ofte første behandlingsvalg. I noen tilfeller kan kirurgi være aktuelt." },
       { heading: "Diastase (delte magemuskler)", content: "Diastase betyr at de rette magemusklene har delt seg på grunn av strekk under graviditeten. Det er vanlig etter fødsel, og hos mange går det gradvis tilbake av seg selv. Noen opplever likevel vedvarende svakhet i mage og kjerne, ryggsmerter eller en følelse av at magen henger ut. Da kan målrettet trening hjelpe, og i enkelte tilfeller kirurgi." },
       { heading: "Vaginalt fremfall", content: "Fremfall vil si at livmoren, blæren eller endetarmen faller ned i eller ut av skjeden på grunn av svekket støttevev. Dette er vanlig etter fødsel, særlig flere år senere, og kan gi tyngdefølelse, ubehag eller lekkasje." },
-      { heading: "Urinlekkasje", content: "Lekkasje av urin ved hosting, nysing, trening eller trang er en av de vanligste fødselsrelaterte plagene. Den er godt behandlingsbar, og de fleste blir betydelig bedre med riktig utredning og oppfølging." },
-      { heading: "Avføringslekkasje", content: "Vansker med å holde på avføring eller luft kan være en følge av sfinkterskader under fødsel. Plagen er utredbar, og det finnes behandling." },
-      { heading: "Samleiesmerter og seksuelle plager", content: "Smerter ved samleie etter fødsel kan ha flere årsaker. Det kan være arrvev, stram bekkenbunn, tørre slimhinner (særlig i ammeperioden) eller psykiske faktorer. Vårt tverrfaglige team av gynekolog, sexolog, fysioterapeut og psykolog jobber sammen for å finne riktig behandling for deg." },
+      { heading: "Urinlekkasje", content: "Lekkasje av urin ved for eksempel hosting, nysing eller trening er en av de vanligste fødselsrelaterte plagene. Med riktig utredning og oppfølging blir de fleste betydelig bedre." },
+      { heading: "Avføringslekkasje", content: "Vansker med å holde på avføring eller luft kan være en følge av sfinkterskader under fødsel. Det finnes behandling for dette." },
+      { heading: "Samleiesmerter og seksuelle plager", content: "Smerter ved samleie etter fødsel kan ha flere årsaker. Det kan være arrvev, stram bekkenbunn, tørre slimhinner (særlig i ammeperioden) eller psykiske faktorer. Vårt tverrfaglige team jobber sammen for å finne riktig behandling for deg." },
       { heading: "Tverrfaglig tilnærming", content: "Fødselsskader handler sjelden om én enkelt plage. Mange har flere symptomer samtidig, og den beste behandlingen krever at flere fagpersoner jobber sammen. Hos CMedical har du tilgang til gynekolog, uroterapeut, fysioterapeut, sexolog, osteopat og psykolog under samme tak. Sammen skreddersyr vi utredning og behandling tilpasset deg." },
     ],
     faqs: [
@@ -1735,7 +1740,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Non-Invasive Prenatal Test fra svangerskapsuke 10.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
     sections: [
       {
         heading: "Hva undersøker NIPT?",
@@ -1747,7 +1752,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
       {
         heading: "Fosterdiagnostikk hos spesialist",
-        content: "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+        content: "[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
       },
     ],
   },
