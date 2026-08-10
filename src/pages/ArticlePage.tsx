@@ -184,8 +184,47 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
           { name: article.title, path: `/aktuelt/${article.slug}` },
         ]}
       />
-      {/* Header */}
-      <div className="bg-brand-dark pt-[4.5rem] pb-10 md:pt-16 md:pb-14">
+
+      {/* Header — mobil: fullskjerms bildehero. Desktop: mørk tekst-header (uendret). */}
+      <div className="md:hidden relative w-full min-h-[calc(100svh-4.5rem)] mt-[4.5rem] overflow-hidden bg-brand-dark">
+        <img
+          src={article.image}
+          alt={article.title}
+          className="absolute inset-0 w-full h-full object-cover object-[50%_28%]"
+        />
+        {/* Gradient fra bunn i brand-mørkbrun (ikke ren svart) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(66,51,42,0.96) 0%, rgba(66,51,42,0.85) 22%, rgba(66,51,42,0.45) 48%, rgba(66,51,42,0.10) 72%, rgba(66,51,42,0) 100%)",
+          }}
+        />
+        {/* Lett topp-skygge så «Tilbake»-lenken alltid er lesbar */}
+        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-brand-dark/45 to-transparent" />
+
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-10">
+          <Link
+            to="/aktuelt"
+            className="inline-flex items-center gap-2 text-brand-light/80 hover:text-brand-light text-sm transition-colors mb-5"
+          >
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+            Tilbake til Aktuelt
+          </Link>
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-brand-light/90 text-xs">{article.category}</span>
+            <span className="text-brand-light/80 text-xs flex items-center gap-1.5">
+              <Calendar className="w-3 h-3" aria-hidden="true" />
+              {formatDate(article.date)}
+            </span>
+          </div>
+          <h1 className="text-2xl font-light text-brand-light leading-tight">
+            {article.title}
+          </h1>
+        </div>
+      </div>
+
+      <div className="hidden md:block bg-brand-dark pt-16 pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <Link
             to="/aktuelt"
@@ -203,11 +242,12 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
               {formatDate(article.date)}
             </span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-light text-white leading-tight max-w-3xl">
+          <h1 className="text-4xl font-light text-white leading-tight max-w-3xl">
             {article.title}
           </h1>
         </div>
       </div>
+
 
       {/* Article content */}
       <article className="bg-background">
