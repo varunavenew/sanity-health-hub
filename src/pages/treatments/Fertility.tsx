@@ -64,15 +64,15 @@ const segments = [
  desc:
  "Vi gjør en grundig fertilitetssjekk — hormoner, eggstokkreserve og ultralyd — så du får tydelige svar i stedet for usikkerhet.",
   tags: [
-  { label: "Fertilitetsutredning", href: `${FERT}/fertilitetsutredning` },
-  { label: "Hormoner", href: `${FERT}/fertilitetsutredning` },
-  { label: "AMH", href: `${FERT}/fertilitetsutredning` },
-  { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
-  { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
-  { label: "Rådgivning online", href: `${FERT}/infertilitet` },
-  ],
-  cta: "Les mer",
-  href: `${FERT}/fertilitetsutredning`,
+   { label: "Fertilitetsutredning", href: `${FERT}/fertilitetsutredning` },
+   { label: "Hormoner og AMH", href: `${FERT}/fertilitetsutredning` },
+   { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
+   { label: "Egglederundersøkelse (HyFoSy)", href: `${FERT}/fertilitetsutredning` },
+   { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
+   { label: "Rådgivning online", href: `${FERT}/infertilitet` },
+   ],
+   cta: "Les mer",
+   href: `${FERT}/fertilitetsutredning`,
  },
  {
  id: "gravid",
@@ -80,12 +80,10 @@ const segments = [
  desc:
  "Har du prøvd i 6–12 måneder uten å lykkes? Vi utreder grundig og legger en plan sammen med deg — fra inseminasjon til IVF.",
  tags: [
-  { label: "IVF", href: `${FERT}/assistert-befruktning` },
-  { label: "Inseminasjon", href: `${FERT}/assistert-befruktning` },
   { label: "Utredning", href: `${FERT}/fertilitetsutredning` },
-  { label: "Assistert befruktning", href: `${FERT}/assistert-befruktning` },
-  { label: "Donor-IVF", href: `${FERT}/donorbehandling` },
   { label: "Eggløsningsstimulering", href: `${FERT}/assistert-befruktning` },
+  { label: "Assistert befruktning (IVF, inseminasjon)", href: `${FERT}/assistert-befruktning` },
+  { label: "Donorbehandling", href: `${FERT}/donorbehandling` },
   { label: "Second opinion", href: `${FERT}/fertilitetsutredning` },
  ],
  cta: "Bestill utredning",
@@ -98,9 +96,8 @@ const segments = [
  "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
  tags: [
  { label: "Nedfrysing av egg", href: `${FERT}/eggfrys` },
- { label: "Eggdonasjon", href: `${FERT}/donorbehandling` },
+ { label: "Nedfrysing av spermceller", href: `${FERT}/eggfrys` },
  { label: "Spermiefrys", href: `${FERT}/eggfrys` },
- { label: "Eggløsningsstimulering", href: `${FERT}/assistert-befruktning` },
  ],
   cta: "Les mer",
   href: "/behandlinger/fertilitet/eggfrys",
@@ -113,6 +110,8 @@ const segments = [
  tags: [
  { label: "Sædanalyse", href: `${FERT}/saedanalyse` },
  { label: "Mannlig fertilitet", href: `${FERT}/saedanalyse` },
+ { label: "Mannlig infertilitet", href: "/behandlinger/urologi/infertilitet" },
+ { label: "Hormonstimulering av menn", href: `${FERT}/saedanalyse` },
  { label: "Rådgivning online", href: `${FERT}/infertilitet` },
  ],
  cta: "Bestill analyse",
@@ -120,13 +119,12 @@ const segments = [
  },
  {
  id: "donor",
- title: "Jeg ønsker å bli donor",
+ title: "Jeg vil bli donor",
  desc:
  "Som egg- eller sæddonor kan du hjelpe andre med å bli foreldre. Vi forklarer hva det innebærer, hvilke krav som gjelder og hvordan forløpet foregår — etter norsk lov.",
  tags: [
- { label: "Eggdonasjon", href: `${FERT}/donorbehandling` },
- { label: "Sæddonasjon", href: `${FERT}/donorbehandling` },
- { label: "Donorbehandling", href: `${FERT}/donorbehandling` },
+ { label: "Eggdonor", href: `${FERT}/donorbehandling` },
+ { label: "Spermdonor", href: `${FERT}/donorbehandling` },
  ],
  cta: "Les mer",
  href: `${FERT}/donorbehandling`,
@@ -178,11 +176,25 @@ const expertAreas = [
     image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
   },
   {
+    title: "Bli donor",
+    desc:
+      "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
+    href: "/behandlinger/fertilitet/donorbehandling",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
+  },
+  {
     title: "Sædanalyse",
     desc:
       "Sædprøve, hormonprøver og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
     href: "/behandlinger/fertilitet/saedanalyse",
     image: getServiceImageFromHref("/behandlinger/fertilitet/saedanalyse") ?? audienceCouple,
+  },
+  {
+    title: "Mannlig infertilitet",
+    desc:
+      "Utredning og behandling av mannlig fruktbarhet — i samarbeid med urologene våre.",
+    href: "/behandlinger/urologi/infertilitet",
+    image: getServiceImageFromHref("/behandlinger/urologi/infertilitet") ?? audienceCouple,
   },
 ];
 
@@ -194,6 +206,8 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
       { title: "Fertilitetsutredning", desc: "Blodprøver, ultralyd og sædanalyse", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "Infertilitet", desc: "Forstå årsaker og veien videre", href: "/behandlinger/fertilitet/infertilitet" },
       { title: "Sædanalyse", desc: "Mannlig fertilitet og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
+      { title: "Mannlig infertilitet", desc: "Utredning av mannlig fruktbarhet", href: "/behandlinger/urologi/infertilitet" },
+      { title: "Egglederundersøkelse (HyFoSy)", desc: "Skånsom undersøkelse av eggledere", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "Hysteroskopi", desc: "Skånsom vurdering av livmorhulen", href: "/behandlinger/fertilitet/hysteroskopi" },
     ],
   },
@@ -201,8 +215,10 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Behandling",
     items: [
       { title: "Assistert befruktning", desc: "IVF, ICSI og inseminasjon (IUI)", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Hormonstimulering", desc: "Eggløsningsstimulering og hormonbehandling", href: "/behandlinger/fertilitet/assistert-befruktning" },
       { title: "Donorbehandling", desc: "Donorsæd, donoregg og partnerdonasjon", href: "/behandlinger/fertilitet/donorbehandling" },
       { title: "Nedfrysning av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/eggfrys" },
+      { title: "Nedfrysing av spermceller", desc: "Bevar mulighetene dine", href: "/behandlinger/fertilitet/eggfrys" },
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
     ],
   },
@@ -569,6 +585,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
    { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/behandlinger/fertilitet/eggfrys", image: journeyLab, imageAlt: "Laboratorium for nedfrysing" },
    { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/behandlinger/fertilitet/saedanalyse", image: fertilityHeroImg, imageAlt: "Mannlig fertilitetsutredning" },
    { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Donorbehandling", href: "/behandlinger/fertilitet/donorbehandling", image: audienceSingle, imageAlt: "Vei mot foreldreskap" },
+   { symptom: "Jeg ønsker å hjelpe andre med å bli foreldre", service: "Bli donor", href: "/behandlinger/fertilitet/donorbehandling", image: journeyResult, imageAlt: "Bli egg- eller spermdonor" },
   ]}
  />
 
@@ -593,12 +610,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </div>
      </div>
 
-     <div className="space-y-12">
+     <div className="space-y-14">
       {serviceGroups.map((group) => (
        <div key={group.label}>
-        <p className="text-xs font-light text-foreground/60 mb-4">
+        <h3 className="text-lg md:text-xl font-normal text-foreground mb-5">
          {group.label}
-        </p>
+        </h3>
         <ul className="border-t border-brand-dark/10">
          {group.items.map((s) => (
           <li key={s.title} className="border-b border-brand-dark/10">
@@ -606,9 +623,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             to={s.href}
             className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
            >
-            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+            <h4 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
              {s.title}
-            </h3>
+            </h4>
             <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
              {s.desc}
             </p>
