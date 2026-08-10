@@ -2,6 +2,7 @@ import { getServiceImageFromHref } from "@/data/serviceImages";
 import audienceCouple from "@/assets/fertility/audience-couple.jpg";
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
+import mannligFertilitetAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
 
 /** Felles landingsside for alle målgruppekortene. */
 export const AUDIENCE_LANDING =
@@ -46,6 +47,6 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Ønsker du å få innsikt i din fertilitet? En sædanalyse gir viktig informasjon om sædkvaliteten din – og kunnskap gjør det lettere å ta gode valg, både nå og i fremtiden.",
     href: `${AUDIENCE_LANDING}#singel-mann`,
-    image: getServiceImageFromHref("/behandlinger/fertilitet/saedanalyse") ?? audienceWaiting,
+    image: mannligFertilitetAsset.url,
   },
 ];
