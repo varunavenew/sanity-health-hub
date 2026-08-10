@@ -13,6 +13,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { HeroCompact } from "@/components/homepage/HeroCompact";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
