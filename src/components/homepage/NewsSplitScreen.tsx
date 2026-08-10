@@ -8,38 +8,17 @@ import { articles } from "@/data/articles";
  * Høyre: 2x2 rutenett med fire artikler.
  */
 export const NewsSplitScreen = () => {
-  const fallback = [
-    {
-      slug: articles[0]?.slug ?? "#",
-      title: "Robotassistert overvektskirurgi – presisjon, trygghet og varige resultater",
-      image:
-        "https://cdn.sanity.io/images/bk8rw7yi/production/1a6b5c045dd900b09dd7dd5e0c2e9683d2d12643-4284x5712.jpg?q=80&fit=crop&auto=format&w=1200",
-      eyebrow: "Fagartikkel",
-    },
-    {
-      slug: articles[1]?.slug ?? "#",
-      title: "Livio Oslo blir en del av CMedical og tilbudet til pasientene styrkes",
-      image:
-        "https://cdn.sanity.io/images/bk8rw7yi/production/1b6782dd6bb68860c34de07a6522605faa161d22-4318x2879.jpg?q=80&fit=crop&auto=format&w=1200",
-      eyebrow: "Nytt fra oss",
-    },
-    {
-      slug: articles[2]?.slug ?? "#",
-      title: articles[2]?.title ?? "Tverrfaglig oppfølging etter operasjon",
-      image:
-        articles[2]?.image ??
-        "https://cdn.sanity.io/images/bk8rw7yi/production/1a6b5c045dd900b09dd7dd5e0c2e9683d2d12643-4284x5712.jpg?q=80&fit=crop&auto=format&w=1200",
-      eyebrow: articles[2]?.category ?? "Fagartikkel",
-    },
-    {
-      slug: articles[3]?.slug ?? "#",
-      title: articles[3]?.title ?? "Slik forbereder du deg til konsultasjonen",
-      image:
-        articles[3]?.image ??
-        "https://cdn.sanity.io/images/bk8rw7yi/production/1b6782dd6bb68860c34de07a6522605faa161d22-4318x2879.jpg?q=80&fit=crop&auto=format&w=1200",
-      eyebrow: articles[3]?.category ?? "Veiledning",
-    },
-  ];
+  // De fire nyeste artiklene (sortert på dato).
+  const latest = [...articles]
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, 4)
+    .map((a) => ({
+      slug: a.slug,
+      title: a.title,
+      image: a.image,
+      eyebrow: a.category,
+    }));
+
 
   return (
     <section aria-labelledby="news-split-heading" className="bg-brand-warm">
