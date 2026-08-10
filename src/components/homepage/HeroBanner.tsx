@@ -33,6 +33,9 @@ interface HeroSlide {
   cta: string;
   ctaPath: string;
   objectPosition: string;
+  /** Focal point used on mobile crops so faces stay visible */
+  mobileObjectPosition?: string;
+
 }
 
 export const HeroBanner = () => {
