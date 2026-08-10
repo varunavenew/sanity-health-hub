@@ -1,3 +1,4 @@
+import { CarouselDots } from "@/components/ui/CarouselDots";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Plus, Minus, ChevronRight, ChevronLeft } from "lucide-react";
@@ -207,18 +208,12 @@ const SpecialistCarouselSection = ({
           {/* Pagination dots */}
           {pages.length > 1 && (
             <div className="flex items-center justify-center gap-2 mt-6">
-              {pages.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  aria-label={`Side ${i + 1} av ${pages.length}`}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    i === currentPage
-                      ? 'bg-brand-dark scale-110'
-                      : 'bg-border hover:bg-muted-foreground/40'
-                  }`}
-                />
-              ))}
+              <CarouselDots
+                count={pages.length}
+                active={currentPage}
+                onSelect={goTo}
+                labelFor={(i) => `Side ${i + 1} av ${pages.length}`}
+              />
               <span className="text-xs text-muted-foreground ml-2">
                 {currentPage + 1} / {pages.length}
               </span>

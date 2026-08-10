@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ScrollArrowsProps {
@@ -11,11 +11,17 @@ interface ScrollArrowsProps {
    * original slide count so the counter shows N (not 2N).
    */
   slideCount?: number;
+  /**
+   * Valgfri tekstlenke («Se alle behandlinger» o.l.). Navigasjonen ligger til
+   * venstre, lenken til høyre på samme rad — de skal aldri overlappe.
+   */
+  trailing?: ReactNode;
   /** Legacy props — kept for backwards compat, no longer used. */
   align?: "end" | "center" | "start";
   size?: "default" | "compact";
   placement?: "above" | "inline" | "below";
 }
+
 
 /**
  * CarouselNav — én felles navigasjon for alle horisontale karuseller.
@@ -33,6 +39,7 @@ export const ScrollArrows = ({
   visibility = "all",
   className = "",
   slideCount,
+  trailing,
 }: ScrollArrowsProps) => {
   const [count, setCount] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -107,7 +114,15 @@ export const ScrollArrows = ({
     [scrollRef],
   );
 
-  if (!overflowing || count <= 1) return null;
+  if (!overflowing || count <= 1) {
+    // Ingen scroll å navigere i — men en eventuell tekstlenke skal fortsatt vises.
+    if (!trailing) return null;
+    return (
+      <div className="flex items-center justify-end w-full max-w-full mt-5 md:mt-6">
+        {trailing}
+      </div>
+    );
+  }
 
   const total = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
   const current = total > 0 ? (activeIdx % total) + 1 : 1;
@@ -120,16 +135,17 @@ export const ScrollArrows = ({
       : "flex";
 
   const btn =
-    "w-11 h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent";
+    "w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent";
 
   return (
     <div
-      className={`${vis} items-center gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
+      className={`${vis} items-center gap-3 md:gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
     >
       {/* Fremdriftslinje + teller (venstrejustert) */}
-      <div className="flex-1 min-w-0 flex items-center gap-3">
+      <div className={`${trailing ? "" : "flex-1"} min-w-0 flex items-center gap-3`}>
         <div
-          className="relative h-px flex-1 min-w-0 bg-brand-dark/15"
+          className={`relative h-px flex-1 min-w-0 bg-brand-dark/15 ${trailing ? "hidden md:block" : ""}`}
+
           role="progressbar"
           aria-valuemin={1}
           aria-valuemax={total}
@@ -166,6 +182,9 @@ export const ScrollArrows = ({
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
+
+      {/* Tekstlenke helt til høyre — egen kolonne, aldri overlapp */}
+      {trailing && <div className="shrink-0 ml-auto">{trailing}</div>}
     </div>
   );
 };
