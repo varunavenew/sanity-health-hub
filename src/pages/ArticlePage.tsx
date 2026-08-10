@@ -186,34 +186,38 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
       />
 
       {/* Header — mobil: fullskjerms bildehero. Desktop: mørk tekst-header (uendret). */}
-      <div className="md:hidden relative w-full min-h-[calc(100svh-4.5rem)] mt-[4.5rem] overflow-hidden bg-brand-dark">
+      <div className="md:hidden relative w-full h-[100svh] overflow-hidden bg-brand-dark">
         <img
           src={article.image}
           alt={article.title}
-          className="absolute inset-0 w-full h-full object-cover object-[50%_28%]"
+          className="absolute inset-0 w-full h-[118%] object-cover object-[50%_28%] will-change-transform"
+          style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0)` }}
         />
-        {/* Gradient fra bunn i brand-mørkbrun (ikke ren svart) */}
+        {/* Sterk gradient fra bunn i brand-mørkbrun — sikrer lys tekst på alle bilder */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, rgba(24,4,4,0.97) 0%, rgba(66,51,42,0.94) 18%, rgba(66,51,42,0.78) 34%, rgba(66,51,42,0.45) 55%, rgba(66,51,42,0.14) 78%, rgba(66,51,42,0) 100%)",
+              "linear-gradient(to top, rgba(24,4,4,0.94) 0%, rgba(66,51,42,0.88) 22%, rgba(66,51,42,0.72) 40%, rgba(66,51,42,0.48) 58%, rgba(66,51,42,0.24) 78%, rgba(66,51,42,0.10) 100%)",
           }}
         />
-        {/* Lett topp-skygge så «Tilbake»-lenken alltid er lesbar */}
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-brand-dark/45 to-transparent" />
+        {/* Topp-skygge så header og «Tilbake»-lenken alltid er lesbar */}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-dark/70 via-brand-dark/30 to-transparent" />
 
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-10">
+        <div
+          className="absolute inset-x-0 bottom-0 px-6 pb-16"
+          style={{ transform: `translate3d(0, ${scrollY * -0.12}px, 0)` }}
+        >
           <Link
             to="/aktuelt"
-            className="inline-flex items-center gap-2 text-brand-light/80 hover:text-brand-light text-sm transition-colors mb-5"
+            className="inline-flex items-center gap-2 text-brand-light hover:text-white text-sm transition-colors mb-5"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Tilbake til Aktuelt
           </Link>
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-brand-light/90 text-xs">{article.category}</span>
-            <span className="text-brand-light/80 text-xs flex items-center gap-1.5">
+            <span className="text-brand-light text-xs">{article.category}</span>
+            <span className="text-brand-light/90 text-xs flex items-center gap-1.5">
               <Calendar className="w-3 h-3" aria-hidden="true" />
               {formatDate(article.date)}
             </span>
@@ -222,7 +226,18 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
             {article.title}
           </h1>
         </div>
+
+        {/* Sveip ned-indikator med fade ved scroll */}
+        <div
+          className="absolute inset-x-0 bottom-4 flex flex-col items-center gap-1 pointer-events-none transition-opacity duration-200"
+          style={{ opacity: Math.max(0, 1 - scrollY / 160) }}
+          aria-hidden="true"
+        >
+          <span className="text-brand-light/80 text-xs">Sveip ned for å lese</span>
+          <ChevronDown className="w-4 h-4 text-brand-light/80 animate-bounce" />
+        </div>
       </div>
+
 
       <div className="hidden md:block bg-brand-dark pt-16 pb-14">
         <div className="container mx-auto px-6 md:px-16">
