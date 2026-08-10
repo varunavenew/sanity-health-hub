@@ -68,7 +68,7 @@ export const BookingWidget = () => {
               Bestill time på få sekunder
             </h2>
             <p className="text-white/70 font-light text-lg">
-              Velg klinikk, fagområde og behandling – så tar vi deg videre til booking
+              Velg klinikk, tjeneste og behandling – så tar vi deg videre til booking
             </p>
           </div>
 
@@ -99,7 +99,7 @@ export const BookingWidget = () => {
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
                   <Stethoscope className="w-4 h-4 text-muted-foreground" />
-                  2. Velg fagområde
+                  2. Velg tjeneste
                 </label>
                 <Select 
                   value={selectedSpecialty} 
@@ -109,7 +109,7 @@ export const BookingWidget = () => {
                   }}
                 >
                   <SelectTrigger className="w-full h-12 bg-muted/50 border-border">
-                    <SelectValue placeholder="Velg fagområde" />
+                    <SelectValue placeholder="Velg tjeneste" />
                   </SelectTrigger>
                   <SelectContent>
                     {specialties.map((specialty) => (

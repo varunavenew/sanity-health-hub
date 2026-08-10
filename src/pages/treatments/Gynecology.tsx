@@ -1,7 +1,7 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown } from "lucide-react";
+import { ArrowRight, Check, Star, Users, Clock, User, ChevronDown } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -672,7 +672,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300 shrink-0 w-[78vw] md:w-auto snap-center"
  >
 
- <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
  <Star

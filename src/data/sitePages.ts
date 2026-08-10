@@ -24,12 +24,12 @@ export const sitePages: SitePage[] = [
   { path: "/booking", name: "Booking", category: "Hovedsider" },
 
   // Fagområder
-  { path: "/gynekologi", name: "Gynekologi", category: "Fagområder" },
-  { path: "/fertilitet", name: "Fertilitet", category: "Fagområder" },
-  { path: "/urologi", name: "Urologi", category: "Fagområder" },
-  { path: "/ortopedi", name: "Ortopedi", category: "Fagområder" },
-  { path: "/graviditet", name: "Graviditet", category: "Fagområder" },
-  { path: "/flere-fagomrader", name: "Flere tjenester", category: "Fagområder" },
+  { path: "/gynekologi", name: "Gynekologi", category: "Tjenester" },
+  { path: "/fertilitet", name: "Fertilitet", category: "Tjenester" },
+  { path: "/urologi", name: "Urologi", category: "Tjenester" },
+  { path: "/ortopedi", name: "Ortopedi", category: "Tjenester" },
+  { path: "/graviditet", name: "Graviditet", category: "Tjenester" },
+  { path: "/flere-fagomrader", name: "Flere tjenester", category: "Tjenester" },
 
   // Tema
   { path: "/kvinnehelse", name: "Kvinnehelse", category: "Tema" },

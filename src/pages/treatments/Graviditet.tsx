@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote } from "lucide-react";
+import { ArrowRight, Check, Star } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -577,7 +577,6 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                   key={i}
                   className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
                 >
-                  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
                   <div className="flex mb-4">
                     {[0, 1, 2, 3, 4].map((s) => (
                       <Star key={s} className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -68,27 +68,27 @@ const reviews = [
 const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  const expertAreasRef = useRef<HTMLDivElement>(null);
  useEffect(() => {
- document.title = "Flere fagområder | CMedical — Tverrfaglige spesialister";
+ document.title = "Flere tjenester | CMedical — Tverrfaglige spesialister";
  }, []);
 
  return (
  <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
- title="Flere fagområder | CMedical — Tverrfaglige spesialister"
+ title="Flere tjenester | CMedical — Tverrfaglige spesialister"
  description="Hud, psykologi, sexologi, ernæring, kirurgi og mer — Nordens fremste spesialister, ofte i tverrfaglige team. Kort ventetid, ingen henvisning."
  canonical="/flere-fagomrader"
   breadcrumbs={[
   { name: "Hjem", path: "/" },
-  { name: "Flere fagområder", path: "/flere-fagomrader" },
+  { name: "Flere tjenester", path: "/flere-fagomrader" },
   ]}
  jsonLd={{
  "@context": "https://schema.org",
  "@type": "MedicalClinic",
- name: "CMedical – Flere fagområder",
+ name: "CMedical – Flere tjenester",
  }}
  />
  <h1 className="sr-only">
- Flere fagområder hos CMedical — tverrfaglige spesialister
+ Flere tjenester hos CMedical — tverrfaglige spesialister
  </h1>
 
  {/* 1. HERO */}
@@ -97,7 +97,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
    <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
      <Link to="/" className="hover:text-foreground">Hjem</Link>
      <span aria-hidden="true">›</span>
-     <span className="text-foreground/80">Flere fagområder</span>
+     <span className="text-foreground/80">Flere tjenester</span>
    </nav>
    <h2 className="text-4xl font-light text-foreground leading-[1.05]">
      Spesialister <span className="block italic">i team</span>
@@ -109,7 +109,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
   <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
     <Link to="/" className="hover:text-foreground">Hjem</Link>
     <span aria-hidden="true">›</span>
-    <span className="text-foreground/80">Flere fagområder</span>
+    <span className="text-foreground/80">Flere tjenester</span>
   </nav>
   <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
   Spesialister <span className="block italic">i team</span>
@@ -157,7 +157,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  <div className="relative min-h-[420px] lg:min-h-full">
  <img
  src={flereHero}
- alt="Flere fagområder hos CMedical"
+ alt="Flere tjenester hos CMedical"
  className="absolute inset-0 w-full h-full object-cover"
  />
  </div>
@@ -287,7 +287,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  key={i}
  className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
  >
- <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
  <Star

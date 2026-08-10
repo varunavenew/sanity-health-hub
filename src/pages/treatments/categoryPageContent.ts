@@ -242,7 +242,7 @@ const urologi: CategoryNewContent = {
     "I CMedical har vi flere av Nordens ledende spesialister innen urologi.",
   servicesHeading: "Urologispesialister",
   servicesIntro:
-    "Våre spesialister jobber med de fagområdene de kan best. Vi har noen av Nordens ledende spesialister på følgende områder:",
+    "Våre spesialister jobber med de tjenestene de kan best. Vi har noen av Nordens ledende spesialister på følgende områder:",
   heroImage: urologiImg,
   serviceLinks: {
     "Blære og urinveier": "/behandlinger/urologi/blaere",
@@ -412,7 +412,7 @@ const graviditet: CategoryNewContent = {
 // ─── FLERE FAGOMRÅDER ─────────────────────────────────────────────────────────
 const flereFagomrader: CategoryNewContent = {
   id: "flere-fagomrader",
-  title: "Flere fagområder",
+  title: "Flere tjenester",
   subtitle: "Kort ventetid • Ingen henvisning",
   description:
     "Vi har samlet noen av Nordens fremste spesialister innen gastrokirurgi, revmatologi, dermatologi, ernæringsfysiologi, karkirurgi, osteopati, psykologi og sexologi.",
@@ -420,7 +420,7 @@ const flereFagomrader: CategoryNewContent = {
     "Ofte jobber spesialistene i kryssdisiplinære team for å gi deg den beste behandlingen. Husk at du alltid kan ta kontakt med oss hvis du lurer på noe.",
   servicesHeading: "Spesialister på tvers",
   servicesIntro:
-    "Ledende spesialister som utelukkende jobber med fagområdet de kan aller best, og vi har noen av Nordens ledende på disse områdene:",
+    "Ledende spesialister som utelukkende jobber med tjenesten de kan aller best, og vi har noen av Nordens ledende på disse områdene:",
   heroImage: flereFagomraderImg,
   serviceLinks: {
     "Endokrinologi": "/behandlinger/flere-fagomrader/endokrinologi",
@@ -447,7 +447,7 @@ const flereFagomrader: CategoryNewContent = {
     { icon: Calendar, label: "Steg 01", title: "Bestill når det passer deg",
       body: "Online booking døgnet rundt. Ingen henvisning. Vi har fra ingen til svært korte ventetider." },
     { icon: MessageCircle, label: "Steg 02", title: "Snakk med riktig spesialist",
-      body: "Du møter en spesialist som utelukkende jobber med fagområdet du trenger hjelp med." },
+      body: "Du møter en spesialist som utelukkende jobber med tjenesten du trenger hjelp med." },
     { icon: HeartHandshake, label: "Steg 03", title: "Utredning og plan",
       body: "Vi setter sammen et helhetsbilde – og lager en konkret plan, ofte i samarbeid med flere fagfelt." },
     { icon: Clock, label: "Steg 04", title: "Tverrfaglig oppfølging",

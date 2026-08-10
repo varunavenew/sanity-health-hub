@@ -20,7 +20,7 @@ const formSchema = z.object({
   name: z.string().trim().min(1, "Vennligst fyll inn navn").max(100),
   phone: z.string().trim().min(4, "Vennligst fyll inn telefonnummer").max(30),
   clinic: z.string().min(1, "Velg klinikk"),
-  category: z.string().min(1, "Velg fagområde"),
+  category: z.string().min(1, "Velg tjeneste"),
   timing: z.enum(["snarest", "specific"]),
   day: z.string().max(50).optional(),
   timeOfDay: z.enum(["formiddag", "ettermiddag", "kveld"]).optional(),
@@ -140,9 +140,9 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="cr-category" className="text-sm font-light">Fagområde</Label>
+              <Label htmlFor="cr-category" className="text-sm font-light">Tjeneste</Label>
               <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
-                <SelectTrigger id="cr-category"><SelectValue placeholder="Velg fagområde" /></SelectTrigger>
+                <SelectTrigger id="cr-category"><SelectValue placeholder="Velg tjeneste" /></SelectTrigger>
                 <SelectContent>
                   {serviceCategories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>

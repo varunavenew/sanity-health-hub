@@ -14,7 +14,7 @@ export interface SearchItem {
 
 export const searchItems: SearchItem[] = [
   // ─────────────── Gynekologi ───────────────
-  { label: 'Gynekologi', path: '/behandlinger/gynekologi', category: 'Fagområde', keywords: ['gyn', 'kvinne', 'kvinnehelse', 'underlivsplager'] },
+  { label: 'Gynekologi', path: '/behandlinger/gynekologi', category: 'Tjeneste', keywords: ['gyn', 'kvinne', 'kvinnehelse', 'underlivsplager'] },
   { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse', category: 'Gynekologi', keywords: ['undersøkelse', 'kontroll', 'årskontroll', 'gynekolog'] },
   { label: 'Urogynekologi', path: '/behandlinger/gynekologi/vaginale-fremfall', category: 'Gynekologi', keywords: ['urogynekologi', 'fremfall', 'prolaps', 'inkontinens', 'lekkasje', 'bekkenbunn', 'urinlekkasje'] },
   { label: 'Urinlekkasje', path: '/behandlinger/gynekologi/urinlekkasje', category: 'Gynekologi', keywords: ['inkontinens', 'lekkasje', 'urin', 'stressinkontinens'] },
@@ -37,7 +37,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Tverrfaglig team', path: '/behandlinger/gynekologi/tverrfaglig', category: 'Gynekologi', keywords: ['tverrfaglig', 'team', 'osteopat', 'psykolog', 'sexolog', 'ernæring'] },
 
   // ─────────────── Graviditet og fostermedisin ───────────────
-  { label: 'Graviditet og fostermedisin', path: '/behandlinger/graviditet', category: 'Fagområde', keywords: ['gravid', 'foster', 'svangerskap'] },
+  { label: 'Graviditet og fostermedisin', path: '/behandlinger/graviditet', category: 'Tjeneste', keywords: ['gravid', 'foster', 'svangerskap'] },
   { label: 'Ultralyd', path: '/behandlinger/graviditet/ultralyd', category: 'Graviditet', keywords: ['ultralyd', 'scanning', 'fosterultralyd'] },
   { label: 'NIPT', path: '/behandlinger/graviditet/nipt', category: 'Graviditet', keywords: ['nipt', 'fosterdiagnostikk', 'blodprøve', 'tidlig ultralyd'] },
   { label: 'Fostermedisin', path: '/behandlinger/graviditet/fosterdiagnostikk', category: 'Graviditet', keywords: ['foster', 'fosterdiagnostikk', 'misdannelser'] },
@@ -45,7 +45,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Spontanabort', path: '/behandlinger/gynekologi/spontanabort', category: 'Gynekologi', keywords: ['abort', 'tidlig graviditet', 'missed abortion'] },
 
   // ─────────────── Urologi ───────────────
-  { label: 'Urologi', path: '/behandlinger/urologi', category: 'Fagområde', keywords: ['mann', 'menn', 'urin', 'blære'] },
+  { label: 'Urologi', path: '/behandlinger/urologi', category: 'Tjeneste', keywords: ['mann', 'menn', 'urin', 'blære'] },
   { label: 'Blære og urinveier', path: '/behandlinger/urologi/blaere', category: 'Urologi', keywords: ['urin', 'blære', 'urinveisinfeksjon', 'uvi', 'cystitt'] },
   { label: 'Forhud', path: '/behandlinger/urologi/forhud', category: 'Urologi', keywords: ['omskjæring', 'fimose', 'trang forhud'] },
   { label: 'Mannlig infertilitet', path: '/behandlinger/urologi/infertilitet', category: 'Urologi', keywords: ['barnløshet', 'sæd', 'fertilitet', 'mannlig'] },
@@ -57,7 +57,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Robotassistert kirurgi (urologi)', path: '/behandlinger/urologi/robotkirurgi', category: 'Urologi', keywords: ['robot', 'da vinci', 'nyrekreft'] },
 
   // ─────────────── Fertilitet ───────────────
-  { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Fagområde', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
+  { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Tjeneste', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
   { label: 'Infertilitet', path: '/behandlinger/fertilitet/infertilitet', category: 'Fertilitet', keywords: ['ufrivillig barnløshet', 'barnløshet', 'blir ikke gravid'] },
   { label: 'Assistert befruktning', path: '/behandlinger/fertilitet/assistert-befruktning', category: 'Fertilitet', keywords: ['ivf', 'icsi', 'iui', 'inseminasjon', 'prøverør'] },
   { label: 'Assistert befruktning for par og single', path: '/behandlinger/fertilitet/assistert-befruktning-for-par-og-single', category: 'Fertilitet', keywords: ['par', 'single', 'lesbisk', 'enslig'] },
@@ -68,7 +68,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Hysteroskopi (fertilitet)', path: '/behandlinger/fertilitet/hysteroskopi', category: 'Fertilitet', keywords: ['hysteroskopi', 'livmor', 'office'] },
 
   // ─────────────── Ortopedi ───────────────
-  { label: 'Ortopedi', path: '/behandlinger/ortopedi', category: 'Fagområde', keywords: ['bein', 'skjelett', 'ledd', 'muskel'] },
+  { label: 'Ortopedi', path: '/behandlinger/ortopedi', category: 'Tjeneste', keywords: ['bein', 'skjelett', 'ledd', 'muskel'] },
   { label: 'Fot og ankel', path: '/behandlinger/ortopedi/fot-ankel', category: 'Ortopedi', keywords: ['fot', 'ankel', 'achilles', 'ballettankel', 'hallux valgus'] },
   { label: 'Hofte', path: '/behandlinger/ortopedi/hofte', category: 'Ortopedi', keywords: ['hofte', 'artrose', 'hofteskopi'] },
   { label: 'Hånd og albue', path: '/behandlinger/ortopedi/hand-albue', category: 'Ortopedi', keywords: ['hånd', 'albue', 'tennisalbue', 'carpal tunnel', 'håndledd'] },
@@ -76,7 +76,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Skulder', path: '/behandlinger/ortopedi/skulder', category: 'Ortopedi', keywords: ['skulder', 'rotator', 'frossen skulder'] },
 
   // ─────────────── Flere fagområder ───────────────
-  { label: 'Flere fagområder', path: '/behandlinger/flere-fagomrader', category: 'Fagområde', keywords: ['andre', 'øvrige'] },
+  { label: 'Flere tjenester', path: '/behandlinger/flere-fagomrader', category: 'Tjeneste', keywords: ['andre', 'øvrige'] },
   { label: 'Endokrinologi', path: '/behandlinger/flere-fagomrader/endokrinologi', category: 'Andre', keywords: ['hormoner', 'skjoldbruskkjertel', 'diabetes', 'stoffskifte'] },
   { label: 'Hudhelse', path: '/behandlinger/flere-fagomrader/hudhelse', category: 'Andre', keywords: ['hud', 'dermatolog', 'utslett', 'hudlege', 'eksem', 'akne'] },
   { label: 'Hudbehandlinger', path: '/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger', category: 'Andre', keywords: ['hudbehandling', 'laser', 'peeling', 'kosmetisk'] },
@@ -151,7 +151,7 @@ const normalize = (s: string): string =>
     .replace(/[\u0300-\u036f]/g, "");
 
 // Vekt-bonus for fagområde-/oversiktssider når brukeren søker bredt.
-const TOP_LEVEL_CATEGORIES = new Set(["Fagområde", "Tema", "Side"]);
+const TOP_LEVEL_CATEGORIES = new Set(["Tjeneste", "Tema", "Side"]);
 
 // Forhåndsbygd, normalisert indeks for raskere matching
 type IndexedItem = SearchItem & {

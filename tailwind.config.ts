@@ -73,8 +73,8 @@ export default {
            sm/md er litt mindre varianter; xl/2xl/3xl kollapser til samme
            verdi så ALLE knapper, kort og bokser får identisk avrunding.
            rounded-full beholdes for sirkler (avatarer, ikoner). */
-        sm: "calc(var(--radius) - 4px)",
-        md: "calc(var(--radius) - 2px)",
+        sm: "var(--radius)",
+        md: "var(--radius)",
         lg: "var(--radius)",
         xl: "var(--radius)",
         "2xl": "var(--radius)",
