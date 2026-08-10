@@ -117,3 +117,15 @@ export const clinicOffersService = (clinicId: string, serviceCategoryId: string)
 export const getClinicBySlug = (slug: string): Clinic | undefined => {
   return clinics.find(c => c.slug === slug);
 };
+
+// Single source of truth for addresses/maps links.
+// Sanity may hold stale addresses — always overlay the canonical static values.
+export const getCanonicalAddress = (slugOrId?: string): { address?: string; mapsUrl?: string } => {
+  const c = clinics.find((x) => x.slug === slugOrId || x.id === slugOrId);
+  return c ? { address: c.address, mapsUrl: c.mapsUrl } : {};
+};
+
+export const withCanonicalAddress = <T extends { slug?: string; id?: string }>(clinic: T): T => {
+  const canonical = getCanonicalAddress(clinic.slug || clinic.id);
+  return canonical.address ? ({ ...clinic, ...canonical } as T) : clinic;
+};
