@@ -560,6 +560,12 @@ export const getFromPriceForTitle = (categoryId: string, title: string): string 
  * Used on category landing hero (e.g. /fertilitet, /gynekologi, /urologi) to show
  * a small "Tjeneste / Pris fra X kr" block above the CTA.
  */
+// Per-category override of which price item represents the entry service,
+// and how it should be labelled in the hero block.
+const CATEGORY_ENTRY_OVERRIDES: Record<string, { match: string; label: string }> = {
+  fertilitet: { match: "fertilitetsutredning", label: "Fertilitetsutredning" },
+};
+
 export const getCategoryEntryPrice = (
   categoryId: string,
 ): { label: string; price: string } | null => {
@@ -570,6 +576,21 @@ export const getCategoryEntryPrice = (
   // (e.g. sædanalyse 800,- under urologi).
   const sub = cat.subcategories[0];
   if (!sub) return null;
+
+  const override = CATEGORY_ENTRY_OVERRIDES[categoryId];
+  if (override) {
+    const nMatch = normalize(override.match);
+    let bestOverride: number | null = null;
+    for (const item of sub.items) {
+      if (!normalize(item.name).includes(nMatch)) continue;
+      const p = parsePrice(item.price);
+      if (p !== null && (bestOverride === null || p < bestOverride)) bestOverride = p;
+    }
+    if (bestOverride !== null) {
+      return { label: override.label, price: formatFromPrice(bestOverride) };
+    }
+  }
+
   let best: { label: string; n: number } | null = null;
   for (const item of sub.items) {
     const p = parsePrice(item.price);
@@ -579,5 +600,6 @@ export const getCategoryEntryPrice = (
   if (!best) return null;
   return { label: best.label, price: formatFromPrice(best.n) };
 };
+
 
 
