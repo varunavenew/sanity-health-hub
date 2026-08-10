@@ -4,7 +4,6 @@
 import img_fertilitet_assistert_befruktning from "@/assets/services/fertilitet-assistert-befruktning.jpg.asset.json";
 import img_fertilitet_donorbehandling from "@/assets/services/fertilitet-donorbehandling.jpg.asset.json";
 import img_fertilitet_eggfrys from "@/assets/services/fertilitet-eggfrys.jpg.asset.json";
-import img_fertilitet_fertilitetsteamet from "@/assets/services/fertilitet-fertilitetsteamet.jpg.asset.json";
 import img_fertilitet_fertilitetsutredning from "@/assets/services/fertilitet-fertilitetsutredning.jpg.asset.json";
 import img_fertilitet_hero from "@/assets/services/fertilitet-hero.jpg.asset.json";
 import img_fertilitet_hysteroskopi from "@/assets/services/fertilitet-hysteroskopi.jpg.asset.json";
@@ -69,7 +68,6 @@ export const serviceImageBySlug: Record<string, string> = {
   "fertilitet-assistert-befruktning": img_fertilitet_assistert_befruktning.url,
   "fertilitet-donorbehandling": img_fertilitet_donorbehandling.url,
   "fertilitet-eggfrys": img_fertilitet_eggfrys.url,
-  "fertilitet-fertilitetsteamet": img_fertilitet_fertilitetsteamet.url,
   "fertilitet-fertilitetsutredning": img_fertilitet_fertilitetsutredning.url,
   "fertilitet-hero": img_fertilitet_hero.url,
   "fertilitet-hysteroskopi": img_fertilitet_hysteroskopi.url,
@@ -163,7 +161,6 @@ const SUB_ALIAS: Record<string, string> = {
   "urologi/infertilitet": "mannlig-infertilitet",
   "urologi/testikler": "testikler-og-pung",
   // fertilitet
-  "fertilitet/teamet": "fertilitetsteamet",
   // ortopedi
   "ortopedi/fot-ankel": "fot-og-ankel",
   "ortopedi/hand-albue": "hand-og-albue",
