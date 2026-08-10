@@ -325,7 +325,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               normalized === "/fertilitet" ||
               normalized === "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi";
             return (
-              <div className={hasFloatingCta ? "pb-[calc(96px+env(safe-area-inset-bottom))] md:pb-0" : ""}>
+              <div className={hasFloatingCta ? "pb-[calc(64px+env(safe-area-inset-bottom))] md:pb-0" : ""}>
                 <Footer />
               </div>
             );

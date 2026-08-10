@@ -60,9 +60,9 @@ export const Footer = () => {
   const socialChannels = buildSocialChannels(social);
 
   return (
-    <footer className="bg-[#180404] text-white pt-20 pb-10" role="contentinfo">
+    <footer className="bg-[#180404] text-white pt-14 pb-6 md:pt-20 md:pb-10" role="contentinfo">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-4 items-start gap-x-8 gap-y-10 mb-10 md:mb-14">
           {/* Column 1: Tjenester */}
           <div>
             <h3 className="text-xs text-white/70 mb-4 font-normal">{t("footer.services")}</h3>
@@ -147,7 +147,7 @@ export const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="pt-6 md:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
           <div className="flex items-center gap-4">
             <img src={logoNegative} alt="CMedical" className="h-10" />
             <p className="text-xs text-white/70">© {new Date().getFullYear()} CMedical. {t("footer.rights")}</p>
