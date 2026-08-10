@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { ArrowRight, Plus, Minus, ChevronRight, Search } from "lucide-react";
+import { ArrowRight, Plus, Minus, ChevronRight, Search, Check } from "lucide-react";
 import { getServiceIcon } from "@/pages/treatments/categoryPageContent";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
