@@ -29,10 +29,31 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const [activeClinic, setActiveClinic] = useState("alle");
   const { sorted: specialists, allClinics } = useSpecialistsData();
   const clinicNames = allClinics();
+  const [navTop, setNavTop] = useState(0);
 
   useEffect(() => {
     document.title = "Våre spesialister | CMedical";
   }, []);
+
+  // Sync sticky filter offset with the auto-hiding header (same as /priser)
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (!header) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setNavTop(Math.max(0, header.getBoundingClientRect().bottom));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
 
   // Combined AND filter: a specialist must match BOTH the selected category
   // and the selected clinic (when either is set to something other than "alle").
