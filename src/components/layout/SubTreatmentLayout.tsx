@@ -155,12 +155,24 @@ const isBlacklisted = (title: string): boolean => {
   return REASONS_BLACKLIST.some((b) => t === b || t.startsWith(b));
 };
 
+/** Rough text length of a ReactNode tree — used to detect heavy sections. */
+const nodeTextLength = (node: ReactNode): number => {
+  if (node === null || node === undefined || typeof node === "boolean") return 0;
+  if (typeof node === "string") return node.length;
+  if (typeof node === "number") return String(node).length;
+  if (Array.isArray(node)) return node.reduce<number>((a, n) => a + nodeTextLength(n), 0);
+  if (typeof node === "object" && "props" in (node as { props?: unknown })) {
+    return nodeTextLength(((node as { props?: { children?: ReactNode } }).props ?? {}).children);
+  }
+  return 0;
+};
+
 const ReasonsEditorial = ({
    title,
    lead,
    lead2,
    items,
-   layout = "prose",
+   layout = "auto",
 }: {
    title: string;
    lead?: string;
@@ -168,6 +180,7 @@ const ReasonsEditorial = ({
    items: { n: string; title: string; desc: ReactNode }[];
    layout?: "prose" | "accordion" | "auto";
 }) => {
+
    // Filter out blacklisted items and items with no real content.
    const cleanItems = (items ?? []).filter(
      (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
