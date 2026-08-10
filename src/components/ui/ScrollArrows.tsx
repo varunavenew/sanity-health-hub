@@ -139,12 +139,13 @@ export const ScrollArrows = ({
 
   return (
     <div
-      className={`${vis} items-center gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
+      className={`${vis} items-center gap-3 md:gap-4 w-full max-w-full overflow-x-clip mt-5 md:mt-6 ${className}`}
     >
       {/* Fremdriftslinje + teller (venstrejustert) */}
-      <div className="flex-1 min-w-0 flex items-center gap-3">
+      <div className={`${trailing ? "" : "flex-1"} min-w-0 flex items-center gap-3`}>
         <div
-          className="relative h-px flex-1 min-w-0 bg-brand-dark/15"
+          className={`relative h-px flex-1 min-w-0 bg-brand-dark/15 ${trailing ? "hidden md:block" : ""}`}
+
           role="progressbar"
           aria-valuemin={1}
           aria-valuemax={total}
