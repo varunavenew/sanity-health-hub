@@ -57,7 +57,7 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Bærumsveien+205+1357+Bekkestua",
-    services: ["gynekolog", "hudhelse"],
+    services: ["gynekolog", "hudhelse", "ernaringsfysiolog"],
     detail: {
       description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudhelse i moderne og rolige omgivelser.",
       parking: "Gratis parkering tilgjengelig rett utenfor klinikken.",
