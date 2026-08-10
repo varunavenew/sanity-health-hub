@@ -357,11 +357,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
  oss, fra du booker time til du er ferdig behandlet.
  </p>
- <Button asChild variant="cta" size="lg" className="px-8">
- <Link to={buildBookingUrl({ kategori: "flere-fagomrader" })}>
- Bestill time
- </Link>
- </Button>
  </div>
 
  <div className="lg:col-span-7">
@@ -384,6 +379,13 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
+   <div className="max-w-6xl mx-auto mt-12 md:mt-14">
+     <Button asChild variant="cta" size="lg" className="px-8">
+     <Link to={buildBookingUrl({ kategori: "flere-fagomrader" })}>
+     Bestill time
+     </Link>
+     </Button>
+   </div>
  </div>
  </section>
 

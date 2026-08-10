@@ -588,9 +588,6 @@ const GraviditetEtterMaster = ({ isChatOpen }: PageProps) => {
                 Du tar kontakt — vi tar over. Slik ser et vanlig svangerskapsforløp
                 ut hos oss, fra du booker time til kontrollen etter fødsel.
               </p>
-              <Button asChild variant="cta" size="lg" className="px-8">
-                <Link to={buildBookingUrl({ kategori: "graviditet" })}>Bestill time</Link>
-              </Button>
             </div>
 
             <div>
@@ -606,6 +603,11 @@ const GraviditetEtterMaster = ({ isChatOpen }: PageProps) => {
                 ))}
               </div>
             </div>
+          </div>
+          <div className="max-w-6xl mx-auto mt-12 md:mt-14">
+            <Button asChild variant="cta" size="lg" className="px-8">
+            <Link to={buildBookingUrl({ kategori: "graviditet" })}>Bestill time</Link>
+            </Button>
           </div>
         </div>
       </section>
