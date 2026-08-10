@@ -275,7 +275,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
                 )}
               </figure>
             ) : (
-              <div className="rounded-sm overflow-hidden mb-10 -mt-0">
+              <div className="hidden md:block rounded-sm overflow-hidden mb-10 -mt-0">
                 <img
                   src={article.image}
                   alt={article.title}
