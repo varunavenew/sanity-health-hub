@@ -137,19 +137,22 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
   // Use Sanity data if available, otherwise fall back to static
   const articles: Article[] = useMemo(() => {
-    const source = sanityArticles && sanityArticles.length > 0
-      ? sanityArticles.map((a) => ({
-          slug: a.slug,
-          title: a.title,
-          excerpt: a.excerpt,
-          image: a.image,
-          date: a.date,
-          category: a.category,
-          pinned: a.pinned,
-          featured: a.featured,
-          mediaType: (a as any).mediaType,
-        }))
-      : staticArticles;
+    // Only trust CMS entries that are actually linkable (slug + title).
+    const validSanity = (sanityArticles ?? [])
+      .filter((a) => a?.slug && a?.title)
+      .map((a) => ({
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        image: a.image,
+        date: a.date,
+        category: a.category,
+        pinned: a.pinned,
+        featured: a.featured,
+        mediaType: (a as any).mediaType,
+      }));
+    const source = validSanity.length >= staticArticles.length ? validSanity : staticArticles;
+
     // Normalize legacy "Nyheter" -> "Nytt fra oss"
     return source.map((a) => ({ ...a, category: normalizeCategory(a.category) }));
   }, [sanityArticles]);
