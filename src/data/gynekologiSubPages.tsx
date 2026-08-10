@@ -43,12 +43,12 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     heroDescription:
       "Du trenger ikke vite hva det er — det er det vi er her for. En gynekologisk undersøkelse er det naturlige første steget, enten du har konkrete plager eller bare ønsker å sjekke at alt er som det skal.",
     heroPoints: [
-      { title: "Ingen ventetid", desc: "Du finner time hos oss innen få dager — ikke etter måneder i offentlig kø." },
+      { title: "Kort ventetid", desc: "Du finner time hos oss innen få dager — ikke etter måneder i offentlig kø." },
       { title: "Du møter riktig spesialist", desc: "Gynekologene våre jobber med det de kan best. Vi sørger for at du møter rett person." },
       { title: "Vi forstår", desc: "Du fortjener tid til samtalen, ikke et fem-minutters møte. Vi tar oss tid." },
       { title: "Alt under samme tak", desc: "Trenger du videre utredning eller behandling, har du det her. Ingen omveier." },
     ],
-    rating: "4,7 — Ingen ventetid · Ingen henvisning nødvendig",
+    rating: "4,7 — Kort ventetid · Ingen henvisning nødvendig",
     heroPrice: "Pris fra 2 200 kr",
     hideSeePriser: true,
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
@@ -114,7 +114,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
-      "Ingen ventetid. Ingen fastlege nødvendig. Du bestiller direkte — og vi sørger for at du møter riktig spesialist.",
+      "Kort ventetid. Ingen fastlege nødvendig. Du bestiller direkte — og vi sørger for at du møter riktig spesialist.",
   },
 
 

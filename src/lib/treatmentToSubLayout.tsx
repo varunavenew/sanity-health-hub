@@ -187,7 +187,7 @@ export const treatmentToSubLayout = ({
     benefitItems.length >= 2
       ? benefitItems
       : [
-          { title: "Ingen ventetid", desc: "Du finner time hos oss innen få dager." },
+          { title: "Kort ventetid", desc: "Du finner time hos oss innen få dager." },
           { title: "Ingen henvisning", desc: "Du kan bestille direkte uten henvisning fra fastlege." },
           { title: "Erfarne spesialister", desc: "Du møter leger som jobber med dette til daglig." },
         ];

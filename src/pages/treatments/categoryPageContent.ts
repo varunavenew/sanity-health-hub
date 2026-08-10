@@ -169,7 +169,7 @@ const standardFaqs = [
 const gynekologi: CategoryNewContent = {
   id: "gynekologi",
   title: "Gynekologi",
-  subtitle: "Ingen ventetid • Ingen henvisning",
+  subtitle: "Kort ventetid • Ingen henvisning",
   description:
     "Velkommen til CMedical Kvinnehelse og våre spesialister innen gynekologi, fertilitet og kirurgi. Vi tilbyr et spisset og bredt tilbud som gir deg direkte tilgang til riktig ekspertise, uten omveier. Vårt mål er å gjøre kvinnehelse til folkehelse, i hele Norden.",
   longDescription:
@@ -235,7 +235,7 @@ const gynekologi: CategoryNewContent = {
 const urologi: CategoryNewContent = {
   id: "urologi",
   title: "Urologi",
-  subtitle: "Ingen ventetid • Ingen henvisning",
+  subtitle: "Kort ventetid • Ingen henvisning",
   description:
     "Urologi er en medisinsk spesialitet som omhandler plager og sykdommer knyttet til mannens underliv og urinorganer hos begge kjønn herunder penis, prostata, testikler, urinblære og nyrer. Har du smerter, forstyrrelser med vannlating eller bare ønsker en generell sjekk, vil vår gruppe av spesialister kunne hjelpe.",
   longDescription:
@@ -283,7 +283,7 @@ const urologi: CategoryNewContent = {
 const fertilitet: CategoryNewContent = {
   id: "fertilitet",
   title: "Fertilitet",
-  subtitle: "Uten henvisning • Ingen ventetid",
+  subtitle: "Uten henvisning • Kort ventetid",
   description:
     "Velkommen til Nordens mest komplette private fertilitetstilbud. Hos oss i CMedical får du erfaring, spisskompetanse og moderne teknologi samlet på ett sted – enten du er ny pasient eller kommer fra en annen klinikk.",
   longDescription:
@@ -328,7 +328,7 @@ const fertilitet: CategoryNewContent = {
 const ortopedi: CategoryNewContent = {
   id: "ortopedi",
   title: "Ortopedi",
-  subtitle: "Ingen ventetid • Ingen henvisning",
+  subtitle: "Kort ventetid • Ingen henvisning",
   description:
     "Ortopedi er en medisinsk spesialitet som tar seg av problemer med muskler, bein, ledd og sener i kroppen. Våre ortopeder er eksperter på å behandle skader og sykdommer knyttet til skulder, hånd, fot og albue.",
   longDescription:
