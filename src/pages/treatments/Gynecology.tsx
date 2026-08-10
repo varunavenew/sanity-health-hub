@@ -50,7 +50,7 @@ const lifePhases = [
  {
  title: "Menstruasjonssyklus, hormonell helse og prevensjon",
  desc:
- "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
+ "Vi hjelper deg med prevensjon, menstruasjonsforstyrrelser og hormonelle plager — ingen skal leve med plager vi kan hjelpe deg med.",
  tags: [
  { label: "Prevensjonsveiledning", href: "/behandlinger/gynekologi/undersokelse" },
  { label: "PMOS", href: "/behandlinger/gynekologi/pcos" },
@@ -84,7 +84,7 @@ const lifePhases = [
     { label: "Tidlig ultralyd", href: "/behandlinger/graviditet/ultralyd" },
     { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
     { label: "Graviditetsoppfølging", href: "/behandlinger/graviditet/svangerskapsteam" },
-    { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/gynekologi/fodselsskader" },
+    { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/graviditet/6-ukerskontroll" },
     { label: "Spontanabort", href: "/behandlinger/gynekologi/spontanabort" },
     { label: "Abort", href: "/behandlinger/gynekologi/undersokelse" },
     { label: "Fødselsskader", href: "/behandlinger/gynekologi/fodselsskader" },
@@ -489,9 +489,9 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  <div className="lg:col-span-6 lg:pt-3">
  <p className="text-base font-light text-muted-foreground leading-relaxed">
- Hos oss møter du gynekologer som har spesialisert seg dypt
- innenfor sitt fagfelt. Det betyr at du får riktig kompetanse
- fra første konsultasjon — uten omveier.
+ Hos oss møter du gynekologer som jobber med få og utvalgte
+ kvinnesykdommer, hvor de har særskilt kompetanse. Det gjør at du
+ raskere kommer til riktig vurdering og behandling.
  </p>
  </div>
  </div>

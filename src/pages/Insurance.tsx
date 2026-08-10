@@ -12,8 +12,8 @@ import { SplitHero } from "@/components/layout/SplitHero";
 interface PageProps { isChatOpen: boolean }
 
 const staticCompanies = [
-  { name: "ERGO" }, { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" },
-  { name: "Gjensidige" }, { name: "Tryg" }, { name: "IF - Vertikal Helse" },
+  { name: "Avanova" }, { name: "ERGO" }, { name: "EuroAccident" }, { name: "Falck" },
+  { name: "Fremtind" }, { name: "Gjensidige" }, { name: "Tryg" }, { name: "IF - Vertikal Helse" },
 ];
 
 const staticSteps = [
