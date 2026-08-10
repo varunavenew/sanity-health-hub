@@ -118,7 +118,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
             <Calendar className="w-3 h-3" />
             {formatDate(article.date)}
           </span>
-          <ReadMoreLink>Les mer</ReadMoreLink>
+          <ReadMoreLink tone="onImage">Les mer</ReadMoreLink>
         </div>
       </div>
     </Link>
@@ -372,12 +372,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
                   Spesialister du kan bestille time hos
                 </h2>
               </div>
-              <Link
-                to="/spesialister"
-                className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
-              >
-                Se alle <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <ReadMoreLink to="/spesialister" tone="standalone">Se alle spesialister</ReadMoreLink>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {featuredSpecialists.map((s) => (

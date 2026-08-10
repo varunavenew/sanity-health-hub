@@ -452,13 +452,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
     {"\n"}
    </p>
 
-  <Link
-   to="/om-oss"
-   className="inline-flex items-center gap-2 mt-8 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
-  >
-   Les mer om klinikken
-   <ArrowRight className="w-3.5 h-3.5" />
-  </Link>
+  <ReadMoreLink to="/om-oss" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
  </div>
  </div>
 
