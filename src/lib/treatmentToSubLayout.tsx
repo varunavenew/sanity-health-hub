@@ -99,6 +99,34 @@ const stripMarkdown = (s: string): string =>
     .replace(/_(.*?)_/g, "$1")
     .trim();
 
+/**
+ * Render inline markdown links `[tekst](/sti)` as real links, and strip
+ * remaining inline markdown. Internal paths use react-router <Link>.
+ */
+const renderInline = (s: string): ReactNode => {
+  const parts: ReactNode[] = [];
+  const re = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let key = 0;
+  while ((m = re.exec(s)) !== null) {
+    if (m.index > last) parts.push(stripMarkdown(s.slice(last, m.index)));
+    const label = stripMarkdown(m[1]);
+    const href = m[2].trim();
+    const cls = "underline underline-offset-4 hover:opacity-70";
+    parts.push(
+      href.startsWith("/")
+        ? <Link key={`a-${key++}`} to={href} className={cls}>{label}</Link>
+        : <a key={`a-${key++}`} href={href} className={cls} target="_blank" rel="noopener noreferrer">{label}</a>,
+    );
+    last = m.index + m[0].length;
+  }
+  if (last === 0) return stripMarkdown(s);
+  if (last < s.length) parts.push(stripMarkdown(s.slice(last)));
+  return <>{parts}</>;
+};
+
+
 /** Take first sentence(s) up to ~maxChars. */
 const summarize = (text: string, maxChars = 220): string => {
   const cleaned = stripMarkdown(text.split("\n").find((l) => l.trim().length > 0) ?? text);
