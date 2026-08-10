@@ -1,8 +1,9 @@
 import { getServiceImageFromHref } from "@/data/serviceImages";
-import audienceCouple from "@/assets/fertility/audience-couple.jpg";
+
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import mannligFertilitetAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
+import heterofiltParAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
 
 /** Felles landingsside for alle målgruppekortene. */
 export const AUDIENCE_LANDING =
@@ -25,7 +26,7 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Har dere prøvd en stund – uten å lykkes? Mange av parene som kommer til oss har forsøkt å bli gravide over tid. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt.",
     href: `${AUDIENCE_LANDING}#mann-og-kvinne-i-parforhold`,
-    image: getServiceImageFromHref("/behandlinger/fertilitet/infertilitet") ?? audienceCouple,
+    image: heterofiltParAsset.url,
   },
   {
     title: "To kvinner i parforhold",
