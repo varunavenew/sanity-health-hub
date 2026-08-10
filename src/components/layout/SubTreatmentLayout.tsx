@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from 
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
@@ -384,6 +384,7 @@ const RelatedServicesCarousel = ({
   const { pathname } = useLocation();
   const resolved = prepareRelatedCards(items, pathname);
   const showArrows = resolved.length > 2;
+  if (resolved.length === 0) return null;
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -806,7 +807,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
 
   <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
-  {c.expertAreas.items.map((a) => (
+  {prepareRelatedCards(c.expertAreas.items, c.canonical).map((a) => (
   <Link
   key={a.title}
   to={a.href}
