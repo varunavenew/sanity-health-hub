@@ -56,7 +56,7 @@ export const BookingWidget = () => {
         <div className="max-w-4xl mx-auto">
           {/* Badge */}
           <div className="flex justify-center mb-6">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl md:rounded-full bg-white/10 border border-white/20 text-sm text-white">
+            <span className="inline-flex items-center gap-2 text-sm text-white/80">
               <Calendar className="w-4 h-4" />
               Rask og enkel booking
             </span>

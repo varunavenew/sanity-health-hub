@@ -151,10 +151,12 @@ const Pricing = ({ isChatOpen }: PageProps) => {
         <div className="lg:w-1/2 h-1/2 lg:h-full bg-brand-warm flex flex-col justify-center px-8 py-8 lg:px-16 lg:py-0">
           {/* Trust badges - Outline pill design */}
           <div className="flex flex-wrap gap-3 mb-12">
-            <span className="px-4 py-2 rounded-2xl md:rounded-full border border-brand-dark/30 text-sm text-brand-dark/80">
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/80">
+              <Check className="w-4 h-4 text-brand-dark/60" aria-hidden="true" />
               Ingen henvisning
             </span>
-            <span className="px-4 py-2 rounded-2xl md:rounded-full border border-brand-dark/30 text-sm text-brand-dark/80">
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/80">
+              <Check className="w-4 h-4 text-brand-dark/60" aria-hidden="true" />
               Kort ventetid
             </span>
           </div>
