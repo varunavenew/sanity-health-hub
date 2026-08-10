@@ -1,4 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote, Users, Clock, User } from "lucide-react";
@@ -120,29 +121,6 @@ const segments = [
 
 
 
-const audiences = [
-  {
-    title: "Heterofile par",
-    desc:
-      "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
-    href: "/behandlinger/fertilitet/infertilitet",
-    image: getServiceImageFromHref("/behandlinger/fertilitet/infertilitet") ?? audienceCouple,
-  },
-  {
-    title: "De ventende",
-    desc:
-      "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
-    href: "/behandlinger/fertilitet/fertilitetsutredning",
-    image: getServiceImageFromHref("/behandlinger/fertilitet/fertilitetsutredning") ?? audienceWaiting,
-  },
-  {
-    title: "Singel",
-    desc:
-      "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
-    href: "/behandlinger/fertilitet/donorbehandling",
-    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? audienceSingle,
-  },
-];
 
 const expertAreas = [
   {
@@ -458,7 +436,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {audiences.map((a) => (
                 <Link
                   key={a.title}
