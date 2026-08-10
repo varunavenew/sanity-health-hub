@@ -201,7 +201,6 @@ const ReasonsEditorial = ({
                <Accordion
                  type="single"
                  collapsible
-                 defaultValue={isMobile ? undefined : `reason-0`}
                  onValueChange={(val) => {
                    if (!val) return;
                    requestAnimationFrame(() => {
