@@ -225,7 +225,6 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
  <div className="container mx-auto px-6 md:px-16">
  <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
  <div className="max-w-xl">
- <p className="text-sm text-muted-foreground font-light mb-3">Våre {categoryTitle.toLowerCase()}-eksperter</p>
  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
  Møt våre {categoryTitle.toLowerCase()}-spesialister
  </h2>
@@ -522,7 +521,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  <section className="py-14 md:py-20 bg-secondary/30">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mb-10">
- <p className="text-sm text-muted-foreground font-light mb-2">Praktisk informasjon</p>
  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Finansiering</h2>
  <p className="text-foreground/80 font-light leading-relaxed">
  Vi er et privat helsetilbud. Du betaler selv – eller får behandling dekket av helseforsikring.
@@ -587,7 +585,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  <section className="py-14 md:py-20 bg-secondary/30">
  <div className="container mx-auto px-6 md:px-16 flex flex-col items-center">
  <div className="max-w-3xl w-full text-center">
- <p className="text-sm text-muted-foreground font-light mb-2">Spørsmål &amp; svar</p>
  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
  Ofte stilte spørsmål
  </h2>

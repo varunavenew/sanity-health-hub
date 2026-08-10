@@ -36,9 +36,6 @@ export const VisualStorytelling = () => {
  <div className="container mx-auto px-6 md:px-16">
  {/* Section header */}
  <div className="text-center max-w-3xl mx-auto mb-16">
- <p className="text-sm font-medium text-accent mb-3">
- Livsforvandlende behandling
- </p>
  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-6 leading-tight">
  Se hvordan vi gjør en forskjell
  </h2>

@@ -21,7 +21,6 @@ export const ServiceCategories = () => {
     <section id="services" className="py-24 md:py-32 bg-[hsl(30,10%,96%)]">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-2xl mb-16">
-          <p className="text-sm text-brand-dark/70 font-normal mb-3">Våre tjenester</p>
           <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-4">Finn hjelp for dine symptomer</h2>
           <p className="text-muted-foreground font-light text-base">Uansett hva du opplever – vi har spesialister som kan hjelpe.</p>
         </div>

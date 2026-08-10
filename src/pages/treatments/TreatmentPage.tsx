@@ -121,7 +121,6 @@ const SpecialistCarouselSection = ({
         <div className="max-w-3xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
             <div>
-              <p className="text-sm text-muted-foreground font-light mb-3">Dine behandlere</p>
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
                 Møt våre spesialister
               </h2>
