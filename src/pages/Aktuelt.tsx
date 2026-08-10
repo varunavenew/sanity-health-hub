@@ -295,11 +295,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
                 <button
                   key={cat}
                   onClick={() => setActiveFilter(cat)}
-                  className={`inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-1 min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
-                    isActive
-                      ? "bg-brand-dark text-brand-warm border-brand-dark"
-                      : "bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark"
-                  }`}
+                  className={"chip-filter chip-filter-light"}
+                  data-active={isActive}
                   aria-current={isActive ? "true" : undefined}
                 >
                   {cat}

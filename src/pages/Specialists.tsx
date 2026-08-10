@@ -81,11 +81,8 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 <button
                   key={key}
                   onClick={() => setActiveFilter(key)}
-                  className={`inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-1 min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
-                    isActive
-                      ? "bg-brand-dark text-brand-warm border-brand-dark"
-                      : "bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark"
-                  }`}
+                  className={"chip-filter chip-filter-dark"}
+                  data-active={isActive}
                   aria-current={isActive ? "true" : undefined}
                 >
                   {label}
@@ -102,11 +99,8 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 <button
                   key={clinic.id}
                   onClick={() => setActiveClinic(clinic.id)}
-                  className={`inline-flex items-center justify-center gap-1.5 px-3 md:px-4 py-1.5 md:py-1 min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
-                    isActive
-                      ? "bg-brand-dark text-brand-warm border-brand-dark"
-                      : "bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark"
-                  }`}
+                  className={"chip-filter chip-filter-dark"}
+                  data-active={isActive}
                   aria-current={isActive ? "true" : undefined}
                 >
                   <MapPin className="w-3 h-3" />
