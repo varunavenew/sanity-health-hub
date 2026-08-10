@@ -274,11 +274,11 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
               style={{ top: `${navTop}px`, width: '100vw', marginLeft: 'calc(50% - 50vw)' }}
               aria-hidden={!showStickyNav}
             >
-              <div className="container mx-auto px-4 md:px-8">
+              <div className="container mx-auto px-4 md:px-8 relative">
                 <div
                   ref={navScrollerRef}
-                  className="flex gap-2 overflow-x-auto py-2 scrollbar-hide [scroll-behavior:smooth]"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  className="flex gap-2 overflow-x-auto pr-10 py-2 scrollbar-hide [scroll-behavior:smooth] [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain]"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', touchAction: 'pan-x pan-y' }}
                 >
                   {ordered.map((cat) => {
                     const isActive = activeCategory === cat.id;
