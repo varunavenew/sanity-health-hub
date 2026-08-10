@@ -606,10 +606,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm font-light text-foreground">
-                {c.heroPoints.map((p) => (
-                  <span key={p.title} className="inline-flex items-center gap-2">
+                {["Kort ventetid", "Ingen henvisning"].map((label) => (
+                  <span key={label} className="inline-flex items-center gap-2">
                     <Check className="w-4 h-4 text-foreground shrink-0" strokeWidth={1.5} />
-                    {p.title}
+                    {label}
                   </span>
                 ))}
               </div>
