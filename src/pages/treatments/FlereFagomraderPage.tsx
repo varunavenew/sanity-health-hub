@@ -13,6 +13,7 @@ import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { ClinicPillarsSection } from "@/components/treatments/ClinicPillarsSection";
 import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
@@ -323,6 +324,18 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
+
+      <ClinicPillarsSection
+        title="Nordens fremste spesialister — samlet på ett sted."
+        intro="Vi har samlet noen av Nordens fremste spesialister innen blant annet gastrokirurgi, revmatologi, hudhelse, ernæringsfysiologi, osteopati, psykologi og sexologi."
+        pillars={[
+          { n: "01", title: "Alt under samme tak", desc: "Utredning, behandling og oppfølging på tvers av fagområder — du slipper å bli sendt videre." },
+          { n: "02", title: "Tverrfaglige team", desc: "Spesialistene samarbeider på tvers av fagfelt for å gi deg helhetlig og persontilpasset behandling." },
+          { n: "03", title: "Rask hjelp", desc: "Ingen henvisning og kort ventetid — de fleste får time innen en uke." },
+        ]}
+        image={flereHero}
+        imageAlt="Tverrfaglig spesialistteam hos CMedical"
+      />
 
   {/* 6. SPESIALISTER */}
 
