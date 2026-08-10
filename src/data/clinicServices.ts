@@ -30,11 +30,11 @@ export const clinics: Clinic[] = [
     id: "majorstuen", 
     slug: "majorstuen",
     label: "Oslo Majorstuen", 
-    address: "Sørkedalsveien 10 B, 0369 Oslo",
+    address: "Sørkedalsveien 10 A og B, 0369 Oslo",
     phone: "22 60 00 50",
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
-    mapsUrl: "https://maps.google.com/?q=Sørkedalsveien+10+B+0369+Oslo",
+    mapsUrl: "https://maps.google.com/?q=Sørkedalsveien+10+0369+Oslo",
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
@@ -42,7 +42,7 @@ export const clinics: Clinic[] = [
       "fysioterapeut", "uroterapi",
     ],
     detail: {
-      description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 B. Her tilbyr vi det bredeste spekteret av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
+      description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 A og B. Her tilbyr vi et bredt spekter av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
       parking: "Gateparkering tilgjengelig i nærområdet. Nærmeste parkeringshus er Colosseum Park (2 min gange).",
       publicTransport: "Majorstuen T-banestasjon (alle linjer) – 3 minutters gange. Trikk 11, 12 og 19 stopper rett utenfor.",
       accessibility: "Universelt utformet med heis og trinnfri adkomst.",
@@ -52,11 +52,11 @@ export const clinics: Clinic[] = [
     id: "bekkestua", 
     slug: "bekkestua",
     label: "Bekkestua", 
-    address: "Gamle Ringeriksvei 36, 1357 Bekkestua",
+    address: "Bærumsveien 205, 1357 Bekkestua",
     phone: "22 60 00 50",
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
-    mapsUrl: "https://maps.google.com/?q=Gamle+Ringeriksvei+36+1357+Bekkestua",
+    mapsUrl: "https://maps.google.com/?q=Bærumsveien+205+1357+Bekkestua",
     services: ["gynekolog", "hudhelse"],
     detail: {
       description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudhelse i moderne og rolige omgivelser.",
@@ -87,14 +87,14 @@ export const clinics: Clinic[] = [
     id: "moelv", 
     slug: "moelv",
     label: "Moelv", 
-    address: "Storgata 60, 2390 Moelv",
+    address: "Møllergata 18, 2390 Moelv",
     phone: "23 60 00 50",
     hours: "Man–Fre 08:30–15:30",
     bookingSystem: "pasientsky",
-    mapsUrl: "https://maps.google.com/?q=Storgata+60+2390+Moelv",
+    mapsUrl: "https://maps.google.com/?q=Møllergata+18+2390+Moelv",
     services: ["gynekolog", "ortoped", "urolog", "areknuter", "karkirurgi", "hjertespesialist", "almennlege"],
     detail: {
-      description: "CMedical Moelv ligger i Storgata 60 og er vår klinikk i Innlandet. Her tilbyr vi gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin.",
+      description: "CMedical Moelv ligger i Møllergata 18 og er vår klinikk i Innlandet. Her tilbyr vi gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin.",
       parking: "Gratis parkering rett utenfor klinikken.",
       publicTransport: "Moelv stasjon (tog fra Oslo S via Hamar) – 5 minutters gange.",
       accessibility: "Trinnfri adkomst til alle behandlingsrom.",
@@ -116,4 +116,16 @@ export const clinicOffersService = (clinicId: string, serviceCategoryId: string)
 // Helper to find clinic by slug
 export const getClinicBySlug = (slug: string): Clinic | undefined => {
   return clinics.find(c => c.slug === slug);
+};
+
+// Single source of truth for addresses/maps links.
+// Sanity may hold stale addresses — always overlay the canonical static values.
+export const getCanonicalAddress = (slugOrId?: string): { address?: string; mapsUrl?: string } => {
+  const c = clinics.find((x) => x.slug === slugOrId || x.id === slugOrId);
+  return c ? { address: c.address, mapsUrl: c.mapsUrl } : {};
+};
+
+export const withCanonicalAddress = <T extends { slug?: string; id?: string }>(clinic: T): T => {
+  const canonical = getCanonicalAddress(clinic.slug || clinic.id);
+  return canonical.address ? ({ ...clinic, ...canonical } as T) : clinic;
 };

@@ -10,7 +10,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { CTASection } from "@/components/layout/CTASection";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
-import { clinics as staticClinics } from "@/data/clinicServices";
+import { clinics as staticClinics, withCanonicalAddress } from "@/data/clinicServices";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { SplitHero } from "@/components/layout/SplitHero";
@@ -27,7 +27,9 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const { t } = useTranslation();
   const { data: sanityClinics } = useClinics();
   const { data: contactPage } = useContactPage();
-  const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
+  const clinics = (sanityClinics?.length ? sanityClinics : staticClinics).map((c: any) =>
+    withCanonicalAddress(c)
+  );
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [formData, setFormData] = useState({

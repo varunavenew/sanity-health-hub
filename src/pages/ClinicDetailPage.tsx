@@ -4,7 +4,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { getClinicBySlug } from "@/data/clinicServices";
+import { getClinicBySlug, withCanonicalAddress } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
@@ -89,7 +89,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  const staticClinic = slug ? getClinicBySlug(slug) : undefined;
 
  // Merge: Sanity first, static fallback
- const clinic = sanityClinic || (staticClinic ? {
+ const clinic = (sanityClinic ? withCanonicalAddress({ ...(sanityClinic as any), slug: (sanityClinic as any).slug || slug }) : undefined) || (staticClinic ? {
  id: staticClinic.id,
  slug: staticClinic.slug,
  label: staticClinic.label,
