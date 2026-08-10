@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { SocialChannelCards } from "@/components/homepage/SocialChannelCards";
 import { InstagramProfileHeader } from "@/components/homepage/InstagramProfileHeader";
@@ -117,9 +118,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
             <Calendar className="w-3 h-3" />
             {formatDate(article.date)}
           </span>
-          <span className="inline-flex items-center gap-1 text-white/90 text-xs font-medium group-hover:gap-2 transition-all">
-            Les mer <ArrowRight className="w-3.5 h-3.5" />
-          </span>
+          <ReadMoreLink>Les mer</ReadMoreLink>
         </div>
       </div>
     </Link>

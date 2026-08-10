@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
@@ -311,10 +312,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
  {a.desc}
  </p>
- <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
- Les mer
- <ArrowRight className="w-3.5 h-3.5" />
- </span>
+ <ReadMoreLink>Les mer</ReadMoreLink>
  </div>
  </Link>
  ))}

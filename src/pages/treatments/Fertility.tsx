@@ -1,4 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
 import { useEffect, useMemo, useRef } from "react";
@@ -506,10 +507,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                       {a.desc}
                     </p>
-                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                      Les mer
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                    <ReadMoreLink>Les mer</ReadMoreLink>
                   </div>
                 </Link>
               ))}
@@ -560,10 +558,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   <div className="p-7 flex flex-col flex-1">
                     <h3 className="text-xl font-light text-foreground mb-3">{a.title}</h3>
                     <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                      Les mer
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                    <ReadMoreLink>Les mer</ReadMoreLink>
                   </div>
                 </Link>
               ))}
@@ -673,10 +668,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     Rådgivning og støtte fra psykolog for deg som står i en fertilitetsprosess.
                   </p>
-                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
+                  <ReadMoreLink>Les mer</ReadMoreLink>
                 </div>
               </Link>
               <Link
@@ -697,10 +689,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     Veiledning fra sexolog om intimitet og parforhold gjennom fertilitetsforløpet.
                   </p>
-                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
+                  <ReadMoreLink>Les mer</ReadMoreLink>
                 </div>
               </Link>
             </div>
