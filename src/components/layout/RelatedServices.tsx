@@ -42,22 +42,22 @@ export const RelatedServices = ({
 
         <div
           ref={scrollRef}
-          className="flex md:grid md:grid-cols-3 gap-6 max-w-5xl mx-auto overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 md:mx-auto px-6 md:px-0 scrollbar-hide"
+          className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 max-w-5xl mx-auto overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 md:mx-auto px-6 md:px-0 scrollbar-hide"
           style={{ scrollbarWidth: "none" }}
         >
           {filteredServices.slice(0, 3).map((service) => (
             <Link
               key={service.link}
               to={service.link}
-              className="group p-8 rounded-2xl bg-brand-warm hover:bg-brand-warm/80 transition-all shrink-0 w-[85%] md:w-auto snap-start"
+              className="group p-4 md:p-8 rounded-2xl bg-brand-warm hover:bg-brand-warm/80 transition-all shrink-0 w-[calc((100vw-3.75rem)/2)] md:w-auto snap-start"
             >
-              <div className="mb-6">
-                <service.icon className="w-8 h-8 text-brand-dark/70" strokeWidth={1.5} />
+              <div className="mb-3 md:mb-6">
+                <service.icon className="w-6 h-6 md:w-8 md:h-8 text-brand-dark/70" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-medium text-brand-dark mb-2 group-hover:text-brand-dark transition-colors">
+              <h3 className="text-base md:text-xl font-medium text-brand-dark mb-2 group-hover:text-brand-dark transition-colors">
                 {service.title}
               </h3>
-              <p className="text-brand-dark/60 font-normal text-sm mb-4">{service.description}</p>
+              <p className="text-brand-dark/60 font-normal text-xs md:text-sm mb-3 md:mb-4">{service.description}</p>
               <span className="inline-flex items-center text-sm text-brand-dark font-medium">
                 Les mer
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
