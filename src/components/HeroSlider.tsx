@@ -1,3 +1,4 @@
+import { CarouselDots } from "@/components/ui/CarouselDots";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -125,20 +126,15 @@ export const HeroSlider = () => {
  <ChevronRight className="w-5 h-5" />
  </button>
 
- {/* Minimal dots */}
- <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
- {slides.map((_, index) => (
- <button
- key={index}
- onClick={() => setCurrentSlide(index)}
- className={`h-1 rounded-full transition-all ${
- index === currentSlide
- ? "bg-white w-8"
- : "bg-white/40 w-1 hover:bg-white/60 hover:w-4"
- }`}
- aria-label={`Go to slide ${index + 1}`}
+ {/* Minimal dots (maks 5 synlige, komprimert) */}
+ <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+ <CarouselDots
+ count={slides.length}
+ active={currentSlide}
+ onSelect={setCurrentSlide}
+ tone="light"
+ labelFor={(i) => `Go to slide ${i + 1}`}
  />
- ))}
  </div>
  </div>
  );
