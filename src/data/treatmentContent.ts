@@ -1696,6 +1696,40 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
+  "graviditet/6-ukerskontroll": {
+    title: "6-ukerskontroll etter fødsel",
+    subtitle: "Grundig etterkontroll hos gynekolog — bekkenbunn, kropp og psykisk helse.",
+    parentCategory: "Graviditet",
+    heroImage: heroPregnancy,
+    description: "På 6-ukerskontrollen har vi hovedfokus på bekkenbunn og din psykiske helse etter fødsel. Du treffer erfaren gynekolog som går grundig gjennom hvordan kroppen har hentet seg inn, sjekker bekkenbunnsmuskulaturen og tar seg tid til hvordan du har det. Vi snakker om amming, søvn, samliv og eventuelle plager — og legger en plan for veien videre.\n\nTa gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.",
+    benefits: [
+      "God tid hos erfaren gynekolog — ikke et fem-minutters møte",
+      "Grundig vurdering av bekkenbunn og eventuelle fødselsskader",
+      "Rom for å snakke om psykisk helse, amming, søvn og samliv",
+      "Ultralyd og undersøkelse ved behov",
+      "Videre plan og henvisning til fysioterapeut, uroterapeut eller psykolog ved behov",
+    ],
+    sections: [
+      {
+        heading: "Bekkenbunn og fødselsskader",
+        content: "Vi undersøker bekkenbunnsmuskulaturen og ser etter rifter, arrvev og eventuelle skader som ikke har grodd som de skal. Ved behov henviser vi videre til fysioterapeut eller uroterapeut, eller vurderer behandling hos oss.",
+      },
+      {
+        heading: "Psykisk helse etter fødsel",
+        content: "Tiden etter fødsel kan være krevende. Vi setter av tid til hvordan du har det, og kan koble deg videre til psykolog dersom du ønsker det.",
+      },
+      {
+        heading: "Prevensjon og samliv",
+        content: "Vi går gjennom prevensjon etter fødsel og snakker om samliv, tørrhet og smerter ved samleie dersom det er aktuelt.",
+      },
+    ],
+    faqs: [
+      { question: "Når bør jeg ta 6-ukerskontrollen?", answer: "Vanligvis rundt seks uker etter fødsel, men du er velkommen både tidligere og senere dersom det passer bedre for deg." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Du kan bestille time direkte hos oss." },
+      { question: "Kan jeg ta med barnet?", answer: "Ja, du kan gjerne ta med barnet og en partner eller støtteperson til timen." },
+      { question: "Hva bør jeg ta med?", answer: "Ta gjerne med epikrisen fra sykehusoppholdet, så får gynekologen full oversikt over fødselsforløpet." },
+    ],
+  },
   "graviditet/nipt": {
     title: "NIPT",
     subtitle: "Non-Invasive Prenatal Test fra svangerskapsuke 10.",
