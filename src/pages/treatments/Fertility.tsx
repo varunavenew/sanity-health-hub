@@ -118,7 +118,21 @@ const segments = [
  cta: "Bestill analyse",
  href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
  },
+ {
+ id: "donor",
+ title: "Jeg ønsker å bli donør",
+ desc:
+ "Som egg- eller sæddonor kan du hjelpe andre med å bli foreldre. Vi forklarer hva det innebærer, hvilke krav som gjelder og hvordan forløpet foregår — etter norsk lov.",
+ tags: [
+ { label: "Eggdonasjon", href: `${FERT}/donorbehandling` },
+ { label: "Sæddonasjon", href: `${FERT}/donorbehandling` },
+ { label: "Donorbehandling", href: `${FERT}/donorbehandling` },
+ ],
+ cta: "Les mer",
+ href: `${FERT}/donorbehandling`,
+ },
 ];
+
 
 
 
