@@ -48,7 +48,7 @@ export const NewsSplitScreen = () => {
 
         {/* Høyre — 2x2 artikler */}
         <div className="grid grid-cols-2 grid-rows-2 md:h-screen">
-          {fallback.map((item) => (
+          {latest.map((item) => (
             <Link
               key={item.slug}
               to={`/aktuelt/${item.slug}`}
