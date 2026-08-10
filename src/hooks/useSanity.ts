@@ -59,6 +59,7 @@ import {
   FAQS_BY_CATEGORY_QUERY,
   FAQS_BY_TREATMENT_CATEGORY_QUERY,
   THEME_PAGE_QUERY,
+  CLINICIAN_GUIDE_PAGE_QUERY,
   SERVICE_CATEGORIES_DROPDOWN_QUERY,
   PRODUCTS_QUERY,
   SEASONAL_PRODUCTS_QUERY,
@@ -804,83 +805,12 @@ export const useServicesPage = () => {
 };
 
 // ─── Clinics ─────────────────────────────────────────────────────────
-import type { ClinicLocation } from "@/lib/maps/clinic-location";
-import { clinicMapsUrl } from "@/lib/maps/clinic-location";
-
-export type SanityClinicBooking = {
-  method?: "info" | "pasientsky" | "metodika" | "closed";
-  serviceProviderId?: string;
-  metodikaLocationId?: number;
-  externalBookingUrl?: string;
-};
-
-export type SanityClinicListRow = {
-  _createdAt?: string;
-  id: string;
-  slug: string;
-  label: string;
-  address: string;
-  phone?: string;
-  hours?: string;
-  sortOrder?: number;
-  primaryImage?: string;
-  locationSearch?: ClinicLocation;
-  mapsUrl?: string;
-  services?: string[];
-  booking?: SanityClinicBooking;
-};
-
-function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
-  const label =
-    typeof c.label === "string"
-      ? c.label
-      : typeof c.title === "string"
-        ? c.title
-        : "";
-  const locationSearch = c.locationSearch as ClinicLocation | undefined;
-  const address = typeof c.address === "string" ? c.address : "";
-  const bookingRaw = c.booking as Record<string, unknown> | undefined;
-  const booking =
-    bookingRaw && typeof bookingRaw === "object"
-      ? {
-          method: bookingRaw.method as SanityClinicBooking["method"] | undefined,
-          serviceProviderId:
-            typeof bookingRaw.serviceProviderId === "string"
-              ? bookingRaw.serviceProviderId
-              : undefined,
-          metodikaLocationId:
-            typeof bookingRaw.metodikaLocationId === "number"
-              ? bookingRaw.metodikaLocationId
-              : undefined,
-          externalBookingUrl:
-            typeof bookingRaw.externalBookingUrl === "string"
-              ? bookingRaw.externalBookingUrl
-              : undefined,
-        }
-      : undefined;
-  const services = Array.isArray(c.services)
-    ? c.services.filter((item): item is string => typeof item === "string")
-    : undefined;
-  const primaryImage =
-    typeof c.primaryImage === "string" && c.primaryImage.trim()
-      ? c.primaryImage.trim()
-      : undefined;
-  return {
-    _createdAt: typeof c._createdAt === "string" ? c._createdAt : undefined,
-    label: label.trim(),
-    slug: (c.slug as string) || (c.id as string) || "",
-    id: (c.id as string) || (c.slug as string) || "",
-    address,
-    phone: typeof c.phone === "string" ? c.phone : undefined,
-    hours: typeof c.hours === "string" ? c.hours : undefined,
-    sortOrder: parseSortOrder(c.sortOrder) ?? undefined,
-    primaryImage,
-    locationSearch,
-    mapsUrl: clinicMapsUrl(locationSearch, address),
-    services,
-    booking,
-  };
-}
+import {
+  normalizeClinicRow,
+  type SanityClinicBooking,
+  type SanityClinicListRow,
+} from "@/lib/sanity/clinic-list-row";
+export type { SanityClinicBooking, SanityClinicListRow };
 
 export function mapClinicListRows(
   rows: unknown[] | null | undefined,
@@ -1175,6 +1105,114 @@ export const useThemePage = (slug: string) => {
   });
 };
 
+// ─── Clinician Guide Pages (Fastlegeveiledere) ───────────────────────
+export type ClinicianGuideBlock = {
+  _key: string;
+  _type: "guideSubheading" | "guideParagraph" | "guideList" | "guideQuote";
+  level?: "h3" | "h4";
+  style?: string;
+  text?: string;
+  source?: string;
+  items?: string[];
+};
+
+export type ClinicianGuideSection = {
+  _key: string;
+  heading: string;
+  blocks: ClinicianGuideBlock[];
+};
+
+export type ClinicianGuidePageData = {
+  title: string;
+  slug: string;
+  subtitle?: string;
+  backLinkLabel?: string;
+  backLinkUrl?: string;
+  introTexts: string[];
+  disclaimer?: string;
+  sections: ClinicianGuideSection[];
+  sources: string[];
+  closingNote?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+};
+
+export const useClinicianGuidePage = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "clinicianGuidePage", slug, lang],
+    queryFn: async () => {
+      const data = await fetchSanity<{
+        title?: string;
+        slug?: string;
+        subtitle?: string;
+        backLinkLabel?: string;
+        backLinkUrl?: string;
+        introTexts?: { text?: string }[];
+        disclaimer?: string;
+        sections?: {
+          _key: string;
+          heading?: string;
+          blocks?: {
+            _key: string;
+            _type: ClinicianGuideBlock["_type"];
+            level?: "h3" | "h4";
+            style?: string;
+            text?: string;
+            source?: string;
+            items?: { text?: string }[];
+          }[];
+        }[];
+        sources?: { text?: string }[];
+        closingNote?: string;
+        ctaText?: string;
+        ctaLink?: string;
+        seo?: ClinicianGuidePageData["seo"];
+      } | null>(CLINICIAN_GUIDE_PAGE_QUERY, { slug }, lang);
+      if (!data) return null;
+
+      const textList = (arr?: { text?: string }[]) =>
+        (arr || [])
+          .map((item) => (typeof item.text === "string" ? item.text.trim() : ""))
+          .filter(Boolean);
+
+      const sections: ClinicianGuideSection[] = (data.sections || []).map((section) => ({
+        _key: section._key,
+        heading: typeof section.heading === "string" ? section.heading.trim() : "",
+        blocks: (section.blocks || []).map((block) => ({
+          _key: block._key,
+          _type: block._type,
+          level: block.level,
+          style: block.style,
+          text: typeof block.text === "string" ? block.text : undefined,
+          source: typeof block.source === "string" ? block.source : undefined,
+          items: block._type === "guideList" ? textList(block.items) : undefined,
+        })),
+      }));
+
+      const result: ClinicianGuidePageData = {
+        title: typeof data.title === "string" ? data.title.trim() : "",
+        slug: typeof data.slug === "string" ? data.slug : slug,
+        subtitle: typeof data.subtitle === "string" ? data.subtitle.trim() : "",
+        backLinkLabel: typeof data.backLinkLabel === "string" ? data.backLinkLabel.trim() : "",
+        backLinkUrl: typeof data.backLinkUrl === "string" ? data.backLinkUrl.trim() : "",
+        introTexts: textList(data.introTexts),
+        disclaimer: typeof data.disclaimer === "string" ? data.disclaimer.trim() : "",
+        sections,
+        sources: textList(data.sources),
+        closingNote: typeof data.closingNote === "string" ? data.closingNote.trim() : "",
+        ctaText: typeof data.ctaText === "string" ? data.ctaText.trim() : "",
+        ctaLink: typeof data.ctaLink === "string" ? data.ctaLink.trim() : "",
+        seo: data.seo,
+      };
+      return result;
+    },
+    enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
 // ─── Service Categories (for dropdown menu) ─────────────────────────
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
@@ -1238,7 +1276,7 @@ export const useServiceCategoriesFromSanity = () => {
               return {
                 id: slug,
                 label: treatmentLabel,
-                path: `/behandlinger/${behandlingerCategorySegment(
+                path: `/${behandlingerCategorySegment(
                   categoryId,
                   lang,
                 )}/${slug}`,

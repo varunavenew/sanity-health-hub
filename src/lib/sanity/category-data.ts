@@ -506,7 +506,7 @@ export function mapTreatmentCategoryDocument(
         desc: asPlainString(t.description) || asPlainString(t.subtitle),
         slug,
         href: slug
-          ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
+          ? `/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
           : "",
       };
     })

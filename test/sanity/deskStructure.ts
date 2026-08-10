@@ -22,6 +22,7 @@ import {
   SettingsIcon,
   SortIcon,
   SpecialistIcon,
+  ThemeIcon,
   TreatmentIcon,
 } from '../schemaTypes/icons'
 import {buildPageSectionListItem} from './page-editor/buildPageSectionStructure'
@@ -297,6 +298,15 @@ function medicalContentSection(S: StructureBuilder) {
                   {field: 'sortOrder', direction: 'asc'},
                   {field: '_updatedAt', direction: 'desc'},
                 ]),
+            ),
+          S.listItem()
+            .title('Clinician Guides')
+            .icon(ThemeIcon)
+            .schemaType('clinicianGuidePage')
+            .child(
+              S.documentTypeList('clinicianGuidePage')
+                .title('Clinician Guides')
+                .defaultOrdering([{field: '_updatedAt', direction: 'desc'}]),
             ),
         ]),
     )

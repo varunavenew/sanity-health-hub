@@ -6,6 +6,10 @@ import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvi
 import { TreatmentHydration } from "@/components/providers/TreatmentHydration";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data.server";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data.server";
+import { fetchClinicDetailData } from "@/lib/sanity/clinic-detail.server";
+import { fetchSpecialistDetailData } from "@/lib/sanity/specialist-detail.server";
+import { fetchSpecialistsListingPageData } from "@/lib/sanity/specialists-listing-page.server";
+import { fetchArticleDetailData } from "@/lib/sanity/article-detail.server";
 import type { ResolvedCmsRoute } from "@/lib/routing/cms-route-types";
 import type { SingletonPageType } from "@/lib/routing/cms-route-types";
 import { pathsForRoute } from "@/lib/routing/path-builder";
@@ -189,12 +193,52 @@ export async function renderCmsRoute(
         </TreatmentHydration>
       );
     }
-    case "clinic":
-      return <ClinicDetailPage isChatOpen={false} />;
-    case "specialist":
-      return <SpecialistProfile isChatOpen={false} />;
-    case "article":
-      return <ArticlePage isChatOpen={false} />;
+    case "clinic": {
+      const initialClinic = await fetchClinicDetailData(route.slug, sanityLang);
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(
+        ["sanity", "clinic", route.slug, sanityLang],
+        initialClinic,
+      );
+      return (
+        <TreatmentHydration state={dehydrate(queryClient)}>
+          <ClinicDetailPage isChatOpen={false} />
+        </TreatmentHydration>
+      );
+    }
+    case "specialist": {
+      const [initialSpecialist, initialListingPage] = await Promise.all([
+        fetchSpecialistDetailData(route.slug, sanityLang),
+        fetchSpecialistsListingPageData(sanityLang),
+      ]);
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(
+        ["sanity", "specialist", route.slug, sanityLang],
+        initialSpecialist,
+      );
+      queryClient.setQueryData(
+        ["sanity", "specialistsListingPage", sanityLang],
+        initialListingPage,
+      );
+      return (
+        <TreatmentHydration state={dehydrate(queryClient)}>
+          <SpecialistProfile isChatOpen={false} />
+        </TreatmentHydration>
+      );
+    }
+    case "article": {
+      const initialArticle = await fetchArticleDetailData(route.slug, sanityLang);
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(
+        ["sanity", "article", route.slug, sanityLang],
+        initialArticle,
+      );
+      return (
+        <TreatmentHydration state={dehydrate(queryClient)}>
+          <ArticlePage isChatOpen={false} />
+        </TreatmentHydration>
+      );
+    }
     case "job":
       return <KarriereDetail isChatOpen={false} />;
     default:

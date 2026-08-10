@@ -17,7 +17,11 @@ import { SplitHero } from "@/components/layout/SplitHero";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
-import { bookingCategoryPageIdForClinicService, buildBookingUrl } from "@/lib/bookingLinks";
+import {
+  bookingCategoryHrefForClinicService,
+  bookingCategoryPageIdForClinicService,
+  buildBookingUrl,
+} from "@/lib/bookingLinks";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
 import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
 import { resolveHomepageSpecialists } from "@/lib/sanity/homepage-specialists";
@@ -729,7 +733,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
                     <div className="mt-10 pt-6 border-t border-brand-mid/30">
                       <Link
-                        to={`/${bookingCategoryPageIdForClinicService(category.id)}`}
+                        to={bookingCategoryHrefForClinicService(category.id)}
                         className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
                       >
                         {t("pricing.seeAllCategoryServices", {

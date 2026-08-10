@@ -35,6 +35,7 @@ import insuranceCollection from './insuranceCollection'
 import ctaModule from './ctaModule'
 import heroModule from './heroModule'
 import themePage from './themePage'
+import clinicianGuidePage, { clinicianGuideObjectTypes } from './clinicianGuidePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
 import specialistsListingPage from './specialistsListingPage'
@@ -69,6 +70,7 @@ export const schemaTypes = [
   themePage,
   specialistsPage,
   specialistsListingPage,
+  clinicianGuidePage,
 
   // Content
   treatmentCategory,
@@ -100,4 +102,5 @@ export const schemaTypes = [
   blockContent,
   seo,
   siteSettings,
+  ...clinicianGuideObjectTypes,
 ]

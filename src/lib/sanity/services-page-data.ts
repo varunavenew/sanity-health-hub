@@ -80,7 +80,7 @@ function mapCategoryTreatments(
         title: asPlainString(t.title),
         path:
           slug && categorySlug
-            ? `/behandlinger/${categorySlug}/${slug}`
+            ? `/${categorySlug}/${slug}`
             : "",
       };
     })

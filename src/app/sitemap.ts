@@ -3,6 +3,7 @@ import { siteUrl } from "@/lib/env";
 import { locales } from "@/lib/i18n/routing";
 import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
 import { staticParamsFromRouteIndex } from "@/lib/routing/resolve-route";
+import { NOINDEX_SEGMENTS } from "@/lib/seo/robots-paths";
 
 /** Non-CMS App Router pages (booking, demos, etc.) — not driven by Sanity slugs. */
 const STATIC_APP_SEGMENTS = [
@@ -17,7 +18,7 @@ const STATIC_APP_SEGMENTS = [
   "fastlegeveiledning-overgangsalder",
   "fertilitet-design",
   "gynekologi-design",
-];
+].filter((seg) => !(NOINDEX_SEGMENTS as readonly string[]).includes(seg));
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();

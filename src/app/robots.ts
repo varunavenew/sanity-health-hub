@@ -21,11 +21,15 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow,
       },
-      ...AI_CRAWLER_USER_AGENTS.map((userAgent) => ({
-        userAgent,
-        allow: "/" as const,
+      // One shared block for all named AI/answer-engine crawlers (GEO) —
+      // grouping them under a single rule (multiple User-agent lines,
+      // one directive set) instead of repeating the same Allow/Disallow
+      // list once per crawler name.
+      {
+        userAgent: [...AI_CRAWLER_USER_AGENTS],
+        allow: "/",
         disallow,
-      })),
+      },
     ],
     sitemap: `${host}/sitemap.xml`,
     host,

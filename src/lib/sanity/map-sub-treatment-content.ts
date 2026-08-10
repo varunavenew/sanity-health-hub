@@ -32,7 +32,7 @@ export function mapTreatmentToSubTreatmentContent(
   const parentSegment =
     treatment.parentSlug?.trim() ||
     behandlingerCategorySegment(categoryId, options.lang);
-  const parentPath = parentSegment ? `/behandlinger/${parentSegment}` : "/behandlinger";
+  const parentPath = parentSegment ? `/${parentSegment}` : "";
 
   const canonical = treatmentSlug ? `${parentPath}/${treatmentSlug}` : parentPath;
   const parentName = treatment.parentCategory?.trim() || "";
@@ -61,12 +61,15 @@ export function mapTreatmentToSubTreatmentContent(
     seoTitle,
     seoDescription,
     canonical,
-    homeBreadcrumbLabel: treatment.homeBreadcrumbLabel || (isEn ? "Home" : "Hjem"),
-    srOnlyTitle: treatment.srOnlyTitle || (isEn ? "Treatment page at CMedical" : "Behandlingsside hos CMedical"),
+    // Generic UI chrome — never per-document content, and CMS documents have
+    // repeatedly been backfilled with the Norwegian value under the English
+    // slot (e.g. callCtaLabel.en = "Ring oss"). Always use the app-level
+    // locale default instead of trusting the CMS override for these.
+    homeBreadcrumbLabel: isEn ? "Home" : "Hjem",
     themesAriaLabel: treatment.themesAriaLabel || (isEn ? "Topics" : "Temaer"),
     seePricesLabel: treatment.seePricesLabel || (isEn ? "See prices" : "Se priser"),
     seePricesHref: treatment.seePricesHref || "/priser",
-    callCtaLabel: treatment.callCtaLabel || (isEn ? "Call us" : "Ring oss"),
+    callCtaLabel: isEn ? "Call us" : "Ring oss",
     expertReadMoreLabel: treatment.expertReadMoreLabel || (isEn ? "Read more" : "Les mer"),
     scrollLeftLabel: treatment.scrollLeftLabel || (isEn ? "Scroll left" : "Scroll venstre"),
     scrollRightLabel: treatment.scrollRightLabel || (isEn ? "Scroll right" : "Scroll høyre"),
@@ -84,7 +87,7 @@ export function mapTreatmentToSubTreatmentContent(
     ],
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
-    heroTitle: treatment.heroTitle || "",
+    heroTitle: treatment.heroTitle || treatment.title || "",
     heroDescription: treatment.description || treatment.heroDescription || "",
     heroThemes: treatment.heroThemes,
     heroPoints,

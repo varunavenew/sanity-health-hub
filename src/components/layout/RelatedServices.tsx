@@ -62,19 +62,19 @@ export const allServices: Service[] = [
   {
     title: "Gynekologi",
     description: "Undersøkelser, celleprøve og behandlinger for kvinner",
-    link: "/behandlinger/gynekologi",
+    link: "/gynekologi",
     icon: getIcon("gynekologi-cl")
   },
   {
     title: "Fertilitet",
     description: "IVF, IUI og fertilitetsutredning for par og single",
-    link: "/behandlinger/fertilitet",
+    link: "/fertilitet",
     icon: getIcon("fertilitet-cl")
   },
   {
     title: "Urologi",
     description: "Prostata, urinveisplager og mannlig helse",
-    link: "/behandlinger/urologi",
+    link: "/urologi",
     icon: getIcon("urologi-cl")
   },
   {

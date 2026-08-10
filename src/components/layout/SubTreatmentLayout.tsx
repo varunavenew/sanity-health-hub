@@ -33,7 +33,6 @@ export interface SubTreatmentContent {
   seoDescription: string;
   canonical: string;
   homeBreadcrumbLabel: string;
-  srOnlyTitle: string;
   themesAriaLabel: string;
   seePricesLabel: string;
   seePricesHref: string;
@@ -492,8 +491,6 @@ export const SubTreatmentLayout = ({
           { name: c.title, path: c.canonical },
         ]}
       />
-      <h1 className="sr-only">{c.srOnlyTitle}</h1>
-
       <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="lg:hidden px-6 md:px-16 pb-4">
           <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
@@ -515,7 +512,7 @@ export const SubTreatmentLayout = ({
             <span>›</span>
             <span className="text-foreground/80">{c.title}</span>
           </nav>
-          <h2 className="text-4xl font-light text-foreground leading-[1.05]">{heroTitle}</h2>
+          <h1 className="text-4xl font-light text-foreground leading-[1.05]">{heroTitle}</h1>
         </div>
 
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
@@ -541,9 +538,9 @@ export const SubTreatmentLayout = ({
             </nav>
 
             <div className="max-w-xl w-full">
-              <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+              <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 {heroTitle}
-              </h2>
+              </h1>
               <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground whitespace-pre-line">
                 {c.heroDescription}
               </p>
