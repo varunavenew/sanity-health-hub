@@ -465,7 +465,7 @@ const RelatedServicesCarousel = ({
       <div className="container mx-auto pl-6 md:pl-16 pr-0">
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pr-6 md:pr-16"
+          className="flex gap-3 md:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pr-6 md:pr-16"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
         >
           {resolved.map((a) => (
@@ -473,7 +473,7 @@ const RelatedServicesCarousel = ({
               key={a.title}
               data-related-card
               to={a.href}
-              className="relative flex-shrink-0 w-[85vw] sm:w-[360px] md:w-[400px] aspect-[4/5] snap-start rounded-sm overflow-hidden group bg-secondary"
+              className="relative flex-shrink-0 w-[calc((100vw-3.75rem)/2)] sm:w-[360px] md:w-[400px] aspect-[3/4] md:aspect-[4/5] snap-start rounded-sm overflow-hidden group bg-secondary"
             >
               {a.image && (
                 <img
@@ -484,24 +484,35 @@ const RelatedServicesCarousel = ({
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between gap-3">
-                <h3 className="text-lg md:text-xl font-normal text-white leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+              <div className="absolute inset-x-0 bottom-0 p-3 md:p-6 flex items-end justify-between gap-2">
+                <h3 className="text-sm md:text-xl font-normal text-white leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
                   {a.title}
                 </h3>
-                <ArrowRight className="w-4 h-4 text-white flex-shrink-0 mb-1 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-white flex-shrink-0 mb-0.5 md:mb-1 transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </Link>
           ))}
         </div>
         <div className="md:hidden px-6">
-          <ScrollArrows scrollRef={scrollRef} />
+          <ScrollArrows
+            scrollRef={scrollRef}
+            trailing={
+              seeAll ? (
+                <Link
+                  to={seeAll.href}
+                  className="inline-flex items-center gap-1.5 text-sm font-light text-foreground border-b border-foreground/30 pb-0.5"
+                >
+                  {seeAll.label}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              ) : undefined
+            }
+          />
         </div>
       </div>
 
-
-
       {seeAll && (
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="hidden md:block container mx-auto px-6 md:px-16">
           <div className="mt-10 flex justify-center">
             <Link
               to={seeAll.href}
@@ -514,6 +525,7 @@ const RelatedServicesCarousel = ({
         </div>
       )}
     </section>
+
   );
 };
 
