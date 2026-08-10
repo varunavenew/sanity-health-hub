@@ -198,9 +198,9 @@ const ReasonsEditorial = ({
 
    if (cleanItems.length === 0) return null;
 
-   // Denne seksjonen skal alltid være en FAQ-løsning (åpne/lukke),
-   // uansett antall punkter — aldri løpende brødtekst.
-   const effectiveLayout: "prose" | "accordion" = "accordion";
+   // "prose" viser innholdet åpent uten klikk. Alt annet (accordion/auto)
+   // rendres som FAQ-løsning med åpne/lukke.
+   const effectiveLayout: "prose" | "accordion" = layout === "prose" ? "prose" : "accordion";
 
 
    const proseClasses =
