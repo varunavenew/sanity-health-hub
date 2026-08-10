@@ -61,27 +61,86 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           { name: "Spesialister", path: "/spesialister" },
         ]}
       />
-      <section className="bg-brand-dark pt-[4.5rem] pb-10 md:pt-16 md:pb-14">
-        <div className="container mx-auto px-6 md:px-16">
+      {/* Hero — skin texture background with dark overlay for legible light text */}
+      <section className="relative flex items-center min-h-[38svh] md:min-h-[44svh] pt-[4.5rem] pb-10 md:py-16 overflow-hidden">
+        <img
+          src={heroBgAsset.url}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-brand-dark/80" aria-hidden="true" />
+        <div className="relative container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-warm mb-3">
               Våre spesialister
             </h1>
-            <p className="text-white/70 font-light text-base md:text-lg">
+            <p className="text-brand-warm/80 font-light text-base md:text-lg">
               Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* Category filter */}
-          <div className="flex flex-wrap gap-2 mt-6">
+      {/* Mobile filters — same pattern as /priser: sticky, horizontally scrollable pill rows */}
+      <div
+        className="md:hidden sticky z-30 bg-background border-b border-brand-mid/30 shadow-sm"
+        style={{ top: `${navTop}px` }}
+      >
+        {[
+          {
+            key: "kategori",
+            items: Object.entries(categoryLabels).map(([id, label]) => ({ id, label })),
+            active: activeFilter,
+            onSelect: setActiveFilter,
+            withIcon: false,
+          },
+          {
+            key: "klinikk",
+            items: [{ id: "alle", label: "Alle klinikker" }, ...clinicNames.map((c) => ({ id: c, label: c }))],
+            active: activeClinic,
+            onSelect: setActiveClinic,
+            withIcon: true,
+          },
+        ].map((row) => (
+          <div key={row.key} className="relative">
+            <div
+              className="flex gap-2 overflow-x-auto overflow-y-visible px-4 pr-10 py-2 scrollbar-hide [scroll-behavior:smooth] [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain]"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none", touchAction: "pan-x pan-y" }}
+            >
+              {row.items.map((item) => {
+                const isActive = row.active === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => row.onSelect(item.id)}
+                    className="chip-filter chip-filter-light min-h-[36px] rounded-2xl whitespace-nowrap"
+                    data-active={isActive}
+                    aria-current={isActive ? "true" : undefined}
+                  >
+                    {row.withIcon && <MapPin className="w-3 h-3" aria-hidden="true" />}
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent" />
+          </div>
+        ))}
+      </div>
+
+      <section className="bg-background py-6 md:py-14">
+        <div className="container mx-auto px-6 md:px-16">
+          {/* Desktop filters live here, on the light band with the result count */}
+          <div className="hidden md:flex md:flex-wrap md:items-center md:gap-2 mb-6">
             {Object.entries(categoryLabels).map(([key, label]) => {
               const isActive = activeFilter === key;
               return (
                 <button
                   key={key}
                   onClick={() => setActiveFilter(key)}
-                  className={"chip-filter chip-filter-dark"}
+                  className="chip-filter chip-filter-light"
                   data-active={isActive}
                   aria-current={isActive ? "true" : undefined}
                 >
@@ -89,33 +148,25 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 </button>
               );
             })}
-          </div>
-
-          {/* Clinic filter */}
-          <div className="flex flex-wrap gap-2 mt-3">
+            <span className="mx-1 h-5 w-px bg-brand-mid/50" aria-hidden="true" />
             {[{ id: "alle", label: "Alle klinikker" }, ...clinicNames.map((c) => ({ id: c, label: c }))].map((clinic) => {
               const isActive = activeClinic === clinic.id;
               return (
                 <button
                   key={clinic.id}
                   onClick={() => setActiveClinic(clinic.id)}
-                  className={"chip-filter chip-filter-dark"}
+                  className="chip-filter chip-filter-light"
                   data-active={isActive}
                   aria-current={isActive ? "true" : undefined}
                 >
-                  <MapPin className="w-3 h-3" />
+                  <MapPin className="w-3 h-3" aria-hidden="true" />
                   {clinic.label}
                 </button>
               );
             })}
+            <p className="text-sm text-muted-foreground md:ml-auto">{filtered.length} spesialister</p>
           </div>
-
-        </div>
-      </section>
-
-      <section className="bg-background py-10 md:py-14">
-        <div className="container mx-auto px-6 md:px-16">
-          <p className="text-sm text-muted-foreground mb-6">{filtered.length} spesialister</p>
+          <p className="md:hidden text-sm text-muted-foreground mb-4">{filtered.length} spesialister</p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filtered.map((specialist) => (
               <Link
@@ -147,6 +198,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           </div>
         </div>
       </section>
+
     </PageLayout>
   );
 };
