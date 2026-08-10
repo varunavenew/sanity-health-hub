@@ -3,7 +3,7 @@ import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscop
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics } from "@/hooks/useSanity";
-import { clinics as staticClinics, type Clinic } from "@/data/clinicServices";
+import { clinics as staticClinics, withCanonicalAddress, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
 
@@ -36,12 +36,12 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  for (const [key, value] of Object.entries(fromSanity)) {
  if (value !== null && value !== undefined && value !== "") overrides[key] = value;
  }
- return {
- ...s,
- ...overrides,
- detail: { ...s.detail, ...(fromSanity.detail || {}) },
- };
- });
+    return withCanonicalAddress({
+      ...s,
+      ...overrides,
+      detail: { ...s.detail, ...(fromSanity.detail || {}) },
+    });
+  });
  // Respect Sanity sortOrder when available; fallback to original static order.
  const list: any[] = [...merged].sort((a, b) => {
  const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;

@@ -1,12 +1,14 @@
 import { MapPin, Phone, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useClinics } from "@/hooks/useSanity";
-import { clinics as staticClinics } from "@/data/clinicServices";
+import { clinics as staticClinics, withCanonicalAddress } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
 
 export const ClinicGrid = () => {
   const { data: sanityClinics } = useClinics();
-  const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
+  const clinics = (sanityClinics?.length ? sanityClinics : staticClinics).map((c: any) =>
+    withCanonicalAddress(c)
+  );
   const { t } = useTranslation();
 
   return (
