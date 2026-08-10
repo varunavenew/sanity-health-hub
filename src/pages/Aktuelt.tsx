@@ -337,14 +337,23 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             </>
           )}
 
-          {/* Infinite scroll trigger */}
+          {/* Infinite scroll trigger + manual fallback */}
           {hasMore && (
             <div ref={loaderRef} className="flex justify-center py-10">
-              {isLoading && (
+              {isLoading ? (
                 <Loader2 className="w-6 h-6 text-muted-foreground animate-spin" />
+              ) : (
+                <button
+                  type="button"
+                  onClick={loadMore}
+                  className="rounded-[var(--radius)] border border-border px-6 py-3 text-sm font-light text-foreground transition-colors hover:bg-muted"
+                >
+                  Vis flere artikler
+                </button>
               )}
             </div>
           )}
+
 
           {filteredArticles.length === 0 && (
             <div className="text-center py-16">
