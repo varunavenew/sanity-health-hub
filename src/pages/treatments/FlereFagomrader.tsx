@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 import { Link } from "react-router-dom";
@@ -163,7 +164,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
- <ScrollArrows scrollRef={clustersRef} />
+ <ScrollArrows scrollRef={clustersRef} trailing={<CarouselCta to="/tjenester">Se alle tjenester</CarouselCta>} />
 
  </div>
  </div>

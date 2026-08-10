@@ -1,4 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Users, Clock, User, ChevronDown } from "lucide-react";
@@ -527,7 +528,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </Link>
  ))}
  </div>
- <ScrollArrows scrollRef={expertAreasRef} />
+ <ScrollArrows scrollRef={expertAreasRef} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
 
  </div>
  </div>

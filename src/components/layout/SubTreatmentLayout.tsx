@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from "react";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -384,7 +385,7 @@ const RelatedBlock = ({
           </Link>
         ))}
       </div>
-      <ScrollArrows scrollRef={ref} />
+      <ScrollArrows scrollRef={ref} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
     </>
   );
 };
@@ -879,7 +880,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   </Link>
   ))}
   </div>
-  <ScrollArrows scrollRef={expertAreasRef} />
+  <ScrollArrows scrollRef={expertAreasRef} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
  </div>
  </div>
  </section>

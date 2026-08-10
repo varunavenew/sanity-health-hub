@@ -1,4 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { CarouselCta } from "@/components/ui/CarouselCta";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
@@ -567,7 +568,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Link>
               ))}
             </div>
-            <ScrollArrows scrollRef={expertAreasRef} />
+            <ScrollArrows scrollRef={expertAreasRef} trailing={<CarouselCta to="/tjenester">Se alle behandlinger</CarouselCta>} />
 
           </div>
         </div>
