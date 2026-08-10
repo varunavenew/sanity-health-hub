@@ -1,7 +1,7 @@
 import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
-import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
+import toKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import mannligFertilitetAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
 import heterofiltParAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
 
@@ -33,8 +33,7 @@ export const fertilityAudiences: FertilityAudience[] = [
     desc:
       "Flere og flere kvinner velger å få barn sammen som par. Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse for deres situasjon.",
     href: `${AUDIENCE_LANDING}#to-kvinner-i-parforhold`,
-    image:
-      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? audienceWaiting,
+    image: toKvinnerAsset.url,
   },
   {
     title: "Singel kvinne",
