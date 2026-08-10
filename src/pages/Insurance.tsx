@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { ArrowRight, Phone, Check, Shield } from "lucide-react";
+import { ArrowRight, Phone, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import insuranceHeroAsset from "@/assets/hero/insurance-hero-water.jpg.asset.json";
