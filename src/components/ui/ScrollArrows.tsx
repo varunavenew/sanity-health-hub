@@ -184,7 +184,7 @@ export const ScrollArrows = ({
       </div>
 
       {/* Tekstlenke helt til høyre — egen kolonne, aldri overlapp */}
-      {trailing && <div className="shrink-0">{trailing}</div>}
+      {trailing && <div className="shrink-0 ml-auto">{trailing}</div>}
     </div>
   );
 };
