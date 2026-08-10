@@ -49,8 +49,8 @@ const SPECIALIST_LABEL: Record<CategoryId, string> = {
 
 const STANDARD_PROMISES = [
   {
-    title: "Du bestemmer tempoet",
-    desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
+    title: "Tilpasset dine behov",
+    desc: "Alle undersøkelser og inngrep tilpasses dine behov og ønsker. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {
     title: "Erfarne spesialister",
