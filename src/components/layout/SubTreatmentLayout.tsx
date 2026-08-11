@@ -30,6 +30,7 @@ import {
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
 import promiseUnderOneRoof from "@/assets/promises/alt-under-samme-tak.jpg.asset.json";
 import promiseSpecialist from "@/assets/promises/spesialister-med-dybde.jpg.asset.json";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 const promiseImages = [promiseComfort.url, promiseSpecialist.url, promiseUnderOneRoof.url];
 /**
