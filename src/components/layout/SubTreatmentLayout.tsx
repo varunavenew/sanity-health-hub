@@ -674,26 +674,12 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
           </div>
 
           {/* Right — image fills the entire half */}
-          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
-            {c.heroVideo ? (
-              <video
-                src={c.heroVideo}
-                poster={heroImg}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : heroImg ? (
-              <SmartImage
-                src={heroImg}
-                alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
-                pictureClassName="absolute inset-0 block w-full h-full"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : null}
-          </div>
+          <SplitHeroMedia
+            className="min-h-[420px] lg:min-h-full bg-secondary/40"
+            video={c.heroVideo || undefined}
+            src={heroImg || undefined}
+            alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
+          />
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
