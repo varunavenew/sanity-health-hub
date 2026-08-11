@@ -34,7 +34,7 @@ interface PageProps {
 }
 
 const FERT = "/behandlinger/fertilitet";
-const BOOKING = "/booking?kategori=fertilitet&tjeneste=donorbehandling";
+const BOOKING = "/booking?kategori=fertilitet&tjeneste=gratis-uforpliktende-samtale-om-fertilitet";
 const CANONICAL = "/behandlinger/fertilitet/donorbehandling";
 
 /* Approved copy beholdt fra treatmentContent["fertilitet/donorbehandling"] */
