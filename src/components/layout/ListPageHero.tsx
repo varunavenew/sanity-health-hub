@@ -28,13 +28,13 @@ export const ListPageHero = ({ title, description, children, className = "" }: L
       className="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px]"
     />
     {/* Varm brun tone (som uskarp bakgrunn bak portrettene) — aldri flat mørkbrun */}
-    <div className="absolute inset-0 bg-[#42332A]/60" aria-hidden="true" />
+    <div className="absolute inset-0 bg-[#5C463A]/45" aria-hidden="true" />
     <div
       className="absolute inset-0"
       aria-hidden="true"
       style={{
         background:
-          "linear-gradient(to top, rgba(24,4,4,0.62) 0%, rgba(66,51,42,0.42) 45%, rgba(66,51,42,0.28) 100%)",
+          "linear-gradient(to top, rgba(66,51,42,0.55) 0%, rgba(92,70,58,0.35) 50%, rgba(92,70,58,0.22) 100%)",
       }}
     />
     <div className="relative container mx-auto px-6 md:px-16">
