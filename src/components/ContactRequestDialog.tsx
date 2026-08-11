@@ -172,8 +172,8 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
           </div>
 
           {form.timing === "specific" && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in">
-              <div className="space-y-1.5">
+            <div className="animate-fade-in">
+              <div className="space-y-1.5 sm:max-w-[50%]">
                 <Label htmlFor="cr-day" className="text-sm font-light">Dag</Label>
                 <Input
                   id="cr-day"
@@ -182,20 +182,6 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
                   onChange={(e) => setForm({ ...form, day: e.target.value })}
                   min={new Date().toISOString().split("T")[0]}
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="cr-time" className="text-sm font-light">Tidspunkt</Label>
-                <Select
-                  value={form.timeOfDay}
-                  onValueChange={(v) => setForm({ ...form, timeOfDay: v as typeof form.timeOfDay })}
-                >
-                  <SelectTrigger id="cr-time"><SelectValue placeholder="Velg tidspunkt" /></SelectTrigger>
-                  <SelectContent>
-                    {TIME_OPTIONS.map((t) => (
-                      <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </div>
             </div>
           )}
@@ -212,7 +198,11 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               rows={4}
               maxLength={1000}
             />
+            <p className="text-sm font-light text-foreground/80">
+              Ikke legg inn personsensitiv informasjon i kontaktskjemaet.
+            </p>
           </div>
+
 
           <div className="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end pt-2">
             <Button
