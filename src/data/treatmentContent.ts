@@ -12,7 +12,9 @@ import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
-import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
+import overvektskirurgiHero from "@/assets/gastro/overvektskirurgi.png.asset.json";
+import brokkoperasjonAsset from "@/assets/gastro/brokkoperasjon.png.asset.json";
+import hemorroiderAsset from "@/assets/gastro/hemoroider-rektocele.png.asset.json";
 import gastrokirurgiCardImg from "@/assets/services/gastrokirurgi.png.asset.json";
 import hudhelseHeroAsset from "@/assets/hudhelse/hudhelse.png.asset.json";
 import hudstrukturAsset from "@/assets/hudhelse/hudstruktur.png.asset.json";
@@ -2302,7 +2304,7 @@ Kunnskap gir muligheter
     title: "Brokkoperasjon",
     subtitle: "Skånsom behandling av lyskebrokk med kikkhull/robot",
     parentCategory: "Gastrokirurgi",
-    heroImage: flereFagImg,
+    heroImage: brokkoperasjonAsset.url,
     description: "Lyskebrokk er en svært vanlig tilstand som skyldes en medfødt svakhet i bukveggen der sædlederen hos menn og det runde livmorsbåndet hos kvinner går gjennom bukveggen i lyskekanalen. Svakheten kan innebære at du utvikler et indirekte brokk der tarminnhold vandrer inn i lyskekanalen og noen ganger ned i pungen, eller et direkte brokk der tarminnhold lager seg en lomme ved siden av lyskekanalen. En sjelden gang kan også brokket ligge under lyskebåndet og ned mot øvre del av låret og kalles da for et lårbrokk. Hos CMedical opererer vi lyskebrokk med den nyeste og mest avanserte robotteknologien, noe som sikrer maksimal trygghet og et skånsomt forløp for deg.",
     sections: [
       {
@@ -2344,7 +2346,7 @@ Kunnskap gir muligheter
     title: "Hemorroider og endetarmsplager (rektocele)",
     subtitle: "Spesialistkompetanse på plager i endetarm og bekkenbunn",
     parentCategory: "Gastrokirurgi",
-    heroImage: flereFagImg,
+    heroImage: hemorroiderAsset.url,
     description: "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
     sections: [
       {

@@ -18,7 +18,9 @@ import img_flere_hero from "@/assets/services/flere-hero.jpg.asset.json";
 import img_flere_hudhelse from "@/assets/hudhelse/hudhelse.png.asset.json";
 import img_flere_hudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
 import img_flere_osteopati from "@/assets/services/flere-osteopati.jpg.asset.json";
-import img_flere_overvektskirurgi from "@/assets/services/flere-overvektskirurgi.jpg.asset.json";
+import img_flere_overvektskirurgi from "@/assets/gastro/overvektskirurgi.png.asset.json";
+import img_flere_brokkoperasjon from "@/assets/gastro/brokkoperasjon.png.asset.json";
+import img_flere_hemorroider from "@/assets/gastro/hemoroider-rektocele.png.asset.json";
 import img_flere_plastikkirurgi from "@/assets/services/flere-plastikkirurgi.jpg.asset.json";
 import img_flere_psykologi from "@/assets/services/flere-psykologi.jpg.asset.json";
 import img_flere_revmatologi from "@/assets/services/flere-revmatologi.jpg.asset.json";
@@ -97,6 +99,8 @@ export const serviceImageBySlug: Record<string, string> = {
   "flere-hudlege": img_flere_hudlege.url,
   "flere-osteopati": img_flere_osteopati.url,
   "flere-overvektskirurgi": img_flere_overvektskirurgi.url,
+  "flere-brokkoperasjon": img_flere_brokkoperasjon.url,
+  "flere-hemorroider-og-endetarmsplager": img_flere_hemorroider.url,
   "flere-plastikkirurgi": img_flere_plastikkirurgi.url,
   "flere-psykologi": img_flere_psykologi.url,
   "flere-revmatologi": img_flere_revmatologi.url,
