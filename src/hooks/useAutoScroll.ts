@@ -37,21 +37,29 @@ export function useAutoScroll(
     let paused = false;
     let resumeTimer: number | null = null;
 
+    // Track the position in a float — reading back `scrollLeft` can round
+    // sub-pixel increments away, which stalls slow marquee scrolling.
+    let pos = el.scrollLeft;
+
     const step = (t: number) => {
-      const dt = (t - last) / 1000;
+      const dt = Math.min((t - last) / 1000, 0.1);
       last = t;
       if (!paused && el.scrollWidth > el.clientWidth + 1) {
-        const next = el.scrollLeft + pxPerSecond * dt;
+        // Re-sync if the user (or arrows) moved the scroller.
+        if (Math.abs(el.scrollLeft - pos) > 2) pos = el.scrollLeft;
+        pos += pxPerSecond * dt;
         if (seamless) {
           const half = el.scrollWidth / 2;
-          el.scrollLeft = next >= half ? next - half : next;
+          if (pos >= half) pos -= half;
         } else {
           const max = el.scrollWidth - el.clientWidth;
-          el.scrollLeft = next >= max - 0.5 ? 0 : next;
+          if (pos >= max - 0.5) pos = 0;
         }
+        el.scrollLeft = pos;
       }
       raf = requestAnimationFrame(step);
     };
+
 
     const pause = () => {
       paused = true;
