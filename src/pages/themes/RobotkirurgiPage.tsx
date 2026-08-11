@@ -162,7 +162,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           {/* CTA */}
           <Button
             onClick={() => navigate("/booking")}
-            className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl md:rounded-full font-light"
+            variant="cta"
           >
             Bestill time
           </Button>
