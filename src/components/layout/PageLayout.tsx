@@ -11,6 +11,7 @@ import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
+import { HomeStickyBar } from "@/components/homepage/HomeStickyBar";
 
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
@@ -49,6 +50,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       ];
 
   const ctaButton = siteSettings?.ctaButton || { label: t("nav.bookAppointment"), path: "/booking" };
+
+  // Sticky mobile bottom CTA: shown on every page except the booking flow and admin views.
+  // Bottom padding/placeholder is only reserved when this is true (see <Footer />).
+  const normalizedPath = location.pathname.replace(/\/+$/, "") || "/";
+  const showStickyBar = !/^\/(booking|rediger|godkjenning)(\/|$)/.test(normalizedPath);
+
+
 
   // Close search when clicking outside
   useEffect(() => {
@@ -318,20 +326,17 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {children}
           </main>
 
-          {/* Footer — bottom clearance for the floating CTA is added inside the footer itself
-              (same dark bg) so no light stripe appears under the footer */}
-          {(() => {
-            const normalized = location.pathname.replace(/\/+$/, "") || "/";
-            const hasFloatingCta =
-              normalized === "/fertilitet" ||
-              normalized === "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi";
-            return <Footer extraBottomSpace={hasFloatingCta} />;
-          })()}
+          {/* Footer — bottom clearance for the sticky mobile CTA is added inside the footer
+              itself (same dark bg) so no light stripe appears under the footer. The clearance
+              is ONLY applied when the bar actually renders. */}
+          <Footer extraBottomSpace={showStickyBar} />
 
         </div>
       </div>
 
-      {/* Mobile bottom CTA bar removed per client request — booking lives in the top header */}
+      {/* Sticky mobile bottom CTA — all pages except booking flow and admin */}
+      {showStickyBar && <HomeStickyBar />}
+
     </>
   );
 };
