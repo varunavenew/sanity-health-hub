@@ -89,6 +89,25 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
  />
 
+ {/* Intro fra kunden */}
+ <section className="bg-background py-14 md:py-20">
+ <div className="container mx-auto px-6 md:px-16">
+ <div className="max-w-3xl space-y-5">
+ <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed">
+ I Norge tilbyr vi korte ventetider til noen av de beste spesialistene innen gynekologi, fertilitet, urologi, ortopedi og andre tjenester.
+ </p>
+ <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed">
+ Vi mener helse er et håndverk, som krever empati, omsorg og kontinuerlig trening. Kirurgisk presisjon preger alt vi gjør, fra diagnostikk til behandling og fra innsjekk til utsjekk.
+ </p>
+ <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed">
+ Hos oss er du i gode hender. Vi kombinerer erfaring og kompetanse med hjertevarme, alltid med ditt beste i fokus.
+ </p>
+ </div>
+ </div>
+ </section>
+
+
+
  {/* Clinic split-screen rows */}
  <section className="bg-background" aria-labelledby="clinics-heading">
  <h2 id="clinics-heading" className="sr-only">
