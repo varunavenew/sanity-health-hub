@@ -13,20 +13,20 @@ export interface ConsultationChoice {
   tjeneste: string;
   /** Etikett vist over prisen i hero. */
   label: string;
-  /** Prisvisning, f.eks. "Pris fra 1 900 kr". */
+  /** Prisvisning, f.eks. "fra 1 900 kr". */
   price: string;
 }
 
 const UROLOG: ConsultationChoice = {
   tjeneste: "konsultasjon-urolog",
   label: "Konsultasjon urolog",
-  price: "Pris fra 1 900 kr",
+  price: "fra 1 900 kr",
 };
 
 const ortoped = (part: string, slug: string): ConsultationChoice => ({
   tjeneste: `konsultasjon-ortoped-${slug}`,
   label: `Konsultasjon ortoped ${part}`,
-  price: "Pris fra 1 800 kr",
+  price: "fra 1 800 kr",
 });
 
 /** Ortopedi: kroppsregion-spesifikk konsultasjon der den finnes. */
