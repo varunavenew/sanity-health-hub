@@ -200,7 +200,7 @@ export const SpecialistCard = ({
           {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
         </p>
         <div
-          className={`flex items-center gap-1.5 mt-3 text-sm font-light text-brand-yellow transition-all duration-500 ease-out ${
+          className={`flex items-center gap-1.5 mt-3 text-sm font-light text-brand-yellow transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 ${
             hovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
         >

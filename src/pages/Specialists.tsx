@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ListPageHero } from "@/components/layout/ListPageHero";
+import { SpecialistCard } from "@/components/specialists/SpecialistCarousel";
 
 
 interface SpecialistsProps {
@@ -176,33 +176,9 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
             <p className="text-sm text-muted-foreground md:ml-auto">{filtered.length} spesialister</p>
           </div>
           <p className="md:hidden text-sm text-muted-foreground mb-4">{filtered.length} spesialister</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {filtered.map((specialist) => (
-              <Link
-                key={specialist.slug}
-                to={`/spesialister/${specialist.slug}`}
-                className="group"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img
-                    src={specialist.image}
-                    alt={specialist.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 saturate-[0.7] brightness-[0.95] contrast-[1.05]"
-                  />
-                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
-                </div>
-                <h3 className="text-sm font-medium text-foreground">{specialist.name}</h3>
-                <p className="text-xs text-muted-foreground font-light">
-                  {specialist.title}
-                  {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
-                </p>
-                {specialist.clinics && specialist.clinics.length > 0 && (
-                  <p className="flex items-center gap-1 text-xs text-muted-foreground/60 font-light mt-0.5">
-                    <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
-                    {specialist.clinics.join(' · ')}
-                  </p>
-                )}
-              </Link>
+              <SpecialistCard key={specialist.slug} sp={specialist} />
             ))}
           </div>
         </div>
