@@ -6,7 +6,10 @@ interface ListPageHeroProps {
   /** Ekstra innhold under ingressen (f.eks. filtre) */
   children?: React.ReactNode;
   className?: string;
-  /** Todelt oppsett på desktop: tittel til venstre, ingress til høyre (+ mer luft) */
+  /**
+   * Todelt oppsett på desktop: tittel til venstre, ingress til høyre (+ mer luft).
+   * Standard for alle listesider — sett `split={false}` kun i unntakstilfeller.
+   */
   split?: boolean;
 }
 
