@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useServiceCategories } from '@/hooks/useServiceCategories';
+import { sortNavCategories } from '@/data/serviceCategories';
 import { useTranslation } from 'react-i18next';
 import { treatmentContent } from '@/data/treatmentContent';
 
@@ -85,7 +86,8 @@ const ScrollableMenuColumn = ({ children, className, scrollbarClassName = '', sc
 };
 
 export const ServicesDropdown = () => {
- const { categories: serviceCategories } = useServiceCategories();
+ const { categories: rawCategories } = useServiceCategories();
+  const serviceCategories = useMemo(() => sortNavCategories(rawCategories), [rawCategories]);
  const { t } = useTranslation();
  const location = useLocation();
  const [isOpen, setIsOpen] = useState(false);

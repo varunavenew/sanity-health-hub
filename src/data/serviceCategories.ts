@@ -148,3 +148,26 @@ export const serviceCategories: ServiceCategory[] = [
     ],
   },
 ];
+
+/**
+ * Canonical navigation order for service categories.
+ * Used by the mobile menu, the desktop "Tjenester" dropdown and the footer
+ * so all three always show the same order.
+ */
+export const NAV_CATEGORY_ORDER = [
+  'fertilitet',
+  'gynekologi',
+  'graviditet',
+  'urologi',
+  'ortopedi',
+  'flere-fagomrader',
+];
+
+const navOrderIndex = (id: string) => {
+  const key = id === 'flere' ? 'flere-fagomrader' : id;
+  const i = NAV_CATEGORY_ORDER.indexOf(key);
+  return i === -1 ? NAV_CATEGORY_ORDER.length : i;
+};
+
+export const sortNavCategories = <T extends { id: string }>(items: T[]): T[] =>
+  [...items].sort((a, b) => navOrderIndex(a.id) - navOrderIndex(b.id));

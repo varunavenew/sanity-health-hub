@@ -5,7 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
 import { useTranslation } from 'react-i18next';
-import { serviceCategories } from '@/data/serviceCategories';
+import { serviceCategories as rawServiceCategories, sortNavCategories } from '@/data/serviceCategories';
+
+const serviceCategories = sortNavCategories(rawServiceCategories);
 
 
 // Ski-klinikken er lagt ned — filtrer den bort uansett hva CMS leverer.
