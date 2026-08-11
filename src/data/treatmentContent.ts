@@ -22,10 +22,18 @@ import elastisitetVolumAsset from "@/assets/hudhelse/elastisitet-volum.png.asset
 import rodhetBlodkarAsset from "@/assets/hudhelse/rodhet-blodkar.png.asset.json";
 import foflekksjekkAsset from "@/assets/hudhelse/foflekksjekk.png.asset.json";
 import gastrokirurgiHeroAsset from "@/assets/services/gastrokirurgi.png.asset.json";
+import pmosAsset from "@/assets/gynekologi/pmos.png.asset.json";
+import hysteroskopiAsset from "@/assets/fertility/hysteroskopi.png.asset.json";
+import eggdonasjonAsset from "@/assets/fertility/eggdonasjon-bli-donor.png.asset.json";
+import abParOgSingleAsset from "@/assets/fertility/assistert-befruktning-par-og-single.png.asset.json";
 import audienceHeteroAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
 import audienceToKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import audienceSingelKvinneAsset from "@/assets/fertility/singel-kvinne.png.asset.json";
 import audienceSingelMannAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
+const pmosImg = pmosAsset.url;
+const hysteroskopiImg = hysteroskopiAsset.url;
+export const eggdonasjonImg = eggdonasjonAsset.url;
+const abParOgSingleImg = abParOgSingleAsset.url;
 const audienceHeteroImg = audienceHeteroAsset.url;
 const audienceToKvinnerImg = audienceToKvinnerAsset.url;
 const audienceSingelKvinneImg = audienceSingelKvinneAsset.url;
@@ -623,7 +631,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "PMOS",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
-    heroImage: gynekologiImg,
+    heroImage: pmosImg,
     description: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PMOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at du mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har du landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen: Uregelmessige og sjeldne menstruasjoner; Polycystiske eggstokker; Hyperandrogenisme (økt behåring, akne og mannlig hårtap).\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
@@ -1139,7 +1147,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "Hysteroskopi",
     subtitle: "Uten henvisning • Kort ventetid",
     parentCategory: "Fertilitet",
-    heroImage: fertilitetImg,
+    heroImage: hysteroskopiImg,
     description: "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne.\n\nFordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre.",
     benefits: [
       "Uregelmessige blødninger",
@@ -1903,7 +1911,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "Assistert befruktning for par og single",
     subtitle: "For par, to kvinner, single kvinner og menn",
     parentCategory: "Fertilitet",
-    heroImage: fertilitetImg,
+    heroImage: abParOgSingleImg,
     description: "Hos oss er det plass til ulike veier til det samme ønsket – å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, og kvinner som ønsker å bli mor på egen hånd nå eller bevare mulighetene for å bli gravid i fremtiden. Uansett livssituasjon møter vi deg eller dere med respekt, trygghet og forståelse.",
     sections: [
       {

@@ -1,10 +1,23 @@
 import { getServiceImageFromHref } from "@/data/serviceImages";
+import { treatmentContent } from "@/data/treatmentContent";
+
+/**
+ * COVER = HERO: a card must show the exact same image as the hero of the page
+ * it links to. The target page's own `heroImage` therefore wins over the
+ * generic service-image lookup.
+ */
+const getTargetHeroImage = (path: string): string | undefined => {
+  const key = path.replace(/^\/behandlinger\//, "");
+  return treatmentContent[key]?.heroImage;
+};
 
 export interface RelatedCardItem {
   title: string;
   desc: string;
   href: string;
   image?: string;
+  /** Keep the supplied image instead of the target page hero (anchor/tab cards). */
+  lockImage?: boolean;
 }
 
 /**
@@ -59,7 +72,9 @@ export function prepareRelatedCards<T extends RelatedCardItem>(
       ...item,
       title: TITLE_CANONICAL[item.title.trim().toLowerCase()] ?? item.title,
       href: `${target}${hash}`,
-      image: getServiceImageFromHref(target) ?? item.image,
+      image: item.lockImage
+        ? item.image
+        : getTargetHeroImage(target) ?? getServiceImageFromHref(target) ?? item.image,
     });
   }
 
