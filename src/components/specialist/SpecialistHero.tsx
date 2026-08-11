@@ -57,7 +57,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-dark/70 via-brand-dark/30 to-transparent" />
 
         <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
-          <h1 className="text-3xl font-light text-brand-warm leading-tight mb-3">{specialist.name}</h1>
+          <div className="text-3xl font-light text-brand-warm leading-tight mb-3">{specialist.name}</div>
           <p className="text-brand-warm/90 text-sm font-light flex flex-wrap items-center gap-x-2 gap-y-1 mb-4">
             <span>{specialist.title}</span>
             {specialist.subtitle && specialist.subtitle !== specialist.title && (
