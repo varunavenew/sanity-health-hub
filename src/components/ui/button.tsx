@@ -8,10 +8,11 @@ import { cn } from "@/lib/utils";
  * Button Design System — CTA Guidelines
  * ─────────────────────────────────────────
  * Primary CTA:      variant="cta"              — Accent/yellow button, used for main actions on LIGHT backgrounds
- * Secondary CTA:    variant="cta-outline"       — Outlined button, used alongside a primary CTA on LIGHT backgrounds
+ * Secondary CTA:    variant="cta-outline"       — Solid WHITE button (no border), used alongside a primary CTA on LIGHT backgrounds
  * Dark bg primary:  variant="cta-dark"          — White button on dark backgrounds (hero, brand-dark sections)
  * Dark bg secondary:variant="cta-outline-dark"  — Semi-transparent white outline on dark backgrounds
  *
+ * RULE: Never use a dark/black outline on light backgrounds — secondary = solid white.
  * RULE: On dark backgrounds (bg-brand-dark, hero images), NEVER use "cta" (yellow).
  *       Use "cta-dark" for primary and "cta-outline-dark" for secondary.
  * Standard variants (default, outline, ghost, link, secondary) remain for non-CTA UI elements.
@@ -29,7 +30,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline hover:text-accent",
         // ── CTA variants (standardised across the entire site) ──
         cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90",
-        "cta-outline": "rounded-2xl border border-current bg-transparent hover:bg-foreground/5",
+        "cta-outline": "rounded-2xl border-0 bg-white text-brand-dark hover:bg-white/90 shadow-none",
         "cta-outline-dark": "rounded-2xl border border-white/40 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-brand-dark transition-colors",
         "cta-dark": "rounded-2xl bg-white text-brand-dark hover:bg-white/90",
       },

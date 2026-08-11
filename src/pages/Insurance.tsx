@@ -140,7 +140,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
             <div className="flex gap-3">
-              <Button variant="outline" className="border-foreground/20 hover:bg-muted" asChild>
+              <Button variant="cta-outline" asChild>
                 <Link to="/kontakt">Kontakt oss</Link>
               </Button>
               <Button variant="cta" onClick={() => navigate('/booking')}>
