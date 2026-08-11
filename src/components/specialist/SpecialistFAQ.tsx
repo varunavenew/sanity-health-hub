@@ -139,7 +139,12 @@ export const SpecialistFAQ = () => {
                   >
                     <p className="text-sm text-muted-foreground font-light">
                       {item.question === "Personvernerklæring" ? (
-                        <>Her finner du vår <Link to="/personvern" className="text-brand-dark font-normal hover:underline">personvernerklæring</Link>.</>
+                        <>
+                          Her finner du vår{" "}
+                          <Link to="/personvern" className="text-brand-dark font-normal hover:underline">personvernerklæring</Link>.
+                          {" "}
+                          <Link to="/aapenhetsloven-2025" className="text-brand-dark font-normal hover:underline">CMedicals Aktsomhetsvurdering.</Link>
+                        </>
                       ) : (
                         item.answer
                       )}

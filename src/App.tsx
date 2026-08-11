@@ -36,6 +36,7 @@ import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
 import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergangsalder";
 import Personvern from "./pages/Personvern";
+import Aapenhetsloven2025 from "./pages/Aapenhetsloven2025";
 import Karriere from "./pages/Karriere";
 import KarriereDetail from "./pages/KarriereDetail";
 import ClinicDetailPage from "./pages/ClinicDetailPage";
@@ -206,6 +207,7 @@ const AppContent = () => {
         {/* Personvern */}
         <Route path="/personvern" element={<Personvern isChatOpen={false} />} />
         <Route path="/vilkar" element={<Personvern isChatOpen={false} />} />
+        <Route path="/aapenhetsloven-2025" element={<Aapenhetsloven2025 isChatOpen={false} />} />
         {/* Karriere */}
         <Route path="/karriere" element={<Karriere isChatOpen={false} />} />
         <Route path="/karriere/:slug" element={<KarriereDetail isChatOpen={false} />} />
