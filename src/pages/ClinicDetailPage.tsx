@@ -10,6 +10,18 @@ import { useClinic } from "@/hooks/useSanity";
 import { SpecialistCard } from "@/components/specialists/SpecialistCarousel";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
+import imgVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
+import imgKorridorLys from "@/assets/clinics/interior/korridor-lys.jpg.asset.json";
+import imgKorridorVenteplass from "@/assets/clinics/interior/korridor-venteplass.jpg.asset.json";
+import imgKorridorDempet from "@/assets/clinics/interior/korridor-dempet.jpg.asset.json";
+
+const clinicHeroImages: Record<string, string> = {
+  majorstuen: imgVenteromBredt.url,
+  bekkestua: imgKorridorLys.url,
+  moss: imgKorridorVenteplass.url,
+  moelv: imgKorridorDempet.url,
+};
 
 // Local interior gallery per clinic — extra photos shown below the primary image.
 import intVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
@@ -148,6 +160,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  );
  }
 
+ const heroImage = (clinic as any).heroImage || clinicHeroImages[clinic.slug as string] || (clinic as any).primaryImage;
  const faqs = clinic.faqs || [];
  const detail = clinic.detail || {};
  const mapsUrl = clinic.mapsUrl || (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
@@ -371,20 +384,22 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           {gallery && gallery.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
               {gallery.map((img) => (
-                <div key={img.src} className="aspect-[4/5] overflow-hidden bg-brand-mid/10">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <ParallaxImage
+                  key={img.src}
+                  src={img.src}
+                  alt={img.alt}
+                  speed={0.1}
+                  className="aspect-[4/5] bg-brand-mid/10"
+                />
               ))}
             </div>
           ) : (
-            <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-              <img src={clinic.primaryImage!} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
-            </div>
+            <ParallaxImage
+              src={clinic.primaryImage!}
+              alt={`CMedical ${clinic.label}`}
+              speed={0.12}
+              className="w-full aspect-[4/3] md:aspect-[21/9]"
+            />
           )}
         </section>
         );
