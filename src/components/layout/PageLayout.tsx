@@ -143,7 +143,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       {/* Skip to main content - WCAG 2.4.1 */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:text-accent-foreground focus:px-4 focus:py-2 focus:rounded-md focus:text-sm"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-2 focus-visible:left-2 focus-visible:z-[100] focus-visible:bg-accent focus-visible:text-accent-foreground focus-visible:px-4 focus-visible:py-2 focus-visible:rounded-md focus-visible:text-sm"
       >
         {t("nav.skipToContent")}
       </a>
