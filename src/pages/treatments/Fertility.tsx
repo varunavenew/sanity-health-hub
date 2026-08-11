@@ -461,7 +461,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
     {"\n"}
    </p>
 
-  <ReadMoreLink to="/om-oss" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
+  <ReadMoreLink to="/klinikker" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
  </div>
  </div>
 

@@ -189,8 +189,8 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   items: [
    { title: "Gynekologisk undersøkelse", desc: "Helsesjekk og førstekonsultasjon", href: "/behandlinger/gynekologi/undersokelse" },
    { title: "Ultralyd", desc: "Gynekologisk og tidlig graviditet", href: "/behandlinger/gynekologi/undersokelse" },
-   { title: "Hysteroskopi", desc: "Undersøkelse av livmorhulen", href: "/behandlinger/gynekologi/kirurgi" },
-   { title: "Office-hysteroskopi", desc: "Poliklinisk inngrep uten narkose", href: "/behandlinger/gynekologi/kirurgi" },
+   { title: "Hysteroskopi", desc: "Undersøkelse av livmorhulen", href: "/behandlinger/gynekologi/hysteroskopi" },
+   { title: "Office-hysteroskopi", desc: "Poliklinisk inngrep uten narkose", href: "/behandlinger/gynekologi/hysteroskopi" },
    { title: "NIPT", desc: "Fosterdiagnostikk", href: "/behandlinger/graviditet/nipt" },
    { title: "Prevensjon og rådgivning", desc: "Valg av riktig prevensjon", href: "/behandlinger/gynekologi/undersokelse" },
   ],
@@ -201,7 +201,7 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     { title: "Hormonbehandling", desc: "Overgangsalder og hormonforstyrrelser", href: "/behandlinger/gynekologi/overgangsalder" },
     { title: "Botoxbehandling", desc: "Vaginisme og vulvalidelser", href: "/behandlinger/gynekologi/vulvalidelser" },
     { title: "Konisering", desc: "Behandling av celleforandringer", href: "/behandlinger/gynekologi/celleforandringer" },
-    { title: "6-ukers kontroll etter fødsel", desc: "Oppfølging etter fødsel", href: "/behandlinger/gynekologi/undersokelse" },
+    { title: "6-ukers kontroll etter fødsel", desc: "Oppfølging etter fødsel", href: "/behandlinger/graviditet/6-ukerskontroll" },
     { title: "Robotassistert kirurgi", desc: "Høy presisjon, rask rehabilitering", href: "/behandlinger/gynekologi/robotkirurgi" },
     { title: "Gynekologisk kirurgi", desc: "Laparoskopi og åpen kirurgi", href: "/behandlinger/gynekologi/kirurgi" },
     { title: "Fjerne livmor (hysterektomi)", desc: "Kirurgisk fjerning av livmor", href: "/behandlinger/gynekologi/fjerne-livmor" },
@@ -408,7 +408,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  ))}
   </div>
 
-  <ReadMoreLink to="/om-oss" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
+  <ReadMoreLink to="/klinikker" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
  </div>
  </div>
 
