@@ -127,7 +127,7 @@ export const SpecialistFeaturedService = ({ specialist }: Props) => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative aspect-[4/3] overflow-hidden rounded-sm"
+            className="relative aspect-[4/3] overflow-hidden rounded-sm order-1 lg:order-2"
           >
             <img
               src={cfg.image}
