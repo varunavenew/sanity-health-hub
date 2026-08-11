@@ -501,7 +501,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
-                variant="cta-dark"
+                variant="cta"
                 size="lg" 
                 className="px-8"
                 onClick={() => navigate('/booking')}

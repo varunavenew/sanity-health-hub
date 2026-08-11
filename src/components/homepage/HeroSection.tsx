@@ -51,7 +51,7 @@ export const HeroSection = () => {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button
-              variant="cta-dark"
+              variant="cta"
               size="lg"
               className="px-8 h-14 text-base shadow-lg"
               onClick={() => navigate('/booking')}

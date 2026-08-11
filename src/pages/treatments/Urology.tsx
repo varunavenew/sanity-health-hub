@@ -427,7 +427,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
  </p>
  </div>
  <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
- <Button asChild variant="cta-dark" size="lg" className="px-8">
+ <Button asChild variant="cta" size="lg" className="px-8">
  <Link to={buildBookingUrl({ kategori: "urologi" })}>Bestill urologtime</Link>
  </Button>
  <a href="tel:+4722000000" className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white px-2">

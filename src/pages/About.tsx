@@ -140,7 +140,9 @@ const About = ({ isChatOpen }: AboutProps) => {
 
             <div className="mt-8 pt-6 border-t border-brand-dark/10">
               <Button
-                className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
+                variant="cta"
+                size="lg"
+                className="px-8"
                 onClick={() => navigate('/booking')}
               >
                 Bestill konsultasjon
