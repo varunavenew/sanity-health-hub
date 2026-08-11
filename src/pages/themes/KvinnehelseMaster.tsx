@@ -186,7 +186,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
   <MasterLabel>Tjeneste-teaser – kort med bilde, tekst og lenke (samme mønster som "Tjenesten i denne saken")</MasterLabel>
   <section className="bg-brand-light py-16 md:py-24 border-t border-foreground/10">
     <div className="container mx-auto px-6 md:px-16">
-      <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-center max-w-6xl mx-auto">
+      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-14 lg:gap-24 items-center max-w-6xl mx-auto">
         <div>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
             Gynekologisk utredning
@@ -254,7 +254,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  {/* ───────────── Tekst-seksjon (valgfri) – split tekst + bilde ───────────── */}
  <MasterLabel>Tekstseksjon – split tekst + bilde (samme som "Det beste fra to klinikker")</MasterLabel>
  <section className="bg-background">
- <div className="grid lg:grid-cols-12">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
  <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
  <div className="max-w-xl">
  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">

@@ -32,7 +32,11 @@ export const FeatureSpotlight = ({
   mediaLeft = false,
 }: FeatureSpotlightProps) => {
   const media = (
-    <div className="relative bg-secondary/40 h-full overflow-hidden">
+    <div
+      className={`relative bg-secondary/40 h-full min-h-[280px] lg:min-h-0 overflow-hidden order-1 ${
+        mediaLeft ? "lg:order-1" : "lg:order-2"
+      }`}
+    >
       {video ? (
         <video
           src={video}
@@ -54,7 +58,7 @@ export const FeatureSpotlight = ({
   );
 
   const copy = (
-    <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+    <div className={`order-2 ${mediaLeft ? "lg:order-2" : "lg:order-1"} px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center`}>
       <div className="max-w-lg">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
           {title}
@@ -76,17 +80,8 @@ export const FeatureSpotlight = ({
   return (
     <section className="bg-brand-light text-foreground">
       <div className="grid lg:grid-cols-2 items-stretch min-h-screen">
-        {mediaLeft ? (
-          <>
-            {media}
-            {copy}
-          </>
-        ) : (
-          <>
-            {copy}
-            {media}
-          </>
-        )}
+        {media}
+        {copy}
       </div>
     </section>
   );
