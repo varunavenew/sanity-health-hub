@@ -58,7 +58,7 @@ export const SpecialistsScroller = ({
     return (
       <section className="pt-10 md:pt-14 pb-14 md:pb-16 bg-secondary/30 overflow-hidden">
         <div className="page-shell">
-          <div className="section-head max-w-xl">
+          <div className="section-head max-w-xl max-md:!mb-4">
             <h2 className="text-2xl md:text-3xl font-light text-foreground">{title}</h2>
             {description && (
               <p className="section-lead text-muted-foreground font-light">{description}</p>
@@ -86,11 +86,11 @@ const SpecialistFeature = ({ sp }: { sp: any }) => {
   const shortBio = sp.bio ? sp.bio.split("\n\n")[0].slice(0, 280) : "";
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-stretch">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-stretch">
       <Link
         to={`/spesialister/${sp.slug}`}
         aria-label={`Les mer om ${sp.name}`}
-        className="group md:col-span-5 md:col-start-1 block"
+        className="group md:col-span-5 md:col-start-1 block mt-0"
       >
         <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
           <img
@@ -137,12 +137,9 @@ const SpecialistFeature = ({ sp }: { sp: any }) => {
           )}
         </div>
 
-        <div className="mt-10">
-          <Button variant="cta" asChild>
-            <Link to="/booking">
-              Finn ledig tid hos {sp.name.split(" ")[0]}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
+        <div className="mt-8 md:mt-10">
+          <Button variant="cta" asChild className="max-sm:w-full">
+            <Link to="/booking">Finn ledig tid hos {sp.name.split(" ")[0]}</Link>
           </Button>
         </div>
       </div>
