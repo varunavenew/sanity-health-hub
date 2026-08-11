@@ -5,6 +5,7 @@ import { MapPin, Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { getPortraitFocal } from "@/lib/specialistFocal";
 
 interface SpecialistHeroProps {
   specialist: Specialist;
