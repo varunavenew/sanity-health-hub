@@ -5,7 +5,7 @@ import { SmartImage } from "@/components/ui/smart-image";
 
 interface SplitHeroProps {
  title: string;
- description?: string;
+ description?: React.ReactNode;
  image: string;
  imageAlt?: string;
  primaryCta?: { label: string; to: string };
