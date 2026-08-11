@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { VideoPlayer } from "@/components/ui/video-player";
+import { SmartImage } from "@/components/ui/smart-image";
 
 /**
  * RichContentSection – fri innholdsblokk for temasider.
