@@ -475,15 +475,15 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
  oss, fra du booker time til du er ferdig behandlet.
  </p>
- </div>
-
- <div className="hidden lg:block mt-2 mb-2">
+<div className="hidden lg:block">
 <Button asChild variant="cta" size="lg" className="px-8">
      <Link to={buildBookingUrl({ kategori: "ortopedi" })}>
      Bestill time
      </Link>
      </Button>
 </div>
+ </div>
+
 <div className="lg:col-span-7">
  <div className="divide-y divide-border/60 border-t border-border/60">
  {journey.map((step) => (
