@@ -54,10 +54,11 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       <header className="bg-brand-mid pt-[4.5rem] md:pt-24 pb-6 md:pb-8">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-brand-dark mb-3">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-[#180404] mb-3">
               Bygg karrieren der pasienten alltid kommer først
             </h1>
-            <p className="text-brand-dark/75 text-sm md:text-base font-light leading-relaxed max-w-2xl">
+            <p className="text-[#180404]/80 text-sm md:text-base font-light leading-relaxed max-w-2xl">
+
               Hos CMedical jobber du i et inspirerende fagmiljø med dyktige kolleger,
               moderne utstyr og en kultur der pasientens beste alltid står i sentrum.
               Vi tilbyr konkurransedyktige betingelser og gode utviklingsmuligheter.
