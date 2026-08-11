@@ -85,7 +85,8 @@ const ScrollableMenuColumn = ({ children, className, scrollbarClassName = '', sc
 };
 
 export const ServicesDropdown = () => {
- const { categories: serviceCategories } = useServiceCategories();
+ const { categories: rawCategories } = useServiceCategories();
+  const serviceCategories = useMemo(() => sortNavCategories(rawCategories), [rawCategories]);
  const { t } = useTranslation();
  const location = useLocation();
  const [isOpen, setIsOpen] = useState(false);

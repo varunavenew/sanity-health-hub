@@ -5,9 +5,10 @@ import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { clinics as staticClinics } from "@/data/clinicServices";
+import { NAV_CATEGORY_ORDER, sortNavCategories } from "@/data/serviceCategories";
 import { useTranslation } from "react-i18next";
 
-const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
+const FOOTER_CATEGORY_ORDER = [...NAV_CATEGORY_ORDER, "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = {};
 
 // Ski-klinikken er lagt ned — filtrer den bort uansett hva CMS leverer.
@@ -27,16 +28,15 @@ export const Footer = ({ extraBottomSpace = false }: { extraBottomSpace?: boolea
 
   // Services links sorted to match reference design
   const serviceLinks = categories.length > 0
-    ? [...categories]
-        .filter((c) => FOOTER_CATEGORY_ORDER.includes(c.id))
-        .sort((a, b) => FOOTER_CATEGORY_ORDER.indexOf(a.id) - FOOTER_CATEGORY_ORDER.indexOf(b.id))
+    ? sortNavCategories(categories.filter((c) => FOOTER_CATEGORY_ORDER.includes(c.id)))
         .map((c) => ({
           label: FOOTER_LABEL_MAP[c.id] || c.label,
           path: c.path,
         }))
     : [
-        { label: "Gynekologi", path: "/gynekologi" },
         { label: "Fertilitet", path: "/fertilitet" },
+        { label: "Gynekologi", path: "/gynekologi" },
+        { label: "Graviditet", path: "/graviditet" },
         { label: "Urologi", path: "/urologi" },
         { label: "Ortopedi", path: "/ortopedi" },
         { label: t("footer.moreServices"), path: "/flere-fagomrader" },
