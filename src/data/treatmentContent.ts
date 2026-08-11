@@ -13,7 +13,7 @@ import heroTech from "@/assets/hero/hero-technology.jpg";
 import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
-import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import gastrokirurgiCardImg from "@/assets/services/gastrokirurgi.png.asset.json";
 import hudhelseHeroAsset from "@/assets/hudhelse/hudhelse.png.asset.json";
 import hudstrukturAsset from "@/assets/hudhelse/hudstruktur.png.asset.json";
 import kosmetiskDermatologiAsset from "@/assets/hudhelse/kosmetisk-dermatologi.png.asset.json";
