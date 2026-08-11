@@ -15,6 +15,7 @@ import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -148,9 +149,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
- <div className="relative min-h-[420px] lg:min-h-full">
- <img src={ortopediHero} alt="Ortopedi hos CMedical" className="absolute inset-0 w-full h-full object-cover" />
- </div>
+ <SplitHeroMedia className="min-h-[420px] lg:min-h-full" src={ortopediHero} alt="Ortopedi hos CMedical" />
  </div>
  </header>
 

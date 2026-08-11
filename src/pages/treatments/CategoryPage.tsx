@@ -26,6 +26,7 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 import graviditetHeroAsset from "@/assets/graviditet/graviditet-hero.png.asset.json";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 const graviditetImg = graviditetHeroAsset.url;
 
 
@@ -337,13 +338,11 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  </div>
  </div>
  {/* Right: image */}
- <div className="relative order-1 lg:order-2 min-h-[420px] lg:min-h-full">
- <img
+ <SplitHeroMedia
+ className="order-1 lg:order-2 min-h-[420px] lg:min-h-full"
  src={category.heroImage}
  alt={category.title}
- className="absolute inset-0 w-full h-full object-cover"
  />
- </div>
  </div>
  </header>
 

@@ -28,6 +28,7 @@ import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -145,13 +146,11 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-full">
-            <img
-              src={fertilityHeroImg}
-              alt="Donorbehandling hos CMedical"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
+          <SplitHeroMedia
+            className="min-h-[420px] lg:min-h-full"
+            src={fertilityHeroImg}
+            alt="Donorbehandling hos CMedical"
+          />
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>

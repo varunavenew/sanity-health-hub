@@ -14,6 +14,7 @@ import { AnimatedStat } from "@/components/AnimatedStat";
 import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import urologyHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 const urologyHero = urologyHeroAsset.url;
 
 interface PageProps { isChatOpen: boolean }
@@ -194,13 +195,11 @@ const Urology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
- <div className="relative min-h-[420px] lg:min-h-full">
- <img
+ <SplitHeroMedia
+ className="min-h-[420px] lg:min-h-full"
  src={urologyHero}
  alt="Urologisk behandling hos CMedical"
- className="absolute inset-0 w-full h-full object-cover"
  />
- </div>
  </div>
  </header>
 

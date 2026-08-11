@@ -40,6 +40,7 @@ import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 import kvinnehelseVideo from "@/assets/kvinnehelse-8.mp4.asset.json";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -318,16 +319,11 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
-  <div className="relative min-h-[420px] lg:min-h-full">
-  <video
-  src={kvinnehelseVideo.url}
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="absolute inset-0 w-full h-full object-cover"
+  <SplitHeroMedia
+  className="min-h-[420px] lg:min-h-full"
+  video={kvinnehelseVideo.url}
+  alt="Gynekologi hos CMedical"
   />
-  </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

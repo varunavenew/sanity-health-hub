@@ -21,6 +21,7 @@ import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -155,13 +156,11 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="relative min-h-[420px] lg:min-h-full">
- <img
+ <SplitHeroMedia
+ className="min-h-[420px] lg:min-h-full"
  src={flereHero}
  alt="Flere tjenester hos CMedical"
- className="absolute inset-0 w-full h-full object-cover"
  />
- </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

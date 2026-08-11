@@ -36,6 +36,7 @@ import fosterAsset from "@/assets/services/graviditet-fosterdiagnostikk.jpg.asse
 import teamAsset from "@/assets/services/graviditet-svangerskapsteam.jpg.asset.json";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 const heroImg = heroAsset.url;
 const ultralydImg = ultralydAsset.url;
@@ -288,13 +289,11 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-full">
-            <img
-              src={heroImg}
-              alt="Gravid kvinne hos CMedical"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
+          <SplitHeroMedia
+            className="min-h-[420px] lg:min-h-full"
+            src={heroImg}
+            alt="Gravid kvinne hos CMedical"
+          />
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>

@@ -14,6 +14,7 @@ import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import {
  categoryNewContent,
 } from "./categoryPageContent";
@@ -120,13 +121,11 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
        </div>
      </div>
 
-     <div className="relative min-h-[420px] lg:min-h-full">
-       <img
-         src={content.heroImage}
-         alt={content.title}
-         className="absolute inset-0 w-full h-full object-cover"
-       />
-     </div>
+     <SplitHeroMedia
+       className="min-h-[420px] lg:min-h-full"
+       src={content.heroImage}
+       alt={content.title}
+     />
    </div>
    <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

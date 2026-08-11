@@ -39,6 +39,7 @@ import expertTestikler from "@/assets/hero/urology-hero.jpg";
 import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
 import expertKvinne from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -265,13 +266,11 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="relative min-h-[420px] lg:min-h-full">
- <img
+ <SplitHeroMedia
+ className="min-h-[420px] lg:min-h-full"
  src={urologiHero.url}
  alt="Urologi hos CMedical"
- className="absolute inset-0 w-full h-full object-cover"
  />
- </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>
