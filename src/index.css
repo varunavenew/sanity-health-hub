@@ -398,8 +398,12 @@
   }
 
 
-
-
+  /* 3) Kant-i-kant split-seksjoner (tekst + bilde side om side).
+     Bildet skal fylle hele seksjonshøyden — ingen seksjonspadding. */
+  section.section-flush {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
 
 
   /* Felles "edge" — beregner avstand fra venstre/høyre viewport-kant til

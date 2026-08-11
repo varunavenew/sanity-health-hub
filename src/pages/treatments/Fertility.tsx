@@ -411,7 +411,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
  ============================================================ */}
-  <section className="bg-background">
+  <section className="section-flush bg-background">
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
  <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
  <div className="max-w-xl">
@@ -719,7 +719,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
+ <section className="bg-brand-mid text-[#180404] pt-14 md:pt-16 pb-10 md:pb-12">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
@@ -729,15 +729,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
  <div className="lg:col-span-7 flex items-end">
- <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
+ <p className="text-base font-light text-[#180404]/80 leading-relaxed max-w-xl">
  Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
  resultatene våre innen fertilitetsbehandling de siste årene.
  </p>
  </div>
  </div>
 
- <div className="border-t border-brand-dark/15 py-8 md:py-10">
- <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
+ <div className="border-t border-[#180404]/25 py-8 md:py-10">
+ <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-[#180404]/25">
  {[
  { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
  { v: "3 500", k: "Operasjoner", sub: "Per år" },
@@ -751,10 +751,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
  <AnimatedStat value={row.v} />
  </dd>
- <dt className="text-sm font-normal text-foreground mb-1">
+ <dt className="text-sm font-normal text-[#180404] mb-1">
  {row.k}
  </dt>
- <p className="text-xs font-light text-foreground/60">
+ <p className="text-xs font-light text-[#180404]/70">
  {row.sub}
  </p>
  </div>
@@ -762,7 +762,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </dl>
  </div>
 
- <p className="text-xs font-light text-muted-foreground mt-8">
+ <p className="text-xs font-light text-[#180404]/70 mt-8">
  Tall oppdatert per Q1 2026. Resultater varierer individuelt.
  </p>
  </div>
