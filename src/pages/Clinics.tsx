@@ -165,7 +165,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </li>
  <li className="flex items-start gap-3 text-sm">
  <Clock className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
- <span className="text-foreground font-light">{clinic.hours}</span>
+ <span className="text-foreground font-light whitespace-pre-line">{clinic.hours}</span>
  </li>
  <li className="flex items-start gap-3 text-sm">
  <Phone className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
