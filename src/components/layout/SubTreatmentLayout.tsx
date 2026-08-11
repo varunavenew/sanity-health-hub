@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from "react";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
+import { SmartImage } from "@/components/ui/smart-image";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useIsMobile } from "@/hooks/use-mobile";
 
