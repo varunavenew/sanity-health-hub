@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import { articles } from "@/data/articles";
 import { articleContent, type ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
@@ -303,7 +304,7 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
                 )}
               </figure>
             ) : (
-              <div className="hidden md:block rounded-sm overflow-hidden mb-10 -mt-0">
+              <div className="hidden rounded-sm overflow-hidden mb-10 -mt-0">
                 <img
                   src={article.image}
                   alt={article.title}
