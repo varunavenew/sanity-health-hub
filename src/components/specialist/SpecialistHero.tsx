@@ -31,6 +31,7 @@ const categoryToServicePath: Record<string, string> = {
 export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHeroProps) => {
   const firstName = specialist.name.split(" ")[0];
   const servicePath = categoryToServicePath[specialist.category] || "/tjenester";
+  const focal = getPortraitFocal(specialist.image);
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
