@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug, withCanonicalAddress } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
+import { SpecialistCard } from "@/components/specialists/SpecialistCarousel";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 
@@ -406,20 +407,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
  {(clinic as any).specialists.map((s: any) => (
  <li key={s.slug}>
- <Link to={`/spesialister/${s.slug}`} className="group block">
- <div className="aspect-[3/4] bg-brand-mid/20 overflow-hidden rounded-sm mb-2">
- {s.image && (
- <img
- src={s.image}
- alt={s.name}
- loading="lazy"
- className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
- />
- )}
- </div>
- <p className="text-sm font-normal text-foreground group-hover:text-brand-dark transition-colors">{s.name}</p>
- {s.role && <p className="text-xs text-muted-foreground font-light">{s.role}</p>}
- </Link>
+ <SpecialistCard sp={{ slug: s.slug, name: s.name, image: s.image, title: s.role }} />
  </li>
  ))}
  </ul>
