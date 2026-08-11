@@ -921,6 +921,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                     alt=""
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover"
+                    style={{ objectPosition: promiseFocals[i] ?? "50% 50%" }}
                   />
                 </div>
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
