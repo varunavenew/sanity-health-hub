@@ -89,7 +89,7 @@ const lifePhases = [
     { label: "Graviditetsoppfølging", href: "/behandlinger/graviditet/svangerskapsteam" },
     { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/graviditet/6-ukerskontroll" },
     { label: "Spontanabort", href: "/behandlinger/gynekologi/spontanabort" },
-    { label: "Abort", href: "/behandlinger/gynekologi/undersokelse" },
+    
     { label: "Fødselsskader", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
     href: "/behandlinger/graviditet",
