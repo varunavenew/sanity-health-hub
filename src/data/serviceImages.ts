@@ -13,7 +13,7 @@ import img_fertilitet_saedanalyse from "@/assets/services/fertilitet-saedanalyse
 import img_flere_areknutebehandling from "@/assets/services/flere-areknutebehandling.jpg.asset.json";
 import img_flere_endokrinologi from "@/assets/services/flere-endokrinologi.jpg.asset.json";
 import img_flere_ernaeringsfysologi from "@/assets/services/flere-ernaeringsfysologi.jpg.asset.json";
-import img_flere_gastrokirurgi from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import img_flere_gastrokirurgi from "@/assets/services/gastrokirurgi.png.asset.json";
 import img_flere_hero from "@/assets/services/flere-hero.jpg.asset.json";
 import img_flere_hudhelse from "@/assets/hudhelse/hudhelse.png.asset.json";
 import img_flere_hudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
