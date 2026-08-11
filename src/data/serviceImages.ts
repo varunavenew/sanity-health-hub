@@ -24,10 +24,11 @@ import img_flere_psykologi from "@/assets/services/flere-psykologi.jpg.asset.jso
 import img_flere_revmatologi from "@/assets/services/flere-revmatologi.jpg.asset.json";
 import img_flere_robotkirurgi from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
 import img_flere_sexologi from "@/assets/services/flere-sexologi.jpg.asset.json";
-import img_graviditet_fosterdiagnostikk from "@/assets/services/graviditet-fosterdiagnostikk.jpg.asset.json";
+import img_graviditet_fosterdiagnostikk from "@/assets/graviditet/fosterdiagnostikk.png.asset.json";
+import img_graviditet_fostermedisin from "@/assets/graviditet/fostermedisin.png.asset.json";
 import img_graviditet_hero from "@/assets/services/graviditet-hero.jpg.asset.json";
-import img_graviditet_nipt from "@/assets/services/graviditet-nipt.jpg.asset.json";
-import img_graviditet_svangerskapsteam from "@/assets/services/graviditet-svangerskapsteam.jpg.asset.json";
+import img_graviditet_nipt from "@/assets/graviditet/nipt.png.asset.json";
+import img_graviditet_svangerskapsteam from "@/assets/graviditet/svangerskapsteam.png.asset.json";
 import img_graviditet_ultralyd from "@/assets/services/graviditet-ultralyd.jpg.asset.json";
 import img_gynekologi_blodningsforstyrrelser from "@/assets/services/gynekologi-blodningsforstyrrelser.jpg.asset.json";
 import img_gynekologi_celleforandringer from "@/assets/services/gynekologi-celleforandringer.jpg.asset.json";
@@ -102,6 +103,7 @@ export const serviceImageBySlug: Record<string, string> = {
   "flere-robotkirurgi": img_flere_robotkirurgi.url,
   "flere-sexologi": img_flere_sexologi.url,
   "graviditet-fosterdiagnostikk": img_graviditet_fosterdiagnostikk.url,
+  "graviditet-fostermedisin": img_graviditet_fostermedisin.url,
   "graviditet-hero": img_graviditet_hero.url,
   "graviditet-nipt": img_graviditet_nipt.url,
   "graviditet-svangerskapsteam": img_graviditet_svangerskapsteam.url,
@@ -196,7 +198,7 @@ const SUB_ALIAS: Record<string, string> = {
  * Value is the full image slug (e.g. "graviditet-nipt").
  */
 const CROSS_CATEGORY_ALIAS: Record<string, string> = {
-  "gynekologi/fostermedisin": "graviditet-fosterdiagnostikk",
+  "gynekologi/fostermedisin": "graviditet-fostermedisin",
   "gynekologi/fodselsskader": "graviditet-svangerskapsteam",
 };
 
