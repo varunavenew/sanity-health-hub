@@ -9,17 +9,16 @@ interface ListPageHeroProps {
 }
 
 /**
- * FELLES HERO for liste-/oversiktssider uten split-bilde
- * (/aktuelt, /spesialister, /klinikker, /tjenester m.fl.).
+ * FELLES HERO for sider som ALLEREDE hadde en mørk enkel-hero
+ * (kun /aktuelt og /spesialister). Skal ALDRI legges til på sider
+ * som ikke hadde hero fra før.
  *
- * - Skin-teksturbakgrunn med mørk overlay (aldri flat brun)
- * - Samme høyde overalt (matcher SplitHero: 420px mobil / 520px desktop)
- * - Innholdet er vertikalt sentrert slik at H1 lander på samme vertikale
- *   linje som «Helseforsikring» på /forsikring — mobil og desktop.
+ * - Skin-teksturbakgrunn med varm brun overlay (aldri flat brun)
+ * - Høyde = 50% av SplitHero (420/520) → 210px mobil / 260px desktop
  */
 export const ListPageHero = ({ title, description, children, className = "" }: ListPageHeroProps) => (
   <header
-    className={`relative flex flex-col justify-center overflow-hidden min-h-[380px] md:min-h-[460px] py-12 md:py-16 ${className}`}
+    className={`relative flex flex-col justify-center overflow-hidden min-h-[210px] md:min-h-[260px] py-8 md:py-10 ${className}`}
   >
     <img
       src={heroBgAsset.url}
