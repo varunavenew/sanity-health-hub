@@ -39,7 +39,7 @@ export const ClinicGrid = () => {
                 </div>
                 <div className="sm:w-[30%] flex items-center gap-2 ml-6 sm:ml-0">
                   <Clock className="w-3 h-3 text-muted-foreground flex-shrink-0" aria-hidden="true" />
-                  <span className="text-xs text-muted-foreground font-light">{clinic.hours}</span>
+                  <span className="text-xs text-muted-foreground font-light whitespace-pre-line">{clinic.hours}</span>
                 </div>
               </Link>
             ))}

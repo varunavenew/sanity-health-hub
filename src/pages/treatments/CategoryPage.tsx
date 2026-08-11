@@ -328,7 +328,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  <Button
  variant="ghost"
  size="lg"
- className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-foreground hover:border-brand-dark rounded-2xl"
+ className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark rounded-2xl"
  onClick={() => navigate('/kontakt')}
  >
  <Phone className="mr-2 w-4 h-4" />

@@ -22,12 +22,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "rounded-2xl md:rounded-md bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground",
+        // HOVER-REGEL: mørk bakgrunn → lys tekst, lys bakgrunn → mørk tekst.
+        // Aldri hover-tekst i accent-foreground (mørk) uten samtidig lys bakgrunn.
+        default: "rounded-2xl md:rounded-md bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
         destructive: "rounded-2xl md:rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "rounded-2xl md:rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent",
-        secondary: "rounded-2xl md:rounded-md bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground",
-        ghost: "rounded-2xl md:rounded-md hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline hover:text-accent",
+        outline: "rounded-2xl md:rounded-md border border-input bg-background text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary",
+        secondary: "rounded-2xl md:rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:text-secondary-foreground",
+        ghost: "rounded-2xl md:rounded-md hover:bg-muted hover:text-foreground",
+        link: "text-primary underline-offset-4 hover:underline hover:text-primary",
         // ── CTA variants (standardised across the entire site) ──
         cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90",
         "cta-outline": "rounded-2xl border-0 bg-white text-brand-dark hover:bg-white/90 shadow-none",

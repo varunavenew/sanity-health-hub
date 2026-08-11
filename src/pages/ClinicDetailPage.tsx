@@ -286,7 +286,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <Clock className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
  <div>
  <p className="text-sm font-normal text-foreground">Åpningstider</p>
- <p className="text-sm text-muted-foreground font-light">{clinic.hours}</p>
+ <p className="text-sm text-muted-foreground font-light whitespace-pre-line">{clinic.hours}</p>
  </div>
  </div>
  </div>

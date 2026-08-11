@@ -82,29 +82,19 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  <SplitHero
  
  title="Finn din nærmeste klinikk"
- description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
- image={imgKunstverk.url}
- imageAlt="CMedical klinikk"
- primaryCta={{ label: "Bestill time", to: "/booking" }}
- secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
- />
+  description={
+  <>
+  <p>I Norge tilbyr vi korte ventetider til noen av de beste spesialistene innen gynekologi, fertilitet, urologi, ortopedi og andre tjenester.</p>
+  <p>Vi mener helse er et håndverk, som krever empati, omsorg og kontinuerlig trening. Kirurgisk presisjon preger alt vi gjør, fra diagnostikk til behandling og fra innsjekk til utsjekk.</p>
+  <p>Hos oss er du i gode hender. Vi kombinerer erfaring og kompetanse med hjertevarme, alltid med ditt beste i fokus.</p>
+  </>
+  }
+  image={imgKunstverk.url}
+  imageAlt="CMedical klinikk"
+  primaryCta={{ label: "Bestill time", to: "/booking" }}
+  secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+  />
 
- {/* Intro fra kunden */}
- <section className="bg-background py-14 md:py-20">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-3xl space-y-5">
- <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed">
- I Norge tilbyr vi korte ventetider til noen av de beste spesialistene innen gynekologi, fertilitet, urologi, ortopedi og andre tjenester.
- </p>
- <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed">
- Vi mener helse er et håndverk, som krever empati, omsorg og kontinuerlig trening. Kirurgisk presisjon preger alt vi gjør, fra diagnostikk til behandling og fra innsjekk til utsjekk.
- </p>
- <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed">
- Hos oss er du i gode hender. Vi kombinerer erfaring og kompetanse med hjertevarme, alltid med ditt beste i fokus.
- </p>
- </div>
- </div>
- </section>
 
 
 
@@ -165,7 +155,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </li>
  <li className="flex items-start gap-3 text-sm">
  <Clock className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
- <span className="text-foreground font-light">{clinic.hours}</span>
+ <span className="text-foreground font-light whitespace-pre-line">{clinic.hours}</span>
  </li>
  <li className="flex items-start gap-3 text-sm">
  <Phone className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
