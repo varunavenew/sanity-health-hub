@@ -144,6 +144,15 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/nipt" element={<Navigate to="/behandlinger/graviditet/nipt" replace />} />
+        {/* Graviditetstjenester flyttet ut av gynekologi til egen /graviditet-struktur */}
+        <Route path="/behandlinger/gynekologi/graviditet" element={<Navigate to="/behandlinger/graviditet/svangerskapsoppfolging" replace />} />
+        <Route path="/behandlinger/gynekologi/spontanabort" element={<Navigate to="/behandlinger/graviditet/spontanabort" replace />} />
+        <Route path="/behandlinger/gynekologi/fodselsskader" element={<Navigate to="/behandlinger/graviditet/fodselsskader" replace />} />
+        <Route path="/behandlinger/gynekologi/fostermedisin" element={<Navigate to="/behandlinger/graviditet/fostermedisin" replace />} />
+        <Route path="/behandlinger/gynekologi/ultralyd" element={<Navigate to="/behandlinger/graviditet/ultralyd" replace />} />
+        <Route path="/behandlinger/gynekologi/6-ukerskontroll" element={<Navigate to="/behandlinger/graviditet/6-ukerskontroll" replace />} />
+        <Route path="/behandlinger/gynekologi/svangerskapsteam" element={<Navigate to="/behandlinger/graviditet/svangerskapsteam" replace />} />
+        <Route path="/behandlinger/gynekologi/fosterdiagnostikk" element={<Navigate to="/behandlinger/graviditet/fosterdiagnostikk" replace />} />
         <Route path="/behandlinger/gynekologi/hormonforstyrrelser" element={<Navigate to="/behandlinger/gynekologi/poi" replace />} />
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
         
