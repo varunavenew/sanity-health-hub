@@ -301,7 +301,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       </section>
 
       {/* Articles */}
-      <section className="bg-background py-10 md:py-16">
+      <section className="bg-background pt-2 pb-10 md:pb-16">
         <div className="container mx-auto px-6 md:px-16">
           {/* Top 4 featured */}
           {featuredTop.length > 0 && (
