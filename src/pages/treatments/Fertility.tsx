@@ -595,7 +595,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
    { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/behandlinger/fertilitet/eggfrys", image: journeyLab, imageAlt: "Laboratorium for nedfrysing" },
    { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/behandlinger/fertilitet/saedanalyse", image: fertilityHeroImg, imageAlt: "Mannlig fertilitetsutredning" },
    { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Donorbehandling", href: "/behandlinger/fertilitet/donorbehandling", image: audienceSingle, imageAlt: "Vei mot foreldreskap" },
-   { symptom: "Jeg ønsker å hjelpe andre med å bli foreldre", service: "Bli donor", href: "/behandlinger/fertilitet/donorbehandling", image: eggdonasjonImg, imageAlt: "Bli egg- eller spermdonor" },
+    // SKJULT TIL LANSERING — se SHOW_BLI_DONOR.
+    ...(SHOW_BLI_DONOR
+      ? [{ symptom: "Jeg ønsker å hjelpe andre med å bli foreldre", service: "Bli donor", href: "/behandlinger/fertilitet/donorbehandling", image: eggdonasjonImg, imageAlt: "Bli egg- eller spermdonor" }]
+      : []),
   ]}
  />
 
