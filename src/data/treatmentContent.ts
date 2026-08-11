@@ -1234,7 +1234,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Vi tilbyr alle subspesialiteter innen ortopedisk fot- og ankelkirurgi, og våre spesialister kan utføre alle typer inngrep. Ved flere diagnoser benytter vi avanserte minimalt invasive operasjonsmetoder kalt **MIS (Minimally Invasive Surgery)** og **MICA (Minimally Invasive Chevron-Akin)**. Dette er operasjonsmetoder — ikke diagnoser — som lar oss korrigere feilstillinger og senerelaterte plager gjennom svært små snitt, med mindre vevsskade, mindre smerte og raskere rehabilitering. Hvilken metode som er aktuell for deg avhenger av diagnosen og funn ved undersøkelse.",
-    aboutLead: ,"Utredning av fot- og ankelplager starter med en klinisk undersøkelse av gange, belastningsmønster, feilstillinger og bevegelighet, supplert med røntgen i stående stilling, ultralyd eller MR ved behov. Mange tilstander bedres med tilpassede såler, skotøy og målrettet trening, mens vedvarende plager kan kreve kirurgi. Under finner du de vanligste diagnosene fotkirurgene våre behandler, hva inngrepene innebærer og hvordan rehabiliteringen forløper.",
+    aboutLead: "Utredning av fot- og ankelplager starter med en klinisk undersøkelse av gange, belastningsmønster, feilstillinger og bevegelighet, supplert med røntgen i stående stilling, ultralyd eller MR ved behov. Mange tilstander bedres med tilpassede såler, skotøy og målrettet trening, mens vedvarende plager kan kreve kirurgi. Under finner du de vanligste diagnosene fotkirurgene våre behandler, hva inngrepene innebærer og hvordan rehabiliteringen forløper.",
     sections: [
       {
         id: "hallux-valgus",
@@ -1276,7 +1276,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
-    aboutLead: ,"En hoftevurdering omfatter undersøkelse av bevegelsesutslag, impingement-tester og kartlegging av hvordan smerten oppfører seg ved aktivitet, supplert med røntgen og MR med kontrast der det er mistanke om labrumskade. Målet er å skille mellom skader som kan repareres artroskopisk, senerelaterte plager rundt hoften og begynnende artrose, som håndteres annerledes. Under finner du hva hofteskopi innebærer, hvem inngrepet passer for og hvordan forløpet ser ut fra vurdering til kontroll.",
+    aboutLead: "En hoftevurdering omfatter undersøkelse av bevegelsesutslag, impingement-tester og kartlegging av hvordan smerten oppfører seg ved aktivitet, supplert med røntgen og MR med kontrast der det er mistanke om labrumskade. Målet er å skille mellom skader som kan repareres artroskopisk, senerelaterte plager rundt hoften og begynnende artrose, som håndteres annerledes. Under finner du hva hofteskopi innebærer, hvem inngrepet passer for og hvordan forløpet ser ut fra vurdering til kontroll.",
     sections: [
       {
         id: "hofteskopi",
@@ -1299,7 +1299,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to, slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
-    aboutLead: ,"Hånd- og albueplager utredes med klinisk undersøkelse av kraft, følelse og bevegelighet, og ved behov nevrografi, ultralyd eller MR. Mange tilstander skyldes trykk på nerver, slitasje i sener eller arrvev, og lar seg behandle med avlastning, skinne, injeksjon eller et lite inngrep i lokalbedøvelse. Etter avanserte inngrep følges du opp av håndterapeut, som er avgjørende for å gjenvinne kraft og bevegelighet. Under finner du de vanligste diagnosene og hva behandlingen innebærer.",
+    aboutLead: "Hånd- og albueplager utredes med klinisk undersøkelse av kraft, følelse og bevegelighet, og ved behov nevrografi, ultralyd eller MR. Mange tilstander skyldes trykk på nerver, slitasje i sener eller arrvev, og lar seg behandle med avlastning, skinne, injeksjon eller et lite inngrep i lokalbedøvelse. Etter avanserte inngrep følges du opp av håndterapeut, som er avgjørende for å gjenvinne kraft og bevegelighet. Under finner du de vanligste diagnosene og hva behandlingen innebærer.",
     // Hånd/albue-spesialister: navn ikke bekreftet ennå – «Vår spesialist»-boks står klar uten navn.
     relatedSpecialists: [],
     sections: [
@@ -1333,7 +1333,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
-    aboutLead: ,"En kneutredning bygger på sykehistorie, klinisk undersøkelse med stabilitets- og menisktester og bildediagnostikk — røntgen ved mistanke om slitasje, MR ved mistanke om skade i menisk, korsbånd eller brusk. Funnene avgjør om plagene bør behandles med opptrening og eventuell injeksjon, eller med artroskopisk kirurgi. Under finner du hva de vanligste knediagnosene innebærer, hvilke symptomer de gir og hvordan behandlingsforløpet ser ut.",
+    aboutLead: "En kneutredning bygger på sykehistorie, klinisk undersøkelse med stabilitets- og menisktester og bildediagnostikk — røntgen ved mistanke om slitasje, MR ved mistanke om skade i menisk, korsbånd eller brusk. Funnene avgjør om plagene bør behandles med opptrening og eventuell injeksjon, eller med artroskopisk kirurgi. Under finner du hva de vanligste knediagnosene innebærer, hvilke symptomer de gir og hvordan behandlingsforløpet ser ut.",
     sections: [
       {
         id: "om-knebehandling",
@@ -1366,7 +1366,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
-    aboutLead: ,"Skulderplager utredes med undersøkelse av bevegelighet, kraft og innklemmingstester, supplert med ultralyd, røntgen eller MR. Det gjør det mulig å skille mellom innklemming, kalkavleiring, skade i rotatormansjetten, leddleppeskade og frossen skulder — tilstander som gir liknende smerter, men krever ulik behandling. Mange blir bra med målrettet fysioterapi og eventuell injeksjon, mens vedvarende plager og strukturelle skader behandles kirurgisk. Under finner du hva de enkelte tilstandene innebærer.",
+    aboutLead: "Skulderplager utredes med undersøkelse av bevegelighet, kraft og innklemmingstester, supplert med ultralyd, røntgen eller MR. Det gjør det mulig å skille mellom innklemming, kalkavleiring, skade i rotatormansjetten, leddleppeskade og frossen skulder — tilstander som gir liknende smerter, men krever ulik behandling. Mange blir bra med målrettet fysioterapi og eventuell injeksjon, mens vedvarende plager og strukturelle skader behandles kirurgisk. Under finner du hva de enkelte tilstandene innebærer.",
     sections: [
       {
         id: "kalkskulder",
