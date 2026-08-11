@@ -404,10 +404,10 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "gynekologi/graviditet": {
+  "graviditet/svangerskapsoppfolging": {
     title: "Graviditet",
     subtitle: "Kort ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
+    parentCategory: "Graviditet",
     heroImage: heroPregnancy,
     description: "Vi ønsker deg velkommen til oppfølging gjennom hele svangerskapet. Vi tilbyr fosterdiagnostikk, som NIPT og tidlig ultralyd. Hos oss jobber fødselsleger, gynekologspesialister og fostermedisinere. Deres kompetanse er din trygghet.",
     sections: [
@@ -578,10 +578,10 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "gynekologi/spontanabort": {
+  "graviditet/spontanabort": {
     title: "Spontanabort",
     subtitle: "Kort ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
+    parentCategory: "Graviditet",
     heroImage: gynekologiImg,
     description: "I følge internasjonale retningslinjer blir dessverre ikke kvinner med spontanabort fulgt opp tilstrekkelig i Norge. Spontanabort oppleves for de aller fleste som et tap og da hjelper det lite å høre at det er naturens gang. Uavhengig om dere har barn fra før, om dere har forsøkt lenge eller kort å bli gravid er det viktig å bli tatt på alvor med de tankene dere har.\n\nSelve aborten kan også ha vært en tung og smertefull opplevelse og mange kjenner seg utrygge på om alt er ute av kroppen. Med både ultralyd og samtale vil vi klargjøre og berolige.\n\nI dag vil de fleste få beskjed om å vente til opp mot tre spontanaborter før det utredes om alt er som det skal. Det skal du slippe hos oss. Vi gjør en vurdering om det ligger noen bakgrunn for at du har abortert.\n\nKun en prosent av alle gravide ender med en uønsket senabort, men det er ganske mange par som tar vanskelige valg etter tidlig fosterdiagnostisering og NIPT-test. Det å ha noen å snakke med rundt disse valgene kan være med å gjøre prosessen lettere. Hos CMedical kan du snakke med våre spesialister om vanskelige tanker.\n\nGjennom mange år har vi fulgt par som har mistet barnet i mors liv, under eller etter fødsel. Vi vil veilede dere som par både i den livskrisen dere er i, også vurdere andre tiltak ved eventuelt neste svangerskap og følge deg eller dere tett opp.",
     relatedSpecialists: ["birgitte-mitlid-mork", "ashi-ahmad"],
@@ -593,10 +593,10 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "gynekologi/fodselsskader": {
+  "graviditet/fodselsskader": {
     title: "Fødselsskader",
     subtitle: "Kort ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
+    parentCategory: "Graviditet",
     heroImage: gynekologiImg,
     description: "Fødselsskader er en samlebetegnelse på plager som kan oppstå etter en fødsel. Det kan være bristninger og arrvev, svekket bekkenbunn, diastase i magemuskulaturen, vaginale fremfall, urin- eller avføringslekkasje, eller smerter ved samleie. De fleste av disse plagene kan utredes og behandles. Plager etter fødsel bør undersøkes hos gynekolog. Det gjelder enten fødselen var nylig eller for flere år siden.",
     sections: [
@@ -616,10 +616,10 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
-  "gynekologi/fostermedisin": {
+  "graviditet/fostermedisin": {
     title: "Fostermedisin",
     subtitle: "Kort ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
+    parentCategory: "Graviditet",
     heroImage: gynekologiImg,
     description: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.",
     sections: [

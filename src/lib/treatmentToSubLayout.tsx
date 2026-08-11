@@ -74,7 +74,7 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
   // Gynekologi — distinct conditions
   "gynekologi/celleforandringer",
   "gynekologi/vulvalidelser",
-  "gynekologi/graviditet",
+  "graviditet/svangerskapsoppfolging",
   // Fertilitet — distinct treatments/diagnostics
   "fertilitet/infertilitet",
   "fertilitet/assistert-befruktning",

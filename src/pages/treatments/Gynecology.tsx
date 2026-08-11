@@ -82,17 +82,11 @@ const lifePhases = [
  {
  title: "Graviditet, fødsel og tiden etter",
  desc:
- "Svangerskapskontroll, ultralyd, etterkontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
+ "Svangerskapskontroll, ultralyd, fostermedisin, etterkontroll og bekkenbunn hører hjemme i graviditetsområdet vårt — der finner du hele tilbudet samlet.",
     tags: [
-    { label: "Tidlig ultralyd", href: "/behandlinger/graviditet/ultralyd" },
-    { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
-    { label: "Graviditetsoppfølging", href: "/behandlinger/graviditet/svangerskapsteam" },
-    { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/graviditet/6-ukerskontroll" },
-    { label: "Spontanabort", href: "/behandlinger/gynekologi/spontanabort" },
-    
-    { label: "Fødselsskader", href: "/behandlinger/gynekologi/fodselsskader" },
+    { label: "Se alle graviditetstjenester", href: "/graviditet" },
     ],
-    href: "/behandlinger/graviditet",
+    href: "/graviditet",
     },
   {
   title: "Urogynekologi — fremfall og lekkasje",

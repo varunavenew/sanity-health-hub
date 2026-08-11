@@ -122,6 +122,9 @@ export const serviceImageBySlug: Record<string, string> = {
   "graviditet-svangerskapsteam": img_graviditet_svangerskapsteam.url,
   "graviditet-ultralyd": img_graviditet_ultralyd.url,
   "graviditet-6-ukerskontroll": img_graviditet_6_ukerskontroll.url,
+  "graviditet-svangerskapsoppfolging": img_gynekologi_graviditet.url,
+  "graviditet-fodselsskader": img_gynekologi_fodselsskader.url,
+  "graviditet-spontanabort": img_gynekologi_spontanabort.url,
   "gynekologi-blodningsforstyrrelser": img_gynekologi_blodningsforstyrrelser.url,
   "gynekologi-celleforandringer": img_gynekologi_celleforandringer.url,
   "gynekologi-cyster-pa-eggstokkene": img_gynekologi_cyster_pa_eggstokkene.url,
@@ -210,7 +213,7 @@ const SUB_ALIAS: Record<string, string> = {
  * Value is the full image slug (e.g. "graviditet-nipt").
  */
 const CROSS_CATEGORY_ALIAS: Record<string, string> = {
-  "gynekologi/fostermedisin": "graviditet-fostermedisin",
+  "graviditet/fostermedisin": "graviditet-fostermedisin",
 };
 
 function normalize(categoryId: string, subId?: string): string {

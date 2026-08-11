@@ -29,6 +29,10 @@ export const sitePages: SitePage[] = [
   { path: "/urologi", name: "Urologi", category: "Tjenester" },
   { path: "/ortopedi", name: "Ortopedi", category: "Tjenester" },
   { path: "/graviditet", name: "Graviditet", category: "Tjenester" },
+  { path: "/behandlinger/graviditet/svangerskapsoppfolging", name: "Graviditetsoppfølging", category: "Graviditet – underbehandlinger" },
+  { path: "/behandlinger/graviditet/fostermedisin", name: "Fostermedisin", category: "Graviditet – underbehandlinger" },
+  { path: "/behandlinger/graviditet/fodselsskader", name: "Fødselsskader", category: "Graviditet – underbehandlinger" },
+  { path: "/behandlinger/graviditet/spontanabort", name: "Spontanabort", category: "Graviditet – underbehandlinger" },
   { path: "/flere-fagomrader", name: "Flere tjenester", category: "Tjenester" },
 
   // Tema
@@ -47,13 +51,11 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/gynekologi/celleforandringer", name: "Celleforandringer", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/cyster", name: "Cyster på eggstokkene", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/fjerne-livmor", name: "Fjerne livmor", category: "Gynekologi – underbehandlinger" },
-  { path: "/behandlinger/gynekologi/graviditet", name: "Graviditet (gyn)", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/kirurgi", name: "Gynekologisk kirurgi", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/hormonforstyrrelser", name: "Hormonforstyrrelser", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/hysteroskopi", name: "Hysteroskopi", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/labiaplastikk", name: "Labiaplastikk", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/robotkirurgi", name: "Robotkirurgi (gyn)", category: "Gynekologi – underbehandlinger" },
-  { path: "/behandlinger/gynekologi/spontanabort", name: "Spontanabort", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/vulvalidelser", name: "Vulvalidelser", category: "Gynekologi – underbehandlinger" },
 
   // Fertilitet underbehandlinger
