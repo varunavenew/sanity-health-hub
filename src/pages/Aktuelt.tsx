@@ -264,7 +264,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
       {/* Search & Filters + Articles in ONE section so no section padding
           is injected between the filter row and the grid. */}
-      <section className="bg-background pb-6">
+      <section className="bg-background pt-3 pb-6">
         <div className="container mx-auto px-6 md:px-16">
           <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-4 md:mb-3">
             <div className="relative w-full md:w-72 md:flex-shrink-0">
