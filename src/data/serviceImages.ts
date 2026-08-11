@@ -22,14 +22,14 @@ import img_flere_overvektskirurgi from "@/assets/services/flere-overvektskirurgi
 import img_flere_plastikkirurgi from "@/assets/services/flere-plastikkirurgi.jpg.asset.json";
 import img_flere_psykologi from "@/assets/services/flere-psykologi.jpg.asset.json";
 import img_flere_revmatologi from "@/assets/services/flere-revmatologi.jpg.asset.json";
-import img_flere_robotkirurgi from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
+import img_flere_robotkirurgi from "@/assets/graviditet/robotassistert-kirurgi.png.asset.json";
 import img_flere_sexologi from "@/assets/services/flere-sexologi.jpg.asset.json";
 import img_graviditet_fosterdiagnostikk from "@/assets/graviditet/fosterdiagnostikk.png.asset.json";
 import img_graviditet_fostermedisin from "@/assets/graviditet/fostermedisin.png.asset.json";
-import img_graviditet_hero from "@/assets/services/graviditet-hero.jpg.asset.json";
+import img_graviditet_hero from "@/assets/graviditet/graviditet-hero.png.asset.json";
 import img_graviditet_nipt from "@/assets/graviditet/nipt.png.asset.json";
 import img_graviditet_svangerskapsteam from "@/assets/graviditet/svangerskapsteam.png.asset.json";
-import img_graviditet_ultralyd from "@/assets/services/graviditet-ultralyd.jpg.asset.json";
+import img_graviditet_ultralyd from "@/assets/graviditet/ultralyd.png.asset.json";
 import img_gynekologi_blodningsforstyrrelser from "@/assets/services/gynekologi-blodningsforstyrrelser.jpg.asset.json";
 import img_gynekologi_celleforandringer from "@/assets/services/gynekologi-celleforandringer.jpg.asset.json";
 import img_gynekologi_cyster_pa_eggstokkene from "@/assets/services/gynekologi-cyster-pa-eggstokkene.jpg.asset.json";
@@ -61,7 +61,7 @@ import img_urologi_mannlig_infertilitet from "@/assets/urologi/mannlig-infertili
 import img_urologi_nyrer from "@/assets/urologi/nyrer.png.asset.json";
 import img_urologi_prostata from "@/assets/urologi/prostata.png.asset.json";
 import img_urologi_refertilisering from "@/assets/urologi/refertilisering.png.asset.json";
-import img_urologi_robotkirurgi from "@/assets/services/urologi-robotkirurgi.jpg.asset.json";
+import img_urologi_robotkirurgi from "@/assets/graviditet/robotkirurgi.png.asset.json";
 import img_urologi_sterilisering from "@/assets/urologi/sterilisering.png.asset.json";
 import img_urologi_testikler_og_pung from "@/assets/urologi/testikler-og-pung.png.asset.json";
 import cat_gynekologi from "@/assets/categories/gynekologi.jpg";
