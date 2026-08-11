@@ -126,7 +126,9 @@ const segments = [
  cta: "Bestill analyse",
  href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
  },
- {
+ // SKJULT TIL LANSERING (kunden kan ville ha denne tilbake) — se SHOW_BLI_DONOR.
+ ...(SHOW_BLI_DONOR
+ ? [{
  id: "donor",
  title: "Jeg vil bli donor",
  desc:
@@ -137,7 +139,8 @@ const segments = [
  ],
  cta: "Les mer",
  href: `${FERT}/donorbehandling`,
- },
+ }]
+ : []),
 ];
 
 
