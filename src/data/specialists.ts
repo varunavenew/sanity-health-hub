@@ -409,7 +409,6 @@ export const specialists: Specialist[] = [
   {
     name: "Jørgen Perminow",
     title: "Gynekolog",
-    subtitle: "Spesialist",
     expertise: ["Gynekologi", "Obstetrikk"],
     image: jorgenPerminow,
     category: "gynekologi",
@@ -508,8 +507,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Linnea Torsnes",
-    title: "Hudhelse",
-    subtitle: "Hudlege",
+    title: "Hudlege",
     expertise: ["Hudhelse", "Dermatologi", "Hudkreft", "Laserbehandling"],
     image: linneaTorsnes,
     category: "annet",
@@ -541,8 +539,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Mari Borge Eskerud",
-    title: "Ernæring",
-    subtitle: "Ernæringsfysiolog",
+    title: "Ernæringsfysiolog",
     expertise: ["Ernæring", "IBS", "LavFODMAP", "PMOS", "Fertilitet", "Overgangsalder"],
     image: mariBorgeEskerud,
     category: "annet",
@@ -552,8 +549,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Maria Thompson Clausen",
-    title: "Ernæring",
-    subtitle: "Ernæringsfysiolog",
+    title: "Ernæringsfysiolog",
     expertise: ["Ernæring", "IBS", "PMOS", "Spiseforstyrrelser", "Overvekt", "Overgangsalder", "Diabetes type 2", "RED-s"],
     image: mariaThompsonClausen,
     category: "annet",
@@ -563,8 +559,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Marian Bale",
-    title: "Gastrokirurgi",
-    subtitle: "Gastrokirurg",
+    title: "Gastrokirurg",
     expertise: ["Gastrokirurgi", "Brokkbehandling", "Laparoskopi", "Endetarmsplager", "Generell kirurgi"],
     image: marianBale,
     category: "annet",
@@ -574,8 +569,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Marthe Hagen",
-    title: "Psykologi",
-    subtitle: "Psykolog",
+    title: "Psykolog",
     expertise: ["Psykologi", "Kvinnehelse", "EMDR", "Traumer", "Angst", "Depresjon", "Kronisk sykdom"],
     image: martheHagen,
     category: "annet",
@@ -585,8 +579,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Mia Kitter",
-    title: "Osteopati",
-    subtitle: "Osteopat",
+    title: "Osteopat",
     expertise: ["Osteopati", "Manuell behandling", "Kvinnehelse", "Endometriose", "Muskel- og skjelettplager", "Rehabilitering"],
     image: miaKitter,
     category: "annet",
@@ -596,8 +589,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Morten Andersen",
-    title: "Urologi",
-    subtitle: "Urolog",
+    title: "Urolog",
     expertise: ["Urologi", "Sterilisering", "Forhudsoperasjoner", "Refertilisering"],
     image: mortenAndersen,
     category: "urologi",
@@ -607,8 +599,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Nabeel Yousaf Khan",
-    title: "Urologi",
-    subtitle: "Urolog",
+    title: "Urolog",
     expertise: ["Urologi", "Prostata", "Sterilisering", "Forhudsoperasjoner", "Pungkirurgi"],
     image: nabeelYousafKhan,
     category: "urologi",
@@ -618,8 +609,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Nicolai Wessel",
-    title: "Urologi",
-    subtitle: "Urolog",
+    title: "Urolog",
     expertise: ["Urologi", "Robotkirurgi", "Prostatakreft", "Laparoskopi", "Nyre- og prostatakirurgi"],
     image: nicolaiWessel,
     category: "urologi",
@@ -629,8 +619,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Siri Kløkstad",
-    title: "Gynekologi",
-    subtitle: "Gynekolog",
+    title: "Gynekolog",
     expertise: ["Gynekologi", "Underlivsplager", "Vulvasmerter", "Hormoner", "Prevensjon"],
     image: siriKlokstad,
     category: "gynekologi",
@@ -640,8 +629,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Sondre Hassellund",
-    title: "Ortopedi",
-    subtitle: "Ortoped",
+    title: "Ortoped",
     expertise: ["Ortopedi", "Håndkirurgi", "Albuekirurgi", "Kikkhullskirurgi"],
     image: sondreHassellund,
     category: "ortopedi",
@@ -662,8 +650,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Stig Hegna",
-    title: "Ortopedi",
-    subtitle: "Ortoped",
+    title: "Ortoped",
     expertise: ["Ortopedi", "Fotkirurgi", "Ortopedisk kirurgi"],
     image: stigHegna,
     category: "ortopedi",
@@ -673,8 +660,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Tea Berge",
-    title: "Ortopedi",
-    subtitle: "Ortoped",
+    title: "Ortoped",
     expertise: ["Ortopedi", "Knekirurgi", "Skulderkirurgi", "Artroskopi", "Skulderinstabilitet"],
     image: teaBerge,
     category: "ortopedi",
@@ -684,8 +670,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Thomas Fredrik Thaulow",
-    title: "Gynekologi",
-    subtitle: "Gynekolog",
+    title: "Gynekolog",
     expertise: ["Gynekologi", "Endometriose", "Laparoskopi", "Hysteroskopi", "Endoskopisk kirurgi"],
     image: thomasFredrikThaulow,
     category: "gynekologi",
@@ -695,8 +680,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Tom Henry Sundøen",
-    title: "Ortopedi",
-    subtitle: "Ortoped",
+    title: "Ortoped",
     expertise: ["Ortopedi", "Skopisk kirurgi", "Hoftekirurgi", "Skulderkirurgi", "Knekirurgi", "Traumatologi", "Idrettsmedisin", "PRP"],
     image: tomHenrySundoen,
     category: "ortopedi",
@@ -717,8 +701,7 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Trond Jørgensen",
-    title: "Urologi",
-    subtitle: "Urolog",
+    title: "Urolog",
     expertise: ["Urologi", "Prostatakreft", "Sterilisering", "Fimoseoperasjoner", "Urologisk kirurgi"],
     image: trondJorgensen,
     category: "urologi",
