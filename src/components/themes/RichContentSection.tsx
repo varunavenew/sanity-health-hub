@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { VideoPlayer } from "@/components/ui/video-player";
+import { SmartImage } from "@/components/ui/smart-image";
 
 /**
  * RichContentSection – fri innholdsblokk for temasider.
@@ -101,10 +102,11 @@ export const RichContentSection = ({
         imagePosition === "left" ? "lg:order-1" : "lg:order-2"
       }`}
     >
-      <img
+      <SmartImage
         src={imageBlock.src}
         alt={imageBlock.alt}
         loading="lazy"
+        pictureClassName="absolute inset-0 block w-full h-full"
         className="absolute inset-0 w-full h-full object-cover"
       />
       {imageBlock.caption && (

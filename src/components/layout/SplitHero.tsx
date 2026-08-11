@@ -1,6 +1,7 @@
 import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { SmartImage } from "@/components/ui/smart-image";
 
 interface SplitHeroProps {
  title: string;
@@ -66,11 +67,12 @@ export const SplitHero = ({
   </div>
   {/* Right: image */}
  <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
- <img
- src={image}
- alt={imageAlt || title}
- className="absolute inset-0 w-full h-full object-cover"
- />
+	<SmartImage
+	src={image}
+	alt={imageAlt || title}
+	pictureClassName="absolute inset-0 block w-full h-full"
+	className="absolute inset-0 w-full h-full object-cover"
+	/>
  </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />

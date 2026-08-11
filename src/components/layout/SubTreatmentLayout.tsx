@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, ReactNode, ComponentType, SVGProps } from "react";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
+import { SmartImage } from "@/components/ui/smart-image";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -678,9 +679,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : heroImg ? (
-              <img
+              <SmartImage
                 src={heroImg}
                 alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
+                pictureClassName="absolute inset-0 block w-full h-full"
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : null}

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { SmartImage } from "@/components/ui/smart-image";
 
 interface FeatureSpotlightProps {
   title: React.ReactNode;
@@ -47,10 +48,11 @@ export const FeatureSpotlight = ({
           className="absolute inset-0 w-full h-full object-cover"
         />
       ) : image ? (
-        <img
+        <SmartImage
           src={image}
           alt={imageAlt}
           loading="lazy"
+          pictureClassName="absolute inset-0 block w-full h-full"
           className="absolute inset-0 w-full h-full object-cover"
         />
       ) : null}
