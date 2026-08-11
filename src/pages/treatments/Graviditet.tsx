@@ -382,7 +382,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 3. HVORFOR CMEDICAL */}
-      <section className="bg-background">
+      <section className="section-flush bg-background">
         <h2 className="lg:hidden text-3xl font-light leading-[1.1] text-foreground px-6 md:px-16 pt-16 pb-4">
           Trygghet hele veien — fra første kontroll til etter fødsel.
         </h2>
