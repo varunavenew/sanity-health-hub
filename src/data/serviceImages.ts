@@ -292,10 +292,15 @@ export function getCategoryHeroImage(categoryId: string): string | undefined {
  */
 const GENERIC_IMAGES = new Set<string>([
   cat_gynekologi,
+  cat_gynekologi_real,
   cat_fertilitet,
+  cat_fertilitet_real,
   cat_ortopedi,
+  cat_ortopedi_real,
+  cat_urologi,
+  cat_urologi_real,
   cat_flere,
-  cat_graviditet,
+
   hero_pregnancy,
   hero_technology,
   ...Object.entries(serviceImageBySlug)
