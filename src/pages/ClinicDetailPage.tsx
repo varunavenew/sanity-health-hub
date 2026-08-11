@@ -176,28 +176,67 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  url: `https://cmedical.no/klinikker/${clinic.slug}`,
  }}
  />
- {/* Header */}
- <div className="bg-brand-warm pt-[4.5rem]">
- <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
- <div className="max-w-3xl mx-auto">
- <Link to="/klinikker" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
- <ArrowLeft className="w-3 h-3" />
- Alle klinikker
- </Link>
+  {/* Hero image — mobil: fullbredde bak overlay-header. Desktop: rolig bildebånd. */}
+  {heroImage && (
+    <>
+      <ParallaxImage
+        src={heroImage}
+        alt={`CMedical ${clinic.label}`}
+        loading="eager"
+        speed={0.16}
+        objectPosition="50% 45%"
+        className="md:hidden w-full h-[58svh]"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(24,4,4,0.92) 0%, rgba(66,51,42,0.82) 24%, rgba(66,51,42,0.6) 46%, rgba(66,51,42,0.32) 70%, rgba(66,51,42,0.12) 100%)",
+          }}
+        />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-dark/65 via-brand-dark/25 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
+          <BackLink to="/klinikker" tone="onImage" className="mb-4">Alle klinikker</BackLink>
+          <h1 className="text-2xl font-light text-brand-warm leading-tight">
+            CMedical {clinic.label}
+          </h1>
+        </div>
+      </ParallaxImage>
+      <ParallaxImage
+        src={heroImage}
+        alt={`CMedical ${clinic.label}`}
+        loading="eager"
+        speed={0.14}
+        className="hidden md:block w-full h-[42vh] mt-[4.5rem]"
+      />
+    </>
+  )}
 
- <header className="mb-8 pb-6 border-b border-brand-dark/10">
- 
- <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
- CMedical {clinic.label}
- </h1>
- </header>
+  {/* Header */}
+  <div className={`bg-brand-warm ${heroImage ? "md:pt-0" : "pt-[4.5rem]"}`}>
+  <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+  <div className="max-w-3xl mx-auto">
+  {!heroImage && (
+  <Link to="/klinikker" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
+  <ArrowLeft className="w-3 h-3" />
+  Alle klinikker
+  </Link>
+  )}
 
- <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
- {clinic.description}
- </p>
- </div>
- </div>
- </div>
+  <header className={`mb-8 pb-6 border-b border-brand-dark/10 ${heroImage ? "hidden md:block" : ""}`}>
+  
+  <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
+  CMedical {clinic.label}
+  </h1>
+  </header>
+
+  <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+  {clinic.description}
+  </p>
+  </div>
+  </div>
+  </div>
+
 
  {/* Practical info */}
  <section className="bg-background py-10 md:py-14">
