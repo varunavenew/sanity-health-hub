@@ -125,18 +125,16 @@ export const RichContentSection = ({
 
   return (
     <section className="bg-background">
+      {/* Mobile: image always first. Desktop: honours imagePosition. */}
       <div className="grid lg:grid-cols-2">
-        {imagePosition === "left" ? (
-          <>
+        <div className={imagePosition === "left" ? "contents" : "contents"}>
+          <div className={imagePosition === "left" ? "lg:order-1" : "lg:order-2"}>
             {imageEl}
+          </div>
+          <div className={imagePosition === "left" ? "lg:order-2" : "lg:order-1"}>
             {contentEl}
-          </>
-        ) : (
-          <>
-            {contentEl}
-            {imageEl}
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </section>
   );
