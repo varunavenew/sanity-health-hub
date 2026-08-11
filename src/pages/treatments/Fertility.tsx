@@ -80,7 +80,6 @@ const segments = [
    { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
    { label: "Egglederundersøkelse (HyFoSy)", href: `${FERT}/fertilitetsutredning` },
    { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
-   { label: "Rådgivning online", href: `${FERT}/infertilitet` },
    ],
    cta: "Les mer",
    href: `${FERT}/fertilitetsutredning`,
