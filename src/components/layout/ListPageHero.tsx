@@ -21,7 +21,7 @@ interface ListPageHeroProps {
  * - Skin-teksturbakgrunn med varm brun overlay (aldri flat brun)
  * - Høyde = 50% av SplitHero (420/520) → 210px mobil / 260px desktop
  */
-export const ListPageHero = ({ title, description, children, className = "", split = false }: ListPageHeroProps) => (
+export const ListPageHero = ({ title, description, children, className = "", split = true }: ListPageHeroProps) => (
   <header
     className={`relative flex flex-col justify-center overflow-hidden ${
       split
