@@ -1,6 +1,7 @@
 import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { SmartImage } from "@/components/ui/smart-image";
 
 interface SplitHeroProps {
  title: string;
