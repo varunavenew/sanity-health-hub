@@ -11,7 +11,6 @@ import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
-import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import urologiRobotkirurgiImg from "@/assets/urologi/robotassistert-kirurgi-1.png.asset.json";
 import overvektskirurgiHero from "@/assets/gastro/overvektskirurgi.png.asset.json";
 import brokkoperasjonAsset from "@/assets/gastro/brokkoperasjon.png.asset.json";
