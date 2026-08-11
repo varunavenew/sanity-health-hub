@@ -1234,6 +1234,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Vi tilbyr alle subspesialiteter innen ortopedisk fot- og ankelkirurgi, og våre spesialister kan utføre alle typer inngrep. Ved flere diagnoser benytter vi avanserte minimalt invasive operasjonsmetoder kalt **MIS (Minimally Invasive Surgery)** og **MICA (Minimally Invasive Chevron-Akin)**. Dette er operasjonsmetoder — ikke diagnoser — som lar oss korrigere feilstillinger og senerelaterte plager gjennom svært små snitt, med mindre vevsskade, mindre smerte og raskere rehabilitering. Hvilken metode som er aktuell for deg avhenger av diagnosen og funn ved undersøkelse.",
+    aboutLead: "Utredning av fot- og ankelplager starter med en klinisk undersøkelse av gange, belastningsmønster, feilstillinger og bevegelighet, supplert med røntgen i stående stilling, ultralyd eller MR ved behov. Mange tilstander bedres med tilpassede såler, skotøy og målrettet trening, mens vedvarende plager kan kreve kirurgi. Under finner du de vanligste diagnosene fotkirurgene våre behandler, hva inngrepene innebærer og hvordan rehabiliteringen forløper.",
     sections: [
       {
         id: "hallux-valgus",
@@ -1253,12 +1254,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "haglunds-hael",
         heading: "Haglunds hæl",
-        content: "Mellom hælbeinet og achillessenen finnes en slimpose. Denne kan bli betent på grunn av kronisk irritasjon og trange sko. Etter hvert kan denne irritasjonen føre til bein- og bruskdannelse bak på hælbeinet – det vokser frem en kul på en allerede prominent knokkel. Røntgen med skråbilder viser som regel denne kulen (Haglunds hæl). I første omgang må du bygge opp under hælen for å avlaste trykket.\n\n**Operasjonen:** Ved langvarige plager og betydelig kul kan det bli nødvendig å fjerne kulen kirurgisk. Operasjonen gjøres i lokalbedøvelse og med avslappende medisin. Det legges på en gipsskinne som pasienten beholder i to uker. Deretter starter et opptreningsprogram. Du må minst regne med åtte uker før du gjenopptar vanlig trening."
+        content: "Mellom hælbeinet og achillessenen finnes en slimpose. Denne kan bli betent på grunn av kronisk irritasjon og trange sko. Etter hvert kan denne irritasjonen føre til bein- og bruskdannelse bak på hælbeinet – det vokser frem en kul på en allerede prominent knokkel. Røntgen med skråbilder viser som regel denne kulen (Haglunds hæl). I første omgang må du bygge opp under hælen for å avlaste trykket.\n\n**Operasjonen:** Ved langvarige plager og betydelig kul kan det bli nødvendig å fjerne kulen kirurgisk. Operasjonen gjøres i lokalbedøvelse og med avslappende medisin. Det legges på en gipsskinne som du beholder i to uker. Deretter starter et opptreningsprogram. Du må minst regne med åtte uker før du gjenopptar vanlig trening."
       },
       {
         id: "achilles-tendinalgi",
         heading: "Achilles tendinalgi",
-        content: "Achilles tendinalgi er egentlig flere tilstander som benevnes med samme navn:\n\n- Seneskjedebetennelse, det vil si betennelse i hinnen rundt senen (paratendinitis)\n- Skadet senevev (seneavrivning (akutt) eller slitasje (kronisk))\n\nDet er ikke alltid betennelse i selve seneskjeden som forårsaker smerten, men det kan være små mikrorifter i senen som dannes ved overbelastning. Disse skadene repareres dårlig, sannsynligvis på grunn av relativt dårlig blodsirkulasjon i området.\n\n**Behandling:** I første omgang forsøk på å få senevevet til å hele normalt med eksentrisk trening hos fysioterapeut. Sjokkbølgebehandling (ESWT) kan supplere treningen. Feilstilling i foten (pronasjon) disponerer for achillesseneplager og må korrigeres med såler og riktig skotøy.\n\nEn liten dose kortisoninjeksjon med ultralydveiledning kan forsøkes mot seneskjedebetennelse. Operasjon kan være nødvendig dersom ingen av behandlingene fører frem."
+        content: "Achilles tendinalgi er egentlig flere tilstander som benevnes med samme navn:\n\n- Seneskjedebetennelse, det vil si betennelse i hinnen rundt senen (paratendinitis)\n- Skadet senevev (seneavrivning (akutt) eller slitasje (kronisk)\n\nDet er ikke alltid betennelse i selve seneskjeden som forårsaker smerten, men det kan være små mikrorifter i senen som dannes ved overbelastning. Disse skadene repareres dårlig, sannsynligvis på grunn av relativt dårlig blodsirkulasjon i området.\n\n**Behandling:** I første omgang forsøk på å få senevevet til å hele normalt med eksentrisk trening hos fysioterapeut. Sjokkbølgebehandling (ESWT) kan supplere treningen. Feilstilling i foten (pronasjon) disponerer for achillesseneplager og må korrigeres med såler og riktig skotøy.\n\nEn liten dose kortisoninjeksjon med ultralydveiledning kan forsøkes mot seneskjedebetennelse. Operasjon kan være nødvendig dersom ingen av behandlingene fører frem."
       },
     ],
     faqs: [
@@ -1275,11 +1276,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
+    aboutLead: "En hoftevurdering omfatter undersøkelse av bevegelsesutslag, impingement-tester og kartlegging av hvordan smerten oppfører seg ved aktivitet, supplert med røntgen og MR med kontrast der det er mistanke om labrumskade. Målet er å skille mellom skader som kan repareres artroskopisk, senerelaterte plager rundt hoften og begynnende artrose, som håndteres annerledes. Under finner du hva hofteskopi innebærer, hvem inngrepet passer for og hvordan forløpet ser ut fra vurdering til kontroll.",
     sections: [
       {
         id: "hofteskopi",
         heading: "Hofteskopi — kikkhullsoperasjon av hofteleddet",
-        content: "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfelle repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. Mindre skader kan også føre til behov for hofteprotese på sikt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker."
+        content: "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfelle repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. Mindre skader kan også føre til behov for hofteprotese på sikt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver og varierer fra 4–6 uker."
       },
     ],
     relatedSpecialists: ["kristian-marstrand-warholm"],
@@ -1296,7 +1298,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to — i såkalte «to-spann» — slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
+    description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to, slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
+    aboutLead: "Hånd- og albueplager utredes med klinisk undersøkelse av kraft, følelse og bevegelighet, og ved behov nevrografi, ultralyd eller MR. Mange tilstander skyldes trykk på nerver, slitasje i sener eller arrvev, og lar seg behandle med avlastning, skinne, injeksjon eller et lite inngrep i lokalbedøvelse. Etter avanserte inngrep følges du opp av håndterapeut, som er avgjørende for å gjenvinne kraft og bevegelighet. Under finner du de vanligste diagnosene og hva behandlingen innebærer.",
     // Hånd/albue-spesialister: navn ikke bekreftet ennå – «Vår spesialist»-boks står klar uten navn.
     relatedSpecialists: [],
     sections: [
@@ -1308,12 +1311,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "handleddsartroskopi",
         heading: "Håndleddsartroskopi",
-        content: "Artroskopi (kikkhullsoperasjon) av håndleddet er brukt for å stille en riktig diagnose hvis du har uforklarlige smerter i håndleddet, og samtidig for å behandle eller operere en eventuell skade.\n\n**Operasjon ved smerter i håndledd:** Håndleddsartroskopi gjøres i narkose og lokalbedøvelse. Kirurgen setter inn en optikk/et lite kamera (skop) gjennom små hull i huden, samt små instrumenter gjennom andre hull. Bildet ses på en skjerm og kirurgen arbeider ut fra denne.\n\nHos oss får pasienter oppfølging av håndterapeut etter avanserte håndoperasjoner."
+        content: "Artroskopi (kikkhullsoperasjon) av håndleddet er brukt for å stille en riktig diagnose hvis du har uforklarlige smerter i håndleddet og samtidig for å behandle eller operere en eventuell skade.\n\n**Operasjon ved smerter i håndledd:** Håndleddsartroskopi gjøres i narkose og lokalbedøvelse. Kirurgen setter inn en optikk/et lite kamera (skop) gjennom små hull i huden, og arbeider med små instrumenter gjennom egne hull. Bildet ses på en skjerm og kirurgen arbeider ut fra denne.\n\nHos oss får pasienter oppfølging av håndterapeut etter avanserte håndoperasjoner."
       },
       {
         id: "carpal-tunnel",
         heading: "Carpal tunnel syndrom",
-        content: "Carpal tunnel syndrom er en vanlig årsak til smerter og nummenhet i hånd og fingre. Tilstanden er hyppigere hos kvinner og forekommer hos 10% av befolkningen. Hos de fleste er årsaken ukjent. Reumatikere, diabetikere, stoffskiftesyke, eldre og personer med tidligere håndleddsbrudd er disponerte.\n\n**Symptomer:** Typiske symptomer er smerter og nummenhet i tommel, pekefinger og langfinger, og halve ringfinger. Ofte våkner pasientene på nattestid og må riste på hånda for å minske smerten. I langtkomne tilfeller kan den store tommelmuskelen svinne og svekkes.\n\nPlagene forårsakes av press på en nerve (nervus medianus) i en kanal i håndleddet.\n\n**Operasjon og behandling:** Inngrepet kan gjøres med kikkhullskirurgi/endoskopisk carpal tunnel. Endoskopisk operasjon fører til kortere sykmelding og raskere rehabilitering sammenlignet med åpen operasjon. Den gjøres i kortvarig narkose eller lokalbedøvelse. Båndet som danner taket av tunnelen deles for å gjøre plass for nerven."
+        content: "Carpal tunnel syndrom er en vanlig årsak til smerter og nummenhet i hånd og fingre. Tilstanden er hyppigere hos kvinner og forekommer hos 10% av befolkningen. Hos de fleste er årsaken ukjent. Reumatikere, diabetikere, personer med stoffskiftesykdom, eldre og personer med tidligere håndleddsbrudd er disponerte.\n\n**Symptomer:** Typiske symptomer er smerter og nummenhet i tommel, pekefinger og langfinger, og halve ringfinger. Ofte våkner pasientene på nattestid og må riste på hånda for å minske smerten. I langtkomne tilfeller kan den store tommelmuskelen svinne og svekkes.\n\nPlagene forårsakes av press på en nerve (nervus medianus) i en kanal i håndleddet.\n\n**Operasjon og behandling:** Inngrepet kan gjøres med kikkhullskirurgi/endoskopisk carpal tunnel. Endoskopisk operasjon fører til kortere sykmelding og raskere rehabilitering sammenlignet med åpen operasjon. Den gjøres i kortvarig narkose eller lokalbedøvelse. Båndet som danner taket av tunnelen deles for å gjøre plass for nerven."
       },
     ],
     faqs: [
@@ -1330,6 +1333,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
+    aboutLead: "En kneutredning bygger på sykehistorie, klinisk undersøkelse med stabilitets- og menisktester og bildediagnostikk — røntgen ved mistanke om slitasje, MR ved mistanke om skade i menisk, korsbånd eller brusk. Funnene avgjør om plagene bør behandles med opptrening og eventuell injeksjon, eller med artroskopisk kirurgi. Under finner du hva de vanligste knediagnosene innebærer, hvilke symptomer de gir og hvordan behandlingsforløpet ser ut.",
     sections: [
       {
         id: "om-knebehandling",
@@ -1339,7 +1343,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "bruskskader",
         heading: "Bruskskader i kneet",
-        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet. Artrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50-åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd."
+        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet. Artrose er delvis en genetisk sykdom, delvis aldersrelatert og blir forverret ved mye belastning over tid. 40–50-åringer begynner som regel å kjenne leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd."
       },
       {
         id: "symptomer",
@@ -1362,6 +1366,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    aboutLead: "Skulderplager utredes med undersøkelse av bevegelighet, kraft og innklemmingstester, supplert med ultralyd, røntgen eller MR. Det gjør det mulig å skille mellom innklemming, kalkavleiring, skade i rotatormansjetten, leddleppeskade og frossen skulder — tilstander som gir liknende smerter, men krever ulik behandling. Mange blir bra med målrettet fysioterapi og eventuell injeksjon, mens vedvarende plager og strukturelle skader behandles kirurgisk. Under finner du hva de enkelte tilstandene innebærer.",
     sections: [
       {
         id: "kalkskulder",

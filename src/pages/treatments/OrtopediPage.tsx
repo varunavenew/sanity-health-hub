@@ -116,7 +116,7 @@ const expertAreas = [
  {
  title: "Hånd, albue og fot",
  desc:
- "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
+ "karpaltunnelsyndrom, tennisalbue, dupuytrens kontraktur, hælspore — presisjonskirurgi og injeksjonsbehandling.",
  href: "/behandlinger/ortopedi/hand-albue",
  image: getServiceImageFromHref("/behandlinger/ortopedi/hand-albue") ?? expertHand,
  },
@@ -124,7 +124,7 @@ const expertAreas = [
  title: "Andre vurdering",
  desc:
  "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
- href: "/spesialister?kategori=ortopedi",
+ href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
  image: expertSecondOpinion,
  },
 ];
@@ -133,11 +133,11 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   {
     label: "Behandlingsområder",
     items: [
-      { title: "Skulder", desc: "Inneklemming, kalkavleiringer, rotatormansjettskader og frossen skulder.", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Kne", desc: "Kneslitasje, korsbåndruptur, meniskskader og artroskopi.", href: "/behandlinger/ortopedi/kne" },
+      { title: "Skulder", desc: "Innklemming, kalkavleiring, rotatormansjettskade og frossen skulder.", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Kne", desc: "Kneslitasje, korsbåndruptur, meniskskade og artroskopi.", href: "/behandlinger/ortopedi/kne" },
       { title: "Hofte", desc: "Hofteslitasje, labrumskade og hoftekirurgi.", href: "/behandlinger/ortopedi/hofte" },
-      { title: "Hånd og albue", desc: "Karpaltunnelsyndrom, Dupuytrens kontraktur, tennis- og golfalbue.", href: "/behandlinger/ortopedi/hand-albue" },
-      { title: "Fot og ankel", desc: "Hælspore, hælsmerter og ankelbåndskader.", href: "/behandlinger/ortopedi/fot-ankel" },
+      { title: "Hånd og albue", desc: "Karpaltunnelsyndrom, dupuytrens kontraktur, tennis- og golfalbue.", href: "/behandlinger/ortopedi/hand-albue" },
+      { title: "Fot og ankel", desc: "Hælspore, hælsmerte og ankelbåndskade.", href: "/behandlinger/ortopedi/fot-ankel" },
     ],
   },
 ];
@@ -331,7 +331,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  items={[
  { symptom: "Smerter i skulderen ved løft", service: "Skulderutredning", href: "/behandlinger/ortopedi/skulder" },
  { symptom: "Vondt eller ustabilt kne", service: "Kneutredning", href: "/behandlinger/ortopedi/kne" },
- { symptom: "Hofteslitasje eller liesmerter", service: "Hofteutredning", href: "/behandlinger/ortopedi/hofte" },
+ { symptom: "Hofteslitasje og hoftesmerter", service: "Hofteutredning", href: "/behandlinger/ortopedi/hofte" },
  { symptom: "Nummenhet eller stikninger i hånden", service: "Karpaltunnel-utredning", href: "/behandlinger/ortopedi/hand-albue" },
  { symptom: "Vondt i albuen ved gripe-bevegelser", service: "Tennisalbue-utredning", href: "/behandlinger/ortopedi/hand-albue" },
  { symptom: "Smerter eller skader i fot og ankel", service: "Fot- og ankelutredning", href: "/behandlinger/ortopedi/fot-ankel" },
