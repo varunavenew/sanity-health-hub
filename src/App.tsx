@@ -79,7 +79,6 @@ import { useServiceImagesSync } from "./hooks/useServiceImages";
 import Rediger from "./pages/Rediger";
 import Lansering from "./pages/Lansering";
 import { EditableProvider } from "./lib/editable/EditableContext";
-import { EditModeBar } from "./components/editable/EditModeBar";
 
 const queryClient = new QueryClient();
 
@@ -272,7 +271,6 @@ const AppContent = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      <EditModeBar />
       {/* LeadPopup moved to category pages only */}
     </>
   );

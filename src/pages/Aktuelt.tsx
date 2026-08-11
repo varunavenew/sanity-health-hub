@@ -301,7 +301,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       </section>
 
       {/* Articles */}
-      <section className="bg-background pt-2 pb-10 md:pb-16">
+      <section className="bg-background pt-2 pb-6">
         <div className="container mx-auto px-6 md:px-16">
           {/* Top 4 featured */}
           {featuredTop.length > 0 && (
@@ -354,7 +354,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
       {/* Featured specialists per category */}
       {featuredSpecialists.length > 0 && (
-        <section className="bg-secondary/40 border-t border-border">
+        <section className="bg-secondary/40">
           <div className="container mx-auto px-6 md:px-16 py-12 md:py-16">
             <div className="flex items-end justify-between mb-6">
               <div>
@@ -398,8 +398,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       )}
 
       {/* SoMe preview — moved down from the top filter */}
-      <section className="bg-background border-t border-border">
-        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+      <section className="bg-background">
+        <div className="container mx-auto px-6 md:px-16 pt-0 pb-10 md:pb-14">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-medium text-foreground">Følg oss på sosiale medier</h2>
           </div>
