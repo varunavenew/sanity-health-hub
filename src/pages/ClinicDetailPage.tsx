@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug, withCanonicalAddress } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
-import { SpecialistCard } from "@/components/specialists/SpecialistCarousel";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
