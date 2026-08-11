@@ -8,6 +8,10 @@ import overvektskirurgi from "@/assets/gastro/overvektskirurgi.png.asset.json";
 import overvektskirurgiDesktop from "@/assets/gastro/overvektskirurgi-desktop.png.asset.json";
 import elastisitetVolum from "@/assets/hudhelse/elastisitet-volum.png.asset.json";
 import elastisitetVolumDesktop from "@/assets/hudhelse/elastisitet-volum-desktop.png.asset.json";
+import pigmentSolskader from "@/assets/hudhelse/pigment-solskader.png.asset.json";
+import pigmentSolskaderDesktop from "@/assets/hudhelse/pigment-solskader-desktop.png.asset.json";
+import kosmetiskDermatologi from "@/assets/hudhelse/kosmetisk-dermatologi.png.asset.json";
+import kosmetiskDermatologiDesktop from "@/assets/hudhelse/kosmetisk-dermatologi-desktop.png.asset.json";
 import brokkoperasjon from "@/assets/gastro/brokkoperasjon.png.asset.json";
 import brokkoperasjonDesktop from "@/assets/gastro/brokkoperasjon-desktop.png.asset.json";
 
@@ -27,6 +31,8 @@ const DESKTOP_VARIANTS: Record<string, string> = {
   [brokkoperasjon.url]: brokkoperasjonDesktop.url,
   [overvektskirurgi.url]: overvektskirurgiDesktop.url,
   [elastisitetVolum.url]: elastisitetVolumDesktop.url,
+  [pigmentSolskader.url]: pigmentSolskaderDesktop.url,
+  [kosmetiskDermatologi.url]: kosmetiskDermatologiDesktop.url,
 };
 
 /** Wide (1920) version of an image, when one has been delivered. */
