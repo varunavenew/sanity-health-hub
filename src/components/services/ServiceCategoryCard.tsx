@@ -133,14 +133,14 @@ const ServiceCategoryCard = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="mt-5 pt-4 border-t border-border/30 flex items-center gap-4"
+                className="mt-5 pt-4 border-t border-border/30 flex max-sm:flex-col max-sm:items-stretch items-center gap-4 max-sm:gap-3"
               >
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/booking?kategori=${id}`);
                   }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors max-sm:w-full max-sm:h-12 max-sm:px-6"
                 >
                   Bestill time for {label.toLowerCase()}
                   <ArrowRight className="w-3.5 h-3.5" />
