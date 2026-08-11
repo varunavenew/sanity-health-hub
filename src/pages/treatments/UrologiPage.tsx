@@ -33,6 +33,7 @@ import { TagList } from "@/components/treatments/TagList";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import urologiHero from "@/assets/services/urologi-hero.jpg.asset.json";
+import urologiTeamTrond from "@/assets/urologi/urologi-team-trond5.jpg.asset.json";
 import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
 import expertTestikler from "@/assets/hero/urology-hero.jpg";
 import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
@@ -469,8 +470,8 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
           { n: "02", title: "Ledende kompetanse", desc: "Flere av Nordens fremste urologer, i tverrfaglige team med blant annet osteopat, ernæringsfysiolog, psykolog og sexolog." },
           { n: "03", title: "Rask hjelp", desc: "Ingen henvisning og kort ventetid — de fleste får time innen en uke." },
         ]}
-        image={expertProstata}
-        imageAlt="Robotassistert urologisk kirurgi hos CMedical"
+        image={urologiTeamTrond.url}
+        imageAlt="Urolog i konsultasjon med pasient hos CMedical"
       />
 
   {/* 6. SPESIALISTER */}
