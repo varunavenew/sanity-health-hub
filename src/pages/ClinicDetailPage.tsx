@@ -453,17 +453,21 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
 
  {/* Specialists at this clinic — samme seksjon som på forsiden, filtrert på klinikk */}
  <SpecialistsScroller
- filter={(s: any) =>
- Array.isArray(s.clinics) &&
- s.clinics.some(
- (c: string) => c.toLowerCase() === String(clinic.label).toLowerCase(),
- )
- }
+ filter={(s: any) => {
+ if (!Array.isArray(s.clinics)) return false;
+ // Klinikketiketten kan være «Oslo Majorstuen» mens spesialistdata sier «Majorstuen».
+ const label = String(clinic.label).toLowerCase();
+ return s.clinics.some((c: string) => {
+ const name = String(c).toLowerCase();
+ return name === label || label.includes(name) || name.includes(label);
+ });
+ }}
  title="Spesialister ved klinikken"
  description={`Møt spesialistene som jobber ved CMedical ${clinic.label}.`}
  seeAllHref={`/spesialister?klinikk=${encodeURIComponent(clinic.label)}`}
  seeAllLabel="Se alle spesialister"
  />
+
 
 
  {/* Treatments at this clinic (cross-links) */}
