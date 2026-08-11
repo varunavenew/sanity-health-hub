@@ -8,7 +8,11 @@ import {
   optimizeSanityImageUrl,
   type OptimizeImageOptions,
 } from "@/lib/sanity/image-url";
-import type { ImageDeliveryPreset } from "@/lib/media/delivery";
+import {
+  DEFAULT_CONTENT_SIZES,
+  DEFAULT_CONTENT_WIDTH,
+  type ImageDeliveryPreset,
+} from "@/lib/media/delivery";
 import type { SanityCrop } from "@/lib/media/focal-point";
 
 export type AssetImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src"> & {
@@ -26,6 +30,9 @@ export type AssetImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src
 /**
  * `<img>` wrapper: accepts string URLs and static image imports.
  * Sanity CDN URLs get auto=format, quality, width, srcset, and sizes.
+ *
+ * When no preset/width is provided for a Sanity asset, a safe content
+ * default is applied so the browser never downloads the full original.
  */
 export function AssetImg({
   src,
@@ -46,8 +53,15 @@ export function AssetImg({
 
   const opts: OptimizeImageOptions = { quality, crop };
   const isSanity = isSanityCdnUrl(resolved) || resolved.startsWith("image-");
+
+  // Sanity images without an explicit delivery intent get content defaults.
+  const effectivePreset: ImageDeliveryPreset | undefined =
+    preset ?? (optimize && isSanity && imageWidth == null ? "content" : undefined);
+
   const width =
-    imageWidth ?? (preset ? defaultWidthForPreset(preset) : undefined);
+    imageWidth ??
+    (effectivePreset ? defaultWidthForPreset(effectivePreset) : undefined) ??
+    (optimize && isSanity ? DEFAULT_CONTENT_WIDTH : undefined);
 
   let finalSrc = resolved;
   let finalSrcSet = srcSet;
@@ -56,11 +70,16 @@ export function AssetImg({
   if (optimize && isSanity) {
     finalSrc = optimizeSanityImageUrl(resolved, { ...opts, width });
     if (!finalSrcSet) {
-      const generated = buildImageSrcSet(resolved, { ...opts, preset });
+      const generated = buildImageSrcSet(resolved, {
+        ...opts,
+        preset: effectivePreset,
+      });
       if (generated) finalSrcSet = generated;
     }
-    if (!finalSizes && preset) {
-      finalSizes = defaultSizesForPreset(preset);
+    if (!finalSizes) {
+      finalSizes = effectivePreset
+        ? defaultSizesForPreset(effectivePreset)
+        : DEFAULT_CONTENT_SIZES;
     }
   }
 

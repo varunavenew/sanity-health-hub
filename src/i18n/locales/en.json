@@ -99,7 +99,9 @@
     "ctaTitle": "Over 150,000 satisfied patients since 2002",
     "ctaSubtitle": "Become part of our story",
     "googleLabel": "Google Reviews",
-    "legelistenLabel": "Legelisten Reviews"
+    "legelistenLabel": "Legelisten Reviews",
+    "categoryEyebrow": "Patient experiences",
+    "categoryHeading": "What patients say about {{category}}"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -180,6 +182,17 @@
     "availableTime": "Available appointments within 1–3 days",
     "noReferral": "No referral needed"
   },
+  "clinicsPage": {
+    "listHeading": "List of clinics",
+    "heroImageAlt": "CMedical clinic",
+    "readMore": "Read more about the clinic",
+    "readMoreAria": "Read more about CMedical {{name}}",
+    "viewMap": "View on map",
+    "badgeParking": "Parking",
+    "badgeTransit": "Public transport",
+    "badgeAccessible": "Fully accessible",
+    "badgeServices": "{{count}} services"
+  },
   "cta": {
     "title": "Take care of your health",
     "subtitle": "Be taken seriously – with clinical expertise, respect and comprehensive follow-up",
@@ -206,6 +219,8 @@
   "contact": {
     "title": "Contact us",
     "subtitle": "Do you have questions? We are happy to help",
+    "heroImageAlt": "Contact CMedical",
+    "viewClinics": "View clinics",
     "quickHelp": "Need quick help?",
     "quickHelpDesc": "No referral needed. Call us directly or book an appointment online – we have short waiting times.",
     "requestCallback": "Request a callback",
@@ -232,12 +247,15 @@
     },
     "toast": {
       "title": "Message sent!",
-      "description": "We will get back to you within 24 hours."
+      "description": "We will get back to you within 24 hours.",
+      "errorTitle": "Something went wrong",
+      "errorDescription": "Could not send your message. Please try again."
     }
   },
   "insurance": {
     "title": "Health Insurance",
     "subtitle": "Use your insurance for faster treatment with us",
+    "heroImageAlt": "Insurance at CMedical",
     "partners": "Our partners",
     "agreementTitle": "We work with all major insurance companies",
     "notFound": "Can't find your company?",
@@ -260,6 +278,15 @@
     "disclaimer": "All prices are indicative “from” prices. The final price may vary depending on time of day, weekends, additional services during treatment and other factors.",
     "loadingPrices": "Loading prices…",
     "loadError": "Could not load prices. Please try again later.",
+    "menuTitle": "Our menu",
+    "jumpToCategory": "Choose a category to jump directly:",
+    "free": "Free",
+    "loadingDuration": "Loading duration…",
+    "hideDetails": "Hide details",
+    "aboutService": "About the service",
+    "durationDetail": "Estimated duration: {{duration}}",
+    "durationUnavailable": "Duration is confirmed during booking.",
+    "seeAllCategoryServices": "See all {{category}} services",
     "seePrices": "View prices",
     "closePriceList": "Close price list",
     "openCategory": "Open",
@@ -306,6 +333,12 @@
   },
   "promoBlocks": {
     "title": "News and articles"
+  },
+  "news": {
+    "title": "News",
+    "backToAktuelt": "Back to News",
+    "relatedArticles": "Related articles",
+    "articleNotFound": "Article not found"
   },
   "clinicGrid": {
     "title": "Our clinics"

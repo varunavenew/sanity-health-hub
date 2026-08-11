@@ -95,8 +95,8 @@ export default {
       title: 'Price categories',
       type: 'array',
       group: 'content',
-      fieldset: 'legacy',
-      hidden: () => true,
+      description:
+        'CMS source of truth for the Pricing page list. Optional Metodika activity ID on each line controls whether “Bestill time” appears — Metodika never removes a line from this list.',
       of: [
         {
           type: 'object',
@@ -107,11 +107,100 @@ export default {
               title: 'Treatment category',
               type: 'reference',
               to: [{type: 'treatmentCategory'}],
+              description:
+                'Sanity category relationship used for booking fallback (Step 1). Prefer a real category when one exists.',
+            },
+            {
+              name: 'bookingCategorySlug',
+              title: 'Booking category slug',
+              type: 'string',
+              description:
+                'Category page slug used in /booking?kategori=… (e.g. gynekologi, urologi, fertilitet). Required for booking links and Step 1 fallback.',
+            },
+            {
+              name: 'subcategories',
+              title: 'Subcategories',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  fields: [
+                    {
+                      name: 'label',
+                      title: 'Subcategory label',
+                      type: 'internationalizedArrayString',
+                    },
+                    {
+                      name: 'items',
+                      title: 'Price lines',
+                      type: 'array',
+                      of: [
+                        {
+                          type: 'object',
+                          fields: [
+                            {
+                              name: 'name',
+                              title: 'Treatment',
+                              type: 'internationalizedArrayString',
+                            },
+                            {name: 'price', title: 'Price (NOK)', type: 'number'},
+                            {
+                              name: 'priceLabel',
+                              title: 'Price display',
+                              type: 'internationalizedArrayString',
+                              description: 'E.g. "fra 2.100,-"',
+                            },
+                            {
+                              name: 'note',
+                              title: 'Duration / note',
+                              type: 'internationalizedArrayString',
+                            },
+                            {
+                              name: 'apiActivityId',
+                              title: 'Metodika activity ID',
+                              type: 'number',
+                              description:
+                                'Optional wbactivity id. When set (and resolvable), show “Bestill time” and open booking at clinic selection. Leave empty for non-bookable lines — the line still appears on the Pricing page.',
+                            },
+                          ],
+                          preview: {
+                            select: {
+                              title: 'name',
+                              subtitle: 'price',
+                              priceLabel: 'priceLabel',
+                              apiActivityId: 'apiActivityId',
+                            },
+                            prepare({title, subtitle, priceLabel, apiActivityId}: any) {
+                              const label = pickStudioEn(priceLabel)
+                              const bookable =
+                                typeof apiActivityId === 'number' && apiActivityId > 0
+                                  ? ` · bookable #${apiActivityId}`
+                                  : ' · not bookable'
+                              return {
+                                title: pickStudioEn(title) || 'Unnamed',
+                                subtitle:
+                                  (label || (subtitle != null ? `${subtitle} kr` : '')) + bookable,
+                              }
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                  preview: {
+                    select: {title: 'label'},
+                    prepare({title}: any) {
+                      return {title: pickStudioEn(title) || 'Subcategory'}
+                    },
+                  },
+                },
+              ],
             },
             {
               name: 'items',
-              title: 'Price lines',
+              title: 'Legacy flat price lines',
               type: 'array',
+              hidden: () => true,
               of: [
                 {
                   type: 'object',
@@ -122,28 +211,21 @@ export default {
                       name: 'priceLabel',
                       title: 'Price display',
                       type: 'internationalizedArrayString',
-                      description: 'E.g. "from 2500,-"',
                     },
                     {name: 'note', title: 'Note', type: 'internationalizedArrayString'},
+                    {name: 'apiActivityId', title: 'Metodika activity ID', type: 'number'},
                   ],
-                  preview: {
-                    select: {title: 'name', subtitle: 'price', priceLabel: 'priceLabel'},
-                    prepare({title, subtitle, priceLabel}: any) {
-                      const label = pickStudioEn(priceLabel)
-                      return {
-                        title: pickStudioEn(title) || 'Unnamed',
-                        subtitle: label || (subtitle != null ? `${subtitle} kr` : ''),
-                      }
-                    },
-                  },
                 },
               ],
             },
           ],
           preview: {
-            select: {title: 'categoryName'},
-            prepare({title}: any) {
-              return {title: pickStudioEn(title) || 'Unnamed'}
+            select: {title: 'categoryName', slug: 'bookingCategorySlug'},
+            prepare({title, slug}: any) {
+              return {
+                title: pickStudioEn(title) || 'Unnamed',
+                subtitle: slug || '',
+              }
             },
           },
         },

@@ -486,12 +486,20 @@ export const useAboutPage = () => {
       const title = typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? "");
       const subtitle = typeof data.subtitle === "string" ? data.subtitle : (data.subtitle?.[0]?.value ?? "");
       const body = Array.isArray(data.body) && data.body[0]?._type === "block" ? data.body : (data.body?.[0]?.value ?? data.body);
-      const sections = (body || [])
+      // Preserve Portable Text block styles (h2/h3/normal) — About renders headings from style.
+      const bodyBlocks = (body || [])
         .filter((block: any) => block && block._type === "block")
         .map((block: any) => ({
-          title: "",
-          content: (block.children || []).map((c: any) => c.text).join(""),
-        }));
+          _key: block._key,
+          style: typeof block.style === "string" ? block.style : "normal",
+          text: (block.children || []).map((c: any) => c.text).join(""),
+        }))
+        .filter((block: { text: string }) => Boolean(block.text?.trim()));
+      // Legacy shape kept for any callers that still expect flat paragraphs.
+      const sections = bodyBlocks.map((block: { text: string }) => ({
+        title: "",
+        content: block.text,
+      }));
       const rawSection = data.clinicsSection as
         | {
             showSection?: boolean;
@@ -516,6 +524,7 @@ export const useAboutPage = () => {
         title,
         subtitle,
         body,
+        bodyBlocks,
         sections,
         clinicsSection,
         pageSections: normalizePageSections(data.pageSections),
@@ -822,13 +831,31 @@ export type SanityClinicListRow = {
   address: string;
   phone?: string;
   hours?: string;
+  description?: string;
   sortOrder?: number;
   primaryImage?: string;
+  heroMedia?: unknown;
+  detail?: {
+    parking?: string;
+    publicTransport?: string;
+    accessibility?: string;
+  };
   locationSearch?: ClinicLocation;
   mapsUrl?: string;
   services?: string[];
   booking?: SanityClinicBooking;
 };
+
+function normalizeClinicDetail(raw: unknown): SanityClinicListRow["detail"] | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const d = raw as Record<string, unknown>;
+  const parking = typeof d.parking === "string" ? d.parking : undefined;
+  const publicTransport =
+    typeof d.publicTransport === "string" ? d.publicTransport : undefined;
+  const accessibility = typeof d.accessibility === "string" ? d.accessibility : undefined;
+  if (!parking && !publicTransport && !accessibility) return undefined;
+  return { parking, publicTransport, accessibility };
+}
 
 function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
   const label =
@@ -865,6 +892,10 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
     typeof c.primaryImage === "string" && c.primaryImage.trim()
       ? c.primaryImage.trim()
       : undefined;
+  const description =
+    typeof c.description === "string" && c.description.trim()
+      ? c.description.trim()
+      : undefined;
   return {
     _createdAt: typeof c._createdAt === "string" ? c._createdAt : undefined,
     label: label.trim(),
@@ -873,8 +904,11 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
     address,
     phone: typeof c.phone === "string" ? c.phone : undefined,
     hours: typeof c.hours === "string" ? c.hours : undefined,
+    description,
     sortOrder: parseSortOrder(c.sortOrder) ?? undefined,
     primaryImage,
+    heroMedia: c.heroMedia,
+    detail: normalizeClinicDetail(c.detail),
     locationSearch,
     mapsUrl: clinicMapsUrl(locationSearch, address),
     services,
@@ -993,6 +1027,7 @@ export interface SanityArticle {
   excerpt: string;
   geoSummary?: string;
   image: string;
+  imageAlt?: string;
   date: string;
   category: string;
   externalUrl?: string;
@@ -1032,6 +1067,7 @@ export const useArticle = (slug: string) => {
         excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
         geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
         image: data.image || "",
+        imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
         pageSections: normalizePageSections(data.pageSections),

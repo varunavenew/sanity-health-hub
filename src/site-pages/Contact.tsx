@@ -18,7 +18,6 @@ import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
-import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
 
 interface ContactProps {
   isChatOpen: boolean;
@@ -34,7 +33,6 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const clinics = sanityClinics || [];
   const ctaCards = contactPage?.ctaCards ?? [];
   const pageSections = contactPage?.pageSections;
-  const preferSharedBookingCta = pageSectionsHaveUsableBookingCta(pageSections);
   const heroTitle = contactPage?.title?.trim() || "";
   const heroDescription = contactPage?.introText?.trim() || "";
   const heroImage = contactPage?.heroImage;
@@ -82,10 +80,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
 
       if (!res.ok || !payload.ok) {
         toast({
-          title: pick(formCopy?.errorTitle, t("contact.toast.errorTitle", "Something went wrong")),
+          title: pick(formCopy?.errorTitle, t("contact.toast.errorTitle")),
           description: pick(
             formCopy?.errorDescription,
-            t("contact.toast.errorDescription", "Could not send your message. Please try again."),
+            t("contact.toast.errorDescription"),
           ),
           variant: "destructive",
         });
@@ -99,10 +97,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
       setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
     } catch {
       toast({
-        title: pick(formCopy?.errorTitle, t("contact.toast.errorTitle", "Something went wrong")),
+        title: pick(formCopy?.errorTitle, t("contact.toast.errorTitle")),
         description: pick(
           formCopy?.errorDescription,
-          t("contact.toast.errorDescription", "Could not send your message. Please try again."),
+          t("contact.toast.errorDescription"),
         ),
         variant: "destructive",
       });
@@ -115,28 +113,20 @@ const Contact = ({ isChatOpen }: ContactProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       {hasHeroContent ? (
         <SplitHero
-          eyebrow={heroTitle || undefined}
           title={heroTitle || undefined}
           description={heroDescription || undefined}
           image={heroImage}
-          imageAlt="Kontakt CMedical"
-          primaryCta={
-            preferSharedBookingCta
-              ? undefined
-              : { label: t("nav.bookAppointment"), to: "/booking" }
-          }
-          secondaryCta={
-            contactPage?.secondaryCtaLabel && contactPage?.secondaryCtaPath
-              ? {
-                  label: contactPage.secondaryCtaLabel,
-                  to: contactPage.secondaryCtaPath,
-                }
-              : undefined
-          }
+          imageAlt={t("contact.heroImageAlt")}
+          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+          secondaryCta={{
+            label: t("contact.viewClinics"),
+            to: "/klinikker",
+            icon: "mapPin",
+          }}
         />
-      ) : preferSharedBookingCta ? null : (
+      ) : (
         <div className="bg-brand-warm pt-20 pb-8">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="container mx-auto px-6 md:px-16 flex flex-wrap gap-3">
             <Button
               variant="cta"
               size="lg"
@@ -145,13 +135,21 @@ const Contact = ({ isChatOpen }: ContactProps) => {
               {t("nav.bookAppointment")}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl"
+              onClick={() => navigate("/klinikker")}
+            >
+              {t("contact.viewClinics")}
+            </Button>
           </div>
         </div>
       )}
 
       <div className="container mx-auto px-6 md:px-16 py-6">
         <GeoPageEnhancements
-          name={heroTitle || t("nav.contact", "Kontakt")}
+          name={heroTitle || t("nav.contact")}
           geoSummary={contactPage?.geoSummary}
           fallbackDescription={heroDescription}
           path="/kontakt"
@@ -190,7 +188,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                   }
                 };
                 return (
-                  <div key={i} className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
+                  <div
+                    key={i}
+                    className="p-8 rounded-md bg-white/5 border border-white/10 flex flex-col"
+                  >
                     <Icon className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
                     <h3 className="font-normal text-xl text-white mb-3">{card.title}</h3>
                     <p className="text-white/70 leading-relaxed mb-6 text-base font-light flex-1">
@@ -199,8 +200,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                     <Button
                       className={
                         isOutline
-                          ? "rounded-full w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
-                          : "bg-white text-brand-dark hover:bg-white/90 rounded-full w-full font-light"
+                          ? "rounded-lg w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light h-[42px]"
+                          : "bg-white text-brand-dark hover:bg-white/90 rounded-lg w-full font-light h-[42px]"
                       }
                       onClick={handleClick}
                     >

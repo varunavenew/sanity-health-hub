@@ -26,7 +26,7 @@ import { useTranslation } from "react-i18next";
 import BurgerMenu from "@/components/BurgerMenu";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { DEFAULT_MAIN_NAVIGATION, withRequiredMainNavigation } from "@/lib/navigation/default-main-navigation";
-import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
+import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -158,7 +158,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
     <>
       {/* Combined Header - Banner + Nav that hide/show together */}
       <header 
-        className={`fixed top-0 right-0 z-50 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
           isNavVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
         style={{ left: isChatOpen ? "360px" : "0" }}
@@ -166,22 +166,22 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         
         {/* Navigation Bar */}
         <nav className={`transition-colors duration-300 ${isAtTop ? 'bg-gradient-to-b from-black/70 via-black/35 to-transparent' : 'bg-brand-dark/95 backdrop-blur-md'}`} aria-label="Hovednavigasjon">
-          <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between relative">
-            <Link to="/" className="flex items-center">
+          <div className="page-shell h-16 flex items-center justify-between relative md:px-5 lg:px-16">
+            <Link to="/" className="flex items-center shrink-0">
               <AssetImg 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
-                className="h-14 md:h-20" 
+                className="h-5 md:h-6 w-auto shrink-0" 
               />
             </Link>
             
             {/* Main Navigation - shadcn NavigationMenu */}
-            <div className="hidden md:flex flex-1 justify-center">
+            <div className="hidden md:flex items-center gap-0 lg:gap-1 text-white">
               <NavigationMenu
                 className="max-w-none"
                 viewportClassName="border-white/10 bg-brand-dark text-white shadow-2xl rounded-2xl"
               >
-                <NavigationMenuList className="gap-0 space-x-0">
+                <NavigationMenuList className="gap-0 lg:gap-1 space-x-0">
                   {navItems.map((item: { _key?: string; label?: string; path?: string; isServicesDropdown?: boolean }) =>
                     item.isServicesDropdown ? (
                       <ServicesNavMenuItem key={item._key} />
@@ -200,13 +200,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             </div>
 
           {/* Right side: Search, CTA, Menu */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0.5 lg:gap-1.5">
             {/* Language Selector */}
             <LanguageSelector />
             {/* Search Toggle */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 rounded-full transition-all hover:bg-white/10 text-white"
+              className="p-2 rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white"
               aria-label={t("nav.search")}
             >
               {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
@@ -215,7 +215,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {/* CTA Button */}
             <Button 
               size="sm" 
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-4 md:px-6 text-sm"
+              className="hidden md:inline-flex bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl md:rounded-md px-2 md:px-3 lg:px-6 text-xs lg:text-sm"
               onClick={() => navigate(ctaButton.path)}
             >
               {ctaButton.label}
@@ -228,7 +228,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
         {/* Search Overlay - Inside nav for consistent styling */}
         {isSearchOpen && (
-          <div ref={searchContainerRef} className="container mx-auto px-4 md:px-8 pb-4">
+          <div ref={searchContainerRef} className="page-shell md:px-5 lg:px-16 pb-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 animate-fade-in">
               <form onSubmit={handleSearch} role="search" className="flex items-center gap-3">
                 <label htmlFor="site-search" className="sr-only">{t("nav.searchLabel")}</label>

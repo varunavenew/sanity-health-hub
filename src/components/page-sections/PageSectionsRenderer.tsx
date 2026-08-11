@@ -56,15 +56,13 @@ export function PageSectionsRenderer({
     );
   }
 
+  // Keep specialists first when present; otherwise preserve CMS pageSections order
+  // (e.g. Graviditet: CTA → Insurance; Ortopedi: Insurance → CTA).
   const sortedSections = ensurePageSectionKeys(
     [...filtered].sort((a, b) => {
-      const order: Record<string, number> = {
-        pageSectionSpecialists: 1,
-        pageSectionInsurance: 2,
-        pageSectionArticles: 3,
-        pageSectionBookingCta: 4,
-      };
-      return (order[a._type] ?? 99) - (order[b._type] ?? 99);
+      const rank = (section: PageSection) =>
+        section._type === "pageSectionSpecialists" ? 0 : 1;
+      return rank(a) - rank(b);
     }),
   );
 

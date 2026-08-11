@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { AssetImg } from "@/components/AssetImg";
 
 export const HeroCompact = () => {
   const navigate = useNavigate();
@@ -46,9 +47,11 @@ export const HeroCompact = () => {
               className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
-              <img
+              <AssetImg
                 src={category.image}
                 alt=""
+                preset="card"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent opacity-80 transition-opacity duration-300" aria-hidden="true" />

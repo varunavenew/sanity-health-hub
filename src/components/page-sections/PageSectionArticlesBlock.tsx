@@ -8,6 +8,7 @@ import { useArticles } from "@/hooks/useSanity";
 import { normalizeCategory, type Article } from "@/data/articles";
 import type { PageSectionArticlesConfig } from "@/lib/sanity/page-sections";
 import { resolveArticlesDisplayMode } from "@/lib/sanity/specialists-display-mode";
+import { AssetImg } from "@/components/AssetImg";
 
 const CATEGORY_LABELS: Record<string, string> = {
   fagartikkel: "Fagartikler",
@@ -37,9 +38,10 @@ function ArticleGridCard({ article }: { article: Article }) {
     <Link to={linkTo} className="group">
       <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
         {article.image ? (
-          <img
+          <AssetImg
             src={article.image}
             alt={article.title}
+            preset="card"
             loading="lazy"
             className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
           />
@@ -162,9 +164,10 @@ export function PageSectionArticlesBlock({ config }: Props) {
             >
               <div className="aspect-[4/3] md:aspect-auto md:h-full min-h-[280px] overflow-hidden">
                 {featured.image ? (
-                  <img
+                  <AssetImg
                     src={featured.image}
                     alt={featured.title}
+                    preset="gallery"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 ) : (

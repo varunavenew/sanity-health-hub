@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Quote, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { useGoogleReviews, useGoogleReviewSettings, useSiteSettings } from "@/hooks/useSanity";
 import { resolveBusinessReputationRatings } from "@/lib/sanity/business-reputation-dual-read";
@@ -35,6 +36,7 @@ interface CategoryReviewsProps {
 }
 
 export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsProps) => {
+  const { t } = useTranslation();
   const { data: allReviews = [] } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
   const { data: siteSettings } = useSiteSettings();
@@ -74,9 +76,11 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <p className="text-sm text-brand-dark/50 font-light mb-2">Pasienterfaringer</p>
+            <p className="text-sm text-brand-dark/50 font-light mb-2">
+              {t("reviews.categoryEyebrow")}
+            </p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
-              Hva pasientene sier om {categoryTitle.toLowerCase()}
+              {t("reviews.categoryHeading", { category: categoryTitle.toLowerCase() })}
             </h2>
           </div>
           <div className="flex items-center gap-4">

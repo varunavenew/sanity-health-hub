@@ -267,3 +267,21 @@ export function defaultSizesForPreset(preset: ImageDeliveryPreset): string {
 export function defaultWidthForPreset(preset: ImageDeliveryPreset): number {
   return IMAGE_PRESET[preset].defaultWidth;
 }
+
+/**
+ * Optimize a Sanity CDN URL for CSS `background-image` (no srcset).
+ * Non-Sanity URLs pass through unchanged.
+ */
+export function optimizeBackgroundImageUrl(
+  url: string,
+  options: OptimizeImageOptions = {},
+): string {
+  if (!url) return "";
+  return optimizeSanityImageUrl(url, {
+    width: options.width ?? IMAGE_PRESET.hero.defaultWidth,
+    quality: options.quality ?? IMAGE_QUALITY,
+    fit: options.fit ?? "max",
+    crop: options.crop,
+    height: options.height,
+  });
+}

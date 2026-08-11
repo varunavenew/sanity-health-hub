@@ -30,6 +30,9 @@ const clinicImages: Record<string, ImageRef> = {
   moelv: imgMoelv,
 };
 
+/** Closed Ski clinic must never appear even if stale cache / leftover docs exist. */
+const EXCLUDED_CLINIC_SLUGS = new Set(["ski"]);
+
 function formatEyebrow(template: string, count: number): string {
   return template.replace(/\{count\}/g, String(count));
 }
@@ -45,32 +48,58 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const navigate = useNavigate();
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
-  const sanityBySlug = new Map(sanityClinics.map((clinic: any) => [clinic.slug, clinic]));
+  const sanityBySlug = new Map(
+    sanityClinics
+      .filter((clinic: { slug?: string }) => clinic.slug && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug))
+      .map((clinic: { slug: string }) => [clinic.slug, clinic]),
+  );
   const usedSlugs = new Set<string>();
-  const mergedStaticClinics = staticClinics.map((staticClinic) => {
-    const fromSanity = sanityBySlug.get(staticClinic.slug);
-    usedSlugs.add(staticClinic.slug);
-    if (!fromSanity) return staticClinic;
+  const mergedStaticClinics = staticClinics
+    .filter((staticClinic) => !EXCLUDED_CLINIC_SLUGS.has(staticClinic.slug))
+    .map((staticClinic) => {
+      const fromSanity = sanityBySlug.get(staticClinic.slug);
+      usedSlugs.add(staticClinic.slug);
+      if (!fromSanity) return staticClinic;
 
-    const overrides: Record<string, any> = {};
-    for (const [key, value] of Object.entries(fromSanity)) {
-      if (value !== null && value !== undefined && value !== "") overrides[key] = value;
-    }
+      const overrides: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(fromSanity)) {
+        if (value !== null && value !== undefined && value !== "") overrides[key] = value;
+      }
 
-    return {
-      ...staticClinic,
-      ...overrides,
-      detail: { ...staticClinic.detail, ...(fromSanity.detail || {}) },
-    };
-  });
+      const sanityDescription =
+        typeof (fromSanity as { description?: string }).description === "string"
+          ? (fromSanity as { description?: string }).description
+          : undefined;
+
+      return {
+        ...staticClinic,
+        ...overrides,
+        detail: {
+          ...staticClinic.detail,
+          ...((fromSanity as { detail?: object }).detail || {}),
+          ...(sanityDescription ? { description: sanityDescription } : {}),
+        },
+      };
+    });
   const extraSanityClinics = sanityClinics
-    .filter((clinic: any) => clinic.slug && !usedSlugs.has(clinic.slug))
-    .map((clinic: any) => ({ ...clinic, detail: clinic.detail || {} }));
-  const list: any[] = [...mergedStaticClinics, ...extraSanityClinics].sort((a, b) => {
-    const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
-    const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
-    return ao - bo;
-  });
+    .filter(
+      (clinic: { slug?: string }) =>
+        clinic.slug && !usedSlugs.has(clinic.slug) && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug),
+    )
+    .map((clinic: { detail?: object; description?: string }) => ({
+      ...clinic,
+      detail: {
+        ...(clinic.detail || {}),
+        ...(clinic.description ? { description: clinic.description } : {}),
+      },
+    }));
+  const list = ([...mergedStaticClinics, ...extraSanityClinics] as Array<Record<string, any>>).sort(
+    (a, b) => {
+      const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
+      const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
+      return ao - bo;
+    },
+  );
 
   const clinicCount = list.length;
   const heroEyebrow = page?.heroEyebrow?.trim()
@@ -94,7 +123,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
 
   const hasSeo = Boolean(page?.seo?.metaTitle || page?.seo?.metaDescription);
   const clinicsPath = "/klinikker";
-  const geoName = heroTitle || page?.seo?.metaTitle || t("nav.clinics", "Klinikker");
+  const geoName = heroTitle || page?.seo?.metaTitle || t("nav.clinics");
   const geoFallback = heroDescription || page?.seo?.metaDescription;
   const itemListJsonLd = {
     "@context": "https://schema.org",
@@ -128,8 +157,8 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           description={page?.seo?.metaDescription || ""}
           canonical={clinicsPath}
           breadcrumbs={[
-            { name: t("pricing.breadcrumbHome", "Hjem"), path: "/" },
-            { name: t("nav.clinics", "Klinikker"), path: clinicsPath },
+            { name: t("pricing.breadcrumbHome"), path: "/" },
+            { name: t("nav.clinics"), path: clinicsPath },
           ]}
           jsonLd={geoJsonLd}
         />
@@ -143,7 +172,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           title={heroTitle || undefined}
           description={heroDescription || undefined}
           image={heroImage}
-          imageAlt="CMedical klinikk"
+          imageAlt={t("clinicsPage.heroImageAlt")}
           primaryCta={primaryCta}
           secondaryCta={secondaryCta}
         />
@@ -160,7 +189,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
 
       <section className="bg-background" aria-labelledby="clinics-heading">
         <h2 id="clinics-heading" className="sr-only">
-          Liste over klinikker
+          {t("clinicsPage.listHeading")}
         </h2>
 
         {list.map((clinic: (typeof list)[number], idx: number) => {
@@ -175,10 +204,14 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
             clinic.primaryImage ||
             clinicImages[clinic.slug];
           const reverse = idx % 2 === 1;
+          const description =
+            (typeof clinic.description === "string" && clinic.description) ||
+            clinic.detail?.description ||
+            "";
 
           return (
             <div
-              key={clinic.id}
+              key={clinic.id || clinic.slug}
               className="relative grid min-h-screen grid-cols-1 border-t border-border/40 lg:grid-cols-2"
             >
               <Link
@@ -186,7 +219,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                 className={`group relative block h-[60vh] overflow-hidden lg:h-auto lg:min-h-screen ${
                   reverse ? "lg:order-2" : ""
                 }`}
-                aria-label={`Les mer om CMedical ${clinic.label}`}
+                aria-label={t("clinicsPage.readMoreAria", { name: clinic.label })}
               >
                 {resolved?.kind === "video" ? (
                   <CmsMedia
@@ -199,6 +232,8 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                   <AssetImg
                     src={fallbackImage}
                     alt={`CMedical ${clinic.label}`}
+                    preset="card"
+                    imageWidth={1280}
                     loading="lazy"
                     width={1280}
                     height={1280}
@@ -211,20 +246,17 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
 
               <div className={`flex items-center bg-background ${reverse ? "lg:order-1" : ""}`}>
                 <div className="w-full max-w-xl px-6 py-12 md:px-12 lg:px-16 lg:py-20">
-                    <p className="mb-3 text-xs font-light uppercase tracking-[0.15em] text-muted-foreground">
-                      Klinikk
-                    </p>
                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-tight mb-5">
                       <Link to={detailHref} className="hover:text-foreground transition-colors">
                         CMedical {clinic.label}
                       </Link>
                     </h3>
 
-                    {clinic.detail?.description && (
+                    {description ? (
                       <p className="text-base text-muted-foreground font-light leading-[1.8] mb-8 max-w-md">
-                        {clinic.detail.description}
+                        {description}
                       </p>
-                    )}
+                    ) : null}
 
                     <ul className="space-y-3 mb-7 border-t border-border/50 pt-6">
                       <li className="flex items-start gap-3 text-sm">
@@ -254,25 +286,25 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                       {clinic.detail?.parking && (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Car className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
-                          Parkering
+                          {t("clinicsPage.badgeParking")}
                         </span>
                       )}
                       {clinic.detail?.publicTransport && (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Train className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
-                          Kollektiv
+                          {t("clinicsPage.badgeTransit")}
                         </span>
                       )}
                       {clinic.detail?.accessibility && (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Accessibility className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
-                          Universelt utformet
+                          {t("clinicsPage.badgeAccessible")}
                         </span>
                       )}
                       {serviceCount > 0 && (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Stethoscope className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
-                          {serviceCount} tjenester
+                          {t("clinicsPage.badgeServices", { count: serviceCount })}
                         </span>
                       )}
                     </div>
@@ -282,7 +314,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                         to={detailHref}
                         className="inline-flex items-center gap-1.5 text-sm font-normal text-brand-dark hover:gap-2.5 transition-all border-b border-brand-dark/40 hover:border-brand-dark pb-1"
                       >
-                        Les mer om klinikken
+                        {t("clinicsPage.readMore")}
                         <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
                       </Link>
                       {clinic.mapsUrl && (
@@ -292,7 +324,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                           rel="noopener noreferrer"
                           className="text-xs text-muted-foreground hover:text-foreground font-light transition-colors"
                         >
-                          Vis i kart
+                          {t("clinicsPage.viewMap")}
                         </a>
                       )}
                     </div>

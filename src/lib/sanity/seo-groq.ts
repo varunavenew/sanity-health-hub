@@ -23,3 +23,21 @@ export const localizedSeoObject = `
     "noIndex": seo.noIndex
   }
 `;
+
+/**
+ * Active locale only — no cross-language SEO fallback (treatment/category pages).
+ */
+export const localizedSeoObjectLocale = `
+  "seo": {
+    "metaTitle": coalesce(
+      seo.metaTitle[language == $lang][0].value,
+      seo.metaTitle[_key == $lang][0].value
+    ),
+    "metaDescription": coalesce(
+      seo.metaDescription[language == $lang][0].value,
+      seo.metaDescription[_key == $lang][0].value
+    ),
+    "ogImage": seo.ogImage,
+    "noIndex": seo.noIndex
+  }
+`;

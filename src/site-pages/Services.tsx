@@ -13,6 +13,7 @@ import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { AssetImg } from "@/components/AssetImg";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -256,9 +257,11 @@ const Services = ({ isChatOpen }: PageProps) => {
                 className="group relative aspect-[3/4] overflow-hidden"
               >
                 {item.heroImage ? (
-                  <img
+                  <AssetImg
                     src={item.heroImage}
                     alt={item.title}
+                    preset="card"
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (

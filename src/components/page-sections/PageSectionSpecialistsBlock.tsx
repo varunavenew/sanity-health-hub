@@ -66,7 +66,7 @@ function categoryHref(config: PageSectionSpecialistsConfig): string {
 
 export function PageSectionSpecialistsBlock({ config }: Props) {
   const { t } = useTranslation();
-  const { sorted: allSpecialists } = useSpecialistsData();
+  const { sorted: allSpecialists, isLoading } = useSpecialistsData();
 
   const specialists = useMemo(
     () => resolveSpecialists(config, allSpecialists),
@@ -78,8 +78,8 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
   const seeAllLabel =
     config.seeAllLabel?.trim() ||
     t("specialists.seeAll", {
-      count: specialists.length,
-      defaultValue: `Se alle ${specialists.length} spesialister`,
+      count: allSpecialists.length || specialists.length,
+      defaultValue: `Se alle ${allSpecialists.length || specialists.length} spesialister`,
     });
 
   if (!resolveSpecialistsDisplayMode(config.displayMode)) {
@@ -87,7 +87,15 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
   }
 
   if (variant === "carousel") {
-    if (specialists.length === 0) return null;
+    // Avoid permanently hiding the band while the specialists query is in flight.
+    if (specialists.length === 0) {
+      if (isLoading) {
+        return (
+          <section className="py-16 md:py-20" aria-busy="true" aria-label={config.title || undefined} />
+        );
+      }
+      return null;
+    }
 
     return (
       <SpecialistsScroller

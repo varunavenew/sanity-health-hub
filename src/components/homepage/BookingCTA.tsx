@@ -4,10 +4,7 @@ import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
-  Calendar,
-  Phone,
-  Clock,
-  Shield,
+  Check,
   ChevronDown,
   type LucideIcon,
 } from "lucide-react";
@@ -16,6 +13,7 @@ import { useClinics } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import type { BookingCtaQuickInfoItem } from "@/lib/sanity/page-sections";
+import { AssetImg } from "@/components/AssetImg";
 
 export type BookingCtaContent = {
   title?: string;
@@ -37,8 +35,9 @@ export type BookingCtaContent = {
 };
 
 const QUICK_INFO_ICONS: Record<NonNullable<BookingCtaQuickInfoItem["icon"]>, LucideIcon> = {
-  clock: Clock,
-  shield: Shield,
+  // Reference booking band uses checkmarks for both quick-info rows.
+  clock: Check,
+  shield: Check,
 };
 
 type BookingCTAProps = BookingCtaContent;
@@ -114,15 +113,15 @@ export const BookingCTA = ({
   const useWarmChrome = variant === "warm" && !hasCustomBg && !hasCustomText;
 
   const sectionClass = useWarmChrome
-    ? "py-20 md:py-28 bg-brand-warm border-t border-border/60"
-    : "py-20 md:py-28 bg-brand-dark";
+    ? "py-20 bg-brand-warm border-t border-border/60"
+    : "py-14 sm:py-16 md:py-20 bg-brand-dark";
 
   const titleClass = useWarmChrome
     ? "text-2xl md:text-3xl font-light text-brand-dark mb-4"
     : "text-2xl md:text-3xl font-light text-white mb-4";
   const subtitleClass = useWarmChrome
     ? "text-brand-dark/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto"
-    : "text-white/60 font-light text-base md:text-lg mb-10 max-w-xl mx-auto";
+    : "text-white/95 font-light text-base md:text-lg mb-10 max-w-xl mx-auto";
   const quickInfoClass = useWarmChrome
     ? "flex items-center gap-2 text-sm text-brand-dark/60"
     : "flex items-center gap-2 text-sm text-white/50";
@@ -158,9 +157,9 @@ export const BookingCTA = ({
         <Button
           variant={useWarmChrome ? "cta" : "cta-dark"}
           size="lg"
+          className="rounded-lg"
           onClick={handlePrimaryClick}
         >
-          <Calendar className="mr-2 w-5 h-5" />
           {resolvedPrimaryLabel}
           <ArrowRight className="ml-2 w-5 h-5" />
         </Button>
@@ -170,6 +169,7 @@ export const BookingCTA = ({
             <Button
               variant={useWarmChrome ? "outline" : "cta-outline-dark"}
               size="lg"
+              className="rounded-lg"
               asChild
             >
               <Link to={secondaryPath.trim()}>{resolvedSecondaryLabel}</Link>
@@ -179,9 +179,9 @@ export const BookingCTA = ({
             <Button
               variant={useWarmChrome ? "outline" : "cta-outline-dark"}
               size="lg"
+              className="rounded-lg"
               onClick={() => setShowClinicPicker(!showClinicPicker)}
             >
-              <Phone className="mr-2 w-5 h-5" />
               {resolvedSecondaryLabel}
               <ChevronDown
                 className={`ml-2 w-4 h-4 transition-transform ${showClinicPicker ? "rotate-180" : ""}`}
@@ -242,14 +242,20 @@ export const BookingCTA = ({
   if (variant === "withImage" && image) {
     return (
       <section
-        className={hasCustomBg ? "py-20 md:py-28" : "py-20 md:py-28 bg-brand-dark"}
+        className={hasCustomBg ? "py-20" : "py-20 bg-brand-dark"}
         style={sectionStyle}
       >
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid md:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
             <div className="text-center md:text-left">{content}</div>
             <div className="relative aspect-[4/3] rounded-sm overflow-hidden">
-              <img src={image} alt={imageAlt || resolvedTitle} className="w-full h-full object-cover" />
+              <AssetImg
+                src={image}
+                alt={imageAlt || resolvedTitle}
+                preset="card"
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -258,7 +264,7 @@ export const BookingCTA = ({
   }
 
   return (
-    <section className={hasCustomBg ? "py-20 md:py-28" : sectionClass} style={sectionStyle}>
+    <section className={hasCustomBg ? "py-20" : sectionClass} style={sectionStyle}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">{content}</div>
       </div>

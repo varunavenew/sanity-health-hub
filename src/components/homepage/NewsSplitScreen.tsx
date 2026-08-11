@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/lib/router";
 import { articles, normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useHomepage } from "@/hooks/useSanity";
+import { AssetImg } from "@/components/AssetImg";
 
 type NewsSplitItem = {
   id: string;
@@ -158,9 +159,10 @@ export const NewsSplitScreen = () => {
               to={`/aktuelt/${item.slug}`}
               className="group relative block overflow-hidden min-h-[40vh] md:min-h-0"
             >
-              <img
+              <AssetImg
                 src={item.image}
                 alt={item.title}
+                preset="card"
                 loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
               />

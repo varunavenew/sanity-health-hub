@@ -35,6 +35,7 @@ import {
   statsGridClass,
   threeCardGridClass,
 } from "@/lib/ui/grid-cols-for-count";
+import { mergeSectionOrder } from "@/lib/ui/merge-section-order";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import {
   resolveCmsMedia,
@@ -232,12 +233,12 @@ function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
                   )}
                 </div>
               ) : null}
-              {phase.href ? (
+              {phase.href && phase.cta ? (
                 <Link
                   to={phase.href}
                   className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
                 >
-                  {phase.cta || "Les mer"}
+                  {phase.cta}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               ) : null}
@@ -286,12 +287,12 @@ function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
                       )}
                     </div>
                   ) : null}
-                  {phase.href ? (
+                  {phase.href && phase.cta ? (
                     <Link
                       to={phase.href}
                       className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
                     >
-                      {phase.cta || "Les mer"}
+                      {phase.cta}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   ) : null}
@@ -539,6 +540,8 @@ const TreatmentCategoryLanding = ({
 
   const isPregnancy =
     categoryId === "graviditet" || categoryId === "pregnancy";
+  const isFertility =
+    categoryId === "fertilitet" || categoryId === "fertility";
 
   /**
    * Lovable Media band uses the ultralyd image — not the hero portrait.
@@ -582,6 +585,24 @@ const TreatmentCategoryLanding = ({
     "reviews", "spotlight", "faq", "journey",
   ];
   /**
+   * Fertility reference (avenewdemo `/behandlinger/fertilitet`):
+   * specialists band sits after spotlight / before booking CTA.
+   */
+  const FERTILITY_ORDER = [
+    "segments",
+    "why",
+    "audiences",
+    "expertAreas",
+    "symptoms",
+    "services",
+    "support",
+    "results",
+    "reviews",
+    "spotlight",
+    "specialists",
+    "journey",
+  ];
+  /**
    * Lovable Pregnancy order: FAQ mid-page, Media (spotlight) -> Specialists -> Journey.
    * Applied only for graviditet/pregnancy when CMS sectionOrder is empty.
    */
@@ -599,24 +620,18 @@ const TreatmentCategoryLanding = ({
   ];
   /**
    * Prefer Sanity sectionOrder when present, but never drop known sections.
-   * specialists is allowed for Pregnancy mid-page placement.
+   * Partial CMS orders keep unlisted keys at their template positions
+   * (avoids Fertility audiences/expertAreas sliding below symptoms/services).
    */
-  const order = (() => {
-    const fallback = isPregnancy ? PREGNANCY_ORDER : DEFAULT_ORDER;
-    if (!sectionOrder?.length) return fallback;
-    const allowed = new Set([...DEFAULT_ORDER, "specialists"]);
-    const seen = new Set();
-    const preferred = [];
-    for (const key of sectionOrder) {
-      if (!allowed.has(key) || seen.has(key)) continue;
-      preferred.push(key);
-      seen.add(key);
-    }
-    for (const key of fallback) {
-      if (!seen.has(key)) preferred.push(key);
-    }
-    return preferred.length ? preferred : fallback;
-  })();
+  const order = mergeSectionOrder(
+    sectionOrder,
+    isPregnancy
+      ? PREGNANCY_ORDER
+      : isFertility
+        ? FERTILITY_ORDER
+        : DEFAULT_ORDER,
+    ["specialists", "faq"],
+  );
   const orderIncludesFaq = order.includes("faq");
   const orderIncludesSpecialists = order.includes("specialists");
   /**
@@ -673,13 +688,26 @@ const TreatmentCategoryLanding = ({
     why: () =>
       whySection.steps.length > 0 ? (
         <section className="bg-background">
-          <div className="grid lg:grid-cols-12">
+          <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
             <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-14 lg:py-20">
               <div className="max-w-xl">
                 {whySection.eyebrow ? <p className="text-xs tracking-wide text-foreground/60 mb-5">{whySection.eyebrow}</p> : null}
                 <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">{whySection.title}</h2>
                 {whySection.description ? (
-                  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12 whitespace-pre-line">{whySection.description}</p>
+                  <div className="space-y-5 mb-12">
+                    {whySection.description
+                      .split(/\n+/)
+                      .map((p) => p.trim())
+                      .filter(Boolean)
+                      .map((paragraph) => (
+                        <p
+                          key={paragraph.slice(0, 48)}
+                          className="text-base font-light text-muted-foreground leading-relaxed"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                  </div>
                 ) : null}
                 <div className="divide-y divide-border/60 border-t border-border/60">
                   {whySection.steps.map((step, index) => (
@@ -693,7 +721,7 @@ const TreatmentCategoryLanding = ({
                   ))}
                 </div>
                 {whySection.footerLinkHref ? (
-                  <Link to={whySection.footerLinkHref} className="inline-flex items-center gap-2 mt-10 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all">
+                  <Link to={whySection.footerLinkHref} className="inline-flex items-center gap-2 mt-8 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all">
                     {whySection.footerLinkLabel}<ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 ) : null}
@@ -727,9 +755,10 @@ const TreatmentCategoryLanding = ({
                     <div key={a.title} className="bg-background rounded-sm border border-border/40 flex flex-col p-7 overflow-hidden">
                       {a.image ? (
                         <div className="relative aspect-[16/10] -mx-7 -mt-7 mb-6 overflow-hidden bg-secondary">
-                          <img
+                          <AssetImg
                             src={a.image}
                             alt={a.title}
+                            preset="card"
                             loading="lazy"
                             className="w-full h-full object-cover"
                           />
@@ -783,7 +812,7 @@ const TreatmentCategoryLanding = ({
     symptoms: () =>
       symptomsSection.items.length > 0 ? (
         <SymptomServiceSection
-          background="background"
+          background={symptomsSection.background || "background"}
           eyebrow={symptomsSection.eyebrow}
           title={symptomsSection.title}
           description={symptomsSection.description}
@@ -981,7 +1010,12 @@ const TreatmentCategoryLanding = ({
               </nav>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
                 {hero.heading}
-                {hero.headingEmphasis ? <span className="block italic">{hero.headingEmphasis}</span> : null}
+                {hero.headingEmphasis ? (
+                  <>
+                    {" "}
+                    <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
+                  </>
+                ) : null}
               </h2>
             </div>
           </div>
@@ -1030,7 +1064,12 @@ const TreatmentCategoryLanding = ({
             </nav>
             <h2 className="text-4xl font-light text-foreground leading-[1.05]">
               {hero.heading}
-              {hero.headingEmphasis ? <span className="block italic">{hero.headingEmphasis}</span> : null}
+              {hero.headingEmphasis ? (
+                <>
+                  {" "}
+                  <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
+                </>
+              ) : null}
             </h2>
           </div>
           <div className={`flex flex-col-reverse ${hasHeroMedia ? "lg:grid lg:grid-cols-2" : ""} lg:min-h-[720px]`}>
@@ -1043,7 +1082,12 @@ const TreatmentCategoryLanding = ({
                 </nav>
                 <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                   {hero.heading}
-                  {hero.headingEmphasis ? <span className="block italic">{hero.headingEmphasis}</span> : null}
+                  {hero.headingEmphasis ? (
+                    <>
+                      {" "}
+                      <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
+                    </>
+                  ) : null}
                 </h2>
                 {hero.body ? <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">{hero.body}</p> : null}
                 {hero.entryPriceLabel && hero.entryPriceValue ? (

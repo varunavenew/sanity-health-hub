@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
+import { AssetImg } from "@/components/AssetImg";
 
 interface PromoBlock {
   title: string;
@@ -26,9 +27,11 @@ export const EmotionalPromoSection = ({ blocks }: EmotionalPromoSectionProps) =>
               onClick={() => navigate(block.path)}
               className="group relative overflow-hidden rounded-sm aspect-[16/9] text-left cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300"
             >
-              <img
+              <AssetImg
                 src={block.image}
                 alt=""
+                preset="card"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/30 to-transparent" />

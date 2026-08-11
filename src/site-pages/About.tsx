@@ -13,10 +13,44 @@ import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
-import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
 
 interface AboutProps {
   isChatOpen: boolean;
+}
+
+type AboutBodyBlock = {
+  _key?: string;
+  style?: string;
+  text: string;
+};
+
+/**
+ * Insert the hero image after the first editorial section (first h2 + following
+ * normals), matching the reference About layout on avenewdemo.
+ */
+function splitBodyAroundHeroImage(blocks: AboutBodyBlock[]) {
+  if (!blocks.length) return { before: [] as AboutBodyBlock[], after: [] as AboutBodyBlock[] };
+
+  let splitAt = -1;
+  let seenFirstHeading = false;
+  for (let i = 0; i < blocks.length; i++) {
+    const style = blocks[i].style || "normal";
+    if (style === "h2" || style === "h3") {
+      if (!seenFirstHeading) {
+        seenFirstHeading = true;
+        continue;
+      }
+      splitAt = i;
+      break;
+    }
+  }
+
+  if (splitAt < 0) {
+    const cut = Math.min(3, blocks.length);
+    return { before: blocks.slice(0, cut), after: blocks.slice(cut) };
+  }
+
+  return { before: blocks.slice(0, splitAt), after: blocks.slice(splitAt) };
 }
 
 const About = ({ isChatOpen }: AboutProps) => {
@@ -27,7 +61,6 @@ const About = ({ isChatOpen }: AboutProps) => {
   const routeLocale: AppLocale = params?.locale === "en" ? "en" : "no";
   const { data: sanityData } = useAboutPage();
   const pageSections = sanityData?.pageSections;
-  const preferSharedBookingCta = pageSectionsHaveUsableBookingCta(pageSections);
 
   const title = sanityData?.title?.trim() || "";
   const heroEyebrow = sanityData?.heroEyebrow?.trim() || "";
@@ -36,9 +69,49 @@ const About = ({ isChatOpen }: AboutProps) => {
   const aboutPath = sanityData?.slug
     ? withLocalePath(routeLocale, `/${sanityData.slug}`)
     : "";
-  const aboutParagraphs = sanityData?.sections?.length
-    ? sanityData.sections.map((s: any) => s.content).filter(Boolean)
-    : [];
+
+  const bodyBlocks: AboutBodyBlock[] = Array.isArray(sanityData?.bodyBlocks)
+    ? sanityData.bodyBlocks
+    : (sanityData?.sections || [])
+        .map((s: { content?: string }) => ({
+          style: "normal",
+          text: typeof s.content === "string" ? s.content : "",
+        }))
+        .filter((b: AboutBodyBlock) => Boolean(b.text?.trim()));
+
+  const { before, after } = splitBodyAroundHeroImage(bodyBlocks);
+  const firstParagraph =
+    bodyBlocks.find((b) => (b.style || "normal") === "normal" && b.text.trim())?.text || "";
+
+  const renderBlocks = (blocks: AboutBodyBlock[], keyPrefix: string) =>
+    blocks.map((block, i) => {
+      const text = block.text.trim();
+      if (!text) return null;
+      const style = block.style || "normal";
+      const key = block._key || `${keyPrefix}-${i}`;
+
+      if (style === "h2") {
+        return (
+          <h2
+            key={key}
+            className="text-xl md:text-2xl font-light text-brand-dark pt-6 first:pt-0"
+          >
+            {text}
+          </h2>
+        );
+      }
+      if (style === "h3") {
+        return (
+          <h3
+            key={key}
+            className="text-lg md:text-xl font-light text-brand-dark pt-4 first:pt-0"
+          >
+            {text}
+          </h3>
+        );
+      }
+      return <p key={key}>{text}</p>;
+    });
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -48,7 +121,7 @@ const About = ({ isChatOpen }: AboutProps) => {
             <GeoPageEnhancements
               name={title}
               geoSummary={sanityData?.geoSummary}
-              fallbackDescription={sanityData?.subtitle?.trim() || aboutParagraphs[0]}
+              fallbackDescription={sanityData?.subtitle?.trim() || firstParagraph}
               path={aboutPath}
               locale={locale}
               className="mb-6"
@@ -58,17 +131,15 @@ const About = ({ isChatOpen }: AboutProps) => {
                 {heroEyebrow ? (
                   <p className="text-muted-foreground text-xs mb-2">{heroEyebrow}</p>
                 ) : null}
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-none">
                   {title}
                 </h1>
               </header>
             ) : null}
 
-            {aboutParagraphs.length > 0 ? (
+            {before.length > 0 ? (
               <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-                {aboutParagraphs.slice(0, 3).map((p: string, i: number) => (
-                  <p key={i}>{p}</p>
-                ))}
+                {renderBlocks(before, "before")}
               </div>
             ) : null}
           </div>
@@ -79,52 +150,36 @@ const About = ({ isChatOpen }: AboutProps) => {
             <div className="max-w-3xl mx-auto">
               <AssetImg
                 src={heroImage}
-                alt={heroImageAlt}
+                alt={heroImageAlt || title}
                 className="w-full aspect-[3/2] object-cover object-[30%_20%]"
+                preset="hero"
               />
             </div>
           </div>
         ) : null}
 
-        {aboutParagraphs.length > 3 ? (
-          <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-            <div className="max-w-3xl mx-auto">
+        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto">
+            {after.length > 0 ? (
               <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-                {aboutParagraphs.slice(3).map((p: string, i: number) => (
-                  <p key={i}>{p}</p>
-                ))}
+                {renderBlocks(after, "after")}
               </div>
+            ) : null}
 
-              <div className="mt-8 pt-6 border-t border-brand-dark/10">
-                {!preferSharedBookingCta ? (
-                  <Button
-                    className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
-                    onClick={() => navigate("/booking")}
-                  >
-                    {t("cta.bookConsultation")}
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                ) : null}
-              </div>
+            {/* Mid-page consultation CTA — present on reference even when the
+                shared booking CTA band is also rendered below. */}
+            <div className={`${after.length > 0 ? "mt-8" : ""} pt-6 border-t border-brand-dark/10`}>
+              <Button
+                size="sm"
+                className="bg-brand-dark text-white hover:bg-brand-dark/90 font-light rounded-sm md:rounded-md px-8 h-11"
+                onClick={() => navigate("/booking")}
+              >
+                {t("cta.bookConsultation")}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
             </div>
           </div>
-        ) : aboutParagraphs.length > 0 ? (
-          <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-            <div className="max-w-3xl mx-auto">
-              <div className="mt-8 pt-6 border-t border-brand-dark/10">
-                {!preferSharedBookingCta ? (
-                  <Button
-                    className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
-                    onClick={() => navigate("/booking")}
-                  >
-                    {t("cta.bookConsultation")}
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                ) : null}
-              </div>
-            </div>
-          </div>
-        ) : null}
+        </div>
       </article>
 
       {sanityData?.clinicsSection?.showSection !== false ? (

@@ -1,8 +1,11 @@
 import { TREATMENT_BY_SLUG_QUERY } from "@/lib/queries";
-import { categorySlugForFetch } from "@/lib/sanity/category-keys";
+import {
+  categorySlugForFetch,
+  normalizeCategoryRouteKey,
+} from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
-import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { isRelatedServiceEligible } from "@/lib/sanity/treatment-page-role";
@@ -136,6 +139,8 @@ export type TreatmentData = {
   pageSections: ReturnType<typeof normalizePageSections>;
   /** Locale-specific slug from CMS (for canonical redirects). */
   canonicalSlug?: string;
+  /** `team` pages redirect to the specialists listing (reference parity). */
+  pageRole?: string;
   geoSummary?: string;
   seo?: Record<string, unknown>;
 };
@@ -351,6 +356,7 @@ export function mapTreatmentDocument(
     })(),
     pageSections: normalizePageSections(data.pageSections),
     canonicalSlug: asPlainString(data.slug) || undefined,
+    pageRole: row("pageRole"),
     seo: data.seo as Record<string, unknown> | undefined,
   };
 }
@@ -361,8 +367,9 @@ export async function fetchTreatmentData(
   treatmentSlug: string,
   lang: "no" | "en",
 ): Promise<TreatmentData | null> {
+  const categoryKey = normalizeCategoryRouteKey(categorySlug) || categorySlug;
   const resolvedSlug =
-    categorySlug === "fertilitet"
+    categoryKey === "fertilitet"
       ? resolveFertilitetTreatmentSlug(treatmentSlug)
       : treatmentSlug;
   const raw = await fetchSanityGroqBrowser<Record<string, unknown> | null>(
@@ -370,7 +377,7 @@ export async function fetchTreatmentData(
     { categorySlug: categorySlugForFetch(categorySlug), treatmentSlug: resolvedSlug, lang },
   );
   if (!raw) return null;
-  const normalized = normalizeI18n(raw, lang) as Record<string, unknown>;
+  const normalized = normalizeI18nStrict(raw, lang) as Record<string, unknown>;
   const mapped = mapTreatmentDocument(normalized);
   if (mapped && !mapped.canonicalSlug) {
     mapped.canonicalSlug = resolvedSlug;

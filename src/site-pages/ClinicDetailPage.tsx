@@ -18,6 +18,7 @@ import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
 import type { PageSection } from "@/lib/sanity/page-sections";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
+import { AssetImg } from "@/components/AssetImg";
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
@@ -358,9 +359,10 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
             {galleryImages.map((img, i) => (
               <div key={`${img.url}-${i}`} className="aspect-[4/3] overflow-hidden">
-                <img
+                <AssetImg
                   src={img.url}
                   alt={img.alt?.trim() || `CMedical ${label}`}
+                  preset="gallery"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
@@ -425,9 +427,10 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     <Link to={`${specialistsPath}/${s.slug}`} className="group block">
                       <div className="aspect-[3/4] bg-brand-mid/20 overflow-hidden rounded-sm mb-2">
                         {s.image && (
-                          <img
+                          <AssetImg
                             src={s.image}
                             alt={s.name}
+                            preset="profile"
                             loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                           />

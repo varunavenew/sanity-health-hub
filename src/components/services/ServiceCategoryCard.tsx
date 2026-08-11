@@ -1,6 +1,7 @@
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@/lib/router";
+import { AssetImg } from "@/components/AssetImg";
 
 interface SubItem {
   label: string;
@@ -60,9 +61,10 @@ const ServiceCategoryCard = ({
       <div className="flex flex-col sm:flex-row">
         <div className="relative w-full sm:w-1/4 md:w-1/5 flex-shrink-0 overflow-hidden">
           <div className="aspect-[16/9] sm:aspect-auto sm:h-full sm:min-h-[160px]">
-            <img
+            <AssetImg
               src={image}
               alt={label}
+              preset="card"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />

@@ -422,16 +422,28 @@ const BookingDemo = () => {
     const kategori = searchParams.get("kategori");
     const kategoriIdRaw = searchParams.get("kategoriId");
     const tjeneste = searchParams.get("tjeneste");
+    const aktivitetIdRaw = searchParams.get("aktivitetId");
     const spesialistSlug = searchParams.get("spesialist");
     const klinikkId = searchParams.get("klinikk");
     const kategoriId = kategoriIdRaw != null ? Number(kategoriIdRaw) : NaN;
+    const aktivitetId =
+      aktivitetIdRaw != null ? Number(aktivitetIdRaw) : NaN;
     const kategoriFromNumericId =
       Number.isFinite(kategoriId) && kategoriId > 0
         ? categoryNumericIdToPageId[kategoriId]
         : undefined;
     const effectiveKategori = kategori || kategoriFromNumericId;
 
-    if (!effectiveKategori && !kategoriIdRaw && !tjeneste && !spesialistSlug && !klinikkId) return;
+    if (
+      !effectiveKategori &&
+      !kategoriIdRaw &&
+      !tjeneste &&
+      !Number.isFinite(aktivitetId) &&
+      !spesialistSlug &&
+      !klinikkId
+    ) {
+      return;
+    }
 
     // 1. Resolve category
     let resolvedCategoryListId: string | undefined;
@@ -478,9 +490,25 @@ const BookingDemo = () => {
       }
     }
 
-    // 2. Resolve specific service within category (slug or fuzzy name match)
+    // 2. Resolve specific service — prefer Metodika aktivitetId (pricing Step 2 shortcut)
     let resolvedService: BookingServiceItem | undefined;
-    if (tjeneste && resolvedCategoryListId) {
+    if (Number.isFinite(aktivitetId) && aktivitetId > 0) {
+      for (const cat of bookingServices) {
+        const hit = cat.services.find((s) => s.apiActivityId === aktivitetId);
+        if (hit) {
+          resolvedService = hit;
+          if (!matchingCategory) {
+            matchingCategory = cat;
+            applyResolvedCategory(cat);
+          }
+          break;
+        }
+      }
+      // If activity cannot be resolved: keep category context for Step 1 fallback
+      // (expandedCategory / filter already set). Do not invent a service.
+    }
+
+    if (!resolvedService && tjeneste && resolvedCategoryListId) {
       const cat = bookingServices.find((c) => c.id === resolvedCategoryListId);
       const targetSlug = slugifyNo(tjeneste);
       resolvedService = cat?.services.find((s) => {
@@ -504,7 +532,8 @@ const BookingDemo = () => {
       }
       setBookingData(next);
     }
-    // If only kategori was given, expandedCategory is already set above.
+    // If only kategori was given (or aktivitetId failed to resolve), Step 1
+    // keeps the relevant category expanded/filtered — no error page.
   }, [searchParams, specialists, bookingServices, servicesLoading, bookingData.service, bookingData.clinic, bookingData.specialist]);
 
   // Active category filter is derived above; no debug logging in production.
@@ -1585,9 +1614,10 @@ const BookingDemo = () => {
                     >
                       <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors overflow-hidden shrink-0">
                         {sanityImage ? (
-                          <img
+                          <AssetImg
                             src={sanityImage}
                             alt=""
+                            preset="thumb"
                             className="w-full h-full object-cover"
                           />
                         ) : isExternalClinic(clinic) ? (

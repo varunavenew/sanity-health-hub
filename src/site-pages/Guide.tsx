@@ -12,6 +12,7 @@ import { CmsMedia } from "@/components/media/CmsMedia";
 import { useGuidePage } from "@/hooks/useSanity";
 import { useParams } from "@/lib/router";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { AssetImg } from "@/components/AssetImg";
 
 interface GuideProps {
   isChatOpen: boolean;
@@ -86,9 +87,10 @@ const GuideMarketingSection = ({
             </div>
             {hasImage ? (
               <div className={`relative aspect-[4/5] rounded-2xl overflow-hidden ${isReversed ? "order-1 md:order-1" : ""}`}>
-                <img
+                <AssetImg
                   src={section.image}
                   alt={section.title || "Guide section image"}
+                  preset="gallery"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />

@@ -96,3 +96,12 @@ export const localizedPrimaryCategorySlugField = (asName = "slug") =>
     category->slug[0].value.current,
     category->slug.current
   )`;
+
+/** Active locale only — used on treatment detail pages to avoid NO slug on EN. */
+export const localizedPrimaryCategorySlugFieldLocale = (asName = "slug") =>
+  `"${asName}": coalesce(
+    categories[0]->slug[language == $lang][0].value.current,
+    categories[0]->slug[_key == $lang][0].value.current,
+    category->slug[language == $lang][0].value.current,
+    category->slug[_key == $lang][0].value.current
+  )`;

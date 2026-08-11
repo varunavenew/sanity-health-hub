@@ -42,8 +42,8 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           title={title || undefined}
           description={subtitle || undefined}
           image={heroImage}
-          imageAlt="Forsikring hos CMedical"
-          primaryCta={{ label: t("cta.contactUs", "Kontakt oss"), to: "/kontakt", variant: "contact" }}
+          imageAlt={t("insurance.heroImageAlt")}
+          primaryCta={{ label: t("cta.contactUs"), to: "/kontakt", variant: "contact" }}
         />
       ) : (
         <div className="bg-brand-warm pt-20 pb-8">
@@ -55,14 +55,14 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               onClick={() => navigate("/kontakt")}
             >
               <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
-              {t("cta.contactUs", "Kontakt oss")}
+              {t("cta.contactUs")}
             </Button>
           </div>
         </div>
       )}
 
       <GeoPageEnhancements
-        name={title || t("nav.insurance", "Forsikring")}
+        name={title || t("nav.insurance")}
         geoSummary={page?.geoSummary}
         fallbackDescription={subtitle}
         path="/forsikring"
@@ -81,7 +81,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               <h2 className="text-2xl md:text-3xl font-light text-foreground">{t("insurance.agreementTitle")}</h2>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-              {companies.map((company: any) => (
+              {companies.map((company: { name: string }) => (
                 <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
               ))}
             </div>
@@ -109,7 +109,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-12 text-center">{t("insurance.howTo")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
-              {steps.map((step: any, index: number) => (
+              {steps.map((step: { num?: string; title?: string; desc?: string }, index: number) => (
                 <div key={step.num || index} className="relative text-center">
                   {index < steps.length - 1 && <div className="hidden md:block absolute top-6 left-[60%] w-[80%] h-px bg-border" />}
                   <div className="w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center mx-auto mb-4 relative z-10">
@@ -130,7 +130,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-3 gap-6">
-              {benefits.map((benefit: any) => (
+              {benefits.map((benefit: { title?: string; desc?: string }) => (
                 <div key={benefit.title} className="p-6">
                   <h3 className="font-normal text-white mb-3 text-lg inline-flex items-center gap-2">
                     <Check className="w-4 h-4 text-accent" strokeWidth={2} aria-hidden="true" />
@@ -145,6 +145,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
       </section>
       )}
 
+      {/* Help band — matches reference: contact + book CTAs */}
       <section className="py-12 bg-muted/50">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -155,15 +156,25 @@ const Insurance = ({ isChatOpen }: PageProps) => {
                 <p className="text-muted-foreground text-sm font-light">{t("insurance.weGuide")}</p>
               </div>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3 justify-center">
               <Button
                 variant="outline"
                 className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light flex items-center"
                 asChild
               >
                 <Link to="/kontakt">
-                  <Phone className="mr-2 w-4 h-4 text-foreground hover:text-white" strokeWidth={1.5} />
+                  <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
                   {t("cta.contactUs")}
+                </Link>
+              </Button>
+              <Button
+                variant="default"
+                className="rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light bg-brand-dark text-white hover:bg-brand-dark/90"
+                asChild
+              >
+                <Link to="/booking">
+                  {t("nav.bookAppointment")}
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
             </div>

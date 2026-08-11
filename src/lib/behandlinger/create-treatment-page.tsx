@@ -10,6 +10,8 @@ export type BehandlingerTreatmentPageProps = {
   isChatOpen: boolean;
   initialTreatment?: Awaited<ReturnType<typeof fetchTreatmentData>>;
   sanityLang?: "no" | "en";
+  /** Canonical categoryId (e.g. fertilitet) when rendered from CMS catch-all. */
+  categoryId?: string;
 };
 
 type SubPageComponent = ComponentType<BehandlingerTreatmentPageProps>;

@@ -230,6 +230,15 @@ export default defineType({
       of: [{type: 'reference', to: [{type: 'article'}]}],
       validation: (Rule) => Rule.max(4),
     }),
+    defineField({
+      name: 'listingArticles',
+      title: 'Article listing order (All filter)',
+      description:
+        'Editorial order for articles on the News page when filter = All. Price lists and job postings are excluded unless listed here. Featured articles are shown separately at the top.',
+      type: 'array',
+      group: 'content',
+      of: [{type: 'reference', to: [{type: 'article'}]}],
+    }),
 
     defineField({
       name: 'moreArticlesTitle',
@@ -286,10 +295,142 @@ export default defineType({
 
     defineField({
       name: 'socialSectionTitle',
-      title: 'Social media section title',
+      title: 'Social platform cards — section title',
+      description: 'Heading above the Instagram / Facebook / LinkedIn / Snapchat cards.',
       type: 'internationalizedArrayString',
       group: 'content',
-      validation: requiredNoEnI18n('Social media section title'),
+      validation: requiredNoEnI18n('Social platform cards — section title'),
+    }),
+    defineField({
+      name: 'socialPlatformCards',
+      title: 'Social platform cards',
+      description: 'Four platform link cards shown after the article grid.',
+      type: 'array',
+      group: 'content',
+      of: [
+        {
+          type: 'object',
+          name: 'newsSocialPlatformCard',
+          fields: [
+            {
+              name: 'platform',
+              title: 'Platform',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Instagram', value: 'instagram'},
+                  {title: 'Facebook', value: 'facebook'},
+                  {title: 'LinkedIn', value: 'linkedin'},
+                  {title: 'Snapchat', value: 'snapchat'},
+                ],
+                layout: 'radio',
+              },
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'title',
+              title: 'Platform name',
+              type: 'internationalizedArrayString',
+              validation: requiredNoEnI18n('Platform name'),
+            },
+            {
+              name: 'handle',
+              title: 'Handle / account name',
+              type: 'internationalizedArrayString',
+              validation: requiredNoEnI18n('Handle'),
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'internationalizedArrayText',
+              validation: requiredNoEnI18n('Description'),
+            },
+            {
+              name: 'url',
+              title: 'Link URL',
+              type: 'url',
+              validation: (Rule: any) =>
+                Rule.required().uri({allowRelative: false, scheme: ['https']}),
+            },
+          ],
+          preview: {
+            select: {title: 'title', platform: 'platform'},
+            prepare({title, platform}: {title?: unknown; platform?: string}) {
+              return {
+                title: pickStudioEn(title) || platform || 'Social card',
+                subtitle: platform,
+              }
+            },
+          },
+        },
+      ],
+      validation: (Rule) => Rule.max(4),
+    }),
+    defineField({
+      name: 'instagramSectionTitle',
+      title: 'Instagram feed — section title',
+      type: 'internationalizedArrayString',
+      group: 'content',
+      validation: requiredNoEnI18n('Instagram feed — section title'),
+    }),
+    defineField({
+      name: 'instagramProfile',
+      title: 'Instagram profile block',
+      type: 'object',
+      group: 'content',
+      fields: [
+        {
+          name: 'username',
+          title: 'Username',
+          type: 'internationalizedArrayString',
+          validation: requiredNoEnI18n('Username'),
+        },
+        {
+          name: 'displayName',
+          title: 'Display name',
+          type: 'internationalizedArrayString',
+          validation: requiredNoEnI18n('Display name'),
+        },
+        {
+          name: 'category',
+          title: 'Category label',
+          type: 'internationalizedArrayString',
+        },
+        {
+          name: 'bio',
+          title: 'Bio',
+          type: 'internationalizedArrayText',
+        },
+        {
+          name: 'followLabel',
+          title: 'Follow button label',
+          type: 'internationalizedArrayString',
+          validation: requiredNoEnI18n('Follow button label'),
+        },
+        {
+          name: 'profileUrl',
+          title: 'Profile URL',
+          type: 'url',
+          validation: (Rule: any) =>
+            Rule.uri({allowRelative: false, scheme: ['https']}),
+        },
+        {
+          name: 'postsCount',
+          title: 'Posts count (display text)',
+          type: 'string',
+          description: 'Optional — e.g. "199". Leave empty to hide.',
+        },
+        {
+          name: 'followersCount',
+          title: 'Followers count (display text)',
+          type: 'string',
+        },
+        {
+          name: 'followingCount',
+          title: 'Following count (display text)',
+          type: 'string',
+        },
+      ],
     }),
     defineField({
       name: 'socialMode',
@@ -317,8 +458,8 @@ export default defineType({
     }),
     defineField({
       name: 'socialPosts',
-      title: 'Social media posts',
-      description: "Images displayed in the 'Follow us on social media' section. The order here is the display order.",
+      title: 'Instagram post grid',
+      description: 'Images displayed in the Instagram section below the profile block.',
       type: 'array',
       group: 'content',
       of: [

@@ -37,6 +37,7 @@ import {
   isMeaningfulReasonItem,
   filterMeaningfulPageSections,
 } from "@/lib/sanity/section-visibility";
+import { renderLightMarkdown } from "@/lib/light-markdown";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { type ReactNode, useEffect, useMemo, useRef } from "react";
 
@@ -186,7 +187,6 @@ function ReasonsEditorial({
               <Accordion
                 type="single"
                 collapsible
-                defaultValue="reason-0"
                 className="border-t border-border/60"
               >
                 {cleanItems.map((item, index) => (
@@ -199,9 +199,11 @@ function ReasonsEditorial({
                       {item.title}
                     </AccordionTrigger>
                     <AccordionContent className="pb-8">
-                      <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed whitespace-pre-line">
-                        {item.desc}
-                      </p>
+                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                        {typeof item.desc === "string"
+                          ? renderLightMarkdown(item.desc)
+                          : item.desc}
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -213,9 +215,11 @@ function ReasonsEditorial({
                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
                       {item.title}
                     </h3>
-                    <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed whitespace-pre-line">
-                      {item.desc}
-                    </p>
+                    <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                      {typeof item.desc === "string"
+                        ? renderLightMarkdown(item.desc)
+                        : item.desc}
+                    </div>
                   </div>
                 ))}
               </article>
