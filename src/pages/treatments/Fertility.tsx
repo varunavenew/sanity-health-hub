@@ -106,9 +106,8 @@ const segments = [
  desc:
  "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
  tags: [
- { label: "Nedfrysing av egg", href: `${FERT}/eggfrys` },
- { label: "Nedfrysing av spermceller", href: `${FERT}/eggfrys` },
- { label: "Spermiefrys", href: `${FERT}/eggfrys` },
+  { label: "Nedfrysing av egg", href: `${FERT}/eggfrys` },
+  { label: "Nedfrysing av spermceller", href: `${FERT}/saedanalyse` },
  ],
   cta: "Les mer",
   href: "/behandlinger/fertilitet/eggfrys",
