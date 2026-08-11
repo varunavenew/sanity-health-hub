@@ -23,15 +23,8 @@ const formSchema = z.object({
   category: z.string().min(1, "Velg tjeneste"),
   timing: z.enum(["snarest", "specific"]),
   day: z.string().max(50).optional(),
-  timeOfDay: z.enum(["formiddag", "ettermiddag", "kveld"]).optional(),
   details: z.string().trim().max(1000).optional(),
 });
-
-const TIME_OPTIONS = [
-  { value: "formiddag", label: "Formiddag (08–12)" },
-  { value: "ettermiddag", label: "Ettermiddag (12–16)" },
-  { value: "kveld", label: "Kveld (16–20)" },
-];
 
 export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialogProps) => {
   const { toast } = useToast();
@@ -43,7 +36,6 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
     category: "",
     timing: "snarest" as "snarest" | "specific",
     day: "",
-    timeOfDay: "" as "" | "formiddag" | "ettermiddag" | "kveld",
     details: "",
   });
 
@@ -55,7 +47,6 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
       category: "",
       timing: "snarest",
       day: "",
-      timeOfDay: "",
       details: "",
     });
   };
@@ -64,7 +55,6 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
     e.preventDefault();
     const parsed = formSchema.safeParse({
       ...form,
-      timeOfDay: form.timeOfDay || undefined,
       day: form.day || undefined,
     });
     if (!parsed.success) {
@@ -166,7 +156,7 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               </div>
               <div className="flex items-center space-x-2 border border-border rounded-md px-3 py-2 flex-1">
                 <RadioGroupItem value="specific" id="cr-specific" />
-                <Label htmlFor="cr-specific" className="font-light cursor-pointer flex-1">Velg dag og tid</Label>
+                <Label htmlFor="cr-specific" className="font-light cursor-pointer flex-1">Velg dag</Label>
               </div>
             </RadioGroup>
           </div>
