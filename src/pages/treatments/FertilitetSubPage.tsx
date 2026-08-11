@@ -55,6 +55,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       ...base,
       booking: { kategori: "fertilitet", tjeneste: fertBooking.tjeneste },
       heroPrice: fertBooking.price,
+      heroPriceLabel: fertBooking.label,
       primaryCtaLabel: "Se ledige tider og book",
     };
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
@@ -82,6 +83,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
       booking: { kategori: "fertilitet", tjeneste: getFertilityBooking(subId ?? resolvedId).tjeneste },
       heroPrice: getFertilityBooking(subId ?? resolvedId).price,
+      heroPriceLabel: getFertilityBooking(subId ?? resolvedId).label,
       primaryCtaLabel: "Se ledige tider og book",
     };
 
