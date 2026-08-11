@@ -62,7 +62,7 @@ export interface ButtonProps
  */
 const MOBILE_STANDARD = "max-sm:w-full max-sm:h-12 max-sm:px-6 max-sm:rounded-2xl";
 
-function useMobileStandard(variant?: string | null, size?: string | null) {
+function isMobileStandard(variant?: string | null, size?: string | null) {
   const s = size ?? "default";
   const v = variant ?? "default";
   if (s === "icon" || s === "sm") return false;
@@ -78,7 +78,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(
           buttonVariants({ variant, size }),
-          useMobileStandard(variant, size) && MOBILE_STANDARD,
+          isMobileStandard(variant, size) && MOBILE_STANDARD,
           className,
         )}
         ref={ref}
