@@ -451,26 +451,20 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  </section>
  )}
 
- {/* Specialists at this clinic (Sanity-only) */}
- {Array.isArray((clinic as any).specialists) && (clinic as any).specialists.length > 0 && (
- <section className="bg-background py-10 md:py-14">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-3xl mx-auto">
- <div className="flex items-center gap-2 mb-2">
- <Users className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
- </div>
- <h2 className="text-lg font-normal text-foreground mb-6">Spesialister ved klinikken</h2>
- <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
- {(clinic as any).specialists.map((s: any) => (
- <li key={s.slug}>
- <SpecialistCard sp={{ slug: s.slug, name: s.name, image: s.image, title: s.role }} />
- </li>
- ))}
- </ul>
- </div>
- </div>
- </section>
- )}
+ {/* Specialists at this clinic — samme seksjon som på forsiden, filtrert på klinikk */}
+ <SpecialistsScroller
+ filter={(s: any) =>
+ Array.isArray(s.clinics) &&
+ s.clinics.some(
+ (c: string) => c.toLowerCase() === String(clinic.label).toLowerCase(),
+ )
+ }
+ title="Spesialister ved klinikken"
+ description={`Møt spesialistene som jobber ved CMedical ${clinic.label}.`}
+ seeAllHref={`/spesialister?klinikk=${encodeURIComponent(clinic.label)}`}
+ seeAllLabel="Se alle spesialister"
+ />
+
 
  {/* Treatments at this clinic (cross-links) */}
  {Array.isArray((clinic as any).treatments) && (clinic as any).treatments.length > 0 && (
