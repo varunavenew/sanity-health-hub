@@ -404,7 +404,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "gynekologi/graviditet": {
+  "graviditet/svangerskapsoppfolging": {
     title: "Graviditet",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
@@ -578,7 +578,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "gynekologi/spontanabort": {
+  "graviditet/spontanabort": {
     title: "Spontanabort",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
@@ -593,7 +593,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "gynekologi/fodselsskader": {
+  "graviditet/fodselsskader": {
     title: "Fødselsskader",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
@@ -616,7 +616,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
-  "gynekologi/fostermedisin": {
+  "graviditet/fostermedisin": {
     title: "Fostermedisin",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",

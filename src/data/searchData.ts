@@ -31,7 +31,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Labiaplastikk', path: '/behandlinger/gynekologi/labiaplastikk', category: 'Gynekologi', keywords: ['labia', 'intimkirurgi', 'kjønnslepper'] },
   { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/overgangsalder', category: 'Gynekologi', keywords: ['tørrhet', 'vaginal', 'intimhelse'] },
   { label: 'Vulvalidelser', path: '/behandlinger/gynekologi/vulvalidelser', category: 'Gynekologi', keywords: ['vulva', 'vaginisme', 'vulvodyni', 'botox', 'sviing'] },
-  { label: 'Fødselsskader', path: '/behandlinger/gynekologi/fodselsskader', category: 'Gynekologi', keywords: ['fødsel', 'ruptur', 'sphincter', 'bekkenbunn'] },
+  { label: 'Fødselsskader', path: '/behandlinger/graviditet/fodselsskader', category: 'Gynekologi', keywords: ['fødsel', 'ruptur', 'sphincter', 'bekkenbunn'] },
   { label: 'Gynekologisk kirurgi', path: '/behandlinger/gynekologi/kirurgi', category: 'Gynekologi', keywords: ['operasjon', 'kirurgi', 'inngrep'] },
   { label: 'Robotassistert kirurgi (gynekologi)', path: '/behandlinger/gynekologi/robotkirurgi', category: 'Gynekologi', keywords: ['robot', 'da vinci', 'robotkirurgi'] },
   { label: 'Tverrfaglig team', path: '/behandlinger/gynekologi/tverrfaglig', category: 'Gynekologi', keywords: ['tverrfaglig', 'team', 'osteopat', 'psykolog', 'sexolog', 'ernæring'] },
@@ -42,7 +42,7 @@ export const searchItems: SearchItem[] = [
   { label: 'NIPT', path: '/behandlinger/graviditet/nipt', category: 'Graviditet', keywords: ['nipt', 'fosterdiagnostikk', 'blodprøve', 'tidlig ultralyd'] },
   { label: 'Fostermedisin', path: '/behandlinger/graviditet/fosterdiagnostikk', category: 'Graviditet', keywords: ['foster', 'fosterdiagnostikk', 'misdannelser'] },
   { label: 'Svangerskapsteam', path: '/behandlinger/graviditet/svangerskapsteam', category: 'Graviditet', keywords: ['jordmor', 'svangerskap', 'team', 'oppfølging'] },
-  { label: 'Spontanabort', path: '/behandlinger/gynekologi/spontanabort', category: 'Gynekologi', keywords: ['abort', 'tidlig graviditet', 'missed abortion'] },
+  { label: 'Spontanabort', path: '/behandlinger/graviditet/spontanabort', category: 'Gynekologi', keywords: ['abort', 'tidlig graviditet', 'missed abortion'] },
 
   // ─────────────── Urologi ───────────────
   { label: 'Urologi', path: '/behandlinger/urologi', category: 'Tjeneste', keywords: ['mann', 'menn', 'urin', 'blære'] },

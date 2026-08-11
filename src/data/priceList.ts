@@ -43,7 +43,7 @@ const rawPriceCategories: PriceCategory[] = [
           { name: "Generell undersøkelse", price: "fra 2.100,-", duration: "30 min", path: "/behandlinger/gynekologi/undersokelse" },
           { name: "Kontroll / oppfølging", price: "fra 2.100,-", duration: "30 min" },
           { name: "Kontroll etter fødsel", price: "fra 2.100,-", duration: "30 min" },
-          { name: "Svangerskapsoppfølging", price: "fra 2.100,-", duration: "30 min", path: "/behandlinger/gynekologi/graviditet" },
+          { name: "Svangerskapsoppfølging", price: "fra 2.100,-", duration: "30 min", path: "/behandlinger/graviditet/svangerskapsoppfolging" },
           { name: "Ultralyd i svangerskapet", price: "fra 2.100,-", duration: "30 min" },
           { name: "Fremfall / tyngdefølelse underliv / fødselsskader", price: "fra 2.100,-", duration: "30 min", path: "/behandlinger/gynekologi/vaginale-fremfall" },
           { name: "Urinlekkasje", price: "fra 2.100,-", duration: "30 min", path: "/behandlinger/gynekologi/urinlekkasje" },

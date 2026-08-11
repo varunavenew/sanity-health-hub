@@ -88,9 +88,9 @@ const lifePhases = [
     { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
     { label: "Graviditetsoppfølging", href: "/behandlinger/graviditet/svangerskapsteam" },
     { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/graviditet/6-ukerskontroll" },
-    { label: "Spontanabort", href: "/behandlinger/gynekologi/spontanabort" },
+    { label: "Spontanabort", href: "/behandlinger/graviditet/spontanabort" },
     
-    { label: "Fødselsskader", href: "/behandlinger/gynekologi/fodselsskader" },
+    { label: "Fødselsskader", href: "/behandlinger/graviditet/fodselsskader" },
     ],
     href: "/behandlinger/graviditet",
     },

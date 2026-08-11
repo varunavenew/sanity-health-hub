@@ -917,7 +917,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     seoTitle: "Fostermedisin | CMedical — ultralyd og fosterdiagnostikk",
     seoDescription:
       "Avansert fostermedisin og ultralyd hos erfarne spesialister. Tidlig ultralyd, NIPT, tilvekstkontroll og fosterdiagnostikk.",
-    canonical: "/behandlinger/gynekologi/fostermedisin",
+    canonical: "/behandlinger/graviditet/fostermedisin",
     parent,
     title: "Fostermedisin",
     heroTitle: <>Trygghet gjennom <span className="italic">hele</span> svangerskapet</>,
@@ -947,8 +947,8 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
-      { title: "Fødselsskader", desc: "Vurdering og oppfølging etter fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/graviditet/svangerskapsoppfolging" },
+      { title: "Fødselsskader", desc: "Vurdering og oppfølging etter fødsel.", href: "/behandlinger/graviditet/fodselsskader" },
     ],
     ctaTitle: "Bestill fostermedisinsk vurdering",
     ctaDescription: "Trygghet og tid — hos spesialister som ser mye.",
@@ -959,7 +959,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     seoTitle: "Fødselsskader | CMedical — utredning og behandling",
     seoDescription:
       "Plager etter fødsel skal tas på alvor. Vi har et dedikert ekspertteam for fødselsskader — fra utredning til kirurgi.",
-    canonical: "/behandlinger/gynekologi/fodselsskader",
+    canonical: "/behandlinger/graviditet/fodselsskader",
     parent,
     title: "Fødselsskader",
     heroTitle: <>Det skal være <span className="italic">lov</span> å ha plager etter fødsel</>,
@@ -995,7 +995,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Vaginale fremfall", desc: "Utredning og behandling av livmor- og skjedefremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
       { title: "Urinlekkasje", desc: "Dedikert utredning av lekkasjeproblematikk.", href: "/behandlinger/gynekologi/urinlekkasje" },
-      { title: "Graviditet", desc: "Oppfølging og 6-ukerskontroll etter fødsel.", href: "/behandlinger/gynekologi/graviditet" },
+      { title: "Graviditet", desc: "Oppfølging og 6-ukerskontroll etter fødsel.", href: "/behandlinger/graviditet/svangerskapsoppfolging" },
     ],
     ctaTitle: "Få hjelp med fødselsskader",
     ctaDescription: "Det er aldri for sent. Vi tar plagene dine på alvor.",
@@ -1006,7 +1006,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     seoTitle: "Graviditet | CMedical — oppfølging og 6-ukerskontroll",
     seoDescription:
       "Privat oppfølging gjennom svangerskap, fødsel og barseltid. Inkludert 6-ukerskontroll hos erfarne gynekologer.",
-    canonical: "/behandlinger/gynekologi/graviditet",
+    canonical: "/behandlinger/graviditet/svangerskapsoppfolging",
     parent,
     title: "Graviditet",
     heroTitle: <>Trygg gjennom <span className="italic">hele</span> reisen</>,
@@ -1040,8 +1040,8 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "Fostermedisin", desc: "Ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
-      { title: "Fødselsskader", desc: "Hvis du har plager etter en tidligere fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "Fostermedisin", desc: "Ultralyd og fosterdiagnostikk.", href: "/behandlinger/graviditet/fostermedisin" },
+      { title: "Fødselsskader", desc: "Hvis du har plager etter en tidligere fødsel.", href: "/behandlinger/graviditet/fodselsskader" },
     ],
     ctaTitle: "Bestill svangerskapsoppfølging",
     ctaDescription: "Trygghet, tid og kontinuitet — gjennom hele svangerskapet.",
@@ -1053,7 +1053,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     seoTitle: "Spontanabort | CMedical — utredning og oppfølging",
     seoDescription:
       "Tett medisinsk og menneskelig oppfølging ved spontanabort. Utredning ved gjentatte spontanaborter hos erfarne spesialister.",
-    canonical: "/behandlinger/gynekologi/spontanabort",
+    canonical: "/behandlinger/graviditet/spontanabort",
     parent,
     title: "Spontanabort",
     heroTitle: <>Det er <span className="italic">lov</span> å sørge — og kreve svar</>,
@@ -1089,7 +1089,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Hysteroskopi", desc: "Aktuelt som del av utredning ved gjentatte spontanaborter.", href: "/behandlinger/gynekologi/hysteroskopi" },
       { title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig" },
-      { title: "Graviditet", desc: "Tett oppfølging i neste svangerskap.", href: "/behandlinger/gynekologi/graviditet" },
+      { title: "Graviditet", desc: "Tett oppfølging i neste svangerskap.", href: "/behandlinger/graviditet/svangerskapsoppfolging" },
     ],
     ctaTitle: "Bestill oppfølging",
     ctaDescription: "Du skal ikke stå alene — verken medisinsk eller menneskelig.",
@@ -1137,7 +1137,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Overgangsalder", desc: "Typisk tilstand der tverrfaglig støtte gir best resultat.", href: "/behandlinger/gynekologi/overgangsalder" },
       { title: "Endometriose", desc: "Krever ofte mer enn én tilnærming.", href: "/behandlinger/gynekologi/endometriose" },
-      { title: "Fødselsskader", desc: "Best resultat med tverrfaglig oppfølging.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "Fødselsskader", desc: "Best resultat med tverrfaglig oppfølging.", href: "/behandlinger/graviditet/fodselsskader" },
     ],
     ctaTitle: "Bestill tverrfaglig vurdering",
     ctaDescription: "Når én spesialitet ikke holder — vi setter sammen riktig team for deg.",
@@ -1233,7 +1233,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Vulvalidelser og vulvodyni", desc: "Kroniske smerter i vulva utredes og behandles av samme tverrfaglige team.", href: "/behandlinger/gynekologi/vulvalidelser" },
       { title: "Gynekologisk undersøkelse", desc: "Skånsom, tilpasset undersøkelse i ditt tempo — også om du har vaginisme.", href: "/behandlinger/gynekologi/undersokelse" },
-      { title: "Fødselsskader", desc: "Bekkenbunnsproblemer etter fødsel kan gi lignende symptombilde.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "Fødselsskader", desc: "Bekkenbunnsproblemer etter fødsel kan gi lignende symptombilde.", href: "/behandlinger/graviditet/fodselsskader" },
     ],
     ctaTitle: "Få hjelp med vaginisme",
     ctaDescription:
