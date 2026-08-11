@@ -750,7 +750,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
      Seksjonen «Slik foregår det» ble fjernet globalt fra alle andre undersider. */}
   {["/behandlinger/gynekologi/undersokelse", "/behandlinger/gynekologi/pcos"].includes(c.canonical) && (
     c.flowImage ? (
- <section className="bg-brand-light text-foreground">
+ <section className="section-flush bg-brand-light text-foreground">
  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
  <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
  <img
@@ -937,7 +937,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
   {c.textSection && (
-  <section className="bg-background">
+  <section className="section-flush bg-background">
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-stretch">
   <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 h-full flex flex-col justify-center">
   <div className="max-w-xl">

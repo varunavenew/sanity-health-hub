@@ -80,7 +80,7 @@ export const FeatureSpotlight = ({
   );
 
   return (
-    <section className="bg-brand-light text-foreground">
+    <section className="section-flush bg-brand-light text-foreground">
       <div className="grid lg:grid-cols-2 items-stretch min-h-screen">
         {media}
         {copy}
