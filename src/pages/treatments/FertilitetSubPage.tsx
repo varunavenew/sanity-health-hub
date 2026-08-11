@@ -4,6 +4,8 @@ import { fertilitetSubPages } from "@/data/fertilitetSubPages";
 import { getServiceImage } from "@/data/serviceImages";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
+import { getFertilityBooking } from "@/lib/fertilityBooking";
+
 import NotFound from "@/pages/NotFound";
 import { computeSiblingServices } from "@/lib/siblingServices";
 import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
@@ -40,15 +42,24 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
 
   // 1) Rich treatmentContent entry — source-of-truth fagtekst from the document.
   if (rich && subId) {
-    const content = treatmentToSubLayout({
+    const base = treatmentToSubLayout({
       data: rich,
       categoryId: "fertilitet",
       subId,
       // COVER = HERO: the page's own image wins over the category fallback.
       heroImage: rich.heroImage,
     });
+    // Alle fertilitetssider skal booke en konkret tjeneste (aldri generell booking).
+    const fertBooking = getFertilityBooking(subId);
+    const content = {
+      ...base,
+      booking: { kategori: "fertilitet", tjeneste: fertBooking.tjeneste },
+      heroPrice: fertBooking.price,
+      primaryCtaLabel: "Se ledige tider og book",
+    };
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
+
 
   const resolvedId = subId ? (SUB_ID_ALIASES[subId] ?? subId) : undefined;
   const base = resolvedId ? fertilitetSubPages[resolvedId] : undefined;
@@ -69,7 +80,11 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       flowImageAlt: base.flowImageAlt ?? "CMedical klinikk",
       conversationCtaTitle: base.conversationCtaTitle ?? getConversationCtaTitle(`/behandlinger/fertilitet/${resolvedId}`),
       siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
+      booking: { kategori: "fertilitet", tjeneste: getFertilityBooking(subId ?? resolvedId).tjeneste },
+      heroPrice: getFertilityBooking(subId ?? resolvedId).price,
+      primaryCtaLabel: "Se ledige tider og book",
     };
+
 
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }

@@ -1,4 +1,3 @@
-import { getCategoryEntryPrice } from "@/data/priceList";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
@@ -14,6 +13,8 @@ import { Editable } from "@/components/editable/Editable";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { getFertilityBooking } from "@/lib/fertilityBooking";
+
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
@@ -326,13 +327,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   </Editable>
 
   {(() => {
-  const entry = getCategoryEntryPrice("fertilitet");
-  return entry ? (
+
+  const fertBooking = getFertilityBooking();
+  return (
   <div className="mb-4 text-sm font-light text-foreground/80">
-  <span className="block text-base text-foreground">{entry.label}</span>
-  <span className="block">{entry.price}</span>
+  <span className="block text-base text-foreground">{fertBooking.label}</span>
+  <span className="block">{fertBooking.price}</span>
   </div>
-  ) : null;
+  );
   })()}
   <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
   <Button
@@ -342,11 +344,13 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   onClick={() =>
   (window.location.href = buildBookingUrl({
   kategori: "fertilitet",
+  tjeneste: getFertilityBooking().tjeneste,
   }))
   }
   >
   <Editable field="hero.cta" pagePath="/fertilitet">Bestill time</Editable>
   </Button>
+
   <CallUsClinicPicker variant="light" label="Ring oss" />
   </div>
 
