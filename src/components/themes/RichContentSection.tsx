@@ -94,8 +94,13 @@ export const RichContentSection = ({
   const imageBlock = blocks.find((b): b is ImageBlock => b.type === "image");
   const otherBlocks = blocks.filter((b) => b.type !== "image");
 
+  // Mobile: image always first. Desktop: honours imagePosition via order.
   const imageEl = imageBlock && (
-    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[640px] overflow-hidden">
+    <div
+      className={`relative bg-secondary/40 min-h-[360px] lg:min-h-[640px] overflow-hidden order-1 ${
+        imagePosition === "left" ? "lg:order-1" : "lg:order-2"
+      }`}
+    >
       <img
         src={imageBlock.src}
         alt={imageBlock.alt}
@@ -111,7 +116,11 @@ export const RichContentSection = ({
   );
 
   const contentEl = (
-    <div className={`flex items-center px-6 md:px-12 lg:px-16 py-16 md:py-24 ${!imageBlock ? "lg:col-span-2" : ""}`}>
+    <div
+      className={`flex items-center px-6 md:px-12 lg:px-16 py-16 md:py-24 order-2 ${
+        imagePosition === "left" ? "lg:order-2" : "lg:order-1"
+      } ${!imageBlock ? "lg:col-span-2" : ""}`}
+    >
       <div className="max-w-xl">
         {title && (
           <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
@@ -125,16 +134,9 @@ export const RichContentSection = ({
 
   return (
     <section className="bg-background">
-      {/* Mobile: image always first. Desktop: honours imagePosition. */}
       <div className="grid lg:grid-cols-2">
-        <div className={imagePosition === "left" ? "contents" : "contents"}>
-          <div className={imagePosition === "left" ? "lg:order-1" : "lg:order-2"}>
-            {imageEl}
-          </div>
-          <div className={imagePosition === "left" ? "lg:order-2" : "lg:order-1"}>
-            {contentEl}
-          </div>
-        </div>
+        {imageEl}
+        {contentEl}
       </div>
     </section>
   );
