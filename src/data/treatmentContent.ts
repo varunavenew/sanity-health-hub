@@ -14,6 +14,14 @@ import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
 import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import audienceHeteroAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
+import audienceToKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
+import audienceSingelKvinneAsset from "@/assets/fertility/singel-kvinne.png.asset.json";
+import audienceSingelMannAsset from "@/assets/fertility/mannlig-fertilitet.png.asset.json";
+const audienceHeteroImg = audienceHeteroAsset.url;
+const audienceToKvinnerImg = audienceToKvinnerAsset.url;
+const audienceSingelKvinneImg = audienceSingelKvinneAsset.url;
+const audienceSingelMannImg = audienceSingelMannAsset.url;
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
@@ -51,6 +59,10 @@ export interface TreatmentData {
   /** Force the related/linked services section to render as section 3 (after reasons, before flow). */
   relatedAsServicesOverride?: boolean;
   relatedSpecialists?: string[]; // slugs referencing specialists
+  /** Overstyr SEO-tittel for siden. */
+  seoTitle?: string;
+  /** Overstyr meta-beskrivelse for siden. */
+  seoDescription?: string;
   /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
   themes?: string[];
 }
