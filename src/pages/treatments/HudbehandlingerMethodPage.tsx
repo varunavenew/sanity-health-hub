@@ -43,6 +43,8 @@ const HudbehandlingerMethodPage = ({ isChatOpen }: Props) => {
     data: dataWithSiblings,
     categoryId: "flere-fagomrader",
     subId: methodId,
+    // Bruk metodesidens eget hovedbilde når det finnes (kundens godkjente bilder).
+    heroImage: data.heroImage,
     parentOverride: PARENT,
     grandparent: GRANDPARENT,
     canonicalOverride: selfPath,
