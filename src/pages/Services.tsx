@@ -1,4 +1,3 @@
-import { ListPageHero } from "@/components/layout/ListPageHero";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { ArrowRight, Plus, Minus, ChevronRight, Search, Check } from "lucide-react";
 import { getServiceIcon } from "@/pages/treatments/categoryPageContent";
@@ -160,41 +159,45 @@ const Services = ({ isChatOpen }: PageProps) => {
           { name: "Tjenester", path: "/tjenester" },
         ]}
       />
-      {/* Hero header — felles liste-hero */}
-      <ListPageHero title="Tjenester" description="Finn behandlingen som passer for deg">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6">
-          <span className="inline-flex items-center gap-2 text-sm font-light text-brand-warm/80"><Check className="w-4 h-4" aria-hidden="true" />Ingen henvisning</span>
-          <span className="inline-flex items-center gap-2 text-sm font-light text-brand-warm/80"><Check className="w-4 h-4" aria-hidden="true" />Kort ventetid</span>
-        </div>
-
-        <div ref={searchRef} className="relative max-w-lg mt-6">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-foreground/60" aria-hidden="true" />
-            <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller tjeneste..." aria-label="Søk etter behandling eller tjeneste" className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/30 bg-card text-[15px] font-light text-foreground placeholder:text-foreground/60 focus:outline-none focus:border-foreground transition-all" />
+      {/* Hero header */}
+      <section className="bg-background pt-16 md:pt-32 pb-10 md:pb-14">
+        <div className="container mx-auto px-6 md:px-16 text-center">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
+          <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
+          <div className="flex items-center justify-center gap-6 mb-8">
+            <span className="inline-flex items-center gap-2 text-sm font-light text-foreground/70"><Check className="w-4 h-4 text-foreground/70" aria-hidden="true" />Ingen henvisning</span>
+            <span className="inline-flex items-center gap-2 text-sm font-light text-foreground/70"><Check className="w-4 h-4 text-foreground/70" aria-hidden="true" />Kort ventetid</span>
           </div>
-          <AnimatePresence>
-            {showResults && (
-              <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }} className="absolute z-30 left-0 right-0 mt-1 bg-card border border-border/60 rounded-sm shadow-lg overflow-hidden">
-                {searchResults.map((item, idx) => (
-                  <button key={item.label + item.path} onClick={() => { navigate(item.path); setShowResults(false); setSearchQuery(""); }} className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${idx === selectedIdx ? "bg-muted/60" : "hover:bg-muted/40"} ${idx !== 0 ? "border-t border-border/30" : ""}`}>
-                    <div>
-                      <span className="text-sm font-light text-foreground">{item.label}</span>
-                      <span className="ml-2 text-xs text-muted-foreground/60">{item.category}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+
+
+          <div ref={searchRef} className="relative max-w-lg mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-foreground/60" aria-hidden="true" />
+              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller tjeneste..." aria-label="Søk etter behandling eller tjeneste" className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/30 bg-card text-[15px] font-light text-foreground placeholder:text-foreground/60 focus:outline-none focus:border-foreground transition-all" />
+            </div>
+            <AnimatePresence>
+              {showResults && (
+                <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }} className="absolute z-30 left-0 right-0 mt-1 bg-card border border-border/60 rounded-sm shadow-lg overflow-hidden">
+                  {searchResults.map((item, idx) => (
+                    <button key={item.label + item.path} onClick={() => { navigate(item.path); setShowResults(false); setSearchQuery(""); }} className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${idx === selectedIdx ? "bg-muted/60" : "hover:bg-muted/40"} ${idx !== 0 ? "border-t border-border/30" : ""}`}>
+                      <div>
+                        <span className="text-sm font-light text-foreground">{item.label}</span>
+                        <span className="ml-2 text-xs text-muted-foreground/60">{item.category}</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      </ListPageHero>
+      </section>
 
       {/* Fagområder — samme kort som på hjem */}
-      <div className="pt-[var(--section-gap-tight)] pb-[var(--section-gap-tight)]">
+      <div className="pb-10 md:pb-14">
         <HeroCompact showHeader={false} />
       </div>
-
 
 
       {/* Flere tjenester — unified list section */}
