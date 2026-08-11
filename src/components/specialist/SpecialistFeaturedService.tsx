@@ -18,7 +18,7 @@ type CategoryConfig = {
 const CONFIG: Record<string, CategoryConfig> = {
   fertilitet: {
     label: "Fertilitetsutredning og behandling",
-    href: "/behandlinger/fertilitet",
+    href: "/behandlinger/fertilitet/fertilitetsutredning",
     image: fertilityHero,
     description:
       "Et helhetlig forløp med utredning, behandling og oppfølging hos egen spesialist. Ingen henvisning nødvendig — typisk 1–3 uker fra første time til oppstart.",
@@ -30,7 +30,7 @@ const CONFIG: Record<string, CategoryConfig> = {
   },
   gynekologi: {
     label: "Gynekologisk utredning",
-    href: "/behandlinger/gynekologi",
+    href: "/behandlinger/gynekologi/undersokelse",
     image: gynecologyHero,
     description:
       "Grundig samtale og undersøkelse hos erfaren gynekolog. Ingen henvisning nødvendig — du får ofte time innen få dager.",
