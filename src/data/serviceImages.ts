@@ -340,9 +340,9 @@ export function resolveTreatmentImage(
  * category routes such as `/graviditet`.
  */
 export function getServiceImageFromHref(href: string): string | undefined {
-  const m = href.match(/^\/(?:behandlinger\/)?([^/?#]+)(?:\/([^/?#]+))?/);
+  const m = href.match(/^\/(?:behandlinger\/)?([^/?#]+)(?:\/([^/?#]+))?(?:\/([^/?#]+))?/);
   if (!m) return undefined;
-  return getServiceImage(m[1], m[2]);
+  return getServiceImage(m[1], m[3] ?? m[2]);
 }
 
 

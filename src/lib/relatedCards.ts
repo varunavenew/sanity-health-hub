@@ -8,7 +8,11 @@ import { treatmentContent } from "@/data/treatmentContent";
  */
 const getTargetHeroImage = (path: string): string | undefined => {
   const key = path.replace(/^\/behandlinger\//, "");
-  const [categoryId, subId] = key.split("/");
+  const parts = key.split("/");
+  const categoryId = parts[0];
+  // Deep routes (e.g. flere-fagomrader/gastrokirurgi/brokkoperasjon) resolve
+  // their image from the last segment.
+  const subId = parts.length > 2 ? parts[parts.length - 1] : parts[1];
   if (!categoryId) return undefined;
   return resolveTreatmentImage(categoryId, subId, treatmentContent[key]?.heroImage);
 };
