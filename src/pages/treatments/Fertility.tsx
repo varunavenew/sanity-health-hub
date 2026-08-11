@@ -23,6 +23,7 @@ import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSec
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getServiceImageFromHref } from "@/data/serviceImages";
+import { eggdonasjonImg } from "@/data/treatmentContent";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import {
   Accordion,
@@ -183,7 +184,8 @@ const expertAreas = [
     desc:
       "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
     href: "/behandlinger/fertilitet/donorbehandling",
-    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
+    image: eggdonasjonImg,
+    lockImage: true,
   },
   {
     title: "Sædanalyse",
@@ -576,7 +578,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
    { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/behandlinger/fertilitet/eggfrys", image: journeyLab, imageAlt: "Laboratorium for nedfrysing" },
    { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/behandlinger/fertilitet/saedanalyse", image: fertilityHeroImg, imageAlt: "Mannlig fertilitetsutredning" },
    { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Donorbehandling", href: "/behandlinger/fertilitet/donorbehandling", image: audienceSingle, imageAlt: "Vei mot foreldreskap" },
-   { symptom: "Jeg ønsker å hjelpe andre med å bli foreldre", service: "Bli donor", href: "/behandlinger/fertilitet/donorbehandling", image: journeyResult, imageAlt: "Bli egg- eller spermdonor" },
+   { symptom: "Jeg ønsker å hjelpe andre med å bli foreldre", service: "Bli donor", href: "/behandlinger/fertilitet/donorbehandling", image: eggdonasjonImg, imageAlt: "Bli egg- eller spermdonor" },
   ]}
  />
 
