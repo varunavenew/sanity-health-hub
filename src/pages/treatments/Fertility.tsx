@@ -14,6 +14,8 @@ import { Editable } from "@/components/editable/Editable";
 import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { getFertilityBooking } from "@/lib/fertilityBooking";
+
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
