@@ -54,11 +54,11 @@ import img_ortopedi_hofte from "@/assets/services/ortopedi-hofte.jpg.asset.json"
 import img_ortopedi_kne from "@/assets/services/ortopedi-kne.jpg.asset.json";
 import img_ortopedi_skulder from "@/assets/services/ortopedi-skulder.jpg.asset.json";
 import img_urologi_blaere_og_urinveier from "@/assets/services/urologi-blaere-og-urinveier.jpg.asset.json";
-import img_urologi_forhud from "@/assets/services/urologi-forhud.jpg.asset.json";
+import img_urologi_forhud from "@/assets/urologi/forhud.png.asset.json";
 import img_urologi_hero from "@/assets/services/urologi-hero.jpg.asset.json";
 import img_urologi_mannlig_infertilitet from "@/assets/services/urologi-mannlig-infertilitet.jpg.asset.json";
-import img_urologi_nyrer from "@/assets/services/urologi-nyrer.jpg.asset.json";
-import img_urologi_prostata from "@/assets/services/urologi-prostata.jpg.asset.json";
+import img_urologi_nyrer from "@/assets/urologi/nyrer.png.asset.json";
+import img_urologi_prostata from "@/assets/urologi/prostata.png.asset.json";
 import img_urologi_refertilisering from "@/assets/services/urologi-refertilisering.jpg.asset.json";
 import img_urologi_robotkirurgi from "@/assets/services/urologi-robotkirurgi.jpg.asset.json";
 import img_urologi_sterilisering from "@/assets/services/urologi-sterilisering.jpg.asset.json";
