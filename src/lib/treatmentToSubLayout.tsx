@@ -82,6 +82,10 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
   "fertilitet/donorbehandling",
   "fertilitet/eggfrys",
   "fertilitet/saedanalyse",
+  "fertilitet/mann-og-kvinne-i-parforhold",
+  "fertilitet/to-kvinner-i-parforhold",
+  "fertilitet/singel-kvinne",
+  "fertilitet/singel-mann",
   // Ortopedi — different body regions
   "ortopedi/fot-ankel",
   "ortopedi/hand-albue",
@@ -308,8 +312,8 @@ export const treatmentToSubLayout = ({
   const heroTitle: ReactNode = data.title;
 
   return {
-    seoTitle: `${data.title} | CMedical`,
-    seoDescription: summarize(data.description, 160),
+    seoTitle: data.seoTitle ?? `${data.title} | CMedical`,
+    seoDescription: data.seoDescription ?? summarize(data.description, 160),
     canonical,
     parent,
     grandparent,
