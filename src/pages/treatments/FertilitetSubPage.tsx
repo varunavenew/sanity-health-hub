@@ -78,7 +78,11 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       flowImageAlt: base.flowImageAlt ?? "CMedical klinikk",
       conversationCtaTitle: base.conversationCtaTitle ?? getConversationCtaTitle(`/behandlinger/fertilitet/${resolvedId}`),
       siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
+      booking: { kategori: "fertilitet", tjeneste: getFertilityBooking(subId ?? resolvedId).tjeneste },
+      heroPrice: getFertilityBooking(subId ?? resolvedId).price,
+      primaryCtaLabel: "Se ledige tider og book",
     };
+
 
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
