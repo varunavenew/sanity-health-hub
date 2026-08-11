@@ -220,8 +220,10 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         alt={`CMedical ${clinic.label}`}
         loading="eager"
         speed={0.14}
-        className="hidden md:block w-full h-[42vh] mt-[4.5rem]"
-      />
+        className="hidden md:block w-full h-[46vh]"
+      >
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-dark/60 via-brand-dark/20 to-transparent" />
+      </ParallaxImage>
     </>
   )}
 
