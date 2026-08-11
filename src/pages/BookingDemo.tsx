@@ -35,8 +35,11 @@ const bookingServices = [
  {
  id: "fertilitet",
  label: "Fertilitet",
- services: [
- { name: "Enkel sædanalyse", price: "1950", duration: "30 minutter" },
+    services: [
+      { name: "Fertilitetsutredning", price: "2850", duration: "1 time" },
+      { name: "Gratis uforpliktende samtale om fertilitet", price: "0", duration: "20 minutter" },
+      { name: "Enkel sædanalyse", price: "1950", duration: "30 minutter" },
+
  { name: "Fertilitetsutredning enkeltperson/single", price: "2850", duration: "1 time" },
  { name: "Fertilitetsutredning par", price: "2850", duration: "1 time" },
  { name: "Infertilitet Mann (inkl. sædprøve)", price: "2850", duration: "45 minutter" },
