@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Check, Calendar } from "lucide-react";
@@ -29,9 +30,74 @@ const categoryToServicePath: Record<string, string> = {
 export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHeroProps) => {
   const firstName = specialist.name.split(" ")[0];
   const servicePath = categoryToServicePath[specialist.category] || "/tjenester";
+  const [scrollY, setScrollY] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
+    <header className="bg-brand-light">
+      {/* Mobil: fullskjerms portrett-hero med garantert gradient (header ligger som overlay) */}
+      <div className="lg:hidden relative w-full h-[100svh] overflow-hidden bg-brand-dark">
+        <img
+          src={specialist.image}
+          alt={specialist.name}
+          className="absolute inset-0 w-full h-[118%] object-cover object-[50%_18%] will-change-transform"
+          style={{ transform: `translate3d(0, ${scrollY * 0.3}px, 0)` }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(24,4,4,0.94) 0%, rgba(66,51,42,0.88) 22%, rgba(66,51,42,0.72) 40%, rgba(66,51,42,0.48) 58%, rgba(66,51,42,0.24) 78%, rgba(66,51,42,0.10) 100%)",
+          }}
+        />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-dark/70 via-brand-dark/30 to-transparent" />
+
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
+          <h1 className="text-3xl font-light text-brand-warm leading-tight mb-3">{specialist.name}</h1>
+          <p className="text-brand-warm/90 text-sm font-light flex flex-wrap items-center gap-x-2 gap-y-1 mb-4">
+            <span>{specialist.title}</span>
+            {specialist.subtitle && specialist.subtitle !== specialist.title && (
+              <>
+                <span className="text-brand-warm/40">·</span>
+                <span>{specialist.subtitle}</span>
+              </>
+            )}
+            {specialist.clinics && specialist.clinics.length > 0 && (
+              <>
+                <span className="text-brand-warm/40">·</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-brand-warm/70" aria-hidden="true" />
+                  {specialist.clinics.join(", ")}
+                </span>
+              </>
+            )}
+          </p>
+
+          {specialist.expertise && specialist.expertise.length > 0 && (
+            <div className="flex flex-wrap items-center gap-1.5 mb-6">
+              {specialist.expertise.map((tag) => (
+                <Link
+                  key={tag}
+                  to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
+                  className="chip-filter-dark text-xs px-2.5 py-1 rounded-[10px]"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <Button variant="cta" size="lg" className="w-full" onClick={onScrollToBooking}>
+            Bestill time hos {firstName}
+          </Button>
+        </div>
+      </div>
+
+      <div className="hidden lg:block">
       <div className="grid lg:grid-cols-2 min-h-[560px] lg:min-h-[640px]">
         {/* Left — text */}
         <div className="flex items-center page-edge-text-left py-14 lg:py-20 order-2 lg:order-1">
@@ -131,6 +197,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
         </motion.div>
+      </div>
       </div>
       <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
     </header>
