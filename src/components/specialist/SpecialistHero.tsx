@@ -196,7 +196,17 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
           <img
             src={specialist.image}
             alt={specialist.name}
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: focal }}
+          />
+          {/* Samme varme gradient/filter som øvrige hero-bilder */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(66,51,42,0.35) 0%, rgba(92,70,58,0.16) 45%, rgba(92,70,58,0.06) 100%)",
+            }}
           />
         </motion.div>
       </div>
