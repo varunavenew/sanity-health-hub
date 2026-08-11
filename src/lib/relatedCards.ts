@@ -1,4 +1,4 @@
-import { getServiceImageFromHref } from "@/data/serviceImages";
+import { getServiceImageFromHref, resolveTreatmentImage } from "@/data/serviceImages";
 import { treatmentContent } from "@/data/treatmentContent";
 
 /**
@@ -8,7 +8,9 @@ import { treatmentContent } from "@/data/treatmentContent";
  */
 const getTargetHeroImage = (path: string): string | undefined => {
   const key = path.replace(/^\/behandlinger\//, "");
-  return treatmentContent[key]?.heroImage;
+  const [categoryId, subId] = key.split("/");
+  if (!categoryId) return undefined;
+  return resolveTreatmentImage(categoryId, subId, treatmentContent[key]?.heroImage);
 };
 
 export interface RelatedCardItem {
