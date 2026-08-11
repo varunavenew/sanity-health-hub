@@ -2356,3 +2356,119 @@ Kunnskap gir muligheter
 
 };
 
+
+// ==========================================
+// FERTILITET — Egne landingssider for de 4 målgruppene
+// (SEO/markedsføring). ALL tekst er gjenbrukt ordrett fra eksisterende
+// godkjente sider: kortene (fertilityAudiences), «Assistert befruktning
+// for par og single», «Assistert befruktning», «Donorbehandling» og
+// «Sædanalyse». Ingen ny medisinsk tekst er skrevet her.
+// ==========================================
+const pickSection = (key: string, heading: string): ContentSection => {
+  const found = treatmentContent[key]?.sections?.find((s) => s.heading === heading);
+  if (!found) throw new Error(`Mangler seksjon «${heading}» i ${key}`);
+  return { ...found, id: undefined };
+};
+
+const AB_PAR_SINGLE = "fertilitet/assistert-befruktning-for-par-og-single";
+const AB = "fertilitet/assistert-befruktning";
+const DONOR = "fertilitet/donorbehandling";
+const SAED = "fertilitet/saedanalyse";
+
+const audienceFaqs = treatmentContent[AB_PAR_SINGLE].faqs;
+
+treatmentContent["fertilitet/mann-og-kvinne-i-parforhold"] = {
+  title: "Mann og kvinne i parforhold",
+  subtitle: "Fertilitetsbehandling for par",
+  parentCategory: "Fertilitet",
+  heroImage: audienceHeteroImg,
+  seoTitle: "Fertilitetsbehandling for par — mann og kvinne | CMedical",
+  seoDescription:
+    "Har dere prøvd en stund uten å lykkes? Utredning, inseminasjon og IVF for par — kort ventetid, ingen henvisning. Møt erfarne fertilitetsspesialister hos CMedical.",
+  description:
+    "Har dere prøvd en stund – uten å lykkes? Mange av parene som kommer til oss har forsøkt å bli gravide over tid. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt.",
+  sections: [
+    pickSection(AB_PAR_SINGLE, "Mann og kvinne i parforhold"),
+    pickSection(AB, "Inseminasjon (AIH)"),
+    pickSection(AB, "IVF - In Vitro Fertilisering"),
+    pickSection(AB, "ICSI - Intracytoplasmatisk spermieinjeksjon"),
+    pickSection(AB_PAR_SINGLE, "Hvem kan få hjelp hos oss?"),
+  ],
+  linkedServices: [
+    { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
+    { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+    { label: "Sædanalyse", description: "Kartlegging av sædkvalitet — antall, bevegelighet og form.", path: "/behandlinger/fertilitet/saedanalyse" },
+  ],
+  faqs: audienceFaqs,
+};
+
+treatmentContent["fertilitet/to-kvinner-i-parforhold"] = {
+  title: "To kvinner i parforhold",
+  subtitle: "Fertilitetsbehandling for likekjønnede par",
+  parentCategory: "Fertilitet",
+  heroImage: audienceToKvinnerImg,
+  seoTitle: "Fertilitetsbehandling for to kvinner i parforhold | CMedical",
+  seoDescription:
+    "Inseminasjon, IVF, donorsæd og partnerdonasjon for to kvinner som ønsker barn sammen. Kort ventetid, ingen henvisning og et fagmiljø med erfaring.",
+  description:
+    "Flere og flere kvinner velger å få barn sammen som par. Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse for deres situasjon.",
+  sections: [
+    pickSection(AB_PAR_SINGLE, "To kvinner i parforhold"),
+    pickSection(DONOR, "Donorsæd"),
+    pickSection(DONOR, "Partnerdonasjon"),
+    pickSection(AB, "Inseminasjon (AIH)"),
+    pickSection(AB, "IVF - In Vitro Fertilisering"),
+  ],
+  linkedServices: [
+    { label: "Donorbehandling", description: "Donorsæd, partnerdonasjon og donoregg — trygt og oversiktlig.", path: "/behandlinger/fertilitet/donorbehandling" },
+    { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+    { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
+  ],
+  faqs: audienceFaqs,
+};
+
+treatmentContent["fertilitet/singel-kvinne"] = {
+  title: "Singel kvinne",
+  subtitle: "Barn på egen hånd — eller bevare muligheten",
+  parentCategory: "Fertilitet",
+  heroImage: audienceSingelKvinneImg,
+  seoTitle: "Bli gravid som singel kvinne — behandling med donorsæd | CMedical",
+  seoDescription:
+    "Ønsker du barn på egen hånd eller å bevare muligheten senere? Kartlegging, inseminasjon, IVF med donorsæd og nedfrysing av egg — i ditt tempo.",
+  description:
+    "Ønsker du å få barn på egen hånd – eller bevare muligheten for senere? Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden.",
+  sections: [
+    pickSection(AB_PAR_SINGLE, "Singel kvinne"),
+    pickSection(AB, "Inseminasjon (AIH)"),
+    pickSection(AB, "IVF - In Vitro Fertilisering"),
+    pickSection(DONOR, "Donorsæd"),
+  ],
+  linkedServices: [
+    { label: "Eggfrys", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/eggfrys" },
+    { label: "Donorbehandling", description: "Donorsæd fra godkjente sædbanker — ikke-anonym donor.", path: "/behandlinger/fertilitet/donorbehandling" },
+    { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+  ],
+  faqs: audienceFaqs,
+};
+
+treatmentContent["fertilitet/singel-mann"] = {
+  title: "Singel mann",
+  subtitle: "Innsikt i egen fertilitet",
+  parentCategory: "Fertilitet",
+  heroImage: audienceSingelMannImg,
+  seoTitle: "Sædanalyse for menn — innsikt i egen fertilitet | CMedical",
+  seoDescription:
+    "En sædanalyse gir viktig informasjon om antall, bevegelighet og form på sædcellene. Kort ventetid, ingen henvisning og oppfølging ved avvik.",
+  description:
+    "Ønsker du å få innsikt i din fertilitet? En sædanalyse gir viktig informasjon om sædkvaliteten din – og kunnskap gjør det lettere å ta gode valg, både nå og i fremtiden.",
+  sections: [
+    pickSection(AB_PAR_SINGLE, "Singel mann"),
+    pickSection(SAED, "Enkel sædprøve"),
+  ],
+  linkedServices: [
+    { label: "Sædanalyse", description: "Kartlegging av sædkvalitet — antall, bevegelighet og form.", path: "/behandlinger/fertilitet/saedanalyse" },
+    { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
+    { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+  ],
+  faqs: audienceFaqs,
+};
