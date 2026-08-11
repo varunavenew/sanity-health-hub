@@ -65,6 +65,9 @@ export interface TreatmentData {
   heroImage: string;
   heroVideo?: string;
   description: string;
+  /** Utfyllende, sidespesifikk ingress for "Om ..."-seksjonen. Brukes i stedet
+   *  for et sammendrag av hero-ingressen, så teksten ikke gjentas. */
+  aboutLead?: string;
   sections?: ContentSection[];
   benefits?: string[];
   benefitsTitle?: string;

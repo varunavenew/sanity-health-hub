@@ -4,6 +4,7 @@ import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage, getDedicatedServiceImage, resolveTreatmentImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
+import { getConsultationBooking } from "@/lib/consultationBooking";
 import { computeSiblingServices } from "@/lib/siblingServices";
 import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
@@ -311,6 +312,10 @@ export const treatmentToSubLayout = ({
 
   const heroTitle: ReactNode = data.title;
 
+  // Bookbar konsultasjon (urologi/ortopedi): CTA-en skal alltid åpne booking
+  // med en konkret konsultasjonstjeneste, og prisen vises i hero.
+  const consultation = getConsultationBooking(categoryId, subId);
+
   return {
     seoTitle: data.seoTitle ?? `${data.title} | CMedical`,
     seoDescription: data.seoDescription ?? summarize(data.description, 160),
@@ -323,9 +328,14 @@ export const treatmentToSubLayout = ({
     heroThemes: data.themes,
     heroPoints,
     heroAvailability,
-    booking: { kategori: categoryId, tjeneste: subId },
+    booking: consultation
+      ? { kategori: categoryId, tjeneste: consultation.tjeneste }
+      : { kategori: categoryId, tjeneste: subId },
     primaryCtaLabel: "Se ledige tider",
-    heroPrice: getFromPriceForTitle(categoryId, data.title) ?? getFromPriceForPath(canonical) ?? undefined,
+    heroPrice: consultation
+      ? consultation.price
+      : (getFromPriceForTitle(categoryId, data.title) ?? getFromPriceForPath(canonical) ?? undefined),
+    heroPriceLabel: consultation?.label,
     flowTitle: "Slik foregår det",
     flow,
     flowImage: pickClinicImage(`${categoryId}/${subId}`),
@@ -338,7 +348,7 @@ export const treatmentToSubLayout = ({
           ? data.title.charAt(0).toLowerCase() + data.title.slice(1)
           : data.title}`
       : "Når bør du ta kontakt",
-    reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
+    reasonsLead: data.aboutLead ?? (data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined),
     reasons,
     reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`)
       ? "accordion"
