@@ -65,6 +65,9 @@ export interface TreatmentData {
   heroImage: string;
   heroVideo?: string;
   description: string;
+  /** Utfyllende, sidespesifikk ingress for "Om ..."-seksjonen. Brukes i stedet
+   *  for et sammendrag av hero-ingressen, så teksten ikke gjentas. */
+  aboutLead?: string;
   sections?: ContentSection[];
   benefits?: string[];
   benefitsTitle?: string;
@@ -697,6 +700,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere. Blærefunksjonen er viktig for at kroppen skal opprettholde riktig væskebalanse og kvitte seg med avfallsstoffer. Når dette ikke fungerer, bør du kontakte en urolog.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis du opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
+    aboutLead: "En urologisk utredning av blære og urinveier starter vanligvis med urinprøve, ultralyd av nyrer og blære og måling av resturin etter vannlating. Ved behov suppleres dette med cystoskopi, urinstrømsmåling, blodprøver eller CT/MR. Målet er å skille mellom lagringsproblemer, tømningsproblemer og tilstander som krever videre behandling — og å utelukke alvorlig sykdom tidlig. Under finner du de vanligste tilstandene urologene våre utreder og behandler.",
     sections: [
       {
         id: "blod-i-urinen",
@@ -734,6 +738,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Forhuden er den hudfolden som dekker penishodet hos menn. Hos CMedical har vi urologer som kan hjelpe deg med plager knyttet til forhuden, som trang forhud og sårhet. Etter en konsultasjon med urolog kan vi diskutere ulike behandlingsalternativer basert på dine symptomer og behov.",
+    aboutLead: "Plager fra forhuden skyldes oftest arrdannelse, gjentatt betennelse (balanitt) eller hudsykdom som lichen sclerosus. Urologen vurderer hud, elastisitet og eventuelle innsnevringer, og velger behandling ut fra funn: lokal kortisonkur og tøyning i milde tilfeller, forhudsplastikk der elastisiteten kan bevares, eller omskjæring når arrvevet er utbredt. Inngrepene gjøres i lokalbedøvelse, og de fleste er tilbake i vanlig aktivitet i løpet av en til to uker.",
     sections: [
       {
         id: "trang-forhud",
@@ -756,6 +761,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Når par opplever problemer med å få barn, er det verdt å merke seg at i omtrent 1/3 av tilfellene er årsaken ofte mannens sædkvalitet. De siste 50 årene har menns sædkvalitet blitt redusert med over 50 %. Dette skyldes flere faktorer, som arv, miljø og livsstil. Ønsker du å ta en sædtest for å sjekke kvaliteten eller få en fertilitetsutredning, så kan vi hjelpe deg. Vi samarbeider med urologer som er spesialister innen mannlig infertilitet for å gi deg den beste oppfølgingen.",
+    aboutLead: "Utredning av mannlig fertilitet bygger på mer enn ett enkelt prøvesvar. Urologen vurderer sædkvalitet (konsentrasjon, bevegelighet og morfologi) sammen med sykehistorie, klinisk undersøkelse av testikler og bitestikler, hormonprøver og eventuelt ultralyd. Vanlige, behandlbare årsaker er varicocele, tidligere infeksjoner, hormonforstyrrelser og obstruksjon i sædlederne. Ved behov samarbeider urologen tett med fertilitetsavdelingen vår om videre behandling.",
     sections: [
       {
         id: "saedanalyse",
@@ -778,6 +784,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robotassistert kirurgi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep – inkludert nefrektomi (fjerning av nyre).",
+    aboutLead: "Nyresykdom oppdages ofte tilfeldig ved bildediagnostikk, eller gjennom symptomer som flankesmerter, blod i urinen eller gjentatte infeksjoner. Utredningen hos urolog omfatter blod- og urinprøver, ultralyd og ved behov CT eller MR for å skille mellom nyrestein, cyster, godartede svulster og ondartede forandringer. Behandlingen spenner fra observasjon og medikamentell behandling til robotassistert kirurgi, der målet alltid er å bevare mest mulig fungerende nyrevev.",
     sections: [
       {
         id: "nyrecyster",
@@ -820,6 +827,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Prostata er en liten kjertel som ligger under urinblæren. Den produserer væske som blandes med sperm for å danne sæd, og er med på å transportere og beskytte spermcellene under ejakulasjon. Regelmessig kontroll er viktig for å oppdage og behandle eventuelle problemer knyttet til prostata tidlig.\n\nProstata vokser når du blir eldre, og er du i 50–60 årene oppfordrer vi deg til å sjekke prostata jevnlig. Våre spesialister anbefaler én prostatakontroll og en årlig blodprøve for å overvåke utviklingen over tid.",
+    aboutLead: "En prostatavurdering hos urolog omfatter symptomkartlegging (IPSS), PSA-måling, klinisk undersøkelse og ultralyd med måling av prostatavolum og resturin. Ved mistanke om kreft gjøres MR før eventuell målrettet biopsi, slik at unødvendige vevsprøver unngås. Godartet forstørrelse behandles trinnvis — fra medikamenter til Core Therm, TUR-P eller robotassistert kirurgi. Under finner du hva de ulike undersøkelsene og behandlingene innebærer.",
     sections: [
       {
         id: "prostataundersokelse",
@@ -852,6 +860,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Sterilisering er en enkel og vanlig prevensjonsmetode for menn. Metoden innebærer at du kutter sædlederen som transporterer sædceller fra testiklene til sædblæren.\n\nAngrer du på steriliseringen, kan sædlederne sys sammen igjen. Dette kalles refertilisering.",
+    aboutLead: "Refertilisering (vasovasostomi) er mikrokirurgi: sædlederne skjøtes sammen igjen under mikroskop med svært tynne suturer. Inngrepet tar vanligvis to til tre timer og gjøres i narkose eller regional bedøvelse. Sannsynligheten for at sædceller kommer tilbake i sæden avhenger særlig av hvor lang tid som har gått siden steriliseringen, og resultatet kontrolleres med sædprøve noen måneder etter inngrepet. I forkant gjør urologen en vurdering av begge parter, slik at du får et realistisk bilde av mulighetene før du bestemmer deg.",
     sections: [
       {
         id: "resultat",
@@ -884,6 +893,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiRobotkirurgiImg.url,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden.",
+    aboutLead: "Ved robotassistert kirurgi styrer kirurgen instrumentene fra en konsoll, med 3D-syn og instrumenter som beveger seg med større utslag enn hånden. Det gir presis disseksjon i trange områder som bekkenet, mindre blodtap og som regel kortere liggetid og raskere restitusjon enn ved åpen kirurgi. CMedical bruker teknologien blant annet ved prostatakreft (RALP), godartet prostataforstørrelse (RASP), nyreinngrep og brokk. Under finner du hva de ulike inngrepene innebærer, og hvordan forløpet ser ut fra vurdering til kontroll.",
     sections: [
       {
         id: "om-robotassistert-kirurgi",
@@ -937,6 +947,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Sterilisering (vasektomi) er en enkel, trygg og effektiv behandling for permanent prevensjon. Hvis du er helt sikker på at du ikke ønsker flere barn i fremtiden, kan sterilisering være et alternativ.",
+    aboutLead: "Vasektomi gjøres poliklinisk i lokalbedøvelse og tar omtrent 20–30 minutter. Urologen deler sædlederne gjennom et lite snitt eller en punksjon i pungen, slik at sædcellene ikke lenger følger med i sædvæsken. Utløsning, ereksjon og hormonproduksjon påvirkes ikke. De fleste er tilbake i vanlig arbeid etter et par dager, og bør unngå tung fysisk aktivitet i omtrent en uke. Steriliteten er ikke sikker før en kontrollsædprøve etter tre måneder viser at det ikke lenger finnes sædceller, og annen prevensjon må brukes fram til da.",
     sections: [
       {
         id: "behandling",
@@ -964,6 +975,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Urologi",
     heroImage: urologiImg,
     description: "Testikler er mannens reproduktive organ og som produserer sædceller og mannlige hormoner, inkludert testosteron. Testiklene er plassert i pungen og pungen sørger for en litt lavere temperatur enn kroppen for å beskytte spermiene. Opplever du plager i testikler eller pung kan du ta kontakt med oss.",
+    aboutLead: "Ved plager i testikler eller pung gjør urologen en klinisk undersøkelse supplert med ultralyd med doppler — undersøkelsen er smertefri og gir svar samme dag. Den skiller mellom vanlige og som regel ufarlige funn som bitestikkelcyster, hydrocele og varicocele, og tilstander som krever rask behandling, som infeksjon eller svulst. Akutte, kraftige smerter i én testikkel skal alltid vurderes umiddelbart, da det kan skyldes testikkeltorsjon.",
     sections: [
       {
         id: "testikkelkreft",

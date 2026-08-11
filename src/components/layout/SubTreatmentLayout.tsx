@@ -53,6 +53,8 @@ export interface SubTreatmentContent {
  heroAvailability?: string;
  rating?: string;
  heroPrice?: string; // e.g. "Pris fra 2 200 kr" — shown above CTA
+ /** Label shown above heroPrice (defaults to the page title). */
+ heroPriceLabel?: string;
  hideSeePriser?: boolean; // hides the secondary "Se priser" link
  
  // Booking
@@ -637,7 +639,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               <div className="mb-8 max-w-sm">
                 {c.heroPrice && (
                   <div className="mb-4 text-sm font-light text-foreground/80">
-                    <span className="block text-base text-foreground">{c.title}</span>
+                    <span className="block text-base text-foreground">{c.heroPriceLabel ?? c.title}</span>
                     <span className="block">{c.heroPrice}</span>
                   </div>
                 )}

@@ -33,6 +33,7 @@ import { TagList } from "@/components/treatments/TagList";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
+import ortopediTeamAsset from "@/assets/ortopedi/ortopedi-team.jpg.asset.json";
 import expertSkulder from "@/assets/hero/hero-treatment.jpg";
 import expertKne from "@/assets/hero/hero-technology.jpg";
 import expertHand from "@/assets/hero/cmedical-hands.jpg";
@@ -450,8 +451,8 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
           { n: "02", title: "Ledende kompetanse", desc: "Noen av landets fremste kirurger tar seg av selv de mest komplekse tilfellene." },
           { n: "03", title: "Tett oppfølging", desc: "Ett tverrfaglig team med fysioterapeut og osteopat følger deg fra første konsultasjon til kontroll etter behandling." },
         ]}
-        image={ortopediHero}
-        imageAlt="Ortopedisk behandling hos CMedical"
+        image={ortopediTeamAsset.url}
+        imageAlt="Ortopedene i CMedical"
       />
 
   {/* 6. SPESIALISTER */}
