@@ -43,6 +43,8 @@ import img_gynekologi_fjerne_livmor from "@/assets/services/gynekologi-fjerne-li
 import img_gynekologi_graviditet from "@/assets/services/gynekologi-graviditet.jpg.asset.json";
 import img_gynekologi_gynekologisk_kirurgi from "@/assets/services/gynekologi-gynekologisk-kirurgi.jpg.asset.json";
 import img_gynekologi_gynekologisk_undersokelse from "@/assets/services/gynekologi-gynekologisk-undersokelse.jpg.asset.json";
+import img_gynekologi_hysteroskopi from "@/assets/gynekologi/hysteroskopi.png.asset.json";
+import img_gynekologi_fodselsskader from "@/assets/gynekologi/fodselsskader.jpg.asset.json";
 import img_gynekologi_hero from "@/assets/services/gynekologi-hero.jpg.asset.json";
 import img_gynekologi_hormonforstyrrelser from "@/assets/services/gynekologi-hormonforstyrrelser.jpg.asset.json";
 import img_gynekologi_labiaplastikk from "@/assets/services/gynekologi-labiaplastikk.jpg.asset.json";
@@ -66,7 +68,7 @@ import img_urologi_mannlig_infertilitet from "@/assets/urologi/mannlig-infertili
 import img_urologi_nyrer from "@/assets/urologi/nyrer.png.asset.json";
 import img_urologi_prostata from "@/assets/urologi/prostata.png.asset.json";
 import img_urologi_refertilisering from "@/assets/urologi/refertilisering.png.asset.json";
-import img_urologi_robotkirurgi from "@/assets/graviditet/robotkirurgi.png.asset.json";
+import img_urologi_robotkirurgi from "@/assets/urologi/robotkirurgi-urologi.jpg.asset.json";
 import img_urologi_sterilisering from "@/assets/urologi/sterilisering.png.asset.json";
 import img_urologi_testikler_og_pung from "@/assets/urologi/testikler-og-pung.png.asset.json";
 import cat_gynekologi from "@/assets/categories/gynekologi.jpg";
@@ -127,6 +129,8 @@ export const serviceImageBySlug: Record<string, string> = {
   "gynekologi-gynekologisk-kirurgi": img_gynekologi_gynekologisk_kirurgi.url,
   "gynekologi-gynekologisk-undersokelse": img_gynekologi_gynekologisk_undersokelse.url,
   "gynekologi-hero": img_gynekologi_hero.url,
+  "gynekologi-hysteroskopi": img_gynekologi_hysteroskopi.url,
+  "gynekologi-fodselsskader": img_gynekologi_fodselsskader.url,
   "gynekologi-hormonforstyrrelser": img_gynekologi_hormonforstyrrelser.url,
   "gynekologi-labiaplastikk": img_gynekologi_labiaplastikk.url,
   "gynekologi-overgangsalder": img_gynekologi_overgangsalder.url,
@@ -176,7 +180,6 @@ const SUB_ALIAS: Record<string, string> = {
   "gynekologi/vaginale-fremfall": "vaginalt-fremfall",
   "gynekologi/urogynekologi": "vaginalt-fremfall",
   "gynekologi/cyster": "cyster-pa-eggstokkene",
-  "gynekologi/hysteroskopi": "gynekologisk-kirurgi", // no dedicated image
   // NIPT lives in graviditet image set
   // gynekologi pages without dedicated images — reuse closest relevant photo
   "gynekologi/pcos": "hormonforstyrrelser",
@@ -206,7 +209,6 @@ const SUB_ALIAS: Record<string, string> = {
  */
 const CROSS_CATEGORY_ALIAS: Record<string, string> = {
   "gynekologi/fostermedisin": "graviditet-fostermedisin",
-  "gynekologi/fodselsskader": "graviditet-svangerskapsteam",
 };
 
 function normalize(categoryId: string, subId?: string): string {
