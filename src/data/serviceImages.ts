@@ -35,16 +35,17 @@ import img_graviditet_hero from "@/assets/graviditet/graviditet-hero.png.asset.j
 import img_graviditet_nipt from "@/assets/graviditet/nipt.png.asset.json";
 import img_graviditet_svangerskapsteam from "@/assets/graviditet/svangerskapsteam.png.asset.json";
 import img_graviditet_ultralyd from "@/assets/graviditet/ultralyd.png.asset.json";
+import img_graviditet_6_ukerskontroll from "@/assets/graviditet/6-ukerskontroll.jpg.asset.json";
 import img_gynekologi_blodningsforstyrrelser from "@/assets/services/gynekologi-blodningsforstyrrelser.jpg.asset.json";
 import img_gynekologi_celleforandringer from "@/assets/services/gynekologi-celleforandringer.jpg.asset.json";
 import img_gynekologi_cyster_pa_eggstokkene from "@/assets/services/gynekologi-cyster-pa-eggstokkene.jpg.asset.json";
 import img_gynekologi_endometriose from "@/assets/services/gynekologi-endometriose.jpg.asset.json";
 import img_gynekologi_fjerne_livmor from "@/assets/services/gynekologi-fjerne-livmor.jpg.asset.json";
 import img_gynekologi_graviditet from "@/assets/services/gynekologi-graviditet.jpg.asset.json";
-import img_gynekologi_gynekologisk_kirurgi from "@/assets/services/gynekologi-gynekologisk-kirurgi.jpg.asset.json";
+import img_gynekologi_gynekologisk_kirurgi from "@/assets/gynekologi/gynekologisk-kirurgi.png.asset.json";
 import img_gynekologi_gynekologisk_undersokelse from "@/assets/services/gynekologi-gynekologisk-undersokelse.jpg.asset.json";
 import img_gynekologi_hysteroskopi from "@/assets/gynekologi/hysteroskopi.png.asset.json";
-import img_gynekologi_fodselsskader from "@/assets/gynekologi/fodselsskader.jpg.asset.json";
+import img_gynekologi_fodselsskader from "@/assets/gynekologi/fodselsskader-ny.png.asset.json";
 import img_gynekologi_hero from "@/assets/services/gynekologi-hero.jpg.asset.json";
 import img_gynekologi_hormonforstyrrelser from "@/assets/services/gynekologi-hormonforstyrrelser.jpg.asset.json";
 import img_gynekologi_labiaplastikk from "@/assets/services/gynekologi-labiaplastikk.jpg.asset.json";
@@ -120,6 +121,7 @@ export const serviceImageBySlug: Record<string, string> = {
   "graviditet-nipt": img_graviditet_nipt.url,
   "graviditet-svangerskapsteam": img_graviditet_svangerskapsteam.url,
   "graviditet-ultralyd": img_graviditet_ultralyd.url,
+  "graviditet-6-ukerskontroll": img_graviditet_6_ukerskontroll.url,
   "gynekologi-blodningsforstyrrelser": img_gynekologi_blodningsforstyrrelser.url,
   "gynekologi-celleforandringer": img_gynekologi_celleforandringer.url,
   "gynekologi-cyster-pa-eggstokkene": img_gynekologi_cyster_pa_eggstokkene.url,
