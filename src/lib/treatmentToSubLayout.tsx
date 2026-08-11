@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage, getDedicatedServiceImage, resolveTreatmentImage } from "@/data/serviceImages";
+import { resolveHrefHeroImage } from "@/lib/pageHeroImage";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import { getConsultationBooking } from "@/lib/consultationBooking";
 import { computeSiblingServices } from "@/lib/siblingServices";
@@ -279,10 +280,9 @@ export const treatmentToSubLayout = ({
   const rawRelated =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => {
-          const m = ls.path.match(/^\/behandlinger\/([^/?#]+)(?:\/([^/?#]+))?/);
-          const cat = m?.[1];
-          const sub = m?.[2];
-          const img = ls.image ?? (cat && sub ? getDedicatedServiceImage(cat, sub) : undefined);
+          // COVER = HERO: same lookup the target page uses for its own hero.
+          const img = ls.image ?? resolveHrefHeroImage(ls.path);
+
           return { title: ls.label, desc: ls.description, href: ls.path, image: img, _explicit: Boolean(ls.image) };
         })
       : [];

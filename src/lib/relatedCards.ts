@@ -1,21 +1,14 @@
-import { getServiceImageFromHref, resolveTreatmentImage } from "@/data/serviceImages";
-import { treatmentContent } from "@/data/treatmentContent";
+import { getServiceImageFromHref } from "@/data/serviceImages";
+import { resolveHrefHeroImage } from "@/lib/pageHeroImage";
 
 /**
  * COVER = HERO: a card must show the exact same image as the hero of the page
- * it links to. The target page's own `heroImage` therefore wins over the
- * generic service-image lookup.
+ * it links to. Resolution is delegated to `resolveHrefHeroImage` so cards and
+ * pages always share one lookup.
  */
-const getTargetHeroImage = (path: string): string | undefined => {
-  const key = path.replace(/^\/behandlinger\//, "");
-  const parts = key.split("/");
-  const categoryId = parts[0];
-  // Deep routes (e.g. flere-fagomrader/gastrokirurgi/brokkoperasjon) resolve
-  // their image from the last segment.
-  const subId = parts.length > 2 ? parts[parts.length - 1] : parts[1];
-  if (!categoryId) return undefined;
-  return resolveTreatmentImage(categoryId, subId, treatmentContent[key]?.heroImage);
-};
+const getTargetHeroImage = (path: string): string | undefined =>
+  resolveHrefHeroImage(path);
+
 
 export interface RelatedCardItem {
   title: string;

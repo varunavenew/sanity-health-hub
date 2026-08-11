@@ -17,7 +17,7 @@
  */
 
 import { treatmentContent, type TreatmentData } from "@/data/treatmentContent";
-import { getServiceImageFromHref } from "@/data/serviceImages";
+import { resolveHrefHeroImage } from "@/lib/pageHeroImage";
 
 export interface SiblingItem {
   title: string;
@@ -77,7 +77,7 @@ const toItem = (href: string, data: TreatmentData): SiblingItem => ({
   title: data.title,
   desc: summarize(data.description, 160),
   href,
-  image: getServiceImageFromHref(href),
+  image: resolveHrefHeroImage(href),
 });
 
 const buildFromList = (
