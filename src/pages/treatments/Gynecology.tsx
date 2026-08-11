@@ -259,7 +259,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
      Kvinnehelse <span className="block italic">for livet</span>
    </h2>
  </div>
- <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
  <div className="flex items-center page-edge-text-left py-16 lg:py-24">
  <div className="max-w-xl w-full">
             <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">

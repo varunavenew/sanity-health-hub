@@ -302,7 +302,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
     </h2>
   </div>
-  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
   {/* Left — copy + CTA */}
   <div className="flex items-center page-edge-text-left py-16 lg:py-24">
   <div className="max-w-xl w-full">

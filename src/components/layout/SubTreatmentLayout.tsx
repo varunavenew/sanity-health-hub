@@ -586,7 +586,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             {c.heroTitle}
           </h2>
         </div>
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
