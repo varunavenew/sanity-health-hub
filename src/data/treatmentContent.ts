@@ -14,6 +14,10 @@ import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
 import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import hudhelseHeroAsset from "@/assets/hudhelse/hudhelse.png.asset.json";
+import hudstrukturAsset from "@/assets/hudhelse/hudstruktur.png.asset.json";
+import kosmetiskDermatologiAsset from "@/assets/hudhelse/kosmetisk-dermatologi.png.asset.json";
+import pigmentSolskaderAsset from "@/assets/hudhelse/pigment-solskader.png.asset.json";
 import audienceHeteroAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
 import audienceToKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import audienceSingelKvinneAsset from "@/assets/fertility/singel-kvinne.png.asset.json";
@@ -1816,7 +1820,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "Hudhelse",
     subtitle: "Hudpleie, hudforyngelse og dermatologisk rådgivning.",
     parentCategory: "Flere tjenester",
-    heroImage: flereFagImg,
+    heroImage: hudhelseHeroAsset.url,
     description: "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen. Vi utreder og behandler et bredt spekter av hudlidelser, fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i huden.\n\nI tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov. Vi tilbyr en grundig vurdering og behandling tilpasset din hud og dine behov, enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.\n\nHudhelse, rådgivning og ulike former for hudbehandling tilbys kun på CMedical Bekkestua.",
     benefits: [
       "Erfarne hudleger (dermatologer) med bred kompetanse",
@@ -2087,7 +2091,7 @@ Kunnskap gir muligheter
     title: "Pigmentforandringer og solskader",
     subtitle: "Vurdering og behandling hos hudlege",
     parentCategory: "Hudbehandlinger",
-    heroImage: flereFagImg,
+    heroImage: pigmentSolskaderAsset.url,
     description: "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles.",
     sections: [
       {
@@ -2131,7 +2135,7 @@ Kunnskap gir muligheter
     title: "Forbedring av hudstruktur",
     subtitle: "Microneedling, mesoterapi og målrettede behandlinger",
     parentCategory: "Hudbehandlinger",
-    heroImage: flereFagImg,
+    heroImage: hudstrukturAsset.url,
     description: "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt.",
     sections: [
       {
@@ -2153,7 +2157,7 @@ Kunnskap gir muligheter
     title: "Hudhelse og kosmetisk dermatologi",
     subtitle: "Medisinske hudtilstander og kosmetisk dermatologi",
     parentCategory: "Hudbehandlinger",
-    heroImage: flereFagImg,
+    heroImage: kosmetiskDermatologiAsset.url,
     description: "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi.",
     sections: [
       {

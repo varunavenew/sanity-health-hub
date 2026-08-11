@@ -15,7 +15,7 @@ import img_flere_endokrinologi from "@/assets/services/flere-endokrinologi.jpg.a
 import img_flere_ernaeringsfysologi from "@/assets/services/flere-ernaeringsfysologi.jpg.asset.json";
 import img_flere_gastrokirurgi from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
 import img_flere_hero from "@/assets/services/flere-hero.jpg.asset.json";
-import img_flere_hudhelse from "@/assets/services/flere-hudhelse.jpg.asset.json";
+import img_flere_hudhelse from "@/assets/hudhelse/hudhelse.png.asset.json";
 import img_flere_hudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
 import img_flere_osteopati from "@/assets/services/flere-osteopati.jpg.asset.json";
 import img_flere_overvektskirurgi from "@/assets/services/flere-overvektskirurgi.jpg.asset.json";
