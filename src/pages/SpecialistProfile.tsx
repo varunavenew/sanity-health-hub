@@ -40,15 +40,6 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const bookingRef = useRef<HTMLDivElement>(null);
-  // Sticky mobil-CTA skal ikke duplisere hero-knappen — vis den først når
-  // hero-CTA-en er scrollet ut av synsfeltet.
-  const [showStickyCta, setShowStickyCta] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setShowStickyCta(window.scrollY > 560);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
   const { findBySlug, byCategory } = useSpecialistsData();
 
   const specialist = findBySlug(slug || "");
@@ -154,16 +145,6 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
 
       {/* 5. FAQ — trust & practical info */}
       <SpecialistFAQBlock />
-
-      {/* Sticky mobile CTA */}
-      <div className={`fixed bottom-0 left-0 right-0 z-40 md:hidden transition-opacity duration-200 ${showStickyCta ? "opacity-100" : "opacity-0 pointer-events-none"} bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb`}>
-        <Button
-          onClick={scrollToBooking}
-          className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
-        >
-          Bestill time hos {firstName}
-        </Button>
-      </div>
     </PageLayout>
   );
 };

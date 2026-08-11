@@ -11,6 +11,7 @@ import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
+import { HomeStickyBar } from "@/components/homepage/HomeStickyBar";
 
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
