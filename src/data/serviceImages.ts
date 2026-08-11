@@ -63,6 +63,19 @@ import img_urologi_refertilisering from "@/assets/services/urologi-refertiliseri
 import img_urologi_robotkirurgi from "@/assets/services/urologi-robotkirurgi.jpg.asset.json";
 import img_urologi_sterilisering from "@/assets/services/urologi-sterilisering.jpg.asset.json";
 import img_urologi_testikler_og_pung from "@/assets/services/urologi-testikler-og-pung.jpg.asset.json";
+import cat_gynekologi from "@/assets/categories/gynekologi.jpg";
+import cat_gynekologi_real from "@/assets/categories/gynekologi-real.jpg";
+import cat_fertilitet from "@/assets/categories/fertilitet.jpg";
+import cat_fertilitet_real from "@/assets/categories/fertilitet-real.jpg";
+import cat_ortopedi from "@/assets/categories/ortopedi.jpg";
+import cat_ortopedi_real from "@/assets/categories/ortopedi-real.jpg";
+import cat_urologi from "@/assets/categories/urologi.jpg";
+import cat_urologi_real from "@/assets/categories/urologi-real.jpg";
+import cat_flere from "@/assets/categories/flere-fagomrader.jpg";
+import hero_pregnancy from "@/assets/hero/hero-pregnancy.jpg";
+import hero_technology from "@/assets/hero/hero-technology.jpg";
+
+
 
 export const serviceImageBySlug: Record<string, string> = {
   "fertilitet-assistert-befruktning": img_fertilitet_assistert_befruktning.url,
@@ -273,13 +286,57 @@ export function getCategoryHeroImage(categoryId: string): string | undefined {
 }
 
 /**
+ * Generic category/stock images used as hero fallbacks in static content.
+ * When a page's `heroImage` is one of these it is NOT a dedicated image, so a
+ * dedicated asset from serviceImages.ts must win over it.
+ */
+const GENERIC_IMAGES = new Set<string>([
+  cat_gynekologi,
+  cat_gynekologi_real,
+  cat_fertilitet,
+  cat_fertilitet_real,
+  cat_ortopedi,
+  cat_ortopedi_real,
+  cat_urologi,
+  cat_urologi_real,
+  cat_flere,
+
+  hero_pregnancy,
+  hero_technology,
+  ...Object.entries(serviceImageBySlug)
+    .filter(([slug]) => slug.endsWith("-hero"))
+    .map(([, url]) => url),
+]);
+
+export function isGenericCategoryImage(url?: string): boolean {
+  return !!url && GENERIC_IMAGES.has(url);
+}
+
+/**
+ * Single resolution order for a treatment page hero AND its cards:
+ * 1) the page's own dedicated heroImage (when it is not a generic fallback)
+ * 2) the dedicated image in serviceImages.ts for that (category, sub)
+ * 3) the category hero as last resort
+ */
+export function resolveTreatmentImage(
+  categoryId: string,
+  subId?: string,
+  heroImage?: string,
+): string | undefined {
+  if (heroImage && !isGenericCategoryImage(heroImage)) return heroImage;
+  return getDedicatedServiceImage(categoryId, subId) ?? heroImage ?? getServiceImage(categoryId, subId);
+}
+
+/**
  * Single source of truth for subpage hero images, resolved from a
  * /behandlinger/<category>/<sub> href. Use on landing pages so service cards
- * show exactly the same image as the subpage hero.
+ * show exactly the same image as the subpage hero. Also accepts top-level
+ * category routes such as `/graviditet`.
  */
 export function getServiceImageFromHref(href: string): string | undefined {
-  const m = href.match(/^\/behandlinger\/([^/?#]+)(?:\/([^/?#]+))?/);
+  const m = href.match(/^\/(?:behandlinger\/)?([^/?#]+)(?:\/([^/?#]+))?/);
   if (!m) return undefined;
   return getServiceImage(m[1], m[2]);
 }
+
 

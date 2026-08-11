@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
-import { getServiceImage, getDedicatedServiceImage } from "@/data/serviceImages";
+import { getServiceImage, getDedicatedServiceImage, resolveTreatmentImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import { computeSiblingServices } from "@/lib/siblingServices";
 import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
@@ -330,7 +330,7 @@ export const treatmentToSubLayout = ({
     flow,
     flowImage: pickClinicImage(`${categoryId}/${subId}`),
     flowImageAlt: `CMedical klinikk — ${data.title}`,
-    heroImage: heroImage ?? getServiceImage(categoryId, subId),
+    heroImage: resolveTreatmentImage(categoryId, subId, heroImage),
     heroImageAlt: data.title,
     heroVideo: data.heroVideo,
     reasonsTitle: data.sections && data.sections.length > 0
