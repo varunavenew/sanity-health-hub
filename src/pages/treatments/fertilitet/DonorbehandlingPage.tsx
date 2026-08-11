@@ -28,6 +28,7 @@ import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -106,7 +107,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
 
       {/* 1. HERO — split 50/50 */}
       <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
           <div className="flex items-center page-edge-text-left py-16 lg:py-24">
             <div className="max-w-xl w-full">
               <p className="text-xs font-light text-foreground/60 mb-5">
@@ -145,13 +146,11 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-full">
-            <img
-              src={fertilityHeroImg}
-              alt="Donorbehandling hos CMedical"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
+          <SplitHeroMedia
+            className="min-h-[420px] lg:min-h-full"
+            src={fertilityHeroImg}
+            alt="Donorbehandling hos CMedical"
+          />
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>

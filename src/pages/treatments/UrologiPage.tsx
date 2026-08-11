@@ -39,6 +39,7 @@ import expertTestikler from "@/assets/hero/urology-hero.jpg";
 import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
 import expertKvinne from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -214,7 +215,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
      Spesialister <span className="block italic">du kan stole på</span>
    </h2>
  </div>
- <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
   <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
@@ -265,13 +266,11 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="relative min-h-[420px] lg:min-h-full">
- <img
+ <SplitHeroMedia
+ className="min-h-[420px] lg:min-h-full"
  src={urologiHero.url}
  alt="Urologi hos CMedical"
- className="absolute inset-0 w-full h-full object-cover"
  />
- </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

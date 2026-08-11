@@ -14,6 +14,7 @@ import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import {
  categoryNewContent,
 } from "./categoryPageContent";
@@ -80,7 +81,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
 
  {/* ── 1. Hero: Full-bleed split 50/50, edge-to-edge image (Fertilitet-mal) ── */}
  <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
-   <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+   <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[100svh]">
      <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
        <div className="max-w-xl w-full">
          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
@@ -120,13 +121,11 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
        </div>
      </div>
 
-     <div className="relative min-h-[420px] lg:min-h-full">
-       <img
-         src={content.heroImage}
-         alt={content.title}
-         className="absolute inset-0 w-full h-full object-cover"
-       />
-     </div>
+     <SplitHeroMedia
+       className="min-h-[420px] lg:min-h-full"
+       src={content.heroImage}
+       alt={content.title}
+     />
    </div>
    <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

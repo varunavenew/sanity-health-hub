@@ -15,6 +15,7 @@ import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -113,7 +114,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
      Ortopedi
    </h2>
  </div>
- <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
@@ -148,9 +149,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
- <div className="relative min-h-[420px] lg:min-h-full">
- <img src={ortopediHero} alt="Ortopedi hos CMedical" className="absolute inset-0 w-full h-full object-cover" />
- </div>
+ <SplitHeroMedia className="min-h-[420px] lg:min-h-full" src={ortopediHero} alt="Ortopedi hos CMedical" />
  </div>
  </header>
 

@@ -39,6 +39,7 @@ import expertKne from "@/assets/hero/hero-technology.jpg";
 import expertHand from "@/assets/hero/cmedical-hands.jpg";
 import expertSecondOpinion from "@/assets/hero/cmedical-hero-3.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -196,7 +197,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
      Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
    </h2>
  </div>
- <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
   <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
@@ -247,13 +248,11 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="relative min-h-[420px] lg:min-h-full">
- <img
+ <SplitHeroMedia
+ className="min-h-[420px] lg:min-h-full"
  src={ortopediHero}
  alt="Ortopedi hos CMedical"
- className="absolute inset-0 w-full h-full object-cover"
  />
- </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

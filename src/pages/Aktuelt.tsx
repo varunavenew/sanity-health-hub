@@ -264,7 +264,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
       {/* Search & Filters (no SoMe — that lives further down the page) */}
       <section className="bg-background">
-        <div className="container mx-auto px-6 md:px-16 pt-8 md:pt-12 pb-6">
+        <div className="container mx-auto px-6 md:px-16 pt-8 md:pt-12 pb-4">
           <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
             <div className="relative w-full md:w-72 md:flex-shrink-0">
               <label htmlFor="aktuelt-search" className="sr-only">Søk i artikler</label>
@@ -300,7 +300,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       </section>
 
       {/* Articles */}
-      <section className="bg-background pt-2 pb-6">
+      <section className="bg-background pt-0 pb-6">
         <div className="container mx-auto px-6 md:px-16">
           {/* Top 4 featured */}
           {featuredTop.length > 0 && (

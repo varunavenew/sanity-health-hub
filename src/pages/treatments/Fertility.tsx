@@ -50,6 +50,7 @@ import imgPsykologi from "@/assets/services/flere-psykologi.jpg.asset.json";
 import imgSexologi from "@/assets/services/flere-sexologi.jpg.asset.json";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 
 interface PageProps {
@@ -302,7 +303,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
     </h2>
   </div>
-  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
   {/* Left — copy + CTA */}
   <div className="flex items-center page-edge-text-left py-16 lg:py-24">
   <div className="max-w-xl w-full">
@@ -372,17 +373,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   </div>
 
   {/* Right — covervideo, fyller hele halvdelen */}
-  <div className="relative min-h-[420px] lg:min-h-full">
-  <video
-  src={fertilityHeroVideo.url}
-  poster={fertilityHeroImg}
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="absolute inset-0 w-full h-full object-cover"
+  <SplitHeroMedia
+  className="min-h-[420px] lg:min-h-full"
+  video={fertilityHeroVideo.url}
+  src={fertilityHeroImg}
+  alt="Fertilitet hos CMedical"
   />
-  </div>
   </div>
   <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
   </header>

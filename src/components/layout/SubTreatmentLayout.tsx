@@ -30,6 +30,7 @@ import {
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
 import promiseUnderOneRoof from "@/assets/promises/alt-under-samme-tak.jpg.asset.json";
 import promiseSpecialist from "@/assets/promises/spesialister-med-dybde.jpg.asset.json";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 const promiseImages = [promiseComfort.url, promiseSpecialist.url, promiseUnderOneRoof.url];
 /**
@@ -586,7 +587,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             {c.heroTitle}
           </h2>
         </div>
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
@@ -674,26 +675,12 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
           </div>
 
           {/* Right — image fills the entire half */}
-          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
-            {c.heroVideo ? (
-              <video
-                src={c.heroVideo}
-                poster={heroImg}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : heroImg ? (
-              <SmartImage
-                src={heroImg}
-                alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
-                pictureClassName="absolute inset-0 block w-full h-full"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : null}
-          </div>
+          <SplitHeroMedia
+            className="min-h-[420px] lg:min-h-full bg-secondary/40"
+            video={c.heroVideo || undefined}
+            src={heroImg || undefined}
+            alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
+          />
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
