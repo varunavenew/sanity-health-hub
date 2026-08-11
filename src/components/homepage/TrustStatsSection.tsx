@@ -71,7 +71,6 @@ export const TrustStatsSection = () => {
  onClick={() => navigate('/booking')}
  >
  Bestill time nå
- <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
  </div>
  </div>

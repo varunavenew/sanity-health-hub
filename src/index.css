@@ -291,6 +291,19 @@
     }
   }
 
+  /* Standard kolonnebredder når barna ikke selv angir col-span (unngår at
+     hvert element kollapser til én 12-delskolonne med ordbrekk og overlapp).
+     :where() gir null spesifisitet, så Tailwind col-span-utilities vinner. */
+  @media (min-width: 1024px) {
+    .section-head > :where(*),
+    .section-head-plain > :where(*) {
+      grid-column: span 6 / span 6;
+      min-width: 0;
+    }
+  }
+
+
+
   /* Enkel (én-kolonne) seksjonsheader: overskrift → ingress */
   .section-title + .section-lead,
   .section-lead {

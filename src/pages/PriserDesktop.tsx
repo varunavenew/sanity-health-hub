@@ -354,7 +354,6 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
                                             className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
                                           >
                                             Bestill time
-                                            <ArrowRight className="w-3 h-3" />
                                           </Link>
                                         );
                                       })()}
@@ -402,7 +401,6 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
             >
               Bestill time
-              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -563,7 +561,6 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
                 onClick={() => navigate('/booking')}
               >
                 Bestill time
-                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button 
                 variant="cta-outline-dark"

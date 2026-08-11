@@ -323,7 +323,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  <div className="flex flex-wrap gap-3">
  <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
  Bestill time
- <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
  <Button
  variant="ghost"

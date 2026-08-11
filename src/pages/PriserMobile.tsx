@@ -178,6 +178,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
         description={pageSubtitle}
         image={heroImage}
         imageAlt={pageTitle}
+        primaryCta={{ label: "Bestill time", to: "/booking" }}
         secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
         bottomNote="Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen."
       />
@@ -294,7 +295,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                         className="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
                                       >
                                         Bestill time
-                                        <ArrowRight className="w-3 h-3" />
                                       </Link>
                                     )}
                                   </div>
@@ -347,7 +347,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors max-sm:w-full max-sm:h-12 max-sm:py-0"
             >
               Bestill time
-              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -508,7 +507,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                 onClick={() => navigate('/booking')}
               >
                 Bestill time
-                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button 
                 variant="cta-outline-dark"

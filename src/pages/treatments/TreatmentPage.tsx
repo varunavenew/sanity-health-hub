@@ -596,7 +596,6 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                   onClick={() => navigate(`/booking?kategori=${categoryId}`)}
                 >
                   Bestill time hos en {specialistLabel}
-                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
                 <Button
                   size="lg"

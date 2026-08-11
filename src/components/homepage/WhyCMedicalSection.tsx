@@ -149,7 +149,6 @@ export const WhyCMedicalSection = () => {
  onClick={() => (window.location.href = "/booking")}
  >
  Bestill time
- <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
  </div>
 

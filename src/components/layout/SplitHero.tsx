@@ -44,7 +44,6 @@ export const SplitHero = ({
  {primaryCta && (
  <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
  {primaryCta.label}
- <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
  )}
  {secondaryCta && (

@@ -99,7 +99,6 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
             </p>
             <Button variant="cta" size="lg" onClick={() => navigate("/booking")}>
               Bestill time
-              <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </div>
         </div>
@@ -166,7 +165,6 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
             className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl md:rounded-full font-light"
           >
             Bestill time
-            <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
 
           {/* FAQ */}
