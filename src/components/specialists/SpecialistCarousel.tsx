@@ -153,16 +153,21 @@ export const SpecialistCarousel = ({
   );
 };
 
-const SpecialistCard = ({
+/**
+ * SpecialistCard — ÉN felles kortdesign for spesialister overalt på nettstedet.
+ * Navn + tittel ligger ALLTID nederst PÅ bildet over gradient (aldri under bildet),
+ * sted-tag øverst til venstre, og «Se profil» gli-inn ved hover.
+ */
+export const SpecialistCard = ({
   sp,
   hovered,
   onEnter,
   onLeave,
 }: {
   sp: SpecialistLike;
-  hovered: boolean;
-  onEnter: () => void;
-  onLeave: () => void;
+  hovered?: boolean;
+  onEnter?: () => void;
+  onLeave?: () => void;
 }) => (
   <Link
     to={`/spesialister/${sp.slug}`}
