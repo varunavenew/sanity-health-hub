@@ -53,10 +53,38 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
+/**
+ * MOBILE BUTTON STANDARD (< 640px)
+ * Every real button (not icon buttons, not small utility buttons, not text links)
+ * renders full width with the same height/radius as the "Bestill time hos spesialist"
+ * section CTAs ("Bestill time nå" / "Ring oss"): h-12, rounded-2xl, one per line.
+ * Opt out per instance with `max-sm:w-auto` in className (className wins in cn()).
+ */
+const MOBILE_STANDARD = "max-sm:w-full max-sm:h-12 max-sm:px-6 max-sm:rounded-2xl";
+
+function useMobileStandard(variant?: string | null, size?: string | null) {
+  const s = size ?? "default";
+  const v = variant ?? "default";
+  if (s === "icon" || s === "sm") return false;
+  if (v === "link") return false;
+  if (v === "ghost") return s === "lg";
+  return s === "default" || s === "lg";
+}
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    return (
+      <Comp
+        className={cn(
+          buttonVariants({ variant, size }),
+          useMobileStandard(variant, size) && MOBILE_STANDARD,
+          className,
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
   },
 );
 Button.displayName = "Button";
