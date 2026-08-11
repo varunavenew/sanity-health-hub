@@ -187,7 +187,7 @@ export const TestimonialSection = () => {
             </div>
           ))}
         </div>
-        <ScrollArrows scrollRef={mobileScrollRef} slideCount={testimonials.length} />
+        <ScrollArrows scrollRef={mobileScrollRef} slideCount={testimonials.length} className="px-6 md:px-16" />
         </div>
 
     </section>

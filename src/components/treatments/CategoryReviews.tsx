@@ -168,7 +168,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
             );
           })}
         </div>
-        <ScrollArrows scrollRef={mobileScrollRef} slideCount={reviews.length} />
+        <ScrollArrows scrollRef={mobileScrollRef} slideCount={reviews.length} className="px-6 md:px-16" />
       </div>
 
     </section>
