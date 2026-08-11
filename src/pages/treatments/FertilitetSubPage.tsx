@@ -44,6 +44,8 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       data: rich,
       categoryId: "fertilitet",
       subId,
+      // COVER = HERO: the page's own image wins over the category fallback.
+      heroImage: rich.heroImage,
     });
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
