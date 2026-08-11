@@ -601,6 +601,18 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
  oss, fra du booker time til du er ferdig behandlet.
  </p>
+<div className="hidden lg:block mt-2 mb-2">
+<Button
+ asChild
+ variant="cta"
+ size="lg"
+ className="px-8"
+ >
+ <Link to={buildBookingUrl({ kategori: "gynekologi" })}>
+ Bestill time
+ </Link>
+ </Button>
+</div>
  </div>
 
  <div className="lg:col-span-7">
@@ -623,7 +635,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
- <div className="max-w-6xl mx-auto mt-12 md:mt-14">
+ <div className="max-w-6xl mx-auto mt-12 lg:hidden">
  <Button
  asChild
  variant="cta"
