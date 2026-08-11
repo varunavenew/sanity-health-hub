@@ -198,7 +198,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
             {[
               "Pris fra 2 500 kr",
               "Dekkes av de fleste helseforsikringer",
-              "Konsultasjon innen 1–3 dager",
+              "Kort ventetid",
             ].map((b) => (
               <li key={b} className="text-sm font-light text-foreground/75">· {b}</li>
             ))}

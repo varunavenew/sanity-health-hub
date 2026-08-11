@@ -25,7 +25,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     bullets: [
       "Pris fra 2 900 kr for førstegangskonsultasjon",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 1–3 dager",
+      "Kort ventetid",
     ],
   },
   gynekologi: {
@@ -37,7 +37,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     bullets: [
       "Pris fra 2 500 kr",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 1–3 dager",
+      "Kort ventetid",
     ],
   },
   urologi: {
@@ -49,7 +49,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     bullets: [
       "Pris fra 2 500 kr",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 1–3 dager",
+      "Kort ventetid",
     ],
   },
   ortopedi: {
@@ -61,7 +61,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     bullets: [
       "Pris fra 2 500 kr",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 10 dager",
+      "Kort ventetid",
     ],
   },
   annet: {

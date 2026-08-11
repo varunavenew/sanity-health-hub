@@ -48,7 +48,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Vi forstår", desc: "Du fortjener tid til samtalen, ikke et fem-minutters møte. Vi tar oss tid." },
       { title: "Alt under samme tak", desc: "Trenger du videre utredning eller behandling, har du det her. Ingen omveier." },
     ],
-    rating: "4,7 — Kort ventetid · Ingen henvisning nødvendig",
+    rating: "4,7 — Kort ventetid · Ingen henvisning",
     heroPrice: "Pris fra 2 200 kr",
     hideSeePriser: true,
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
