@@ -882,7 +882,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "Robotassistert kirurgi",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Urologi",
-    heroImage: robotkirurgiHeroImg.url,
+    heroImage: urologiRobotkirurgiImg.url,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden.",
     sections: [
       {
