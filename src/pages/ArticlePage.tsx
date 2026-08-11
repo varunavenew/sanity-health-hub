@@ -244,8 +244,9 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
       </div>
 
 
-      <div className="hidden md:block bg-brand-dark pt-16 pb-14">
-        <div className="container mx-auto px-6 md:px-16">
+      {/* Desktop: split-screen hero — tekst venstre, bilde høyre (kant i kant) */}
+      <div className="hidden md:grid md:grid-cols-2 bg-brand-dark section-flush">
+        <div className="flex flex-col justify-center py-16 lg:py-20 pl-6 md:pl-16 pr-6 md:pr-12">
           <BackLink to="/aktuelt" tone="onImage" className="mb-6">Tilbake til Aktuelt</BackLink>
           <div className="flex items-center gap-3 mb-4">
             <span className="text-white/80 text-xs">
@@ -256,11 +257,24 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
               {formatDate(article.date)}
             </span>
           </div>
-          <h1 className="text-4xl font-light text-white leading-tight max-w-3xl">
+          <h1 className="text-4xl font-light text-white leading-tight">
             {article.title}
           </h1>
+          {article.excerpt && (
+            <p className="mt-5 text-white/80 font-light text-base lg:text-lg leading-relaxed max-w-xl">
+              {article.excerpt}
+            </p>
+          )}
         </div>
+        <SplitHeroMedia
+          src={article.image}
+          alt={article.title}
+          className="relative min-h-[420px] lg:min-h-[520px] h-full w-full overflow-hidden"
+          mediaClassName="object-cover"
+          objectPosition="50% 35%"
+        />
       </div>
+
 
 
       {/* Article content */}
