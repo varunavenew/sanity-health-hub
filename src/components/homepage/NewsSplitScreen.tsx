@@ -22,7 +22,7 @@ export const NewsSplitScreen = () => {
 
   return (
     <section aria-labelledby="news-split-heading" className="bg-brand-warm">
-      <div className="grid md:grid-cols-2 md:h-screen">
+      <div className="flex flex-col-reverse md:grid md:grid-cols-2 md:h-screen">
         {/* Venstre — redaksjonell intro */}
         <div className="bg-brand-light text-brand-dark flex flex-col justify-center px-6 md:px-12 lg:px-16 py-12 md:py-16">
           <div>
