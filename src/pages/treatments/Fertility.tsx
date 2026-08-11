@@ -326,7 +326,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   </Editable>
 
   {(() => {
-  {(() => {
+
   const fertBooking = getFertilityBooking();
   return (
   <div className="mb-4 text-sm font-light text-foreground/80">
