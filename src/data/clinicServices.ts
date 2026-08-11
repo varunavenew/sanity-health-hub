@@ -32,7 +32,7 @@ export const clinics: Clinic[] = [
     label: "Oslo Majorstuen", 
     address: "Sørkedalsveien 10 A og B, 0369 Oslo",
     phone: "22 60 00 50",
-    hours: "Man–tor 08:00–20:00 · Fre 08:00–16:00 · Lør 10:00–15:00",
+    hours: "Man–tor 08:00–20:00\nFre 08:00–16:00\nLør 10:00–15:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Sørkedalsveien+10+0369+Oslo",
     services: [
