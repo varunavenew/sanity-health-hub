@@ -138,12 +138,12 @@ export const SpecialistCarousel = ({
     <section className={className}>
       {(title || description) && (
         <div className="page-shell">
-          <div className="section-head max-w-xl">
+          <div className="section-head">
             {title && (
-              <h2 className="text-2xl md:text-3xl font-light text-foreground">{title}</h2>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground lg:col-span-5">{title}</h2>
             )}
             {description && (
-              <p className="section-lead text-muted-foreground font-light">{description}</p>
+              <p className="section-lead text-muted-foreground font-light lg:col-span-6 lg:mt-0">{description}</p>
             )}
           </div>
         </div>
