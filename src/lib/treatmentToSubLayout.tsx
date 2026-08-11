@@ -279,10 +279,9 @@ export const treatmentToSubLayout = ({
   const rawRelated =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => {
-          const m = ls.path.match(/^\/behandlinger\/([^/?#]+)(?:\/([^/?#]+))?/);
-          const cat = m?.[1];
-          const sub = m?.[2];
-          const img = ls.image ?? (cat && sub ? getDedicatedServiceImage(cat, sub) : undefined);
+          // COVER = HERO: same lookup the target page uses for its own hero.
+          const img = ls.image ?? resolveHrefHeroImage(ls.path);
+
           return { title: ls.label, desc: ls.description, href: ls.path, image: img, _explicit: Boolean(ls.image) };
         })
       : [];
