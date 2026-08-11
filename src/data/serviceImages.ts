@@ -63,6 +63,19 @@ import img_urologi_refertilisering from "@/assets/services/urologi-refertiliseri
 import img_urologi_robotkirurgi from "@/assets/services/urologi-robotkirurgi.jpg.asset.json";
 import img_urologi_sterilisering from "@/assets/services/urologi-sterilisering.jpg.asset.json";
 import img_urologi_testikler_og_pung from "@/assets/services/urologi-testikler-og-pung.jpg.asset.json";
+import cat_gynekologi from "@/assets/categories/gynekologi.jpg";
+import cat_gynekologi_real from "@/assets/categories/gynekologi-real.jpg";
+import cat_fertilitet from "@/assets/categories/fertilitet.jpg";
+import cat_fertilitet_real from "@/assets/categories/fertilitet-real.jpg";
+import cat_ortopedi from "@/assets/categories/ortopedi.jpg";
+import cat_ortopedi_real from "@/assets/categories/ortopedi-real.jpg";
+import cat_urologi from "@/assets/categories/urologi.jpg";
+import cat_urologi_real from "@/assets/categories/urologi-real.jpg";
+import cat_flere from "@/assets/categories/flere-fagomrader.jpg";
+import hero_pregnancy from "@/assets/hero/hero-pregnancy.jpg";
+import hero_technology from "@/assets/hero/hero-technology.jpg";
+
+
 
 export const serviceImageBySlug: Record<string, string> = {
   "fertilitet-assistert-befruktning": img_fertilitet_assistert_befruktning.url,
