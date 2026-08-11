@@ -68,7 +68,7 @@ import img_urologi_mannlig_infertilitet from "@/assets/urologi/mannlig-infertili
 import img_urologi_nyrer from "@/assets/urologi/nyrer.png.asset.json";
 import img_urologi_prostata from "@/assets/urologi/prostata.png.asset.json";
 import img_urologi_refertilisering from "@/assets/urologi/refertilisering.png.asset.json";
-import img_urologi_robotkirurgi from "@/assets/urologi/robotkirurgi-urologi.jpg.asset.json";
+import img_urologi_robotkirurgi from "@/assets/urologi/robotassistert-kirurgi-1.png.asset.json";
 import img_urologi_sterilisering from "@/assets/urologi/sterilisering.png.asset.json";
 import img_urologi_testikler_og_pung from "@/assets/urologi/testikler-og-pung.png.asset.json";
 import cat_gynekologi from "@/assets/categories/gynekologi.jpg";
