@@ -27,6 +27,7 @@ import audienceCouple from "@/assets/fertility/audience-couple.jpg";
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -339,33 +340,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 8. TILBAKEMELDINGER */}
-      <section className="bg-brand-warm pt-10 md:pt-12 pb-14 md:pb-16">
-        <div className="page-shell">
-          <div className="max-w-6xl mx-auto">
-            <div className="max-w-xl mb-10">
-              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
-                Tilbakemeldinger fra ekte pasienter
-              </h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {reviews.map((r, i) => (
-                <div key={i} className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300">
-                  <div className="flex mb-4">
-                    {[0, 1, 2, 3, 4].map((s) => (
-                      <Star key={s} className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />
-                    ))}
-                  </div>
-                  <p className="text-brand-dark font-light leading-relaxed mb-6 text-base">"{r.text}"</p>
-                  <div className="pt-4 border-t border-brand-dark/10">
-                    <p className="text-brand-dark font-normal text-sm">{r.author}</p>
-                    <p className="text-xs text-brand-dark/60 font-light">{r.date}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <PatientFeedbackCarousel reviews={reviews} />
 
       {/* 9. SPESIALISTER */}
       <FeatureSpotlight

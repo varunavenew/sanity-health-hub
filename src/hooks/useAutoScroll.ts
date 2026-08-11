@@ -62,6 +62,11 @@ export function useAutoScroll(
       }, resumeDelayMs);
     };
 
+    const hoverPause = () => { paused = true; if (resumeTimer) window.clearTimeout(resumeTimer); };
+    const hoverResume = () => { paused = false; last = performance.now(); };
+
+    el.addEventListener("mouseenter", hoverPause);
+    el.addEventListener("mouseleave", hoverResume);
     el.addEventListener("pointerdown", pause);
     el.addEventListener("touchstart", pause, { passive: true });
     el.addEventListener("wheel", pause, { passive: true });
@@ -70,6 +75,8 @@ export function useAutoScroll(
     return () => {
       cancelAnimationFrame(raf);
       if (resumeTimer) window.clearTimeout(resumeTimer);
+      el.removeEventListener("mouseenter", hoverPause);
+      el.removeEventListener("mouseleave", hoverResume);
       el.removeEventListener("pointerdown", pause);
       el.removeEventListener("touchstart", pause);
       el.removeEventListener("wheel", pause);

@@ -55,7 +55,6 @@ export const PatientFeedbackCarousel = ({
           <div
             ref={scrollRef}
             className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2"
-            onMouseEnter={() => undefined}
           >
             {list.map((r, i) => (
               <div
