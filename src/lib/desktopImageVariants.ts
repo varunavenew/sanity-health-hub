@@ -19,6 +19,8 @@ import brokkoperasjonDesktop from "@/assets/gastro/brokkoperasjon-desktop.png.as
 const DESKTOP_VARIANTS: Record<string, string> = {
   [hudstruktur.url]: hudstrukturDesktop.url,
   [foflekksjekk.url]: foflekksjekkDesktop.url,
+  [rodhetBlodkar.url]: rodhetBlodkarDesktop.url,
+  [brokkoperasjon.url]: brokkoperasjonDesktop.url,
 };
 
 /** Wide (1920) version of an image, when one has been delivered. */
