@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
