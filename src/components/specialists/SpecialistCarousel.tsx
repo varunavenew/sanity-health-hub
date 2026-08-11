@@ -199,15 +199,25 @@ export const SpecialistCard = ({
           {sp.title}
           {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
         </p>
+        {/* «Se profil» tar ingen plass i standardtilstand og vises kun på hover-enheter */}
         <div
-          className={`flex items-center gap-1.5 mt-3 text-sm font-light text-brand-yellow transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 ${
-            hovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          className={`hidden [@media(hover:hover)]:grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] transition-[grid-template-rows] duration-200 ease-out ${
+            hovered ? "grid-rows-[1fr]" : ""
           }`}
         >
-          <span>Se profil</span>
-          <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+          <div className="overflow-hidden">
+            <div
+              className={`flex items-center gap-1.5 pt-3 text-sm font-light text-brand-yellow opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 ${
+                hovered ? "opacity-100" : ""
+              }`}
+            >
+              <span>Se profil</span>
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
   </Link>
 );
