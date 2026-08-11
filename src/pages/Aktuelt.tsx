@@ -256,6 +256,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       />
       {/* Hero — felles liste-hero */}
       <ListPageHero
+        split
         title="Aktuelt"
         description="Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical."
       />
@@ -263,38 +264,39 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
 
       {/* Search & Filters (no SoMe — that lives further down the page) */}
-      <section className="bg-background border-b border-border">
-        <div className="container mx-auto px-6 md:px-16 py-6">
-          <div className="relative max-w-md mb-5">
-            <label htmlFor="aktuelt-search" className="sr-only">Søk i artikler</label>
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <input
-              id="aktuelt-search"
-              type="search"
-              placeholder="Søk i artikler..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              aria-label="Søk i artikler"
-              className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-            />
+      <section className="bg-background">
+        <div className="container mx-auto px-6 md:px-16 pt-8 md:pt-12 pb-6">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+            <div className="relative w-full md:w-72 md:flex-shrink-0">
+              <label htmlFor="aktuelt-search" className="sr-only">Søk i artikler</label>
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+              <input
+                id="aktuelt-search"
+                type="search"
+                placeholder="Søk i artikler..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Søk i artikler"
+                className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 md:justify-end md:flex-1">
+              {filterCategories.map((cat) => {
+                const isActive = activeFilter === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveFilter(cat)}
+                    className={"chip-filter chip-filter-light"}
+                    data-active={isActive}
+                    aria-current={isActive ? "true" : undefined}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {filterCategories.map((cat) => {
-              const isActive = activeFilter === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveFilter(cat)}
-                  className={"chip-filter chip-filter-light"}
-                  data-active={isActive}
-                  aria-current={isActive ? "true" : undefined}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-
         </div>
       </section>
 

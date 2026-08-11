@@ -6,6 +6,8 @@ interface ListPageHeroProps {
   /** Ekstra innhold under ingressen (f.eks. filtre) */
   children?: React.ReactNode;
   className?: string;
+  /** Todelt oppsett på desktop: tittel til venstre, ingress til høyre (+ mer luft) */
+  split?: boolean;
 }
 
 /**
@@ -16,9 +18,13 @@ interface ListPageHeroProps {
  * - Skin-teksturbakgrunn med varm brun overlay (aldri flat brun)
  * - Høyde = 50% av SplitHero (420/520) → 210px mobil / 260px desktop
  */
-export const ListPageHero = ({ title, description, children, className = "" }: ListPageHeroProps) => (
+export const ListPageHero = ({ title, description, children, className = "", split = false }: ListPageHeroProps) => (
   <header
-    className={`relative flex flex-col justify-center overflow-hidden min-h-[210px] md:min-h-[260px] py-8 md:py-10 ${className}`}
+    className={`relative flex flex-col justify-center overflow-hidden ${
+      split
+        ? "min-h-[260px] md:min-h-[340px] py-14 md:py-24"
+        : "min-h-[210px] md:min-h-[260px] py-8 md:py-10"
+    } ${className}`}
   >
     <img
       src={heroBgAsset.url}
@@ -37,17 +43,33 @@ export const ListPageHero = ({ title, description, children, className = "" }: L
       }}
     />
     <div className="relative container mx-auto px-6 md:px-16">
-      <div className="max-w-2xl">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-warm leading-[1.1] mb-6">
-          {title}
-        </h1>
-        {description && (
-          <p className="text-brand-warm/80 font-light text-base md:text-lg leading-relaxed max-w-md">
-            {description}
-          </p>
-        )}
-        {children}
-      </div>
+      {split ? (
+        <div className="grid gap-6 md:gap-12 md:grid-cols-2 md:items-end">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-warm leading-[1.1]">
+            {title}
+          </h1>
+          <div>
+            {description && (
+              <p className="text-brand-warm/80 font-light text-base md:text-lg leading-relaxed max-w-md">
+                {description}
+              </p>
+            )}
+            {children}
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-2xl">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-warm leading-[1.1] mb-6">
+            {title}
+          </h1>
+          {description && (
+            <p className="text-brand-warm/80 font-light text-base md:text-lg leading-relaxed max-w-md">
+              {description}
+            </p>
+          )}
+          {children}
+        </div>
+      )}
     </div>
   </header>
 );
