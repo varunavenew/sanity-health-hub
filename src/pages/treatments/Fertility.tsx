@@ -61,6 +61,13 @@ interface PageProps {
 
 const FERT = "/behandlinger/fertilitet";
 
+/**
+ * Feature-flagg: «Bli donor» er avpublisert fram til lansering.
+ * Sett til `true` for å vise fanen og kortet igjen — data og undersider
+ * (/behandlinger/fertilitet/donorbehandling) er urørt.
+ */
+const SHOW_BLI_DONOR = false;
+
 const segments = [
  {
  id: "forsta",
@@ -179,14 +186,17 @@ const expertAreas = [
     href: "/behandlinger/fertilitet/donorbehandling",
     image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
   },
-  {
-    title: "Bli donor",
-    desc:
-      "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
-    href: "/behandlinger/fertilitet/donorbehandling",
-    image: eggdonasjonImg,
-    lockImage: true,
-  },
+  // SKJULT TIL LANSERING — se SHOW_BLI_DONOR.
+  ...(SHOW_BLI_DONOR
+    ? [{
+        title: "Bli donor",
+        desc:
+          "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
+        href: "/behandlinger/fertilitet/donorbehandling",
+        image: eggdonasjonImg,
+        lockImage: true,
+      }]
+    : []),
   {
     title: "Sædanalyse",
     desc:
