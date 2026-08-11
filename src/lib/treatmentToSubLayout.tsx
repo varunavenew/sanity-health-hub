@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage, getDedicatedServiceImage, resolveTreatmentImage } from "@/data/serviceImages";
+import { resolveHrefHeroImage } from "@/lib/pageHeroImage";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import { getConsultationBooking } from "@/lib/consultationBooking";
 import { computeSiblingServices } from "@/lib/siblingServices";

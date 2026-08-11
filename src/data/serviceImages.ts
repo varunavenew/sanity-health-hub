@@ -350,9 +350,13 @@ export function resolveTreatmentImage(
  * category routes such as `/graviditet`.
  */
 export function getServiceImageFromHref(href: string): string | undefined {
-  const m = href.match(/^\/(?:behandlinger\/)?([^/?#]+)(?:\/([^/?#]+))?(?:\/([^/?#]+))?/);
-  if (!m) return undefined;
-  return getServiceImage(m[1], m[3] ?? m[2]);
+  const clean = href.split(/[?#]/)[0].replace(/\/+$/, "").replace(/^\/+/, "");
+  const parts = clean.replace(/^behandlinger\//, "").split("/").filter(Boolean);
+  if (parts.length === 0) return undefined;
+  // Always resolve from the deepest segment so grouping segments in the URL
+  // (e.g. /flere-fagomrader/hudhelse/hudbehandlinger/foflekksjekk) never make a
+  // card fall back to the category hero.
+  return getServiceImage(parts[0], parts.length > 1 ? parts[parts.length - 1] : undefined);
 }
 
 
