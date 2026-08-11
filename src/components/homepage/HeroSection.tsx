@@ -57,7 +57,6 @@ export const HeroSection = () => {
               onClick={() => navigate('/booking')}
             >
               Bestill time
-              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
               variant="cta-outline-dark"

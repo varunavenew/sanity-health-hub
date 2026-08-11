@@ -58,7 +58,6 @@ export const LifePhasesSection = () => {
             className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-foreground/20 text-foreground rounded-2xl font-normal hover:bg-secondary transition-colors max-sm:w-full max-sm:h-12 max-sm:py-0"
           >
             {t("nav.bookAppointment")}
-            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>

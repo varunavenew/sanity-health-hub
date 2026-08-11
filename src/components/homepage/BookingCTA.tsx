@@ -48,7 +48,6 @@ export const BookingCTA = () => {
               className="w-full sm:w-auto max-md:bg-accent max-md:text-accent-foreground max-md:hover:bg-accent/90"
             >
               {t("booking.bookNow")}
-              <ArrowRight className="ml-2 w-5 h-5 hidden md:inline-block" />
             </Button>
 
             {/* Call us with clinic picker */}

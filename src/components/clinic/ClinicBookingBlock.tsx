@@ -95,9 +95,7 @@ export const ClinicBookingBlock = ({
                   rel={bookingExternal ? "noopener noreferrer" : undefined}
                 >
                   Bestill time
-                  {bookingIcon === "arrow" ? (
-                    <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
-                  ) : (
+                  {bookingIcon !== "arrow" && (
                     <ExternalLink className="ml-2 w-4 h-4" aria-hidden="true" />
                   )}
                 </a>

@@ -144,7 +144,6 @@ const About = ({ isChatOpen }: AboutProps) => {
                 onClick={() => navigate('/booking')}
               >
                 Bestill konsultasjon
-                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
           </div>

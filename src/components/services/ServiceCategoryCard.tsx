@@ -143,7 +143,6 @@ const ServiceCategoryCard = ({
                   className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors max-sm:w-full max-sm:h-12 max-sm:px-6"
                 >
                   Bestill time for {label.toLowerCase()}
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={(e) => {
