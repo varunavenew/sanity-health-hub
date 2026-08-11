@@ -37,9 +37,9 @@ export const SplitHero = ({
  {title}
  </h1>
  {description && (
- <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
- {description}
- </p>
+ <div className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8 space-y-4">
+ {typeof description === "string" ? <p>{description}</p> : description}
+ </div>
  )}
  <div className="flex flex-col md:flex-row gap-3">
  {primaryCta && (
