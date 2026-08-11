@@ -309,9 +309,16 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
  oss, fra du booker time til du er ferdig behandlet.
  </p>
+<div className="hidden lg:block">
+<Button asChild variant="cta" size="lg" className="px-8">
+     <Link to={buildBookingUrl({ kategori: "flere-fagomrader" })}>
+     Bestill time
+     </Link>
+     </Button>
+</div>
  </div>
 
- <div className="lg:col-span-7">
+<div className="lg:col-span-7">
  <div className="divide-y divide-border/60 border-t border-border/60">
  {journey.map((step) => (
  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
@@ -331,7 +338,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </div>
-   <div className="max-w-6xl mx-auto mt-12 md:mt-14">
+   <div className="max-w-6xl mx-auto mt-12 lg:hidden">
      <Button asChild variant="cta" size="lg" className="px-8">
      <Link to={buildBookingUrl({ kategori: "flere-fagomrader" })}>
      Bestill time

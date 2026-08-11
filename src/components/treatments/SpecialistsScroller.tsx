@@ -58,7 +58,7 @@ export const SpecialistsScroller = ({
     return (
       <section className="pt-10 md:pt-14 pb-14 md:pb-16 bg-secondary/30 overflow-hidden">
         <div className="page-shell">
-          <div className="section-head max-w-xl max-md:!mb-4">
+          <div className="section-head max-md:!mb-4">
             <h2 className="text-2xl md:text-3xl font-light text-foreground">{title}</h2>
             {description && (
               <p className="section-lead text-muted-foreground font-light">{description}</p>
