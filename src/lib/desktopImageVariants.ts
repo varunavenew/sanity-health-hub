@@ -12,6 +12,8 @@ import pigmentSolskader from "@/assets/hudhelse/pigment-solskader.png.asset.json
 import pigmentSolskaderDesktop from "@/assets/hudhelse/pigment-solskader-desktop.png.asset.json";
 import kosmetiskDermatologi from "@/assets/hudhelse/kosmetisk-dermatologi.png.asset.json";
 import kosmetiskDermatologiDesktop from "@/assets/hudhelse/kosmetisk-dermatologi-desktop.png.asset.json";
+import hemorroider from "@/assets/gastro/hemoroider-rektocele.png.asset.json";
+import hemorroiderDesktop from "@/assets/gastro/hemoroider-rektocele-desktop.png.asset.json";
 import brokkoperasjon from "@/assets/gastro/brokkoperasjon.png.asset.json";
 import brokkoperasjonDesktop from "@/assets/gastro/brokkoperasjon-desktop.png.asset.json";
 
@@ -33,6 +35,7 @@ const DESKTOP_VARIANTS: Record<string, string> = {
   [elastisitetVolum.url]: elastisitetVolumDesktop.url,
   [pigmentSolskader.url]: pigmentSolskaderDesktop.url,
   [kosmetiskDermatologi.url]: kosmetiskDermatologiDesktop.url,
+  [hemorroider.url]: hemorroiderDesktop.url,
 };
 
 /** Wide (1920) version of an image, when one has been delivered. */

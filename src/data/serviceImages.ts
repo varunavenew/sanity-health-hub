@@ -16,6 +16,9 @@ import img_flere_ernaeringsfysologi from "@/assets/services/flere-ernaeringsfyso
 import img_flere_gastrokirurgi from "@/assets/services/gastrokirurgi.png.asset.json";
 import img_flere_hero from "@/assets/services/flere-hero.jpg.asset.json";
 import img_flere_hudhelse from "@/assets/hudhelse/hudhelse.png.asset.json";
+import img_flere_hudbehandlinger from "@/assets/hudhelse/hudbehandlinger.webp.asset.json";
+import img_flere_hudpleieprodukter from "@/assets/hudhelse/hudprodukter.webp.asset.json";
+import img_flere_behandlingsutstyr from "@/assets/hudhelse/behandlingsutstyr.webp.asset.json";
 import img_flere_hudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
 import img_flere_osteopati from "@/assets/services/flere-osteopati.jpg.asset.json";
 import img_flere_overvektskirurgi from "@/assets/gastro/overvektskirurgi.png.asset.json";
@@ -96,6 +99,9 @@ export const serviceImageBySlug: Record<string, string> = {
   "flere-gastrokirurgi": img_flere_gastrokirurgi.url,
   "flere-hero": img_flere_hero.url,
   "flere-hudhelse": img_flere_hudhelse.url,
+  "flere-hudbehandlinger": img_flere_hudbehandlinger.url,
+  "flere-hudpleieprodukter": img_flere_hudpleieprodukter.url,
+  "flere-behandlingsutstyr": img_flere_behandlingsutstyr.url,
   "flere-hudlege": img_flere_hudlege.url,
   "flere-osteopati": img_flere_osteopati.url,
   "flere-overvektskirurgi": img_flere_overvektskirurgi.url,
@@ -187,9 +193,6 @@ const SUB_ALIAS: Record<string, string> = {
   "flere-fagomrader/areknuter": "areknutebehandling",
   "flere-fagomrader/ernaringsfysiolog": "ernaeringsfysologi",
   "flere-fagomrader/ernaeringsfysiolog": "ernaeringsfysologi",
-  "flere-fagomrader/hudbehandlinger": "hudhelse",
-  "flere-fagomrader/behandlingsutstyr": "hudhelse",
-  "flere-fagomrader/hudpleieprodukter": "hudhelse",
   "flere-fagomrader/sleeve-gastrektomi": "overvektskirurgi",
   // fertilitet
   "fertilitet/assistert-befruktning-for-par-og-single": "assistert-befruktning",
