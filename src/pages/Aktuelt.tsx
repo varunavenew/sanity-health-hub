@@ -266,7 +266,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           is injected between the filter row and the grid. */}
       <section className="bg-background pb-6">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-4">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-4 md:mb-3">
             <div className="relative w-full md:w-72 md:flex-shrink-0">
               <label htmlFor="aktuelt-search" className="sr-only">Søk i artikler</label>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
