@@ -32,6 +32,11 @@ import promiseUnderOneRoof from "@/assets/promises/alt-under-samme-tak.jpg.asset
 import promiseSpecialist from "@/assets/promises/spesialister-med-dybde.jpg.asset.json";
 
 const promiseImages = [promiseComfort.url, promiseSpecialist.url, promiseUnderOneRoof.url];
+/**
+ * Fokuspunkt per bilde — regelen er «ansiktet alltid synlig», ikke blindt object-top.
+ * Bildene er høyformat og vises i 4:3-kort, så utsnittet må dras dit ansiktene ligger.
+ */
+const promiseFocals = ["50% 40%", "50% 10%", "50% 50%"];
 
 export interface SubTreatmentContent {
  // Meta
@@ -916,6 +921,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                     alt=""
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover"
+                    style={{ objectPosition: promiseFocals[i] ?? "50% 50%" }}
                   />
                 </div>
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">

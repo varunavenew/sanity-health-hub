@@ -256,7 +256,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       />
       {/* Hero — felles liste-hero */}
       <ListPageHero
-        split
         title="Aktuelt"
         description="Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical."
       />
