@@ -6,7 +6,7 @@ import { clinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  /** Visual variant. "light" uses outlined dark style for light backgrounds. */
+  /** Visual variant. "light" = solid white button for light backgrounds. */
   variant?: "light" | "dark";
   size?: "default" | "lg";
   label?: string;
@@ -44,7 +44,7 @@ export const CallUsClinicPicker = ({
         variant={variant === "dark" ? "cta-outline-dark" : "cta-outline"}
         size={size}
         onClick={() => setOpen((o) => !o)}
-        className={`w-full sm:w-auto max-sm:bg-white ${className ?? ""}`}
+        className={`w-full sm:w-auto ${className ?? ""}`}
       >
         {label ?? t("booking.callUs")}
         <ChevronDown
