@@ -678,9 +678,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : heroImg ? (
-              <img
+              <SmartImage
                 src={heroImg}
                 alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
+                pictureClassName="absolute inset-0 block w-full h-full"
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : null}
