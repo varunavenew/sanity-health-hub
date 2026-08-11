@@ -17,6 +17,9 @@ import brokkoperasjonAsset from "@/assets/gastro/brokkoperasjon.png.asset.json";
 import hemorroiderAsset from "@/assets/gastro/hemoroider-rektocele.png.asset.json";
 import gastrokirurgiCardImg from "@/assets/services/gastrokirurgi.png.asset.json";
 import hudhelseHeroAsset from "@/assets/hudhelse/hudhelse.png.asset.json";
+import hudbehandlingerAsset from "@/assets/hudhelse/hudbehandlinger.webp.asset.json";
+import hudprodukterAsset from "@/assets/hudhelse/hudprodukter.webp.asset.json";
+import behandlingsutstyrAsset from "@/assets/hudhelse/behandlingsutstyr.webp.asset.json";
 import hudstrukturAsset from "@/assets/hudhelse/hudstruktur.png.asset.json";
 import kosmetiskDermatologiAsset from "@/assets/hudhelse/kosmetisk-dermatologi.png.asset.json";
 import pigmentSolskaderAsset from "@/assets/hudhelse/pigment-solskader.png.asset.json";
@@ -2070,7 +2073,7 @@ Kunnskap gir muligheter
     title: "Hudbehandlinger",
     subtitle: "Medisinsk forankrede hudbehandlinger utført av hudlege",
     parentCategory: "Hudhelse",
-    heroImage: flereFagImg,
+    heroImage: hudbehandlingerAsset.url,
     description: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege — medisinsk forankret og tilpasset deg.",
     sections: [
       {
@@ -2246,7 +2249,7 @@ Kunnskap gir muligheter
     title: "Behandlingsutstyr (IPL)",
     subtitle: "Laser- og IPL-behandling utført av hudlege",
     parentCategory: "Hudhelse",
-    heroImage: flereFagImg,
+    heroImage: behandlingsutstyrAsset.url,
     description: "Hos CMedical Bekkestua tilbyr vi laserbehandling og IPL-behandling (Intense Pulsed Light) — en trygg og effektiv metode som bruker lysenergi til å behandle ulike hudplager. Mange oppsøker oss for å få hjelp med rødhet, synlige blodkar, pigmentforandringer eller solskadet hud. Behandlingen kan også bidra til en jevnere hudtone og bedre hudkvalitet over tid.",
     sections: [
       {
@@ -2280,7 +2283,7 @@ Kunnskap gir muligheter
     title: "Hudpleieprodukter — SkinCeuticals",
     subtitle: "Medisinsk hudpleie med dokumentert effekt",
     parentCategory: "Hudhelse",
-    heroImage: flereFagImg,
+    heroImage: hudprodukterAsset.url,
     description: "SkinCeuticals er et anerkjent medisinsk hudpleiemerke utviklet med utgangspunkt i avansert dermatologisk forskning. Produktene er formulert for å beskytte sunn hud, korrigere eksisterende hudskader og forebygge fremtidige hudproblemer — med dokumenterte resultater.",
     sections: [
       {
