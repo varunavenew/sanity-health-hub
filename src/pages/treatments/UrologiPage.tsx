@@ -33,6 +33,7 @@ import { TagList } from "@/components/treatments/TagList";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import urologiHero from "@/assets/services/urologi-hero.jpg.asset.json";
+import urologiTeamTrond from "@/assets/urologi/urologi-team-trond5.jpg.asset.json";
 import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
 import expertTestikler from "@/assets/hero/urology-hero.jpg";
 import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
