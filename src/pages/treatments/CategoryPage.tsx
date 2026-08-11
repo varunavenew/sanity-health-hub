@@ -25,7 +25,8 @@ const fertilitetImg = fertilitetAsset.url;
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
-import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
+import graviditetHeroAsset from "@/assets/graviditet/graviditet-hero.png.asset.json";
+const graviditetImg = graviditetHeroAsset.url;
 
 
 interface SubService {
