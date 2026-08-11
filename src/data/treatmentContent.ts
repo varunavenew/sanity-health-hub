@@ -13,11 +13,15 @@ import heroTech from "@/assets/hero/hero-technology.jpg";
 import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
-import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import gastrokirurgiCardImg from "@/assets/services/gastrokirurgi.png.asset.json";
 import hudhelseHeroAsset from "@/assets/hudhelse/hudhelse.png.asset.json";
 import hudstrukturAsset from "@/assets/hudhelse/hudstruktur.png.asset.json";
 import kosmetiskDermatologiAsset from "@/assets/hudhelse/kosmetisk-dermatologi.png.asset.json";
 import pigmentSolskaderAsset from "@/assets/hudhelse/pigment-solskader.png.asset.json";
+import elastisitetVolumAsset from "@/assets/hudhelse/elastisitet-volum.png.asset.json";
+import rodhetBlodkarAsset from "@/assets/hudhelse/rodhet-blodkar.png.asset.json";
+import foflekksjekkAsset from "@/assets/hudhelse/foflekksjekk.png.asset.json";
+import gastrokirurgiHeroAsset from "@/assets/services/gastrokirurgi.png.asset.json";
 import audienceHeteroAsset from "@/assets/fertility/heterofilt-par.png.asset.json";
 import audienceToKvinnerAsset from "@/assets/fertility/to-kvinner.png.asset.json";
 import audienceSingelKvinneAsset from "@/assets/fertility/singel-kvinne.png.asset.json";
@@ -1424,7 +1428,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "Mage- og tarmlidelser (Gastrokirurgi)",
     subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere tjenester",
-    heroImage: flereFagImg,
+    heroImage: gastrokirurgiHeroAsset.url,
     description: "Mage og tarmkirurgi (gastrokirurgi) omhandler kirurgiske inngrep i fordøyelsessystemet. Hos oss møter du erfarne spesialister innen fagfeltet. Vi tilbyr et helhetlig og tverrfaglig tilbud, der avansert medisinsk teknologi møter tett oppfølging fra kirurger og klinisk ernæringsfysiolog.",
     sections: [
       {
@@ -2113,7 +2117,7 @@ Kunnskap gir muligheter
     title: "Rødhet og synlige blodkar",
     subtitle: "Behandling hos hudlege på Bekkestua",
     parentCategory: "Hudbehandlinger",
-    heroImage: flereFagImg,
+    heroImage: rodhetBlodkarAsset.url,
     description: "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning.",
     sections: [
       {
@@ -2179,7 +2183,7 @@ Kunnskap gir muligheter
     title: "Elastisitet og volum",
     subtitle: "Individuelt tilpassede behandlinger hos hudlege",
     parentCategory: "Hudbehandlinger",
-    heroImage: flereFagImg,
+    heroImage: elastisitetVolumAsset.url,
     description: "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur.",
     sections: [
       {
@@ -2201,7 +2205,7 @@ Kunnskap gir muligheter
     title: "Føflekksjekk",
     subtitle: "Grundig dermatoskopisk vurdering hos hudlege",
     parentCategory: "Hudbehandlinger",
-    heroImage: flereFagImg,
+    heroImage: foflekksjekkAsset.url,
     description: "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling.",
     sections: [
       {
