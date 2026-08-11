@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { useParams, Link } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users } from "lucide-react";
+import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug, withCanonicalAddress } from "@/data/clinicServices";
