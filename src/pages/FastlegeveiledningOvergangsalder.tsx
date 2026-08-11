@@ -326,7 +326,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
             <BackLink to="/behandlinger/gynekologi/overgangsalder">Tilbake til overgangsalder</BackLink>
             <Button
               onClick={() => navigate("/booking?kategori=gynekologi")}
-              className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-md font-light"
+              variant="cta"
             >
               Bestill time
             </Button>

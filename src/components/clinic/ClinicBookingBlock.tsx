@@ -88,7 +88,7 @@ export const ClinicBookingBlock = ({
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center flex-wrap">
             {bookingHref && (
-              <Button asChild variant="cta-dark" size="lg" className="px-8 h-14 text-base">
+              <Button asChild variant="cta" size="lg" className="px-8 h-14 text-base">
                 <a
                   href={bookingHref}
                   target={bookingExternal ? "_blank" : undefined}

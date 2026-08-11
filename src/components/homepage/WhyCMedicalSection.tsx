@@ -144,8 +144,9 @@ export const WhyCMedicalSection = () => {
  <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
  <Button
+ variant="cta"
  size="lg"
- className="rounded-2xl md:rounded-full px-8 bg-white text-brand-dark hover:bg-white/90"
+ className="px-8"
  onClick={() => (window.location.href = "/booking")}
  >
  Bestill time

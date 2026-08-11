@@ -42,7 +42,7 @@ export const BookingCTA = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 sm:justify-center mb-12">
             <Button
-              variant="cta-dark"
+              variant="cta"
               size="lg"
               onClick={() => navigate("/booking")}
               className="w-full sm:w-auto max-md:bg-accent max-md:text-accent-foreground max-md:hover:bg-accent/90"

@@ -527,10 +527,9 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
             </p>
             <Link
               to="/booking?kategori=gynekologi&tjeneste=overgangsalder"
-              className="inline-flex items-center gap-2 bg-brand-light text-brand-dark px-6 py-3 text-sm font-normal hover:bg-white transition-colors"
+              className="inline-flex items-center justify-center rounded-2xl bg-accent text-accent-foreground px-8 h-12 text-sm font-normal hover:bg-accent/90 transition-colors max-sm:w-full"
             >
               Bestill konsultasjon
-              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

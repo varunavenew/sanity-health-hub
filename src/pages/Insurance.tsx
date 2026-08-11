@@ -143,7 +143,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               <Button variant="outline" className="border-foreground/20 hover:bg-muted" asChild>
                 <Link to="/kontakt">Kontakt oss</Link>
               </Button>
-              <Button className="bg-brand-dark text-white hover:bg-brand-dark/90" onClick={() => navigate('/booking')}>
+              <Button variant="cta" onClick={() => navigate('/booking')}>
                 Bestill time
               </Button>
             </div>

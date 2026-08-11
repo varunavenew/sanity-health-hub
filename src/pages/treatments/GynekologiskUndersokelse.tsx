@@ -390,7 +390,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
               <p className="text-sm font-light text-white/70 lg:text-right">
                 Gynekologisk undersøkelse — pris fra 2 200 kr
               </p>
-              <Button asChild variant="cta-dark" size="lg" className="px-8">
+              <Button asChild variant="cta" size="lg" className="px-8">
                 <Link
                   to={buildBookingUrl({
                     kategori: "gynekologi",
