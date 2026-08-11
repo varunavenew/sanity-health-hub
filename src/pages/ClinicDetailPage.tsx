@@ -10,6 +10,18 @@ import { useClinic } from "@/hooks/useSanity";
 import { SpecialistCard } from "@/components/specialists/SpecialistCarousel";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
+import imgVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
+import imgKorridorLys from "@/assets/clinics/interior/korridor-lys.jpg.asset.json";
+import imgKorridorVenteplass from "@/assets/clinics/interior/korridor-venteplass.jpg.asset.json";
+import imgKorridorDempet from "@/assets/clinics/interior/korridor-dempet.jpg.asset.json";
+
+const clinicHeroImages: Record<string, string> = {
+  majorstuen: imgVenteromBredt.url,
+  bekkestua: imgKorridorLys.url,
+  moss: imgKorridorVenteplass.url,
+  moelv: imgKorridorDempet.url,
+};
 
 // Local interior gallery per clinic — extra photos shown below the primary image.
 import intVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
@@ -148,6 +160,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  );
  }
 
+ const heroImage = (clinic as any).heroImage || clinicHeroImages[clinic.slug as string] || (clinic as any).primaryImage;
  const faqs = clinic.faqs || [];
  const detail = clinic.detail || {};
  const mapsUrl = clinic.mapsUrl || (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
@@ -176,28 +189,69 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  url: `https://cmedical.no/klinikker/${clinic.slug}`,
  }}
  />
- {/* Header */}
- <div className="bg-brand-warm pt-[4.5rem]">
- <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
- <div className="max-w-3xl mx-auto">
- <Link to="/klinikker" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
- <ArrowLeft className="w-3 h-3" />
- Alle klinikker
- </Link>
+  {/* Hero image — mobil: fullbredde bak overlay-header. Desktop: rolig bildebånd. */}
+  {heroImage && (
+    <>
+      <ParallaxImage
+        src={heroImage}
+        alt={`CMedical ${clinic.label}`}
+        loading="eager"
+        speed={0.16}
+        objectPosition="50% 45%"
+        className="md:hidden w-full h-[58svh]"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(24,4,4,0.92) 0%, rgba(66,51,42,0.82) 24%, rgba(66,51,42,0.6) 46%, rgba(66,51,42,0.32) 70%, rgba(66,51,42,0.12) 100%)",
+          }}
+        />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-dark/65 via-brand-dark/25 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
+          <BackLink to="/klinikker" tone="onImage" className="mb-4">Alle klinikker</BackLink>
+          <h1 className="text-2xl font-light text-brand-warm leading-tight">
+            CMedical {clinic.label}
+          </h1>
+        </div>
+      </ParallaxImage>
+      <ParallaxImage
+        src={heroImage}
+        alt={`CMedical ${clinic.label}`}
+        loading="eager"
+        speed={0.14}
+        className="hidden md:block w-full h-[46vh]"
+      >
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-dark/60 via-brand-dark/20 to-transparent" />
+      </ParallaxImage>
+    </>
+  )}
 
- <header className="mb-8 pb-6 border-b border-brand-dark/10">
- 
- <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
- CMedical {clinic.label}
- </h1>
- </header>
+  {/* Header */}
+  <div className={`bg-brand-warm ${heroImage ? "md:pt-0" : "pt-[4.5rem]"}`}>
+  <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+  <div className="max-w-3xl mx-auto">
+  {!heroImage && (
+  <Link to="/klinikker" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
+  <ArrowLeft className="w-3 h-3" />
+  Alle klinikker
+  </Link>
+  )}
 
- <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
- {clinic.description}
- </p>
- </div>
- </div>
- </div>
+  <header className={`mb-8 pb-6 border-b border-brand-dark/10 ${heroImage ? "hidden md:block" : ""}`}>
+  
+  <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
+  CMedical {clinic.label}
+  </h1>
+  </header>
+
+  <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+  {clinic.description}
+  </p>
+  </div>
+  </div>
+  </div>
+
 
  {/* Practical info */}
  <section className="bg-background py-10 md:py-14">
@@ -332,20 +386,22 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           {gallery && gallery.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
               {gallery.map((img) => (
-                <div key={img.src} className="aspect-[4/5] overflow-hidden bg-brand-mid/10">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <ParallaxImage
+                  key={img.src}
+                  src={img.src}
+                  alt={img.alt}
+                  speed={0.1}
+                  className="aspect-[4/5] bg-brand-mid/10"
+                />
               ))}
             </div>
           ) : (
-            <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-              <img src={clinic.primaryImage!} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
-            </div>
+            <ParallaxImage
+              src={clinic.primaryImage!}
+              alt={`CMedical ${clinic.label}`}
+              speed={0.12}
+              className="w-full aspect-[4/3] md:aspect-[21/9]"
+            />
           )}
         </section>
         );
