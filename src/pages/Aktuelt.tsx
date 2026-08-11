@@ -262,10 +262,11 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
 
 
-      {/* Search & Filters (no SoMe — that lives further down the page) */}
-      <section className="bg-background">
-        <div className="container mx-auto px-6 md:px-16 pt-8 md:pt-12 pb-4">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+      {/* Search & Filters + Articles in ONE section so no section padding
+          is injected between the filter row and the grid. */}
+      <section className="bg-background pb-6">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-4">
             <div className="relative w-full md:w-72 md:flex-shrink-0">
               <label htmlFor="aktuelt-search" className="sr-only">Søk i artikler</label>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
@@ -296,12 +297,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               })}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Articles */}
-      <section className="bg-background pt-0 pb-6">
-        <div className="container mx-auto px-6 md:px-16">
           {/* Top 4 featured */}
           {featuredTop.length > 0 && (
             <div className="mb-16">
