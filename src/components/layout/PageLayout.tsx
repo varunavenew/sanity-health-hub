@@ -318,20 +318,17 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {children}
           </main>
 
-          {/* Footer — bottom clearance for the floating CTA is added inside the footer itself
-              (same dark bg) so no light stripe appears under the footer */}
-          {(() => {
-            const normalized = location.pathname.replace(/\/+$/, "") || "/";
-            const hasFloatingCta =
-              normalized === "/fertilitet" ||
-              normalized === "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi";
-            return <Footer extraBottomSpace={hasFloatingCta} />;
-          })()}
+          {/* Footer — bottom clearance for the sticky mobile CTA is added inside the footer
+              itself (same dark bg) so no light stripe appears under the footer. The clearance
+              is ONLY applied when the bar actually renders. */}
+          <Footer extraBottomSpace={showStickyBar} />
 
         </div>
       </div>
 
-      {/* Mobile bottom CTA bar removed per client request — booking lives in the top header */}
+      {/* Sticky mobile bottom CTA — all pages except booking flow and admin */}
+      {showStickyBar && <HomeStickyBar />}
+
     </>
   );
 };
