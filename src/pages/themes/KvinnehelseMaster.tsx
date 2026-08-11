@@ -73,7 +73,7 @@ const relatedServices = [
  { title: "Fertilitet", desc: "Utredning og behandling for par og enslige som ønsker barn.", href: "/behandlinger/fertilitet" },
  { title: "Overgangsalder", desc: "Helhetlig oppfølging av hormonelle endringer og plager.", href: "/behandlinger/gynekologi/overgangsalder" },
  { title: "Fertilitetssjekk", desc: "Få oversikt over egen fruktbarhet før du planlegger barn.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
- { title: "Gynekologisk undersøkelse", desc: "Trygg, grundig og diskré undersøkelse.", href: "/behandlinger/gynekologi/gynekologisk-undersokelse" },
+ { title: "Gynekologisk undersøkelse", desc: "Trygg, grundig og diskré undersøkelse.", href: "/behandlinger/gynekologi/undersokelse" },
  { title: "Tverrfaglige tilbud", desc: "Samarbeid mellom spesialister for sammensatte behov.", href: "/tverrfaglige-tilbud" },
 ];
 
@@ -198,7 +198,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
             {[
               "Pris fra 2 500 kr",
               "Dekkes av de fleste helseforsikringer",
-              "Konsultasjon innen 1–3 dager",
+              "Kort ventetid",
             ].map((b) => (
               <li key={b} className="text-sm font-light text-foreground/75">· {b}</li>
             ))}

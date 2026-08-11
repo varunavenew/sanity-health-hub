@@ -18,26 +18,26 @@ type CategoryConfig = {
 const CONFIG: Record<string, CategoryConfig> = {
   fertilitet: {
     label: "Fertilitetsutredning og behandling",
-    href: "/behandlinger/fertilitet",
+    href: "/behandlinger/fertilitet/fertilitetsutredning",
     image: fertilityHero,
     description:
       "Et helhetlig forløp med utredning, behandling og oppfølging hos egen spesialist. Ingen henvisning nødvendig — typisk 1–3 uker fra første time til oppstart.",
     bullets: [
       "Pris fra 2 900 kr for førstegangskonsultasjon",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 1–3 dager",
+      "Kort ventetid",
     ],
   },
   gynekologi: {
     label: "Gynekologisk utredning",
-    href: "/behandlinger/gynekologi",
+    href: "/behandlinger/gynekologi/undersokelse",
     image: gynecologyHero,
     description:
       "Grundig samtale og undersøkelse hos erfaren gynekolog. Ingen henvisning nødvendig — du får ofte time innen få dager.",
     bullets: [
       "Pris fra 2 500 kr",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 1–3 dager",
+      "Kort ventetid",
     ],
   },
   urologi: {
@@ -49,7 +49,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     bullets: [
       "Pris fra 2 500 kr",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 1–3 dager",
+      "Kort ventetid",
     ],
   },
   ortopedi: {
@@ -61,7 +61,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     bullets: [
       "Pris fra 2 500 kr",
       "Dekkes av de fleste helseforsikringer",
-      "Konsultasjon innen 10 dager",
+      "Kort ventetid",
     ],
   },
   annet: {

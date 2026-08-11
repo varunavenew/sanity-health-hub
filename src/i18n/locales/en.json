@@ -53,7 +53,7 @@
     "seeAll": "See all services",
     "featuredServices": "Featured services",
     "moreServices": "More services",
-    "noReferral": "No referral needed",
+    "noReferral": "No referral",
     "noWaiting": "No waiting time",
     "findTreatment": "Find the right treatment for you",
     "searchPlaceholder": "Search for treatment or specialty...",
@@ -99,8 +99,8 @@
     "callUs": "Call us",
     "selectClinic": "Select clinic",
     "goToContact": "Go to contact page →",
-    "availableTime": "Available appointments within 1–3 days",
-    "noReferral": "No referral needed"
+    "availableTime": "Short waiting time",
+    "noReferral": "No referral"
   },
   "cta": {
     "title": "Take care of your health",

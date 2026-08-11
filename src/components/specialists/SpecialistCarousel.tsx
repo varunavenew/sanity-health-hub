@@ -181,7 +181,7 @@ export const SpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+        className="w-full h-full object-cover object-top md:object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
       <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/25 to-transparent" />

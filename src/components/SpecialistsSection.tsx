@@ -54,7 +54,7 @@ export const SpecialistsSection = () => {
               <div className="space-y-2">
                 <div className="text-5xl font-light text-primary">Kort</div>
                 <div className="text-sm text-muted-foreground font-light">
-                  Ventetid · Ingen henvisning nødvendig
+                  Ventetid · Ingen henvisning
                 </div>
               </div>
             </Card>

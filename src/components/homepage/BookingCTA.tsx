@@ -90,12 +90,12 @@ export const BookingCTA = () => {
 
 
           {/* Trust indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-8">
-            <span className="flex items-center gap-2 text-sm text-white">
+          <div className="flex flex-nowrap items-center justify-center gap-5 sm:gap-8">
+            <span className="flex items-center gap-2 text-sm text-white whitespace-nowrap">
               <Check className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               {t("booking.availableTime")}
             </span>
-            <span className="flex items-center gap-2 text-sm text-white">
+            <span className="flex items-center gap-2 text-sm text-white whitespace-nowrap">
               <Check className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               {t("booking.noReferral")}
             </span>
