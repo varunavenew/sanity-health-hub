@@ -4,6 +4,8 @@ import { fertilitetSubPages } from "@/data/fertilitetSubPages";
 import { getServiceImage } from "@/data/serviceImages";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
+import { getFertilityBooking } from "@/lib/fertilityBooking";
+
 import NotFound from "@/pages/NotFound";
 import { computeSiblingServices } from "@/lib/siblingServices";
 import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
