@@ -43,7 +43,7 @@ export const ListPageHero = ({ title, description, children, className = "" }: L
           {title}
         </h1>
         {description && (
-          <p className="mt-5 md:mt-6 text-brand-warm/80 font-light text-base md:text-lg leading-relaxed max-w-xl">
+          <p className="mt-2 md:mt-3 text-brand-warm/80 font-light text-base md:text-lg leading-relaxed max-w-xl">
             {description}
           </p>
         )}
