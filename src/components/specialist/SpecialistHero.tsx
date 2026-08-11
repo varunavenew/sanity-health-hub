@@ -5,6 +5,7 @@ import { MapPin, Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { getPortraitFocal } from "@/lib/specialistFocal";
 
 interface SpecialistHeroProps {
   specialist: Specialist;
@@ -30,6 +31,7 @@ const categoryToServicePath: Record<string, string> = {
 export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHeroProps) => {
   const firstName = specialist.name.split(" ")[0];
   const servicePath = categoryToServicePath[specialist.category] || "/tjenester";
+  const focal = getPortraitFocal(specialist.image);
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -44,8 +46,8 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
         <img
           src={specialist.image}
           alt={specialist.name}
-          className="absolute inset-0 w-full h-[118%] object-cover object-[50%_18%] will-change-transform"
-          style={{ transform: `translate3d(0, ${scrollY * 0.3}px, 0)` }}
+          className="absolute inset-0 w-full h-[118%] object-cover will-change-transform"
+          style={{ objectPosition: focal, transform: `translate3d(0, ${scrollY * 0.3}px, 0)` }}
         />
         <div
           className="absolute inset-0"
@@ -194,7 +196,17 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
           <img
             src={specialist.image}
             alt={specialist.name}
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: focal }}
+          />
+          {/* Samme varme gradient/filter som øvrige hero-bilder */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(66,51,42,0.35) 0%, rgba(92,70,58,0.16) 45%, rgba(92,70,58,0.06) 100%)",
+            }}
           />
         </motion.div>
       </div>
