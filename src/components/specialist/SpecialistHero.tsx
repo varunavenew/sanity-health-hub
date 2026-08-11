@@ -46,8 +46,8 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
         <img
           src={specialist.image}
           alt={specialist.name}
-          className="absolute inset-0 w-full h-[118%] object-cover object-[50%_18%] will-change-transform"
-          style={{ transform: `translate3d(0, ${scrollY * 0.3}px, 0)` }}
+          className="absolute inset-0 w-full h-[118%] object-cover will-change-transform"
+          style={{ objectPosition: focal, transform: `translate3d(0, ${scrollY * 0.3}px, 0)` }}
         />
         <div
           className="absolute inset-0"
