@@ -98,6 +98,7 @@ export const SpecialistFeaturedService = ({ specialist }: Props) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="order-2 lg:order-1"
           >
             <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
               {cfg.label}
