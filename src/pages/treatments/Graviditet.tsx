@@ -149,12 +149,22 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     items: [
       { title: "Fosterdiagnostikk", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
       { title: "Organrettet ultralyd uke 12–14", desc: "Spesialist i fostermedisin", href: `${GRAV}/fosterdiagnostikk` },
+      { title: "Fostermedisin", desc: "Fosterets helse og utvikling hos spesialist", href: `${GRAV}/fostermedisin` },
     ],
   },
   {
     label: "Oppfølging gjennom svangerskapet",
     items: [
       { title: "Graviditetsoppfølging", desc: "Erfarne gynekologer og fostermedisinere hele veien", href: `${GRAV}/svangerskapsteam` },
+      { title: "Svangerskapskontroll", desc: "Oppfølging gjennom hele svangerskapet", href: `${GRAV}/svangerskapsoppfolging` },
+    ],
+  },
+  {
+    label: "Etter fødsel og ved tap",
+    items: [
+      { title: "6-ukerskontroll etter fødsel", desc: "Undersøkelse og veiledning etter fødsel", href: `${GRAV}/6-ukerskontroll` },
+      { title: "Fødselsskader", desc: "Bristninger, bekkenbunn og plager etter fødsel", href: `${GRAV}/fodselsskader` },
+      { title: "Spontanabort", desc: "Utredning, oppfølging og samtale", href: `${GRAV}/spontanabort` },
     ],
   },
 ];
