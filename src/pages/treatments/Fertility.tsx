@@ -61,6 +61,13 @@ interface PageProps {
 
 const FERT = "/behandlinger/fertilitet";
 
+/**
+ * Feature-flagg: «Bli donor» er avpublisert fram til lansering.
+ * Sett til `true` for å vise fanen og kortet igjen — data og undersider
+ * (/behandlinger/fertilitet/donorbehandling) er urørt.
+ */
+const SHOW_BLI_DONOR = false;
+
 const segments = [
  {
  id: "forsta",
@@ -73,7 +80,6 @@ const segments = [
    { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
    { label: "Egglederundersøkelse (HyFoSy)", href: `${FERT}/fertilitetsutredning` },
    { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
-   { label: "Rådgivning online", href: `${FERT}/infertilitet` },
    ],
    cta: "Les mer",
    href: `${FERT}/fertilitetsutredning`,
@@ -99,9 +105,8 @@ const segments = [
  desc:
  "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
  tags: [
- { label: "Nedfrysing av egg", href: `${FERT}/eggfrys` },
- { label: "Nedfrysing av spermceller", href: `${FERT}/eggfrys` },
- { label: "Spermiefrys", href: `${FERT}/eggfrys` },
+  { label: "Nedfrysing av egg", href: `${FERT}/eggfrys` },
+  { label: "Nedfrysing av spermceller", href: `${FERT}/saedanalyse` },
  ],
   cta: "Les mer",
   href: "/behandlinger/fertilitet/eggfrys",
@@ -121,7 +126,9 @@ const segments = [
  cta: "Bestill analyse",
  href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
  },
- {
+ // SKJULT TIL LANSERING (kunden kan ville ha denne tilbake) — se SHOW_BLI_DONOR.
+ ...(SHOW_BLI_DONOR
+ ? [{
  id: "donor",
  title: "Jeg vil bli donor",
  desc:
@@ -132,7 +139,8 @@ const segments = [
  ],
  cta: "Les mer",
  href: `${FERT}/donorbehandling`,
- },
+ }]
+ : []),
 ];
 
 
@@ -179,14 +187,17 @@ const expertAreas = [
     href: "/behandlinger/fertilitet/donorbehandling",
     image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
   },
-  {
-    title: "Bli donor",
-    desc:
-      "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
-    href: "/behandlinger/fertilitet/donorbehandling",
-    image: eggdonasjonImg,
-    lockImage: true,
-  },
+  // SKJULT TIL LANSERING — se SHOW_BLI_DONOR.
+  ...(SHOW_BLI_DONOR
+    ? [{
+        title: "Bli donor",
+        desc:
+          "Som eggdonor eller spermdonor kan du hjelpe andre med å bli foreldre. Vi forklarer krav og forløp — etter norsk lov.",
+        href: "/behandlinger/fertilitet/donorbehandling",
+        image: eggdonasjonImg,
+        lockImage: true,
+      }]
+    : []),
   {
     title: "Sædanalyse",
     desc:
@@ -461,7 +472,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
     {"\n"}
    </p>
 
-  <ReadMoreLink to="/om-oss" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
+  <ReadMoreLink to="/klinikker" tone="standalone" className="mt-8">Les mer om klinikken</ReadMoreLink>
  </div>
  </div>
 
