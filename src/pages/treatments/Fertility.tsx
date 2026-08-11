@@ -339,6 +339,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   <CallUsClinicPicker variant="light" label="Ring oss" />
   </div>
 
+   <p className="text-base font-light leading-relaxed text-muted-foreground mb-10 max-w-xl">
+   Usikker på hvor man skal starte? Du er alltid velkommen til å ringe oss direkte så hjelper vi deg.
+   </p>
+
+
+
    <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
    {["Ingen henvisning", "Korte ventetider"].map((u) => (
    <li key={u} className="flex items-center gap-2">
