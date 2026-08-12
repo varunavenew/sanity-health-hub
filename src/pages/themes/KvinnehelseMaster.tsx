@@ -196,7 +196,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           </p>
           <ul className="space-y-2 mb-8">
             {[
-              "Pris fra 2 500 kr",
+              "Se vår prisliste for oppdaterte priser",
               "Dekkes av de fleste helseforsikringer",
               "Kort ventetid",
             ].map((b) => (

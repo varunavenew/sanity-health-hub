@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
+import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
 const imgMajorstuen = majorstuenVenteromTv.url;
 
@@ -49,7 +50,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Alt under samme tak", desc: "Trenger du videre utredning eller behandling, har du det her. Ingen omveier." },
     ],
     rating: "4,7 — Kort ventetid · Ingen henvisning",
-    heroPrice: "Pris fra 2 200 kr",
+    heroPrice: getFromPriceForPath("/behandlinger/gynekologi/undersokelse") ?? undefined,
     hideSeePriser: true,
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
@@ -183,7 +184,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Tid til samtalen", desc: "Vi tar oss tid til å gå gjennom alt — også det som er vanskelig å snakke om." },
       { title: "Tett oppfølging", desc: "Vi følger deg over tid og justerer behandlingen etter behov." },
     ],
-    heroPrice: "Pris fra 2 500 kr",
+    heroPrice: getFromPriceForTitle("gynekologi", "Overgangsalder") ?? undefined,
     booking: { ...baseBooking, tjeneste: "overgangsalder" },
     primaryCtaLabel: "Se ledige tider",
     flowTitle: "Hva skjer hos oss",
