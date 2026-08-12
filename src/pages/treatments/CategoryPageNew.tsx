@@ -15,10 +15,8 @@ import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel"
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
-import {
 import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
- categoryNewContent,
-} from "./categoryPageContent";
+import { categoryNewContent } from "./categoryPageContent";
 
 interface CategoryPageNewProps {
  categoryId: string;
