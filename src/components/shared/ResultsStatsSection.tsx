@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "@/components/AnimatedStat";
-import skinBg from "@/assets/blur-belly.jpg.asset.json";
+import skinBg from "@/assets/blur-skin-mid.jpg.asset.json";
 
 export type ResultStat = {
   v: string;
@@ -74,33 +74,17 @@ export const ResultsStatsSection = ({
   return (
     <section
       ref={sectionRef}
-      className={`relative overflow-hidden text-foreground py-16 md:py-20 border-t border-brand-dark/5 ${isWarm ? "" : "bg-brand-light"} ${className}`}
+      className={`stats-band-dark relative overflow-hidden py-16 md:py-20 ${className}`}
     >
-      {isWarm && (
-        <>
-          {/* Parallax skin-toned background */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 -top-16 -bottom-16 will-change-transform"
-            style={{ transform: `translate3d(0, ${offset}px, 0)` }}
-          >
-            <img
-              src={skinBg.url}
-              alt=""
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-brand-light/70"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-brand-light/40 via-brand-light/20 to-brand-light/60"
-          />
-        </>
-      )}
+      {/* Same background asset/toning as the "60 000+"-band on the homepage */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 -top-16 -bottom-16 will-change-transform bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${skinBg.url})`,
+          transform: isWarm ? `translate3d(0, ${offset}px, 0)` : undefined,
+        }}
+      />
 
       <div className="relative container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
