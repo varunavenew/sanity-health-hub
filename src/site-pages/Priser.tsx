@@ -2,7 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, Plus, Minus, Clock, Star } from "lucide-react";
+import { ArrowRight, Plus, Minus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "@/lib/router";
@@ -18,8 +18,18 @@ import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import { bookingUrlForPricingItem, slugifyNo } from "@/lib/bookingLinks";
-import { pageSectionsHaveUsableBookingCta } from "@/lib/sanity/cta-dual-read";
+import {
+  isUsableBookingCtaBody,
+  resolveBookingCtaFromCollection,
+} from "@/lib/sanity/cta-dual-read";
 import { resolveHomepageSpecialists } from "@/lib/sanity/homepage-specialists";
+import {
+  behandlingerCategorySegment,
+  categoryLandingPath,
+  FLERE_FAGOMRADER_CATEGORY_ID,
+  normalizeCategoryRouteKey,
+} from "@/lib/sanity/category-keys";
+import { PricingPageCta } from "@/components/pricing/PricingPageCta";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -41,14 +51,17 @@ interface PriceItem {
   name: string;
   price: string;
   duration: string;
-  /** Metodika wbactivity id — when set, show “Bestill time”. */
+  /** CMS origin: Metodika-imported vs Sanity-only. */
+  source: "metodika" | "sanity";
+  /** Metodika wbactivity id — booking only when source is metodika. */
   apiActivityId?: number;
   bookable: boolean;
 }
 
 interface PriceSubcategory {
   label: string;
-  path: string;
+  /** Localized “Les mer om …” path when a treatment/category target exists. */
+  learnMorePath: string | null;
   items: PriceItem[];
 }
 
@@ -72,17 +85,21 @@ function resolveDisplayDuration(
   item: PriceItem,
   durationByActivityId: Record<number, DurationState>,
 ): { label: string | null; loading: boolean } {
+  // Prefer CMS note (matches curated reference). Only enrich from Metodika when note is empty.
+  if (item.duration?.trim()) {
+    return { label: item.duration.trim(), loading: false };
+  }
   if (item.apiActivityId != null) {
     const state = durationByActivityId[item.apiActivityId];
     if (!state || state.status === "none") {
-      return { label: item.duration || null, loading: false };
+      return { label: null, loading: false };
     }
     if (state.status === "loading") {
       return { label: null, loading: true };
     }
     return { label: state.label, loading: false };
   }
-  return { label: item.duration || null, loading: false };
+  return { label: null, loading: false };
 }
 
 function mapSanityPriceItem(raw: {
@@ -90,10 +107,13 @@ function mapSanityPriceItem(raw: {
   price?: number;
   priceLabel?: string;
   note?: string;
+  source?: string;
   apiActivityId?: number;
 }): PriceItem | null {
   const name = raw?.name?.trim();
   if (!name) return null;
+  const source: "metodika" | "sanity" =
+    raw.source === "metodika" ? "metodika" : "sanity";
   const apiActivityId =
     typeof raw.apiActivityId === "number" && raw.apiActivityId > 0
       ? raw.apiActivityId
@@ -102,17 +122,70 @@ function mapSanityPriceItem(raw: {
   const price =
     priceLabel ||
     (typeof raw.price === "number" ? `${raw.price},-` : "");
+  // Booking CTA only for explicit Metodika-origin lines with a valid activity id.
+  const bookable = source === "metodika" && apiActivityId != null;
   return {
     name,
     price,
     duration: raw.note?.trim() ?? "",
-    apiActivityId,
-    bookable: apiActivityId != null,
+    source,
+    apiActivityId: source === "metodika" ? apiActivityId : undefined,
+    bookable,
   };
 }
 
+function resolveSubcategoryLearnMorePath(
+  sub: {
+    linkToCategoryPage?: boolean;
+    treatmentRef?: {
+      slug?: string;
+      categorySlug?: string;
+      categoryId?: string;
+    } | null;
+  },
+  bookingCategorySlug: string,
+  locale: "no" | "en",
+): string | null {
+  const treatmentSlug = String(sub.treatmentRef?.slug ?? "").trim();
+  if (treatmentSlug) {
+    const routeKey =
+      normalizeCategoryRouteKey(
+        String(
+          sub.treatmentRef?.categoryId ||
+            sub.treatmentRef?.categorySlug ||
+            bookingCategorySlug,
+        ),
+      ) || bookingCategorySlug;
+    // Prefer parent pricing category for known top-level booking slugs so a
+    // mis-linked treatment.category cannot break Fertilitet → /behandlinger/fertilitet/…
+    const segmentSource =
+      bookingCategorySlug && bookingCategorySlug !== "flere-fagomrader"
+        ? normalizeCategoryRouteKey(bookingCategorySlug) || routeKey
+        : routeKey;
+    const segment = behandlingerCategorySegment(
+      segmentSource === "annet" ? FLERE_FAGOMRADER_CATEGORY_ID : segmentSource,
+      locale,
+    );
+    return `/behandlinger/${segment}/${treatmentSlug}`;
+  }
+
+  if (sub.linkToCategoryPage) {
+    const key =
+      normalizeCategoryRouteKey(bookingCategorySlug) || bookingCategorySlug;
+    if (key === FLERE_FAGOMRADER_CATEGORY_ID || key === "annet") {
+      return `/behandlinger/${behandlingerCategorySegment(FLERE_FAGOMRADER_CATEGORY_ID, locale)}`;
+    }
+    return categoryLandingPath(key, locale);
+  }
+
+  return null;
+}
+
 /** Map CMS priceCategories → UI model. Sanity is the list source of truth. */
-function mapSanityPriceCategories(rawCategories: unknown): PriceCategory[] {
+function mapSanityPriceCategories(
+  rawCategories: unknown,
+  locale: "no" | "en",
+): PriceCategory[] {
   if (!Array.isArray(rawCategories)) return [];
 
   return rawCategories
@@ -134,7 +207,11 @@ function mapSanityPriceCategories(rawCategories: unknown): PriceCategory[] {
               if (items.length === 0) return null;
               return {
                 label: subLabel,
-                path: `/${bookingCategorySlug}`,
+                learnMorePath: resolveSubcategoryLearnMorePath(
+                  sub,
+                  bookingCategorySlug,
+                  locale,
+                ),
                 items,
               };
             })
@@ -153,7 +230,7 @@ function mapSanityPriceCategories(rawCategories: unknown): PriceCategory[] {
             ? [
                 {
                   label,
-                  path: `/${bookingCategorySlug}`,
+                  learnMorePath: null,
                   items: legacyItems,
                 },
               ]
@@ -183,7 +260,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [navTop, setNavTop] = useState(80);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
   const navScrollerRef = useRef<HTMLDivElement | null>(null);
   const overviewRef = useRef<HTMLDivElement | null>(null);
   const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -212,15 +288,27 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const specialistsSeeAllHref = specialistsConfig?.seeAllHref?.trim() || "/om-oss";
 
   const pricingLoading = pricingQueryLoading;
+  const routeLocale: "no" | "en" = locale === "en" ? "en" : "no";
   const categoriesFromCms = useMemo(
-    () => mapSanityPriceCategories(sanityPricing?.priceCategories),
-    [sanityPricing?.priceCategories],
+    () => mapSanityPriceCategories(sanityPricing?.priceCategories, routeLocale),
+    [sanityPricing?.priceCategories, routeLocale],
   );
   const hasCmsPrices = !pricingLoading && categoriesFromCms.length > 0;
 
-  const faqs: PricingFaq[] = (sanityPricing?.faqs ?? []).filter(
-    (item): item is PricingFaq => Boolean(item?._id && item?.question && item?.answer),
-  );
+  const faqs = useMemo(() => {
+    const rows = (sanityPricing?.faqs ?? []) as Array<{
+      _id?: string;
+      question?: string;
+      answer?: string;
+    }>;
+    return rows
+      .filter((item) => Boolean(item?.question?.trim() && item?.answer?.trim()))
+      .map((item, index) => ({
+        _id: item._id?.trim() || `pricing-faq-${index}`,
+        question: item.question!.trim(),
+        answer: item.answer!.trim(),
+      })) satisfies PricingFaq[];
+  }, [sanityPricing?.faqs]);
 
   const testimonials: PricingTestimonial[] = (sanityPricing?.testimonials ?? []).filter(
     (item): item is PricingTestimonial =>
@@ -232,11 +320,33 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const pageSubtitle = sanityPricing?.introText?.trim() ?? "";
   const seoTitle     = sanityPricing?.seo?.metaTitle?.trim() ?? pageTitle;
   const seoDescription = sanityPricing?.seo?.metaDescription?.trim() ?? pageSubtitle;
-  const testimonialsTitle = sanityPricing?.testimonialsTitle?.trim() ?? "";
-  const faqTitle = sanityPricing?.faqTitle?.trim() ?? "";
-  const preferSharedBookingCta = pageSectionsHaveUsableBookingCta(
-    sanityPricing?.pageSections,
-  );
+  const testimonialsTitle =
+    sanityPricing?.testimonialsTitle?.trim() || t("pricing.testimonialsTitle");
+  const faqTitle = sanityPricing?.faqTitle?.trim() || t("pricing.faqTitle");
+  // Reference Pricing keeps a hero “Bestill time” even when the page-owned CTA exists.
+  const showHeroBookingCta = true;
+  const pricingCtaConfig = useMemo(() => {
+    const band = sanityPricing?.pricingCta as
+      | {
+          title?: string;
+          subtitle?: string;
+          primaryLabel?: string;
+          primaryPath?: string;
+          secondaryLabel?: string;
+          secondaryPath?: string;
+          showSecondaryButton?: boolean;
+          bookingCategory?: { categoryId?: string };
+          quickInfoItems?: unknown;
+          backgroundColor?: string;
+          textColor?: string;
+          ctaCollection?: unknown;
+        }
+      | null
+      | undefined;
+    if (!band) return null;
+    return resolveBookingCtaFromCollection(band.ctaCollection, band);
+  }, [sanityPricing?.pricingCta]);
+  const preferPricingCta = isUsableBookingCtaBody(pricingCtaConfig ?? {});
 
   useEffect(() => {
     if (seoTitle) document.title = `${seoTitle} | CMedical`;
@@ -334,10 +444,16 @@ const Priser = ({ isChatOpen }: PageProps) => {
       // Resolve the first (above-the-fold) category first, then the rest.
       for (const category of sortedCategories) {
         if (cancelled) return;
+        // Only fetch Metodika duration for bookable Metodika lines when CMS note is empty.
         const activityIds = category.subcategories
           .flatMap((sub) => sub.items)
-          .map((item) => item.apiActivityId)
-          .filter((id): id is number => typeof id === "number");
+          .filter(
+            (item) =>
+              item.bookable &&
+              !item.duration?.trim() &&
+              typeof item.apiActivityId === "number",
+          )
+          .map((item) => item.apiActivityId as number);
 
         const idsToFetch = activityIds.filter((id) => {
           const cached = durationByActivityIdRef.current[id];
@@ -368,27 +484,30 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, [sortedCategories]);
 
   useEffect(() => {
-    const sections = sortedCategories
-      .map((c) => document.getElementById(`cat-${c.id}`))
-      .filter(Boolean) as HTMLElement[];
-    if (sections.length === 0) return;
+    if (sortedCategories.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (Date.now() < suspendSpyUntil.current) return;
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          setActiveCategory(visible[0].target.id.replace("cat-", ""));
+    const pickActiveFromScroll = () => {
+      if (Date.now() < suspendSpyUntil.current) return;
+      const marker = navTop + 72;
+      let currentId = sortedCategories[0]?.id ?? "";
+      for (const category of sortedCategories) {
+        const el = document.getElementById(`cat-${category.id}`);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= marker) {
+          currentId = category.id;
         }
-      },
-      { rootMargin: "-20% 0px -70% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
-    );
+      }
+      if (currentId) setActiveCategory(currentId);
+    };
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, [sortedCategories]);
+    pickActiveFromScroll();
+    window.addEventListener("scroll", pickActiveFromScroll, { passive: true });
+    window.addEventListener("resize", pickActiveFromScroll);
+    return () => {
+      window.removeEventListener("scroll", pickActiveFromScroll);
+      window.removeEventListener("resize", pickActiveFromScroll);
+    };
+  }, [sortedCategories, navTop]);
 
   useEffect(() => {
     const scroller = navScrollerRef.current;
@@ -457,9 +576,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
       tjeneste: item.name,
     });
 
-  const toggleItem = (key: string) => {
-    setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
   const toggleFaq = (id: string) => setOpenFaq(openFaq === id ? null : id);
 
   return (
@@ -482,28 +598,22 @@ const Priser = ({ isChatOpen }: PageProps) => {
         })}
       />
       <SplitHero
-        eyebrow={t("pricing.heroEyebrow")}
         title={pageTitle}
         description={pageSubtitle}
         image={heroImage}
         imageAlt={pageTitle}
         primaryCta={
-          preferSharedBookingCta
-            ? undefined
-            : { label: t("nav.bookAppointment"), to: "/booking" }
+          showHeroBookingCta
+            ? { label: t("nav.bookAppointment"), to: "/booking" }
+            : undefined
         }
         secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
+        footnote={t("pricing.disclaimer")}
       />
 
       {/* Price List Section */}
       <section id="prisliste" className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-5xl mx-auto mb-8">
-            <p className="text-sm text-muted-foreground font-light">
-              {t("pricing.disclaimer")}
-            </p>
-          </div>
-
           {pricingLoading && (
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -533,19 +643,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
           {hasCmsPrices && (
             <>
               <div className="max-w-5xl mx-auto">
-                <div className="hidden md:block mb-10 md:mb-14" ref={overviewRef}>
-                  <h2 className="text-3xl md:text-4xl font-light text-brand-dark mb-6">
+                <div className="hidden md:block mb-10 md:mb-14 text-left" ref={overviewRef}>
+                  <h2 className="font-serif text-3xl md:text-[2.75rem] font-normal text-brand-dark mb-3 tracking-tight">
                     {t("pricing.menuTitle")}
                   </h2>
-                  <p className="text-xs font-light text-brand-dark/60 mb-4">
+                  <p className="text-sm font-light text-brand-dark/55 mb-7">
                     {t("pricing.jumpToCategory")}
                   </p>
-                  <div className="flex flex-wrap gap-2 md:gap-3">
+                  <div className="flex flex-wrap justify-start gap-2 md:gap-2.5">
                     {sortedCategories.map((category) => (
                       <button
                         key={category.id}
                         onClick={() => scrollToCat(category.id)}
-                        className="inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
+                        className="inline-flex items-center justify-center px-4 py-2 min-h-[40px] rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
                       >
                         {category.label}
                       </button>
@@ -560,10 +670,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 }`}
                 style={{ top: `${navTop}px` }}
               >
-                <div className="container mx-auto px-4 md:px-8">
+                <div className="max-w-5xl mx-auto px-4 md:px-0">
                   <div
                     ref={navScrollerRef}
-                    className="flex gap-2 overflow-x-auto py-2 scrollbar-hide [scroll-behavior:smooth]"
+                    className="flex gap-2 overflow-x-auto py-2.5 scrollbar-hide [scroll-behavior:smooth]"
                     style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                   >
                     {sortedCategories.map((category) => {
@@ -575,10 +685,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             pillRefs.current[category.id] = el;
                           }}
                           onClick={() => scrollToCat(category.id)}
-                          className={`inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-1 min-h-[36px] md:min-h-[36px] rounded-full md:rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
+                          className={`inline-flex items-center justify-center px-4 py-2 min-h-[40px] rounded-full text-sm font-light whitespace-nowrap border transition-colors shrink-0 ${
                             isActive
-                              ? "bg-brand-dark text-brand-warm border-brand-dark"
-                              : "bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark"
+                              ? "bg-brand-dark text-white border-brand-dark"
+                              : "bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-white hover:border-brand-dark"
                           }`}
                           aria-current={isActive ? "true" : undefined}
                         >
@@ -594,21 +704,32 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 {sortedCategories.map((category) => (
                   <section key={category.id} id={`cat-${category.id}`} className="scroll-mt-40">
                     <div className="mb-10 pb-4 border-b border-brand-dark/20">
-                      <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
+                      <h2 className="font-serif text-2xl md:text-3xl font-normal text-brand-dark">
                         {category.label}
                       </h2>
                     </div>
 
-                    <div className="space-y-12">
+                    <div className="space-y-14 md:space-y-16">
                       {category.subcategories.map((sub, subIndex) => (
                         <div
                           key={`${category.id}-${sub.label}`}
-                          className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10 md:items-start"
+                          className="grid grid-cols-1 md:grid-cols-[minmax(200px,28%)_1fr] gap-4 md:gap-12 md:items-start"
                         >
-                          <div className="md:sticky md:top-48 md:self-start">
-                            <h3 className="text-lg md:text-sm font-normal text-brand-dark">
+                          <div className="md:sticky md:top-48 md:self-start md:pr-2">
+                            <h3 className="text-base md:text-lg font-semibold text-brand-dark leading-snug">
                               {sub.label}
                             </h3>
+                            {sub.learnMorePath ? (
+                              <Link
+                                to={sub.learnMorePath}
+                                className="mt-2 inline-flex items-center gap-1 text-xs font-light text-brand-dark/70 hover:text-brand-dark transition-colors"
+                              >
+                                {t("pricing.learnMoreSubcategory", {
+                                  subcategory: sub.label.toLowerCase(),
+                                })}
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
+                            ) : null}
                           </div>
 
                           <div>
@@ -617,9 +738,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 const { label: durationLabel, loading: durationLoading } =
                                   resolveDisplayDuration(item, durationByActivityId);
                                 const itemKey = `${category.id}-${subIndex}-${idx}`;
-                                const isOpen = !!openItems[itemKey];
                                 const priceLabel =
-                                  item.price === "0,-" || item.price === "0"
+                                  item.price === "0,-" ||
+                                  item.price === "0" ||
+                                  /^gratis$/i.test(item.price)
                                     ? t("pricing.free")
                                     : item.price;
                                 const bookingUrl = item.bookable
@@ -628,82 +750,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
                                 return (
                                   <li key={itemKey} className="py-3 md:py-5">
-                                    <div className="md:hidden">
-                                      <div className="grid grid-cols-[1fr_120px] gap-3 items-start">
-                                        <p className="text-[15px] font-normal text-brand-dark leading-snug">
+                                    <div className="flex items-start gap-3">
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
                                           {item.name}
                                         </p>
-                                        <span className="text-[15px] font-normal text-brand-dark tabular-nums text-right whitespace-normal leading-snug">
-                                          {priceLabel}
-                                        </span>
-                                      </div>
-
-                                      {(durationLoading || durationLabel) && (
-                                        <p className="mt-1 text-xs font-light text-brand-dark/60 flex items-center gap-1">
-                                          <Clock className="w-3 h-3" />
-                                          {durationLoading
-                                            ? t("pricing.loadingDuration")
-                                            : durationLabel}
-                                        </p>
-                                      )}
-
-                                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
-                                        {(durationLabel || durationLoading) && (
-                                          <button
-                                            type="button"
-                                            onClick={() => toggleItem(itemKey)}
-                                            className="inline-flex items-center gap-1.5 text-xs font-light text-brand-dark hover:text-brand-dark/80 transition-colors"
-                                            aria-expanded={isOpen}
-                                            aria-controls={`info-${itemKey}`}
-                                          >
-                                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-brand-dark/30 text-brand-dark">
-                                              {isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
-                                            </span>
-                                            {isOpen
-                                              ? t("pricing.hideDetails")
-                                              : t("pricing.aboutService")}
-                                          </button>
-                                        )}
-
-                                        {bookingUrl ? (
-                                          <Link
-                                            to={bookingUrl}
-                                            className="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
-                                          >
-                                            {t("nav.bookAppointment")}
-                                            <ArrowRight className="w-3 h-3" />
-                                          </Link>
-                                        ) : null}
-                                      </div>
-
-                                      <AnimatePresence initial={false}>
-                                        {isOpen && (
-                                          <motion.div
-                                            id={`info-${itemKey}`}
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: "auto", opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.2 }}
-                                            className="overflow-hidden"
-                                          >
-                                            <p className="mt-3 text-xs font-light text-brand-dark/75 leading-relaxed">
-                                              {durationLabel
-                                                ? t("pricing.durationDetail", {
-                                                    duration: durationLabel,
-                                                  })
-                                                : t("pricing.durationUnavailable")}
-                                            </p>
-                                          </motion.div>
-                                        )}
-                                      </AnimatePresence>
-                                    </div>
-
-                                    <div className="hidden md:flex md:items-start gap-3">
-                                      <div className="flex-1 min-w-0">
-                                        <p className="font-normal text-brand-dark">{item.name}</p>
                                         {(durationLoading || durationLabel) && (
-                                          <p className="mt-1 text-xs font-light text-brand-dark/60 flex items-center gap-1">
-                                            <Clock className="w-3 h-3" />
+                                          <p className="mt-1 text-xs font-light text-brand-dark/60 max-w-xl">
                                             {durationLoading
                                               ? t("pricing.loadingDuration")
                                               : durationLabel}
@@ -711,20 +764,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         )}
                                       </div>
 
-                                      <div className="flex items-center gap-4 shrink-0 pt-0.5">
-                                        <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap w-20 text-right">
+                                      <div className="flex flex-col md:flex-row items-end md:items-center gap-2 md:gap-4 shrink-0 pt-0.5">
+                                        <span className="text-[15px] md:text-sm font-normal text-brand-dark tabular-nums whitespace-nowrap md:min-w-[5.5rem] text-right">
                                           {priceLabel}
                                         </span>
                                         {bookingUrl ? (
                                           <Link
                                             to={bookingUrl}
-                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
+                                            className="inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap md:min-w-[7rem]"
                                           >
                                             {t("nav.bookAppointment")}
-                                            <ArrowRight className="w-3 h-3" />
                                           </Link>
                                         ) : (
-                                          <span className="w-28 shrink-0" aria-hidden />
+                                          <span className="hidden md:block min-w-[7rem] shrink-0" aria-hidden />
                                         )}
                                       </div>
                                     </div>
@@ -741,7 +793,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
                     category.bookingCategorySlug !== "flere-fagomrader" ? (
                     <div className="mt-10 pt-6 border-t border-brand-mid/30">
                       <Link
-                        to={`/${category.bookingCategorySlug}`}
+                        to={categoryLandingPath(
+                          normalizeCategoryRouteKey(category.bookingCategorySlug) ||
+                            category.bookingCategorySlug,
+                          routeLocale,
+                        )}
                         className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
                       >
                         {t("pricing.seeAllCategoryServices", {
@@ -755,7 +811,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 ))}
               </div>
 
-              {preferSharedBookingCta ? null : (
+              {preferPricingCta ? null : (
                 <div className="mt-20 md:mt-24 text-center">
                   <button
                     onClick={() => navigate("/booking")}
@@ -920,7 +976,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
       </section>
       )}
 
-      <PageSectionsRenderer sections={sanityPricing?.pageSections} />
+      <PageSectionsRenderer
+        sections={(sanityPricing?.pageSections ?? []).filter(
+          (section: { _type?: string }) => section?._type !== "pageSectionBookingCta",
+        )}
+      />
+      <PricingPageCta config={pricingCtaConfig} />
+
     </PageLayout>
   );
 };

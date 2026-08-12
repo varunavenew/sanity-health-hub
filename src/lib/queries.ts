@@ -1179,6 +1179,18 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
       ${localizedSlug}
     }
   },
+  pricingCta{
+    _type,
+    _key,
+    ${i18nPageSectionString("title")},
+    ${pageSectionBookingCtaBodyProjection},
+    "ctaCollection": ctaCollection->{
+      _id,
+      internalName,
+      ${i18nPageSectionString("title")},
+      ${pageSectionBookingCtaBodyProjection}
+    }
+  },
   priceCategories[]{
     ${i18nString("categoryName")},
     bookingCategorySlug,
@@ -1190,11 +1202,27 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
     },
     subcategories[]{
       ${i18nString("label")},
+      linkToCategoryPage,
+      "treatmentRef": treatment->{
+        _id,
+        ${i18nString("title")},
+        ${localizedSlug},
+        "categorySlug": coalesce(
+          category->slug[language == $lang][0].value.current,
+          category->slug[_key == $lang][0].value.current,
+          category->slug[language == "no"][0].value.current,
+          category->slug[_key == "no"][0].value.current,
+          category->slug.current,
+          category->categoryId
+        ),
+        "categoryId": category->categoryId
+      },
       items[]{
         ${i18nString("name")},
         price,
         ${i18nString("priceLabel")},
         ${i18nString("note")},
+        source,
         apiActivityId
       }
     },
@@ -1203,6 +1231,7 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
       price,
       ${i18nString("priceLabel")},
       ${i18nString("note")},
+      source,
       apiActivityId
     }
   },

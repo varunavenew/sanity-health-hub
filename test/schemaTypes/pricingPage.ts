@@ -20,8 +20,8 @@ import {
 } from './mediaGuidelines'
 
 const PRICING_SHARED_SECTIONS = [
+  'pageSectionInsurance',
   'pageSectionArticles',
-  'pageSectionBookingCta',
 ] as const
 
 export default {
@@ -131,6 +131,22 @@ export default {
                       type: 'internationalizedArrayString',
                     },
                     {
+                      name: 'treatment',
+                      title: 'Related treatment page',
+                      type: 'reference',
+                      to: [{type: 'treatment'}],
+                      description:
+                        'Optional. Powers the “Les mer om …” link to the matching treatment page under /behandlinger/…',
+                    },
+                    {
+                      name: 'linkToCategoryPage',
+                      title: 'Link “Les mer” to category page',
+                      type: 'boolean',
+                      initialValue: false,
+                      description:
+                        'When no treatment is set, link “Les mer om …” to the parent treatment category page (e.g. /fertilitet).',
+                    },
+                    {
                       name: 'items',
                       title: 'Price lines',
                       type: 'array',
@@ -156,11 +172,34 @@ export default {
                               type: 'internationalizedArrayString',
                             },
                             {
+                              name: 'source',
+                              title: 'Data source',
+                              type: 'string',
+                              options: {
+                                list: [
+                                  {title: 'Metodika', value: 'metodika'},
+                                  {title: 'Sanity only', value: 'sanity'},
+                                ],
+                                layout: 'radio',
+                              },
+                              initialValue: 'sanity',
+                              validation: (Rule: any) =>
+                                Rule.required().custom((value: unknown) =>
+                                  value === 'metodika' || value === 'sanity'
+                                    ? true
+                                    : 'Choose metodika or sanity',
+                                ),
+                              description:
+                                'Identifies whether this pricing item originates from Metodika or is managed only in Sanity. Metodika items may have an activity ID and can show “Bestill time”. Sanity-only items never show a booking button.',
+                            },
+                            {
                               name: 'apiActivityId',
                               title: 'Metodika activity ID',
                               type: 'number',
                               description:
-                                'Optional wbactivity id. When set (and resolvable), show “Bestill time” and open booking at clinic selection. Leave empty for non-bookable lines — the line still appears on the Pricing page.',
+                                'Optional Metodika wbactivity id. Required for booking when source is Metodika. Leave empty for Sanity-only lines — the line still appears on the Pricing page without “Bestill time”.',
+                              hidden: ({parent}: {parent?: {source?: string}}) =>
+                                parent?.source !== 'metodika',
                             },
                           ],
                           preview: {
@@ -169,17 +208,30 @@ export default {
                               subtitle: 'price',
                               priceLabel: 'priceLabel',
                               apiActivityId: 'apiActivityId',
+                              source: 'source',
                             },
-                            prepare({title, subtitle, priceLabel, apiActivityId}: any) {
+                            prepare({title, subtitle, priceLabel, apiActivityId, source}: any) {
                               const label = pickStudioEn(priceLabel)
+                              const isMetodika = source === 'metodika'
                               const bookable =
-                                typeof apiActivityId === 'number' && apiActivityId > 0
-                                  ? ` · bookable #${apiActivityId}`
-                                  : ' · not bookable'
+                                isMetodika &&
+                                typeof apiActivityId === 'number' &&
+                                apiActivityId > 0
+                              const origin =
+                                source === 'metodika'
+                                  ? 'metodika'
+                                  : source === 'sanity'
+                                    ? 'sanity'
+                                    : 'source?'
+                              const booking = bookable
+                                ? ` · bookable #${apiActivityId}`
+                                : ' · not bookable'
                               return {
                                 title: pickStudioEn(title) || 'Unnamed',
                                 subtitle:
-                                  (label || (subtitle != null ? `${subtitle} kr` : '')) + bookable,
+                                  (label || (subtitle != null ? `${subtitle} kr` : '')) +
+                                  ` · ${origin}` +
+                                  booking,
                               }
                             },
                           },
@@ -213,6 +265,17 @@ export default {
                       type: 'internationalizedArrayString',
                     },
                     {name: 'note', title: 'Note', type: 'internationalizedArrayString'},
+                    {
+                      name: 'source',
+                      title: 'Data source',
+                      type: 'string',
+                      options: {
+                        list: [
+                          {title: 'Metodika', value: 'metodika'},
+                          {title: 'Sanity only', value: 'sanity'},
+                        ],
+                      },
+                    },
                     {name: 'apiActivityId', title: 'Metodika activity ID', type: 'number'},
                   ],
                 },
@@ -246,6 +309,14 @@ export default {
       group: 'content',
       description:
         'Specialists grid on the Pricing page. Heading, intro, display mode, and max items are edited here — not via Website bands. Layout is fixed (dark grid) on the website.',
+    },
+    {
+      name: 'pricingCta',
+      title: 'Pricing CTA',
+      type: 'pageSectionBookingCta',
+      group: 'content',
+      description:
+        'Pricing-page-owned booking CTA (Content Library collection). Not the shared Website Booking CTA band — other pages keep their own CTAs.',
     },
     pageSectionsFieldForGroup('content', 'sharedSections', PRICING_SHARED_SECTIONS),
     {

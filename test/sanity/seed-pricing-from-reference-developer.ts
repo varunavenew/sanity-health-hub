@@ -402,6 +402,8 @@ async function main() {
           priceLabel: i18nStr(item.price),
           note: item.duration ? i18nStr(item.duration) : undefined,
           price: parsePriceNok(item.price),
+          // Explicit CMS origin — never infer at runtime from name/slug.
+          source: match.apiActivityId != null ? "metodika" : "sanity",
         };
         if (match.apiActivityId != null) {
           doc.apiActivityId = match.apiActivityId;

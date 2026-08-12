@@ -29,6 +29,8 @@ interface SplitHeroProps {
   /** When omitted/null, no primary button is rendered (avoids hardcoded locale text). */
   primaryCta?: HeroCta | null;
   secondaryCta?: SecondaryHeroCta | null;
+  /** Optional fine print under CTAs (e.g. Pricing disclaimer). */
+  footnote?: string;
 }
 
 /**
@@ -44,6 +46,7 @@ export const SplitHero = ({
   imageHotspot,
   primaryCta = null,
   secondaryCta = null,
+  footnote,
 }: SplitHeroProps) => {
   const navigate = useNavigate();
 
@@ -51,6 +54,7 @@ export const SplitHero = ({
   const imageSrc = image ? assetSrc(image) : "";
   const hasImage = Boolean(imageSrc);
   const hasCtas = Boolean(primaryCta || secondaryCta);
+  const footnoteText = footnote?.trim() ?? "";
 
   return (
     <header className="bg-brand-warm">
@@ -119,6 +123,15 @@ export const SplitHero = ({
                 </Button>
               ) : null}
             </div>
+          ) : null}
+          {footnoteText ? (
+            <p
+              className={`text-sm text-foreground/55 font-light leading-relaxed max-w-md ${
+                hasCtas ? "mt-6" : "mt-2"
+              }`}
+            >
+              {footnoteText}
+            </p>
           ) : null}
         </div>
         {/* Right: image */}
