@@ -405,6 +405,19 @@
     padding-bottom: 0 !important;
   }
 
+  /* 3b) Delt høyde-token for ALLE split-screen-heroer og split-seksjoner.
+     Én kilde til sannhet — ikke per-side-verdier. */
+  .split-hero,
+  .split-section {
+    min-height: 420px;
+  }
+  @media (min-width: 768px) {
+    .split-hero { min-height: 100svh; }
+  }
+  @media (min-width: 1024px) {
+    .split-section { min-height: 100svh; }
+  }
+
 
   /* Felles "edge" — beregner avstand fra venstre/høyre viewport-kant til
      content-edge. Bruker max() så den faller tilbake til --gutter på smale
