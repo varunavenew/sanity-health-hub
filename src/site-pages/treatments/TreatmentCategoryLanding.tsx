@@ -986,7 +986,6 @@ const TreatmentCategoryLanding = ({
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <JsonLd data={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd} />
-      <h1 className="sr-only">{landing.srOnlyTitle}</h1>
 
       {/* Hero ├óΓé¼” always first, not part of sectionOrder */}
       {isFullWidthHero ? (
@@ -1008,7 +1007,7 @@ const TreatmentCategoryLanding = ({
                 <span aria-hidden="true">›</span>
                 <span className="text-white/90">{categoryTitle}</span>
               </nav>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
                 {hero.heading}
                 {hero.headingEmphasis ? (
                   <>
@@ -1016,7 +1015,7 @@ const TreatmentCategoryLanding = ({
                     <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
                   </>
                 ) : null}
-              </h2>
+              </h1>
             </div>
           </div>
           <div className="bg-brand-light py-12 lg:py-16 border-b border-brand-dark/10">
@@ -1062,7 +1061,7 @@ const TreatmentCategoryLanding = ({
               <span aria-hidden="true">›</span>
               <span className="text-foreground/80">{categoryTitle}</span>
             </nav>
-            <h2 className="text-4xl font-light text-foreground leading-[1.05]">
+            <h1 className="text-4xl font-light text-foreground leading-[1.05]">
               {hero.heading}
               {hero.headingEmphasis ? (
                 <>
@@ -1070,7 +1069,7 @@ const TreatmentCategoryLanding = ({
                   <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
                 </>
               ) : null}
-            </h2>
+            </h1>
           </div>
           <div className={`flex flex-col-reverse ${hasHeroMedia ? "lg:grid lg:grid-cols-2" : ""} lg:min-h-[720px]`}>
             <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
@@ -1080,7 +1079,7 @@ const TreatmentCategoryLanding = ({
                   <span aria-hidden="true">›</span>
                   <span className="text-foreground/80">{categoryTitle}</span>
                 </nav>
-                <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                   {hero.heading}
                   {hero.headingEmphasis ? (
                     <>
@@ -1088,7 +1087,7 @@ const TreatmentCategoryLanding = ({
                       <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
                     </>
                   ) : null}
-                </h2>
+                </h1>
                 {hero.body ? <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">{hero.body}</p> : null}
                 {hero.entryPriceLabel && hero.entryPriceValue ? (
                   <div className="mb-4 text-sm font-light text-foreground/80">

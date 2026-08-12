@@ -1627,6 +1627,41 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
   ${localizedSeoObject}
 }`;
 
+/** Array of `internationalizedArrayText` blocks (each item its own localized value) — e.g. `introTexts`, `sources`. */
+const i18nArrayItemText = (field: string) => `"${field}": ${field}[]{
+  "text": coalesce(value[language == $lang][0].value, value[_key == $lang][0].value, value[language == "no"][0].value, value[_key == "no"][0].value, value)
+}`;
+
+export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${slugMatchesParam("slug")}][0]{
+  ${i18nString("title")},
+  "slug": slug.current,
+  ${i18nString("subtitle")},
+  ${i18nString("backLinkLabel")},
+  backLinkUrl,
+  ${i18nArrayItemText("introTexts")},
+  ${i18nText("disclaimer")},
+  sections[]{
+    _key,
+    "heading": coalesce(heading[language == $lang][0].value, heading[_key == $lang][0].value, heading[language == "no"][0].value, heading[_key == "no"][0].value, heading),
+    blocks[]{
+      _key,
+      _type,
+      level,
+      style,
+      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value, text),
+      "source": coalesce(source[language == $lang][0].value, source[_key == $lang][0].value, source[language == "no"][0].value, source[_key == "no"][0].value, source),
+      "items": items[]{
+        "text": coalesce(value[language == $lang][0].value, value[_key == $lang][0].value, value[language == "no"][0].value, value[_key == "no"][0].value, value)
+      }
+    }
+  },
+  ${i18nArrayItemText("sources")},
+  ${i18nText("closingNote")},
+  ${i18nString("ctaText")},
+  ctaLink,
+  ${localizedSeoObject}
+}`;
+
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{

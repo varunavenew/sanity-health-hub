@@ -9,6 +9,7 @@
 
 import { useState } from "react";
 import { Plus, Minus, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 export interface FaqItem {
@@ -19,7 +20,7 @@ export interface FaqItem {
 
 interface FaqSectionProps {
   faqs: FaqItem[];
-  /** Localised section title. Defaults to "Ofte stilte spørsmål". */
+  /** Localised section title. Defaults to a locale-aware "Frequently asked questions" / "Ofte stilte spørsmål". */
   title?: string;
   /** Optional supporting copy under the title (split layout / Pregnancy FAQ). */
   description?: string;
@@ -38,13 +39,16 @@ interface FaqSectionProps {
 
 export const FaqSection = ({
   faqs,
-  title = "Ofte stilte spørsmål",
+  title,
   description,
   background = "bg-background",
   withJsonLd = true,
   layout,
   defaultOpenFirst = false,
 }: FaqSectionProps) => {
+  const { i18n } = useTranslation();
+  const isEn = (i18n.language || "nb").startsWith("en");
+  const resolvedTitle = title?.trim() || (isEn ? "Frequently asked questions" : "Ofte stilte spørsmål");
   const resolvedLayout =
     layout ?? (description?.trim() ? "split" : "centered");
   const [openFaq, setOpenFaq] = useState<string | null>(() =>
@@ -77,7 +81,7 @@ export const FaqSection = ({
             <div>
               <div className="lg:sticky lg:top-28">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
-                  {title}
+                  {resolvedTitle}
                 </h2>
                 {descriptionParagraphs.map((para, i) => (
                   <p
@@ -134,7 +138,7 @@ export const FaqSection = ({
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">
-            {title}
+            {resolvedTitle}
           </h2>
           {description?.trim() ? (
             <p className="text-sm md:text-base font-light text-muted-foreground text-center leading-relaxed mb-10 whitespace-pre-line">

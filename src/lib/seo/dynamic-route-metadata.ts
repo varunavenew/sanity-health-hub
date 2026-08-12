@@ -14,6 +14,7 @@ import {
   fetchCareersPageDocument,
   fetchSpecialistSeo,
   fetchThemePageSeo,
+  fetchClinicianGuidePageSeo,
   fetchTreatmentCategorySeo,
   fetchTreatmentSeo,
 } from "@/lib/seo/fetch-sanity-seo";
@@ -147,7 +148,7 @@ export async function buildTreatmentMetadata(
     );
   } catch {
     const isEn = locale === "en";
-    const base = `/${locale}/behandlinger/${categorySlug}/${treatmentSlug}`;
+    const base = `/${locale}/${categorySlug}/${treatmentSlug}`;
     return buildPageMetadata({
       locale,
       paths: { nbPath: base, enPath: base },
@@ -184,6 +185,32 @@ export async function buildThemePageMetadata(
       en: {
         title: `${title} | CMedical`,
         description: `Learn more about ${title} at CMedical.`,
+      },
+    },
+  );
+}
+
+/** Fixed-slug clinician guide pages (e.g. /fastlegeveiledning-overgangsalder) — not part of the themes catalog. */
+export async function buildClinicianGuidePageMetadata(
+  locale: string,
+  slug: string,
+): Promise<Metadata> {
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const doc = await fetchClinicianGuidePageSeo(slug, sanityLang);
+  const paths: LocalizedPaths = { nbPath: `/no/${slug}`, enPath: `/en/${slug}` };
+  const title = doc?.title || slug;
+  return metadataFromSeo(
+    locale,
+    paths,
+    doc?.seo,
+    {
+      nb: {
+        title: `${title} | CMedical`,
+        description: doc?.subtitle || `Les mer om ${title} hos CMedical.`,
+      },
+      en: {
+        title: `${title} | CMedical`,
+        description: doc?.subtitle || `Learn more about ${title} at CMedical.`,
       },
     },
   );

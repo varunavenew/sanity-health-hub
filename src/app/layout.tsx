@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { siteUrl } from "@/lib/env";
+import { isProductionDeploy, siteUrl } from "@/lib/env";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo/defaults";
 import "./globals.css";
 
@@ -12,10 +12,12 @@ export const metadata: Metadata = {
   },
   description:
     "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
-  robots: {
-    index: true,
-    follow: true,
-  },
+  // Default for any route without its own `generateMetadata` — must not
+  // leak `index, follow` on staging/preview deploys just because a page
+  // doesn't set an explicit robots directive.
+  robots: isProductionDeploy()
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
   openGraph: {
     siteName: "CMedical",
     type: "website",

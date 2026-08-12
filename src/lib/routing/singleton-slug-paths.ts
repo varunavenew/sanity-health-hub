@@ -152,8 +152,8 @@ export async function pathsForTreatment(
     const nbCat = behandlingerCategorySegment(categoryId, "no") || cPair.slugNb;
     const enCat = behandlingerCategorySegment(categoryId, "en") || cPair.slugEn;
     return {
-      nbPath: `/no/behandlinger/${nbCat}/${tPair.slugNb}`,
-      enPath: `/en/behandlinger/${enCat}/${tPair.slugEn}`,
+      nbPath: `/no/${nbCat}/${tPair.slugNb}`,
+      enPath: `/en/${enCat}/${tPair.slugEn}`,
     };
   }
 
@@ -164,7 +164,7 @@ export async function pathsForTreatment(
     (cat?.categoryId && behandlingerCategorySegment(cat.categoryId, "en")) ||
     categorySlug;
   return {
-    nbPath: `/no/behandlinger/${nbCat}/${treatmentSlug}`,
-    enPath: `/en/behandlinger/${enCat}/${treatmentSlug}`,
+    nbPath: `/no/${nbCat}/${treatmentSlug}`,
+    enPath: `/en/${enCat}/${treatmentSlug}`,
   };
 }

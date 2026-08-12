@@ -20,7 +20,7 @@ function categoryServicePath(
   const primary = specialist.sanityCategories?.[0];
   if (!primary?.slug) return servicesPath;
   if (primary.categoryId === "flere-fagomrader") return servicesPath;
-  return `/behandlinger/${primary.slug}`;
+  return `/${primary.slug}`;
 }
 
 function clinicLinks(specialist: Specialist): SpecialistClinicRef[] {

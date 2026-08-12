@@ -111,9 +111,14 @@ export function clinicServiceIdForCategoryPage(categoryPageId: string): string {
   return categoryPageToBookingId[categoryPageId] ?? categoryPageId;
 }
 
-/** Map clinic service id from API to human-readable category page id in booking URLs. */
+/**
+ * Map clinic service id from API to human-readable category page id in booking URLs.
+ * Ids outside the 5 main categories (revmatolog, areknuter, hudlege, ...) all live
+ * under the "flere-fagomrader" (/ovrige) umbrella category — fall back to that
+ * instead of returning the raw clinicServiceId, which isn't a routable page.
+ */
 export function bookingCategoryPageIdForClinicService(clinicServiceId: string): string {
-  return bookingIdToCategoryPage[clinicServiceId] ?? clinicServiceId;
+  return bookingIdToCategoryPage[clinicServiceId] ?? "flere-fagomrader";
 }
 
 /**
@@ -125,6 +130,36 @@ export const bookingIdToCategoryPage: Record<string, string> = Object.entries(
   acc[booking] = page;
   return acc;
 }, {});
+
+/**
+ * "flere-fagomrader" (/ovrige) sub-specialty clinicServiceIds that have their
+ * own treatment page — mapped to that page's real slug (not always identical
+ * to the clinicServiceId, e.g. "revmatolog" clinic service vs. "revmatologi" page).
+ * Ids not listed here have no dedicated page and fall back to the category landing.
+ */
+const CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG: Record<string, string> = {
+  areknuter: "areknuter",
+  hudlege: "hudlege",
+  ernaringsfysiolog: "ernaringsfysiolog",
+  revmatolog: "revmatologi",
+  endokrinolog: "endokrinologi",
+  sexolog: "sexologi",
+  psykolog: "psykologi",
+  gastrokirurg: "gastrokirurgi",
+};
+
+/**
+ * Href for "see all <category> services" deep-links on the pricing page.
+ * Main categories go to their category page; "flere-fagomrader" sub-specialties
+ * go to their specific treatment page under /ovrige when one exists, otherwise
+ * to the /ovrige category landing page.
+ */
+export function bookingCategoryHrefForClinicService(clinicServiceId: string): string {
+  const pageId = bookingIdToCategoryPage[clinicServiceId];
+  if (pageId) return `/${pageId}`;
+  const treatmentSlug = CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG[clinicServiceId];
+  return treatmentSlug ? `/ovrige/${treatmentSlug}` : "/ovrige";
+}
 
 /**
  * Map specialist.category → booking service category ID.

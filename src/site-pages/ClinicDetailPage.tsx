@@ -462,8 +462,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
                 {(clinic as any).treatments.map((t: any) => {
                   const href = t.categorySlug
-                    ? `/behandlinger/${t.categorySlug}/${t.slug}`
-                    : `/behandlinger/${t.slug}`;
+                    ? `/${t.categorySlug}/${t.slug}`
+                    : `/${t.slug}`;
                   return (
                     <li key={t.slug} className="group">
                       <Link to={href} className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">

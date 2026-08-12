@@ -60,6 +60,7 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
     'privacyPolicyPage',
     'guidePage',
     'careersPage',
+    'clinicianGuidePage',
   ]
 
   if (previewableTypes.includes(schemaType)) {
@@ -237,6 +238,7 @@ export default defineConfig({
         'siteSettings',
         'guidePage',
         'careersPage',
+        'clinicianGuidePage',
       ])
       if (!i18nTypes.has(context.schemaType)) return actions
       return [...actions, TranslateToEnglishAction]
