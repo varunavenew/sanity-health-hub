@@ -17,13 +17,31 @@ export type SanityClinicListRow = {
   address: string;
   phone?: string;
   hours?: string;
+  description?: string;
   sortOrder?: number;
   primaryImage?: string;
+  heroMedia?: unknown;
+  detail?: {
+    parking?: string;
+    publicTransport?: string;
+    accessibility?: string;
+  };
   locationSearch?: ClinicLocation;
   mapsUrl?: string;
   services?: string[];
   booking?: SanityClinicBooking;
 };
+
+function normalizeClinicDetail(raw: unknown): SanityClinicListRow["detail"] | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const d = raw as Record<string, unknown>;
+  const parking = typeof d.parking === "string" ? d.parking : undefined;
+  const publicTransport =
+    typeof d.publicTransport === "string" ? d.publicTransport : undefined;
+  const accessibility = typeof d.accessibility === "string" ? d.accessibility : undefined;
+  if (!parking && !publicTransport && !accessibility) return undefined;
+  return { parking, publicTransport, accessibility };
+}
 
 export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
   const label =
@@ -60,6 +78,10 @@ export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicList
     typeof c.primaryImage === "string" && c.primaryImage.trim()
       ? c.primaryImage.trim()
       : undefined;
+  const description =
+    typeof c.description === "string" && c.description.trim()
+      ? c.description.trim()
+      : undefined;
   return {
     _createdAt: typeof c._createdAt === "string" ? c._createdAt : undefined,
     label: label.trim(),
@@ -68,8 +90,11 @@ export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicList
     address,
     phone: typeof c.phone === "string" ? c.phone : undefined,
     hours: typeof c.hours === "string" ? c.hours : undefined,
+    description,
     sortOrder: parseSortOrder(c.sortOrder) ?? undefined,
     primaryImage,
+    heroMedia: c.heroMedia,
+    detail: normalizeClinicDetail(c.detail),
     locationSearch,
     mapsUrl: clinicMapsUrl(locationSearch, address),
     services,
