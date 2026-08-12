@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useDemoSpecialist } from "./_useDemoSpecialist";
 import { getBioBlocks, RichBioBlock, getRelevantReviews, ReviewCard, SHARED_FAQS } from "./_shared";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface Props { isChatOpen?: boolean }
 
@@ -64,7 +65,7 @@ const Variant2 = ({ isChatOpen = false }: Props) => {
                   </Link>
                 </Button>
                 <ul className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-brand-dark font-light">
-                  {["Ingen henvisning", "Korte ventetider"].map((u) => (
+                  {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
                     <li key={u} className="inline-flex items-center gap-1.5">
                       <Check className="w-4 h-4" aria-hidden="true" />
                       {u}

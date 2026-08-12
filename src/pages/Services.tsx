@@ -22,6 +22,7 @@ const urologiImg = urologiHeroAsset.url;
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
 import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 
 interface PageProps {
@@ -165,8 +166,8 @@ const Services = ({ isChatOpen }: PageProps) => {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
           <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
           <div className="flex items-center justify-center gap-6 mb-8">
-            <span className="inline-flex items-center gap-2 text-sm font-light text-foreground/70"><Check className="w-4 h-4 text-foreground/70" aria-hidden="true" />Ingen henvisning</span>
-            <span className="inline-flex items-center gap-2 text-sm font-light text-foreground/70"><Check className="w-4 h-4 text-foreground/70" aria-hidden="true" />Kort ventetid</span>
+            <span className="inline-flex items-center gap-2 text-sm font-light text-foreground/70"><Check className="w-4 h-4 text-foreground/70" aria-hidden="true" />{TRUST_NO_REFERRAL}</span>
+            <span className="inline-flex items-center gap-2 text-sm font-light text-foreground/70"><Check className="w-4 h-4 text-foreground/70" aria-hidden="true" />{TRUST_SHORT_WAIT}</span>
           </div>
 
 

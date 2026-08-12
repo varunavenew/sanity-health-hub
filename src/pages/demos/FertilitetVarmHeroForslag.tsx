@@ -8,6 +8,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { getCategoryEntryPrice } from "@/data/priceList";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 import fertilityHeroVideo from "@/assets/fertilitet-hero-v2.mp4.asset.json";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 const fertilityHeroImg = fertilityHeroAsset.url;
 
@@ -129,7 +130,7 @@ const HeroCopy = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
           isLight ? "text-white/95" : "text-brand-dark"
         }`}
       >
-        {["Ingen henvisning", "Korte ventetider"].map((u) => (
+        {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
           <li key={u} className="flex items-center gap-2">
             <Check className="w-4 h-4" aria-hidden="true" />
             <span>{u}</span>
@@ -331,7 +332,7 @@ const HeroCenteredGrain = () => (
           <CallUsClinicPicker variant="dark" label="Ring oss" />
         </div>
         <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-white/95 justify-center">
-          {["Ingen henvisning", "Korte ventetider"].map((u) => (
+          {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
             <li key={u} className="flex items-center gap-2">
               <Check className="w-4 h-4" aria-hidden="true" />
               <span>{u}</span>

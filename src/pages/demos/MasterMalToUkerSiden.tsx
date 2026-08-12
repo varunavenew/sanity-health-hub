@@ -23,6 +23,7 @@ import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -222,11 +223,11 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
  <li className="flex items-center gap-2">
  <Check className="w-4 h-4" aria-hidden="true" />
- Ingen henvisning
+ {TRUST_NO_REFERRAL}
  </li>
  <li className="flex items-center gap-2">
  <Check className="w-4 h-4" aria-hidden="true" />
- Korte ventetider
+ {TRUST_SHORT_WAIT}
  </li>
  <li className="flex items-center gap-2">
  <Check className="w-4 h-4" aria-hidden="true" />

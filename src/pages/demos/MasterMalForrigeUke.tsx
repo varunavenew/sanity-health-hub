@@ -27,6 +27,7 @@ import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
 import fertilityHeroVideo from "@/assets/hero/fertilitet-hero.mp4.asset.json";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { AnimatedStat } from "@/components/AnimatedStat";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 
 interface PageProps {
@@ -185,7 +186,7 @@ const MasterMalForrigeUke = ({ isChatOpen }: PageProps) => {
   </div>
 
   <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
-  {["Ingen henvisning", "Korte ventetider", "Erfarne spesialister"].map((u) => (
+  {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT, "Erfarne spesialister"].map((u) => (
   <li key={u} className="inline-flex items-center gap-2">
   <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
   <span>{u}</span>

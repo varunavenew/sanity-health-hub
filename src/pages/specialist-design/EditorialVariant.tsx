@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useDemoSpecialist } from "./_useDemoSpecialist";
 import { getBioBlocks, RichBioBlock, getRelevantReviews, ReviewCard, SHARED_FAQS } from "./_shared";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface Props { isChatOpen?: boolean }
 
@@ -67,7 +68,7 @@ const Variant1 = ({ isChatOpen = false }: Props) => {
               ) : null}
 
               <ul className="space-y-2 mb-10">
-                {["Ingen henvisning", "Korte ventetider", "Erfaren spesialist"].map((u) => (
+                {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT, "Erfaren spesialist"].map((u) => (
                   <li key={u} className="flex items-center gap-2 text-sm text-brand-dark font-light">
                     <Check className="w-4 h-4 text-brand-dark" aria-hidden="true" />
                     {u}
