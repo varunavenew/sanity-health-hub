@@ -361,7 +361,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
 
 
-   <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+   <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
    {["Ingen henvisning", "Korte ventetider"].map((u) => (
    <li key={u} className="flex items-center gap-2">
    <Check className="w-4 h-4" aria-hidden="true" />
