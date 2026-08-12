@@ -296,7 +296,18 @@
     min-width: 0;
     max-width: 48rem;
     display: block;
+    /* Overskrift og ingress skal leses som ÉN enhet — kun grid-gap styrer
+       avstanden. Nullstill alle marginer på direkte barn (og ingressen inni). */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
+  .section-head > * > .section-lead,
+  .section-head-plain > * > .section-lead,
+  .section-head > * > p:first-child,
+  .section-head-plain > * > p:first-child {
+    margin-top: 0 !important;
+  }
+
 
 
 
