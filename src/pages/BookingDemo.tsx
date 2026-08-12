@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, Phone, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -283,6 +283,7 @@ interface FormData {
 
 const BookingDemo = () => {
  const navigate = useNavigate();
+  const location = useLocation();
  const isMobile = useIsMobile();
  const [searchParams] = useSearchParams();
  const { specialists } = useSpecialistsData();
@@ -488,7 +489,33 @@ const BookingDemo = () => {
  ? generateTimeSlots(selectedDate, filteredSpecialists)
  : [];
 
- const handleClose = () => navigate("/");
+ const handleClose = () => {
+   // 1) Explicit return path passed via router state or ?returnTo=
+   const stateFrom = (location.state as { from?: string } | null)?.from;
+   const returnTo = searchParams.get("returnTo") || stateFrom;
+   if (returnTo && returnTo.startsWith("/") && !returnTo.startsWith("//") && !returnTo.startsWith("/booking")) {
+     navigate(returnTo);
+     return;
+   }
+   // 2) Internal history exists → go back to the page the user came from
+   const historyIdx = (window.history.state as { idx?: number } | null)?.idx;
+   if (typeof historyIdx === "number" && historyIdx > 0) {
+     navigate(-1);
+     return;
+    }
+    // 3) Hard page load from an internal page → use the referrer path
+    try {
+      if (document.referrer) {
+        const ref = new URL(document.referrer);
+        if (ref.origin === window.location.origin && !ref.pathname.startsWith("/booking")) {
+          navigate(ref.pathname + ref.search);
+          return;
+        }
+      }
+    } catch {}
+    // 4) Booking opened directly → homepage
+    navigate("/");
+  };
 
  const handleSelectService = (categoryId: string, categoryLabel: string, service: { name: string; price: string; duration: string }) => {
  const clinicsForService = getClinicsForService(categoryId);
@@ -887,7 +914,7 @@ const BookingDemo = () => {
    <button 
    onClick={handleClose} 
    className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-2xl md:rounded-full transition-colors"
-   aria-label="Lukk bestilling og gå til forsiden"
+   aria-label="Lukk bestilling og gå tilbake"
    >
    <X className="w-5 h-5 text-brand-dark" aria-hidden="true" />
    </button>
