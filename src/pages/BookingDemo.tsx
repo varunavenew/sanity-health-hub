@@ -502,10 +502,20 @@ const BookingDemo = () => {
    if (typeof historyIdx === "number" && historyIdx > 0) {
      navigate(-1);
      return;
-   }
-   // 3) Booking opened directly → homepage
-   navigate("/");
- };
+    }
+    // 3) Hard page load from an internal page → use the referrer path
+    try {
+      if (document.referrer) {
+        const ref = new URL(document.referrer);
+        if (ref.origin === window.location.origin && !ref.pathname.startsWith("/booking")) {
+          navigate(ref.pathname + ref.search);
+          return;
+        }
+      }
+    } catch {}
+    // 4) Booking opened directly → homepage
+    navigate("/");
+  };
 
  const handleSelectService = (categoryId: string, categoryLabel: string, service: { name: string; price: string; duration: string }) => {
  const clinicsForService = getClinicsForService(categoryId);
