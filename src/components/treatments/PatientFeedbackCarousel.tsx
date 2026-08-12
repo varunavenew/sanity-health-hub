@@ -26,13 +26,13 @@ const GoogleIcon = () => (
 );
 
 /**
- * Én felles «Tilbakemeldinger fra ekte pasienter»-karusell.
+ * Én felles «Ord vi er takknemlige for»-karusell.
  * Kortene auto-scroller rolig og kontinuerlig (marquee) på både mobil og
  * desktop, pauser ved touch/hover/piler og fortsetter etterpå.
  */
 export const PatientFeedbackCarousel = ({
   reviews,
-  title = "Tilbakemeldinger fra ekte pasienter",
+  title = "Ord vi er takknemlige for",
   className = "bg-brand-warm",
 }: PatientFeedbackCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
