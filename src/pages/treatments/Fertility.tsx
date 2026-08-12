@@ -726,7 +726,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
    className="absolute inset-0 bg-cover bg-center"
    style={{ backgroundImage: `url(${skinBg.url})` }}
  />
- <div aria-hidden="true" className="absolute inset-0 bg-brand-mid/60" />
+ <div aria-hidden="true" className="absolute inset-0 bg-brand-mid/35" />
 
  <div className="page-shell relative">
 
