@@ -1,26 +1,20 @@
-import skinBg from "@/assets/blur-belly.jpg.asset.json";
+import bgAsset from "@/assets/blur-skin-mid.jpg.asset.json";
 
 /**
- * Shared light skin-toned background for the
- * "Tall som forteller en historie"-section.
+ * Shared background for the "Tall som forteller en historie"-section.
  *
- * Usage: place as first child of a `relative overflow-hidden bg-brand-light`
- * section. Text stays dark (foreground / brand-dark) on top.
+ * Uses the exact same asset/toning as the "60 000+ Pasientbesøk i året"-band
+ * on the homepage (PatientTrustSection) so the two always match:
+ * darker warm brown, grainy texture, light text on top.
+ *
+ * Usage: place as first child of a `relative overflow-hidden stats-band-dark`
+ * section. All text inside is light (brand-beige) via the `.stats-band-dark`
+ * utility in index.css.
  */
 export const StatsSkinBackground = () => (
-  <>
-    <div aria-hidden="true" className="absolute inset-0">
-      <img
-        src={skinBg.url}
-        alt=""
-        loading="lazy"
-        className="w-full h-full object-cover"
-      />
-    </div>
-    <div aria-hidden="true" className="absolute inset-0 bg-brand-light/70" />
-    <div
-      aria-hidden="true"
-      className="absolute inset-0 bg-gradient-to-b from-brand-light/40 via-brand-light/20 to-brand-light/60"
-    />
-  </>
+  <div
+    aria-hidden="true"
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: `url(${bgAsset.url})` }}
+  />
 );
