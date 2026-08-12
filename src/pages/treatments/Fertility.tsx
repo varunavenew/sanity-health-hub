@@ -305,7 +305,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   </div>
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
   {/* Left — copy + CTA */}
-  <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+  <div className="flex items-center page-edge-text-left py-16 lg:py-16">
   <div className="max-w-xl w-full">
   <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
     <Link to="/" className="hover:text-foreground">Hjem</Link>
