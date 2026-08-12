@@ -467,7 +467,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  Forsikring
  </h3>
  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
- Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse.
+ Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg, Vertikal Helse og Vialia.
  </p>
  <span className="text-sm text-foreground font-normal inline-flex items-center gap-1 group-hover:gap-2 transition-all">
  Les mer <ArrowRight className="w-3.5 h-3.5" />
