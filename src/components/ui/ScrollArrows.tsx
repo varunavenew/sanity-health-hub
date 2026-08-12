@@ -140,10 +140,10 @@ export const ScrollArrows = ({
 
   return (
     <div
-      className={`${vis} items-center gap-3 md:gap-4 w-full max-w-full overflow-x-clip carousel-nav ${className}`}
+      className={`${vis} flex-col items-start gap-4 w-full max-w-full overflow-x-clip carousel-nav ${className}`}
     >
-      {/* Fremdriftsstrek + piler — alltid til venstre */}
-      <div className={`flex items-center gap-3 md:gap-4 min-w-0 ${trailing ? "flex-1" : "flex-1"}`}>
+      {/* Fremdriftsstrek + piler */}
+      <div className="flex items-center gap-3 md:gap-4 min-w-0 w-full">
         <div
           className="relative h-px flex-1 min-w-[48px] bg-brand-dark/15"
           role="progressbar"
@@ -180,8 +180,9 @@ export const ScrollArrows = ({
         </div>
       </div>
 
-      {/* Tekstlenke helt til høyre — egen kolonne, aldri overlapp */}
+      {/* Tekstlenke nederst til VENSTRE, på linje med seksjonens venstrekant */}
       {trailing && <div className="shrink-0">{trailing}</div>}
     </div>
   );
 };
+
