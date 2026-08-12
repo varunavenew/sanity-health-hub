@@ -34,7 +34,7 @@ const segments = [
  desc:
  "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
  cta: "Behandlinger for kvinner",
- href: "/booking?kategori=urologi",
+ href: "/booking?kategori=urologi&segment=kvinne",
  },
  {
  title: "Jeg vil ha en prostatasjekk",
