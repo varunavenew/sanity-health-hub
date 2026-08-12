@@ -1,4 +1,5 @@
 import { AnimatedStat } from "@/components/AnimatedStat";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 
 export interface StatRow {
  v: string;
@@ -24,8 +25,9 @@ export function AnimatedStatsSection({
 }: AnimatedStatsSectionProps) {
  const bgClass = background === "brand-light" ? "bg-brand-light" : "bg-background";
  return (
- <section className={`${bgClass} text-foreground py-14 md:py-28 border-t border-brand-dark/10`}>
- <div className="container mx-auto px-6 md:px-16">
+ <section className={`relative overflow-hidden ${bgClass} text-foreground py-14 md:py-28 border-t border-brand-dark/10`}>
+ <StatsSkinBackground />
+ <div className="relative container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
  <div className="lg:col-span-5">

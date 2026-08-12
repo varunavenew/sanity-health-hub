@@ -37,7 +37,7 @@ export const ResultsStatsSection = ({
   stats,
   footnote,
   className = "",
-  variant = "plain",
+  variant = "warm",
 }: ResultsStatsSectionProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [offset, setOffset] = useState(0);
