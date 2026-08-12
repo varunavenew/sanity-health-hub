@@ -313,8 +313,8 @@
     padding-top: 0 !important;
   }
   /* Overskrift → ingress inne i samme wrapper: kompakt typografisk avstand */
-  .section-head :is(h1, h2, h3):has(+ p),
-  .section-head-plain :is(h1, h2, h3):has(+ p) {
+  .section-head > * :is(h1, h2, h3):has(+ p),
+  .section-head-plain > * :is(h1, h2, h3):has(+ p) {
     margin-bottom: 0.75rem !important;
   }
   .section-head :is(h1, h2, h3) + p,
@@ -322,10 +322,11 @@
     margin-top: 0 !important;
   }
   /* Direkte barn: grid-gap-et er allerede avstanden — ingen ekstra margin */
-  .section-head > :is(h1, h2, h3),
-  .section-head-plain > :is(h1, h2, h3) {
+  .section-head > :is(h1, h2, h3):has(+ p),
+  .section-head-plain > :is(h1, h2, h3):has(+ p) {
     margin-bottom: 0 !important;
   }
+
 
 
 
