@@ -587,7 +587,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             {c.heroTitle}
           </h2>
         </div>
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[100svh]">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
@@ -751,7 +751,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   {["/behandlinger/gynekologi/undersokelse", "/behandlinger/gynekologi/pcos"].includes(c.canonical) && (
     c.flowImage ? (
  <section className="section-flush bg-brand-light text-foreground">
- <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch split-section">
  <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
  <img
  src={c.flowImage}

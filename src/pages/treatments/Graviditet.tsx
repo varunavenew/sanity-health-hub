@@ -239,7 +239,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
             Et svangerskap er noe av <span className="block italic">det mest sårbare som finnes</span>
           </h2>
         </div>
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-screen">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
             <div className="max-w-xl w-full">
               <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
@@ -386,7 +386,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
         <h2 className="lg:hidden text-3xl font-light leading-[1.1] text-foreground px-6 md:px-16 pt-16 pb-4">
           Trygghet hele veien — fra første kontroll til etter fødsel.
         </h2>
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-screen">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
           <div className="px-6 md:px-16 lg:px-20 py-20 lg:py-28">
             <div className="max-w-xl">
               <h2 className="hidden lg:block text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">

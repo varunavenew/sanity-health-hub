@@ -81,7 +81,7 @@ export const FeatureSpotlight = ({
 
   return (
     <section className="section-flush bg-brand-light text-foreground">
-      <div className="grid lg:grid-cols-2 items-stretch min-h-screen">
+      <div className="grid lg:grid-cols-2 items-stretch split-section">
         {media}
         {copy}
       </div>
