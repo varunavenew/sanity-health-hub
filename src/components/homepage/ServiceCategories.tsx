@@ -45,7 +45,7 @@ export const ServiceCategories = () => {
             );
           })}
         </div>
-        <div className="text-center mt-12">
+        <div className="mt-12 flex justify-start">
           <Button variant="cta-outline" size="lg" onClick={() => navigate('/booking')}>
             Se alle behandlinger <ArrowRight className="ml-2 w-4 h-4" />
           </Button>

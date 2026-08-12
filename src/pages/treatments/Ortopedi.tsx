@@ -296,7 +296,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  {ortoSpecialists.length > 0 && (
  <section className="bg-brand-warm">
  <div className="container mx-auto px-6 md:px-16 pt-14 md:pt-28 pb-10 md:pb-14">
- <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+ <div className="max-w-6xl mx-auto flex flex-col gap-4 items-start">
  <div>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Spesialistene som følger deg.</h2>
  </div>
