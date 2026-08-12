@@ -71,7 +71,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {companies.map((company: any) => (
-                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-2xl md:rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
+                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-[var(--radius)] border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-muted-foreground font-light">

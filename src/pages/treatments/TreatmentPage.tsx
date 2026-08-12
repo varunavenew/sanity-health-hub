@@ -87,7 +87,7 @@ const QuickInfoBar = () => (
     ].map(({ icon: Icon, label }) => (
       <div
         key={label}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-2xl md:rounded-full bg-secondary/50 border border-border/50"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-[var(--radius)] bg-secondary/50 border border-border/50"
       >
         <Icon className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={1.5} />
         <span className="text-xs md:text-sm text-foreground/70 font-light">{label}</span>
