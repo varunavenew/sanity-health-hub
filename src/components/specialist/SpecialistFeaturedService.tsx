@@ -23,7 +23,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     description:
       "Et helhetlig forløp med utredning, behandling og oppfølging hos egen spesialist. Ingen henvisning nødvendig — typisk 1–3 uker fra første time til oppstart.",
     bullets: [
-      "Pris fra 2 900 kr for førstegangskonsultasjon",
+      "Se vår prisliste for oppdaterte priser",
       "Dekkes av de fleste helseforsikringer",
       "Kort ventetid",
     ],
@@ -35,7 +35,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     description:
       "Grundig samtale og undersøkelse hos erfaren gynekolog. Ingen henvisning nødvendig — du får ofte time innen få dager.",
     bullets: [
-      "Pris fra 2 500 kr",
+      "Se vår prisliste for oppdaterte priser",
       "Dekkes av de fleste helseforsikringer",
       "Kort ventetid",
     ],
@@ -47,7 +47,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     description:
       "Et komplett forløp med konsultasjon, utredning og behandling hos urolog. Ingen henvisning nødvendig.",
     bullets: [
-      "Pris fra 2 500 kr",
+      "Se vår prisliste for oppdaterte priser",
       "Dekkes av de fleste helseforsikringer",
       "Kort ventetid",
     ],
@@ -59,7 +59,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     description:
       "Et komplett forløp med konsultasjon, operasjon og oppfølging hos fysioterapeut. Ingen henvisning nødvendig — typisk 3–6 uker fra første time til inngrep.",
     bullets: [
-      "Pris fra 2 500 kr",
+      "Se vår prisliste for oppdaterte priser",
       "Dekkes av de fleste helseforsikringer",
       "Kort ventetid",
     ],
@@ -71,6 +71,7 @@ const CONFIG: Record<string, CategoryConfig> = {
     description:
       "Et trygt forløp hos erfaren spesialist. Ingen henvisning nødvendig — kort ventetid og personlig oppfølging.",
     bullets: [
+      "Se vår prisliste for oppdaterte priser",
       "Dekkes av de fleste helseforsikringer",
       "Kort ventetid",
       "Personlig oppfølging",

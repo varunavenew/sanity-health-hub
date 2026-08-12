@@ -437,6 +437,12 @@ const BookingDemo = () => {
  // If only kategori was given, expandedCategory is already set above.
  }, [searchParams, specialists, clinics]);
 
+ // ?segment=kvinne hides male-specific services (prostata, sterilisering mann, o.l.)
+ const segment = searchParams.get("segment");
+ const MALE_ONLY = /prostata|sterilisering mann|vasektomi|sædanalyse|sædprøve|penis|testik|skrotum|forhud/i;
+ const servicesForCategory = (category: { services: any[] }) =>
+ segment === "kvinne" ? category.services.filter((s: any) => !MALE_ONLY.test(s.name)) : category.services;
+
  const filteredSpecialists = specialists.slice(0, 8);
 
  // Vis alle hverdager (også uten ledige tider) — dager uten slots blir disabled.
@@ -1069,7 +1075,7 @@ const BookingDemo = () => {
  className="overflow-hidden bg-white border-t border-brand-dark/10"
  >
  <div className="p-3 space-y-2">
- {category.services.map((service, index) => (
+ {servicesForCategory(category).map((service, index) => (
  <button
  key={index}
  onClick={() => handleSelectService(category.id, category.label, service)}

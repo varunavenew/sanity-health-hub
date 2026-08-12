@@ -7,6 +7,10 @@ import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { getServiceImageFromHref } from "@/data/serviceImages";
+import { getFromPriceForPath } from "@/data/priceList";
+
+// Single source of truth: price comes from the price list, never hardcoded.
+const undersokelsePris = getFromPriceForPath("/behandlinger/gynekologi/undersokelse");
 
 interface PageProps {
  isChatOpen: boolean;
@@ -172,7 +176,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                   Gynekologisk undersøkelse
                 </p>
                 <p className="text-sm font-light text-muted-foreground mb-4">
-                  Pris fra 2 200 kr
+                  {undersokelsePris ?? "Se vår prisliste"}
                 </p>
                 <Button
                   variant="cta"
@@ -388,7 +392,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  </div>
  <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
               <p className="text-sm font-light text-white/70 lg:text-right">
-                Gynekologisk undersøkelse — pris fra 2 200 kr
+                Gynekologisk undersøkelse{undersokelsePris ? ` — ${undersokelsePris.toLowerCase()}` : ""}
               </p>
               <Button asChild variant="cta" size="lg" className="px-8">
                 <Link

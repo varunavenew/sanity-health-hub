@@ -34,7 +34,7 @@ const segments = [
  desc:
  "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
  cta: "Behandlinger for kvinner",
- href: "/booking?kategori=urologi",
+ href: "/booking?kategori=urologi&segment=kvinne",
  },
  {
  title: "Jeg vil ha en prostatasjekk",
@@ -126,10 +126,10 @@ const faqs = [
  { question: "Hvor lang er ventetiden?", answer: "Vi har ingen ventetid. Du kan vanligvis få time innen få dager." },
  { question: "Kan dere skrive sykmelding?", answer: "Spesialistene våre kan skrive ut sykmelding ved behov. Ta dette opp i konsultasjonen." },
  { question: "Hvor lenge varer en konsultasjon?", answer: "En vanlig utredning varer ca. 30 minutter. Prøver og ultralyd kan ofte tas samme dag." },
- { question: "Hvilke forsikringer har dere avtale med?", answer: "Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, If, Vertikal Helse, Storebrand og Tryg." },
+ { question: "Hvilke forsikringer har dere avtale med?", answer: "Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, If, Vertikal Helse, Storebrand, Tryg og Vialia." },
 ];
 
-const insurance = ["Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika"];
+const insurance = ["Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika", "Vialia"];
 
 /* ── PAGE ───────────────────────────────────────────────── */
 

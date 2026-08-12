@@ -40,7 +40,7 @@ const AccordionItem = ({
 // Static fallbacks
 const staticFinansiering = [
   { question: "Pris", answer: "Prislister finnes på vår prisside.", link: "/priser" },
-  { question: "Forsikring", answer: "Vi har forsikringsavtale med: EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse. Ta kontakt med legen din for henvisning. Send den til forsikringsselskapet og be om time på CMedical." },
+  { question: "Forsikring", answer: "Vi har forsikringsavtale med: EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg, Vertikal Helse og Vialia. Ta kontakt med legen din for henvisning. Send den til forsikringsselskapet og be om time på CMedical." },
   { question: "Nedbetaling", answer: "Nedbetaling er tilgjengelig på utvalgte klinikker. Spør oss for mer informasjon." },
 ];
 

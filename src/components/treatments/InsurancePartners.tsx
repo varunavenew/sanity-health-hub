@@ -1,7 +1,7 @@
 import { useSiteSettings } from "@/hooks/useSanity";
 
 const FALLBACK_PARTNERS = [
-  "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
+  "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika", "Vialia",
 ];
 const FALLBACK_TITLE = "Vi har avtale med de største forsikringsselskapene i Norge.";
 

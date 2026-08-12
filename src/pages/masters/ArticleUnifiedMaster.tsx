@@ -386,7 +386,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               fastleger om moderne hormonbehandling.
             </p>
             <ul className="space-y-2 mb-8 text-sm font-light text-foreground/80">
-              <li>· Overgangsalder-konsultasjon — fra 2 490 kr</li>
+              <li>· Overgangsalder-konsultasjon</li>
               <li>· 45 minutter, ingen henvisning nødvendig</li>
               <li>· Time innen 10 dager</li>
             </ul>
