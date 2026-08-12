@@ -60,7 +60,7 @@ export const FeatureSpotlight = ({
   );
 
   const copy = (
-    <div className={`order-2 ${mediaLeft ? "lg:order-2" : "lg:order-1"} px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center`}>
+    <div className={`order-2 ${mediaLeft ? "lg:order-2" : "lg:order-1"} px-6 md:px-12 lg:px-20 pt-8 pb-12 md:pt-12 md:pb-16 lg:py-24 flex flex-col justify-center`}>
       <div className="max-w-lg">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
           {title}

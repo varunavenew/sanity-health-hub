@@ -143,7 +143,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
 
- <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+ <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
  <li className="flex items-center gap-2">
  <Check className="w-4 h-4" aria-hidden="true" />
  Ingen henvisning

@@ -10,9 +10,13 @@ export const HomeStickyBar = () => {
   return (
     <nav
       aria-label="Hurtighandlinger"
-      className="fixed bottom-0 left-0 right-0 z-40 md:hidden flex"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      className="fixed inset-x-0 bottom-0 z-[60] md:hidden flex bg-brand-warm"
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        transform: "translateZ(0)",
+      }}
     >
+
       <Link
         to="/booking"
         className="flex-1 h-14 flex items-center justify-center bg-accent text-accent-foreground text-sm font-medium"

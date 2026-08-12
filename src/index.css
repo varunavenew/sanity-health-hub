@@ -266,12 +266,10 @@
   }
   @media (min-width: 1024px) {
     .section-head {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: 6rem;
-      row-gap: 0;
       margin-bottom: 3.5rem;
     }
   }
+
 
   /* Samme header-rytme, men uten avstand ned (når forelder styrer det) */
   .section-head-plain {
@@ -285,22 +283,21 @@
   }
   @media (min-width: 1024px) {
     .section-head-plain {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: 6rem;
-      row-gap: 0;
+      row-gap: 1rem;
     }
   }
 
-  /* Standard kolonnebredder når barna ikke selv angir col-span (unngår at
-     hvert element kollapser til én 12-delskolonne med ordbrekk og overlapp).
-     :where() gir null spesifisitet, så Tailwind col-span-utilities vinner. */
-  @media (min-width: 1024px) {
-    .section-head > :where(*),
-    .section-head-plain > :where(*) {
-      grid-column: span 6 / span 6;
-      min-width: 0;
-    }
+  /* Overskrift og ingress skal ALLTID stå under hverandre — aldri
+     todelt (tittel venstre / tekst høyre). Overstyrer col-span-klasser
+     som fortsatt finnes i eksisterende markup. */
+  .section-head > *,
+  .section-head-plain > * {
+    grid-column: 1 / -1 !important;
+    min-width: 0;
+    max-width: 48rem;
+    display: block;
   }
+
 
 
 

@@ -22,7 +22,7 @@ export const NewsSplitScreen = () => {
 
   return (
     <section aria-labelledby="news-split-heading" className="bg-brand-warm">
-      <div className="flex flex-col-reverse md:grid md:grid-cols-2 md:h-screen">
+      <div className="flex flex-col md:grid md:grid-cols-2 md:h-screen">
         {/* Venstre — redaksjonell intro */}
         <div className="bg-brand-light text-brand-dark flex flex-col justify-center px-6 md:px-12 lg:px-16 py-12 md:py-16">
           <div>
@@ -39,12 +39,13 @@ export const NewsSplitScreen = () => {
           </div>
           <Link
             to="/aktuelt"
-            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark mt-10 group w-fit"
+            className="hidden md:inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark mt-10 group w-fit"
           >
             Se alle artikler
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
+
 
         {/* Høyre — 2x2 artikler */}
         <div className="grid grid-cols-2 grid-rows-2 md:h-screen">
@@ -79,7 +80,19 @@ export const NewsSplitScreen = () => {
             </Link>
           ))}
         </div>
+
+        {/* Mobil — «Se alle artikler» under artiklene */}
+        <div className="md:hidden bg-brand-light px-6 pb-12">
+          <Link
+            to="/aktuelt"
+            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark pt-8 group w-fit"
+          >
+            Se alle artikler
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </div>
       </div>
     </section>
+
   );
 };

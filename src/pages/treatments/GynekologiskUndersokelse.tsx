@@ -193,7 +193,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                 </Button>
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground">
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-muted-foreground">
                 <span className="inline-flex items-center gap-2">
                   <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                   Kort ventetid

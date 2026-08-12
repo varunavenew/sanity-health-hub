@@ -1,3 +1,4 @@
+import skinBg from "@/assets/blur-belly.jpg.asset.json";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
@@ -361,7 +362,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
 
 
-   <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+   <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
    {["Ingen henvisning", "Korte ventetider"].map((u) => (
    <li key={u} className="flex items-center gap-2">
    <Check className="w-4 h-4" aria-hidden="true" />
@@ -719,8 +720,16 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-mid text-[#180404] pt-14 md:pt-16 pb-10 md:pb-12">
- <div className="page-shell">
+ <section className="relative overflow-hidden bg-brand-mid text-[#180404] pt-14 md:pt-16 pb-10 md:pb-12">
+ <div
+   aria-hidden="true"
+   className="absolute inset-0 bg-cover bg-center"
+   style={{ backgroundImage: `url(${skinBg.url})` }}
+ />
+ <div aria-hidden="true" className="absolute inset-0 bg-brand-mid/35" />
+
+ <div className="page-shell relative">
+
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
  <div className="lg:col-span-5">
