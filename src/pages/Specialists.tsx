@@ -123,7 +123,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                   <button
                     key={item.id}
                     onClick={() => row.onSelect(item.id)}
-                    className="chip-filter chip-filter-light min-h-[36px] rounded-2xl whitespace-nowrap"
+                    className="chip-filter chip-filter-light min-h-[36px] whitespace-nowrap"
                     data-active={isActive}
                     aria-current={isActive ? "true" : undefined}
                   >

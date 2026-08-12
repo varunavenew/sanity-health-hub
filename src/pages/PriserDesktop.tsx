@@ -235,7 +235,7 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
                   <button
                     key={cat.id}
                     onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
-                    className="inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-[var(--radius)] text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
                   >
                     {cat.label}
                   </button>
@@ -345,13 +345,13 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
                                       {(() => {
                                         if (isConsult || item.price === "Pris ved konsultasjon") {
                                           return (
-                                            <span className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light border border-transparent whitespace-nowrap w-28" aria-hidden="true" />
+                                            <span className="inline-flex items-center gap-1 px-4 py-2 rounded-[var(--radius)] text-xs font-light border border-transparent whitespace-nowrap w-28" aria-hidden="true" />
                                           );
                                         }
                                         return (
                                           <Link
                                             to={buildBookingUrl({ kategori: cat.id })}
-                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
+                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-[var(--radius)] text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
                                           >
                                             Bestill time
                                           </Link>
@@ -398,7 +398,7 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
           <div className="mt-20 md:mt-24 text-center">
             <button
               onClick={() => navigate('/booking')}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-[var(--radius)] font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
             >
               Bestill time
             </button>

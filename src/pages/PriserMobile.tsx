@@ -204,7 +204,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                       key={cat.id}
                       ref={(el) => { pillRefs.current[cat.id] = el; }}
                       onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
-                      className="chip-filter chip-filter-light min-h-[36px] md:min-h-[36px] rounded-2xl"
+                      className="chip-filter chip-filter-light min-h-[36px] md:min-h-[36px]"
                       data-active={isActive}
                       aria-current={isActive ? 'true' : undefined}
                     >

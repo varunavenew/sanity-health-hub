@@ -198,14 +198,33 @@
 
 @layer components {
   /* ============================================================
+     SENTRERT TOPPLAYOUT — vertikalt midtstilt innhold med lik luft
+     over og under. Toppluften kompenserer for den faste headeren
+     (h-16 = 4rem) slik at gapet header → overskrift = siste element → slutt.
+     ============================================================ */
+  .centered-hero {
+    @apply flex flex-col items-center justify-center;
+    padding-top: calc(4rem + 2.5rem);
+    padding-bottom: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .centered-hero {
+      padding-top: calc(4rem + 3.5rem);
+      padding-bottom: 3.5rem;
+    }
+  }
+
+  /* ============================================================
      FILTER-CHIPS — felles løsning for filtre på mørk og lys bakgrunn
      Ingen hvite flater. Valgt/uvalgt-skille via skin-paletten.
+     Radius = var(--radius) — nøyaktig samme som «Bestill time»-knappen.
      ============================================================ */
   .chip-filter {
     @apply inline-flex items-center justify-center gap-1.5 px-3 md:px-4 py-1.5 md:py-1
-           min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap
+           min-h-[48px] md:min-h-[36px] rounded-[var(--radius)] text-xs font-light whitespace-nowrap
            border transition-colors shrink-0;
   }
+
 
   /* På mørk bakgrunn */
   .chip-filter-dark {
