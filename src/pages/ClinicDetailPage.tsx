@@ -135,7 +135,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  if (isLoading && !staticClinic) {
  return (
  <PageLayout isChatOpen={isChatOpen}>
- <div className="bg-brand-warm pt-[4.5rem] pb-16">
+ <div className="bg-brand-warm centered-hero">
  <div className="container mx-auto px-6 md:px-16 text-center">
  <div className="animate-pulse space-y-4 max-w-3xl mx-auto">
  <div className="h-8 bg-brand-mid/20 rounded w-1/3" />
@@ -150,7 +150,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  if (!clinic) {
  return (
  <PageLayout isChatOpen={isChatOpen}>
- <div className="bg-brand-warm pt-[4.5rem] pb-16">
+ <div className="bg-brand-warm centered-hero">
  <div className="container mx-auto px-6 md:px-16 text-center">
  <h1 className="text-2xl font-light text-brand-dark mb-4">Klinikken ble ikke funnet</h1>
  <BackLink to="/klinikker">Tilbake til klinikker</BackLink>

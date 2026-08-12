@@ -160,7 +160,7 @@ const Services = ({ isChatOpen }: PageProps) => {
         ]}
       />
       {/* Hero header */}
-      <section className="bg-background pt-16 md:pt-32 pb-10 md:pb-14">
+      <section className="bg-background centered-hero">
         <div className="container mx-auto px-6 md:px-16 text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
           <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
