@@ -760,7 +760,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  className="absolute inset-0 w-full h-full object-cover"
  />
  </div>
- <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center order-2 lg:order-none">
+ <div className="px-6 md:px-12 lg:px-20 pt-8 pb-12 md:pt-12 md:pb-16 lg:py-24 flex flex-col justify-center order-2 lg:order-none">
    <div className="max-w-lg">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8 lg:mb-12">
  {c.flowTitle}
