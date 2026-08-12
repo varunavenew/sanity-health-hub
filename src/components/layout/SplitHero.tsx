@@ -1,7 +1,7 @@
 import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { SmartImage } from "@/components/ui/smart-image";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 interface SplitHeroProps {
  title: string;
@@ -30,9 +30,9 @@ export const SplitHero = ({
 
  return (
  <header className="bg-brand-warm">
- <div className="grid md:grid-cols-2 split-hero">
+ <div className="grid lg:grid-cols-2 split-hero">
  {/* Left: text */}
- <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+ <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 lg:order-1">
  <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
  {title}
  </h1>
@@ -66,14 +66,11 @@ export const SplitHero = ({
  )}
   </div>
   {/* Right: image */}
- <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
-	<SmartImage
+ <SplitHeroMedia
 	src={image}
 	alt={imageAlt || title}
-	pictureClassName="absolute inset-0 block w-full h-full"
-	className="absolute inset-0 w-full h-full object-cover"
+	className="relative order-1 lg:order-2 min-h-[260px] lg:min-h-0 h-full w-full overflow-hidden"
 	/>
- </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>

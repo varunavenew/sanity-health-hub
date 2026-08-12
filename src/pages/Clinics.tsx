@@ -7,6 +7,7 @@ import { useClinics } from "@/hooks/useSanity";
 import { clinics as staticClinics, withCanonicalAddress, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 
 
 import imgVenteromBredt from "@/assets/clinics/interior/venterom-bredt.jpg.asset.json";
@@ -122,11 +123,12 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  aria-label={`Les mer om CMedical ${clinic.label}`}
  >
  {image ? (
- <img
+ <SplitHeroMedia
  src={image}
  alt={`CMedical ${clinic.label}`}
  loading="lazy"
- className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+ className="absolute inset-0 w-full h-full overflow-hidden"
+ mediaClassName="transition-transform duration-700"
  />
  ) : (
  <div className="absolute inset-0 bg-brand-mid/20" />
