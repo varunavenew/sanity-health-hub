@@ -13,7 +13,7 @@ interface PageProps { isChatOpen: boolean }
 
 const staticCompanies = [
   { name: "Avanova" }, { name: "ERGO" }, { name: "EuroAccident" }, { name: "Falck" },
-  { name: "Fremtind" }, { name: "Gjensidige" }, { name: "Tryg" }, { name: "IF - Vertikal Helse" },
+  { name: "Fremtind" }, { name: "Gjensidige" }, { name: "Tryg" }, { name: "IF - Vertikal Helse" }, { name: "Vialia" },
 ];
 
 const staticSteps = [
