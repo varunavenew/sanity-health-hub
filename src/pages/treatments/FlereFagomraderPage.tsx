@@ -222,7 +222,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
 
 
  {/* 4b. STATS */}
- <section className="relative overflow-hidden bg-brand-light text-foreground pt-14 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
+ <section className="stats-band-dark relative overflow-hidden pt-14 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
  <StatsSkinBackground />
  <div className="relative container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">

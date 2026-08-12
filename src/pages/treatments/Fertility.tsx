@@ -720,7 +720,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="relative overflow-hidden bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
+ <section className="stats-band-dark relative overflow-hidden pt-14 md:pt-16 pb-10 md:pb-12">
  <StatsSkinBackground />
 
  <div className="page-shell relative">

@@ -527,7 +527,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 7. RESULTATER */}
-      <section className="relative overflow-hidden bg-brand-light text-foreground py-14 md:py-28 border-t border-brand-dark/5">
+      <section className="stats-band-dark relative overflow-hidden py-14 md:py-28 border-t border-brand-dark/5">
         <StatsSkinBackground />
         <div className="relative container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">

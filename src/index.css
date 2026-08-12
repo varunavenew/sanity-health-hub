@@ -703,3 +703,29 @@ html body *::before,
 html body *::after {
   font-style: normal !important;
 }
+
+/* ------------------------------------------------------------------
+   "Tall som forteller en historie" — dark warm band
+   Matches the "60 000+ Pasientbesøk i året"-band on the homepage:
+   same background asset (blur-skin-mid.jpg) + light beige text.
+   ------------------------------------------------------------------ */
+.stats-band-dark {
+  color: hsl(var(--brand-beige));
+}
+.stats-band-dark h2,
+.stats-band-dark h3,
+.stats-band-dark dd,
+.stats-band-dark dt,
+.stats-band-dark .text-foreground {
+  color: hsl(var(--brand-beige)) !important;
+}
+.stats-band-dark p,
+.stats-band-dark .text-muted-foreground {
+  color: hsl(var(--brand-beige) / 0.8) !important;
+}
+.stats-band-dark [class*="divide-"] > * {
+  border-color: hsl(var(--brand-beige) / 0.2) !important;
+}
+.stats-band-dark [class*="border-brand-dark"] {
+  border-color: hsl(var(--brand-beige) / 0.2) !important;
+}
