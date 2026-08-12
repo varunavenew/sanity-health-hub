@@ -522,7 +522,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
- Tilbakemeldinger fra ekte pasienter
+ Ord vi er takknemlige for
  </h2>
  </div>
  <div className="grid md:grid-cols-3 gap-6">

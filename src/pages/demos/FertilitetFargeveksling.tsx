@@ -684,7 +684,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
- Tilbakemeldinger fra ekte pasienter
+ Ord vi er takknemlige for
  </h2>
  </div>
  <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
