@@ -104,23 +104,23 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
           <div className="max-w-xl">
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{heading}</h2>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-4 w-full sm:w-auto">
+            <div className="flex items-center gap-2.5 sm:gap-4 p-3.5 sm:p-5 rounded-sm bg-white border border-brand-dark/10 min-w-0">
               <GoogleIcon />
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{averageRating}</span>
+                  <span className="text-xl sm:text-2xl font-normal text-brand-dark">{averageRating}</span>
                   <div className="flex"><PartialStars rating={averageRating} /></div>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+            <div className="flex items-center gap-2.5 sm:gap-4 p-3.5 sm:p-5 rounded-sm bg-white border border-brand-dark/10 min-w-0">
               <LegelistenIcon />
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
+                  <span className="text-xl sm:text-2xl font-normal text-brand-dark">{legelistenRating}</span>
                   <div className="flex"><PartialStars rating={legelistenRating} /></div>
                 </div>
               </div>
