@@ -1,3 +1,4 @@
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 import { CarouselDots } from "@/components/ui/CarouselDots";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
@@ -81,8 +82,8 @@ const AccordionGroup = ({ children }: { children: (openIndex: number | null, set
 const QuickInfoBar = () => (
   <div className="flex flex-wrap gap-3 mb-10">
     {[
-      { icon: FileText, label: "Ingen henvisning" },
-      { icon: Clock, label: "Kort ventetid" },
+      { icon: FileText, label: TRUST_NO_REFERRAL },
+      { icon: Clock, label: TRUST_SHORT_WAIT },
       { icon: Shield, label: "Forsikring godkjent" },
     ].map(({ icon: Icon, label }) => (
       <div
