@@ -80,7 +80,19 @@ export const NewsSplitScreen = () => {
             </Link>
           ))}
         </div>
+
+        {/* Mobil — «Se alle artikler» under artiklene */}
+        <div className="md:hidden bg-brand-light px-6 pb-12">
+          <Link
+            to="/aktuelt"
+            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark pt-8 group w-fit"
+          >
+            Se alle artikler
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </div>
       </div>
     </section>
+
   );
 };
