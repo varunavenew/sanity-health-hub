@@ -393,7 +393,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
             ))}
           </div>
 
-          <div className="mt-10 text-center">
+          <div className="mt-10 flex justify-start">
             <Button
               variant="ghost"
               className="rounded-2xl md:rounded-full border border-white text-white bg-transparent hover:bg-white hover:text-brand-dark"

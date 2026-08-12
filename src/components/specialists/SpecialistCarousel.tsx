@@ -103,7 +103,7 @@ export const SpecialistCarousel = ({
         </div>
       </div>
       <div className="page-shell">
-        <div className="carousel-nav flex items-center justify-end">{ctaLink}</div>
+        <div className="carousel-nav flex items-center justify-start">{ctaLink}</div>
       </div>
     </>
   ) : (
