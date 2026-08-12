@@ -488,7 +488,23 @@ const BookingDemo = () => {
  ? generateTimeSlots(selectedDate, filteredSpecialists)
  : [];
 
- const handleClose = () => navigate("/");
+ const handleClose = () => {
+   // 1) Explicit return path passed via router state or ?returnTo=
+   const stateFrom = (location.state as { from?: string } | null)?.from;
+   const returnTo = searchParams.get("returnTo") || stateFrom;
+   if (returnTo && returnTo.startsWith("/") && !returnTo.startsWith("//") && !returnTo.startsWith("/booking")) {
+     navigate(returnTo);
+     return;
+   }
+   // 2) Internal history exists → go back to the page the user came from
+   const historyIdx = (window.history.state as { idx?: number } | null)?.idx;
+   if (typeof historyIdx === "number" && historyIdx > 0) {
+     navigate(-1);
+     return;
+   }
+   // 3) Booking opened directly → homepage
+   navigate("/");
+ };
 
  const handleSelectService = (categoryId: string, categoryLabel: string, service: { name: string; price: string; duration: string }) => {
  const clinicsForService = getClinicsForService(categoryId);
