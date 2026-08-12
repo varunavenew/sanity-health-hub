@@ -114,12 +114,12 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  return (
  <div
  key={clinic.id}
- className="relative grid grid-cols-1 lg:grid-cols-2 min-h-screen border-t border-border/40"
+ className="relative grid grid-cols-1 lg:grid-cols-2 split-section border-t border-border/40"
  >
  {/* Image */}
  <Link
  to={detailHref}
- className={`group relative block overflow-hidden h-[60vh] lg:h-auto lg:min-h-screen ${reverse ? "lg:order-2" : ""}`}
+ className={`group relative block overflow-hidden h-[60svh] lg:h-auto ${reverse ? "lg:order-2" : ""}`}
  aria-label={`Les mer om CMedical ${clinic.label}`}
  >
  {image ? (
