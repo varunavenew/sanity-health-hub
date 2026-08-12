@@ -54,7 +54,8 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   // Sticky mobile bottom CTA: shown on every page except the booking flow and admin views.
   // Bottom padding/placeholder is only reserved when this is true (see <Footer />).
   const normalizedPath = location.pathname.replace(/\/+$/, "") || "/";
-  const showStickyBar = !/^\/(booking|rediger|godkjenning)(\/|$)/.test(normalizedPath);
+  // Kun på forsiden — øvrige sider har nok CTA-er og skal ha innholdsfokus.
+  const showStickyBar = normalizedPath === "/";
 
 
 

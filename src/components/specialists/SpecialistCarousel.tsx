@@ -75,7 +75,7 @@ export const SpecialistCarousel = ({
   if (items.length === 0) return null;
 
   const ctaLabel = seeAllLabel ?? "Se alle spesialister";
-  const isStatic = items.length <= 3;
+  const isStatic = items.length === 1;
 
   const ctaLink = (
     <Link
