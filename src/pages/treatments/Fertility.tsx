@@ -1,3 +1,4 @@
+import skinBg from "@/assets/blur-belly.jpg.asset.json";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
