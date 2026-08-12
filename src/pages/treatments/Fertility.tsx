@@ -720,15 +720,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="relative overflow-hidden text-[#180404] pt-14 md:pt-16 pb-10 md:pb-12">
- <img
-   src={skinBg.url}
-   alt=""
+ <section className="relative overflow-hidden bg-brand-mid text-[#180404] pt-14 md:pt-16 pb-10 md:pb-12">
+ <div
    aria-hidden="true"
-   loading="lazy"
-   className="absolute inset-0 w-full h-full object-cover"
+   className="absolute inset-0 bg-cover bg-center"
+   style={{ backgroundImage: `url(${skinBg.url})` }}
  />
- <div aria-hidden="true" className="absolute inset-0 bg-brand-mid/65" />
+ <div aria-hidden="true" className="absolute inset-0 bg-brand-mid/60" />
+
  <div className="page-shell relative">
 
  <div className="max-w-6xl mx-auto">
