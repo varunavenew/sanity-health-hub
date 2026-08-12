@@ -296,7 +296,40 @@
     min-width: 0;
     max-width: 48rem;
     display: block;
+    /* Overskrift og ingress skal leses som ÉN enhet — kun grid-gap styrer
+       avstanden. Nullstill alle marginer på direkte barn (og ingressen inni). */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
+  .section-head > * > .section-lead,
+  .section-head-plain > * > .section-lead,
+  .section-head > * > p:first-child,
+  .section-head-plain > * > p:first-child {
+    margin-top: 0 !important;
+  }
+  /* Ingen padding-top på wrapper-divene (lg:pt-3 o.l.) som lager ekstra hull */
+  .section-head > *,
+  .section-head-plain > * {
+    padding-top: 0 !important;
+  }
+  /* Overskrift → ingress inne i samme wrapper: kompakt typografisk avstand */
+  .section-head > * :is(h1, h2, h3):has(+ p),
+  .section-head-plain > * :is(h1, h2, h3):has(+ p) {
+    margin-bottom: 0.75rem !important;
+  }
+  .section-head :is(h1, h2, h3) + p,
+  .section-head-plain :is(h1, h2, h3) + p {
+    margin-top: 0 !important;
+  }
+  /* Direkte barn: grid-gap-et er allerede avstanden — ingen ekstra margin */
+  .section-head > :is(h1, h2, h3):has(+ p),
+  .section-head-plain > :is(h1, h2, h3):has(+ p) {
+    margin-bottom: 0 !important;
+  }
+
+
+
+
 
 
 
