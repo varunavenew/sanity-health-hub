@@ -712,6 +712,7 @@ html body *::after {
 .stats-band-dark {
   color: hsl(var(--brand-beige));
 }
+.stats-band-dark h1,
 .stats-band-dark h2,
 .stats-band-dark h3,
 .stats-band-dark dd,
