@@ -19,7 +19,7 @@ interface ListPageHeroProps {
  */
 export const ListPageHero = ({ title, description, children, className = "" }: ListPageHeroProps) => (
   <header
-    className={`relative flex flex-col justify-center overflow-hidden min-h-[260px] md:min-h-[340px] py-14 md:py-24 ${className}`}
+    className={`relative flex flex-col justify-center overflow-hidden min-h-[calc(260px+4.25rem)] md:min-h-[calc(340px+4.25rem)] pt-[calc(3.5rem+4.25rem)] md:pt-[calc(6rem+4.25rem)] pb-14 md:pb-24 ${className}`}
   >
     <img
       src={heroBgAsset.url}
