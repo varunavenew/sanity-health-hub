@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -526,8 +527,9 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* 7. RESULTATER */}
-      <section className="bg-brand-light text-foreground py-14 md:py-28 border-t border-brand-dark/5">
-        <div className="container mx-auto px-6 md:px-16">
+      <section className="relative overflow-hidden bg-brand-light text-foreground py-14 md:py-28 border-t border-brand-dark/5">
+        <StatsSkinBackground />
+        <div className="relative container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 mb-14">
               <div>

@@ -17,9 +17,8 @@ interface ResultsStatsSectionProps {
   className?: string;
   /**
    * Visual variant:
-   * - "plain" (default): clean brand-light bg, no parallax. Used on live pages.
-   * - "warm": skin-toned parallax bg with overlay. RESERVED for template
-   *   experiments under `/maler/*` and `/hjem-demo/*` demo variants.
+   * - "warm" (default): light skin-toned parallax bg with overlay + dark text.
+   * - "plain": flat brand-light bg, no image.
    */
   variant?: "plain" | "warm";
 }
@@ -27,9 +26,7 @@ interface ResultsStatsSectionProps {
 /**
  * ResultsStatsSection – "Tall som forteller en historie"-mønsteret.
  *
- * The warm skin-toned parallax variant is a template experiment and must
- * NOT be used on real live pages. Pass `variant="warm"` only from pages
- * under `/maler/*` or template demos under `/hjem-demo/*`.
+ * Default is the light skin-toned background with dark text, used site-wide.
  */
 export const ResultsStatsSection = ({
   title,
@@ -37,7 +34,7 @@ export const ResultsStatsSection = ({
   stats,
   footnote,
   className = "",
-  variant = "plain",
+  variant = "warm",
 }: ResultsStatsSectionProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [offset, setOffset] = useState(0);

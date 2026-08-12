@@ -1,4 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { useEffect, useMemo, useRef } from "react";
@@ -585,8 +586,9 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
- <div className="page-shell">
+ <section className="relative overflow-hidden bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
+ <StatsSkinBackground />
+ <div className="page-shell relative">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
  <div className="lg:col-span-5">
