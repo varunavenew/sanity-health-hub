@@ -85,7 +85,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 <Link
                   key={tag}
                   to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
-                  className="chip-filter-dark text-xs px-2.5 py-1 rounded-[10px]"
+                  className="chip-filter-dark text-xs px-2.5 py-1 rounded-[var(--radius)]"
                 >
                   {tag}
                 </Link>
