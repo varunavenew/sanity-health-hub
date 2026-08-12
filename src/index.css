@@ -408,10 +408,8 @@
   .split-section {
     min-height: 420px;
   }
-  @media (min-width: 768px) {
-    .split-hero { min-height: 100svh; }
-  }
   @media (min-width: 1024px) {
+    .split-hero,
     .split-section { min-height: 100svh; }
   }
 
