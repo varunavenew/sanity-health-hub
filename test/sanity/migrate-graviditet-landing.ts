@@ -313,7 +313,7 @@ const resultsSection = {
 
 const reviewsSection = {
   eyebrow: i18nStr("Pasienthistorier", "Patient stories"),
-  title: i18nStr("Tilbakemeldinger fra ekte pasienter", "Feedback from real patients"),
+  title: i18nStr("Ord vi er takknemlige for", "Feedback from real patients"),
   reviews: [
     {
       _key: k("rev"), _type: "categoryLandingReview",
