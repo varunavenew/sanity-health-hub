@@ -25,7 +25,7 @@ export function AnimatedStatsSection({
 }: AnimatedStatsSectionProps) {
  const bgClass = background === "brand-light" ? "bg-brand-light" : "bg-background";
  return (
- <section className={`relative overflow-hidden ${bgClass} text-foreground py-14 md:py-28 border-t border-brand-dark/10`}>
+ <section className={`stats-band-dark relative overflow-hidden py-14 md:py-28 border-t border-brand-dark/10`}>
  <StatsSkinBackground />
  <div className="relative container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
