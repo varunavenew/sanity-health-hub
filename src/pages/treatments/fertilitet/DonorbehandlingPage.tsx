@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star } from "lucide-react";
@@ -295,8 +296,9 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
       />
 
       {/* 7. RESULTATER */}
-      <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
-        <div className="page-shell">
+      <section className="relative overflow-hidden bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
+        <StatsSkinBackground />
+        <div className="page-shell relative">
           <div className="max-w-6xl mx-auto">
             <div className="section-head">
               <div className="lg:col-span-5">

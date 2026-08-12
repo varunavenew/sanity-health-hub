@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
@@ -357,8 +358,9 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  />
 
  {/* 4b. STATS */}
- <section className="bg-brand-light text-foreground pt-14 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
- <div className="container mx-auto px-6 md:px-16">
+ <section className="relative overflow-hidden bg-brand-light text-foreground pt-14 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
+ <StatsSkinBackground />
+ <div className="relative container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
  <div className="lg:col-span-5">
