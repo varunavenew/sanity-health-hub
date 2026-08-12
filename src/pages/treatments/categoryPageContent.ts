@@ -21,6 +21,7 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 import graviditetHeroAsset from "@/assets/graviditet/graviditet-hero.png.asset.json";
+import { TRUST_SUBTITLE } from "@/lib/trustTags";
 const graviditetImg = graviditetHeroAsset.url;
 
 // Map service display name -> Claude.ai (-cl) icon key registered in src/lib/icons.ts
@@ -170,7 +171,7 @@ const standardFaqs = [
 const gynekologi: CategoryNewContent = {
   id: "gynekologi",
   title: "Gynekologi",
-  subtitle: "Kort ventetid • Ingen henvisning",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Velkommen til CMedical Kvinnehelse og våre spesialister innen gynekologi, fertilitet og kirurgi. Vi tilbyr et spisset og bredt tilbud som gir deg direkte tilgang til riktig ekspertise, uten omveier. Vårt mål er å gjøre kvinnehelse til folkehelse, i hele Norden.",
   longDescription:
@@ -236,7 +237,7 @@ const gynekologi: CategoryNewContent = {
 const urologi: CategoryNewContent = {
   id: "urologi",
   title: "Urologi",
-  subtitle: "Kort ventetid • Ingen henvisning",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Urologi er en medisinsk spesialitet som omhandler plager og sykdommer knyttet til mannens underliv og urinorganer hos begge kjønn herunder penis, prostata, testikler, urinblære og nyrer. Har du smerter, forstyrrelser med vannlating eller bare ønsker en generell sjekk, vil vår gruppe av spesialister kunne hjelpe.",
   longDescription:
@@ -284,7 +285,7 @@ const urologi: CategoryNewContent = {
 const fertilitet: CategoryNewContent = {
   id: "fertilitet",
   title: "Fertilitet",
-  subtitle: "Uten henvisning • Kort ventetid",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Velkommen til Nordens mest komplette private fertilitetstilbud. Hos oss i CMedical får du erfaring, spisskompetanse og moderne teknologi samlet på ett sted – enten du er ny pasient eller kommer fra en annen klinikk.",
   longDescription:
@@ -329,7 +330,7 @@ const fertilitet: CategoryNewContent = {
 const ortopedi: CategoryNewContent = {
   id: "ortopedi",
   title: "Ortopedi",
-  subtitle: "Kort ventetid • Ingen henvisning",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Ortopedi er en medisinsk spesialitet som tar seg av problemer med muskler, bein, ledd og sener i kroppen. Våre ortopeder er eksperter på å behandle skader og sykdommer knyttet til skulder, hånd, fot og albue.",
   longDescription:
@@ -372,7 +373,7 @@ const ortopedi: CategoryNewContent = {
 const graviditet: CategoryNewContent = {
   id: "graviditet",
   title: "Graviditet og fostermedisin",
-  subtitle: "Kort ventetid • Ingen henvisning",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Vi tilbyr trygg og helhetlig oppfølging gjennom svangerskapet, med erfarne fostermedisinere, jordmødre og psykologer som ser hele deg – ikke bare graviditeten.",
   longDescription:
@@ -414,7 +415,7 @@ const graviditet: CategoryNewContent = {
 const flereFagomrader: CategoryNewContent = {
   id: "flere-fagomrader",
   title: "Flere tjenester",
-  subtitle: "Kort ventetid • Ingen henvisning",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Vi har samlet noen av Nordens fremste spesialister innen gastrokirurgi, revmatologi, dermatologi, ernæringsfysiologi, karkirurgi, osteopati, psykologi og sexologi.",
   longDescription:

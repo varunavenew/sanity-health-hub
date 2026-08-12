@@ -41,6 +41,7 @@ import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
 import expertKvinne from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
 import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -257,11 +258,11 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
  <li className="flex items-center gap-2">
  <Check className="w-4 h-4" aria-hidden="true" />
- Ingen henvisning
+ {TRUST_NO_REFERRAL}
  </li>
  <li className="flex items-center gap-2">
  <Check className="w-4 h-4" aria-hidden="true" />
- Korte ventetider
+ {TRUST_SHORT_WAIT}
  </li>
  </ul>
  </div>

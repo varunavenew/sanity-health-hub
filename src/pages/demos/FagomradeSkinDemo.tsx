@@ -37,6 +37,7 @@ import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 import kvinnehelseVideo from "@/assets/kvinnehelse-8.mp4.asset.json";
 import skinHero from "@/assets/blur-belly.jpg.asset.json";
 import skinStatsBg from "@/assets/blur-skin-mid.jpg.asset.json";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -323,7 +324,7 @@ const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
       </div>
 
       <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
-       {["Ingen henvisning", "Korte ventetider"].map((u) => (
+       {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
         <li key={u} className="flex items-center gap-2">
          <Check className="w-4 h-4" aria-hidden="true" />
          <span>{u}</span>

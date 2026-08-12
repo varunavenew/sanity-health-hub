@@ -8,6 +8,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 import { getFromPriceForPath } from "@/data/priceList";
+import { TRUST_NO_REFERRAL } from "@/lib/trustTags";
 
 // Single source of truth: price comes from the price list, never hardcoded.
 const undersokelsePris = getFromPriceForPath("/behandlinger/gynekologi/undersokelse");
@@ -200,7 +201,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  Ingen henvisning
+                  {TRUST_NO_REFERRAL}
                 </span>
               </div>
  </div>

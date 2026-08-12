@@ -27,6 +27,7 @@ import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 import graviditetHeroAsset from "@/assets/graviditet/graviditet-hero.png.asset.json";
 import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
+import { TRUST_SUBTITLE } from "@/lib/trustTags";
 const graviditetImg = graviditetHeroAsset.url;
 
 
@@ -62,7 +63,7 @@ const getSpecialistLabel = (categoryId: string): string => {
 // Static fallback data
 const staticCategoryData: Record<string, CategoryData> = {
  urologi: {
- id: "urologi", title: "Urologi", subtitle: "Kort ventetid • Ingen henvisning",
+ id: "urologi", title: "Urologi", subtitle: TRUST_SUBTITLE,
  description: "Urologi er en medisinsk spesialitet som omhandler plager og sykdommer knyttet til mannens underliv og urinorganer hos begge kjønn herunder penis, prostata, testikler urinblære og nyrer. Har du smerter, forstyrrelser med vannlating eller bare ønsker en generell sjekk vil vår gruppe av spesialister kunne hjelpe.\n\nI CMedical har vi flere av Nordens ledende spesialister innen urologi.",
  servicesHeading: "Urologispesialister",
  servicesIntro: "Våre spesialister jobber med de tjenestene de kan best. Vi har noen av Nordens ledende spesialister på følgende områder:",
@@ -83,7 +84,7 @@ const staticCategoryData: Record<string, CategoryData> = {
  ],
  },
  fertilitet: {
- id: "fertilitet", title: "Fertilitet", subtitle: "Uten henvisning • Kort ventetid",
+ id: "fertilitet", title: "Fertilitet", subtitle: TRUST_SUBTITLE,
  description: "Velkommen til Nordens mest komplette private fertilitetstilbud. Hos oss i CMedical får du erfaring, spisskompetanse og moderne teknologi samlet på ett sted – enten du er ny pasient eller kommer fra en annen klinikk.\n\nLivio Oslo er nå en del av CMedical. Som Norges eldste fertilitetsklinikk bringer Livio med seg lang erfaring og solid fagkompetanse inn i CMedical. Sammen tilbyr vi et helhetlig og trygt fertilitetstilbud, basert på kvalitet, kontinuitet og omsorg.\n\nVi er den første klinikken i Norden med IVF-behandling og kirurgi samlet på ett sted, og vi tilbyr forskningsbasert behandling kombinert med personlig tilpasset oppfølging.\n\nCMedical Fertilitet benytter det nyeste innen teknologiske hjelpemidler. Vi har en time-lapse-inkubator som sikrer nøyaktig og trygg overvåkning av befruktede egg, samt elektronisk overvåkning av alle steg i en prøverørsbehandling. Alle apparater er tilkoblet et eksternt alarmsystem som sikrer trygg oppbevaring av humane celler.\n\nFertilitetsbehandling kan oppleves som både følelsesmessig og fysisk krevende. Synes du det er vanskelig å sette seg inn i alt? Du er ikke alene. Ta gjerne kontakt med oss for en uforpliktende og kostnadsfri prat med en av våre sykepleiere, eller bestill time til konsultasjon.",
  servicesHeading: "Fertilitetsspesialister",
  servicesIntro: "Hos CMedical fertilitet jobber vi i et tverrfagelig team. IVF teamet består av gynekologer med subspesialisering innen fertilitet, IVF sykepleiere og embryologer. Våre embryologer har internasjonal erfaring fra store IVF klinikker i verden samt forskningserfaring og ESHRE sertifisering. Våre gynekologer har lang erfaring fra Reproduksjonsmedisinsk avdeling Oslo Universitetssykehus. Øvrig samarbeider gynekolog, urolog, ernæringsfysiolog, osteopat og fertilitetscoach for å kunne gi deg en trygg og helhetlig behandling. Som pasienten ved CMedical er du i trygge hender.",
@@ -105,7 +106,7 @@ const staticCategoryData: Record<string, CategoryData> = {
  ],
  },
  gynekologi: {
- id: "gynekologi", title: "Gynekologi", subtitle: "Kort ventetid • Ingen henvisning",
+ id: "gynekologi", title: "Gynekologi", subtitle: TRUST_SUBTITLE,
  description: "Velkommen til CMedical Kvinnehelse og våre spesialister innen gynekologi, fertilitet og kirurgi. Vi tilbyr et spisset og bredt tilbud som gir deg direkte tilgang til riktig ekspertise, uten omveier. Vårt mål er å gjøre kvinnehelse til folkehelse, i hele Norden.\n\nHos oss møter du gynekologer som jobber med den kvinnesykdommen de kan aller best, og ved behov tilbyr vi tverrfaglig behandling med gynekologer, fertilitetsspesialister, sexolog, urolog, ernæringsfysiologer, osteopat, fysioterapeuter, uroterapeut og psykologer.",
  servicesHeading: "Alt under samme tak",
  servicesIntro: "Hos oss møter du ledende gynekologer som utelukkende jobber med den kvinnesykdommen de kan aller best. Våre spesialister jobber innenfor disse områdene:",
@@ -136,7 +137,7 @@ const staticCategoryData: Record<string, CategoryData> = {
  ],
  },
  graviditet: {
- id: "graviditet", title: "Graviditet og fostermedisin", subtitle: "Kort ventetid • Ingen henvisning",
+ id: "graviditet", title: "Graviditet og fostermedisin", subtitle: TRUST_SUBTITLE,
  description: "Vi tilbyr trygg og helhetlig oppfølging gjennom svangerskapet.",
  heroImage: graviditetImg,
  services: [
@@ -156,7 +157,7 @@ const staticCategoryData: Record<string, CategoryData> = {
  ],
  },
  "flere-fagomrader": {
- id: "flere-fagomrader", title: "Flere tjenester", subtitle: "Kort ventetid • Ingen henvisning",
+ id: "flere-fagomrader", title: "Flere tjenester", subtitle: TRUST_SUBTITLE,
  description: "Vi har samlet noen av Nordens fremste spesialister innen gastrokirurgi, revmatologi, dermatologi, ernæringsfysologi, karkirurgi, osteopati, psykologi og sexologi. Ofte jobber spesialistene i kryssdisiplinære team for å gi deg den beste behandlingen. Husk at du alltid kan ta kontakt med oss hvis du lurer på noe.",
  servicesHeading: "Spesialist",
  servicesIntro: "Ledende spesialister som utelukkende jobber med tjenesten de kan aller best, og vi har noen av Nordens ledende på disse områdene:",
@@ -182,7 +183,7 @@ const staticCategoryData: Record<string, CategoryData> = {
  ],
  },
  ortopedi: {
- id: "ortopedi", title: "Ortopedi", subtitle: "Kort ventetid • Ingen henvisning",
+ id: "ortopedi", title: "Ortopedi", subtitle: TRUST_SUBTITLE,
  description: "Ortopedi er en medisinsk spesialitet som tar seg av problemer med muskler, bein, ledd og sener i kroppen. Våre ortopeder er eksperter på å behandle skader og sykdommer knyttet til skulder, hånd, fot og albue. Hos oss jobber noen av landets fremste kirurger med avanserte caser.",
  servicesHeading: "Erfarne spesialister",
  servicesIntro: "Våre ortopeder er alle spesialister med høy kompetanse innen sine felt. På grunn av vår erfaring, får vi ofte pasienter til såkalt second opinion hvor pasientene trenger ny operasjon eller har kompliserte skader. Vi benytter et bredt spekter av anerkjente behandlingsformer og er til enhver tid oppdatert. Hos oss får du tilgang på den samme ekspertisen som du får hos de store universitetssykehusene.",
@@ -240,7 +241,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  ? {
  id: sanityCategory.categoryId || sanityCategory.slug || categoryId,
  title: sanityCategory.title,
- subtitle: "Kort ventetid • Ingen henvisning",
+ subtitle: TRUST_SUBTITLE,
  description: sanityCategory.description || staticCategory?.description || "",
  heroImage: sanityCategory.heroImage || staticCategory?.heroImage || "",
  services: (sanityCategory.services || []).map((s: any) => ({

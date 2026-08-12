@@ -11,10 +11,11 @@ import gynekologiReal from "@/assets/categories/gynekologi-real.jpg";
 import gynekologiHero from "@/assets/categories/gynekologi.jpg";
 import fertilitetReal from "@/assets/categories/fertilitet-real.jpg";
 import flereReal from "@/assets/categories/flere-fagomrader.jpg";
+import { TRUST_SUBTITLE } from "@/lib/trustTags";
 
 export const gynekologiContent = {
   title: "Gynekologi",
-  subtitle: "Kort ventetid • Ingen henvisning",
+  subtitle: TRUST_SUBTITLE,
   description:
     "Velkommen til CMedical Kvinnehelse og våre spesialister innen gynekologi, fertilitet og kirurgi. Vi tilbyr et spisset og bredt tilbud som gir deg direkte tilgang til riktig ekspertise, uten omveier. Vårt mål er å gjøre kvinnehelse til folkehelse, i hele Norden.\n\nHos oss møter du gynekologer som jobber med den kvinnesykdommen de kan aller best, og ved behov tilbyr vi tverrfaglig behandling med gynekologer, fertilitetsspesialister, sexolog, urolog, ernæringsfysiologer, osteopat, fysioterapeuter, uroterapeut og psykologer.",
   servicesHeading: "Alt under samme tak",

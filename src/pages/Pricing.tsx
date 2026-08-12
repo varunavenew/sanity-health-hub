@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { usePricingPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
+import { TRUST_NO_REFERRAL } from "@/lib/trustTags";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -153,7 +154,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
           <div className="flex flex-wrap gap-3 mb-12">
             <span className="inline-flex items-center gap-2 text-sm text-brand-dark/80">
               <Check className="w-4 h-4 text-brand-dark/60" aria-hidden="true" />
-              Ingen henvisning
+              {TRUST_NO_REFERRAL}
             </span>
             <span className="inline-flex items-center gap-2 text-sm text-brand-dark/80">
               <Check className="w-4 h-4 text-brand-dark/60" aria-hidden="true" />

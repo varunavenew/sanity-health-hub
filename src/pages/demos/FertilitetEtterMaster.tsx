@@ -32,6 +32,7 @@ import journeyResult from "@/assets/fertility/journey-03-result.jpg";
 import audienceCouple from "@/assets/fertility/audience-couple.jpg";
 import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -228,8 +229,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
               </div>
 
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
-                <li className="flex items-center gap-2"><Check className="w-4 h-4" aria-hidden="true" />Ingen henvisning</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4" aria-hidden="true" />Korte ventetider</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4" aria-hidden="true" />{TRUST_NO_REFERRAL}</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4" aria-hidden="true" />{TRUST_SHORT_WAIT}</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4" aria-hidden="true" />Erfarne spesialister</li>
               </ul>
             </div>

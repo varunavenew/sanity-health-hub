@@ -30,6 +30,7 @@ import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { PatientFeedbackCarousel } from "@/components/treatments/PatientFeedbackCarousel";
 import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -137,7 +138,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
               </div>
 
               <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
-                {["Ingen henvisning", "Korte ventetider", "Følger Bioteknologiloven"].map((u) => (
+                {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT, "Følger Bioteknologiloven"].map((u) => (
                   <li key={u} className="inline-flex items-center gap-2">
                     <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
                     <span>{u}</span>

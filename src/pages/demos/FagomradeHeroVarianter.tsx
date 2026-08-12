@@ -15,6 +15,7 @@ import cmedicalHands from "@/assets/hero/cmedical-hands.jpg";
 import cmedicalHero3 from "@/assets/hero/cmedical-hero-3.jpg";
 import blurSkinAsset from "@/assets/blur-skin-mid.jpg.asset.json";
 import fertilitetHeroVideo from "@/assets/fertilitet-hero.mp4.asset.json";
+import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 
 /**
  * Demo-visning under «Maler»: 10 hero-varianter for HOVEDFAGOMRÅDE-siden
@@ -143,7 +144,7 @@ const HeroCopy = ({
           isLight ? "text-white/95" : "text-brand-dark"
         } ${centered ? "justify-center" : ""}`}
       >
-        {["Ingen henvisning", "Korte ventetider"].map((u) => (
+        {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
           <li key={u} className="flex items-center gap-2">
             <Check className="w-4 h-4" aria-hidden="true" />
             <span>{u}</span>
@@ -303,7 +304,7 @@ const V3VideoOnly = ({ c }: { c: CategoryHeroContent }) => {
               <CallUsClinicPicker variant="light" label="Ring oss" />
             </div>
             <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
-              {["Ingen henvisning", "Korte ventetider"].map((u) => (
+              {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
                 <li key={u} className="flex items-center gap-2">
                   <Check className="w-4 h-4" aria-hidden="true" />
                   <span>{u}</span>
@@ -395,7 +396,7 @@ const V6Editorial = ({ c }: { c: CategoryHeroContent }) => {
                 <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
-                {["Ingen henvisning", "Korte ventetider"].map((u) => (
+                {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
                   <li key={u} className="flex items-center gap-2">
                     <Check className="w-4 h-4" />
                     <span>{u}</span>
@@ -538,7 +539,7 @@ const V10Typographic = ({ c }: { c: CategoryHeroContent }) => {
                 <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
-                {["Ingen henvisning", "Korte ventetider"].map((u) => (
+                {[TRUST_NO_REFERRAL, TRUST_SHORT_WAIT].map((u) => (
                   <li key={u} className="flex items-center gap-2">
                     <Check className="w-4 h-4" />
                     <span>{u}</span>
