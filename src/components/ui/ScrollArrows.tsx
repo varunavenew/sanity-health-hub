@@ -115,14 +115,15 @@ export const ScrollArrows = ({
   );
 
   if (!overflowing || count <= 1) {
-    // Ingen scroll å navigere i — men en eventuell tekstlenke skal fortsatt vises.
+    // Ingen scroll å navigere i — men en eventuell tekstlenke skal fortsatt vises (venstrestilt).
     if (!trailing) return null;
     return (
-      <div className="flex items-center justify-end w-full max-w-full carousel-nav">
+      <div className="flex items-center justify-start w-full max-w-full carousel-nav">
         {trailing}
       </div>
     );
   }
+
 
   const total = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
   const current = total > 0 ? (activeIdx % total) + 1 : 1;
