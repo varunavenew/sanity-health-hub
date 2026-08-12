@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, Phone, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -283,6 +283,7 @@ interface FormData {
 
 const BookingDemo = () => {
  const navigate = useNavigate();
+  const location = useLocation();
  const isMobile = useIsMobile();
  const [searchParams] = useSearchParams();
  const { specialists } = useSpecialistsData();
@@ -903,7 +904,7 @@ const BookingDemo = () => {
    <button 
    onClick={handleClose} 
    className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-2xl md:rounded-full transition-colors"
-   aria-label="Lukk bestilling og gå til forsiden"
+   aria-label="Lukk bestilling og gå tilbake"
    >
    <X className="w-5 h-5 text-brand-dark" aria-hidden="true" />
    </button>
