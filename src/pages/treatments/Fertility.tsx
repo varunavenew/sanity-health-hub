@@ -1,4 +1,4 @@
-import skinBg from "@/assets/blur-belly.jpg.asset.json";
+import skinBg from "@/assets/blur-face.jpg";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import { CarouselCta } from "@/components/ui/CarouselCta";
 import { fertilityAudiences as audiences } from "@/data/fertilityAudiences";
@@ -720,33 +720,33 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="relative overflow-hidden bg-brand-mid text-[#180404] pt-14 md:pt-16 pb-10 md:pb-12">
+ <section className="relative overflow-hidden bg-brand-dark text-brand-light pt-14 md:pt-16 pb-10 md:pb-12">
  <div
    aria-hidden="true"
    className="absolute inset-0 bg-cover bg-center"
-   style={{ backgroundImage: `url(${skinBg.url})` }}
+   style={{ backgroundImage: `url(${skinBg})` }}
  />
- <div aria-hidden="true" className="absolute inset-0 bg-brand-mid/35" />
+ <div aria-hidden="true" className="absolute inset-0 bg-brand-dark/70" />
 
  <div className="page-shell relative">
 
  <div className="max-w-6xl mx-auto">
  <div className="section-head">
  <div className="lg:col-span-5">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
+ <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-light">
  Tall som forteller en historie.
  </h2>
  </div>
  <div className="lg:col-span-7 flex items-end">
- <p className="text-base font-light text-[#180404]/80 leading-relaxed max-w-xl">
+ <p className="text-base font-light text-brand-light/85 leading-relaxed max-w-xl">
  Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
  resultatene våre innen fertilitetsbehandling de siste årene.
  </p>
  </div>
  </div>
 
- <div className="border-t border-[#180404]/25 py-8 md:py-10">
- <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-[#180404]/25">
+ <div className="border-t border-brand-light/25 py-8 md:py-10">
+ <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-light/20">
  {[
  { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
  { v: "3 500", k: "Operasjoner", sub: "Per år" },
@@ -757,13 +757,13 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  key={row.k}
  className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
  >
- <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
+ <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3 text-brand-light">
  <AnimatedStat value={row.v} />
  </dd>
- <dt className="text-sm font-normal text-[#180404] mb-1">
+ <dt className="text-sm font-normal text-brand-light/90 mb-1">
  {row.k}
  </dt>
- <p className="text-xs font-light text-[#180404]/70">
+ <p className="text-xs font-light text-brand-light/75">
  {row.sub}
  </p>
  </div>
@@ -771,7 +771,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </dl>
  </div>
 
- <p className="text-xs font-light text-[#180404]/70 mt-8">
+ <p className="text-xs font-light text-brand-light/75 mt-8">
  Tall oppdatert per Q1 2026. Resultater varierer individuelt.
  </p>
  </div>
