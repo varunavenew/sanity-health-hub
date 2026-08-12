@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "@/components/AnimatedStat";
-import skinBg from "@/assets/blur-skin-mid.jpg.asset.json";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 
 export type ResultStat = {
   v: string;
@@ -36,55 +35,13 @@ export const ResultsStatsSection = ({
   className = "",
   variant = "warm",
 }: ResultsStatsSectionProps) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    if (variant !== "warm") return;
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
-
-    let raf = 0;
-    const update = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
-      const clamped = Math.max(-1, Math.min(1, progress));
-      setOffset(clamped * 60);
-    };
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [variant]);
-
-  const isWarm = variant === "warm";
-
   return (
     <section
-      ref={sectionRef}
       className={`stats-band-dark relative overflow-hidden py-16 md:py-20 ${className}`}
     >
-      {/* Same background asset/toning as the "60 000+"-band on the homepage */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 -top-16 -bottom-16 will-change-transform bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${skinBg.url})`,
-          transform: isWarm ? `translate3d(0, ${offset}px, 0)` : undefined,
-        }}
-      />
+      {/* Same background asset/toning/parallax as the list-page hero */}
+      <StatsSkinBackground speed={variant === "warm" ? 0.14 : 0} />
+
 
       <div className="relative container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
