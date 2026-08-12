@@ -1,53 +1,40 @@
-# Migrate service hero images to Sanity
+# To designjusteringer: sentrerte topplayouter + filter-chips
 
-Move the ~60 service hero images from CDN `.asset.json` pointers into Sanity so editors can manage them from the CMS. Sanity image wins when present; existing CDN pointer is the fallback so nothing breaks during/after migration.
+## 1. Sentrerte topplayouter skal være vertikalt midtstilt
 
-## Current state
+I dag har den sentrerte toppseksjonen på /tjenester asymmetrisk luft: `pt-16 md:pt-32 pb-10 md:pb-14`. Den faste headeren (logo/nav) ligger over innholdet, så den opplevde toppluften blir enda mindre enn tallene tilsier.
 
-- Images live at `src/assets/services/*.jpg.asset.json` (CDN pointers on Cloudflare R2).
-- Resolved in code via `getServiceImage(categoryId, subId?)` in `src/data/serviceImages.ts` — used everywhere hero images render (category landings, sub-treatment pages, related cards, "Alle er velkomne" cards).
-- Sanity schema `treatment` and `treatmentCategory` already have a `heroImage` field of type `image` — no schema change needed.
+Løsning: én felles CSS-klasse i `src/index.css` — `.centered-hero` — som gir seksjonen en minimumshøyde, flex-sentrering og lik luft over/under, med headerhøyden trukket fra på toppen (`padding-top: calc(header + X)`, `padding-bottom: X`), slik at det visuelle gapet fra header til overskrift blir likt gapet fra siste element ned til neste seksjon/skillelinje. Egne verdier for mobil og desktop.
 
-## What to build
+Sider/komponenter som får klassen (alle sentrerte topplayouter):
+- `src/pages/Services.tsx` (/tjenester)
+- `src/pages/KarriereDetail.tsx`
+- `src/pages/ClinicDetailPage.tsx` (sentrert topp)
+- `src/pages/Guide.tsx`
+- `src/pages/themes/KvinnehelsePage.tsx`, `src/pages/themes/RobotkirurgiPage.tsx`
+- `src/components/layout/PageHero.tsx` (der den brukes sentrert)
+- Øvrige sentrerte topper som dukker opp i gjennomgangen (demoer holdes utenfor med mindre de deler komponent)
 
-### 1. Upload script (one-off)
+Split-heroer (tekst venstre / bilde høyre) og liste-heroen røres ikke — de har allerede egne høyde-tokens.
 
-Create `test/sanity/upload-service-images.ts`:
-- Read every `src/assets/services/*.jpg.asset.json` pointer.
-- Download the binary from the `url` field.
-- Upload to Sanity via `client.assets.upload("image", buffer, { filename })`.
-- Match the returned asset to the correct `treatment` / `treatmentCategory` document by slug (using the same `categoryId` / `subId` derivation that `serviceImages.ts` uses, including the `ALIAS`, `SUB_ALIAS`, and `CROSS_CATEGORY_ALIAS` maps).
-- Patch each document: `client.patch(id).set({ heroImage: { _type: "image", asset: { _ref: assetId } } }).commit()`.
-- Skip documents that already have a `heroImage` (idempotent re-run).
-- Log a summary: uploaded, skipped, unmatched.
+## 2. Filter-chips: samme radius som «Bestill time»
 
-### 2. Frontend resolver (Sanity-first, CDN fallback)
+Fakta i dag: `--radius` = 10px, og alle knapper (inkl. `variant="cta"`/«Bestill time») bruker `rounded-2xl` som er mappet til `var(--radius)` = 10px. Basisklassen `.chip-filter` i `src/index.css` bruker derimot `rounded-full` (9999px), mens noen bruksteder overstyrer til 10px — derav inkonsekvensen.
 
-Update `src/data/serviceImages.ts`:
-- Keep the existing `getServiceImage` / `getDedicatedServiceImage` / `getCategoryHeroImage` / `getServiceImageFromHref` signatures unchanged so no call sites need editing.
-- Add a small in-memory cache populated at app startup by a new `useServiceImagesFromSanity()` hook (or extend the existing `useServiceCategories`) that fetches `_id`, `slug.current`, `parentCategory->slug.current`, and `heroImage` from Sanity once.
-- Inside each `get*` function: check the Sanity cache first (keyed by `${categoryId}/${subId}` or `${categoryId}`); if a Sanity image URL exists, return it. Otherwise fall through to the current CDN pointer logic unchanged.
-- Use `urlFor()` from `src/lib/sanityClient.ts` to build the Sanity image URL (with `.width(1600).auto("format").url()`).
+Valgt løsning (per din bekreftelse): alle filter-chips settes til nøyaktig 10px, samme som «Bestill time».
 
-### 3. Keep CDN pointers in the repo
+Endringer:
+- `.chip-filter` i `src/index.css`: `rounded-full` → `rounded-[var(--radius)]`
+- Fjerne/rydde lokale radius-overstyringer så de ikke spriker:
+  - `src/pages/Specialists.tsx` (3 chip-steder)
+  - `src/pages/PriserMobile.tsx`, `src/pages/PriserDesktop.tsx`
+  - `src/pages/Aktuelt.tsx` (kategorifiltre + «Last inn flere»-knapp)
+  - `src/components/specialist/SpecialistHero.tsx`
+- `src/components/treatments/TagList.tsx`: `rounded-2xl md:rounded-full` → `rounded-[var(--radius)]` på både pill og «+N»-knapp
+- Gjennomgang av øvrige `rounded-full`-treff som faktisk er filter-tags (ikke avatarer, prikker, ikonknapper, progress o.l.) — de rundingene beholdes.
 
-Do NOT delete the `.asset.json` files after migration. They are the fallback and cost effectively nothing in bundle size (they're JSON pointers, not binaries). Once the team confirms every service has a Sanity image and editors are happy, a follow-up cleanup task can remove them.
+## Verifisering
 
-## Out of scope
-
-- No changes to the Sanity schema (`heroImage` already exists).
-- No changes to any component or page that renders images — the resolver signatures stay identical.
-- No removal of CDN pointers in this pass.
-
-## Verification
-
-- Run the upload script in a dry-run mode first (log matches without patching) to confirm slug matching is correct — especially for the alias cases (`flere-fagomrader` → `flere`, `gynekologi/tverrfaglig` → `tverrfaglig-team`, etc.).
-- Run for real, then load a handful of pages (Gynekologi landing, a fertility sub-page, a urologi sub-page, `/behandlinger/flere-fagomrader/*`) and confirm the Sanity image renders.
-- Temporarily unset one document's `heroImage` in Sanity and confirm the CDN fallback still shows.
-- `tsgo` typecheck clean.
-
-## Technical notes
-
-- Auth: the upload script needs a Sanity write token (env var `SANITY_WRITE_TOKEN`). Users manage this locally; not needed at runtime by the frontend.
-- The Sanity fetch on the frontend is a single query, cached by React Query, keyed once — no per-image roundtrips.
-- Alias/cross-category maps in `serviceImages.ts` stay authoritative for slug resolution both in the upload script and the runtime resolver (import them, don't duplicate).
+Playwright-måling som rapporteres til slutt:
+- /tjenester desktop + mobil: piksler fra header-bunn til overskrift vs. fra siste element til seksjonsslutt (skal være like)
+- Computed `border-radius` på filter-chips (/aktuelt, /spesialister, /priser) vs. «Bestill time»-knappen
