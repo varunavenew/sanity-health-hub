@@ -1,8 +1,12 @@
 // Centralized Sanity GROQ queries
-import { localizedSeoObject } from "@/lib/sanity/seo-groq";
+import {
+  localizedSeoObject,
+  localizedSeoObjectLocale,
+} from "@/lib/sanity/seo-groq";
 import { MEDIA_OBJECT_PROJECTION } from "@/lib/sanity/media-dual-read";
 import {
   localizedPrimaryCategorySlugField,
+  localizedPrimaryCategorySlugFieldLocale,
   localizedRefSlugField,
   localizedSlug,
   orderSlugAsc,
@@ -55,6 +59,10 @@ const SPECIALIST_PROFILE_UI_GROQ = `
 const i18nStringLocale = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
 
+/** Active locale only for text fields — never silently fill from Norwegian. */
+const i18nTextLocale = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
+
 const i18nStringArrayLocale = (field: string) =>
   `"${field}": ${field}[]{"value": coalesce(@[language == $lang][0].value, @[_key == $lang][0].value)}`;
 
@@ -104,6 +112,22 @@ const localizedFaqRow = `
     answer[language == "no"][0].value,
     answer[_key == "no"][0].value,
     answer
+  )
+`;
+
+/** FAQ row for the active locale only (treatment / category pages). */
+const localizedFaqRowLocale = `
+  "question": coalesce(
+    @->question[language == $lang][0].value,
+    @->question[_key == $lang][0].value,
+    question[language == $lang][0].value,
+    question[_key == $lang][0].value
+  ),
+  "answer": coalesce(
+    @->answer[language == $lang][0].value,
+    @->answer[_key == $lang][0].value,
+    answer[language == $lang][0].value,
+    answer[_key == $lang][0].value
   )
 `;
 
@@ -441,7 +465,10 @@ export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings" &
 }`;
 
 const CATEGORY_TREATMENT_ROW = `
-  _id, _createdAt, title, sortOrder, ${localizedSlug}, description, subtitle,
+  _id, _createdAt, sortOrder, ${localizedSlug},
+  ${i18nStringLocale("title")},
+  ${i18nTextLocale("description")},
+  ${i18nStringLocale("subtitle")},
   "heroImage": heroImage.asset->url
 `;
 
@@ -449,7 +476,7 @@ const CATEGORY_TREATMENT_ROW = `
 const CATEGORY_TREATMENTS_GROQ = `
   "treatments": select(
     count(treatments) > 0 => treatments[]->{${CATEGORY_TREATMENT_ROW}},
-    *[_type == "treatment" && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
+    *[_type == "treatment" && ${publishedOnly} && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
   )
 `;
 
@@ -470,13 +497,11 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("heading")},
       ${i18nStringLocale("headingEmphasis")},
-      ${i18nText("body")},
+      ${i18nTextLocale("body")},
       "bullets": bullets[]{
         "value": coalesce(
           title[language == $lang][0].value,
-          title[_key == $lang][0].value,
-          title[language == "no"][0].value,
-          title[_key == "no"][0].value
+          title[_key == $lang][0].value
         )
       },
       ${i18nStringLocale("primaryCtaLabel")},
@@ -494,7 +519,7 @@ const CATEGORY_LANDING_GROQ = `
       segments[]{
         id,
         ${i18nStringLocale("title")},
-        ${i18nText("description")},
+        ${i18nTextLocale("description")},
         ${i18nStringArrayLocale("tags")},
         tagLinks[]{
           ${i18nStringLocale("label")},
@@ -507,7 +532,7 @@ const CATEGORY_LANDING_GROQ = `
     whySection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       "image": image.asset->url,
       ${i18nStringLocale("imageAlt")},
       ${i18nStringLocale("footerLinkLabel")},
@@ -515,18 +540,18 @@ const CATEGORY_LANDING_GROQ = `
       steps[]{
         number,
         ${i18nStringLocale("title")},
-        ${i18nText("description")}
+        ${i18nTextLocale("description")}
       }
     },
     expertAreasSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       layout,
       ${i18nStringLocale("readMoreLabel")},
       areas[]{
         ${i18nStringLocale("title")},
-        ${i18nText("description")},
+        ${i18nTextLocale("description")},
         href,
         "image": image.asset->url,
         ${i18nStringLocale("imageAlt")}
@@ -534,11 +559,11 @@ const CATEGORY_LANDING_GROQ = `
     },
     supportSection{
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       ${i18nStringLocale("readMoreLabel")},
       areas[]{
         ${i18nStringLocale("title")},
-        ${i18nText("description")},
+        ${i18nTextLocale("description")},
         href,
         "image": image.asset->url,
         ${i18nStringLocale("imageAlt")}
@@ -546,19 +571,19 @@ const CATEGORY_LANDING_GROQ = `
     },
     journeySection{
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       ${i18nStringLocale("ctaLabel")},
       ctaHref,
       steps[]{
         number,
         ${i18nStringLocale("title")},
-        ${i18nText("description")}
+        ${i18nTextLocale("description")}
       }
     },
     spotlightSection{
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleEmphasis")},
-      ${i18nText("text")},
+      ${i18nTextLocale("text")},
       ${i18nStringLocale("ctaLabel")},
       ctaHref,
       "image": image.asset->url,
@@ -571,7 +596,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("readMoreLabel")},
       audiences[]{
         ${i18nStringLocale("title")},
-        ${i18nText("description")},
+        ${i18nTextLocale("description")},
         href,
         ${i18nStringLocale("ctaLabel")},
         icon,
@@ -581,7 +606,7 @@ const CATEGORY_LANDING_GROQ = `
     symptomsSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       background,
       items[]{
         ${i18nStringLocale("symptom")},
@@ -594,7 +619,7 @@ const CATEGORY_LANDING_GROQ = `
     servicesSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       groups[]{
         ${i18nStringLocale("label")},
         items[]{
@@ -607,7 +632,7 @@ const CATEGORY_LANDING_GROQ = `
     resultsSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")},
+      ${i18nTextLocale("description")},
       ${i18nStringLocale("categoryLabel")},
       ${i18nStringLocale("footnote")}
     },
@@ -615,7 +640,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       reviews[]{
-        ${i18nText("text")},
+        ${i18nTextLocale("text")},
         author,
         ${i18nStringLocale("date")}
       }
@@ -625,9 +650,9 @@ const CATEGORY_LANDING_GROQ = `
 `;
 
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
-  _id, title, ${localizedSlug}, categoryId, categoryNumericId,
-  ${i18nText('geoSummary')},
-  ${i18nText('missingLandingMessage')},
+  _id, ${i18nStringLocale("title")}, ${localizedSlug}, categoryId, categoryNumericId,
+  ${i18nTextLocale('geoSummary')},
+  ${i18nTextLocale('missingLandingMessage')},
   heroMediaType,
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "heroImage": heroImage.asset->url,
@@ -637,67 +662,61 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
     ${i18nStringLocale("label")},
     ${i18nStringLocale("sub")}
   },
-  ${i18nString("faqSectionTitle")},
-  ${i18nText("faqSectionDescription")},
+  ${i18nStringLocale("faqSectionTitle")},
+  ${i18nTextLocale("faqSectionDescription")},
   faqOpenFirst,
   "faqCollection": faqCollection->{
     _id,
     title,
     "questions": questions[]->{
       sortOrder,
-      ${localizedFaqRow}
+      ${localizedFaqRowLocale}
     }
   },
   "faqs": faqs[]->{
     sortOrder,
-    ${localizedFaqRow}
+    ${localizedFaqRowLocale}
   },
-  ${localizedSeoObject},
+  ${localizedSeoObjectLocale},
   ${CATEGORY_TREATMENTS_GROQ},
   ${CATEGORY_LANDING_GROQ},
   ${PAGE_SECTIONS_GROQ}
 }`;
-
 const localizedParentCategory = `"parentCategory": coalesce(
   parentCategoryLabel[language == $lang][0].value,
   parentCategoryLabel[_key == $lang][0].value,
-  parentCategoryLabel[language == "no"][0].value,
-  parentCategoryLabel[_key == "no"][0].value,
   categories[0]->title[language == $lang][0].value,
   categories[0]->title[_key == $lang][0].value,
-  categories[0]->title[language == "no"][0].value,
-  categories[0]->title[_key == "no"][0].value,
   category->title[language == $lang][0].value,
-  category->title[_key == $lang][0].value,
-  category->title[language == "no"][0].value,
-  category->title[_key == "no"][0].value
+  category->title[_key == $lang][0].value
 )`;
 
-export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
+export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnly} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
   _id,
+  pageRole,
   ${localizedSlug},
-  ${i18nString('title')},
-  ${i18nString('subtitle')},
-  ${i18nText('description')},
-  ${i18nText('geoSummary')},
+  ${i18nStringLocale('title')},
+  ${i18nStringLocale('subtitle')},
+  ${i18nTextLocale('description')},
+  ${i18nTextLocale('geoSummary')},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "heroImage": heroImage.asset->url,
-  ${i18nString('heroImageAlt')},
+  ${i18nStringLocale('heroImageAlt')},
   ${localizedParentCategory},
-  ${localizedPrimaryCategorySlugField("parentSlug")},
+  ${localizedPrimaryCategorySlugFieldLocale("parentSlug")},
   "categoryNumericId": coalesce(categories[0]->categoryNumericId, category->categoryNumericId),
-  ${i18nString("faqSectionTitle")},
+  ${i18nStringLocale("faqSectionTitle")},
   "faqCollection": faqCollection->{
     _id,
     title,
     "questions": questions[]->{
       sortOrder,
-      ${localizedFaqRow}
+      ${localizedFaqRowLocale}
     }
   },
   "faqs": faqs[]{
     "sortOrder": coalesce(@->sortOrder, sortOrder),
-    ${localizedFaqRow}
+    ${localizedFaqRowLocale}
   },
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
@@ -719,7 +738,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   insurancePartners[]{ key, ${i18nStringLocale('label')} },
   ${i18nStringLocale('eyebrow')},
   ${i18nStringLocale('heroTitle')},
-  ${i18nText('heroDescription')},
+  ${i18nTextLocale('heroDescription')},
   ${i18nStringLocale('rating')},
   ${i18nStringLocale('heroPrice')},
   hideSeePriser,
@@ -736,30 +755,31 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   flowLinkHref,
   ${i18nStringLocale('reasonsEyebrow')},
   ${i18nStringLocale('reasonsTitle')},
-  ${i18nText('reasonsLead')},
-  ${i18nText('reasonsLead2')},
+  ${i18nTextLocale('reasonsLead')},
+  ${i18nTextLocale('reasonsLead2')},
   reasonsLayout,
   ${i18nStringLocale('ctaTitle')},
-  ${i18nText('ctaDescription')},
+  ${i18nTextLocale('ctaDescription')},
   ${i18nStringLocale('conversationCtaTitle')},
   ${i18nStringLocale('specialistTitle')},
-  ${i18nText('specialistDescription')},
+  ${i18nTextLocale('specialistDescription')},
   ${i18nStringLocale('specialistCtaLabel')},
   specialistCtaHref,
   relatedSection{
-    ${i18nString('eyebrow')},
-    ${i18nString('title')},
-    ${i18nText('lead')},
+    ${i18nStringLocale('eyebrow')},
+    ${i18nStringLocale('title')},
+    ${i18nTextLocale('lead')},
     asIntro,
     asServices,
     seeAllHref,
-    ${i18nString('seeAllLabel')},
-    items[]->{
+    ${i18nStringLocale('seeAllLabel')},
+    // Filter on refs before dereference. Post-projection filters on []-> return null rows.
+    items[@->pageRole != "team"]->{
       _id,
       pageRole,
-      ${i18nString('eyebrow')},
-      ${i18nString('title')},
-      ${i18nText('desc')},
+      ${i18nStringLocale('eyebrow')},
+      ${i18nStringLocale('title')},
+      ${i18nTextLocale('desc')},
       "path": "/" + coalesce(
         categories[0]->slug[language == $lang][0].value.current,
         categories[0]->slug[_key == $lang][0].value.current,
@@ -767,46 +787,43 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
         category->slug[_key == $lang][0].value.current
       ) + "/" + coalesce(
         slug[language == $lang][0].value.current,
-        slug[_key == $lang][0].value.current,
-        slug[language == "no"][0].value.current,
-        slug.current
+        slug[_key == $lang][0].value.current
       ),
       "image": heroImage.asset->url,
-      ${i18nString('heroImageAlt')}
-    }[coalesce(pageRole, "service") != "team"]
+      ${i18nStringLocale('heroImageAlt')}
+    }
   },
-  heroPoints[]{ ${i18nString('title')}, ${i18nText('desc')} },
-  flow[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
-  reasons[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+  heroPoints[]{ ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
+  flow[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
+  reasons[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   promises[]{
-    ${i18nString('eyebrow')},
-    ${i18nString('title')},
-    ${i18nText('desc')},
+    ${i18nStringLocale('eyebrow')},
+    ${i18nStringLocale('title')},
+    ${i18nTextLocale('desc')},
     "image": image.asset->url,
-    ${i18nString('imageAlt')}
+    ${i18nStringLocale('imageAlt')}
   },
   expertAreas{
-    ${i18nString('title')},
-    ${i18nText('description')},
+    ${i18nStringLocale('title')},
+    ${i18nTextLocale('description')},
     items[]{
-      ${i18nString('title')},
-      ${i18nText('desc')},
+      ${i18nStringLocale('title')},
+      ${i18nTextLocale('desc')},
       path,
       "image": image.asset->url,
-      ${i18nString('imageAlt')}
+      ${i18nStringLocale('imageAlt')}
     }
   },
   textSection{
-    ${i18nString('title')},
-    ${i18nText('lead')},
-    points[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+    ${i18nStringLocale('title')},
+    ${i18nTextLocale('lead')},
+    points[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
     "image": image.asset->url,
-    ${i18nString('imageAlt')}
+    ${i18nStringLocale('imageAlt')}
   },
   ${PAGE_SECTIONS_GROQ},
-  ${localizedSeoObject}
+  ${localizedSeoObjectLocale}
 }`;
-
 export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage" && ${publishedOnly}][0]{
   ${i18nString('title')},
   ${localizedSlug},
@@ -951,9 +968,29 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
   ${i18nString("specialistsTitle")},
   ${i18nString("specialistsSeeAllLabel")},
   ${i18nString("socialSectionTitle")},
+  ${i18nString("instagramSectionTitle")},
   ${i18nString("breadcrumbHomeLabel")},
   socialMode,
   socialPostLimit,
+  socialPlatformCards[]{
+    _key,
+    platform,
+    ${i18nString("title")},
+    ${i18nString("handle")},
+    ${i18nText("description")},
+    url
+  },
+  instagramProfile{
+    profileUrl,
+    postsCount,
+    followersCount,
+    followingCount,
+    ${i18nString("username")},
+    ${i18nString("displayName")},
+    ${i18nString("category")},
+    ${i18nText("bio")},
+    ${i18nString("followLabel")}
+  },
   socialPosts[]{
     _key,
     platform,
@@ -969,6 +1006,15 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
     acceptedArticleCategories
   },
   listSize,
+  "listingArticles": listingArticles[]->{
+    _id,
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${localizedSlug},
+    "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+    "image": primaryImage.asset->url,
+    "date": publishedAt,
+    category,
+  },
   "featuredArticles": featuredArticles[]->{
     _id,
     "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -1133,14 +1179,60 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}]
       ${localizedSlug}
     }
   },
+  pricingCta{
+    _type,
+    _key,
+    ${i18nPageSectionString("title")},
+    ${pageSectionBookingCtaBodyProjection},
+    "ctaCollection": ctaCollection->{
+      _id,
+      internalName,
+      ${i18nPageSectionString("title")},
+      ${pageSectionBookingCtaBodyProjection}
+    }
+  },
   priceCategories[]{
     ${i18nString("categoryName")},
-    "categoryRef": category->{ _id, title, ${localizedSlug} },
+    bookingCategorySlug,
+    "categoryRef": category->{
+      _id,
+      categoryId,
+      ${i18nString("title")},
+      ${localizedSlug}
+    },
+    subcategories[]{
+      ${i18nString("label")},
+      linkToCategoryPage,
+      "treatmentRef": treatment->{
+        _id,
+        ${i18nString("title")},
+        ${localizedSlug},
+        "categorySlug": coalesce(
+          category->slug[language == $lang][0].value.current,
+          category->slug[_key == $lang][0].value.current,
+          category->slug[language == "no"][0].value.current,
+          category->slug[_key == "no"][0].value.current,
+          category->slug.current,
+          category->categoryId
+        ),
+        "categoryId": category->categoryId
+      },
+      items[]{
+        ${i18nString("name")},
+        price,
+        ${i18nString("priceLabel")},
+        ${i18nString("note")},
+        source,
+        apiActivityId
+      }
+    },
     items[]{
       ${i18nString("name")},
       price,
       ${i18nString("priceLabel")},
-      ${i18nString("note")}
+      ${i18nString("note")},
+      source,
+      apiActivityId
     }
   },
   testimonials[]->{
@@ -1229,14 +1321,20 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
 export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter}]{
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
-  description, email, contactDescription,
+  ${i18nText("description")},
+  email,
+  ${i18nText("contactDescription")},
   ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "primaryImage": primaryImage.asset->url,
   booking,
-  detail,
+  "detail": {
+    ${i18nNestedText("detail", "parking")},
+    ${i18nNestedText("detail", "publicTransport")},
+    ${i18nNestedText("detail", "accessibility")}
+  },
   faqs[]{${localizedFaqRow}},
   ${localizedSeoObject}
 }`;
@@ -1244,7 +1342,9 @@ export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter
 export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
-  description, email, contactDescription,
+  ${i18nText("description")},
+  email,
+  ${i18nText("contactDescription")},
   ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
@@ -1255,7 +1355,11 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
     alt
   },
   booking,
-  detail,
+  "detail": {
+    ${i18nNestedText("detail", "parking")},
+    ${i18nNestedText("detail", "publicTransport")},
+    ${i18nNestedText("detail", "accessibility")}
+  },
   "faqCollection": faqCollection->{
     _id,
     title,

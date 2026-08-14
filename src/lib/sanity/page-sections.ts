@@ -2,6 +2,11 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SanitySpecialist } from "@/hooks/useSanity";
 import { resolveBookingCtaFromCollection } from "@/lib/sanity/cta-dual-read";
 import { resolveInsuranceFromCollection } from "@/lib/sanity/insurance-dual-read";
+import { ensurePageSectionKeys } from "@/lib/sanity/section-visibility";
+import {
+  resolveArticlesDisplayMode,
+  resolveSpecialistsDisplayMode,
+} from "@/lib/sanity/specialists-display-mode";
 
 export type PageSectionSpecialistsConfig = {
   _type: "pageSectionSpecialists";
@@ -118,21 +123,22 @@ export function sanitySpecialistToCard(s: SanitySpecialist): Specialist {
 export function normalizePageSections(raw: unknown): PageSection[] {
   if (!Array.isArray(raw)) return [];
 
-  return raw
+  const normalized = raw
     .map((item): PageSection | null => {
       if (!item || typeof item !== "object") return null;
       const block = item as Record<string, unknown>;
       const type = block._type as string;
 
       if (type === "pageSectionSpecialists") {
+        const displayMode = resolveSpecialistsDisplayMode(block.displayMode);
         return {
           _type: "pageSectionSpecialists",
           _key: block._key as string | undefined,
           eyebrow: str(block.eyebrow),
           title: str(block.title),
           description: str(block.description),
-          displayMode:
-            (block.displayMode as PageSectionSpecialistsConfig["displayMode"]) || "all",
+          // Stored value only — never invent "all" for missing displayMode.
+          displayMode,
           specialists: Array.isArray(block.specialists)
             ? (block.specialists as SanitySpecialist[])
             : [],
@@ -140,9 +146,8 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           categorySlug: str(block.categorySlug) || undefined,
           seeAllLabel: str(block.seeAllLabel) || undefined,
           seeAllHref: str(block.seeAllHref) || undefined,
-          limit: typeof block.limit === "number" ? block.limit : 8,
-          variant:
-            (block.variant as PageSectionSpecialistsConfig["variant"]) || "carousel",
+          limit: typeof block.limit === "number" ? block.limit : undefined,
+          variant: (block.variant as PageSectionSpecialistsConfig["variant"]) || undefined,
         };
       }
 
@@ -171,12 +176,11 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           eyebrow: str(block.eyebrow),
           title: str(block.title),
           description: str(block.description),
-          displayMode:
-            (block.displayMode as PageSectionArticlesConfig["displayMode"]) || "latest",
+          displayMode: resolveArticlesDisplayMode(block.displayMode),
           articles: articles.filter((x): x is PageSectionArticleCard => x != null),
           articleCategory: str(block.articleCategory) || undefined,
-          limit: typeof block.limit === "number" ? block.limit : 6,
-          variant: (block.variant as PageSectionArticlesConfig["variant"]) || "grid",
+          limit: typeof block.limit === "number" ? block.limit : undefined,
+          variant: (block.variant as PageSectionArticlesConfig["variant"]) || undefined,
           ctaLabel: str(block.ctaLabel) || undefined,
           ctaPath: str(block.ctaPath) || "/aktuelt",
         };
@@ -230,6 +234,8 @@ export function normalizePageSections(raw: unknown): PageSection[] {
       return null;
     })
     .filter((x): x is PageSection => x != null);
+
+  return ensurePageSectionKeys(normalized);
 }
 
 function str(value: unknown): string {

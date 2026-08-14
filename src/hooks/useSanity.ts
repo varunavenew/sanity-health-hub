@@ -14,7 +14,12 @@ import {
   dedupeBySlug,
   filterPublishedDocuments,
 } from "@/lib/sanity/published-docs";
-import { sortByLabel, sortBySortOrder, textForSort, parseSortOrder } from "@/lib/sortAlphabetical";
+import { sortByLabel, sortBySortOrder, textForSort } from "@/lib/sortAlphabetical";
+import {
+  normalizeClinicRow,
+  type SanityClinicBooking,
+  type SanityClinicListRow,
+} from "@/lib/sanity/clinic-list-row";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { applyListingSort } from "@/lib/sanity/sort-utils";
 import { LISTING_SORT_SETTINGS_QUERY } from "@/lib/queries";
@@ -487,12 +492,20 @@ export const useAboutPage = () => {
       const title = typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? "");
       const subtitle = typeof data.subtitle === "string" ? data.subtitle : (data.subtitle?.[0]?.value ?? "");
       const body = Array.isArray(data.body) && data.body[0]?._type === "block" ? data.body : (data.body?.[0]?.value ?? data.body);
-      const sections = (body || [])
+      // Preserve Portable Text block styles (h2/h3/normal) — About renders headings from style.
+      const bodyBlocks = (body || [])
         .filter((block: any) => block && block._type === "block")
         .map((block: any) => ({
-          title: "",
-          content: (block.children || []).map((c: any) => c.text).join(""),
-        }));
+          _key: block._key,
+          style: typeof block.style === "string" ? block.style : "normal",
+          text: (block.children || []).map((c: any) => c.text).join(""),
+        }))
+        .filter((block: { text: string }) => Boolean(block.text?.trim()));
+      // Legacy shape kept for any callers that still expect flat paragraphs.
+      const sections = bodyBlocks.map((block: { text: string }) => ({
+        title: "",
+        content: block.text,
+      }));
       const rawSection = data.clinicsSection as
         | {
             showSection?: boolean;
@@ -517,6 +530,7 @@ export const useAboutPage = () => {
         title,
         subtitle,
         body,
+        bodyBlocks,
         sections,
         clinicsSection,
         pageSections: normalizePageSections(data.pageSections),
@@ -805,11 +819,6 @@ export const useServicesPage = () => {
 };
 
 // ─── Clinics ─────────────────────────────────────────────────────────
-import {
-  normalizeClinicRow,
-  type SanityClinicBooking,
-  type SanityClinicListRow,
-} from "@/lib/sanity/clinic-list-row";
 export type { SanityClinicBooking, SanityClinicListRow };
 
 export function mapClinicListRows(
@@ -923,6 +932,7 @@ export interface SanityArticle {
   excerpt: string;
   geoSummary?: string;
   image: string;
+  imageAlt?: string;
   date: string;
   category: string;
   externalUrl?: string;
@@ -962,6 +972,7 @@ export const useArticle = (slug: string) => {
         excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
         geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
         image: data.image || "",
+        imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
         pageSections: normalizePageSections(data.pageSections),

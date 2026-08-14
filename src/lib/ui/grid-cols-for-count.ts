@@ -21,11 +21,11 @@ export function segmentTileGridClass(itemCount: number): string {
   return "grid md:grid-cols-2 lg:grid-cols-4";
 }
 
-/** Card grids with gap (audiences, reviews) — max 3 columns at md+. */
+/** Card grids with gap (audiences, reviews) — 2×2 when 4 cards, else max 3 cols. */
 export function threeCardGridClass(itemCount: number): string {
-  const n = clamp(itemCount, 3);
+  const n = clamp(itemCount, 4);
   if (n === 1) return "grid grid-cols-1 max-w-md";
-  if (n === 2) return "grid sm:grid-cols-2";
+  if (n === 2 || n === 4) return "grid sm:grid-cols-2";
   return "grid md:grid-cols-3";
 }
 

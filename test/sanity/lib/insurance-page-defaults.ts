@@ -1,29 +1,30 @@
 import { i18nString, i18nText } from './category-landing-i18n'
 
+/** Partner labels as shown on avenewdemo /forsikring (brand names, same for EN). */
 export const INSURANCE_PARTNERS = [
+  'ERGO',
   'EuroAccident',
   'Falck',
   'Fremtind',
   'Gjensidige',
-  'If',
-  'Storebrand',
   'Tryg',
+  'IF - Vertikal Helse',
 ] as const
 
 const EN_PARTNER: Record<string, string> = {
+  ERGO: 'ERGO',
   EuroAccident: 'EuroAccident',
   Falck: 'Falck',
-  Fremtind: 'Fremtind Insurance',
-  Gjensidige: 'Gjensidige Insurance',
-  If: 'If Insurance',
-  Storebrand: 'Storebrand Insurance',
-  Tryg: 'Tryg Insurance',
+  Fremtind: 'Fremtind',
+  Gjensidige: 'Gjensidige',
+  Tryg: 'Tryg',
+  'IF - Vertikal Helse': 'IF - Vertikal Helse',
 }
 
 const STEPS = [
   {
-    no: { title: 'Få henvisning', description: 'Fra fastlege eller spesialist' },
-    en: { title: 'Get a referral', description: 'From your GP or a specialist' },
+    no: { title: 'Få henvisning', description: 'Fra allmennlege eller spesialist' },
+    en: { title: 'Get a referral', description: 'From a GP or specialist' },
   },
   {
     no: { title: 'Send til forsikring', description: 'For godkjenning av dekning' },
@@ -54,12 +55,12 @@ const BENEFITS = [
   },
   {
     no: {
-      title: 'Raskere behandling',
-      description: 'Få time innen kort tid med kort ventetid hos våre spesialister.',
+      title: 'Enkelt å bruke',
+      description: 'Har du egenandel på forsikringen betaler du det på behandlingsstedet.',
     },
     en: {
-      title: 'Faster treatment',
-      description: 'Get an appointment quickly with short waiting times at our specialists.',
+      title: 'Easy to use',
+      description: 'If your insurance has a deductible, you pay it at the clinic.',
     },
   },
   {

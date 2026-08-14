@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { assetSrc } from "@/lib/media";
+import { optimizeBackgroundImageUrl } from "@/lib/sanity/image-url";
 import blurSkinMid from "@/assets/blur-skin-mid.jpg";
 
 function formatStatDisplay(value: string): { main: string; suffix: string } {
@@ -29,7 +30,8 @@ export const PatientTrustSection = () => {
   if (!banner?.value && !banner?.label) return null;
 
   const stat = banner.value ? formatStatDisplay(banner.value) : null;
-  const backgroundImage = banner.backgroundImage || assetSrc(blurSkinMid);
+  const rawBackground = banner.backgroundImage || assetSrc(blurSkinMid);
+  const backgroundImage = optimizeBackgroundImageUrl(rawBackground);
 
   return (
     <section className="py-10 md:py-16 relative overflow-hidden">

@@ -69,19 +69,10 @@ export const PageSectionListPane: UserComponent = (props) => {
   const sections = config?.sections || []
 
   const cards = useMemo(() => {
-    return sections
-      .map((section) => ({
-        section,
-        chips: resolveChips(section, document, ready),
-      }))
-      .filter(({section, chips}) => {
-        if (!section.hideWhenEmpty) return true
-        // Keep cards visible while loading (no "Unknown" subtitle).
-        // Only hide when a section explicitly reports Empty — missing/zero
-        // content now uses [] so editors see the title with no subtitle.
-        if (!ready) return true
-        return !(chips.length === 1 && chips[0] === 'Empty')
-      })
+    return sections.map((section) => ({
+      section,
+      chips: resolveChips(section, document, ready),
+    }))
   }, [document, ready, sections])
 
   const sectionCount = cards.length

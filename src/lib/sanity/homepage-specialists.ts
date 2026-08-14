@@ -1,6 +1,7 @@
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import type { SanitySpecialist } from "@/hooks/useSanity";
+import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
 
 export type HomepageSpecialistsDisplayMode = "all" | "manual" | "category";
 
@@ -52,20 +53,24 @@ export function resolveHomepageSpecialists(
   config: HomepageSpecialistsSectionConfig | undefined,
   all: Specialist[],
 ): Specialist[] {
-  const mode = config?.displayMode ?? "all";
+  const mode = resolveSpecialistsDisplayMode(config?.displayMode);
+  if (!mode) return [];
 
   let resolved: Specialist[];
 
-  if (mode === "manual" && config?.specialists?.length) {
+  if (mode === "manual") {
+    if (!config?.specialists?.length) return [];
     const slugs = config.specialists.map((row) => row.slug).filter(Boolean);
     resolved = slugs
       .map((slug) => all.find((specialist) => specialist.slug === slug))
       .filter((specialist): specialist is Specialist => Boolean(specialist));
-  } else if (mode === "category" && config?.categories?.length) {
+  } else if (mode === "category") {
+    if (!config?.categories?.length) return [];
     resolved = all.filter((specialist) =>
       specialistMatchesAnyCategory(specialist, config.categories!),
     );
   } else {
+    // mode === "all"
     resolved = all;
   }
 

@@ -6,7 +6,6 @@ import {
   FilterIcon,
   ImagesIcon,
   SearchIcon,
-  UsersIcon,
 } from '@sanity/icons'
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
@@ -27,7 +26,7 @@ export const newsPageEditorConfig: PageEditorConfig = definePageEditorConfig({
     {
       id: 'featured',
       title: 'Featured Articles',
-      description: 'Top articles when filter = All.',
+      description: 'Top four articles when filter = All.',
       icon: DocumentTextIcon,
       fields: ['featuredArticles'],
       entityRefField: 'featuredArticles',
@@ -36,6 +35,21 @@ export const newsPageEditorConfig: PageEditorConfig = definePageEditorConfig({
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countReferenceArray(document.featuredArticles)
           if (!count) return ['Empty']
+          return [countChip(count, 'Article', 'Articles')]
+        }),
+    },
+    {
+      id: 'listing',
+      title: 'Listing Order',
+      description: 'Editorial article order when filter = All.',
+      icon: DocumentTextIcon,
+      fields: ['listingArticles'],
+      entityRefField: 'listingArticles',
+      entityType: 'article',
+      getChips: (doc) =>
+        chipsFromDocument(doc, Boolean(doc), (document) => {
+          const count = countReferenceArray(document.listingArticles)
+          if (!count) return ['Date order fallback']
           return [countChip(count, 'Article', 'Articles')]
         }),
     },
@@ -72,30 +86,30 @@ export const newsPageEditorConfig: PageEditorConfig = definePageEditorConfig({
         }),
     },
     {
-      id: 'specialistsCopy',
-      title: 'Specialists Copy',
-      description: 'Labels for the specialists block on News (page-owned UI).',
-      icon: UsersIcon,
-      fields: [
-        'specialistsEyebrowAll',
-        'specialistsEyebrowWithin',
-        'specialistsTitle',
-        'specialistsSeeAllLabel',
-      ],
+      id: 'socialPlatforms',
+      title: 'Social Platform Cards',
+      description: 'Instagram / Facebook / LinkedIn / Snapchat cards after the article grid.',
+      icon: ImagesIcon,
+      fields: ['socialSectionTitle', 'socialPlatformCards'],
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
-          return i18nPreview(document.specialistsTitle) ||
-            i18nPreview(document.specialistsEyebrowAll)
-            ? ['Page-owned', 'Configured']
-            : ['Empty']
+          const count = countArray(document.socialPlatformCards)
+          if (!count) return ['Empty']
+          return [countChip(count, 'Card', 'Cards')]
         }),
     },
     {
-      id: 'social',
-      title: 'Social Media',
-      description: 'Follow-us social posts section.',
+      id: 'instagram',
+      title: 'Instagram Feed',
+      description: 'Profile block and Instagram post grid.',
       icon: ImagesIcon,
-      fields: ['socialSectionTitle', 'socialMode', 'socialPosts', 'socialPostLimit'],
+      fields: [
+        'instagramSectionTitle',
+        'instagramProfile',
+        'socialMode',
+        'socialPosts',
+        'socialPostLimit',
+      ],
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const mode = document.socialMode

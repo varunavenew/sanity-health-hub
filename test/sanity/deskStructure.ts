@@ -25,7 +25,7 @@ import {
   ThemeIcon,
   TreatmentIcon,
 } from '../schemaTypes/icons'
-import {buildPageSectionListItem} from './page-editor/buildPageSectionStructure'
+import {buildDocumentPageSectionChild, buildPageSectionListItem} from './page-editor/buildPageSectionStructure'
 import {homepagePageEditorConfig} from './page-editor/pages/homepageSections'
 import {aboutPageEditorConfig} from './page-editor/pages/aboutSections'
 import {servicesPageEditorConfig} from './page-editor/pages/servicesSections'
@@ -41,6 +41,7 @@ import {
   createTreatmentCategoryPageEditorConfig,
   TREATMENT_CATEGORY_EDITORS,
 } from './page-editor/pages/treatmentCategorySections'
+import {treatmentPageEditorConfig} from './page-editor/pages/treatmentSections'
 
 /** Fixed-ID singleton editor — IDs match existing published documents. */
 function singletonListItem(
@@ -284,7 +285,15 @@ function medicalContentSection(S: StructureBuilder) {
             .child(
               S.documentTypeList('treatment')
                 .title('Treatments')
-                .defaultOrdering([{field: '_updatedAt', direction: 'desc'}]),
+                .defaultOrdering([{field: '_updatedAt', direction: 'desc'}])
+                .child((documentId) =>
+                  buildDocumentPageSectionChild(S, {
+                    documentId,
+                    schemaType: 'treatment',
+                    config: treatmentPageEditorConfig,
+                    withLocalePreviews: true,
+                  }),
+                ),
             ),
           specialistsItem,
           S.listItem()

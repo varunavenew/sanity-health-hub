@@ -90,7 +90,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: UserIcon,
       fields: ['landingPage'],
       landingPageFields: ['segmentsSection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('segmentsSection', 'segments', 'Card', 'Cards'),
     },
     {
@@ -100,7 +99,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: HeartIcon,
       fields: ['landingPage'],
       landingPageFields: ['whySection'],
-      hideWhenEmpty: true,
       getChips: (doc) => landingPreview(doc, 'whySection'),
     },
     {
@@ -110,7 +108,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: UsersIcon,
       fields: ['landingPage'],
       landingPageFields: ['audiencesSection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('audiencesSection', 'audiences', 'Card', 'Cards'),
     },
     {
@@ -120,7 +117,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: BlockElementIcon,
       fields: ['landingPage'],
       landingPageFields: ['expertAreasSection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('expertAreasSection', 'areas', 'Card', 'Cards'),
     },
     {
@@ -130,7 +126,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: BoltIcon,
       fields: ['landingPage'],
       landingPageFields: ['symptomsSection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('symptomsSection', 'items', 'Card', 'Cards'),
     },
     {
@@ -140,7 +135,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: UlistIcon,
       fields: ['landingPage'],
       landingPageFields: ['servicesSection'],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const landing = document.landingPage as {
@@ -163,7 +157,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: HeartIcon,
       fields: ['landingPage'],
       landingPageFields: ['supportSection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('supportSection', 'areas', 'Card', 'Cards'),
     },
     {
@@ -173,7 +166,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: TrendUpwardIcon,
       fields: ['stats', 'landingPage'],
       landingPageFields: ['resultsSection'],
-      hideWhenEmpty: true,
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const count = countArray(document.stats)
@@ -188,7 +180,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: CommentIcon,
       fields: ['landingPage'],
       landingPageFields: ['reviewsSection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('reviewsSection', 'reviews', 'Quote', 'Quotes'),
     },
     {
@@ -220,7 +211,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: StarIcon,
       fields: ['landingPage'],
       landingPageFields: ['spotlightSection'],
-      hideWhenEmpty: true,
       getChips: (doc) => landingPreview(doc, 'spotlightSection'),
     },
     {
@@ -230,7 +220,6 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       icon: ClockIcon,
       fields: ['landingPage'],
       landingPageFields: ['journeySection'],
-      hideWhenEmpty: true,
       getChips: landingArrayChips('journeySection', 'steps', 'Step', 'Steps'),
     },
     {
@@ -238,15 +227,12 @@ function treatmentCategorySections(): PageSectionDefinition[] {
         pageOwnedNotice:
           'Only the Specialists band for this category. Insurance and Booking CTA have their own cards.',
       }),
-      hideWhenEmpty: true,
     },
     {
       ...insuranceBandSection(),
-      hideWhenEmpty: true,
     },
     {
       ...bookingCtaBandSection(),
-      hideWhenEmpty: true,
     },
     {
       id: 'general',

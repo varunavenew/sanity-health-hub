@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { useArticles } from "@/hooks/useSanity";
 import { normalizeCategory, type Article } from "@/data/articles";
 import type { PageSectionArticlesConfig } from "@/lib/sanity/page-sections";
+import { resolveArticlesDisplayMode } from "@/lib/sanity/specialists-display-mode";
+import { AssetImg } from "@/components/AssetImg";
 
 const CATEGORY_LABELS: Record<string, string> = {
   fagartikkel: "Fagartikler",
@@ -36,9 +38,10 @@ function ArticleGridCard({ article }: { article: Article }) {
     <Link to={linkTo} className="group">
       <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
         {article.image ? (
-          <img
+          <AssetImg
             src={article.image}
             alt={article.title}
+            preset="card"
             loading="lazy"
             className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
           />
@@ -66,10 +69,13 @@ function ArticleGridCard({ article }: { article: Article }) {
 }
 
 function resolveArticles(config: PageSectionArticlesConfig, all: Article[]): Article[] {
-  const limit = config.limit ?? 6;
-  const mode = config.displayMode ?? "latest";
+  const mode = resolveArticlesDisplayMode(config.displayMode);
+  if (!mode) return [];
 
-  if (mode === "manual" && config.articles?.length) {
+  const limit = typeof config.limit === "number" ? config.limit : 6;
+
+  if (mode === "manual") {
+    if (!config.articles?.length) return [];
     return config.articles.slice(0, limit).map(
       (a): Article => ({
         slug: a.slug,
@@ -83,12 +89,14 @@ function resolveArticles(config: PageSectionArticlesConfig, all: Article[]): Art
     );
   }
 
-  if (mode === "category" && config.articleCategory) {
+  if (mode === "category") {
+    if (!config.articleCategory) return [];
     return all
       .filter((a) => a.category === config.articleCategory)
       .slice(0, limit);
   }
 
+  // mode === "latest"
   return [...all]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, limit);
@@ -102,24 +110,7 @@ export function PageSectionArticlesBlock({ config }: Props) {
   const { data: allArticles = [] } = useArticles();
 
   const articles = useMemo((): Article[] => {
-    const mode = config.displayMode ?? "latest";
-    const limit = config.limit ?? 6;
-
-    if (mode === "category" && config.articleCategory) {
-      return allArticles
-        .filter((a) => a.category === config.articleCategory)
-        .slice(0, limit)
-        .map(
-          (a): Article => ({
-            slug: a.slug,
-            title: a.title,
-            excerpt: a.excerpt,
-            image: a.image,
-            date: a.date,
-            category: normalizeCategory(a.category),
-          }),
-        );
-    }
+    if (!resolveArticlesDisplayMode(config.displayMode)) return [];
 
     const mapped: Article[] = allArticles.map((a) => ({
       slug: a.slug,
@@ -132,6 +123,7 @@ export function PageSectionArticlesBlock({ config }: Props) {
     return resolveArticles(config, mapped);
   }, [config, allArticles]);
 
+  if (!resolveArticlesDisplayMode(config.displayMode)) return null;
   if (articles.length === 0) return null;
 
   const eyebrow = config.eyebrow;
@@ -172,9 +164,10 @@ export function PageSectionArticlesBlock({ config }: Props) {
             >
               <div className="aspect-[4/3] md:aspect-auto md:h-full min-h-[280px] overflow-hidden">
                 {featured.image ? (
-                  <img
+                  <AssetImg
                     src={featured.image}
                     alt={featured.title}
+                    preset="gallery"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 ) : (

@@ -15,7 +15,7 @@ import {
 import {pickStudioEn} from './studioPreview'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
-import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import { TreatmentDocumentInput } from '../sanity/components/TreatmentDocumentInput'
 import {
   composeImageValidation,
   mediaDescription,
@@ -42,7 +42,7 @@ export default {
   type: 'document',
   icon: TreatmentIcon,
   components: {
-    input: AutoSlugFromTitleInput,
+    input: TreatmentDocumentInput,
   },
   groups: [
     { name: 'general', title: 'General', default: true },
@@ -207,7 +207,7 @@ export default {
       of: [{type: 'reference', to: [{type: 'treatmentCategory'}]}],
       options: {sortable: true},
       description:
-        'Required. Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). Drag to reorder.',
+        'Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). Drag to reorder.',
       validation: (Rule: any) =>
         Rule.required()
           .min(1)
@@ -234,15 +234,16 @@ export default {
       initialValue: 'service',
     },
     {
+      // Stored for historical dual-read / rollback only. Never shown in Studio.
+      // Prefer categories[]; migrate-treatment-categories.ts copies category → categories[].
       name: 'category',
-      title: 'Category (legacy)',
+      title: 'category',
       type: 'reference',
       group: 'advanced',
       fieldset: 'advancedLegacy',
       to: [{type: 'treatmentCategory'}],
-      description:
-        'Legacy single category. Kept for dual-read until all documents use Categories. Prefer Categories above.',
       hidden: () => true,
+      readOnly: true,
     },
 
     // ── Page Content ──────────────────────────────────────────────────────────
@@ -295,7 +296,7 @@ export default {
       options: mediaImageOptions('hero'),
       description: mediaDescription(
         'hero',
-        'Legacy. Prefer Hero Media → Image. Required until Hero Media is set; website dual-reads both.',
+        'Legacy. Prefer Hero Media → Image. Required only when Hero Media is unset; website dual-reads both.',
       ),
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
@@ -372,6 +373,8 @@ export default {
       description: 'Short benefit points in the hero (titles shown on the site).',
       of: [
         {
+          name: 'heroPoint',
+          title: 'Hero point',
           type: 'object',
           fields: [
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
@@ -468,6 +471,8 @@ export default {
       fieldset: 'pcSymptoms',
       of: [
         {
+          name: 'reasonItem',
+          title: 'Symptom',
           type: 'object',
           fields: [
             { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
@@ -536,6 +541,8 @@ export default {
       fieldset: 'pcProcess',
       of: [
         {
+          name: 'flowStep',
+          title: 'Step',
           type: 'object',
           fields: [
             { name: 'n', title: 'Step number / label', type: 'internationalizedArrayString' },
@@ -563,11 +570,11 @@ export default {
       type: 'array',
       group: 'pageContent',
       fieldset: 'pcBenefits',
-      description: 'Highlighted benefits with image and text.',
-      validation: (Rule: any) =>
-        Rule.required().min(1).error('At least one advantage/promise must be added'),
+      description: 'Highlighted benefits with image and text. Leave empty to hide on the website.',
       of: [
         {
+          name: 'promiseItem',
+          title: 'Benefit',
           type: 'object',
           fields: [
             { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
@@ -606,6 +613,8 @@ export default {
           type: 'array',
           of: [
             {
+              name: 'expertAreaItem',
+              title: 'Linked service',
               type: 'object',
               fields: [
                 { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
@@ -646,6 +655,8 @@ export default {
           type: 'array',
           of: [
             {
+              name: 'textSectionPoint',
+              title: 'Point',
               type: 'object',
               fields: [
                 { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
@@ -1230,7 +1241,19 @@ export default {
         issues.push('Treatment name (English) is missing')
       }
 
-      if (!document.heroImage) issues.push('Hero image is missing')
+      if (!document.heroImage) {
+        const media = document.heroMedia as
+          | {mediaType?: string; image?: unknown; videoUrl?: unknown}
+          | undefined
+        const hasHeroMedia =
+          (media?.mediaType === 'image' && Boolean(media.image)) ||
+          media?.mediaType === 'video' ||
+          Boolean(media?.image) ||
+          Boolean(media?.videoUrl)
+        if (!hasHeroMedia) {
+          issues.push('Hero media is missing — set Hero Media or a legacy Hero image')
+        }
+      }
       if (!pickNo(document.heroTitle)?.trim()) issues.push('Hero title (Norwegian) is missing')
       if (!pickForLang(document.heroTitle, 'en')?.trim()) {
         issues.push('Hero title (English) is missing')
@@ -1245,18 +1268,10 @@ export default {
       const categories = document.categories as {_ref?: string}[] | undefined
       const hasCategories =
         Array.isArray(categories) && categories.some((c) => Boolean(c?._ref))
-      const hasLegacyCategory = Boolean(
-        (document.category as {_ref?: string} | undefined)?._ref,
-      )
-      if (!hasCategories && !hasLegacyCategory) {
+      if (!hasCategories) {
         issues.push(
           'Category is missing — choose at least one Treatment Category before publishing',
         )
-      }
-
-      const promises = document.promises as unknown[] | undefined
-      if (!Array.isArray(promises) || promises.length === 0) {
-        issues.push('At least one advantage/promise must be added')
       }
 
       const seo = document.seo as Record<string, unknown> | undefined

@@ -10,6 +10,7 @@ import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import type { ImageRef } from "@/lib/media";
 import type { ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
+import { optimizeSanityImageUrl } from "@/lib/sanity/image-url";
 
 interface HeroSlide {
   id: string;
@@ -129,6 +130,7 @@ export const HeroBanner = () => {
             <AssetImg
               src={slide.mobileImage}
               alt={slide.alt}
+              preset="hero"
               className="block md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
               style={{ objectPosition: slide.objectPosition }}
               loading={current === 0 ? "eager" : "lazy"}
@@ -149,7 +151,11 @@ export const HeroBanner = () => {
             ) : slide.videoUrl ? (
               <video
                 src={slide.videoUrl}
-                poster={typeof slide.image === "string" ? slide.image : undefined}
+                poster={
+                  typeof slide.image === "string"
+                    ? optimizeSanityImageUrl(slide.image, { width: 1920 })
+                    : undefined
+                }
                 autoPlay
                 muted
                 loop
@@ -162,6 +168,7 @@ export const HeroBanner = () => {
               <AssetImg
                 src={slide.image}
                 alt={slide.alt}
+                preset="hero"
                 className="cm-media cm-media--hero w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
                 style={{ objectPosition: slide.objectPosition }}
                 loading={current === 0 ? "eager" : "lazy"}

@@ -26,7 +26,9 @@ export const SpecialistsSection = () => {
     [config, allSpecialists],
   );
 
-  const layout = config?.layout ?? "carousel";
+  // When displayMode is stored and specialists resolve, missing layout uses carousel
+  // (appearance only — same pattern as shared pageSectionSpecialists variant default).
+  const layout = config?.layout === "grid" ? "grid" : "carousel";
   const seeAllHref = config?.seeAllHref ?? "/spesialister";
   const seeAllLabel =
     config?.seeAllLabel?.replace("{count}", String(specialists.length)) ||
@@ -35,6 +37,8 @@ export const SpecialistsSection = () => {
   const title = config?.heading?.trim() || "";
   const description = config?.intro?.trim() || "";
 
+  if (specialists.length === 0) return null;
+
   if (layout === "grid" && config) {
     return (
       <PageSectionSpecialistsBlock
@@ -42,8 +46,6 @@ export const SpecialistsSection = () => {
       />
     );
   }
-
-  if (specialists.length === 0) return null;
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {

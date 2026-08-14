@@ -3,151 +3,97 @@
 import { useEffect, useMemo } from "react";
 import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { ArrowLeft, Calendar } from "lucide-react";
-import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import { PortableText } from "@portabletext/react";
+import type { PortableTextBlock } from "@portabletext/types";
 import { PageLayout } from "@/components/layout/PageLayout";
-import type { ContentBlock } from "@/data/articleContent";
-import { useArticle, useArticles } from "@/hooks/useSanity";
-import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { useArticle, useArticles, useNewsPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
-import { urlFor } from "@/lib/sanity/image-url";
-import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
+import { AssetImg } from "@/components/AssetImg";
+import { createArticlePortableTextComponents } from "@/components/news/article-portable-text";
+import { ArticleRelatedSection } from "@/components/news/ArticleRelatedSection";
+import { normalizeCategory, type Article } from "@/data/articles";
+import {
+  parseNewsFilters,
+  resolveArticleCategoryLabel,
+} from "@/lib/news/category-labels";
+import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { useTranslation } from "react-i18next";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
 }
 
-const formatDate = (dateStr: string) => {
+const formatDate = (dateStr: string, locale: string) => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
-};
-
-// Portable Text components for Sanity body content
-const portableTextComponents: PortableTextComponents = {
-  block: {
-    normal: ({ children }) => <p className="text-foreground/80 font-light leading-relaxed mb-5">{children}</p>,
-    h2: ({ children }) => <h2 className="text-xl md:text-2xl font-medium text-foreground mt-10 mb-4">{children}</h2>,
-    h3: ({ children }) => <h3 className="text-lg font-medium text-foreground mt-8 mb-3">{children}</h3>,
-    h4: ({ children }) => <h4 className="text-base font-medium text-foreground mt-6 mb-2">{children}</h4>,
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-2 border-brand-dark/30 pl-5 my-6 text-foreground/80 italic font-light leading-relaxed">
-        {children}
-      </blockquote>
-    ),
-  },
-  list: {
-    bullet: ({ children }) => <ul className="list-disc pl-6 mb-6 space-y-2">{children}</ul>,
-    number: ({ children }) => <ol className="list-decimal pl-6 mb-6 space-y-2">{children}</ol>,
-  },
-  listItem: {
-    bullet: ({ children }) => <li className="text-foreground/80 font-light leading-relaxed">{children}</li>,
-    number: ({ children }) => <li className="text-foreground/80 font-light leading-relaxed">{children}</li>,
-  },
-  marks: {
-    strong: ({ children }) => <strong className="font-medium">{children}</strong>,
-    em: ({ children }) => <em>{children}</em>,
-    link: ({ children, value }) => (
-      <a
-        href={value?.href}
-        target={value?.blank ? "_blank" : undefined}
-        rel={value?.blank ? "noopener noreferrer" : undefined}
-        className="text-brand-dark underline underline-offset-4 hover:text-brand-dark/70 transition-colors"
-      >
-        {children}
-      </a>
-    ),
-  },
-  types: {
-    ...youtubeEmbedPortableTextType,
-    image: ({ value }) => (
-      <figure className="my-8">
-        <img
-          src={urlFor(value?.asset?._ref || "")}
-          alt={value?.alt || ""}
-          className="w-full rounded-sm"
-        />
-        {value?.caption && (
-          <figcaption className="text-sm text-muted-foreground mt-2">{value.caption}</figcaption>
-        )}
-      </figure>
-    ),
-  },
-};
-
-const renderBlock = (block: ContentBlock, index: number) => {
-  switch (block.type) {
-    case "paragraph":
-      return <p key={index} className="text-foreground/80 font-light leading-relaxed mb-5">{block.text}</p>;
-    case "heading":
-      return <h2 key={index} className="text-xl md:text-2xl font-medium text-foreground mt-10 mb-4">{block.text}</h2>;
-    case "subheading":
-      return <h3 key={index} className="text-lg font-medium text-foreground mt-8 mb-3">{block.text}</h3>;
-    case "author":
-      return <p key={index} className="text-sm text-muted-foreground italic mb-6">{block.text}</p>;
-    case "bold-intro":
-      return <p key={index} className="text-foreground font-medium leading-relaxed mb-5">{block.text}</p>;
-    case "quote":
-      return (
-        <blockquote key={index} className="border-l-2 border-brand-dark/30 pl-5 my-6 text-foreground/80 italic font-light leading-relaxed">
-          {block.text}
-        </blockquote>
-      );
-    case "list":
-      return (
-        <ul key={index} className="list-disc pl-6 mb-6 space-y-2">
-          {block.items.map((item, i) => (
-            <li key={i} className="text-foreground/80 font-light leading-relaxed">{item}</li>
-          ))}
-        </ul>
-      );
-    case "link":
-      return (
-        <p key={index} className="mb-5">
-          <Link to={block.url} className="text-brand-dark underline underline-offset-4 hover:text-brand-dark/70 transition-colors font-light">
-            {block.text}
-          </Link>
-        </p>
-      );
-    case "source":
-      return (
-        <p key={index} className="text-sm text-muted-foreground mt-8 pt-6 border-t border-border">
-          {block.url ? (
-            <a href={block.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground transition-colors">
-              {block.text}
-            </a>
-          ) : block.text}
-        </p>
-      );
-    default:
-      return null;
-  }
+  if (Number.isNaN(date.getTime())) return dateStr;
+  return date.toLocaleDateString(locale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 };
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
-  const { slug: paramSlug, locale: paramLocale } = useParams<{ slug: string; locale?: string }>();
+  const { slug: paramSlug, locale: paramLocale } = useParams<{
+    slug: string;
+    locale?: string;
+  }>();
   const slug = useRouteSlug() || paramSlug || "";
-  const locale = paramLocale === "en" ? "en" : "nb";
+  const routeLocale: AppLocale = paramLocale === "en" ? "en" : "no";
+  const contentLang = routeLocale === "en" ? "en" : "nb";
+  const dateLocale = routeLocale === "en" ? "en-GB" : "nb-NO";
+  const { t } = useTranslation();
   const { data: sanityArticle, isLoading } = useArticle(slug || "");
   const { data: sanityArticles } = useArticles();
+  const { data: newsPage } = useNewsPage();
+
+  const filterOptions = useMemo(
+    () => parseNewsFilters(newsPage?.filters),
+    [newsPage?.filters],
+  );
+
+  const newsPath = newsPage?.slug
+    ? withLocalePath(routeLocale, `/${newsPage.slug}`)
+    : withLocalePath(routeLocale, "/aktuelt");
+
+  const getCategoryLabel = (category: string) =>
+    resolveArticleCategoryLabel(category, filterOptions);
 
   const article = sanityArticle
     ? { ...sanityArticle, image: sanityArticle.image || "" }
     : undefined;
 
+  const bodyBlocks = (sanityArticle?.body || []) as PortableTextBlock[];
+  const portableTextComponents = useMemo(
+    () => createArticlePortableTextComponents(bodyBlocks),
+    [sanityArticle?._id, sanityArticle?.body],
+  );
+
   const related = useMemo(() => {
     if (!article) return [];
-    const allArticles = (sanityArticles || []).map((a: any) => ({
-      slug: a.slug,
-      title: a.title,
-      excerpt: a.excerpt,
-      image: a.image,
-      date: a.date,
-      category: a.category,
-    }));
+
+    const normalizedCategory = normalizeCategory(article.category);
+    const allArticles: Article[] = (sanityArticles || [])
+      .map((a) => ({
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        image: a.image,
+        date: a.date,
+        category: normalizeCategory(a.category),
+        externalUrl: a.externalUrl,
+      }))
+      .filter((a) => a.slug && a.slug !== article.slug);
+
     return allArticles
-      .filter((a: any) => a.category === article.category && a.slug !== article.slug)
+      .filter(
+        (a) =>
+          a.category === normalizedCategory ||
+          getCategoryLabel(a.category) === getCategoryLabel(article.category),
+      )
       .slice(0, 3);
-  }, [article, sanityArticles]);
+  }, [article, sanityArticles, filterOptions]);
 
   useEffect(() => {
     if (article) {
@@ -155,11 +101,22 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     }
   }, [article]);
 
+  const backLabel = t("news.backToAktuelt", {
+    defaultValue: routeLocale === "en" ? "Back to News" : "Tilbake til Aktuelt",
+  });
+  const relatedTitle = t("news.relatedArticles", {
+    defaultValue:
+      routeLocale === "en" ? "Related articles" : "Relaterte artikler",
+  });
+  const notFoundTitle = t("news.articleNotFound", {
+    defaultValue: routeLocale === "en" ? "Article not found" : "Artikkelen ble ikke funnet",
+  });
+
   if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-screen flex items-center justify-center text-muted-foreground font-light">
-          Laster…
+          {t("common.loading", { defaultValue: "Laster…" })}
         </div>
       </PageLayout>
     );
@@ -170,16 +127,19 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-medium text-foreground mb-2">Artikkelen ble ikke funnet</h1>
-            <Link to="/aktuelt" className="text-brand-dark underline">Tilbake til Aktuelt</Link>
+            <h1 className="text-2xl font-medium text-foreground mb-2">{notFoundTitle}</h1>
+            <Link to={newsPath} className="text-brand-dark underline">
+              {backLabel}
+            </Link>
           </div>
         </div>
       </PageLayout>
     );
   }
 
-  const articlePath = `/aktuelt/${article.slug}`;
+  const articlePath = `${newsPath}/${article.slug}`;
   const summaryText = article.geoSummary?.trim() || article.excerpt || "";
+  const categoryLabel = getCategoryLabel(article.category);
   const geoJsonLd = combineGeoJsonLd(
     articleJsonLd({
       headline: article.title,
@@ -187,7 +147,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       url: articlePath,
       datePublished: article.date,
       image: article.image || undefined,
-      inLanguage: locale === "en" ? "en" : "nb-NO",
+      inLanguage: contentLang === "en" ? "en" : "nb-NO",
     }),
   );
 
@@ -195,34 +155,42 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={article.title}
-        description={article.excerpt || `Les om ${article.title} hos CMedical.`}
+        description={
+          article.excerpt ||
+          (routeLocale === "en"
+            ? `Read about ${article.title} at CMedical.`
+            : `Les om ${article.title} hos CMedical.`)
+        }
         canonical={articlePath}
         type="article"
         publishedAt={article.date}
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Aktuelt", path: "/aktuelt" },
+          {
+            name: newsPage?.breadcrumbHomeLabel || t("nav.home", { defaultValue: "Hjem" }),
+            path: withLocalePath(routeLocale, "/"),
+          },
+          { name: newsPage?.title || t("news.title", { defaultValue: "Aktuelt" }), path: newsPath },
           { name: article.title, path: articlePath },
         ]}
         jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
       />
-      {/* Header */}
+
       <div className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <Link
-            to="/aktuelt"
+            to={newsPath}
             className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
-            Tilbake til Aktuelt
+            {backLabel}
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <span className="bg-white/10 text-white/80 text-xs px-3 py-1 rounded-full">
-              {article.category}
+            <span className="bg-white/10 text-white/80 text-xs px-3 py-1 rounded-2xl md:rounded-full">
+              {categoryLabel}
             </span>
-            <span className="text-white/40 text-xs flex items-center gap-1.5">
-              <Calendar className="w-3 h-3" />
-              {formatDate(article.date)}
+            <span className="text-white/70 text-xs flex items-center gap-1.5">
+              <Calendar className="w-3 h-3" aria-hidden="true" />
+              {formatDate(article.date, dateLocale)}
             </span>
           </div>
           <h1 className="text-2xl md:text-4xl font-light text-white leading-tight max-w-3xl">
@@ -231,63 +199,39 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         </div>
       </div>
 
-      {/* Article content */}
       <article className="bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto py-10 md:py-16">
+            {article.image ? (
+              <div className="rounded-sm overflow-hidden mb-10">
+                <AssetImg
+                  src={article.image}
+                  alt={sanityArticle?.imageAlt || article.title}
+                  preset="gallery"
+                  className="w-full rounded-sm"
+                />
+              </div>
+            ) : null}
 
-            <div className="rounded-sm overflow-hidden mb-10 -mt-0">
-              <img
-                src={article.image}
-                alt={article.title}
-                className="w-full rounded-sm"
-              />
-            </div>
-
-            {sanityArticle?.body && sanityArticle.body.length > 0 ? (
-              <div><PortableText value={sanityArticle.body} components={portableTextComponents} /></div>
-            ) : (
-              <p className="text-foreground/80 font-light leading-relaxed">{article.excerpt}</p>
-            )}
+            {bodyBlocks.length > 0 ? (
+              <PortableText value={bodyBlocks} components={portableTextComponents} />
+            ) : article.excerpt ? (
+              <p className="text-foreground/80 font-light leading-relaxed mb-5">
+                {article.excerpt}
+              </p>
+            ) : null}
           </div>
         </div>
       </article>
 
-      {/* Related articles */}
-      {related.length > 0 && (
-        <section className="bg-secondary/30 border-t border-border py-12 md:py-16">
-          <div className="container mx-auto px-6 md:px-16">
-            <h2 className="text-lg font-medium text-foreground mb-8">Relaterte artikler</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {related.map((rel) => (
-                <Link key={rel.slug} to={`/aktuelt/${rel.slug}`} className="group">
-                  <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
-                    <img
-                      src={rel.image}
-                      alt={rel.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
-                        {rel.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
-                    <Calendar className="w-3 h-3" />
-                    {formatDate(rel.date)}
-                  </div>
-                  <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors leading-snug">
-                    {rel.title}
-                  </h3>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-      <PageSectionsRenderer sections={sanityArticle?.pageSections} />
+      <ArticleRelatedSection
+        title={relatedTitle}
+        articles={related}
+        newsPath={newsPath}
+        dateLocale={dateLocale}
+        getCategoryLabel={getCategoryLabel}
+        formatDate={formatDate}
+      />
     </PageLayout>
   );
 };

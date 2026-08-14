@@ -30,11 +30,11 @@ export const clinics: Clinic[] = [
     id: "majorstuen", 
     slug: "majorstuen",
     label: "Oslo Majorstuen", 
-    address: "Kirkeveien 64B, 0366 Oslo",
+    address: "Sørkedalsveien 10 B, 0369 Oslo",
     phone: "22 60 00 50",
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
-    mapsUrl: "https://maps.google.com/?q=Kirkeveien+64B+0366+Oslo",
+    mapsUrl: "https://maps.google.com/?q=Sørkedalsveien+10+B+0369+Oslo",
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
@@ -42,7 +42,7 @@ export const clinics: Clinic[] = [
       "fysioterapeut", "uroterapi",
     ],
     detail: {
-      description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Kirkeveien 64B. Her tilbyr vi det bredeste spekteret av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
+      description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 B. Her tilbyr vi det bredeste spekteret av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
       parking: "Gateparkering tilgjengelig i nærområdet. Nærmeste parkeringshus er Colosseum Park (5 min gange).",
       publicTransport: "Majorstuen T-banestasjon (alle linjer) – 3 minutters gange. Trikk 11, 12 og 19 stopper rett utenfor.",
       accessibility: "Universelt utformet med heis og trinnfri adkomst.",
@@ -59,7 +59,7 @@ export const clinics: Clinic[] = [
     mapsUrl: "https://maps.google.com/?q=Gamle+Ringeriksvei+36+1357+Bekkestua",
     services: ["gynekolog", "hudlege"],
     detail: {
-      description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudlege i moderne og rolige omgivelser.",
+      description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudhelse i moderne og rolige omgivelser.",
       parking: "Gratis parkering tilgjengelig rett utenfor klinikken.",
       publicTransport: "Bekkestua stasjon (Kolsåsbanen) – 2 minutters gange.",
       accessibility: "Trinnfri adkomst til klinikken.",

@@ -2,6 +2,8 @@
 export const FERTILITET_SLUG_ALIASES: Record<string, string> = {
   nedfrysing: "eggfrys",
   "nedfrysing-av-egg": "eggfrys",
+  /** Reference serves Assistert befruktning content at `/…/ivf`. */
+  ivf: "assistert-befruktning",
 };
 
 export function resolveFertilitetTreatmentSlug(urlSlug: string): string {

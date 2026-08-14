@@ -99,7 +99,9 @@
     "ctaTitle": "Over 150 000 fornøyde pasienter siden 2002",
     "ctaSubtitle": "Bli en del av vår historie",
     "googleLabel": "Google-anmeldelser",
-    "legelistenLabel": "Legelisten"
+    "legelistenLabel": "Legelisten",
+    "categoryEyebrow": "Pasienterfaringer",
+    "categoryHeading": "Hva pasientene sier om {{category}}"
   },
   "faq": {
     "title": "Ofte stilte spørsmål",
@@ -172,7 +174,7 @@
   "booking": {
     "badge": "Rask og enkel booking",
     "title": "Bestill time hos spesialist",
-    "subtitle": "Velg tjeneste, klinikk og behandler – alt i én enkel booking.",
+    "subtitle": "Velg tjeneste, klinikk og behandler – alt i én enkel bestilling.",
     "bookNow": "Bestill time nå",
     "callUs": "Ring oss",
     "selectClinic": "Velg klinikk",
@@ -180,11 +182,22 @@
     "availableTime": "Ledig time innen 1–3 dager",
     "noReferral": "Ingen henvisning nødvendig"
   },
+  "clinicsPage": {
+    "listHeading": "Liste over klinikker",
+    "heroImageAlt": "CMedical klinikk",
+    "readMore": "Les mer om klinikken",
+    "readMoreAria": "Les mer om CMedical {{name}}",
+    "viewMap": "Vis i kart",
+    "badgeParking": "Parkering",
+    "badgeTransit": "Kollektiv",
+    "badgeAccessible": "Universelt utformet",
+    "badgeServices": "{{count}} tjenester"
+  },
   "cta": {
     "title": "Ta vare på livet og underlivet",
     "subtitle": "Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging",
     "bookNow": "Book time nå",
-    "bookConsultation": "Book konsultasjon",
+    "bookConsultation": "Bestill konsultasjon",
     "contactUs": "Kontakt oss",
     "seePricing": "Se prisliste"
   },
@@ -206,6 +219,8 @@
   "contact": {
     "title": "Kontakt oss",
     "subtitle": "Har du spørsmål? Vi svarer gjerne på alle henvendelser",
+    "heroImageAlt": "Kontakt CMedical",
+    "viewClinics": "Se klinikker",
     "quickHelp": "Trenger du rask hjelp?",
     "quickHelpDesc": "Du trenger ingen henvisning. Ring oss direkte eller bestill time online – vi har korte ventetider.",
     "requestCallback": "Be om å bli kontaktet",
@@ -232,12 +247,15 @@
     },
     "toast": {
       "title": "Melding sendt!",
-      "description": "Vi vil ta kontakt med deg innen 24 timer."
+      "description": "Vi vil ta kontakt med deg innen 24 timer.",
+      "errorTitle": "Noe gikk galt",
+      "errorDescription": "Kunne ikke sende meldingen. Prøv igjen."
     }
   },
   "insurance": {
     "title": "Helseforsikring",
     "subtitle": "Bruk forsikringen din til raskere behandling hos oss",
+    "heroImageAlt": "Forsikring hos CMedical",
     "partners": "Våre samarbeidspartnere",
     "agreementTitle": "Vi har avtale med alle store forsikringsselskaper",
     "notFound": "Finner du ikke ditt selskap?",
@@ -258,9 +276,19 @@
     "seoTitle": "Priser – Oversiktlig prisliste sortert etter tjeneste",
     "seoDescription": "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising.",
     "duration": "Varighet",
-    "disclaimer": "Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.",
+    "disclaimer": "Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen.",
     "loadingPrices": "Henter priser…",
     "loadError": "Kunne ikke laste priser. Prøv igjen senere.",
+    "menuTitle": "Vår meny",
+    "jumpToCategory": "Velg en kategori for å hoppe direkte:",
+    "learnMoreSubcategory": "Les mer om {{subcategory}}",
+    "free": "Gratis",
+    "loadingDuration": "Henter varighet…",
+    "hideDetails": "Skjul detaljer",
+    "aboutService": "Om tjenesten",
+    "durationDetail": "Estimert varighet: {{duration}}",
+    "durationUnavailable": "Varighet bekreftes under booking.",
+    "seeAllCategoryServices": "Se alle {{category}}-tjenester",
     "seePrices": "Se priser",
     "closePriceList": "Lukk prisliste",
     "openCategory": "Åpne",
@@ -307,6 +335,12 @@
   },
   "promoBlocks": {
     "title": "Nyheter og artikler"
+  },
+  "news": {
+    "title": "Aktuelt",
+    "backToAktuelt": "Tilbake til Aktuelt",
+    "relatedArticles": "Relaterte artikler",
+    "articleNotFound": "Artikkelen ble ikke funnet"
   },
   "clinicGrid": {
     "title": "Våre klinikker"

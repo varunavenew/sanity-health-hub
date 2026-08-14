@@ -26,7 +26,7 @@ export {
   getSectionById,
   listMappedFieldNames,
 } from './SectionRegistry'
-export {buildPageSectionListItem} from './buildPageSectionStructure'
+export {buildPageSectionListItem, buildDocumentPageSectionChild} from './buildPageSectionStructure'
 export {PageSectionListPane} from './components/PageSectionListPane'
 export {
   createPageSectionDocumentInput,
@@ -65,6 +65,9 @@ export {
   treatmentCategoryPageEditorConfig,
   TREATMENT_CATEGORY_EDITORS,
 } from './pages/treatmentCategorySections'
+export {
+  treatmentPageEditorConfig,
+} from './pages/treatmentSections'
 export {
   articlesBandSection,
   bookingCtaBandSection,

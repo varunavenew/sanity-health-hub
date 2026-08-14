@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { CategoryDataProvider } from "@/components/providers/CategoryDataProvider";
@@ -13,6 +14,7 @@ import { fetchArticleDetailData } from "@/lib/sanity/article-detail.server";
 import type { ResolvedCmsRoute } from "@/lib/routing/cms-route-types";
 import type { SingletonPageType } from "@/lib/routing/cms-route-types";
 import { pathsForRoute } from "@/lib/routing/path-builder";
+import { normalizeCategoryFilterKey } from "@/lib/sanity/category-keys";
 import About from "@/site-pages/About";
 import AboutSpecialists from "@/site-pages/AboutSpecialists";
 import Aktuelt from "@/site-pages/Aktuelt";
@@ -36,6 +38,7 @@ import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
 import SubTreatmentPage from "@/site-pages/treatments/SubTreatmentPage";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
+import { normalizeCategoryRouteKey } from "@/lib/sanity/category-keys";
 import {
   buildAboutMetadata,
   buildClinicsListingMetadata,
@@ -138,7 +141,9 @@ export async function renderCmsRoute(
     case "theme":
       return <CmsThemePage isChatOpen={false} themeSlug={route.slug} />;
     case "category": {
-      const categoryId = route.categoryId || route.slug;
+      const categoryId = normalizeCategoryRouteKey(route.categoryId || route.slug) ||
+        route.categoryId ||
+        route.slug;
       const initialCategory = await fetchTreatmentCategoryData(categoryId, sanityLang);
       const queryClient = new QueryClient();
       queryClient.setQueryData(
@@ -162,23 +167,33 @@ export async function renderCmsRoute(
     }
     case "treatment": {
       const categorySlug = route.categorySlug || route.categoryId || "";
-      const categoryId = route.categoryId || categorySlug;
+      const categoryId =
+        normalizeCategoryRouteKey(route.categoryId || categorySlug) ||
+        route.categoryId ||
+        categorySlug;
       const treatmentSlug =
         categoryId === "fertilitet"
           ? resolveFertilitetTreatmentSlug(route.slug)
           : route.slug;
-      const initialTreatment = await fetchTreatmentData(categorySlug, treatmentSlug, sanityLang);
+      const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
+      // Team / profile treatments redirect to the specialists listing (CMS pageRole).
+      if (initialTreatment?.pageRole === "team") {
+        const listingSlug = sanityLang === "en" ? "specialists" : "spesialister";
+        const kategori = normalizeCategoryFilterKey(categoryId) || categoryId;
+        redirect(`/${locale}/${listingSlug}?kategori=${encodeURIComponent(kategori)}`);
+      }
       const SubPage = TREATMENT_COMPONENTS[categoryId] || TreatmentPage;
       const queryClient = new QueryClient();
+      // Canonical key: categoryId (fertilitet) + lang — matches FertilitetSubPage / useTreatment.
       queryClient.setQueryData(
-        ["sanity", "treatment", categorySlug, treatmentSlug, sanityLang],
+        ["sanity", "treatment", categoryId, treatmentSlug, sanityLang],
         initialTreatment,
       );
       return (
         <TreatmentHydration state={dehydrate(queryClient)}>
           <TreatmentDataProvider
             lang={sanityLang}
-            categorySlug={categorySlug}
+            categorySlug={categoryId}
             treatmentSlug={treatmentSlug}
             contentSlug={route.slugPair.slugNb}
             data={initialTreatment}

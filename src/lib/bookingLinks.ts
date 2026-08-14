@@ -5,6 +5,7 @@
 // Supported params:
 //   ?kategori=gynekologi        — pre-selects service category
 //   &tjeneste=endometriose      — pre-selects a specific service (slug or fragment of name)
+//   &aktivitetId=9              — Metodika wbactivity id (preferred for pricing Step 2)
 //   &spesialist=dr-hansen       — pre-selects a specialist (slug)
 //   &klinikk=majorstuen         — pre-selects a clinic
 //
@@ -14,6 +15,8 @@ export interface BookingLinkParams {
   kategori?: string;     // category page id (gynekologi, urologi, fertilitet, ortopedi, graviditet, flere-fagomrader)
   kategoriId?: number;   // numeric category id from Sanity (optional)
   tjeneste?: string;     // service slug or partial name match
+  /** Metodika wbactivity id — resolves service across categories for Step 2. */
+  aktivitetId?: number;
   spesialist?: string;   // specialist slug
   klinikk?: string;      // clinic id (majorstuen, bekkestua, moss, moelv)
 }
@@ -179,10 +182,32 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   if (params.kategori) sp.set("kategori", params.kategori);
   if (params.kategoriId != null) sp.set("kategoriId", String(params.kategoriId));
   if (params.tjeneste) sp.set("tjeneste", params.tjeneste);
+  if (params.aktivitetId != null && Number.isFinite(params.aktivitetId) && params.aktivitetId > 0) {
+    sp.set("aktivitetId", String(params.aktivitetId));
+  }
   if (params.spesialist) sp.set("spesialist", params.spesialist);
   if (params.klinikk) sp.set("klinikk", params.klinikk);
   const qs = sp.toString();
   return qs ? `/booking?${qs}` : "/booking";
+}
+
+/**
+ * Pricing / treatment booking link.
+ * Prefer Metodika activity id for Step 2; always keep kategori for Step 1 fallback.
+ */
+export function bookingUrlForPricingItem(params: {
+  kategori: string;
+  aktivitetId?: number | null;
+  tjeneste?: string;
+}): string {
+  return buildBookingUrl({
+    kategori: params.kategori,
+    aktivitetId:
+      typeof params.aktivitetId === "number" && params.aktivitetId > 0
+        ? params.aktivitetId
+        : undefined,
+    tjeneste: params.tjeneste,
+  });
 }
 
 /**

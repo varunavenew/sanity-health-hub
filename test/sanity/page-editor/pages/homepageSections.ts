@@ -19,6 +19,7 @@ import {
 import type {PageEditorConfig} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip, countReferenceArray} from '../documentMeta'
+import {specialistsDisplayModeChip} from '../specialistsDisplayMode'
 
 function i18nPreview(value: unknown): string | undefined {
   if (!Array.isArray(value)) return undefined
@@ -157,15 +158,10 @@ export const homepagePageEditorConfig: PageEditorConfig = definePageEditorConfig
             layout?: string
             maxItems?: number
           } | undefined
-          const mode = section?.displayMode || 'all'
-          const layout = section?.layout || 'carousel'
+          if (!section) return ['Not configured']
           const parts = [
-            mode === 'all'
-              ? 'All Specialists'
-              : mode === 'manual'
-                ? 'Manual Selection'
-                : 'Filter by Category',
-            layout === 'grid' ? 'Grid' : 'Carousel',
+            specialistsDisplayModeChip(section.displayMode),
+            section.layout === 'grid' ? 'Grid' : section.layout === 'carousel' ? 'Carousel' : 'Layout unset',
           ]
           if (typeof section?.maxItems === 'number') parts.push(`max ${section.maxItems}`)
           return parts

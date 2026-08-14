@@ -1,5 +1,6 @@
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { useRef, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,13 +39,22 @@ export const SpecialistsScroller = ({
   items: itemsOverride,
   fallbackCategory,
   eyebrow,
-  title = "Møt våre spesialister",
-  description = "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
+  title,
+  description,
   seeAllHref = "/spesialister",
   seeAllLabel,
 }: Props) => {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const { sorted: specialists } = useSpecialistsData();
+  const resolvedTitle =
+    title?.trim() ||
+    t("specialists.title", { defaultValue: "Møt våre spesialister" });
+  const resolvedDescription =
+    description?.trim() ||
+    t("specialists.description", {
+      defaultValue: "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
+    });
 
   const filtered = useMemo(() => {
     if (itemsOverride?.length) return itemsOverride;
@@ -80,7 +90,11 @@ export const SpecialistsScroller = ({
   if (filtered.length === 0) return null;
 
   const computedSeeAllLabel =
-    seeAllLabel ?? `Se alle ${filtered.length} spesialister`;
+    seeAllLabel?.trim() ||
+    t("specialists.seeAll", {
+      count: filtered.length,
+      defaultValue: `Se alle ${filtered.length} spesialister`,
+    });
   const showSeeAllButton = filtered.length > 1;
   const useScroller = filtered.length >= 4;
 
@@ -90,7 +104,7 @@ export const SpecialistsScroller = ({
       : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto";
 
   return (
-    <section className="pt-14 md:pt-20 pb-20 md:pb-14 bg-secondary/30 overflow-hidden">
+    <section className="pt-10 md:pt-14 pb-16 md:pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
@@ -100,10 +114,10 @@ export const SpecialistsScroller = ({
               </p>
             ) : null}
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
-              {title}
+              {resolvedTitle}
             </h2>
-            {description ? (
-              <p className="text-muted-foreground font-light">{description}</p>
+            {resolvedDescription ? (
+              <p className="text-muted-foreground font-light">{resolvedDescription}</p>
             ) : null}
           </div>
           <div className="flex items-center gap-3">
@@ -131,7 +145,7 @@ export const SpecialistsScroller = ({
               <Button
                 variant="cta-outline"
                 asChild
-                className="hidden md:inline-flex"
+                className="hidden md:inline-flex rounded-lg"
               >
                 <Link to={seeAllHref}>
                   {computedSeeAllLabel}
@@ -172,9 +186,11 @@ export const SpecialistsScroller = ({
                 <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
                   <ArrowRight className="w-6 h-6 text-foreground" />
                 </div>
-                <p className="text-foreground font-normal mb-1">Se alle</p>
+                <p className="text-foreground font-normal mb-1">
+                  {t("specialists.seeAllShort")}
+                </p>
                 <p className="text-muted-foreground text-sm font-light">
-                  {filtered.length} spesialister
+                  {t("specialists.count", { count: filtered.length })}
                 </p>
               </div>
             </Link>

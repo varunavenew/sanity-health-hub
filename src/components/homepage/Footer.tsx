@@ -11,8 +11,15 @@ import { useMemo } from "react";
 import { resolveNavLabel, resolveNavPath } from "@/lib/navigation/resolve-nav-label";
 import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 
-const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
-const FOOTER_LABEL_MAP: Record<string, string> = {};
+const FOOTER_CATEGORY_ORDER = [
+  "gynekologi",
+  "graviditet",
+  "fertilitet",
+  "urologi",
+  "ortopedi",
+  "flere",
+  "flere-fagomrader",
+];
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -23,15 +30,27 @@ export const Footer = () => {
   const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
 
-  FOOTER_LABEL_MAP["flere"] = t("footer.moreServices");
+  const footerLabelMap: Record<string, string> = {
+    flere: t("footer.moreServices"),
+    "flere-fagomrader": t("footer.moreServices"),
+  };
 
   const serviceLinks = [...categories]
     .filter((c) => FOOTER_CATEGORY_ORDER.includes(c.id))
     .sort((a, b) => FOOTER_CATEGORY_ORDER.indexOf(a.id) - FOOTER_CATEGORY_ORDER.indexOf(b.id))
-    .map((c) => ({
-      label: FOOTER_LABEL_MAP[c.id] || c.label,
-      path: c.path,
-    }));
+    .map((c) => {
+      const isMoreServices = c.id === "flere" || c.id === "flere-fagomrader";
+      // Reference Clinics footer uses /flere-fagomrader (NO). Keep EN on the localized /other landing.
+      const path = isMoreServices
+        ? uiLang === "en"
+          ? "/other"
+          : "/flere-fagomrader"
+        : c.path;
+      return {
+        label: footerLabelMap[c.id] || c.label,
+        path,
+      };
+    });
 
   const clinicLinks = (clinics || []).map((c: any) => ({
     label: c.label || c.title,

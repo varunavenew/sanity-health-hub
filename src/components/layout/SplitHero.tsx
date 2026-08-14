@@ -1,9 +1,22 @@
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
 import { ResponsiveHeroMedia } from "@/components/media/ResponsiveHeroMedia";
 import { assetSrc, type ImageRef } from "@/lib/media";
 import type { MediaFocalPoint, SanityHotspot } from "@/lib/media/focal-point";
+
+type HeroCta = {
+  label: string;
+  to: string;
+  variant?: "cta" | "contact";
+};
+
+type SecondaryHeroCta = {
+  label: string;
+  to: string;
+  /** Defaults to phone; Contact page uses mapPin for “Se klinikker”. */
+  icon?: "phone" | "mapPin";
+};
 
 interface SplitHeroProps {
   eyebrow?: string;
@@ -13,8 +26,11 @@ interface SplitHeroProps {
   imageAlt?: string;
   /** Sanity hotspot when available — improves framing on wide desktops. */
   imageHotspot?: SanityHotspot | MediaFocalPoint | null;
-  primaryCta?: { label: string; to: string; variant?: "cta" | "contact" };
-  secondaryCta?: { label: string; to: string };
+  /** When omitted/null, no primary button is rendered (avoids hardcoded locale text). */
+  primaryCta?: HeroCta | null;
+  secondaryCta?: SecondaryHeroCta | null;
+  /** Optional fine print under CTAs (e.g. Pricing disclaimer). */
+  footnote?: string;
 }
 
 /**
@@ -28,21 +44,24 @@ export const SplitHero = ({
   image,
   imageAlt,
   imageHotspot,
-  primaryCta = { label: "Bestill time", to: "/booking", variant: "cta" },
-  secondaryCta,
+  primaryCta = null,
+  secondaryCta = null,
+  footnote,
 }: SplitHeroProps) => {
   const navigate = useNavigate();
 
   const hasText = Boolean(eyebrow?.trim() || title?.trim() || description?.trim());
   const imageSrc = image ? assetSrc(image) : "";
   const hasImage = Boolean(imageSrc);
+  const hasCtas = Boolean(primaryCta || secondaryCta);
+  const footnoteText = footnote?.trim() ?? "";
 
   return (
     <header className="bg-brand-warm">
       <div
         className={
           hasImage
-            ? "grid md:grid-cols-2 min-h-[360px] md:min-h-[460px]"
+            ? "grid md:grid-cols-2 min-h-[360px] md:min-h-[520px]"
             : "flex flex-col"
         }
       >
@@ -63,35 +82,57 @@ export const SplitHero = ({
               {description}
             </p>
           ) : null}
-          <div className="flex flex-wrap gap-3">
-            {primaryCta.variant === "contact" ? (
-              <Button
-                variant="outline"
-                size="lg"
-                className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl px-6 py-5 text-sm font-light flex items-center"
-                onClick={() => navigate(primaryCta.to)}
-              >
-                <Phone className="mr-2 w-4 h-4 text-foreground group-hover:text-white" strokeWidth={1.5} />
-                {primaryCta.label}
-              </Button>
-            ) : (
-              <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
-                {primaryCta.label}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            )}
-            {secondaryCta ? (
-              <Button
-                variant="ghost"
-                size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl"
-                onClick={() => navigate(secondaryCta.to)}
-              >
-                <Phone className="mr-2 w-4 h-4" />
-                {secondaryCta.label}
-              </Button>
-            ) : null}
-          </div>
+          {hasCtas ? (
+            <div className="flex flex-wrap gap-3">
+              {primaryCta ? (
+                primaryCta.variant === "contact" ? (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-[10px] px-6 py-5 text-sm font-light flex items-center"
+                    onClick={() => navigate(primaryCta.to)}
+                  >
+                    <Phone className="mr-2 w-4 h-4 text-foreground group-hover:text-white" strokeWidth={1.5} />
+                    {primaryCta.label}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="cta"
+                    size="lg"
+                    className="rounded-[10px]"
+                    onClick={() => navigate(primaryCta.to)}
+                  >
+                    {primaryCta.label}
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                )
+              ) : null}
+              {secondaryCta ? (
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-[10px]"
+                  onClick={() => navigate(secondaryCta.to)}
+                >
+                  {secondaryCta.icon === "mapPin" ? (
+                    <MapPin className="mr-2 w-4 h-4" strokeWidth={1.5} />
+                  ) : (
+                    <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
+                  )}
+                  {secondaryCta.label}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+          {footnoteText ? (
+            <p
+              className={`text-sm text-foreground/55 font-light leading-relaxed max-w-md ${
+                hasCtas ? "mt-6" : "mt-2"
+              }`}
+            >
+              {footnoteText}
+            </p>
+          ) : null}
         </div>
         {/* Right: image */}
         {hasImage ? (

@@ -1,10 +1,14 @@
 import { TREATMENT_CATEGORY_BY_SLUG_QUERY } from "@/lib/queries";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
-import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
-import { behandlingerCategorySegment } from "@/lib/sanity/category-keys";
+import {
+  categoryLandingPath,
+  categorySlugForFetch,
+  normalizeCategoryRouteKey,
+} from "@/lib/sanity/category-keys";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -501,13 +505,13 @@ export function mapTreatmentCategoryDocument(
     .map((row) => {
       const t = row as Record<string, unknown>;
       const slug = asPlainString(t.slug);
+      const categoryKey = normalizeCategoryRouteKey(categoryId) || categoryId;
+      const categoryPath = categoryLandingPath(categoryKey, lang);
       return {
         title: asPlainString(t.title),
         desc: asPlainString(t.description) || asPlainString(t.subtitle),
         slug,
-        href: slug
-          ? `/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
-          : "",
+        href: slug ? `${categoryPath}/${slug}` : "",
       };
     })
     .map(({ title, desc, href }) => ({ title, desc, href }));
@@ -558,9 +562,9 @@ export async function fetchTreatmentCategoryData(
 ): Promise<TreatmentCategoryData | null> {
   const raw = await fetchSanityGroqBrowser<Record<string, unknown> | null>(
     TREATMENT_CATEGORY_BY_SLUG_QUERY,
-    { slug: categorySlug, lang },
+    { slug: categorySlugForFetch(categorySlug), lang },
   );
   if (!raw) return null;
-  const normalized = normalizeI18n(raw, lang) as Record<string, unknown>;
+  const normalized = normalizeI18nStrict(raw, lang) as Record<string, unknown>;
   return mapTreatmentCategoryDocument(normalized, lang);
 }

@@ -12,6 +12,7 @@ import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import type { Article } from "@/data/articles";
 import type { HomepageSpecialistsSectionConfig, HomepageSpecialistsCategoryRef } from "@/lib/sanity/homepage-specialists";
+import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -243,11 +244,8 @@ function mapSpecialistsSection(
   if (!raw || typeof raw !== "object") return undefined;
   const row = raw as Record<string, unknown>;
 
-  const displayMode = row.displayMode;
-  const mode =
-    displayMode === "manual" || displayMode === "category" || displayMode === "all"
-      ? displayMode
-      : "all";
+  // Stored value only — never invent "all" for missing/invalid displayMode.
+  const mode = resolveSpecialistsDisplayMode(row.displayMode);
 
   const specialistsRaw = Array.isArray(row.specialists) ? row.specialists : [];
   const specialists = specialistsRaw
@@ -279,7 +277,8 @@ function mapSpecialistsSection(
   const eyebrow = asPlainString(row.eyebrow);
   const seeAllLabel = asPlainString(row.seeAllLabel);
   const maxItems = typeof row.maxItems === "number" ? row.maxItems : undefined;
-  const layout = row.layout === "grid" ? "grid" : "carousel";
+  const layout =
+    row.layout === "grid" || row.layout === "carousel" ? row.layout : undefined;
   const randomizeOrder = row.randomizeOrder === true;
 
   const hasContent =
@@ -288,9 +287,9 @@ function mapSpecialistsSection(
     intro ||
     seeAllLabel ||
     typeof maxItems === "number" ||
-    layout !== "carousel" ||
+    Boolean(layout) ||
     randomizeOrder ||
-    mode !== "all" ||
+    Boolean(mode) ||
     specialists.length > 0 ||
     categories.length > 0 ||
     row.seeAllLink;

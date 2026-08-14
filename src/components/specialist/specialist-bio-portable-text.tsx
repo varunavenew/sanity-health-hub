@@ -1,5 +1,5 @@
 import type { PortableTextComponents } from "@portabletext/react";
-import { urlFor } from "@/lib/sanity/image-url";
+import { AssetImg } from "@/components/AssetImg";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 export const specialistBioPortableTextComponents: PortableTextComponents = {
@@ -50,13 +50,14 @@ export const specialistBioPortableTextComponents: PortableTextComponents = {
   types: {
     ...youtubeEmbedPortableTextType,
     image: ({ value }) => {
-      const imageUrl = value?.asset?._ref ? urlFor(value.asset._ref) : "";
-      if (!imageUrl) return null;
+      const ref = value?.asset?._ref || "";
+      if (!ref) return null;
       return (
         <figure className="my-4">
-          <img
-            src={imageUrl}
+          <AssetImg
+            src={ref}
             alt={value?.alt || ""}
+            preset="gallery"
             loading="lazy"
             className="w-full rounded-sm object-cover"
           />

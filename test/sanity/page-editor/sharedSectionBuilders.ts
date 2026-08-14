@@ -18,6 +18,11 @@ import {
 } from '@sanity/icons'
 import type {PageSectionDefinition} from './types'
 import {chipsFromDocument, countArray, countChip, countReferenceArray} from './documentMeta'
+import {
+  articlesDisplayModeChip,
+  resolveArticlesDisplayMode,
+  specialistsDisplayModeChip,
+} from './specialistsDisplayMode'
 
 export function i18nPreview(value: unknown): string | undefined {
   if (typeof value === 'string' && value.trim()) return value.trim()
@@ -57,6 +62,11 @@ export type SharedBandOptions = {
   getPageOwnedChips?: (document: Record<string, unknown>) => string[] | undefined
   /** Extra notice when the page uses a page-owned equivalent instead of the shared band. */
   pageOwnedNotice?: string
+  /**
+   * Chip when no usable band is present (e.g. Treatment “Website fallback”).
+   * Omit for pages that simply have no band.
+   */
+  emptyBandChip?: string
 }
 
 export function heroSection(fields: string[]): PageSectionDefinition {
@@ -135,14 +145,9 @@ export function specialistsBandSection(options?: SharedBandOptions): PageSection
           | undefined
         if (!band) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : []
+          return owned?.length ? owned : ['Not configured']
         }
-        const mode = band.displayMode || 'all'
-        if (mode === 'all') return ['All Specialists']
-        if (mode === 'category') return ['Filtered by category']
-        const count = countArray(band.specialists)
-        if (!count) return []
-        return [countChip(count, 'Specialist', 'Specialists')]
+        return [specialistsDisplayModeChip(band.displayMode)]
       }),
   }
 }
@@ -175,17 +180,18 @@ export function articlesBandSection(options?: SharedBandOptions): PageSectionDef
           | undefined
         if (!band) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : []
+          return owned?.length ? owned : ['Not configured']
         }
-        const mode = band.displayMode || 'latest'
+        const mode = resolveArticlesDisplayMode(band.displayMode)
+        if (!mode) return [articlesDisplayModeChip(band.displayMode)]
         if (mode === 'manual') {
           const count = countReferenceArray(band.articles)
-          if (!count) return []
+          if (!count) return ['Choose manually']
           return [countChip(count, 'Article', 'Articles')]
         }
-        if (mode === 'category') return ['Filtered by category']
-        const limit = typeof band.limit === 'number' ? band.limit : 6
-        return [`Latest ${limit}`, 'Configured']
+        if (mode === 'category') return ['Filter by category']
+        const limit = typeof band.limit === 'number' ? band.limit : undefined
+        return limit ? [`Latest ${limit}`] : ['Latest articles']
       }),
   }
 }
@@ -225,12 +231,15 @@ export function bookingCtaBandSection(options?: SharedBandOptions): PageSectionD
           | undefined
         if (!band) {
           const owned = options?.getPageOwnedChips?.(document)
-          return owned?.length ? owned : []
+          if (owned?.length) return owned
+          return options?.emptyBandChip ? [options.emptyBandChip] : []
         }
         const ref = band.ctaCollection?._ref
         if (typeof ref === 'string' && ref.length > 0) return ['Collection linked']
-        if (i18nPreview(band.title) || i18nPreview(band.primaryLabel)) return ['Configured']
-        return ['Configured']
+        if (i18nPreview(band.title) || i18nPreview(band.primaryLabel)) {
+          return ['Legacy band']
+        }
+        return options?.emptyBandChip ? [options.emptyBandChip] : ['Empty']
       }),
   }
 }
@@ -263,7 +272,7 @@ export function insuranceBandSection(options?: SharedBandOptions): PageSectionDe
         }
         const ref = band.insuranceCollection?._ref
         if (typeof ref === 'string' && ref.length > 0) return ['Collection linked']
-        return ['Configured']
+        return ['Not configured']
       }),
   }
 }

@@ -1,8 +1,9 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/lib/sanity/treatment-data";
 import {
-  behandlingerCategorySegment,
+  categoryLandingPath,
   normalizeCategoryFilterKey,
+  normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
@@ -29,10 +30,11 @@ export function mapTreatmentToSubTreatmentContent(
 ): SubTreatmentContent {
   const { categoryId, treatmentSlug } = options;
   const isEn = options.lang === "en";
-  const parentSegment =
-    treatment.parentSlug?.trim() ||
-    behandlingerCategorySegment(categoryId, options.lang);
-  const parentPath = parentSegment ? `/${parentSegment}` : "";
+  const categoryKey = normalizeCategoryRouteKey(categoryId) || categoryId;
+  const parentPath =
+    treatment.parentSlug?.trim()
+      ? `/${treatment.parentSlug.trim()}`
+      : categoryLandingPath(categoryKey, options.lang);
 
   const canonical = treatmentSlug ? `${parentPath}/${treatmentSlug}` : parentPath;
   const parentName = treatment.parentCategory?.trim() || "";
@@ -75,16 +77,8 @@ export function mapTreatmentToSubTreatmentContent(
     scrollRightLabel: treatment.scrollRightLabel || (isEn ? "Scroll right" : "Scroll høyre"),
     insuranceEyebrow: treatment.insuranceEyebrow || (isEn ? "Insurance partners" : "Forsikringspartnere"),
     insuranceTitle: treatment.insuranceTitle || (isEn ? "We work with the leading insurance providers" : "Vi samarbeider med de største forsikringsselskapene"),
-    insurancePartners: treatment.insurancePartners ?? [
-      { key: "gjensidige", label: "Gjensidige" },
-      { key: "if", label: "If" },
-      { key: "fremtind", label: "Fremtind" },
-      { key: "storebrand", label: "Storebrand" },
-      { key: "tryg", label: "Tryg" },
-      { key: "vertikal", label: "Vertikal" },
-      { key: "codan", label: "Codan" },
-      { key: "eika", label: "Eika" },
-    ],
+    // Partners come from CMS / Insurance Collection dual-read. Empty = section hidden.
+    insurancePartners: treatment.insurancePartners ?? [],
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
     heroTitle: treatment.heroTitle || treatment.title || "",
