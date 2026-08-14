@@ -102,6 +102,18 @@ export function ResponsiveVideo({
         ["--media-focal" as string]: focal["--media-focal"] ?? position,
       }}
     >
+      {posterUrl ? (
+        <AssetImg
+          src={poster}
+          alt=""
+          aria-hidden
+          className={mergeMediaClassName(
+            variant,
+            "absolute inset-0 h-full w-full pointer-events-none",
+          )}
+          style={{ objectPosition: position }}
+        />
+      ) : null}
       <video
         ref={videoRef}
         src={src}

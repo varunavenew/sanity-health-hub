@@ -53,8 +53,15 @@ export const CallUsClinicPicker = ({
       ? "bg-white border-transparent text-foreground hover:bg-white/90 shadow-sm"
       : undefined;
 
+  const widthOnWrapper = [
+    className?.includes("w-full") ? "w-full" : null,
+    className?.includes("sm:w-auto") ? "sm:w-auto" : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div className="relative" ref={ref}>
+    <div className={["relative", widthOnWrapper].filter(Boolean).join(" ")} ref={ref}>
       <Button
         variant={buttonVariant}
         size={size}

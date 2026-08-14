@@ -519,14 +519,16 @@ const Urology = ({ isChatOpen }: PageProps) => {
                 Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
                 oss, fra du booker time til du er ferdig behandlet.
               </p>
-              <Button
-                variant="cta"
-                size="lg"
-                className="px-8"
-                onClick={() => (window.location.href = buildBookingUrl({ kategori: "urologi" }))}
-              >
-                Bestill time
-              </Button>
+              <div className="hidden lg:block">
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="px-8 w-full sm:w-auto"
+                  onClick={() => (window.location.href = buildBookingUrl({ kategori: "urologi" }))}
+                >
+                  Bestill time
+                </Button>
+              </div>
             </div>
 
             <div className="lg:col-span-7">
@@ -548,6 +550,16 @@ const Urology = ({ isChatOpen }: PageProps) => {
                 ))}
               </div>
             </div>
+          </div>
+          <div className="max-w-6xl mx-auto mt-12 lg:hidden">
+            <Button
+              variant="cta"
+              size="lg"
+              className="px-8 w-full sm:w-auto"
+              onClick={() => (window.location.href = buildBookingUrl({ kategori: "urologi" }))}
+            >
+              Bestill time
+            </Button>
           </div>
         </div>
       </section>

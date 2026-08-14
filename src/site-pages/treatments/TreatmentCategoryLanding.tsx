@@ -329,6 +329,87 @@ function CategoryReviewsCarousel({
   );
 }
 
+function FertilityExpertRow({
+  areas,
+  readMoreLabel,
+  imageAspect = "16/9",
+  seeAllHref,
+  seeAllLabel,
+}: {
+  areas: CategoryLandingExpertArea[];
+  readMoreLabel: string;
+  imageAspect?: "3/2" | "16/9";
+  seeAllHref?: string;
+  seeAllLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  progressLabel?: string;
+  fillDesktop?: boolean;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const count = areas.length;
+
+  if (count === 0) return null;
+
+  return (
+    <div className="min-w-0 w-full">
+      <div
+        ref={scrollRef}
+        className="flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
+        style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+      >
+        {areas.map((a, index) => (
+          <Link
+            key={`${a.title || "area"}-${index}`}
+            to={a.href}
+            className="shrink-0 w-[92%] md:w-auto snap-start flex flex-col group bg-background rounded-2xl overflow-hidden"
+          >
+            <div
+              className={`relative w-full overflow-hidden bg-secondary ${
+                imageAspect === "16/9" ? "aspect-[16/9]" : "aspect-[3/2]"
+              }`}
+            >
+              {a.image ? (
+                <AssetImg
+                  src={a.image}
+                  alt={a.imageAlt}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              ) : null}
+            </div>
+            <div className="flex flex-col flex-1 p-7 md:p-8">
+              <h3 className="text-lg md:text-xl font-normal text-foreground mb-2.5">
+                {a.title}
+              </h3>
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5 flex-1 max-w-md">
+                {a.desc}
+              </p>
+              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                {readMoreLabel}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="carousel-nav flex flex-col items-start gap-3">
+        {count > 1 ? <ScrollArrows scrollRef={scrollRef} className="mt-0" /> : null}
+        {seeAllHref && seeAllLabel ? (
+          <Link
+            to={seeAllHref}
+            className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity underline-offset-4 hover:underline"
+          >
+            {seeAllLabel}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function ExpertAreaCards({
   areas,
   layout,
@@ -341,6 +422,13 @@ function ExpertAreaCards({
   cardChrome = "plain",
   /** Fertility: single horizontal row (~5 visible @1440) matching reference strip. */
   fertilityRow = false,
+  /** Optional footer link shown below progress nav (Fertilitet). */
+  seeAllHref,
+  seeAllLabel,
+  prevLabel = "Forrige",
+  nextLabel = "Neste",
+  progressLabel = "Fremdrift i karusell",
+  fillDesktop = true,
 }: {
   areas: CategoryLandingExpertArea[];
   layout: "grid" | "carousel" | "slides";
@@ -350,7 +438,29 @@ function ExpertAreaCards({
   imageRadiusClass?: string;
   cardChrome?: "plain" | "whiteCard";
   fertilityRow?: boolean;
+  seeAllHref?: string;
+  seeAllLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  progressLabel?: string;
+  fillDesktop?: boolean;
 }) {
+  if (fertilityRow) {
+    return (
+      <FertilityExpertRow
+        areas={areas}
+        readMoreLabel={readMoreLabel}
+        imageAspect={imageAspect}
+        seeAllHref={seeAllHref}
+        seeAllLabel={seeAllLabel}
+        prevLabel={prevLabel}
+        nextLabel={nextLabel}
+        progressLabel={progressLabel}
+        fillDesktop={fillDesktop}
+      />
+    );
+  }
+
   if (layout === "slides") {
     return (
       <div className="w-full">
@@ -392,7 +502,7 @@ function ExpertAreaCards({
                   </div>
                 </div>
                 <div
-                  className={`relative h-[320px] md:h-[420px] lg:h-auto lg:min-h-full overflow-hidden ${
+                  className={`relative h-[420px] lg:h-auto lg:min-h-full overflow-hidden ${
                     imageRight ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
@@ -417,16 +527,15 @@ function ExpertAreaCards({
 
   const isCarousel = layout === "carousel";
   const isWhiteCard = cardChrome === "whiteCard";
+
   return (
     <>
       <div
         ref={scrollRef}
         className={
-          fertilityRow
-            ? "flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-1 -mx-6 px-6 md:mx-0 md:px-0"
-            : isCarousel
-              ? "flex md:grid md:grid-cols-2 gap-8 md:gap-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
-              : "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10"
+          isCarousel
+            ? "flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
+            : "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10"
         }
         style={{ scrollbarWidth: "none" }}
       >
@@ -435,11 +544,9 @@ function ExpertAreaCards({
             key={`${a.title || "area"}-${index}`}
             to={a.href}
             className={`flex flex-col group ${
-              fertilityRow
-                ? "shrink-0 w-[78vw] sm:w-[280px] xl:w-[calc((100%-4*1.25rem)/5)] snap-start"
-                : isCarousel
-                  ? "shrink-0 w-[78vw] md:w-auto snap-center"
-                  : ""
+              isCarousel
+                ? "shrink-0 w-[92%] md:w-auto snap-start"
+                : ""
             } ${
               isWhiteCard
                 ? "bg-background rounded-2xl overflow-hidden"
@@ -497,20 +604,21 @@ type LifePhase = {
 
 function LifePhasesCarousel({
   phases,
-  variant = "default",
-  layout = "grid",
+  variant: _variant = "default",
+  layout: _layout = "grid",
   showReadMore = true,
 }: {
   phases: LifePhase[];
   variant?: "default" | "fertility";
-  /** Accordion layout matches reference chooser sections (all breakpoints, closed by default). */
+  /**
+   * Kept for CMS compat. Demo always uses mobile snap cards + md+ accordion
+   * (avenewdemo `pd` LifePhases), so layout no longer forces accordion-only.
+   */
   layout?: "grid" | "accordion";
   /** CMS toggle: hide Les mer under each card when false. */
   showReadMore?: boolean;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isFertility = variant === "fertility";
-  const useAccordion = layout === "accordion" || isFertility;
 
   const accordion = (
     <Accordion type="single" collapsible className="w-full">
@@ -567,17 +675,14 @@ function LifePhasesCarousel({
     </Accordion>
   );
 
-  if (useAccordion) {
-    return accordion;
-  }
-
+  // Demo: mobile horizontal snap cards (w-[92%], next card peeks) → md+ accordion
   return (
     <>
       <div className="md:hidden">
         <div
           ref={scrollRef}
           className="flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
-          style={{ scrollbarWidth: "none" }}
+          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
         >
           {phases.map((phase, index) => (
             <article
@@ -587,12 +692,14 @@ function LifePhasesCarousel({
               <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
                 {phase.title}
               </h3>
-              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
-                {phase.desc}
-              </p>
+              {phase.desc ? (
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
+                  {phase.desc}
+                </p>
+              ) : null}
               {phase.tags && phase.tags.length > 0 ? (
                 <div className="mb-4">
-                  {phase.tags.slice(0, 4).map((tag, tagIndex) =>
+                  {phase.tags.map((tag, tagIndex) =>
                     tag.href ? (
                       <Link
                         key={`${tag.label}-${tag.href}-${tagIndex}`}
@@ -733,6 +840,19 @@ function PatientJourneySection({
     ctaHref ||
     buildBookingUrl(bookingParams);
 
+  const ctaButton = ctaLabel ? (
+    <Button
+      variant="cta"
+      size="lg"
+      className="px-8 w-full sm:w-auto"
+      onClick={() => {
+        window.location.href = ctaTarget;
+      }}
+    >
+      {ctaLabel}
+    </Button>
+  ) : null;
+
   return (
     <section className="bg-background">
       <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
@@ -748,18 +868,8 @@ function PatientJourneySection({
                 {description}
               </p>
             ) : null}
-            {ctaLabel ? (
-              <Button
-                variant="cta"
-                size="lg"
-                className="px-8"
-                onClick={() => {
-                  window.location.href = ctaTarget;
-                }}
-              >
-                {ctaLabel}
-              </Button>
-            ) : null}
+            {/* Desktop: CTA under intro (demo). Mobile: after steps below. */}
+            {ctaButton ? <div className="hidden lg:block">{ctaButton}</div> : null}
           </div>
           <div className="lg:col-span-7">
             <div className="divide-y divide-border/60 border-t border-border/60">
@@ -779,6 +889,9 @@ function PatientJourneySection({
             </div>
           </div>
         </div>
+        {ctaButton ? (
+          <div className="max-w-6xl mx-auto mt-12 lg:hidden">{ctaButton}</div>
+        ) : null}
       </div>
     </section>
   );
@@ -1091,8 +1204,8 @@ const TreatmentCategoryLanding = ({
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
       segmentsSection.segments.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-8 md:pt-10 pb-10 md:pb-14">
-          <div className="container mx-auto px-6 md:px-16">
+        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+          <div className="page-shell">
             <div className="max-w-3xl mx-auto">
               <div className="max-w-2xl mb-8">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -1113,9 +1226,9 @@ const TreatmentCategoryLanding = ({
 
     why: () =>
       whySection.steps.length > 0 ? (
-        <section className="bg-background">
-          <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:min-h-[100svh]">
-            <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-14 lg:py-20 flex items-center">
+        <section className="section-flush bg-background">
+          <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 split-section">
+            <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20 flex items-center">
               <div className="max-w-xl">
                 {whySection.eyebrow ? <p className="text-xs tracking-wide text-foreground/60 mb-5">{whySection.eyebrow}</p> : null}
                 <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">{whySection.title}</h2>
@@ -1153,7 +1266,7 @@ const TreatmentCategoryLanding = ({
                 ) : null}
               </div>
             </div>
-            <div className="lg:col-span-5 relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-auto lg:min-h-[100svh] overflow-hidden">
+            <div className="lg:col-span-5 relative bg-secondary/40 h-[420px] lg:h-auto lg:min-h-full overflow-hidden">
               {whySection.image ? (
                 <AssetImg
                   src={whySection.image}
@@ -1169,8 +1282,8 @@ const TreatmentCategoryLanding = ({
 
     audiences: () =>
       audiencesSection.audiences.length > 0 ? (
-        <section className="bg-secondary/40 py-10 md:py-14">
-          <div className="container mx-auto px-6 md:px-16">
+        <section className="bg-secondary/40 py-14 md:py-20">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               {(() => {
                 const rawTitle = audiencesSection.title;
@@ -1188,13 +1301,13 @@ const TreatmentCategoryLanding = ({
               />
                 );
               })()}
-              <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-5 md:gap-8`}>
+              <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`}>
                 {audiencesSection.audiences.map((a) => {
                   const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
                   return (
                     <div
                       key={a.title}
-                      className="bg-background rounded-2xl flex flex-col overflow-hidden shadow-[0_8px_24px_rgba(66,51,42,0.06)]"
+                      className="bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden"
                     >
                       {a.image ? (
                         <div
@@ -1259,9 +1372,9 @@ const TreatmentCategoryLanding = ({
             />
           </section>
         ) : (
-          <section className="bg-secondary/40 pt-10 md:pt-14 pb-8 md:pb-10">
-            <div className="container mx-auto px-6 md:px-16">
-              <div className="max-w-6xl mx-auto">
+          <section className="bg-secondary/40 pt-14 md:pt-28 pb-10 md:pb-16 overflow-x-clip">
+            <div className="page-shell min-w-0">
+              <div className="max-w-6xl mx-auto min-w-0">
                 {(() => {
                   const rawTitle = expertAreasSection.title;
                   const dashParts =
@@ -1285,7 +1398,8 @@ const TreatmentCategoryLanding = ({
                       ? orderFertilityExpertAreas(expertAreasSection.areas)
                       : expertAreasSection.areas
                   }
-                  layout={isFertility ? "grid" : expertAreasSection.layout}
+                  layout="grid"
+                  fertilityRow
                   readMoreLabel={
                     expertAreasSection.readMoreLabel.trim() || t("hero.readMore")
                   }
@@ -1293,18 +1407,9 @@ const TreatmentCategoryLanding = ({
                   imageAspect={isFertility ? "16/9" : "3/2"}
                   imageRadiusClass="rounded-t-2xl"
                   cardChrome="whiteCard"
+                  seeAllHref={isFertility ? `/behandlinger/${categoryId}` : undefined}
+                  seeAllLabel={isFertility ? "Se alle behandlinger" : undefined}
                 />
-                {isFertility ? (
-                  <div className="mt-8 md:mt-10">
-                    <Link
-                      to={`/behandlinger/${categoryId}`}
-                      className="inline-flex items-center gap-2 text-sm font-normal text-foreground hover:text-foreground/70 transition-colors"
-                    >
-                      Se alle behandlinger
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                ) : null}
               </div>
             </div>
           </section>
@@ -1332,10 +1437,10 @@ const TreatmentCategoryLanding = ({
     services: () =>
       serviceGroups.length > 0 ? (
         <section
-          className={`bg-brand-light text-foreground pt-10 md:pt-14 ${
-            isFertility ? "pb-8 md:pb-10" : "pb-10 md:pb-12"
+          className={`bg-brand-light text-foreground pt-14 md:pt-28 ${
+            isFertility ? "pb-10 md:pb-16" : "pb-16 md:pb-20"
           }`}
-        >          <div className="container mx-auto px-6 md:px-16">
+        >          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <CategorySectionHead
                 title={servicesSection.title}
@@ -1382,12 +1487,13 @@ const TreatmentCategoryLanding = ({
     support: () =>
       supportSection.areas.length > 0 ? (
         <section
-          className={`bg-brand-light ${
-            isFertility ? "pt-8 md:pt-10 pb-14 md:pb-20" : "pt-10 md:pt-12 pb-12 md:pb-16"
+          className={`bg-brand-light overflow-x-clip ${
+            isFertility ? "pt-8 md:pt-10 pb-14 md:pb-20" : "pt-14 md:pt-20 pb-14 md:pb-20"
           }`}
-        >          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="max-w-2xl mb-10">
+        >
+          <div className="page-shell min-w-0">
+            <div className="max-w-6xl mx-auto min-w-0">
+              <div className="max-w-2xl mb-8 md:mb-10">
                 {supportSection.title ? (
                   <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">{supportSection.title}</h2>
                 ) : null}
@@ -1398,6 +1504,7 @@ const TreatmentCategoryLanding = ({
               <ExpertAreaCards
                 areas={supportSection.areas}
                 layout="grid"
+                fertilityRow
                 readMoreLabel={supportSection.readMoreLabel.trim() || t("hero.readMore")}
                 imageAspect={isFertility ? "16/9" : "3/2"}
                 imageRadiusClass="rounded-t-2xl"
@@ -1548,13 +1655,13 @@ const TreatmentCategoryLanding = ({
       {/* Hero ├óΓé¼” always first, not part of sectionOrder */}
       {isFullWidthHero ? (
         <header className="relative">
-          <div className="relative min-h-[420px] lg:min-h-[520px] flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
-            <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="relative h-[420px] min-h-[420px] lg:min-h-[520px] lg:h-auto flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
+            <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40">
               {heroMedia ? (
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}
-                  className="w-full h-full"
+                  className="absolute inset-0 w-full h-full"
                 />
               ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
@@ -1593,7 +1700,11 @@ const TreatmentCategoryLanding = ({
                     <Button variant="cta" size="lg" className="px-8 w-full sm:w-auto" onClick={() => { window.location.href = buildBookingUrl(bookingParams); }}>
                       {hero.primaryCtaLabel}
                     </Button>
-                    <CallUsClinicPicker variant="lightSolid" label={hero.secondaryCtaLabel} />
+                    <CallUsClinicPicker
+                      variant="lightSolid"
+                      label={hero.secondaryCtaLabel}
+                      className="w-full sm:w-auto"
+                    />
                   </div>
                   {hero.helpText ? (
                     <p className="text-sm font-light text-muted-foreground leading-relaxed">
@@ -1604,7 +1715,7 @@ const TreatmentCategoryLanding = ({
               </div>
               {hero.bullets && hero.bullets.length > 0 ? (
                 <div className="mt-10 pt-8 border-t border-brand-dark/10">
-                  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                  <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-foreground">
                     {hero.bullets.map((u, index) => (
                       <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
                         <Check className="w-4 h-4 text-foreground" aria-hidden="true" /><span>{u}</span>
@@ -1619,7 +1730,7 @@ const TreatmentCategoryLanding = ({
       ) : (
         <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
           {seoTitle ? <h1 className="sr-only">{seoTitle}</h1> : null}
-          <div className="lg:hidden px-6 md:px-16 pb-4">
+          <div className="lg:hidden page-edge-text-left pb-4">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
               <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
               <span aria-hidden="true">›</span>
@@ -1645,10 +1756,10 @@ const TreatmentCategoryLanding = ({
           </div>
           <div
             className={`flex flex-col-reverse ${
-              hasHeroMedia ? "lg:grid lg:grid-cols-2" : ""
-            } lg:min-h-[100svh]`}
+              hasHeroMedia ? "lg:grid lg:grid-cols-2 split-hero" : ""
+            }`}
           >
-            <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+            <div className="flex items-center page-edge-text-left py-16 lg:py-24">
               <div className="w-full max-w-xl">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
                   <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
@@ -1684,7 +1795,7 @@ const TreatmentCategoryLanding = ({
                   </div>
                 ) : null}
                 <div
-                  className={`flex flex-col sm:flex-row gap-4 items-start sm:items-center ${
+                  className={`flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full ${
                     hero.helpText ? "mb-4" : "mb-10"
                   }`}
                 >
@@ -1694,6 +1805,7 @@ const TreatmentCategoryLanding = ({
                   <CallUsClinicPicker
                     variant="lightSolid"
                     label={hero.secondaryCtaLabel}
+                    className="w-full sm:w-auto"
                   />
                 </div>
                 {hero.helpText ? (
@@ -1702,7 +1814,7 @@ const TreatmentCategoryLanding = ({
                   </p>
                 ) : null}
                 {hero.bullets.length > 0 ? (
-                  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                  <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-foreground">
                     {hero.bullets.map((u, index) => (
                       <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
                         <Check className="w-4 h-4 text-foreground" aria-hidden="true" /><span>{u}</span>
@@ -1713,7 +1825,7 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <div className="relative h-[320px] md:h-[420px] lg:h-auto lg:min-h-full overflow-hidden order-1 lg:order-none">
+              <div className="relative h-[420px] lg:h-auto lg:min-h-full bg-secondary/40 overflow-hidden order-1 lg:order-none">
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}
