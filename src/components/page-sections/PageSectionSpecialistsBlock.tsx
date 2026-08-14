@@ -16,6 +16,8 @@ import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-
 
 type Props = {
   config: PageSectionSpecialistsConfig;
+  /** Treatment category landings use flush centered presentation. */
+  layoutVariant?: "default" | "category";
 };
 
 function resolveSpecialists(
@@ -64,7 +66,10 @@ function categoryHref(config: PageSectionSpecialistsConfig): string {
   return categoryKey ? `/spesialister?kategori=${categoryKey}` : "/spesialister";
 }
 
-export function PageSectionSpecialistsBlock({ config }: Props) {
+export function PageSectionSpecialistsBlock({
+  config,
+  layoutVariant = "default",
+}: Props) {
   const { t } = useTranslation();
   const { sorted: allSpecialists, isLoading } = useSpecialistsData();
 
@@ -112,6 +117,7 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
         }
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
+        layoutVariant={layoutVariant}
       />
     );
   }

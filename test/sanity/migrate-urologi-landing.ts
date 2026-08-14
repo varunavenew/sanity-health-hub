@@ -16,7 +16,7 @@ const DRY_RUN = process.env.DRY_RUN === "1";
 const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
 const uploadCache = new Map<string, string>();
 
-const URO = "/behandlinger/urologi";
+const URO = "/urologi";
 const SPEC = "/spesialister?kategori=urologi";
 
 const UROLOGI_ASSET_PATHS = {
@@ -87,7 +87,8 @@ function i18nText(no: string, en: string): I18nItem[] {
 
 function tagLink(no: string, en: string, href: string) {
   return {
-    _key: href.replace(/\W/g, "").slice(-12),
+    _key: `tag-${Math.random().toString(16).slice(2, 10)}`,
+    _type: "categoryLandingSegmentTagLink",
     label: i18nString(no, en),
     href,
   };
@@ -103,12 +104,11 @@ const landingPageBase = {
     headingEmphasis: i18nString("du kan stole på", "you can trust"),
     body: i18nText(
       "Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du kanskje frykter. CMedical er eneste private aktør i Norge som tilbyr robotassisterte operasjoner.",
-      "Symptoms in the lower abdomen are more common than you think — and often easier to treat than you may fear. CMedical is the only private provider in Norway offering robot-assisted operations.",
+      "Pelvic and genital symptoms are more common than you think — and easier to help with than you might fear. CMedical is the only private provider in Norway offering robot-assisted surgery.",
     ),
     bullets: [
-      i18nString("Ingen henvisning", "No referral needed"),
-      i18nString("Korte ventetider", "Short waiting times"),
-      i18nString("Erfarne spesialister", "Experienced specialists"),
+      { _key: "bullet-0", _type: "heroBulletItem", title: i18nString("Ingen henvisning", "No referral needed") },
+      { _key: "bullet-1", _type: "heroBulletItem", title: i18nString("Kort ventetid", "Short waiting time") },
     ],
     primaryCtaLabel: i18nString("Bestill urologtime", "Book urology appointment"),
     secondaryCtaLabel: i18nString("Ring oss", "Call us"),
@@ -117,25 +117,26 @@ const landingPageBase = {
   segmentsSection: {
     title: i18nString(
       "Vi møter deg der du er — uansett hvorfor du tar kontakt.",
-      "We meet you where you are — whatever your reason for reaching out.",
+      "We meet you where you are — whatever your reason for getting in touch.",
     ),
     titleLine2: i18nString("", ""),
-    layout: "grid",
+    layout: "accordion",
     segments: [
       {
         _key: "seg1",
         id: "mann-underliv",
-        title: i18nString("Mann med plager i underlivet", "Man with lower abdominal symptoms"),
+        title: i18nString("Mann med plager i underlivet", "Man with pelvic symptoms"),
         description: i18nText(
           "Prostataproblemer, smerter i testikler, ereksjonsproblemer eller vannlatingsplager — vi hjelper deg finne svar.",
-          "Prostate issues, testicular pain, erection problems or urinary symptoms — we help you find answers.",
+          "Prostate problems, testicular pain, erection problems or urinary symptoms — we help you find answers.",
         ),
         tagLinks: [
-          tagLink("Prostata", "Prostate", "/booking?kategori=urologi"),
-          tagLink("Vannlating", "Urination", "/booking?kategori=urologi"),
-          tagLink("Ereksjon", "Erection", "/booking?kategori=urologi"),
+          tagLink("Prostata", "Prostate", "/urologi/prostata"),
+          tagLink("Vannlating", "Urination", "/urologi/prostata"),
+          tagLink("Ereksjon", "Erection", "/urologi/prostata"),
+          tagLink("Bestill konsultasjon", "Book a consultation", "/booking?kategori=urologi"),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: "/booking?kategori=urologi",
       },
       {
@@ -144,15 +145,16 @@ const landingPageBase = {
         title: i18nString("Kvinne med urologiske plager", "Woman with urological symptoms"),
         description: i18nText(
           "Urinlekkasje, hyppig vannlating, blæreinfeksjoner eller blod i urinen — urologi gjelder ikke bare menn.",
-          "Urinary leakage, frequent urination, bladder infections or blood in urine — urology is not only for men.",
+          "Urinary leakage, frequent urination, bladder infections or blood in the urine — urology is not only for men.",
         ),
         tagLinks: [
-          tagLink("Inkontinens", "Incontinence", "/booking?kategori=urologi"),
-          tagLink("Blære", "Bladder", "/booking?kategori=urologi"),
-          tagLink("Nyrer", "Kidneys", "/booking?kategori=urologi"),
+          tagLink("Inkontinens", "Incontinence", "/urologi/blaere"),
+          tagLink("Blære", "Bladder", "/urologi/blaere"),
+          tagLink("Nyrer", "Kidneys", "/urologi/nyrer"),
+          tagLink("Les mer", "Read more", "/urologi/blaere"),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
-        href: "/booking?kategori=urologi",
+        ctaLabel: i18nString("", ""),
+        href: "/urologi/blaere",
       },
       {
         _key: "seg3",
@@ -160,37 +162,89 @@ const landingPageBase = {
         title: i18nString("Prostatasjekk", "Prostate check"),
         description: i18nText(
           "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet.",
-          "We recommend all men over 50 take a prostate check — or earlier with symptoms, elevated PSA or family history.",
+          "We recommend that all men over 50 have a prostate check — or earlier if you have symptoms, elevated PSA or a family history.",
         ),
         tagLinks: [
-          tagLink("PSA", "PSA", "/booking?kategori=urologi&tjeneste=prostatasjekk"),
-          tagLink("Forebygging", "Prevention", "/booking?kategori=urologi&tjeneste=prostatasjekk"),
-          tagLink("Utredning", "Assessment", "/booking?kategori=urologi&tjeneste=prostatasjekk"),
+          tagLink("PSA", "PSA", "/urologi/prostata"),
+          tagLink("Forebygging", "Prevention", "/urologi/prostata"),
+          tagLink("Utredning", "Investigation", "/urologi/prostata"),
+          tagLink(
+            "Bestill prostatasjekk",
+            "Book a prostate check",
+            "/booking?kategori=urologi&tjeneste=prostatasjekk",
+          ),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: "/booking?kategori=urologi&tjeneste=prostatasjekk",
       },
       {
         _key: "seg4",
         id: "sterilisering",
-        title: i18nString("Sterilisering og fertilitet", "Sterilization and fertility"),
+        title: i18nString("Sterilisering og fertilitet", "Sterilisation and fertility"),
         description: i18nText(
           "Sterilisering, refertilisering og utredning av mannlig infertilitet — raskt, trygt og med kort restitusjon.",
-          "Sterilization, reversal and male infertility assessment — fast, safe and with short recovery.",
+          "Sterilisation, reversal and investigation of male infertility — quickly, safely and with a short recovery.",
         ),
         tagLinks: [
-          tagLink("Vasektomi", "Vasectomy", "/booking?kategori=urologi"),
-          tagLink("Refertilisering", "Reversal", "/booking?kategori=urologi"),
+          tagLink("Vasektomi", "Vasectomy", "/urologi/sterilisering"),
+          tagLink("Refertilisering", "Reversal", "/urologi/refertilisering"),
+          tagLink("Bestill time", "Book an appointment", "/booking?kategori=urologi"),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: "/booking?kategori=urologi",
       },
     ],
   },
   whySection: {
-    title: i18nString("", ""),
-    description: i18nText("", ""),
-    steps: [],
+    title: i18nString(
+      "Nordens ledende urologimiljø — samlet på ett sted.",
+      "The Nordics' leading urology environment — in one place.",
+    ),
+    description: i18nText(
+      "Hos CMedical møter du flere av Nordens ledende spesialister innen urologi — med direkte tilgang til riktig ekspertise, uten omveier.",
+      "At CMedical you meet several of the Nordics' leading specialists in urology — with direct access to the right expertise, without detours.",
+    ),
+    steps: [
+      {
+        _key: "w1",
+        number: "01",
+        title: i18nString(
+          "Ledende på robotkirurgi",
+          "Leading in robotic surgery",
+        ),
+        description: i18nText(
+          "Som eneste private aktør i Norge tilbyr vi robotassistert kirurgi — over 400 robotoperasjoner i året innen blant annet prostata, blære og nyrer.",
+          "As the only private provider in Norway we offer robot-assisted surgery — over 400 robotic operations a year in areas including prostate, bladder and kidneys.",
+        ),
+      },
+      {
+        _key: "w2",
+        number: "02",
+        title: i18nString("Ledende kompetanse", "Leading expertise"),
+        description: i18nText(
+          "Flere av Nordens fremste urologer, i tverrfaglige team med blant annet osteopat, ernæringsfysiolog, psykolog og sexolog.",
+          "Several of the Nordics' foremost urologists, in interdisciplinary teams with osteopath, clinical nutritionist, psychologist and sexologist among others.",
+        ),
+      },
+      {
+        _key: "w3",
+        number: "03",
+        title: i18nString("Rask hjelp", "Fast help"),
+        description: i18nText(
+          "Ingen henvisning og kort ventetid — de fleste får time innen en uke.",
+          "No referral and short waiting times — most people get an appointment within a week.",
+        ),
+      },
+    ],
+    imageAlt: i18nString(
+      "Urolog i konsultasjon med pasient hos CMedical",
+      "Urologist in consultation with a patient at CMedical",
+    ),
+    footerLinkLabel: i18nString(
+      "Les mer om klinikken",
+      "Learn more about the clinic",
+    ),
+    footerLinkHref: "/om-oss",
   },
   expertAreasSection: {
     title: i18nString(
@@ -245,76 +299,76 @@ const landingPageBase = {
     title: i18nString("Hva kjenner du på?", "What are you experiencing?"),
     description: i18nText(
       "Velg det som ligner mest på din situasjon — så foreslår vi en god start.",
-      "Choose what best matches your situation — and we suggest a good starting point.",
+      "Choose what best matches your situation — and we will suggest a good place to start.",
     ),
     items: [
       {
         _key: "s1",
         symptom: i18nString("Svak eller hyppig vannlating", "Weak or frequent urination"),
-        service: i18nString("Prostatautredning", "Prostate assessment"),
-        href: "/booking?kategori=urologi&tjeneste=prostata",
+        service: i18nString("Prostatautredning", "Prostate investigation"),
+        href: `${URO}/prostata`,
       },
       {
         _key: "s2",
         symptom: i18nString("Forhøyet PSA eller mistanke om prostatakreft", "Elevated PSA or suspected prostate cancer"),
         service: i18nString("Prostatasjekk", "Prostate check"),
-        href: "/booking?kategori=urologi&tjeneste=prostatasjekk",
+        href: `${URO}/prostata`,
       },
       {
         _key: "s3",
-        symptom: i18nString("Smerter, kul eller hevelse i pungen", "Pain, lump or swelling in scrotum"),
-        service: i18nString("Testikkelutredning", "Testicular assessment"),
-        href: "/booking?kategori=urologi&tjeneste=testikler",
+        symptom: i18nString("Smerter, kul eller hevelse i pungen", "Pain, lump or swelling in the scrotum"),
+        service: i18nString("Testikkelutredning", "Testicular investigation"),
+        href: `${URO}/testikler`,
       },
       {
         _key: "s4",
-        symptom: i18nString("Ereksjonsproblemer eller lavt testosteron", "Erection issues or low testosterone"),
-        service: i18nString("Potens- og hormonutredning", "Potency and hormone assessment"),
-        href: "/booking?kategori=urologi&tjeneste=ereksjon",
+        symptom: i18nString("Plager fra blære eller urinveier", "Bladder or urinary tract issues"),
+        service: i18nString("Blære- og urinveisutredning", "Bladder and urinary tract investigation"),
+        href: `${URO}/blaere`,
       },
       {
         _key: "s5",
-        symptom: i18nString("Urinlekkasje eller blæreplager", "Urinary leakage or bladder issues"),
-        service: i18nString("Bekkenbunns- og blæreutredning", "Pelvic floor and bladder assessment"),
-        href: "/booking?kategori=urologi&tjeneste=urinlekkasje",
+        symptom: i18nString("Spørsmål om nyrene", "Questions about the kidneys"),
+        service: i18nString("Nyreutredning", "Kidney investigation"),
+        href: `${URO}/nyrer`,
       },
       {
         _key: "s6",
-        symptom: i18nString("Vurderer sterilisering (vasektomi)", "Considering sterilization (vasectomy)"),
-        service: i18nString("Sterilisering", "Sterilization"),
-        href: "/booking?kategori=urologi&tjeneste=sterilisering",
+        symptom: i18nString("Vurderer sterilisering (vasektomi)", "Considering sterilisation (vasectomy)"),
+        service: i18nString("Sterilisering", "Sterilisation"),
+        href: `${URO}/sterilisering`,
       },
     ],
   },
   servicesSection: {
-    title: i18nString("Vet du allerede hva du trenger?", "Already know what you need?"),
+    title: i18nString("Hva vi tilbyr", "What we offer"),
     description: i18nText(
-      "Klikk og book direkte, eller les mer om den enkelte urologiske utredningen eller behandlingen.",
-      "Click and book directly, or read more about each individual urological assessment or treatment.",
+      "Dette er utredningene, behandlingene og inngrepene vi utfører. Vet du allerede hva du trenger? Velg fra listen — eller les mer om den enkelte tjenesten.",
+      "These are the assessments, treatments and procedures we perform. Already know what you need? Choose from the list — or read more about each service.",
     ),
     groups: [
       {
         _key: "sg1",
-        label: i18nString("Alle behandlinger", "All treatments"),
+        label: i18nString("Undersøkelse og utredning", "Examination and assessment"),
         items: [
-          { _key: "i1", title: i18nString("Prostatasjekk", "Prostate check"), description: i18nString("Utredning og PSA", "Assessment and PSA"), href: `${URO}/prostata` },
-          { _key: "i2", title: i18nString("Forstørret prostata", "Enlarged prostate"), description: i18nString("Medisinsk og kirurgisk", "Medical and surgical"), href: `${URO}/prostata` },
-          { _key: "i3", title: i18nString("Prostatakreft", "Prostate cancer"), description: i18nString("Diagnose og behandling", "Diagnosis and treatment"), href: `${URO}/prostata` },
-          { _key: "i4", title: i18nString("Blære og urinveier", "Bladder and urinary tract"), description: i18nString("Utredning og behandling", "Assessment and treatment"), href: `${URO}/blare` },
-          { _key: "i5", title: i18nString("Urinlekkasje", "Urinary leakage"), description: i18nString("Konservativ og kirurgisk", "Conservative and surgical"), href: `${URO}/urinlekkasje` },
-          { _key: "i6", title: i18nString("Nyrer", "Kidneys"), description: i18nString("Stein, cyster og funksjon", "Stones, cysts and function"), href: `${URO}/nyrer` },
-          { _key: "i7", title: i18nString("Kul i pungen", "Scrotal lump"), description: i18nString("Utredning og behandling", "Assessment and treatment"), href: `${URO}/testikler` },
-          { _key: "i8", title: i18nString("Smerter i testiklene", "Testicular pain"), description: i18nString("Utredning og behandling", "Assessment and treatment"), href: `${URO}/testikler` },
-          { _key: "i9", title: i18nString("Varicocele", "Varicocele"), description: i18nString("Utredning og kirurgi", "Assessment and surgery"), href: `${URO}/varicocele` },
-          { _key: "i10", title: i18nString("Trang forhud (fimose)", "Tight foreskin (phimosis)"), description: i18nString("Konservativ og kirurgisk", "Conservative and surgical"), href: `${URO}/forhud` },
-          { _key: "i11", title: i18nString("Skjev penis", "Curved penis"), description: i18nString("Utredning og behandling", "Assessment and treatment"), href: `${URO}/penis` },
-          { _key: "i12", title: i18nString("Ereksjonsproblemer", "Erection problems"), description: i18nString("Utredning og oppfølging", "Assessment and follow-up"), href: `${URO}/ereksjon` },
-          { _key: "i13", title: i18nString("Lavt testosteron", "Low testosterone"), description: i18nString("Utredning og behandling", "Assessment and treatment"), href: `${URO}/testosteron` },
-          { _key: "i14", title: i18nString("Sterilisering (vasektomi)", "Sterilization (vasectomy)"), description: i18nString("Trygt og raskt inngrep", "Safe and quick procedure"), href: `${URO}/sterilisering` },
-          { _key: "i15", title: i18nString("Refertilisering", "Vasectomy reversal"), description: i18nString("Mikrokirurgisk inngrep", "Microsurgical procedure"), href: `${URO}/refertilisering` },
-          { _key: "i16", title: i18nString("Mannlig infertilitet", "Male infertility"), description: i18nString("Utredning og behandling", "Assessment and treatment"), href: `${URO}/infertilitet` },
-          { _key: "i17", title: i18nString("Robotassistert kirurgi", "Robot-assisted surgery"), description: i18nString("Avansert minimalt invasiv", "Advanced minimally invasive"), href: `${URO}/robotkirurgi` },
-          { _key: "i18", title: i18nString("Brokk", "Hernia"), description: i18nString("Robotassistert kirurgi", "Robot-assisted surgery"), href: `${URO}/brokk` },
+          { _key: "i1", title: i18nString("Prostatasjekk", "Prostate check"), description: i18nString("Utredning og PSA", "Investigation and PSA"), href: `${URO}/prostata` },
+          { _key: "i2", title: i18nString("Blære og urinveier", "Bladder and urinary tract"), description: i18nString("Utredning og behandling", "Investigation and treatment"), href: `${URO}/blaere` },
+          { _key: "i3", title: i18nString("Nyrer", "Kidneys"), description: i18nString("Cyster, tumor og nefrektomi", "Cysts, tumour and nephrectomy"), href: `${URO}/nyrer` },
+          { _key: "i4", title: i18nString("Kul i pungen", "Scrotal lump"), description: i18nString("Utredning og behandling", "Investigation and treatment"), href: `${URO}/testikler` },
+          { _key: "i5", title: i18nString("Smerter i testiklene", "Testicular pain"), description: i18nString("Utredning og behandling", "Investigation and treatment"), href: `${URO}/testikler` },
+          { _key: "i6", title: i18nString("Mannlig infertilitet", "Male infertility"), description: i18nString("Utredning og behandling", "Investigation and treatment"), href: `${URO}/infertilitet` },
+        ],
+      },
+      {
+        _key: "sg2",
+        label: i18nString("Behandling og kirurgi", "Treatment and surgery"),
+        items: [
+          { _key: "i7", title: i18nString("Forstørret prostata", "Enlarged prostate"), description: i18nString("Medisinsk og kirurgisk", "Medical and surgical"), href: `${URO}/prostata` },
+          { _key: "i8", title: i18nString("Prostatakreft", "Prostate cancer"), description: i18nString("Diagnose og behandling", "Diagnosis and treatment"), href: `${URO}/prostata` },
+          { _key: "i9", title: i18nString("Trang forhud (fimose)", "Tight foreskin (phimosis)"), description: i18nString("Konservativ og kirurgisk", "Conservative and surgical"), href: `${URO}/forhud` },
+          { _key: "i10", title: i18nString("Sterilisering (vasektomi)", "Sterilisation (vasectomy)"), description: i18nString("Trygt og raskt inngrep", "Safe and quick procedure"), href: `${URO}/sterilisering` },
+          { _key: "i11", title: i18nString("Refertilisering", "Reversal"), description: i18nString("Mikrokirurgisk inngrep", "Microsurgical procedure"), href: `${URO}/refertilisering` },
+          { _key: "i12", title: i18nString("Robotassistert kirurgi", "Robot-assisted surgery"), description: i18nString("Avansert minimalt invasiv", "Advanced minimally invasive"), href: `${URO}/robotkirurgi` },
         ],
       },
     ],
@@ -332,8 +386,7 @@ const landingPageBase = {
     ),
   },
   reviewsSection: {
-    eyebrow: i18nString("Hva pasientene sier", "What patients say"),
-    title: i18nString("Tilbakemeldinger fra ekte pasienter", "Feedback from real patients"),
+    title: i18nString("Ord vi er takknemlige for", "Words we are grateful for"),
     reviews: [
       {
         _key: "r1",

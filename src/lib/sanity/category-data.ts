@@ -121,6 +121,7 @@ export type CategoryLandingPage = {
     bullets: string[];
     primaryCtaLabel: string;
     secondaryCtaLabel: string;
+    helpText?: string;
     heroImageAlt: string;
     primaryBookingService?: string;
     entryPriceLabel?: string;
@@ -131,6 +132,8 @@ export type CategoryLandingPage = {
     title: string;
     titleLine2: string;
     layout: "accordion" | "grid";
+    /** When false, accordion/grid cards omit the Les mer link. Default true. */
+    showReadMore: boolean;
     segments: CategoryLandingSegment[];
   };
   whySection: {
@@ -147,7 +150,7 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     description: string;
-    layout: "grid" | "carousel";
+    layout: "grid" | "carousel" | "slides";
     readMoreLabel: string;
     areas: CategoryLandingExpertArea[];
   };
@@ -401,6 +404,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       bullets: asStringArray(hero.bullets),
       primaryCtaLabel: asPlainString(hero.primaryCtaLabel),
       secondaryCtaLabel: asPlainString(hero.secondaryCtaLabel),
+      helpText: asPlainString(hero.helpText) || undefined,
       heroImageAlt: asPlainString(hero.heroImageAlt),
       primaryBookingService: asPlainString(hero.primaryBookingService) || undefined,
       entryPriceLabel: asPlainString(hero.entryPriceLabel) || undefined,
@@ -411,6 +415,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       title: asPlainString(segmentsSection.title),
       titleLine2: asPlainString(segmentsSection.titleLine2),
       layout: segmentsLayout === "accordion" ? "accordion" : "grid",
+      // Undefined/missing = show (legacy content). Explicit false hides Les mer.
+      showReadMore: segmentsSection.showReadMore !== false,
       segments,
     },
     whySection: {
@@ -427,7 +433,12 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(expertAreasSection.eyebrow),
       title: asPlainString(expertAreasSection.title),
       description: asPlainString(expertAreasSection.description),
-      layout: expertAreasLayout === "grid" ? "grid" : "carousel",
+      layout:
+        expertAreasLayout === "grid"
+          ? "grid"
+          : expertAreasLayout === "slides"
+            ? "slides"
+            : "carousel",
       readMoreLabel: asPlainString(expertAreasSection.readMoreLabel),
       areas: expertAreas,
     },

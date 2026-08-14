@@ -7,6 +7,7 @@ import {
   type TreatmentData,
 } from "@/lib/sanity/treatment-data";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
+import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { fetchSanityGroqServer } from "@/lib/sanity/fetch-groq-server";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizeCategoryRouteKey } from "@/lib/sanity/category-keys";
@@ -21,7 +22,9 @@ export async function fetchTreatmentData(
   const resolvedSlug =
     categoryKey === "fertilitet"
       ? resolveFertilitetTreatmentSlug(treatmentSlug)
-      : treatmentSlug;
+      : categoryKey === "gynekologi"
+        ? resolveGynekologiTreatmentSlug(treatmentSlug)
+        : treatmentSlug;
   const raw = await fetchSanityGroqServer<Record<string, unknown> | null>(
     TREATMENT_BY_SLUG_QUERY,
     {

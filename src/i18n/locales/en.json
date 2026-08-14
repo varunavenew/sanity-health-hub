@@ -179,8 +179,8 @@
     "callUs": "Call us",
     "selectClinic": "Select clinic",
     "goToContact": "Go to contact page →",
-    "availableTime": "Available appointments within 1–3 days",
-    "noReferral": "No referral needed"
+    "availableTime": "Short waiting time",
+    "noReferral": "No referral"
   },
   "clinicsPage": {
     "listHeading": "List of clinics",

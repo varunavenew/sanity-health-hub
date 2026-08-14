@@ -23,6 +23,8 @@ type Props = {
    * rendered mid-page via `landingPage.sectionOrder`). Omit for default behaviour.
    */
   excludeTypes?: Array<PageSection["_type"]>;
+  /** Passed through to specialists carousel (category landings use flush cards). */
+  specialistsLayoutVariant?: "default" | "category";
 };
 
 export function PageSectionsRenderer({
@@ -30,6 +32,7 @@ export function PageSectionsRenderer({
   afterSpecialists,
   beforeBookingCta,
   excludeTypes,
+  specialistsLayoutVariant = "default",
 }: Props) {
   if (!sections?.length) {
     return (
@@ -79,7 +82,10 @@ export function PageSectionsRenderer({
           insertedAfterSpecialists = true;
           return (
             <Fragment key={key}>
-              <PageSectionSpecialistsBlock config={section} />
+              <PageSectionSpecialistsBlock
+                config={section}
+                layoutVariant={specialistsLayoutVariant}
+              />
               {afterSpecialists}
             </Fragment>
           );

@@ -5,6 +5,7 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { useTreatment } from "@/hooks/useSanity";
 import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-treatment-page";
 import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
+import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { useTreatmentSlug } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -14,7 +15,8 @@ const GynekologiSubPage = ({
   initialTreatment,
   sanityLang = "no",
 }: BehandlingerTreatmentPageProps) => {
-  const treatmentSlug = useTreatmentSlug();
+  const urlSlug = useTreatmentSlug();
+  const treatmentSlug = resolveGynekologiTreatmentSlug(urlSlug);
   const { t } = useTranslation();
   const { data: treatment, isPending } = useTreatment("gynekologi", treatmentSlug);
   const resolved = treatment ?? initialTreatment ?? null;
@@ -30,6 +32,19 @@ const GynekologiSubPage = ({
     );
   }
 
+  if (!resolved) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
+          <p className="text-muted-foreground font-light" aria-live="polite">
+            {t("common.notFound", {
+              defaultValue: lang === "en" ? "Page not found" : "Siden ble ikke funnet",
+            })}
+          </p>
+        </div>
+      </PageLayout>
+    );
+  }
 
   const content = mapTreatmentToSubTreatmentContent(resolved, {
     categoryId: "gynekologi",

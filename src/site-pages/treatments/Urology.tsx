@@ -502,6 +502,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
         title="Urologene som følger deg."
         seeAllHref="/spesialister?kategori=urologi"
         seeAllLabel="Se alle urologer"
+        layoutVariant="category"
       />
 
       {/* ============================================================

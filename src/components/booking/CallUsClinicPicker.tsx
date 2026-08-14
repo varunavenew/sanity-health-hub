@@ -1,13 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import { Phone, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { useClinics } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  /** Visual variant. "light" uses outlined dark style for light backgrounds. */
-  variant?: "light" | "dark";
+  /**
+   * Visual variant:
+   * - "light" — outlined on light backgrounds
+   * - "lightSolid" — white filled on light backgrounds (category hero reference)
+   * - "dark" — outline on dark backgrounds
+   */
+  variant?: "light" | "lightSolid" | "dark";
   size?: "default" | "lg";
   label?: string;
   className?: string;
@@ -15,7 +20,7 @@ interface Props {
 
 /**
  * "Ring oss" CTA with a clinic picker dropdown — same UX as the bottom
- * BookingCTA, reusable on light-background pages (e.g. Fertility hero).
+ * BookingCTA, reusable on light-background heroes and pages.
  */
 export const CallUsClinicPicker = ({
   variant = "light",
@@ -41,14 +46,21 @@ export const CallUsClinicPicker = ({
     .filter((c) => c.phone)
     .map((c) => ({ label: c.label, phone: c.phone! }));
 
+  const buttonVariant =
+    variant === "dark" ? "cta-outline-dark" : "cta-outline";
+  const solidLightClass =
+    variant === "lightSolid"
+      ? "bg-white border-transparent text-foreground hover:bg-white/90 shadow-sm"
+      : undefined;
+
   return (
     <div className="relative" ref={ref}>
       <Button
-        variant={variant === "dark" ? "cta-outline-dark" : "cta-outline"}
+        variant={buttonVariant}
         size={size}
+        className={[solidLightClass, className].filter(Boolean).join(" ") || undefined}
         onClick={() => setOpen((o) => !o)}
       >
-        <Phone className="mr-2 w-5 h-5" />
         {label ?? t("booking.callUs")}
         <ChevronDown
           className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}

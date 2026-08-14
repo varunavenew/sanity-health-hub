@@ -511,6 +511,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
         title="Ortopedene som følger deg."
         seeAllHref="/spesialister?kategori=ortopedi"
         seeAllLabel="Se alle ortopeder"
+        layoutVariant="category"
       />
 
       {/* ============================================================

@@ -184,6 +184,8 @@ const pageSectionBookingCtaBodyProjection = `
   showSecondaryButton,
   backgroundColor,
   textColor,
+  primaryButtonStyle,
+  primaryButtonColor,
   "bookingCategory": bookingCategory->{ categoryId },
   quickInfoItems[]{
     icon,
@@ -506,6 +508,7 @@ const CATEGORY_LANDING_GROQ = `
       },
       ${i18nStringLocale("primaryCtaLabel")},
       ${i18nStringLocale("secondaryCtaLabel")},
+      ${i18nTextLocale("helpText")},
       ${i18nStringLocale("heroImageAlt")},
       primaryBookingService,
       ${i18nStringLocale("entryPriceLabel")},
@@ -516,6 +519,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleLine2")},
       layout,
+      showReadMore,
       segments[]{
         id,
         ${i18nStringLocale("title")},

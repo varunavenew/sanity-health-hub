@@ -16,7 +16,7 @@ const DRY_RUN = process.env.DRY_RUN === "1";
 const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
 const uploadCache = new Map<string, string>();
 
-const FF = "/behandlinger/flere-fagomrader";
+const FF = "/flere-fagomrader";
 
 const FLERE_ASSET_PATHS = {
   heroImage: "categories/flere-fagomrader.jpg",
@@ -104,9 +104,8 @@ const landingPageBase = {
       "We have brought together some of the Nordic region's leading specialists in dermatology, psychology, sexology, nutrition and surgery. They work in cross-disciplinary teams — and focus exclusively on what they do best.",
     ),
     bullets: [
-      i18nString("Ingen henvisning", "No referral needed"),
-      i18nString("Korte ventetider", "Short waiting times"),
-      i18nString("Tverrfaglige team", "Cross-disciplinary teams"),
+      { _key: "bullet-0", _type: "heroBulletItem", title: i18nString("Ingen henvisning", "No referral needed") },
+      { _key: "bullet-1", _type: "heroBulletItem", title: i18nString("Kort ventetid", "Short waiting time") },
     ],
     primaryCtaLabel: i18nString("Bestill time", "Book appointment"),
     secondaryCtaLabel: i18nString("Ring oss", "Call us"),
@@ -238,7 +237,7 @@ const landingPageBase = {
     ),
   },
   reviewsSection: {
-    title: i18nString("Tilbakemeldinger fra ekte pasienter", "Feedback from real patients"),
+    title: i18nString("Ord vi er takknemlige for", "Words we are grateful for"),
     reviews: [
       {
         _key: "r1",
@@ -253,7 +252,7 @@ const landingPageBase = {
         _key: "r2",
         text: i18nText(
           "Kombinasjonen av ernæringsfysiolog og endokrinolog forandret hverdagen min.",
-          "The combination of nutritionist and endocrinologist changed my everyday life.",
+          "The combination of a clinical nutritionist and an endocrinologist changed my everyday life.",
         ),
         author: "Eva M.",
         date: i18nString("3 måneder siden", "3 months ago"),

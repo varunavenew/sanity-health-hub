@@ -179,8 +179,8 @@
     "callUs": "Ring oss",
     "selectClinic": "Velg klinikk",
     "goToContact": "Gå til kontaktsiden →",
-    "availableTime": "Ledig time innen 1–3 dager",
-    "noReferral": "Ingen henvisning nødvendig"
+    "availableTime": "Kort ventetid",
+    "noReferral": "Ingen henvisning"
   },
   "clinicsPage": {
     "listHeading": "Liste over klinikker",

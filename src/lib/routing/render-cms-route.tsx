@@ -38,6 +38,7 @@ import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
 import SubTreatmentPage from "@/site-pages/treatments/SubTreatmentPage";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
+import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { normalizeCategoryRouteKey } from "@/lib/sanity/category-keys";
 import {
   buildAboutMetadata,
@@ -174,7 +175,9 @@ export async function renderCmsRoute(
       const treatmentSlug =
         categoryId === "fertilitet"
           ? resolveFertilitetTreatmentSlug(route.slug)
-          : route.slug;
+          : categoryId === "gynekologi"
+            ? resolveGynekologiTreatmentSlug(route.slug)
+            : route.slug;
       const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
       // Team / profile treatments redirect to the specialists listing (CMS pageRole).
       if (initialTreatment?.pageRole === "team") {
