@@ -140,7 +140,6 @@ const audienceItem = {
           { title: 'Clock', value: 'clock' },
         ],
       },
-      validation: reqStr('Icon'),
     },
     {
       name: 'image',
