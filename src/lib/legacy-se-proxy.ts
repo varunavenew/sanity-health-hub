@@ -50,7 +50,7 @@ export function isLegacySeProxyPath(pathname: string): boolean {
   if (pathname === "/files" || pathname.startsWith("/files/")) return true;
 
   if (pathname === "/api/booking") return true;
-  
+
   if (pathname.startsWith("/api/booking/se")) return true;
   if (pathname === "/api/booking/categories") return true;
   if (pathname === "/api/booking/clinics") return true;
@@ -89,19 +89,29 @@ export function rewriteLegacyLocation(
   return location;
 }
 
-export function rewriteLegacyHtml(
-  html: string,
+export function rewriteLegacyText(
+  body: string,
   legacyOrigin: string,
   publicOrigin: string,
   assetPrefix: string = getLegacyAssetPrefix(),
 ): string {
-  let out = html.split(legacyOrigin).join(publicOrigin);
+  let out = body.split(legacyOrigin).join(publicOrigin);
   const escapedPrefix = assetPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   out = out.replace(
     new RegExp(`(?<!${escapedPrefix})/_next/`, "g"),
     `${assetPrefix}/_next/`,
   );
   return out;
+}
+
+/** HTML, CSS, and JS all contain `/_next/` paths that must stay on the proxy prefix. */
+function shouldRewriteLegacyBody(contentType: string): boolean {
+  return (
+    contentType.includes("text/") ||
+    contentType.includes("javascript") ||
+    contentType.includes("json") ||
+    contentType.includes("xml")
+  );
 }
 
 export async function proxyLegacySeRequest(
@@ -155,6 +165,7 @@ export async function proxyLegacySeRequest(
   }
 
   const outHeaders = new Headers();
+  outHeaders.set("x-cmedical-legacy-proxy", "1");
   upstreamRes.headers.forEach((value, key) => {
     const lower = key.toLowerCase();
     if (SKIP_RESPONSE_HEADERS.has(lower)) return;
@@ -168,16 +179,19 @@ export async function proxyLegacySeRequest(
     outHeaders.append(key, value);
   });
 
+  // `fetch` already decompresses the body. Forwarding content-encoding/br
+  // makes the browser try to inflate the plaintext again (unstyled CSS/JS).
+  outHeaders.delete("content-encoding");
+  outHeaders.delete("content-length");
+
   const contentType = upstreamRes.headers.get("content-type") || "";
-  if (contentType.includes("text/html") && request.method !== "HEAD") {
-    const html = rewriteLegacyHtml(
+  if (shouldRewriteLegacyBody(contentType) && request.method !== "HEAD") {
+    const body = rewriteLegacyText(
       await upstreamRes.text(),
       origin,
       publicOrigin,
     );
-    outHeaders.delete("content-encoding");
-    outHeaders.delete("content-length");
-    return new NextResponse(html, {
+    return new NextResponse(body, {
       status: upstreamRes.status,
       headers: outHeaders,
     });
