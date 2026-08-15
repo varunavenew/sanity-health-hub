@@ -50,6 +50,7 @@ export function isLegacySeProxyPath(pathname: string): boolean {
   if (pathname === "/files" || pathname.startsWith("/files/")) return true;
 
   if (pathname === "/api/booking") return true;
+  
   if (pathname.startsWith("/api/booking/se")) return true;
   if (pathname === "/api/booking/categories") return true;
   if (pathname === "/api/booking/clinics") return true;
