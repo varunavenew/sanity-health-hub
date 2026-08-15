@@ -29,6 +29,10 @@ export const revalidate = 600;
 /** Allow on-demand rendering for CMS slugs not yet in `generateStaticParams`. */
 export const dynamicParams = true;
 
+function rejectLegacySeLocale(locale: string) {
+  if (locale === "se") notFound();
+}
+
 export async function generateStaticParams() {
   const homeParams = ["no", "en"].map((locale) => ({ locale, segments: [] }));
 
@@ -42,6 +46,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, segments = [] } = await params;
+  rejectLegacySeLocale(locale);
   if (segments.length === 0) return buildHomeMetadata(locale);
 
   const index = await fetchCmsRouteIndex();
@@ -94,6 +99,7 @@ async function renderHomepage(locale: string) {
 
 export default async function CmsOptionalCatchAllPage({ params }: Props) {
   const { locale, segments = [] } = await params;
+  rejectLegacySeLocale(locale);
   if (segments.length === 0) return renderHomepage(locale);
 
   const index = await fetchCmsRouteIndex();

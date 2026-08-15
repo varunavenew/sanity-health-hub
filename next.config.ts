@@ -11,6 +11,15 @@ import {
 const sanityProjectId = requireSanityProjectId();
 const sanityDataset = requireSanityDataset();
 
+/** Origin only (no trailing slash, no `/se`). e.g. http://localhost:3001 or https://cmedical-web-copy.vercel.app */
+function readLegacySeOrigin(): string | undefined {
+  const raw = process.env.LEGACY_SE_ORIGIN?.trim();
+  if (!raw) return undefined;
+  return raw.replace(/\/+$/, "");
+}
+
+const legacySeOrigin = readLegacySeOrigin();
+
 const nextConfig: NextConfig = {
   // Allow overriding when `.next` is locked (Windows EPERM on trace).
   distDir: process.env.NEXT_DIST_DIR || ".next",
@@ -37,6 +46,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SANITY_DATASET: sanityDataset,
     SANITY_PROJECT_ID: sanityProjectId,
     SANITY_DATASET: sanityDataset,
+    LEGACY_SE_ORIGIN: legacySeOrigin || "",
   },
   images: {
     remotePatterns: [
@@ -81,52 +91,71 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
-    return [
-      // L5E asset URLs must not match `[locale]` — serve via API route.
-      {
-        source: "/__l5e/assets-v1/:assetId/:filename",
-        destination: "/api/l5e-assets/:assetId/:filename",
-      },
+    return {
+      // beforeFiles: run before `app/[locale]` so `/se` is not rendered by the new app.
+      beforeFiles: legacySeOrigin
+        ? [
+            {
+              source: "/se",
+              destination: `${legacySeOrigin}/se`,
+            },
+            {
+              source: "/se/:path*",
+              destination: `${legacySeOrigin}/se/:path*`,
+            },
+            {
+              source: "/__legacy/:path*",
+              destination: `${legacySeOrigin}/:path*`,
+            },
+          ]
+        : [],
+      afterFiles: [
+        // L5E asset URLs must not match `[locale]` — serve via API route.
+        {
+          source: "/__l5e/assets-v1/:assetId/:filename",
+          destination: "/api/l5e-assets/:assetId/:filename",
+        },
 
-      // CMS nav aliases (siteSettings paths that differ from Next.js route folders).
-      { source: "/en/prices", destination: "/en/pricing" },
-      { source: "/en/current", destination: "/en/news" },
-      // aboutPage EN slug is `about-us` in Sanity; nav/siteSettings may still use `/about`.
-      { source: "/en/about", destination: "/en/about-us" },
+        // CMS nav aliases (siteSettings paths that differ from Next.js route folders).
+        { source: "/en/prices", destination: "/en/pricing" },
+        { source: "/en/current", destination: "/en/news" },
+        // aboutPage EN slug is `about-us` in Sanity; nav/siteSettings may still use `/about`.
+        { source: "/en/about", destination: "/en/about-us" },
 
-      // Top-level treatment-category landings (EN marketing slugs → CMS NO folder keys).
-      { source: "/en/fertility", destination: "/en/fertilitet" },
-      { source: "/en/gynecology", destination: "/en/gynekologi" },
-      { source: "/en/urology", destination: "/en/urologi" },
-      { source: "/en/orthopedics", destination: "/en/ortopedi" },
-      { source: "/en/pregnancy", destination: "/en/graviditet" },
-      { source: "/en/more-specialties", destination: "/en/flere-fagomrader" },
+        // Top-level treatment-category landings (EN marketing slugs → CMS NO folder keys).
+        { source: "/en/fertility", destination: "/en/fertilitet" },
+        { source: "/en/gynecology", destination: "/en/gynekologi" },
+        { source: "/en/urology", destination: "/en/urologi" },
+        { source: "/en/orthopedics", destination: "/en/ortopedi" },
+        { source: "/en/pregnancy", destination: "/en/graviditet" },
+        { source: "/en/more-specialties", destination: "/en/flere-fagomrader" },
 
-      // Listing prefixes — accept Norwegian segments on English routes (bookmarks, hardcoded links).
-      { source: "/en/spesialister", destination: "/en/specialists" },
-      { source: "/en/spesialister/:path*", destination: "/en/specialists/:path*" },
-      { source: "/en/klinikker", destination: "/en/clinics" },
-      { source: "/en/klinikker/:path*", destination: "/en/clinics/:path*" },
-      { source: "/en/aktuelt", destination: "/en/news" },
-      { source: "/en/aktuelt/:path*", destination: "/en/news/:path*" },
+        // Listing prefixes — accept Norwegian segments on English routes (bookmarks, hardcoded links).
+        { source: "/en/spesialister", destination: "/en/specialists" },
+        { source: "/en/spesialister/:path*", destination: "/en/specialists/:path*" },
+        { source: "/en/klinikker", destination: "/en/clinics" },
+        { source: "/en/klinikker/:path*", destination: "/en/clinics/:path*" },
+        { source: "/en/aktuelt", destination: "/en/news" },
+        { source: "/en/aktuelt/:path*", destination: "/en/news/:path*" },
 
-      // Treatment pages under `/behandlinger/<category>/...`.
-      { source: "/en/behandlinger/fertility", destination: "/en/behandlinger/fertilitet" },
-      { source: "/en/behandlinger/fertility/:subId", destination: "/en/behandlinger/fertilitet/:subId" },
-      { source: "/en/behandlinger/gynecology", destination: "/en/behandlinger/gynekologi" },
-      { source: "/en/behandlinger/gynecology/:subId", destination: "/en/behandlinger/gynekologi/:subId" },
-      { source: "/en/behandlinger/urology", destination: "/en/behandlinger/urologi" },
-      { source: "/en/behandlinger/urology/:subId", destination: "/en/behandlinger/urologi/:subId" },
-      { source: "/en/behandlinger/orthopedics", destination: "/en/behandlinger/ortopedi" },
-      { source: "/en/behandlinger/orthopedics/:subId", destination: "/en/behandlinger/ortopedi/:subId" },
-      { source: "/en/behandlinger/pregnancy", destination: "/en/behandlinger/graviditet" },
-      { source: "/en/behandlinger/pregnancy/:subId", destination: "/en/behandlinger/graviditet/:subId" },
-      { source: "/en/behandlinger/more-specialties", destination: "/en/behandlinger/flere-fagomrader" },
-      {
-        source: "/en/behandlinger/more-specialties/:subId",
-        destination: "/en/behandlinger/flere-fagomrader/:subId",
-      },
-    ];
+        // Treatment pages under `/behandlinger/<category>/...`.
+        { source: "/en/behandlinger/fertility", destination: "/en/behandlinger/fertilitet" },
+        { source: "/en/behandlinger/fertility/:subId", destination: "/en/behandlinger/fertilitet/:subId" },
+        { source: "/en/behandlinger/gynecology", destination: "/en/behandlinger/gynekologi" },
+        { source: "/en/behandlinger/gynecology/:subId", destination: "/en/behandlinger/gynekologi/:subId" },
+        { source: "/en/behandlinger/urology", destination: "/en/behandlinger/urologi" },
+        { source: "/en/behandlinger/urology/:subId", destination: "/en/behandlinger/urologi/:subId" },
+        { source: "/en/behandlinger/orthopedics", destination: "/en/behandlinger/ortopedi" },
+        { source: "/en/behandlinger/orthopedics/:subId", destination: "/en/behandlinger/ortopedi/:subId" },
+        { source: "/en/behandlinger/pregnancy", destination: "/en/behandlinger/graviditet" },
+        { source: "/en/behandlinger/pregnancy/:subId", destination: "/en/behandlinger/graviditet/:subId" },
+        { source: "/en/behandlinger/more-specialties", destination: "/en/behandlinger/flere-fagomrader" },
+        {
+          source: "/en/behandlinger/more-specialties/:subId",
+          destination: "/en/behandlinger/flere-fagomrader/:subId",
+        },
+      ],
+    };
   },
   async redirects() {
     return [

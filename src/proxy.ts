@@ -3,6 +3,11 @@ import type { NextRequest } from "next/server";
 import { detectLocale } from "@/lib/i18n/detect-locale";
 import { locales } from "@/lib/i18n/routing";
 import { isAccessGateEnabled } from "@/lib/env";
+import {
+  isLegacySeProxyPath,
+  proxyLegacySeRequest,
+  readLegacySeOrigin,
+} from "@/lib/legacy-se-proxy";
 
 const LOCALE_PREFIX = new Set(locales);
 
@@ -47,7 +52,7 @@ function isGateAuthorized(request: NextRequest): boolean {
   );
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
@@ -56,6 +61,10 @@ export function proxy(request: NextRequest) {
     !isGateAuthorized(request)
   ) {
     return unauthorizedResponse();
+  }
+
+  if (readLegacySeOrigin() && isLegacySeProxyPath(pathname)) {
+    return proxyLegacySeRequest(request);
   }
 
   if (
