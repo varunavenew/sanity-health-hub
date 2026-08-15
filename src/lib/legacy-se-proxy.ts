@@ -27,7 +27,11 @@ const SKIP_RESPONSE_HEADERS = new Set([
   "x-forwarded-host",
   "x-forwarded-port",
   "x-forwarded-proto",
+  "content-encoding",
+  "content-length",
 ]);
+
+const API_ASSET_PREFIX = "/api/legacy-se";
 
 export function readLegacySeOrigin(): string | undefined {
   const raw = process.env.LEGACY_SE_ORIGIN?.trim();
@@ -46,6 +50,9 @@ export function isLegacySeProxyPath(pathname: string): boolean {
 
   const prefix = getLegacyAssetPrefix();
   if (pathname === prefix || pathname.startsWith(`${prefix}/`)) return true;
+  if (pathname === API_ASSET_PREFIX || pathname.startsWith(`${API_ASSET_PREFIX}/`)) {
+    return true;
+  }
 
   if (pathname === "/files" || pathname.startsWith("/files/")) return true;
 
@@ -67,6 +74,13 @@ export function upstreamPathForLegacyProxy(
   const prefix = getLegacyAssetPrefix();
   if (pathname === prefix || pathname.startsWith(`${prefix}/`)) {
     const rest = pathname.slice(prefix.length) || "/";
+    return `${rest}${search}`;
+  }
+  if (
+    pathname === API_ASSET_PREFIX ||
+    pathname.startsWith(`${API_ASSET_PREFIX}/`)
+  ) {
+    const rest = pathname.slice(API_ASSET_PREFIX.length) || "/";
     return `${rest}${search}`;
   }
   return `${pathname}${search}`;
@@ -144,6 +158,9 @@ export async function proxyLegacySeRequest(
   );
   headers.set("x-cmedical-legacy-proxy", "1");
   headers.delete("connection");
+  // Never ask upstream for br/gzip — Vercel rewrites were forwarding
+  // content-encoding: br on an already-decoded body (ERR_CONTENT_DECODING_FAILED).
+  headers.set("accept-encoding", "identity");
 
   const init: RequestInit = {
     method: request.method,

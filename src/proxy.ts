@@ -104,5 +104,17 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image).*)"],
+  matcher: [
+    "/se",
+    "/se/:path*",
+    "/__legacy/:path*",
+    "/api/legacy-se/:path*",
+    "/files",
+    "/files/:path*",
+    "/api/booking",
+    "/api/booking/:path*",
+    "/api/specialists/random/:path*",
+    "/api/coordinates/:path*",
+    "/((?!_next/static|_next/image).*)",
+  ],
 };

@@ -103,9 +103,12 @@ const nextConfig: NextConfig = {
               source: "/se/:path*",
               destination: `${legacySeOrigin}/se/:path*`,
             },
+            // Internal only — never rewrite `/__legacy` to the old Vercel
+            // origin. That path skips our proxy and Chrome then fails with
+            // ERR_CONTENT_DECODING_FAILED on CSS/JS.
             {
               source: "/__legacy/:path*",
-              destination: `${legacySeOrigin}/:path*`,
+              destination: "/api/legacy-se/:path*",
             },
           ]
         : [],
