@@ -94,7 +94,10 @@ const nextConfig: NextConfig = {
       // aboutPage EN slug is `about-us` in Sanity; nav/siteSettings may still use `/about`.
       { source: "/en/about", destination: "/en/about-us" },
 
-      // Top-level treatment-category landings (some English folders don't exist yet).
+      // Top-level treatment-category landings (EN marketing slugs → CMS NO folder keys).
+      { source: "/en/fertility", destination: "/en/fertilitet" },
+      { source: "/en/gynecology", destination: "/en/gynekologi" },
+      { source: "/en/urology", destination: "/en/urologi" },
       { source: "/en/orthopedics", destination: "/en/ortopedi" },
       { source: "/en/pregnancy", destination: "/en/graviditet" },
       { source: "/en/more-specialties", destination: "/en/flere-fagomrader" },

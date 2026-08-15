@@ -14,7 +14,7 @@ const DRY_RUN = process.env.DRY_RUN === "1";
 const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
 const uploadCache = new Map<string, string>();
 
-const FERT = "/behandlinger/fertilitet";
+const FERT = "/fertilitet";
 
 /** Local paths relative to src/assets — matches legacy Fertility.tsx imports where available. */
 const FERT_ASSET_PATHS = {
@@ -131,7 +131,8 @@ function i18nText(no: string, en: string): I18nItem[] {
 
 function tagLink(no: string, en: string, href: string) {
   return {
-    _key: href.replace(/\W/g, "").slice(-12),
+    _key: `tag-${Math.random().toString(16).slice(2, 10)}`,
+    _type: "categoryLandingSegmentTagLink",
     label: i18nString(no, en),
     href,
   };
@@ -146,16 +147,24 @@ const landingPageBase = {
     heading: i18nString("Noen ganger trenger kroppen", "Sometimes the body needs"),
     headingEmphasis: i18nString("litt hjelp på veien", "a little help along the way"),
     body: i18nText(
-      "Å ville bli foreldre er noe av det sterkeste man kan kjenne på. For mange går det av seg selv. For andre tar det litt lenger tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og det finnes svar.",
-      "Wanting to become a parent is one of the strongest feelings there is. For many it happens naturally. For others it takes longer — and some need help. It is more common than you think, and there are answers.",
+      "Å ville bli foreldre er noe av det sterkeste man kan kjenne på. For mange går det av seg selv. For andre tar det litt lenger tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og det finnes svar. Du er ikke aleine.",
+      "Wanting to become a parent is one of the strongest feelings there is. For many it happens naturally. For others it takes longer — and some need help. It is more common than you think, and there are answers. You are not alone.",
     ),
     bullets: [
-      i18nString("Ingen henvisning", "No referral needed"),
-      i18nString("Korte ventetider", "Short waiting times"),
-      i18nString("Erfarne spesialister", "Experienced specialists"),
+      { _key: "bullet-0", _type: "heroBulletItem", title: i18nString("Ingen henvisning", "No referral needed") },
+      { _key: "bullet-1", _type: "heroBulletItem", title: i18nString("Kort ventetid", "Short waiting time") },
     ],
     primaryCtaLabel: i18nString("Bestill time", "Book appointment"),
     secondaryCtaLabel: i18nString("Ring oss", "Call us"),
+    helpText: i18nText(
+      "Usikker på hvor man skal starte? Du er alltid velkommen til å ringe oss direkte så hjelper vi deg.",
+      "Not sure where to start? You are always welcome to call us directly and we'll help you.",
+    ),
+    entryPriceLabel: i18nString(
+      "Gratis uforpliktende samtale om fertilitet",
+      "Free no-obligation fertility conversation",
+    ),
+    entryPriceValue: i18nString("Gratis", "Free"),
     heroImageAlt: i18nString("Fertilitetsbehandling hos CMedical", "Fertility treatment at CMedical"),
   },
   segmentsSection: {
@@ -395,10 +404,10 @@ const landingPageBase = {
       },
       {
         _key: "s2",
-        symptom: i18nString("Uregelmessig syklus eller mistanke om PCOS", "Irregular cycle or suspected PCOS"),
+        symptom: i18nString("Uregelmessig syklus eller mistanke om PMOS", "Irregular cycle or suspected PMOS"),
         service: i18nString("Hormonutredning", "Hormone investigation"),
         href: `${FERT}/fertilitetsutredning`,
-        imageAlt: i18nString("Konsultasjon med spesialist", "Consultation with specialist"),
+        imageAlt: i18nString("Konsultasjon med spesialist", "Consultation with a specialist"),
       },
       {
         _key: "s3",
@@ -439,7 +448,7 @@ const landingPageBase = {
     groups: [
       {
         _key: "sg1",
-        label: i18nString("Undersøkelse og utredning", "Examination and investigation"),
+        label: i18nString("Undersøkelse og utredning", "Examination and assessment"),
         items: [
           {
             _key: "sg1i1",
@@ -461,6 +470,18 @@ const landingPageBase = {
           },
           {
             _key: "sg1i4",
+            title: i18nString("Mannlig infertilitet", "Male infertility"),
+            description: i18nString("Utredning av mannlig fruktbarhet", "Investigation of male fertility"),
+            href: "/urologi/infertilitet",
+          },
+          {
+            _key: "sg1i5",
+            title: i18nString("Egglederundersøkelse (HyFoSy)", "Fallopian tube examination (HyFoSy)"),
+            description: i18nString("Skånsom undersøkelse av eggledere", "Gentle examination of the fallopian tubes"),
+            href: `${FERT}/fertilitetsutredning`,
+          },
+          {
+            _key: "sg1i6",
             title: i18nString("Hysteroskopi", "Hysteroscopy"),
             description: i18nString("Skånsom vurdering av livmorhulen", "Gentle assessment of the uterine cavity"),
             href: `${FERT}/hysteroskopi`,
@@ -479,21 +500,33 @@ const landingPageBase = {
           },
           {
             _key: "sg2i2",
+            title: i18nString("Hormonstimulering", "Hormone stimulation"),
+            description: i18nString("Eggløsningsstimulering og hormonbehandling", "Ovulation stimulation and hormone treatment"),
+            href: `${FERT}/assistert-befruktning`,
+          },
+          {
+            _key: "sg2i3",
             title: i18nString("Donorbehandling", "Donor treatment"),
             description: i18nString("Donorsæd, donoregg og partnerdonasjon", "Donor sperm, donor eggs and partner donation"),
             href: `${FERT}/donorbehandling`,
           },
           {
-            _key: "sg2i3",
-            title: i18nString("Nedfrysing av egg", "Egg freezing"),
+            _key: "sg2i4",
+            title: i18nString("Nedfrysning av egg", "Egg freezing"),
             description: i18nString("Egg, sæd og embryo", "Eggs, sperm and embryos"),
             href: `${FERT}/eggfrys`,
           },
           {
-            _key: "sg2i4",
-            title: i18nString("Gynekologi og kirurgi", "Gynecology and surgery"),
+            _key: "sg2i5",
+            title: i18nString("Nedfrysing av spermceller", "Sperm freezing"),
+            description: i18nString("Bevar mulighetene dine", "Preserve your options"),
+            href: `${FERT}/eggfrys`,
+          },
+          {
+            _key: "sg2i6",
+            title: i18nString("Gynekologi og kirurgi", "Gynaecology and surgery"),
             description: i18nString("Polypper, endometriose, myomer", "Polyps, endometriosis, fibroids"),
-            href: "/behandlinger/gynekologi",
+            href: "/gynekologi",
           },
         ],
       },
@@ -509,7 +542,7 @@ const landingPageBase = {
           "Rådgivning og støtte fra psykolog for deg som står i en fertilitetsprosess.",
           "Counselling and support from a psychologist for those going through fertility treatment.",
         ),
-        href: "/behandlinger/flere-fagomrader/psykologi",
+        href: "/flere-fagomrader/psykologi",
         imageAlt: i18nString("Psykisk hjelp under fertilitetsprosess", "Mental health support during fertility treatment"),
       },
       {
@@ -519,7 +552,7 @@ const landingPageBase = {
           "Veiledning fra sexolog om intimitet og parforhold gjennom fertilitetsforløpet.",
           "Guidance from a sexologist on intimacy and relationships through the fertility journey.",
         ),
-        href: "/behandlinger/flere-fagomrader/sexologi",
+        href: "/flere-fagomrader/sexologi",
         imageAlt: i18nString("Intimitet i parforhold under fertilitetsprosess", "Intimacy in relationships during fertility treatment"),
       },
     ],
@@ -536,13 +569,13 @@ const landingPageBase = {
     ),
   },
   reviewsSection: {
-    title: i18nString("Tilbakemeldinger fra ekte pasienter", "Feedback from real patients"),
+    title: i18nString("Ord vi er takknemlige for", "Words we are grateful for"),
     reviews: [
       {
         _key: "r1",
         text: i18nText(
           "Vi følte oss trygge fra første møte. De tok seg virkelig tid til å bli kjent med oss og vårt utgangspunkt — og det betød alt.",
-          "We felt safe from the first meeting. They really took time to get to know us and our situation — and that meant everything.",
+          "We felt safe from the first meeting. They really took time to get to know us and our starting point — and that meant everything.",
         ),
         author: "Hilde",
         date: i18nString("IVF-forløp 2024", "IVF journey 2024"),
@@ -551,7 +584,7 @@ const landingPageBase = {
         _key: "r2",
         text: i18nText(
           "Profesjonelle, varme og tydelige hele veien. Endelig følte vi at noen lyttet og hadde en plan vi kunne forstå.",
-          "Professional, warm and clear throughout. Finally we felt someone was listening and had a plan we could understand.",
+          "Professional, warm and clear all the way. Finally we felt that someone listened and had a plan we could understand.",
         ),
         author: "Marte og Jonas",
         date: i18nString("1 måned siden", "1 month ago"),
@@ -560,7 +593,7 @@ const landingPageBase = {
         _key: "r3",
         text: i18nText(
           "Korte ventetider, dyktige spesialister og et tilbud som faktisk er tilpasset oss. Anbefales på det sterkeste.",
-          "Short waiting times, skilled specialists and a service truly tailored to us. Highly recommended.",
+          "Short waiting times, skilled specialists and an offer that is truly tailored to us. Highly recommended.",
         ),
         author: "Sara L.",
         date: i18nString("3 måneder siden", "3 months ago"),

@@ -75,23 +75,34 @@ const segmentItem = {
       name: 'href',
       title: 'Card link',
       type: 'string',
-      description: '“Read more” link for this card (e.g. /booking?…).',
-      validation: reqStr('Link'),
+      description:
+        'Used for “Les mer” when that link is shown (Tell us where you are → Show “Les mer”). Optional if Les mer is hidden.',
     },
     {
       name: 'ctaLabel',
       title: 'Link text',
       ...i18nStr,
-      description: 'Defaults to “Les mer” / “Read more” on the website if empty.',
+      description: 'Defaults to “Les mer” / “Read more” on the website if empty. Hidden when Show “Les mer” is off.',
       initialValue: i18nDefault('Les mer', 'Read more'),
     },
     {
       name: 'tags',
       title: 'Keywords (text only)',
       type: 'array',
-      of: [i18nStr],
+      of: [
+        {
+          type: 'object',
+          name: 'categoryLandingSegmentTag',
+          title: 'Keyword',
+          fields: [{ name: 'title', title: 'Label', ...i18nStr }],
+          preview: i18nTitleItemPreview,
+        },
+      ],
       description:
         'Legacy fallback. Prefer Keywords with links above. Used only when that list is empty.',
+      // Broken legacy shape (array of internationalizedArrayString) caused Studio
+      // "Non-unique keys" on sibling Keywords with links. Keep data path, hide UI.
+      hidden: true,
     },
   ],
   preview: i18nTitleItemPreview,
@@ -102,9 +113,27 @@ const stepItem = {
   name: 'categoryLandingStep',
   title: 'Step',
   fields: [
-    { name: 'number', title: 'Number', type: 'string', validation: reqStr('Number') },
-    { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
-    { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
+    {
+      name: 'number',
+      title: 'Number',
+      type: 'string',
+      initialValue: '01',
+      validation: reqStr('Number'),
+    },
+    {
+      name: 'title',
+      title: 'Title',
+      ...i18nStr,
+      initialValue: i18nDefault('', ''),
+      validation: reqI18n('Title'),
+    },
+    {
+      name: 'description',
+      title: 'Text',
+      ...i18nTxt,
+      initialValue: i18nDefault('', ''),
+      validation: reqI18n('Text'),
+    },
   ],
   preview: i18nTitleItemPreview,
 }
@@ -140,6 +169,16 @@ const audienceItem = {
           { title: 'Clock', value: 'clock' },
         ],
       },
+      description: 'Used when the card has no image. Not required if an image is set.',
+      // Image cards (Fertilitet audiences) omit icon — requiring it blocked Publish
+      // while editing other sections (Why steps) because validation is document-wide.
+      validation: (Rule: any) =>
+        Rule.custom((value: unknown, context: any) => {
+          const hasImage = Boolean(context?.parent?.image?.asset)
+          if (hasImage) return true
+          if (typeof value === 'string' && value.trim()) return true
+          return 'Icon is required when no image is set'
+        }),
     },
     {
       name: 'image',
@@ -368,7 +407,8 @@ export const categoryLandingPageField = {
         { name: 'heading', title: 'Heading', fieldset: 'content', ...i18nStr },
         {
           name: 'headingEmphasis',
-          title: 'Heading (italic part)',
+          title: 'Heading (second line)',
+          description: 'Shown on its own line under the main heading (not italic).',
           fieldset: 'content',
           ...i18nStr,
         },
@@ -402,6 +442,13 @@ export const categoryLandingPageField = {
           fieldset: 'buttons',
           ...i18nStr,
           initialValue: i18nDefault('Ring oss', 'Call us'),
+        },
+        {
+          name: 'helpText',
+          title: 'Help text under buttons',
+          description: 'Optional short line under the CTA buttons (e.g. fertility hero).',
+          fieldset: 'buttons',
+          ...i18nTxt,
         },
         {
           name: 'heroImageAlt',
@@ -466,6 +513,14 @@ export const categoryLandingPageField = {
           initialValue: 'accordion',
           // Website always uses LifePhasesCarousel today — keep for future / migration.
           hidden: true,
+        },
+        {
+          name: 'showReadMore',
+          title: 'Show “Les mer” on cards',
+          type: 'boolean',
+          description:
+            'When off, the Les mer / Read more link under each accordion card is hidden (keyword links still show). Match reference pages like Gynekologi.',
+          initialValue: true,
         },
         {
           name: 'segments',
@@ -582,11 +637,16 @@ export const categoryLandingPageField = {
             list: [
               { title: 'Grid', value: 'grid' },
               { title: 'Horizontal carousel (mobile)', value: 'carousel' },
+              {
+                title: 'Full-height slides (alternating split)',
+                value: 'slides',
+              },
             ],
             layout: 'radio',
           },
           initialValue: 'carousel',
-          description: 'Carousel = swipe on mobile. Grid = same layout on all screens.',
+          description:
+            'Slides = full-viewport alternating text/image (reference treatment slides). Carousel = swipe on mobile. Grid = same card grid on all screens.',
         },
       ],
     },
@@ -761,7 +821,12 @@ export const categoryLandingPageField = {
       options: {collapsible: true, collapsed: false},
       fields: [
         { name: 'title', title: 'Heading', ...i18nStr },
-        { name: 'titleEmphasis', title: 'Heading (italic part)', ...i18nStr },
+        {
+          name: 'titleEmphasis',
+          title: 'Heading (emphasis line)',
+          description: 'Optional second part of the spotlight heading (not italic).',
+          ...i18nStr,
+        },
         { name: 'text', title: 'Text', ...i18nTxt },
         {
           name: 'ctaLabel',

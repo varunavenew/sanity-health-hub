@@ -72,7 +72,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   if (reviews.length === 0) return null;
 
   return (
-    <section className="py-14 md:py-20 bg-brand-warm relative overflow-hidden">
+    <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>

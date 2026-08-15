@@ -5,13 +5,15 @@
  *   (same framework as Homepage / Fertility prototype).
  * - Opened outside section panes: full classic form.
  * - Auto-slug from title always runs (unchanged behaviour).
+ * - HealInternationalizedArrays auto-repairs duplicate NO/EN rows after Duplicate
+ *   so Publish is not stuck disabled on Steps / audience cards.
  *
- * Composition note: AutoSlug's `renderDefault` callback is typed as InputProps.
- * We close over the outer ObjectInputProps so SectionFilteredInput stays correctly typed
- * (AutoSlug does not rewrite props before calling renderDefault).
+ * Composition note: nested `renderDefault` callbacks are typed as broad InputProps.
+ * Close over the outer ObjectInputProps (same pattern as TreatmentDocumentInput).
  */
 import type {ObjectInputProps} from 'sanity'
 import {AutoSlugFromTitleInput} from './AutoSlugFromTitleInput'
+import {HealInternationalizedArrays} from './HealInternationalizedArrays'
 import {createPageSectionDocumentInput} from '../page-editor/components/PageSectionDocumentInput'
 import {treatmentCategoryPageEditorConfig} from '../page-editor/pages/treatmentCategorySections'
 
@@ -21,9 +23,14 @@ const SectionFilteredInput = createPageSectionDocumentInput(treatmentCategoryPag
 
 export function TreatmentCategoryDocumentInput(props: ObjectInputProps) {
   return (
-    <AutoSlugFromTitleInput
+    <HealInternationalizedArrays
       {...props}
-      renderDefault={() => <SectionFilteredInput {...props} />}
+      renderDefault={() => (
+        <AutoSlugFromTitleInput
+          {...props}
+          renderDefault={() => <SectionFilteredInput {...props} />}
+        />
+      )}
     />
   )
 }

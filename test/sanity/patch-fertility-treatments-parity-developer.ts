@@ -1,7 +1,7 @@
 #!/usr/bin/env npx tsx
 /**
  * Developer-only: Fertility treatment pages parity vs avenewdemo
- * `/behandlinger/fertilitet/{slug}` (no `/no` prefix on reference).
+ * `/fertilitet/{slug}` (no `/no` prefix on reference).
  *
  * Shared patterns (same as infertilitet parity):
  * - Clear FAQ (+ faqCollection) so FAQ band hides

@@ -39,6 +39,8 @@ export function PageSectionBookingCtaBlock({ config }: Props) {
       quickInfoItems={config.quickInfoItems}
       backgroundColor={config.backgroundColor}
       textColor={config.textColor}
+      primaryButtonStyle={config.primaryButtonStyle}
+      primaryButtonColor={config.primaryButtonColor}
     />
   );
 }

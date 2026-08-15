@@ -2,10 +2,10 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { CmsMedia } from "@/components/media/CmsMedia";
-import { Fragment, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
-import { ArrowRight, Check, Star, Quote, User, Users, Clock } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Star, User, Users, Clock } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -26,6 +26,7 @@ import { useTreatmentCategory } from "@/hooks/useSanity";
 import type {
   CategoryLandingAudience,
   CategoryLandingExpertArea,
+  CategoryLandingReview,
   CategoryLandingSegment,
   CategoryLandingSpotlight,
   CategoryLandingStep,
@@ -41,6 +42,9 @@ import {
   resolveCmsMedia,
   type ResolvedCmsMedia,
 } from "@/lib/sanity/media-dual-read";
+import { assetSrc } from "@/lib/media";
+import blurSkinMid from "@/assets/blur-skin-mid.jpg";
+import { optimizeBackgroundImageUrl } from "@/lib/sanity/image-url";
 
 export type TreatmentCategoryLandingProps = CategoryLandingPageProps & {
   categoryId: string;
@@ -120,38 +124,251 @@ const AUDIENCE_ICONS: Record<
   clock: Clock,
 };
 
-function ExpertAreaCards({
+/** Shared section head: title + ingress stacked (reference never splits left/right). */
+function CategorySectionHead({
+  eyebrow,
+  title,
+  titleAccent,
+  description,
+  className = "mb-8 md:mb-10",
+  titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
+  descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed mt-4 md:mt-5 max-w-2xl",
+}: {
+  eyebrow?: string;
+  title: string;
+  titleAccent?: string;
+  description?: string;
+  className?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
+}) {
+  return (
+    <div className={`max-w-3xl ${className}`}>
+      {eyebrow ? (
+        <p className="text-xs tracking-wide text-foreground/60 mb-4">{eyebrow}</p>
+      ) : null}
+      <h2 className={titleClassName}>
+        {title}
+        {titleAccent ? (
+          <>
+            <br />
+            <span className="text-foreground/70">{titleAccent}</span>
+          </>
+        ) : null}
+      </h2>
+      {description ? <p className={descriptionClassName}>{description}</p> : null}
+    </div>
+  );
+}
+
+const GoogleMark = () => (
+  <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107" />
+    <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00" />
+    <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50" />
+    <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2" />
+  </svg>
+);
+
+/** Reference carousel: edge-bleed cards, progress bar, prev/next (avenewdemo category landings). */
+function CategoryReviewsCarousel({
+  eyebrow,
+  title,
+  reviews,
+  prevLabel,
+  nextLabel,
+  progressLabel,
+}: {
+  eyebrow?: string;
+  title: string;
+  reviews: CategoryLandingReview[];
+  prevLabel: string;
+  nextLabel: string;
+  progressLabel: string;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [progressPct, setProgressPct] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
+
+  const uniqueCount = reviews.length;
+
+  const syncScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el || uniqueCount === 0) return;
+    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+    const minPct = 100 / (uniqueCount * (uniqueCount + 1));
+    const pct =
+      maxScroll <= 0 ? 100 : minPct + (el.scrollLeft / maxScroll) * (100 - minPct);
+    setProgressPct(Math.min(100, Math.max(minPct, pct)));
+
+    const firstCard = el.querySelector<HTMLElement>(":scope > div");
+    const step = firstCard
+      ? firstCard.offsetWidth +
+        (parseFloat(getComputedStyle(el).columnGap || getComputedStyle(el).gap) || 24)
+      : 384;
+    const rawIndex = Math.round(el.scrollLeft / Math.max(step, 1));
+    setActiveIndex(Math.min(uniqueCount, Math.max(1, rawIndex + 1)));
+    setCanPrev(el.scrollLeft > 4);
+    setCanNext(el.scrollLeft < maxScroll - 4);
+  }, [uniqueCount]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    syncScrollState();
+    el.addEventListener("scroll", syncScrollState, { passive: true });
+    window.addEventListener("resize", syncScrollState);
+    return () => {
+      el.removeEventListener("scroll", syncScrollState);
+      window.removeEventListener("resize", syncScrollState);
+    };
+  }, [syncScrollState, uniqueCount]);
+
+  const scrollByCard = (dir: "prev" | "next") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const firstCard = el.querySelector<HTMLElement>(":scope > div");
+    const gap =
+      parseFloat(getComputedStyle(el).columnGap || getComputedStyle(el).gap) || 24;
+    const step = (firstCard?.offsetWidth || 360) + gap;
+    el.scrollBy({ left: dir === "prev" ? -step : step, behavior: "smooth" });
+  };
+
+  if (uniqueCount === 0) return null;
+
+  return (
+    <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="max-w-xl mb-8 md:mb-10">
+            {eyebrow ? (
+              <p className="text-sm text-brand-dark/60 font-light mb-3">{eyebrow}</p>
+            ) : null}
+            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+              {title}
+            </h2>
+          </div>
+
+          <div
+            ref={scrollRef}
+            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {reviews.map((r, i) => (
+              <div
+                key={`${r.author}-${r.date}-${i}`}
+                className="flex-shrink-0 w-[78vw] sm:w-[360px] p-6 md:p-8 rounded-sm bg-white border border-brand-dark/10"
+              >
+                <div className="flex mb-4">
+                  {[0, 1, 2, 3, 4].map((s) => (
+                    <Star
+                      key={s}
+                      className="w-4 h-4 fill-[#FFC107] text-[#FFC107]"
+                    />
+                  ))}
+                </div>
+                <p className="text-brand-dark font-light leading-relaxed mb-6 text-sm md:text-base">
+                  &ldquo;{r.text}&rdquo;
+                </p>
+                <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                  <div>
+                    <p className="text-brand-dark font-normal text-sm">{r.author}</p>
+                    <p className="text-xs text-brand-dark/60 font-light">{r.date}</p>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-brand-dark/75">
+                    <GoogleMark />
+                    <span>Google</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col items-start gap-4 w-full max-w-full overflow-x-clip carousel-nav mt-4">
+            <div className="flex items-center gap-3 md:gap-4 min-w-0 w-full">
+              <div
+                className="relative h-px flex-1 min-w-[48px] bg-brand-dark/15"
+                role="progressbar"
+                aria-valuemin={1}
+                aria-valuemax={uniqueCount}
+                aria-valuenow={activeIndex}
+                aria-label={progressLabel}
+              >
+                <div
+                  className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-200"
+                  style={{ width: `${progressPct}%` }}
+                />
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  aria-label={prevLabel}
+                  disabled={!canPrev}
+                  onClick={() => scrollByCard("prev")}
+                  className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label={nextLabel}
+                  disabled={!canNext}
+                  onClick={() => scrollByCard("next")}
+                  className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FertilityExpertRow({
   areas,
-  layout,
   readMoreLabel,
-  scrollRef,
+  imageAspect = "16/9",
+  seeAllHref,
+  seeAllLabel,
 }: {
   areas: CategoryLandingExpertArea[];
-  layout: "grid" | "carousel";
   readMoreLabel: string;
-  scrollRef?: React.RefObject<HTMLDivElement | null>;
+  imageAspect?: "3/2" | "16/9";
+  seeAllHref?: string;
+  seeAllLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  progressLabel?: string;
+  fillDesktop?: boolean;
 }) {
-  const isCarousel = layout === "carousel";
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const count = areas.length;
+
+  if (count === 0) return null;
+
   return (
-    <>
+    <div className="min-w-0 w-full">
       <div
         ref={scrollRef}
-        className={
-          isCarousel
-            ? "flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
-            : "grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
-        }
-        style={{ scrollbarWidth: "none" }}
+        className="flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
+        style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
       >
         {areas.map((a, index) => (
           <Link
             key={`${a.title || "area"}-${index}`}
             to={a.href}
-            className={`bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden ${
-              isCarousel ? "shrink-0 w-[78vw] md:w-auto snap-center" : ""
-            }`}
+            className="shrink-0 w-[92%] md:w-auto snap-start flex flex-col group bg-background rounded-2xl overflow-hidden"
           >
-            <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+            <div
+              className={`relative w-full overflow-hidden bg-secondary ${
+                imageAspect === "16/9" ? "aspect-[16/9]" : "aspect-[3/2]"
+              }`}
+            >
               {a.image ? (
                 <AssetImg
                   src={a.image}
@@ -161,9 +378,206 @@ function ExpertAreaCards({
                 />
               ) : null}
             </div>
-            <div className="p-7 flex flex-col flex-1">
-              <h3 className="text-xl font-light text-foreground mb-3">{a.title}</h3>
-              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+            <div className="flex flex-col flex-1 p-7 md:p-8">
+              <h3 className="text-lg md:text-xl font-normal text-foreground mb-2.5">
+                {a.title}
+              </h3>
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5 flex-1 max-w-md">
+                {a.desc}
+              </p>
+              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                {readMoreLabel}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="carousel-nav flex flex-col items-start gap-3">
+        {count > 1 ? <ScrollArrows scrollRef={scrollRef} className="mt-0" /> : null}
+        {seeAllHref && seeAllLabel ? (
+          <Link
+            to={seeAllHref}
+            className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity underline-offset-4 hover:underline"
+          >
+            {seeAllLabel}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function ExpertAreaCards({
+  areas,
+  layout,
+  readMoreLabel,
+  scrollRef,
+  /** Fertilitet reference uses ~16/9 flat cards; other categories keep 3/2. */
+  imageAspect = "3/2",
+  imageRadiusClass = "rounded-t-2xl",
+  /** Fertilitet reference: cream rounded cards with soft shadow. */
+  cardChrome = "plain",
+  /** Fertility: single horizontal row (~5 visible @1440) matching reference strip. */
+  fertilityRow = false,
+  /** Optional footer link shown below progress nav (Fertilitet). */
+  seeAllHref,
+  seeAllLabel,
+  prevLabel = "Forrige",
+  nextLabel = "Neste",
+  progressLabel = "Fremdrift i karusell",
+  fillDesktop = true,
+}: {
+  areas: CategoryLandingExpertArea[];
+  layout: "grid" | "carousel" | "slides";
+  readMoreLabel: string;
+  scrollRef?: React.RefObject<HTMLDivElement | null>;
+  imageAspect?: "3/2" | "16/9";
+  imageRadiusClass?: string;
+  cardChrome?: "plain" | "whiteCard";
+  fertilityRow?: boolean;
+  seeAllHref?: string;
+  seeAllLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  progressLabel?: string;
+  fillDesktop?: boolean;
+}) {
+  if (fertilityRow) {
+    return (
+      <FertilityExpertRow
+        areas={areas}
+        readMoreLabel={readMoreLabel}
+        imageAspect={imageAspect}
+        seeAllHref={seeAllHref}
+        seeAllLabel={seeAllLabel}
+        prevLabel={prevLabel}
+        nextLabel={nextLabel}
+        progressLabel={progressLabel}
+        fillDesktop={fillDesktop}
+      />
+    );
+  }
+
+  if (layout === "slides") {
+    return (
+      <div className="w-full">
+        {areas.map((a, index) => {
+          const imageRight = index % 2 === 0;
+          return (
+            <article
+              key={`${a.title || "area"}-${index}`}
+              className="min-h-[420px] lg:min-h-[100svh] bg-secondary/40"
+            >
+              <div
+                className={`flex flex-col-reverse ${
+                  imageRight ? "lg:grid lg:grid-cols-2" : "lg:grid lg:grid-cols-2"
+                } lg:min-h-[100svh]`}
+              >
+                <div
+                  className={`flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20 ${
+                    imageRight ? "lg:order-1" : "lg:order-2"
+                  }`}
+                >
+                  <div className="max-w-xl w-full">
+                    <h3 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
+                      {a.title}
+                    </h3>
+                    {a.desc ? (
+                      <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed mb-8">
+                        {a.desc}
+                      </p>
+                    ) : null}
+                    {a.href ? (
+                      <Link
+                        to={a.href}
+                        className="inline-flex items-center text-sm font-light text-foreground gap-2 hover:gap-2.5 transition-all"
+                      >
+                        {readMoreLabel}
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    ) : null}
+                  </div>
+                </div>
+                <div
+                  className={`relative h-[420px] lg:h-auto lg:min-h-full overflow-hidden ${
+                    imageRight ? "lg:order-2" : "lg:order-1"
+                  }`}
+                >
+                  {a.image ? (
+                    <AssetImg
+                      src={a.image}
+                      alt={a.imageAlt || a.title}
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-secondary" />
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    );
+  }
+
+  const isCarousel = layout === "carousel";
+  const isWhiteCard = cardChrome === "whiteCard";
+
+  return (
+    <>
+      <div
+        ref={scrollRef}
+        className={
+          isCarousel
+            ? "flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
+            : "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10"
+        }
+        style={{ scrollbarWidth: "none" }}
+      >
+        {areas.map((a, index) => (
+          <Link
+            key={`${a.title || "area"}-${index}`}
+            to={a.href}
+            className={`flex flex-col group ${
+              isCarousel
+                ? "shrink-0 w-[92%] md:w-auto snap-start"
+                : ""
+            } ${
+              isWhiteCard
+                ? "bg-background rounded-2xl overflow-hidden"
+                : ""
+            }`}
+          >
+            <div
+              className={`relative w-full overflow-hidden bg-secondary ${
+                isWhiteCard ? "" : imageRadiusClass
+              } ${imageAspect === "16/9" ? "aspect-[16/9]" : "aspect-[3/2]"}`}
+            >
+              {a.image ? (
+                <AssetImg
+                  src={a.image}
+                  alt={a.imageAlt}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              ) : null}
+            </div>
+            <div
+              className={`flex flex-col flex-1 ${
+                isWhiteCard
+                  ? "p-7 md:p-8"
+                  : imageAspect === "16/9"
+                    ? "pt-6 md:pt-7 pb-1"
+                    : "pt-5 md:pt-6"
+              }`}
+            >
+              <h3 className="text-lg md:text-xl font-normal text-foreground mb-2.5">{a.title}</h3>
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5 flex-1 max-w-md">
                 {a.desc}
               </p>
               <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
@@ -188,16 +602,87 @@ type LifePhase = {
   n?: string;
 };
 
-function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
+function LifePhasesCarousel({
+  phases,
+  variant: _variant = "default",
+  layout: _layout = "grid",
+  showReadMore = true,
+}: {
+  phases: LifePhase[];
+  variant?: "default" | "fertility";
+  /**
+   * Kept for CMS compat. Demo always uses mobile snap cards + md+ accordion
+   * (avenewdemo `pd` LifePhases), so layout no longer forces accordion-only.
+   */
+  layout?: "grid" | "accordion";
+  /** CMS toggle: hide Les mer under each card when false. */
+  showReadMore?: boolean;
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const accordion = (
+    <Accordion type="single" collapsible className="w-full">
+      {phases.map((phase, index) => (
+        <AccordionItem
+          key={`${phase.title}-${index}`}
+          value={phase.n || phase.title}
+          className="border-b border-border/30"
+        >
+          <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+            <span className="pr-4">{phase.title}</span>
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="pb-2">
+              <p className="text-sm font-light leading-relaxed mb-5 text-muted-foreground">
+                {phase.desc}
+              </p>
+              {phase.tags && phase.tags.length > 0 ? (
+                <div className="mb-5">
+                  {phase.tags.map((tag, tagIndex) =>
+                    tag.href ? (
+                      <Link
+                        key={`${tag.label}-${tag.href}-${tagIndex}`}
+                        to={tag.href}
+                        className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
+                      >
+                        <span>{tag.label}</span>
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
+                      </Link>
+                    ) : (
+                      <div
+                        key={`${tag.label}-${tagIndex}`}
+                        className="py-2.5 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
+                      >
+                        {tag.label}
+                      </div>
+                    ),
+                  )}
+                </div>
+              ) : null}
+              {showReadMore && phase.href && phase.cta ? (
+                <Link
+                  to={phase.href}
+                  className="inline-flex items-center text-sm font-normal text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
+                >
+                  {phase.cta}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              ) : null}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  );
+
+  // Demo: mobile horizontal snap cards (w-[92%], next card peeks) → md+ accordion
   return (
     <>
       <div className="md:hidden">
         <div
           ref={scrollRef}
           className="flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
-          style={{ scrollbarWidth: "none" }}
+          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
         >
           {phases.map((phase, index) => (
             <article
@@ -207,12 +692,14 @@ function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
               <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
                 {phase.title}
               </h3>
-              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
-                {phase.desc}
-              </p>
+              {phase.desc ? (
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
+                  {phase.desc}
+                </p>
+              ) : null}
               {phase.tags && phase.tags.length > 0 ? (
                 <div className="mb-4">
-                  {phase.tags.slice(0, 4).map((tag, tagIndex) =>
+                  {phase.tags.map((tag, tagIndex) =>
                     tag.href ? (
                       <Link
                         key={`${tag.label}-${tag.href}-${tagIndex}`}
@@ -233,7 +720,7 @@ function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
                   )}
                 </div>
               ) : null}
-              {phase.href && phase.cta ? (
+              {showReadMore && phase.href && phase.cta ? (
                 <Link
                   to={phase.href}
                   className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
@@ -248,61 +735,47 @@ function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
         <ScrollArrows scrollRef={scrollRef} />
       </div>
 
-      <div className="hidden md:block">
-        <Accordion type="single" collapsible className="w-full">
-          {phases.map((phase, index) => (
-            <AccordionItem
-              key={`${phase.title}-${index}`}
-              value={phase.n || phase.title}
-              className="border-b border-border/30"
-            >
-              <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                <span className="pr-4">{phase.title}</span>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="pb-2">
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
-                    {phase.desc}
-                  </p>
-                  {phase.tags && phase.tags.length > 0 ? (
-                    <div className="mb-5">
-                      {phase.tags.map((tag, tagIndex) =>
-                        tag.href ? (
-                          <Link
-                            key={`${tag.label}-${tag.href}-${tagIndex}`}
-                            to={tag.href}
-                            className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
-                          >
-                            <span>{tag.label}</span>
-                            <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
-                          </Link>
-                        ) : (
-                          <div
-                            key={`${tag.label}-${tagIndex}`}
-                            className="py-2.5 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
-                          >
-                            {tag.label}
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  ) : null}
-                  {phase.href && phase.cta ? (
-                    <Link
-                      to={phase.href}
-                      className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
-                    >
-                      {phase.cta}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  ) : null}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
+      <div className="hidden md:block">{accordion}</div>
     </>
+  );
+}
+
+/** Fertility hero title: explicit 3-line break matching avenewdemo (NO). */
+function FertilityHeroHeading({
+  heading,
+  emphasis,
+  className,
+}: {
+  heading: string;
+  emphasis?: string;
+  className?: string;
+}) {
+  const normalized = heading.replace(/\s+/g, " ").trim();
+  const knownBreaks: Record<string, [string, string]> = {
+    "Noen ganger trenger kroppen": ["Noen ganger", "trenger kroppen"],
+  };
+  const lines = knownBreaks[normalized];
+  if (lines) {
+    return (
+      <h2 className={className}>
+        <span className="block">{lines[0]}</span>
+        <span className="block">{lines[1]}</span>
+        {emphasis ? (
+          <span className="block whitespace-pre-line">{emphasis}</span>
+        ) : null}
+      </h2>
+    );
+  }
+  return (
+    <h2 className={className}>
+      {heading}
+      {emphasis ? (
+        <>
+          {" "}
+          <span className="block whitespace-pre-line">{emphasis}</span>
+        </>
+      ) : null}
+    </h2>
   );
 }
 
@@ -320,6 +793,30 @@ function segmentToLifePhase(segment: CategoryLandingSegment): LifePhase {
     cta: segment.cta,
     n: segment.id,
   };
+}
+
+/**
+ * Live avenewdemo `/fertilitet` expert-card order (2-col grid).
+ * CMS-sourced titles only — reorders existing areas, does not invent cards.
+ */
+function orderFertilityExpertAreas(
+  areas: CategoryLandingExpertArea[],
+): CategoryLandingExpertArea[] {
+  const preferred = [
+    /^infertilitet$/,
+    /^assistert befruktning$/,
+    /^fertilitetsutredning$/,
+    /^(nedfrysning|nedfrysing) av egg$|^eggfrysing$/,
+    /^donorbehandling$/,
+    /^sædanalyse$/,
+    /^mannlig infertilitet$/,
+  ];
+  const rank = (title: string) => {
+    const t = title.trim().toLowerCase();
+    const idx = preferred.findIndex((re) => re.test(t));
+    return idx === -1 ? 1000 : idx;
+  };
+  return [...areas].sort((a, b) => rank(a.title) - rank(b.title));
 }
 
 function PatientJourneySection({
@@ -343,9 +840,22 @@ function PatientJourneySection({
     ctaHref ||
     buildBookingUrl(bookingParams);
 
+  const ctaButton = ctaLabel ? (
+    <Button
+      variant="cta"
+      size="lg"
+      className="px-8 w-full sm:w-auto"
+      onClick={() => {
+        window.location.href = ctaTarget;
+      }}
+    >
+      {ctaLabel}
+    </Button>
+  ) : null;
+
   return (
     <section className="bg-background">
-      <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+      <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
           <div className="lg:col-span-5">
             {title ? (
@@ -358,18 +868,8 @@ function PatientJourneySection({
                 {description}
               </p>
             ) : null}
-            {ctaLabel ? (
-              <Button
-                variant="cta"
-                size="lg"
-                className="px-8"
-                onClick={() => {
-                  window.location.href = ctaTarget;
-                }}
-              >
-                {ctaLabel}
-              </Button>
-            ) : null}
+            {/* Desktop: CTA under intro (demo). Mobile: after steps below. */}
+            {ctaButton ? <div className="hidden lg:block">{ctaButton}</div> : null}
           </div>
           <div className="lg:col-span-7">
             <div className="divide-y divide-border/60 border-t border-border/60">
@@ -389,25 +889,40 @@ function PatientJourneySection({
             </div>
           </div>
         </div>
+        {ctaButton ? (
+          <div className="max-w-6xl mx-auto mt-12 lg:hidden">{ctaButton}</div>
+        ) : null}
       </div>
     </section>
   );
 }
 
-function SpotlightSection({ spotlight }: { spotlight: CategoryLandingSpotlight }) {
+function SpotlightSection({
+  spotlight,
+  /** Fertilitet reference: full viewport only at lg+; mobile uses compact media height. */
+  matchFertilityReference = false,
+}: {
+  spotlight: CategoryLandingSpotlight;
+  matchFertilityReference?: boolean;
+}) {
   if (!spotlight.title && !spotlight.text) return null;
 
   const title = (
     <>
       {spotlight.title}
       {spotlight.titleEmphasis ? (
-        <span className="italic"> {spotlight.titleEmphasis}</span>
+        <span className={matchFertilityReference ? "" : "italic"}>
+          {" "}
+          {spotlight.titleEmphasis}
+        </span>
       ) : null}
     </>
   );
 
   const copy = (
-    <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+    <div
+      className="px-6 md:px-12 lg:px-20 flex flex-col justify-center py-10 md:py-14 lg:py-20"
+    >
       <div className="max-w-lg">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
           {title}
@@ -431,7 +946,13 @@ function SpotlightSection({ spotlight }: { spotlight: CategoryLandingSpotlight }
   );
 
   const media = (
-    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-screen h-full overflow-hidden">
+    <div
+      className={`relative bg-secondary/40 overflow-hidden ${
+        matchFertilityReference
+          ? "h-[280px] md:h-[360px] lg:h-auto lg:min-h-[100svh]"
+          : "h-[320px] md:h-[420px] lg:h-auto lg:min-h-screen"
+      }`}
+    >
       {spotlight.image ? (
         <AssetImg
           src={spotlight.image}
@@ -445,7 +966,11 @@ function SpotlightSection({ spotlight }: { spotlight: CategoryLandingSpotlight }
 
   return (
     <section className="bg-brand-light text-foreground">
-      <div className="grid lg:grid-cols-2 items-stretch min-h-screen">
+      <div
+        className={`grid lg:grid-cols-2 items-stretch ${
+          matchFertilityReference ? "lg:min-h-[100svh]" : "min-h-screen"
+        }`}
+      >
         {copy}
         {media}
       </div>
@@ -470,7 +995,6 @@ const TreatmentCategoryLanding = ({
   );
   const loadingLabel = sanityLang === "en" ? "Loading..." : "Laster...";
   const expertAreasRef = useRef<HTMLDivElement>(null);
-  const reviewsRef = useRef<HTMLDivElement>(null);
   const breadcrumbHomeLabel =
     landing?.breadcrumbHomeLabel?.trim() || t("common.breadcrumbHome");
 
@@ -520,10 +1044,15 @@ const TreatmentCategoryLanding = ({
   const locale = sanityLang === "en" ? "en" : "nb";
   const categoryPath = category?.slug ? `/${category.slug}` : "";
   const categoryTitle = category?.title || "";
+  /** Reference: SEO h1 (sr-only) + visible split-hero h2. */
+  const seoTitle =
+    landing.srOnlyTitle?.trim() ||
+    [hero.heading, hero.headingEmphasis].filter(Boolean).join(" ").trim() ||
+    categoryTitle;
   const summaryText = category?.geoSummary?.trim() || "";
   const geoJsonLd = combineGeoJsonLd(
     medicalWebPageJsonLd({
-      name: hero.heading,
+      name: seoTitle || hero.heading,
       description: summaryText.slice(0, 320),
       url: categoryPath,
       inLanguage: locale === "en" ? "en" : "nb-NO",
@@ -578,11 +1107,11 @@ const TreatmentCategoryLanding = ({
     };
   })();
 
-  /** Baseline order for non-Pregnancy categories (matches main + FAQ in CMS order). */
+  /** Baseline order for non-Pregnancy categories (reference: no FAQ on category landings). */
   const DEFAULT_ORDER = [
     "segments", "why", "audiences", "expertAreas",
     "symptoms", "services", "support", "results",
-    "reviews", "spotlight", "faq", "journey",
+    "reviews", "spotlight", "journey",
   ];
   /**
    * Fertility reference (avenewdemo `/behandlinger/fertilitet`):
@@ -605,6 +1134,10 @@ const TreatmentCategoryLanding = ({
   /**
    * Lovable Pregnancy order: FAQ mid-page, Media (spotlight) -> Specialists -> Journey.
    * Applied only for graviditet/pregnancy when CMS sectionOrder is empty.
+   */
+  /**
+   * Pregnancy reference: "Det du lurer på…" mid-page (CMS FAQ collection),
+   * then why → slides → … → specialists → journey. Other categories omit FAQ.
    */
   const PREGNANCY_ORDER = [
     "segments",
@@ -654,6 +1187,7 @@ const TreatmentCategoryLanding = ({
       title={category?.faqSectionTitle?.trim() || undefined}
       description={category?.faqSectionDescription?.trim() || undefined}
       defaultOpenFirst={Boolean(category?.faqOpenFirst)}
+      sectionClassName="py-10 md:py-14"
     />
   );
 
@@ -671,15 +1205,20 @@ const TreatmentCategoryLanding = ({
     segments: () =>
       segmentsSection.segments.length > 0 ? (
         <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="page-shell">
             <div className="max-w-3xl mx-auto">
-              <div className="max-w-2xl mb-10">
+              <div className="max-w-2xl mb-8">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
                   {segmentsSection.title}
                   {segmentsSection.titleLine2 ? <span className="block">{segmentsSection.titleLine2}</span> : null}
                 </h2>
               </div>
-              <LifePhasesCarousel phases={segmentsSection.segments.map(segmentToLifePhase)} />
+              <LifePhasesCarousel
+                phases={segmentsSection.segments.map(segmentToLifePhase)}
+                variant={isFertility ? "fertility" : "default"}
+                layout={segmentsSection.layout}
+                showReadMore={segmentsSection.showReadMore}
+              />
             </div>
           </div>
         </section>
@@ -687,9 +1226,9 @@ const TreatmentCategoryLanding = ({
 
     why: () =>
       whySection.steps.length > 0 ? (
-        <section className="bg-background">
-          <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
-            <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-14 lg:py-20">
+        <section className="section-flush bg-background">
+          <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 split-section">
+            <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20 flex items-center">
               <div className="max-w-xl">
                 {whySection.eyebrow ? <p className="text-xs tracking-wide text-foreground/60 mb-5">{whySection.eyebrow}</p> : null}
                 <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">{whySection.title}</h2>
@@ -727,9 +1266,14 @@ const TreatmentCategoryLanding = ({
                 ) : null}
               </div>
             </div>
-            <div className="lg:col-span-5 relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-full overflow-hidden">
+            <div className="lg:col-span-5 relative bg-secondary/40 h-[420px] lg:h-auto lg:min-h-full overflow-hidden">
               {whySection.image ? (
-                <AssetImg src={whySection.image} alt={whySection.imageAlt} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                <AssetImg
+                  src={whySection.image}
+                  alt={whySection.imageAlt}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               ) : null}
             </div>
           </div>
@@ -739,22 +1283,38 @@ const TreatmentCategoryLanding = ({
     audiences: () =>
       audiencesSection.audiences.length > 0 ? (
         <section className="bg-secondary/40 py-14 md:py-20">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
-              <div className="max-w-2xl mb-14">
-                {audiencesSection.eyebrow ? <p className="text-xs tracking-wide text-foreground/60 mb-4">{audiencesSection.eyebrow}</p> : null}
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  {audiencesSection.title}
-                  {audiencesSection.titleAccent ? (<><br /><span className="text-foreground/70">{audiencesSection.titleAccent}</span></>) : null}
-                </h2>
-              </div>
+              {(() => {
+                const rawTitle = audiencesSection.title;
+                const rawAccent = audiencesSection.titleAccent;
+                const dashParts =
+                  isFertility && !rawAccent && /—/.test(rawTitle)
+                    ? rawTitle.split(/\s*—\s*/)
+                    : null;
+                return (
+              <CategorySectionHead
+                eyebrow={audiencesSection.eyebrow}
+                title={dashParts ? `${dashParts[0]} —` : rawTitle}
+                titleAccent={dashParts ? dashParts.slice(1).join(" — ") : rawAccent}
+                className="mb-8 md:mb-10"
+              />
+                );
+              })()}
               <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`}>
                 {audiencesSection.audiences.map((a) => {
                   const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
                   return (
-                    <div key={a.title} className="bg-background rounded-sm border border-border/40 flex flex-col p-7 overflow-hidden">
+                    <div
+                      key={a.title}
+                      className="bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden"
+                    >
                       {a.image ? (
-                        <div className="relative aspect-[16/10] -mx-7 -mt-7 mb-6 overflow-hidden bg-secondary">
+                        <div
+                          className={`relative overflow-hidden bg-secondary ${
+                            isFertility ? "aspect-[16/9]" : "aspect-[3/2]"
+                          }`}
+                        >
                           <AssetImg
                             src={a.image}
                             alt={a.title}
@@ -764,20 +1324,22 @@ const TreatmentCategoryLanding = ({
                           />
                         </div>
                       ) : (
-                        <div className="mb-6 text-foreground/80">
+                        <div className="pt-7 px-7 text-foreground/80">
                           {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
                         </div>
                       )}
-                      <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                      {a.href ? (
-                        <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
-                          {a.ctaLabel.trim() ||
-                            audiencesSection.readMoreLabel.trim() ||
-                            t("hero.readMore")}
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      ) : null}
+                      <div className="p-7 md:p-8 flex flex-col flex-1">
+                        <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                        <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1 max-w-md">{a.desc}</p>
+                        {a.href ? (
+                          <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
+                            {a.ctaLabel.trim() ||
+                              audiencesSection.readMoreLabel.trim() ||
+                              t("hero.readMore")}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                        ) : null}
+                      </div>
                     </div>
                   );
                 })}
@@ -789,24 +1351,69 @@ const TreatmentCategoryLanding = ({
 
     expertAreas: () =>
       expertAreasSection.areas.length > 0 ? (
-        <section className="bg-secondary/40 py-20 md:py-28">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-                <div className="lg:col-span-6">
-                  {expertAreasSection.eyebrow ? <p className="text-xs tracking-wide text-foreground/60 mb-4">{expertAreasSection.eyebrow}</p> : null}
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">{expertAreasSection.title}</h2>
-                </div>
-                <div className="lg:col-span-6 lg:pt-3">
-                  {expertAreasSection.description ? (
-                    <p className="text-base font-light text-muted-foreground leading-relaxed">{expertAreasSection.description}</p>
-                  ) : null}
-                </div>
+        expertAreasSection.layout === "slides" ? (
+          <section className="bg-secondary/40">
+            <div className="container mx-auto px-6 md:px-16 pt-10 md:pt-14 pb-5">
+              <div className="max-w-6xl mx-auto">
+                <CategorySectionHead
+                  eyebrow={expertAreasSection.eyebrow}
+                  title={expertAreasSection.title}
+                  description={expertAreasSection.description}
+                  className="mb-0"
+                />
               </div>
-              <ExpertAreaCards areas={expertAreasSection.areas} layout={expertAreasSection.layout} readMoreLabel={expertAreasSection.readMoreLabel.trim() || t("hero.readMore")} scrollRef={expertAreasRef} />
             </div>
-          </div>
-        </section>
+            <ExpertAreaCards
+              areas={expertAreasSection.areas}
+              layout="slides"
+              readMoreLabel={
+                expertAreasSection.readMoreLabel.trim() || t("hero.readMore")
+              }
+            />
+          </section>
+        ) : (
+          <section className="bg-secondary/40 pt-14 md:pt-28 pb-10 md:pb-16 overflow-x-clip">
+            <div className="page-shell min-w-0">
+              <div className="max-w-6xl mx-auto min-w-0">
+                {(() => {
+                  const rawTitle = expertAreasSection.title;
+                  const dashParts =
+                    isFertility && /—/.test(rawTitle)
+                      ? rawTitle.split(/\s*—\s*/)
+                      : null;
+                  return (
+                <CategorySectionHead
+                  eyebrow={expertAreasSection.eyebrow}
+                  title={dashParts ? dashParts[0] : rawTitle}
+                  titleAccent={
+                    dashParts ? `— ${dashParts.slice(1).join(" — ")}` : undefined
+                  }
+                  description={expertAreasSection.description}
+                />
+                  );
+                })()}
+                <ExpertAreaCards
+                  areas={
+                    isFertility
+                      ? orderFertilityExpertAreas(expertAreasSection.areas)
+                      : expertAreasSection.areas
+                  }
+                  layout="grid"
+                  fertilityRow
+                  readMoreLabel={
+                    expertAreasSection.readMoreLabel.trim() || t("hero.readMore")
+                  }
+                  scrollRef={expertAreasRef}
+                  imageAspect={isFertility ? "16/9" : "3/2"}
+                  imageRadiusClass="rounded-t-2xl"
+                  cardChrome="whiteCard"
+                  seeAllHref={isFertility ? `/behandlinger/${categoryId}` : undefined}
+                  seeAllLabel={isFertility ? "Se alle behandlinger" : undefined}
+                />
+              </div>
+            </div>
+          </section>
+        )
       ) : null,
 
     symptoms: () =>
@@ -816,6 +1423,7 @@ const TreatmentCategoryLanding = ({
           eyebrow={symptomsSection.eyebrow}
           title={symptomsSection.title}
           description={symptomsSection.description}
+          layoutVariant={isFertility ? "fertility" : "default"}
           items={symptomsSection.items.map((item) => ({
             symptom: item.symptom,
             service: item.service,
@@ -828,30 +1436,42 @@ const TreatmentCategoryLanding = ({
 
     services: () =>
       serviceGroups.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
-          <div className="container mx-auto px-6 md:px-16">
+        <section
+          className={`bg-brand-light text-foreground pt-14 md:pt-28 ${
+            isFertility ? "pb-10 md:pb-16" : "pb-16 md:pb-20"
+          }`}
+        >          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-                <div className="lg:col-span-6">
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight">{servicesSection.title}</h2>
-                </div>
-                <div className="lg:col-span-6 lg:pt-3">
-                  {servicesSection.description ? (
-                    <p className="text-base font-light text-muted-foreground leading-relaxed">{servicesSection.description}</p>
-                  ) : null}
-                </div>
-              </div>
-              <div className="space-y-12">
+              <CategorySectionHead
+                title={servicesSection.title}
+                description={servicesSection.description}
+                className="mb-6 md:mb-8"
+                descriptionClassName={
+                  isFertility
+                    ? "text-base font-light text-muted-foreground leading-relaxed mt-4 md:mt-5 max-w-none"
+                    : undefined
+                }
+              />
+              <div className="space-y-8">
                 {serviceGroups.map((group, index) => (
                   <div key={`${group.label || "group"}-${index}`}>
-                    <p className="text-xs font-light text-foreground/60 mb-4">{group.label}</p>
+                    {group.label ? (
+                      <p className="text-sm font-light text-muted-foreground mb-3">
+                        {group.label}
+                      </p>
+                    ) : null}
                     <ul className="border-t border-brand-dark/10">
                       {group.items.map((s, idx) => (
                         <li key={`${s.title || "service"}-${idx}`} className="border-b border-brand-dark/10">
-                          <Link to={s.href} className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group">
+                          <Link
+                            to={s.href}
+                            className={`grid grid-cols-[1fr_auto] sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_auto] items-center gap-4 sm:gap-10 group ${
+                              isFertility ? "py-4" : "py-5"
+                            }`}
+                          >
                             <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">{s.title}</h3>
-                            {s.desc ? <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">{s.desc}</p> : null}
-                            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
+                            {s.desc ? <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">{s.desc}</p> : <span className="hidden sm:block" />}
+                            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors justify-self-end" />
                           </Link>
                         </li>
                       ))}
@@ -866,10 +1486,14 @@ const TreatmentCategoryLanding = ({
 
     support: () =>
       supportSection.areas.length > 0 ? (
-        <section className="bg-brand-light py-14 md:py-20">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="max-w-2xl mb-10">
+        <section
+          className={`bg-brand-light overflow-x-clip ${
+            isFertility ? "pt-8 md:pt-10 pb-14 md:pb-20" : "pt-14 md:pt-20 pb-14 md:pb-20"
+          }`}
+        >
+          <div className="page-shell min-w-0">
+            <div className="max-w-6xl mx-auto min-w-0">
+              <div className="max-w-2xl mb-8 md:mb-10">
                 {supportSection.title ? (
                   <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">{supportSection.title}</h2>
                 ) : null}
@@ -877,7 +1501,15 @@ const TreatmentCategoryLanding = ({
                   <p className="text-base font-light text-muted-foreground leading-relaxed mt-6">{supportSection.description}</p>
                 ) : null}
               </div>
-              <ExpertAreaCards areas={supportSection.areas} layout="grid" readMoreLabel={supportSection.readMoreLabel.trim() || t("hero.readMore")} />
+              <ExpertAreaCards
+                areas={supportSection.areas}
+                layout="grid"
+                fertilityRow
+                readMoreLabel={supportSection.readMoreLabel.trim() || t("hero.readMore")}
+                imageAspect={isFertility ? "16/9" : "3/2"}
+                imageRadiusClass="rounded-t-2xl"
+                cardChrome="whiteCard"
+              />
             </div>
           </div>
         </section>
@@ -885,36 +1517,86 @@ const TreatmentCategoryLanding = ({
 
     results: () =>
       stats.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12 border-t border-brand-dark/5">
-          <div className="container mx-auto px-6 md:px-16">
+        <section className="relative overflow-hidden text-brand-beige pt-10 md:pt-14 pb-10 md:pb-12">
+          {/* Shared stats band: raw blur-skin texture (same for all categories). */}
+          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+            <div
+              className="absolute inset-x-0 -top-24 -bottom-24 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${optimizeBackgroundImageUrl(assetSrc(blurSkinMid))})`,
+              }}
+            />
+          </div>
+          <div className="container mx-auto px-6 md:px-16 relative">
             <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-                <div className="lg:col-span-5">
-                  {resultsSection.eyebrow ? <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">{resultsSection.eyebrow}</p> : null}
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight">{resultsSection.title}</h2>
-                </div>
-                <div className="lg:col-span-7 flex items-end">
+              {isFertility ? (
+                <div className="mb-10 md:mb-12 max-w-4xl">
+                  {resultsSection.eyebrow ? (
+                    <p className="text-xs tracking-wide text-brand-beige/70 mb-4 uppercase">
+                      {resultsSection.eyebrow}
+                    </p>
+                  ) : null}
+                  <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-beige">
+                    {resultsSection.title}
+                  </h2>
                   {resultsSection.description ? (
-                    <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">{resultsSection.description}</p>
+                    <p className="text-base font-light text-brand-beige/85 leading-relaxed mt-4 md:mt-5 max-w-xl">
+                      {resultsSection.description}
+                    </p>
                   ) : null}
                 </div>
-              </div>
-              <div className="border-t border-brand-dark/5 py-8 md:py-10">
+              ) : (
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 mb-10 md:mb-12">
+                  <div className="lg:col-span-5">
+                    {resultsSection.eyebrow ? (
+                      <p className="text-xs tracking-wide text-brand-beige/70 mb-4 uppercase">
+                        {resultsSection.eyebrow}
+                      </p>
+                    ) : null}
+                    <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-beige">
+                      {resultsSection.title}
+                    </h2>
+                  </div>
+                  <div className="lg:col-span-7 lg:flex lg:items-end">
+                    {resultsSection.description ? (
+                      <p className="text-base font-light text-brand-beige/85 leading-relaxed max-w-xl">
+                        {resultsSection.description}
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+              )}
+              <div className="border-t border-brand-beige/20 py-8 md:py-10">
                 {resultsSection.categoryLabel ? (
-                  <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">{resultsSection.categoryLabel}</p>
+                  <p className="text-[11px] tracking-[0.18em] text-brand-beige/80 mb-6 uppercase">
+                    {resultsSection.categoryLabel}
+                  </p>
                 ) : null}
-                <dl className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15`}>
+                <dl
+                  className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-beige/25`}
+                >
                   {stats.map((row, i) => (
-                    <div key={row.label} className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === stats.length - 1 ? "md:pr-0" : ""}`}>
-                      <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3"><AnimatedStat value={row.value} /></dd>
-                      <dt className="text-sm font-normal text-foreground mb-1">{row.label}</dt>
-                      {row.sub ? <p className="text-xs font-light text-muted-foreground">{row.sub}</p> : null}
+                    <div
+                      key={row.label}
+                      className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === stats.length - 1 ? "md:pr-0" : ""}`}
+                    >
+                      <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3 text-brand-beige">
+                        <AnimatedStat value={row.value} />
+                      </dd>
+                      <dt className="text-sm font-normal text-brand-beige mb-1">
+                        {row.label}
+                      </dt>
+                      {row.sub ? (
+                        <p className="text-xs font-light text-brand-beige/75">{row.sub}</p>
+                      ) : null}
                     </div>
                   ))}
                 </dl>
               </div>
               {resultsSection.footnote ? (
-                <p className="text-xs font-light text-muted-foreground mt-8">{resultsSection.footnote}</p>
+                <p className="text-xs font-light text-brand-beige/70 mt-8">
+                  {resultsSection.footnote}
+                </p>
               ) : null}
             </div>
           </div>
@@ -923,45 +1605,25 @@ const TreatmentCategoryLanding = ({
 
     reviews: () =>
       reviewsSection.reviews.length > 0 ? (
-        <section className="bg-brand-warm pt-10 md:pt-12 pb-14 md:pb-16">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="max-w-xl mb-10">
-                {reviewsSection.eyebrow ? <p className="text-sm text-brand-dark/60 font-light mb-3">{reviewsSection.eyebrow}</p> : null}
-                <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{reviewsSection.title}</h2>
-              </div>
-              <div
-                ref={reviewsRef}
-                className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
-                style={{ scrollbarWidth: "none" }}
-              >
-                {reviewsSection.reviews.map((r, i) => (
-                  <div key={i} className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300 shrink-0 w-[78vw] md:w-auto snap-center">
-                    <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
-                    <div className="flex mb-4">
-                      {[0, 1, 2, 3, 4].map((s) => <Star key={s} className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />)}
-                    </div>
-                    <p className="text-brand-dark font-light leading-relaxed mb-6 text-base">&ldquo;{r.text}&rdquo;</p>
-                    <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
-                      <div>
-                        <p className="text-brand-dark font-normal text-sm">{r.author}</p>
-                        <p className="text-xs text-brand-dark/60 font-light">{r.date}</p>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-brand-dark/75">
-                        <span>Google</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <ScrollArrows scrollRef={reviewsRef} />
-            </div>
-          </div>
-        </section>
+        <CategoryReviewsCarousel
+          eyebrow={reviewsSection.eyebrow}
+          title={reviewsSection.title}
+          reviews={reviewsSection.reviews}
+          prevLabel={sanityLang === "en" ? "Previous" : "Forrige"}
+          nextLabel={sanityLang === "en" ? "Next" : "Neste"}
+          progressLabel={
+            sanityLang === "en" ? "Carousel progress" : "Fremdrift i karusell"
+          }
+        />
       ) : null,
 
     spotlight: () =>
-      pregnancySpotlight ? <SpotlightSection spotlight={pregnancySpotlight} /> : null,
+      pregnancySpotlight ? (
+        <SpotlightSection
+          spotlight={pregnancySpotlight}
+          matchFertilityReference={isFertility}
+        />
+      ) : null,
 
     journey: () =>
       journeySection.steps.length > 0 ? (
@@ -979,7 +1641,10 @@ const TreatmentCategoryLanding = ({
 
     specialists: () =>
       specialistSections.length > 0 ? (
-        <PageSectionsRenderer sections={specialistSections} />
+        <PageSectionsRenderer
+          sections={specialistSections}
+          specialistsLayoutVariant="category"
+        />
       ) : null,
   };
 
@@ -990,13 +1655,13 @@ const TreatmentCategoryLanding = ({
       {/* Hero ├óΓé¼” always first, not part of sectionOrder */}
       {isFullWidthHero ? (
         <header className="relative">
-          <div className="relative min-h-[420px] lg:min-h-[520px] flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
-            <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="relative h-[420px] min-h-[420px] lg:min-h-[520px] lg:h-auto flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
+            <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40">
               {heroMedia ? (
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}
-                  className="w-full h-full"
+                  className="absolute inset-0 w-full h-full"
                 />
               ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
@@ -1012,7 +1677,7 @@ const TreatmentCategoryLanding = ({
                 {hero.headingEmphasis ? (
                   <>
                     {" "}
-                    <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
+                    <span className="block whitespace-pre-line">{hero.headingEmphasis}</span>
                   </>
                 ) : null}
               </h1>
@@ -1035,13 +1700,22 @@ const TreatmentCategoryLanding = ({
                     <Button variant="cta" size="lg" className="px-8 w-full sm:w-auto" onClick={() => { window.location.href = buildBookingUrl(bookingParams); }}>
                       {hero.primaryCtaLabel}
                     </Button>
-                    <CallUsClinicPicker variant="light" label={hero.secondaryCtaLabel} />
+                    <CallUsClinicPicker
+                      variant="lightSolid"
+                      label={hero.secondaryCtaLabel}
+                      className="w-full sm:w-auto"
+                    />
                   </div>
+                  {hero.helpText ? (
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                      {hero.helpText}
+                    </p>
+                  ) : null}
                 </div>
               </div>
               {hero.bullets && hero.bullets.length > 0 ? (
                 <div className="mt-10 pt-8 border-t border-brand-dark/10">
-                  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                  <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-foreground">
                     {hero.bullets.map((u, index) => (
                       <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
                         <Check className="w-4 h-4 text-foreground" aria-hidden="true" /><span>{u}</span>
@@ -1054,55 +1728,93 @@ const TreatmentCategoryLanding = ({
           </div>
         </header>
       ) : (
-        <header className="bg-brand-light pt-24 lg:pt-0">
-          <div className="lg:hidden px-6 md:px-16 pb-4">
+        <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
+          {seoTitle ? <h1 className="sr-only">{seoTitle}</h1> : null}
+          <div className="lg:hidden page-edge-text-left pb-4">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
               <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
               <span aria-hidden="true">›</span>
               <span className="text-foreground/80">{categoryTitle}</span>
             </nav>
-            <h1 className="text-4xl font-light text-foreground leading-[1.05]">
-              {hero.heading}
-              {hero.headingEmphasis ? (
-                <>
-                  {" "}
-                  <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
-                </>
-              ) : null}
-            </h1>
+            {isFertility ? (
+              <FertilityHeroHeading
+                heading={hero.heading}
+                emphasis={hero.headingEmphasis}
+                className="text-4xl font-light text-foreground leading-[1.05] tracking-[-0.02em]"
+              />
+            ) : (
+              <h2 className="text-4xl font-light text-foreground leading-[1.05]">
+                {hero.heading}
+                {hero.headingEmphasis ? (
+                  <>
+                    {" "}
+                    <span className="block whitespace-pre-line">{hero.headingEmphasis}</span>
+                  </>
+                ) : null}
+              </h2>
+            )}
           </div>
-          <div className={`flex flex-col-reverse ${hasHeroMedia ? "lg:grid lg:grid-cols-2" : ""} lg:min-h-[720px]`}>
-            <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
-              <div className="max-w-xl w-full">
+          <div
+            className={`flex flex-col-reverse ${
+              hasHeroMedia ? "lg:grid lg:grid-cols-2 split-hero" : ""
+            }`}
+          >
+            <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+              <div className="w-full max-w-xl">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
                   <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
                   <span aria-hidden="true">›</span>
                   <span className="text-foreground/80">{categoryTitle}</span>
                 </nav>
-                <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
-                  {hero.heading}
-                  {hero.headingEmphasis ? (
-                    <>
-                      {" "}
-                      <span className="block italic whitespace-pre-line">{hero.headingEmphasis}</span>
-                    </>
-                  ) : null}
-                </h1>
-                {hero.body ? <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">{hero.body}</p> : null}
+                {isFertility ? (
+                  <FertilityHeroHeading
+                    heading={hero.heading}
+                    emphasis={hero.headingEmphasis}
+                    className="hidden lg:block text-4xl md:text-5xl lg:text-[3.98rem] font-light mb-8 text-foreground leading-[1.05] tracking-[-0.02em]"
+                  />
+                ) : (
+                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                    {hero.heading}
+                    {hero.headingEmphasis ? (
+                      <>
+                        {" "}
+                        <span className="block whitespace-pre-line">{hero.headingEmphasis}</span>
+                      </>
+                    ) : null}
+                  </h2>
+                )}
+                {hero.body ? (
+                  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">
+                    {hero.body}
+                  </p>
+                ) : null}
                 {hero.entryPriceLabel && hero.entryPriceValue ? (
                   <div className="mb-4 text-sm font-light text-foreground/80">
                     <span className="block text-base text-foreground">{hero.entryPriceLabel}</span>
                     <span className="block">{hero.entryPriceValue}</span>
                   </div>
                 ) : null}
-                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+                <div
+                  className={`flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full ${
+                    hero.helpText ? "mb-4" : "mb-10"
+                  }`}
+                >
                   <Button variant="cta" size="lg" className="px-8 w-full sm:w-auto" onClick={() => { window.location.href = buildBookingUrl(bookingParams); }}>
                     {hero.primaryCtaLabel}
                   </Button>
-                  <CallUsClinicPicker variant="light" label={hero.secondaryCtaLabel} />
+                  <CallUsClinicPicker
+                    variant="lightSolid"
+                    label={hero.secondaryCtaLabel}
+                    className="w-full sm:w-auto"
+                  />
                 </div>
+                {hero.helpText ? (
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-10">
+                    {hero.helpText}
+                  </p>
+                ) : null}
                 {hero.bullets.length > 0 ? (
-                  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                  <ul className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2 text-sm font-light text-foreground">
                     {hero.bullets.map((u, index) => (
                       <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
                         <Check className="w-4 h-4 text-foreground" aria-hidden="true" /><span>{u}</span>
@@ -1113,7 +1825,7 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <div className="relative min-h-[420px] lg:min-h-full">
+              <div className="relative h-[420px] lg:h-auto lg:min-h-full bg-secondary/40 overflow-hidden order-1 lg:order-none">
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}
@@ -1132,12 +1844,12 @@ const TreatmentCategoryLanding = ({
         return render ? <Fragment key={key}>{render()}</Fragment> : null;
       })}
 
-      {/* FAQ after landing bands only when not placed via sectionOrder (e.g. Pregnancy). */}
-      {!orderIncludesFaq ? renderFaq() : null}
+      {/* FAQ is only rendered via SECTION_RENDERERS when present in sectionOrder. */}
 
       {/* Shared bands: Specialists → Journey (when not mid-page) → Insurance → Booking CTA */}
       <PageSectionsRenderer
         sections={category?.pageSections}
+        specialistsLayoutVariant="category"
         excludeTypes={
           orderIncludesSpecialists ? ["pageSectionSpecialists"] : undefined
         }

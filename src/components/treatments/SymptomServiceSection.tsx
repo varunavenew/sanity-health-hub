@@ -15,6 +15,11 @@ interface SymptomServiceSectionProps {
   description?: string;
   items: SymptomItem[];
   background?: "background" | "brand-light" | "secondary";
+  /**
+   * Fertility reference uses cream rounded cards; other categories keep flatter cards.
+   * Title + ingress are always stacked (reference).
+   */
+  layoutVariant?: "default" | "fertility";
 }
 
 export function SymptomServiceSection({
@@ -22,7 +27,9 @@ export function SymptomServiceSection({
   description,
   items,
   background = "secondary",
+  layoutVariant = "default",
 }: SymptomServiceSectionProps) {
+  const isFertility = layoutVariant === "fertility";
   const bgClass =
     background === "brand-light"
       ? "bg-brand-light"
@@ -31,22 +38,18 @@ export function SymptomServiceSection({
       : "bg-background";
 
   return (
-    <section className={`${bgClass} text-foreground py-14 md:py-20`}>
+    <section className={`${bgClass} text-foreground pt-8 md:pt-10 pb-12 md:pb-16`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-            <div className="lg:col-span-6">
-              <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                {title}
-              </h2>
-            </div>
-            {description && (
-              <div className="lg:col-span-6 lg:pt-3">
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  {description}
-                </p>
-              </div>
-            )}
+          <div className="max-w-3xl mb-8 md:mb-10">
+            <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+              {title}
+            </h2>
+            {description ? (
+              <p className="text-base font-light text-muted-foreground leading-relaxed mt-3 md:mt-4 max-w-2xl">
+                {description}
+              </p>
+            ) : null}
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
@@ -54,9 +57,19 @@ export function SymptomServiceSection({
               <Link
                 key={item.symptom}
                 to={item.href}
-                className="bg-background border border-foreground/10 rounded-sm overflow-hidden flex flex-col hover:border-foreground/30 transition-colors group"
+                className={
+                  isFertility
+                    ? "bg-background border border-foreground/10 rounded-xl overflow-hidden flex flex-col hover:border-foreground/25 transition-colors group"
+                    : "bg-background border border-foreground/10 rounded-sm overflow-hidden flex flex-col hover:border-foreground/30 transition-colors group"
+                }
               >
-                <div className="p-6 md:p-7 flex flex-col justify-between gap-5 flex-1">
+                <div
+                  className={
+                    isFertility
+                      ? "p-6 md:p-7 flex flex-col justify-between gap-6 flex-1 min-h-[168px]"
+                      : "p-6 md:p-7 flex flex-col justify-between gap-5 flex-1"
+                  }
+                >
                   <h3 className="text-lg md:text-xl font-light leading-snug text-foreground">
                     {item.symptom}
                   </h3>

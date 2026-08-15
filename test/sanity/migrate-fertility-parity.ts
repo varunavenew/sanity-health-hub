@@ -118,7 +118,8 @@ async function uploadVideoFile(
 
 function tagLink(no: string, en: string, href: string) {
   return {
-    _key: no.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 32),
+    _key: `tag-${Math.random().toString(16).slice(2, 10)}`,
+    _type: "categoryLandingSegmentTagLink",
     label: i18nString(no, en),
     href,
   };
@@ -127,13 +128,13 @@ function tagLink(no: string, en: string, href: string) {
 async function main() {
   const refAssets = {
     audienceCouple:
-      "https://avenewdemo.online/__l5e/assets-v1/b13a58c4-2bd4-4b98-8f16-d75def0360a2/fertilitet-infertilitet.jpg",
+      "https://avenewdemo.online/__l5e/assets-v1/51e2e0b1-c7d9-434e-82db-6b275d3da089/heterofilt-par.png",
     audienceWomen:
-      "https://avenewdemo.online/__l5e/assets-v1/32200969-1ad3-478c-aa92-afac413cbabd/fertilitet-assistert-befruktning.jpg",
+      "https://avenewdemo.online/__l5e/assets-v1/2fe7da95-1b5a-4ac3-ae26-b1ca748a98a1/to-kvinner.png",
     audienceSingleWoman:
-      "https://avenewdemo.online/__l5e/assets-v1/60a56270-3637-46e1-9aed-2d09cb8539b8/fertilitet-donorbehandling.jpg",
+      "https://avenewdemo.online/__l5e/assets-v1/7257a594-7bbc-46a9-b480-39417efb1786/singel-kvinne.png",
     audienceSingleMan:
-      "https://avenewdemo.online/__l5e/assets-v1/950c69e9-bb9a-4c4e-a2f5-470b4413575d/fertilitet-saedanalyse.jpg",
+      "https://avenewdemo.online/__l5e/assets-v1/4b7e73bf-97e2-4101-b5c8-a2475271dfa3/mannlig-fertilitet.png",
     whyLounge:
       "https://avenewdemo.online/assets/hero-clinic-lounge-DbDf08fL.jpg",
     heroPoster:
@@ -329,6 +330,15 @@ async function main() {
         return {
           ...area,
           title: i18nString("Nedfrysning av egg", "Egg freezing"),
+        };
+      }
+      if (titleNo === "Mannlig infertilitet") {
+        return {
+          ...area,
+          description: i18nText(
+            "Utredning og behandling av mannlig fruktbarhet — i samarbeid med urologene våre.",
+            "Investigation and treatment of male fertility — in collaboration with our urologists.",
+          ),
         };
       }
       return area;

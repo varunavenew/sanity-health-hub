@@ -16,7 +16,8 @@
     "backfill:en:all": "npm run backfill:en:all --prefix test",
     "backfill:en:apply-cache": "npm run backfill:en:apply-cache --prefix test",
     "migrate:treatment-full": "npm run migrate:treatment-full --prefix test",
-    "migrate:treatment-cta": "npm run migrate:treatment-cta --prefix test"
+    "migrate:treatment-cta": "npm run migrate:treatment-cta --prefix test",
+    "smoke:demo-parity": "node scripts/smoke-demo-parity.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

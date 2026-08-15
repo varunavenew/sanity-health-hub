@@ -28,10 +28,11 @@ const buttonVariants = cva(
         ghost: "rounded-md hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline hover:text-accent",
         // ── CTA variants (standardised across the entire site) ──
-        cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90",
-        "cta-outline": "rounded-2xl border border-current bg-transparent hover:bg-foreground/5",
-        "cta-outline-dark": "rounded-2xl border border-white/40 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-brand-dark transition-colors",
-        "cta-dark": "rounded-2xl bg-white text-brand-dark hover:bg-white/90",
+        // max-sm:w-full matches demo Button helper (avenewdemo)
+        cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90 max-sm:w-full max-sm:h-12 max-sm:px-6",
+        "cta-outline": "rounded-2xl border border-current bg-transparent hover:bg-foreground/5 max-sm:w-full max-sm:h-12 max-sm:px-6",
+        "cta-outline-dark": "rounded-2xl border border-white/40 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-brand-dark transition-colors max-sm:w-full max-sm:h-12 max-sm:px-6",
+        "cta-dark": "rounded-2xl bg-white text-brand-dark hover:bg-white/90 max-sm:w-full max-sm:h-12 max-sm:px-6",
       },
       size: {
         default: "h-10 px-4 py-2",

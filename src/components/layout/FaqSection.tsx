@@ -35,6 +35,11 @@ interface FaqSectionProps {
   layout?: "centered" | "split";
   /** When true, open the first FAQ item on mount (opt-in; default closed). */
   defaultOpenFirst?: boolean;
+  /**
+   * Optional section padding/spacing override.
+   * Category landings pass tighter vertical padding to match shared bands.
+   */
+  sectionClassName?: string;
 }
 
 export const FaqSection = ({
@@ -45,6 +50,7 @@ export const FaqSection = ({
   withJsonLd = true,
   layout,
   defaultOpenFirst = false,
+  sectionClassName,
 }: FaqSectionProps) => {
   const { i18n } = useTranslation();
   const isEn = (i18n.language || "nb").startsWith("en");
@@ -74,7 +80,7 @@ export const FaqSection = ({
 
   if (resolvedLayout === "split") {
     return (
-      <section className={`py-20 md:py-28 ${background}`}>
+      <section className={`${sectionClassName || "py-20 md:py-28"} ${background}`}>
         {withJsonLd && <JsonLd data={jsonLd} />}
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
@@ -133,7 +139,7 @@ export const FaqSection = ({
   }
 
   return (
-    <section className={`py-16 md:py-24 ${background}`}>
+    <section className={`${sectionClassName || "py-16 md:py-24"} ${background}`}>
       {withJsonLd && <JsonLd data={jsonLd} />}
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-3xl mx-auto">

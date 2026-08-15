@@ -20,6 +20,10 @@ export type ResolvedBookingCtaBody = {
   quickInfoItems?: BookingCtaQuickInfoItem[];
   backgroundColor?: string;
   textColor?: string;
+  /** Lime (default) | white | custom — see primaryButtonColor when custom. */
+  primaryButtonStyle?: "accent" | "white" | "custom";
+  /** Optional CSS color when primaryButtonStyle is custom. */
+  primaryButtonColor?: string;
 };
 
 function str(value: unknown): string {
@@ -64,6 +68,13 @@ export function mapBookingCtaBody(source: unknown): ResolvedBookingCtaBody {
     quickInfoItems: mapQuickInfoItems(row.quickInfoItems),
     backgroundColor: str(row.backgroundColor).trim() || undefined,
     textColor: str(row.textColor).trim() || undefined,
+    primaryButtonStyle:
+      row.primaryButtonStyle === "white" || row.primaryButtonStyle === "custom"
+        ? row.primaryButtonStyle
+        : row.primaryButtonStyle === "accent"
+          ? "accent"
+          : undefined,
+    primaryButtonColor: str(row.primaryButtonColor).trim() || undefined,
   };
 }
 

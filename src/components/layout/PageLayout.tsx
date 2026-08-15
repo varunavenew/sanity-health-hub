@@ -24,7 +24,6 @@ import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
-import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { DEFAULT_MAIN_NAVIGATION, withRequiredMainNavigation } from "@/lib/navigation/default-main-navigation";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
@@ -314,7 +313,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       */}
       <div className="flex min-h-screen w-full min-w-0 bg-background">
         <div
-          className="flex-1 min-w-0 overflow-x-clip pb-[calc(4.25rem+env(safe-area-inset-bottom))] transition-all duration-300 md:pb-0"
+          className="flex-1 min-w-0 overflow-x-clip transition-all duration-300"
           style={{
             marginLeft: isChatOpen ? "360px" : "0",
             maxWidth: isChatOpen ? "calc(100% - 360px)" : "100%",
@@ -329,10 +328,6 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           <Footer />
         </div>
       </div>
-
-      <MobileBottomNav
-        style={{ left: isChatOpen ? "360px" : "0" }}
-      />
     </>
   );
 };

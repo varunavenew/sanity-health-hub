@@ -119,7 +119,7 @@ export const bookingCtaContentFields = [
     title: 'Background color',
     type: 'string',
     description:
-      'Optional CSS color for the Booking CTA band (e.g. #1a2332 or rgb(26, 35, 50)). Leave empty to use the default dark background.',
+      'Optional. Leave empty for the default dark band. Set a CSS color (e.g. #1a2332) to override.',
     validation: (Rule: any) =>
       Rule.custom((value: unknown) => {
         if (value == null || value === '') return true
@@ -142,13 +142,53 @@ export const bookingCtaContentFields = [
     title: 'Text color',
     type: 'string',
     description:
-      'Optional CSS color for heading, ingress, and quick info. Leave empty for default contrast on the chosen background.',
+      'Optional. Leave empty for default white text on the dark band. Set a CSS color to override heading, ingress, and quick info.',
     validation: (Rule: any) =>
       Rule.custom((value: unknown) => {
         if (value == null || value === '') return true
         if (typeof value !== 'string') return 'Use a CSS color string'
         const v = value.trim()
         if (!v) return true
+        if (
+          /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(v) ||
+          /^(rgb|rgba|hsl|hsla)\(/i.test(v) ||
+          /^[a-zA-Z]+$/.test(v)
+        ) {
+          return true
+        }
+        return 'Use a CSS color (hex, rgb/rgba, hsl/hsla, or named color)'
+      }),
+  },
+  {
+    name: 'primaryButtonStyle',
+    title: 'Primary button color',
+    type: 'string',
+    options: {
+      list: [
+        {title: 'Lime (default)', value: 'accent'},
+        {title: 'White', value: 'white'},
+        {title: 'Custom', value: 'custom'},
+      ],
+      layout: 'radio',
+    },
+    initialValue: 'accent',
+    description:
+      'Default is brand lime on every reused Booking CTA. Choose Custom only when you need a one-off color.',
+  },
+  {
+    name: 'primaryButtonColor',
+    title: 'Custom primary button color',
+    type: 'string',
+    description:
+      'CSS color for the primary button (e.g. #c8e600). Only used when Primary button color is Custom.',
+    hidden: ({parent}: {parent?: {primaryButtonStyle?: string}}) =>
+      parent?.primaryButtonStyle !== 'custom',
+    validation: (Rule: any) =>
+      Rule.custom((value: unknown, context: {parent?: {primaryButtonStyle?: string}}) => {
+        if (context.parent?.primaryButtonStyle !== 'custom') return true
+        if (value == null || value === '') return 'Add a CSS color, or switch back to Lime / White'
+        if (typeof value !== 'string') return 'Use a CSS color string'
+        const v = value.trim()
         if (
           /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(v) ||
           /^(rgb|rgba|hsl|hsla)\(/i.test(v) ||

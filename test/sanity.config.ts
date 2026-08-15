@@ -120,7 +120,11 @@ export default defineConfig({
     visionTool(),
     internationalizedArray({
       languages: SUPPORTED_LANGUAGES.map((l) => ({id: l.id, title: l.title})),
-      defaultLanguages: ['no'],
+      // Do NOT set defaultLanguages. Auto-inserting "no" on mount races with
+      // Studio Duplicate and can create a second Norwegian row → validation
+      // error ("Cannot be more than 2 items" / duplicate language) and a
+      // permanently disabled Publish button on Why steps, audiences, etc.
+      // New empty fields: use “Add all languages” (or schema initialValue).
       // The base types we want a localized variant of.
       // Studio will register: internationalizedArrayString, internationalizedArrayText,
       // internationalizedArrayBlockContent, internationalizedArraySlug

@@ -46,6 +46,8 @@ export type PageSectionBookingCtaConfig = {
   quickInfoItems?: BookingCtaQuickInfoItem[];
   backgroundColor?: string;
   textColor?: string;
+  primaryButtonStyle?: "accent" | "white" | "custom";
+  primaryButtonColor?: string;
 };
 
 export type PageSectionArticlesConfig = {
@@ -228,6 +230,8 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           quickInfoItems: resolved.quickInfoItems,
           backgroundColor: resolved.backgroundColor,
           textColor: resolved.textColor,
+          primaryButtonStyle: resolved.primaryButtonStyle,
+          primaryButtonColor: resolved.primaryButtonColor,
         };
       }
 

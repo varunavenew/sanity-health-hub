@@ -1,5 +1,5 @@
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
-import { useRef, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
@@ -9,6 +9,13 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 import type { Specialist } from "@/lib/sanity/specialist-types";
+
+function specialistRoleLine(sp: Specialist): string {
+  if (sp.subtitle && sp.subtitle !== sp.title) {
+    return `${sp.title} · ${sp.subtitle}`;
+  }
+  return sp.title;
+}
 
 interface Props {
   /** Category slug to filter on. Omit/'alle' to show everyone. */
@@ -25,6 +32,11 @@ interface Props {
   /** Link target for "Se alle". */
   seeAllHref?: string;
   seeAllLabel?: string;
+  /**
+   * `default` — homepage-style header with nav + see-all button.
+   * `category` — treatment-category reference: centered head, flush cards, footer text link.
+   */
+  layoutVariant?: "default" | "category";
 }
 
 /**
@@ -43,10 +55,13 @@ export const SpecialistsScroller = ({
   description,
   seeAllHref = "/spesialister",
   seeAllLabel,
+  layoutVariant = "default",
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const { sorted: specialists } = useSpecialistsData();
+  const isCategory = layoutVariant === "category";
+  const isEn = (i18n.language || "").toLowerCase().startsWith("en");
   const resolvedTitle =
     title?.trim() ||
     t("specialists.title", { defaultValue: "Møt våre spesialister" });
@@ -79,10 +94,47 @@ export const SpecialistsScroller = ({
     return result;
   }, [specialists, category, filter, fallbackCategory, itemsOverride]);
 
+  const [progressPct, setProgressPct] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
+
+  const syncScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el || filtered.length === 0) return;
+    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+    const minPct = 100 / (filtered.length * (filtered.length + 1));
+    const pct =
+      maxScroll <= 0 ? 100 : minPct + (el.scrollLeft / maxScroll) * (100 - minPct);
+    setProgressPct(Math.min(100, Math.max(minPct, pct)));
+
+    const firstCard = el.querySelector<HTMLElement>(":scope > div");
+    const step = firstCard?.offsetWidth || 300;
+    const rawIndex = Math.round(el.scrollLeft / Math.max(step, 1));
+    setActiveIndex(Math.min(filtered.length, Math.max(1, rawIndex + 1)));
+    setCanPrev(el.scrollLeft > 4);
+    setCanNext(el.scrollLeft < maxScroll - 4);
+  }, [filtered.length]);
+
+  useEffect(() => {
+    if (!isCategory) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    syncScrollState();
+    el.addEventListener("scroll", syncScrollState, { passive: true });
+    window.addEventListener("resize", syncScrollState);
+    return () => {
+      el.removeEventListener("scroll", syncScrollState);
+      window.removeEventListener("resize", syncScrollState);
+    };
+  }, [isCategory, syncScrollState, filtered.length]);
+
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
+    const firstCard = scrollRef.current.querySelector<HTMLElement>(":scope > div");
+    const step = firstCard?.offsetWidth || (isCategory ? 300 : 320);
     scrollRef.current.scrollBy({
-      left: dir === "left" ? -320 : 320,
+      left: dir === "left" ? -step : step,
       behavior: "smooth",
     });
   };
@@ -97,11 +149,117 @@ export const SpecialistsScroller = ({
     });
   const showSeeAllButton = filtered.length > 1;
   const useScroller = filtered.length >= 4;
+  const prevLabel = isEn ? "Previous" : "Forrige";
+  const nextLabel = isEn ? "Next" : "Neste";
+  const progressLabel = isEn ? "Carousel progress" : "Fremdrift i karusell";
 
   const gridClass =
     filtered.length === 2
       ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
       : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto";
+
+  const profileLabel = t("specialists.viewProfile", {
+    defaultValue: "Se profil",
+  });
+
+  if (isCategory) {
+    return (
+      <section className="pt-8 md:pt-10 pb-10 md:pb-12 bg-secondary/30 overflow-hidden">
+        <div className="page-shell mb-5 md:mb-6">
+          {eyebrow ? (
+            <p className="text-sm text-muted-foreground font-light mb-3">{eyebrow}</p>
+          ) : null}
+          {/* Reference: title + ingress stacked left (not split columns). */}
+          <div className="max-w-3xl">
+            <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground mb-4">
+              {resolvedTitle}
+            </h2>
+            {resolvedDescription ? (
+              <p className="text-muted-foreground font-light max-w-2xl">
+                {resolvedDescription}
+              </p>
+            ) : null}
+          </div>
+        </div>
+
+        {filtered.length === 1 ? (
+          <div className="page-shell">
+            <SpecialistFeature sp={filtered[0]} />
+          </div>
+        ) : (
+          <div className="relative">
+            <div
+              ref={scrollRef}
+              className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {filtered.map((sp) => (
+                <div
+                  key={sp.slug}
+                  className="flex-shrink-0 w-[260px] md:w-[300px] snap-start"
+                >
+                  <CategorySpecialistCard sp={sp} profileLabel={profileLabel} />
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col items-start gap-4 w-full max-w-full overflow-x-clip carousel-nav px-[var(--gutter)] mt-4 md:mt-6">
+              <div className="flex items-center gap-3 md:gap-4 min-w-0 w-full">
+                <div
+                  className="relative h-px flex-1 min-w-[48px] bg-brand-dark/15"
+                  role="progressbar"
+                  aria-valuemin={1}
+                  aria-valuemax={filtered.length}
+                  aria-valuenow={activeIndex}
+                  aria-label={progressLabel}
+                >
+                  <div
+                    className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-200"
+                    style={{ width: `${progressPct}%` }}
+                  />
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    aria-label={prevLabel}
+                    disabled={!canPrev}
+                    onClick={() => scroll("left")}
+                    className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={nextLabel}
+                    disabled={!canNext}
+                    onClick={() => scroll("right")}
+                    className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+              {showSeeAllButton ? (
+                <div className="shrink-0">
+                  <Link
+                    to={seeAllHref}
+                    className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity"
+                  >
+                    {computedSeeAllLabel}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  }
 
   return (
     <section className="pt-10 md:pt-14 pb-16 md:pb-14 bg-secondary/30 overflow-hidden">
@@ -173,13 +331,16 @@ export const SpecialistsScroller = ({
             }}
           >
             {filtered.map((sp) => (
-              <div key={sp.slug} className="flex-shrink-0 w-[280px] snap-start">
-                <SpecialistCard sp={sp} />
+              <div
+                key={sp.slug}
+                className="flex-shrink-0 w-[300px] snap-start"
+              >
+                <SpecialistCard sp={sp} showExpertise profileLabel={undefined} />
               </div>
             ))}
             <Link
               to={seeAllHref}
-              className="flex-shrink-0 w-[280px] snap-start"
+              className="flex-shrink-0 w-[300px] snap-start"
               aria-label={computedSeeAllLabel}
             >
               <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
@@ -203,7 +364,7 @@ export const SpecialistsScroller = ({
         <div className="container mx-auto px-6 md:px-16">
           <div className={`grid gap-6 ${gridClass}`}>
             {filtered.map((sp) => (
-              <SpecialistCard key={sp.slug} sp={sp} />
+              <SpecialistCard key={sp.slug} sp={sp} showExpertise />
             ))}
           </div>
         </div>
@@ -211,6 +372,58 @@ export const SpecialistsScroller = ({
     </section>
   );
 };
+
+/** Category landing card — matches avenewdemo specialists carousel. */
+const CategorySpecialistCard = ({
+  sp,
+  profileLabel,
+}: {
+  sp: Specialist;
+  profileLabel: string;
+}) => (
+  <Link
+    to={`/spesialister/${sp.slug}`}
+    aria-label={`Les mer om ${sp.name}`}
+    className="group block"
+  >
+    <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+      <ResponsiveImage
+        src={sp.image}
+        alt={sp.name}
+        variant="card"
+        hotspot={sp.imageHotspot}
+        loading="lazy"
+        className="w-full h-full object-cover object-top md:object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/25 to-transparent" />
+
+      {sp.clinics && sp.clinics.length > 0 ? (
+        <div className="absolute top-4 left-4 flex items-center gap-1 text-white/80 text-sm font-light">
+          <MapPin className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
+          {sp.clinics.join(" · ")}
+        </div>
+      ) : null}
+
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <h3 className="font-normal text-white text-lg leading-snug mb-0.5">
+          {sp.name}
+        </h3>
+        <p className="text-sm text-white/70 font-light leading-snug">
+          {specialistRoleLine(sp)}
+        </p>
+        <div className="hidden [@media(hover:hover)]:grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] transition-[grid-template-rows] duration-200 ease-out">
+          <div className="overflow-hidden">
+            <div className="flex items-center gap-1.5 pt-3 text-sm font-light text-brand-yellow opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
+              <span>{profileLabel}</span>
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Link>
+);
 
 /** Editorial split layout when there is exactly one specialist for a service. */
 const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
@@ -288,13 +501,25 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
 };
 
 /** Card used in the static grid (few specialists). Mirrors the scroller card. */
-const SpecialistCard = ({ sp }: { sp: Specialist }) => (
+const SpecialistCard = ({
+  sp,
+  flush = false,
+  showExpertise = true,
+  profileLabel,
+}: {
+  sp: Specialist;
+  flush?: boolean;
+  showExpertise?: boolean;
+  profileLabel?: string;
+}) => (
   <Link
     to={`/spesialister/${sp.slug}`}
     aria-label={`Les mer om ${sp.name}`}
     className="group block"
   >
-    <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
+    <div
+      className={`relative aspect-[3/4] overflow-hidden bg-secondary ${flush ? "mb-0" : "mb-3"}`}
+    >
       <ResponsiveImage
         src={sp.image}
         alt={sp.name}
@@ -308,7 +533,7 @@ const SpecialistCard = ({ sp }: { sp: Specialist }) => (
       <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
 
       {sp.clinics && sp.clinics.length > 0 ? (
-        <div className="absolute top-3 left-3 flex items-center gap-1 text-white/70 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+        <div className="absolute top-3 left-3 flex items-center gap-1 text-white/90 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
           <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
           {sp.clinics.join(" · ")}
         </div>
@@ -316,14 +541,17 @@ const SpecialistCard = ({ sp }: { sp: Specialist }) => (
 
       <div className="absolute bottom-0 left-0 right-0 p-4">
         <h3 className="font-normal text-white mb-0.5">{sp.name}</h3>
-        <p className="text-sm text-white/70 font-light">
-          {sp.title}
-          {sp.subtitle && sp.subtitle !== sp.title ? ` · ${sp.subtitle}` : ""}
-        </p>
+        <p className="text-sm text-white/70 font-light">{specialistRoleLine(sp)}</p>
+        {profileLabel ? (
+          <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-light text-brand-yellow opacity-0 group-hover:opacity-100 transition-opacity">
+            {profileLabel}
+            <ArrowRight className="w-3 h-3" />
+          </span>
+        ) : null}
       </div>
     </div>
 
-    {sp.expertise && sp.expertise.length > 0 ? (
+    {showExpertise && sp.expertise && sp.expertise.length > 0 ? (
       <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">
         {sp.expertise.join(", ")}
       </p>

@@ -16,7 +16,7 @@ import { sanityClient as client } from "./config";
 const DRY_RUN = process.argv.includes("--dry-run");
 const FORCE = process.env.FORCE === "1";
 const CATEGORY_ID = "graviditet";
-const GRAV = "/behandlinger/graviditet";
+const GRAV = "/graviditet";
 
 /* ─────────────────────────── i18n helpers (v5) ─────────────────────────── */
 
@@ -54,10 +54,12 @@ const hero = {
     ),
     bullets: [
         { _key: k("b"), _type: "heroBulletItem", title: i18nStr("Ingen henvisning", "No referral needed") },
-        { _key: k("b"), _type: "heroBulletItem", title: i18nStr("Korte ventetider", "Short wait times") },
+        { _key: k("b"), _type: "heroBulletItem", title: i18nStr("Kort ventetid", "Short waiting time") },
     ],
-    primaryCtaLabel: i18nStr("Bestill time", "Book an appointment"),
+    primaryCtaLabel: i18nStr("Bestill time", "Book appointment"),
     secondaryCtaLabel: i18nStr("Ring oss", "Call us"),
+    entryPriceLabel: i18nStr("Kontroll etter fødsel", "Postpartum check-up"),
+    entryPriceValue: i18nStr("Pris fra 2.100 kr", "From NOK 2,100"),
     heroImageAlt: i18nStr("Gravid kvinne hos CMedical", "Pregnant woman at CMedical"),
 };
 
@@ -245,7 +247,7 @@ const servicesSection = {
     title: i18nStr("Hva vi tilbyr", "What we offer"),
     description: i18nTxt(
         "Fra tidlig ultralyd til fast jordmor — hele svangerskapstilbudet vårt finner du her. Trenger du hjelp til å velge, ring oss for en uforpliktende prat.",
-        "From early ultrasound to a dedicated midwife — you'll find our entire pregnancy offering here. If you need help choosing, call us for a no-obligation chat."
+        "From early ultrasound to a dedicated midwife — you will find our entire pregnancy offering here. If you need help choosing, call us for a no-obligation chat."
     ),
     groups: [
         {
@@ -254,20 +256,20 @@ const servicesSection = {
             items: [
                 {
                     _key: k("s"), _type: "categoryLandingServiceItem",
-                    title: i18nStr("Tidlig ultralyd", "Early ultrasound"),
+                    title: i18nStr("Ultralyd i svangerskapet", "Pregnancy ultrasound"),
                     description: i18nStr("Hjerteslag, termin og plassering", "Heartbeat, due date and placement"),
                     href: `${GRAV}/ultralyd`
                 },
                 {
                     _key: k("s"), _type: "categoryLandingServiceItem",
                     title: i18nStr("NIPT", "NIPT"),
-                    description: i18nStr("Trygg og rask avklaring av kromosomavvik", "Safe and fast screening for chromosomal abnormalities"),
+                    description: i18nStr("Trygg og rask avklaring av kromosomavvik", "Safe and fast clarification of chromosomal abnormalities"),
                     href: `${GRAV}/nipt`
                 },
                 {
                     _key: k("s"), _type: "categoryLandingServiceItem",
-                    title: i18nStr("Tidlig ultralyd + NIPT", "Early ultrasound + NIPT"),
-                    description: i18nStr("Kombinert tilbud i én konsultasjon", "Combined offer in a single consultation"),
+                    title: i18nStr("Ultralyd i svangerskapet + NIPT", "Pregnancy ultrasound + NIPT"),
+                    description: i18nStr("Kombinert tilbud i én konsultasjon", "Combined offer in one consultation"),
                     href: `${GRAV}/nipt`
                 },
             ],
@@ -288,6 +290,12 @@ const servicesSection = {
                     description: i18nStr("Spesialist i fostermedisin", "Specialist in fetal medicine"),
                     href: `${GRAV}/fosterdiagnostikk`
                 },
+                {
+                    _key: k("s"), _type: "categoryLandingServiceItem",
+                    title: i18nStr("Fostermedisin", "Fetal medicine"),
+                    description: i18nStr("Fosterets helse og utvikling hos spesialist", "Fetal health and development with a specialist"),
+                    href: `${GRAV}/fostermedisin`
+                },
             ],
         },
         {
@@ -297,8 +305,38 @@ const servicesSection = {
                 {
                     _key: k("s"), _type: "categoryLandingServiceItem",
                     title: i18nStr("Graviditetsoppfølging", "Pregnancy follow-up"),
-                    description: i18nStr("Erfarne gynekologer og fostermedisinere hele veien", "Experienced gynecologists and fetal medicine specialists all the way"),
+                    description: i18nStr("Erfarne gynekologer og fostermedisinere hele veien", "Experienced gynaecologists and fetal medicine specialists all the way"),
                     href: `${GRAV}/svangerskapsteam`
+                },
+                {
+                    _key: k("s"), _type: "categoryLandingServiceItem",
+                    title: i18nStr("Svangerskapskontroll", "Pregnancy check-ups"),
+                    description: i18nStr("Oppfølging gjennom hele svangerskapet", "Follow-up throughout the entire pregnancy"),
+                    href: `${GRAV}/svangerskapsoppfolging`
+                },
+            ],
+        },
+        {
+            _key: k("grp"), _type: "categoryLandingServiceGroup",
+            label: i18nStr("Etter fødsel og ved tap", "After birth and in case of loss"),
+            items: [
+                {
+                    _key: k("s"), _type: "categoryLandingServiceItem",
+                    title: i18nStr("6-ukerskontroll etter fødsel", "6-week postnatal check"),
+                    description: i18nStr("Undersøkelse og veiledning etter fødsel", "Examination and guidance after birth"),
+                    href: `${GRAV}/6-ukerskontroll`
+                },
+                {
+                    _key: k("s"), _type: "categoryLandingServiceItem",
+                    title: i18nStr("Fødselsskader", "Birth injuries"),
+                    description: i18nStr("Bristninger, bekkenbunn og plager etter fødsel", "Tears, pelvic floor and symptoms after birth"),
+                    href: `${GRAV}/fodselsskader`
+                },
+                {
+                    _key: k("s"), _type: "categoryLandingServiceItem",
+                    title: i18nStr("Spontanabort", "Miscarriage"),
+                    description: i18nStr("Utredning, oppfølging og samtale", "Investigation, follow-up and conversation"),
+                    href: `${GRAV}/spontanabort`
                 },
             ],
         },
@@ -324,14 +362,13 @@ const resultsSection = {
 /* ─────────────────────────── REVIEWS ─────────────────────────── */
 
 const reviewsSection = {
-    eyebrow: i18nStr("Pasienthistorier", "Patient stories"),
-    title: i18nStr("Tilbakemeldinger fra ekte pasienter", "Feedback from real patients"),
+    title: i18nStr("Ord vi er takknemlige for", "Words we are grateful for"),
     reviews: [
         {
             _key: k("rev"), _type: "categoryLandingReview",
             text: i18nTxt(
                 "Jeg ble møtt med ro og tid. Endelig en jordmor som husket meg fra forrige time og som så hele situasjonen.",
-                "I was met with calm and time. Finally a midwife who remembered me from the previous appointment and saw the whole picture."
+                "I was met with calm and time. Finally a midwife who remembered me from the previous appointment and who saw the whole situation."
             ),
             author: "Ingrid",
             date: i18nStr("Svangerskap 2025", "Pregnancy 2025"),

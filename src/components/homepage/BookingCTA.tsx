@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight,
   Check,
   ChevronDown,
   type LucideIcon,
@@ -32,6 +31,10 @@ export type BookingCtaContent = {
   backgroundColor?: string;
   /** Optional CMS text color for title / subtitle / quick info. */
   textColor?: string;
+  /** Dark-band primary: lime (default), white, or custom CSS color. */
+  primaryButtonStyle?: "accent" | "white" | "custom";
+  /** Used when primaryButtonStyle is custom (or as an explicit override). */
+  primaryButtonColor?: string;
 };
 
 const QUICK_INFO_ICONS: Record<NonNullable<BookingCtaQuickInfoItem["icon"]>, LucideIcon> = {
@@ -57,6 +60,8 @@ export const BookingCTA = ({
   quickInfoItems,
   backgroundColor,
   textColor,
+  primaryButtonStyle,
+  primaryButtonColor,
 }: BookingCTAProps = {}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -112,9 +117,18 @@ export const BookingCTA = ({
   /** When a custom background is set without text color, keep dark-variant contrast (white text). */
   const useWarmChrome = variant === "warm" && !hasCustomBg && !hasCustomText;
 
+  const customPrimaryBtn =
+    primaryButtonStyle === "custom" || primaryButtonColor?.trim()
+      ? primaryButtonColor?.trim() || ""
+      : "";
+  const hasCustomPrimaryBtn = Boolean(customPrimaryBtn);
+  /** Shared Booking CTA default is brand lime; white only when CMS asks for it. */
+  const darkPrimaryVariant =
+    primaryButtonStyle === "white" && !hasCustomPrimaryBtn ? "cta-dark" : "cta";
+
   const sectionClass = useWarmChrome
     ? "py-20 bg-brand-warm border-t border-border/60"
-    : "py-14 sm:py-16 md:py-20 bg-brand-dark";
+    : "pt-14 pb-10 sm:pt-16 sm:pb-12 md:pt-20 md:pb-10 bg-brand-dark";
 
   const titleClass = useWarmChrome
     ? "text-2xl md:text-3xl font-light text-brand-dark mb-4"
@@ -124,14 +138,14 @@ export const BookingCTA = ({
     : "text-white/95 font-light text-base md:text-lg mb-10 max-w-xl mx-auto";
   const quickInfoClass = useWarmChrome
     ? "flex items-center gap-2 text-sm text-brand-dark/60"
-    : "flex items-center gap-2 text-sm text-white/50";
+    : "flex items-center gap-2 text-sm text-white/90";
 
   const titleStyle: CSSProperties | undefined = hasCustomText ? { color: customText } : undefined;
   const subtitleStyle: CSSProperties | undefined = hasCustomText
     ? { color: customText, opacity: 0.75 }
     : undefined;
   const quickInfoStyle: CSSProperties | undefined = hasCustomText
-    ? { color: customText, opacity: 0.65 }
+    ? { color: customText, opacity: 0.9 }
     : undefined;
   const sectionStyle: CSSProperties | undefined = hasCustomBg
     ? { backgroundColor: customBg }
@@ -155,13 +169,20 @@ export const BookingCTA = ({
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
         <Button
-          variant={useWarmChrome ? "cta" : "cta-dark"}
+          variant={useWarmChrome ? "cta" : darkPrimaryVariant}
           size="lg"
           className="rounded-lg"
+          style={
+            hasCustomPrimaryBtn
+              ? {
+                  backgroundColor: customPrimaryBtn,
+                  color: "hsl(var(--accent-foreground))",
+                }
+              : undefined
+          }
           onClick={handlePrimaryClick}
         >
           {resolvedPrimaryLabel}
-          <ArrowRight className="ml-2 w-5 h-5" />
         </Button>
 
         {showSecondaryButton ? (

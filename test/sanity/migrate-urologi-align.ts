@@ -187,8 +187,8 @@ const SYMPTOM_ITEMS = [
   {
     _key: 's1',
     symptom: i18nString('Svak eller hyppig vannlating', 'Weak or frequent urination'),
-    service: i18nString('Prostatautredning', 'Prostate assessment'),
-    href: '/booking?kategori=urologi&tjeneste=prostata',
+    service: i18nString('Prostatautredning', 'Prostate investigation'),
+    href: `${URO}/prostata`,
   },
   {
     _key: 's2',
@@ -197,16 +197,16 @@ const SYMPTOM_ITEMS = [
       'Elevated PSA or suspected prostate cancer',
     ),
     service: i18nString('Prostatasjekk', 'Prostate check'),
-    href: '/booking?kategori=urologi&tjeneste=prostatasjekk',
+    href: `${URO}/prostata`,
   },
   {
     _key: 's3',
     symptom: i18nString(
       'Smerter, kul eller hevelse i pungen',
-      'Pain, lump or swelling in scrotum',
+      'Pain, lump or swelling in the scrotum',
     ),
-    service: i18nString('Testikkelutredning', 'Testicular assessment'),
-    href: '/booking?kategori=urologi&tjeneste=testikler',
+    service: i18nString('Testikkelutredning', 'Testicular investigation'),
+    href: `${URO}/testikler`,
   },
   {
     _key: 's4',
@@ -216,24 +216,24 @@ const SYMPTOM_ITEMS = [
     ),
     service: i18nString(
       'Blære- og urinveisutredning',
-      'Bladder and urinary tract assessment',
+      'Bladder and urinary tract investigation',
     ),
-    href: '/booking?kategori=urologi&tjeneste=blaere',
+    href: `${URO}/blaere`,
   },
   {
     _key: 's5',
     symptom: i18nString('Spørsmål om nyrene', 'Questions about the kidneys'),
-    service: i18nString('Nyreutredning', 'Kidney assessment'),
-    href: '/booking?kategori=urologi&tjeneste=nyrer',
+    service: i18nString('Nyreutredning', 'Kidney investigation'),
+    href: `${URO}/nyrer`,
   },
   {
     _key: 's6',
     symptom: i18nString(
       'Vurderer sterilisering (vasektomi)',
-      'Considering sterilization (vasectomy)',
+      'Considering sterilisation (vasectomy)',
     ),
-    service: i18nString('Sterilisering', 'Sterilization'),
-    href: '/booking?kategori=urologi&tjeneste=sterilisering',
+    service: i18nString('Sterilisering', 'Sterilisation'),
+    href: `${URO}/sterilisering`,
   },
 ]
 

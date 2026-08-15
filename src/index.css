@@ -53,47 +53,48 @@
 
 @layer base {
   :root {
-    --background: 30 31% 92%;
-    --foreground: 0 71% 5%;
+    /* Exact demo tokens from avenewdemo production CSS */
+    --background: 30 31.6% 92.5%;
+    --foreground: 0 71.4% 5.5%;
     --card: 0 0% 100%;
-    --card-foreground: 0 71% 5%;
+    --card-foreground: 0 71.4% 5.5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 71% 5%;
-    --primary: 22 22% 21%;
-    --primary-foreground: 30 31% 92%;
+    --popover-foreground: 0 71.4% 5.5%;
+    --primary: 22.5 22.2% 21.2%;
+    --primary-foreground: 30 31.6% 92.5%;
     --secondary: 25 23% 74%;
-    --secondary-foreground: 0 71% 5%;
+    --secondary-foreground: 0 71.4% 5.5%;
     --muted: 30 24% 88%;
     --muted-foreground: 22 15% 30%;
-    --accent: 65 100% 74%;
-    --accent-foreground: 0 71% 5%;
+    --accent: 64.9 100% 73.5%;
+    --accent-foreground: 0 71.4% 5.5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 25 20% 82%;
     --input: 25 20% 86%;
-    --ring: 22 22% 21%;
-    --brand-dark: 22 22% 21%;
-    --brand-yellow: 65 100% 74%;
-    --brand-warm: 30 31% 92%;
+    --ring: 22.5 22.2% 21.2%;
+    --brand-dark: 22.5 22.2% 21.2%;
+    --brand-yellow: 64.9 100% 73.5%;
+    --brand-warm: 30 31.6% 92.5%;
     --brand-mid: 25 23% 74%;
-    --brand-beige: 30 31% 92%;
+    --brand-beige: 30 31.6% 92.5%;
     --brand-terracotta: 18 48% 44%;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
-    --chat-background: 30 31% 92%;
-    --chat-foreground: 0 71% 5%;
+    --chat-background: 30 31.6% 92.5%;
+    --chat-foreground: 0 71.4% 5.5%;
     --chat-border: 25 20% 82%;
     --chat-ai-bubble: 25 23% 74%;
     --user-bubble: 65 100% 80%;
     
-    --sidebar-background: 30 31% 92%;
-    --sidebar-foreground: 0 71% 5%;
-    --sidebar-primary: 22 22% 21%;
-    --sidebar-primary-foreground: 30 31% 92%;
+    --sidebar-background: 30 31.6% 92.5%;
+    --sidebar-foreground: 0 71.4% 5.5%;
+    --sidebar-primary: 22.5 22.2% 21.2%;
+    --sidebar-primary-foreground: 30 31.6% 92.5%;
     --sidebar-accent: 25 23% 74%;
-    --sidebar-accent-foreground: 0 71% 5%;
+    --sidebar-accent-foreground: 0 71.4% 5.5%;
     --sidebar-border: 25 20% 82%;
-    --sidebar-ring: 22 22% 21%;
+    --sidebar-ring: 22.5 22.2% 21.2%;
   }
 
   .dark {
@@ -144,11 +145,15 @@
        (px-6 mobil, md:px-16 desktop), slik at logo og innhold flukter. */
     --gutter: 1.5rem;
     --max-shell: 1400px;
+    --section-gap: 3rem;
+    --section-gap-tight: 1.5rem;
   }
 
   @media (min-width: 768px) {
     :root {
       --gutter: 4rem;
+      --section-gap: 5rem;
+      --section-gap-tight: 2.5rem;
     }
   }
 
@@ -156,6 +161,17 @@
     /* Fluid base font-size: scales tekst proporsjonalt med bred skjerm.
        16px @ ≤1280px → ~19px @ 1920px+. All rem-basert tekst skalerer med. */
     font-size: clamp(16px, 0.9rem + 0.18vw, 19px);
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'ABC Ginto Normal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   * {
@@ -165,13 +181,6 @@
   *:focus-visible {
     @apply outline-2 outline-offset-2 outline-ring;
     outline-style: solid;
-  }
-  
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'ABC Ginto Normal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-weight: 400;
-    letter-spacing: -0.01em;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -210,6 +219,93 @@
     .page-edge-text-left {
       padding-right: 3rem;
     }
+  }
+
+  /* Category / split layouts — match avenewdemo production CSS */
+  .split-hero,
+  .split-section {
+    min-height: 420px;
+  }
+  @media (min-width: 1024px) {
+    .split-hero,
+    .split-section {
+      min-height: 100svh;
+    }
+  }
+
+  .section-flush {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .carousel-nav {
+    margin-top: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .carousel-nav {
+      margin-top: 1rem;
+    }
+  }
+
+  /* Demo section chrome (avenewdemo key classes) */
+  .centered-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 6.5rem;
+    padding-bottom: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .centered-hero {
+      padding-top: 7.5rem;
+      padding-bottom: 3.5rem;
+    }
+  }
+
+  .section-head {
+    display: grid;
+    row-gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .section-head > * + * {
+    margin-top: 0;
+  }
+  @media (min-width: 768px) {
+    .section-head {
+      row-gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .section-head {
+      margin-bottom: 3.5rem;
+    }
+  }
+  .section-head > *,
+  .section-head-plain > * {
+    grid-column: 1 / -1 !important;
+    min-width: 0;
+    max-width: 48rem;
+    display: block;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .stats-band-dark {
+    color: hsl(var(--brand-beige));
+  }
+  .stats-band-dark h1,
+  .stats-band-dark h2,
+  .stats-band-dark h3,
+  .stats-band-dark dd,
+  .stats-band-dark dt,
+  .stats-band-dark .text-foreground {
+    color: hsl(var(--brand-beige)) !important;
+  }
+  .stats-band-dark p,
+  .stats-band-dark .text-muted-foreground {
+    color: hsl(var(--brand-beige) / 0.8) !important;
   }
 
   /*
@@ -304,8 +400,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.4); }
-  50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px #ec489966; }
+  50% { box-shadow: 0 0 40px #ec489999; }
 }
 
 @keyframes slide-up {
@@ -333,6 +429,11 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .animate-float { animation: float 6s ease-in-out infinite; }
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
 .animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
@@ -340,6 +441,7 @@
 .animate-fade-in { animation: fade-in 0.3s ease-out; }
 .animate-scale-up { animation: scale-up 0.4s ease-out forwards; }
 .animate-marquee { animation: marquee 40s linear infinite; }
+.animate-scroll-left { animation: scroll-left 30s linear infinite; }
 
 .card-hover {
   @apply transition-all duration-300;

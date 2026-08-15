@@ -16,7 +16,7 @@ const DRY_RUN = process.env.DRY_RUN === "1";
 const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
 const uploadCache = new Map<string, string>();
 
-const ORT = "/behandlinger/ortopedi";
+const ORT = "/ortopedi";
 const SPEC = "/spesialister?kategori=ortopedi";
 
 const ORTOPEDI_ASSET_PATHS = {
@@ -87,7 +87,8 @@ function i18nText(no: string, en: string): I18nItem[] {
 
 function tagLink(no: string, en: string, href: string) {
   return {
-    _key: href.replace(/\W/g, "").slice(-12),
+    _key: `tag-${Math.random().toString(16).slice(2, 10)}`,
+    _type: "categoryLandingSegmentTagLink",
     label: i18nString(no, en),
     href,
   };
@@ -106,9 +107,8 @@ const landingPageBase = {
       "Our orthopaedic specialists are experts in injuries and conditions affecting muscles, bones, joints and tendons. Some of the country's leading surgeons work with us — including for second opinions.",
     ),
     bullets: [
-      i18nString("Ingen henvisning", "No referral needed"),
-      i18nString("Korte ventetider", "Short waiting times"),
-      i18nString("Erfarne spesialister", "Experienced specialists"),
+      { _key: "bullet-0", _type: "heroBulletItem", title: i18nString("Ingen henvisning", "No referral needed") },
+      { _key: "bullet-1", _type: "heroBulletItem", title: i18nString("Kort ventetid", "Short waiting time") },
     ],
     primaryCtaLabel: i18nString("Bestill ortopedtime", "Book orthopaedic appointment"),
     secondaryCtaLabel: i18nString("Ring oss", "Call us"),
@@ -117,10 +117,10 @@ const landingPageBase = {
   segmentsSection: {
     title: i18nString(
       "Vi møter deg uansett hvorfor du tar kontakt.",
-      "We meet you whatever reason you get in touch.",
+      "We meet you whatever your reason for getting in touch.",
     ),
     titleLine2: i18nString("", ""),
-    layout: "grid",
+    layout: "accordion",
     segments: [
       {
         _key: "akutt",
@@ -135,23 +135,23 @@ const landingPageBase = {
           tagLink("Diagnose", "Diagnosis", `${ORT}/skulder`),
           tagLink("MR", "MRI", `${ORT}/kne`),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: `${ORT}/kne`,
       },
       {
         _key: "slitasje",
         id: "slitasje",
-        title: i18nString("Slitasje og kroniske plager", "Wear and chronic problems"),
+        title: i18nString("Slitasje og kroniske plager", "Wear and chronic symptoms"),
         description: i18nText(
           "Kne- og hofteslitasje, frossen skulder, langvarige smerter — utredning og behandling i ditt tempo.",
-          "Knee and hip osteoarthritis, frozen shoulder, long-term pain — investigation and treatment at your pace.",
+          "Knee and hip wear, frozen shoulder, long-term pain — investigation and treatment at your pace.",
         ),
         tagLinks: [
           tagLink("Artrose", "Osteoarthritis", `${ORT}/kne`),
           tagLink("Smerte", "Pain", `${ORT}/skulder`),
           tagLink("Bevegelse", "Movement", `${ORT}/hofte`),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: `${ORT}/hofte`,
       },
       {
@@ -160,13 +160,13 @@ const landingPageBase = {
         title: i18nString("Trenger second opinion", "Need a second opinion"),
         description: i18nText(
           "Har du fått en diagnose du er usikker på? Vi får ofte pasienter med kompliserte caser — og ser dem med nye øyne.",
-          "Have you received a diagnosis you are unsure about? We often see patients with complex cases — and review them with fresh eyes.",
+          "Have you received a diagnosis you are unsure about? We often see patients with complex cases — and look at them with fresh eyes.",
         ),
         tagLinks: [
           tagLink("Second opinion", "Second opinion", SPEC),
           tagLink("Vurdering", "Assessment", SPEC),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: SPEC,
       },
       {
@@ -182,15 +182,50 @@ const landingPageBase = {
           tagLink("PRP", "PRP", `${ORT}/kne`),
           tagLink("Injeksjon", "Injection", `${ORT}/kne`),
         ],
-        ctaLabel: i18nString("Les mer", "Read more"),
+        ctaLabel: i18nString("", ""),
         href: `${ORT}/kne`,
       },
     ],
   },
   whySection: {
-    title: i18nString("", ""),
-    description: i18nText("", ""),
-    steps: [],
+    title: i18nString(
+      "Landets fremste ortopeder — uten ventetid.",
+      "The country's foremost orthopedists — without waiting.",
+    ),
+    description: i18nText(
+      "Hos CMedical møter du noen av landets fremste ortopediske kirurger. Du får den samme ekspertisen som ved de store universitetssykehusene — uten henvisning og uten lang ventetid.",
+      "At CMedical you meet some of the country's foremost orthopedic surgeons. You get the same expertise as at the major university hospitals — without a referral and without a long wait.",
+    ),
+    steps: [
+      {
+        _key: "w1",
+        number: "01",
+        title: i18nString("Alt under samme tak", "Everything under one roof"),
+        description: i18nText(
+          "Utredning, bildediagnostikk og kirurgi samlet — for skulder, kne, hofte, hånd og albue, fot og ankel.",
+          "Assessment, imaging and surgery in one place — for shoulder, knee, hip, hand and elbow, foot and ankle.",
+        ),
+      },
+      {
+        _key: "w2",
+        number: "02",
+        title: i18nString("Ledende kompetanse", "Leading expertise"),
+        description: i18nText(
+          "Noen av landets fremste kirurger tar seg av selv de mest komplekse tilfellene.",
+          "Some of the country's foremost surgeons handle even the most complex cases.",
+        ),
+      },
+      {
+        _key: "w3",
+        number: "03",
+        title: i18nString("Tett oppfølging", "Close follow-up"),
+        description: i18nText(
+          "Ett tverrfaglig team med fysioterapeut og osteopat følger deg fra første konsultasjon til kontroll etter behandling.",
+          "One interdisciplinary team with physiotherapist and osteopath follows you from the first consultation to follow-up after treatment.",
+        ),
+      },
+    ],
+    imageAlt: i18nString("Ortopedene i CMedical", "The orthopedists at CMedical"),
   },
   expertAreasSection: {
     title: i18nString(
@@ -251,37 +286,37 @@ const landingPageBase = {
       {
         _key: "s1",
         symptom: i18nString("Smerter i skulderen ved løft", "Shoulder pain when lifting"),
-        service: i18nString("Skulderutredning", "Shoulder assessment"),
+        service: i18nString("Skulderutredning", "Shoulder investigation"),
         href: `${ORT}/skulder`,
       },
       {
         _key: "s2",
         symptom: i18nString("Vondt eller ustabilt kne", "Painful or unstable knee"),
-        service: i18nString("Kneutredning", "Knee assessment"),
+        service: i18nString("Kneutredning", "Knee investigation"),
         href: `${ORT}/kne`,
       },
       {
         _key: "s3",
-        symptom: i18nString("Hofteslitasje eller liesmerter", "Hip osteoarthritis or groin pain"),
-        service: i18nString("Hofteutredning", "Hip assessment"),
+        symptom: i18nString("Hofteslitasje og hoftesmerter", "Hip wear and hip pain"),
+        service: i18nString("Hofteutredning", "Hip investigation"),
         href: `${ORT}/hofte`,
       },
       {
         _key: "s4",
         symptom: i18nString("Nummenhet eller stikninger i hånden", "Numbness or tingling in the hand"),
-        service: i18nString("Karpaltunnel-utredning", "Carpal tunnel assessment"),
+        service: i18nString("Karpaltunnel-utredning", "Carpal tunnel investigation"),
         href: `${ORT}/hand-albue`,
       },
       {
         _key: "s5",
         symptom: i18nString("Vondt i albuen ved gripe-bevegelser", "Elbow pain when gripping"),
-        service: i18nString("Tennisalbue-utredning", "Tennis elbow assessment"),
+        service: i18nString("Tennisalbue-utredning", "Tennis elbow investigation"),
         href: `${ORT}/hand-albue`,
       },
       {
         _key: "s6",
-        symptom: i18nString("Smerter eller skader i fot og ankel", "Pain or injuries in foot and ankle"),
-        service: i18nString("Fot- og ankelutredning", "Foot and ankle assessment"),
+        symptom: i18nString("Smerter eller skader i fot og ankel", "Pain or injuries in the foot and ankle"),
+        service: i18nString("Fot- og ankelutredning", "Foot and ankle investigation"),
         href: `${ORT}/fot-ankel`,
       },
     ],
@@ -301,8 +336,8 @@ const landingPageBase = {
             _key: "sg1i1",
             title: i18nString("Skulder", "Shoulder"),
             description: i18nString(
-              "Inneklemming, kalkavleiringer, rotatormansjettskader og frossen skulder.",
-              "Impingement, calcific deposits, rotator cuff injuries and frozen shoulder.",
+              "Innklemming, kalkavleiring, rotatormansjettskade og frossen skulder.",
+              "Impingement, calcific deposit, rotator cuff injury and frozen shoulder.",
             ),
             href: `${ORT}/skulder`,
           },
@@ -310,8 +345,8 @@ const landingPageBase = {
             _key: "sg1i2",
             title: i18nString("Kne", "Knee"),
             description: i18nString(
-              "Kneslitasje, korsbåndruptur, meniskskader og artroskopi.",
-              "Knee osteoarthritis, ACL rupture, meniscus injuries and arthroscopy.",
+              "Kneslitasje, korsbåndruptur, meniskskade og artroskopi.",
+              "Knee wear, ACL rupture, meniscus injury and arthroscopy.",
             ),
             href: `${ORT}/kne`,
           },
@@ -320,7 +355,7 @@ const landingPageBase = {
             title: i18nString("Hofte", "Hip"),
             description: i18nString(
               "Hofteslitasje, labrumskade og hoftekirurgi.",
-              "Hip osteoarthritis, labrum injury and hip surgery.",
+              "Hip wear, labrum injury and hip surgery.",
             ),
             href: `${ORT}/hofte`,
           },
@@ -328,7 +363,7 @@ const landingPageBase = {
             _key: "sg1i4",
             title: i18nString("Hånd og albue", "Hand and elbow"),
             description: i18nString(
-              "Karpaltunnelsyndrom, Dupuytrens kontraktur, tennis- og golfalbue.",
+              "Karpaltunnelsyndrom, dupuytrens kontraktur, tennis- og golfalbue.",
               "Carpal tunnel syndrome, Dupuytren's contracture, tennis and golfer's elbow.",
             ),
             href: `${ORT}/hand-albue`,
@@ -337,8 +372,8 @@ const landingPageBase = {
             _key: "sg1i5",
             title: i18nString("Fot og ankel", "Foot and ankle"),
             description: i18nString(
-              "Hælspore, hælsmerter og ankelbåndskader.",
-              "Heel spur, heel pain and ankle ligament injuries.",
+              "Hælspore, hælsmerte og ankelbåndskade.",
+              "Heel spur, heel pain and ankle ligament injury.",
             ),
             href: `${ORT}/fot-ankel`,
           },
@@ -358,13 +393,13 @@ const landingPageBase = {
     ),
   },
   reviewsSection: {
-    title: i18nString("Tilbakemeldinger fra ekte pasienter", "Feedback from real patients"),
+    title: i18nString("Ord vi er takknemlige for", "Words we are grateful for"),
     reviews: [
       {
         _key: "r1",
         text: i18nText(
           "Endelig fikk jeg en klar diagnose og en plan. Ortopeden tok seg tid og forklarte alt grundig.",
-          "Finally I got a clear diagnosis and a plan. The orthopaedic specialist took their time and explained everything thoroughly.",
+          "Finally I got a clear diagnosis and a plan. The orthopaedic specialist took time and explained everything thoroughly.",
         ),
         author: "Knut R.",
         date: i18nString("2 måneder siden", "2 months ago"),
@@ -373,7 +408,7 @@ const landingPageBase = {
         _key: "r2",
         text: i18nText(
           "Operert på kneet og tilbake i trening på 8 uker. Profesjonelt fra start til slutt.",
-          "Had knee surgery and back in training in 8 weeks. Professional from start to finish.",
+          "Knee surgery and back in training in 8 weeks. Professional from start to finish.",
         ),
         author: "Mari T.",
         date: i18nString("3 måneder siden", "3 months ago"),
