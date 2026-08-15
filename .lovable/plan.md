@@ -1,42 +1,27 @@
-# Design audit: six treatment category pages
+# Update the Next.js review section to the new design
 
-Documentation-only task. No component, styling, content, data or CMS changes. The only files created are Markdown docs.
+Rewrite the pasted `GoogleReviewsSection` (the Next.js/Sanity-driven variant) so it matches the review section now live on the homepage and shown in the reference image.
 
-## Confirmed starting points
+## What changes visually
 
-Each of the six categories has its own page component (verified in `src/App.tsx`):
+- Header row becomes a two-part layout: the heading on the left (large, light weight, two-line break), and two compact rating cards on the right — "Google Reviews 4.6" and "Legelisten 4.8", each a white card with hairline border, small label, big number and partial stars.
+- On mobile the two rating cards sit side by side in a 2-column grid instead of stacking.
+- Review cards: white cards, rounded-sm, hairline border, hover border/shadow lift; stars on top, quoted text, "Read more" toggle for long text, then a divider with the name + relative date on the left and a Google/Legelisten source badge on the right. Anonymous reviewers get a small user icon and muted italic name.
+- Desktop: infinite marquee row with left/right fade gradients over the section background, paused on hover.
+- Mobile: separate horizontally swipeable row of narrower cards with truncated text, plus scroll arrows.
+- Section background switches to the warm brand background, with the decorative `Quote` icon and the dark CTA block dropped in favour of the current design's simpler layout.
 
-| Category | Route | Component |
-|---|---|---|
-| Fertilitet | `/fertilitet` | `src/pages/treatments/Fertility.tsx` |
-| Gynekologi | `/gynekologi` | `src/pages/treatments/Gynecology.tsx` |
-| Urologi | `/urologi` | `src/pages/treatments/UrologiPage.tsx` |
-| Ortopedi | `/ortopedi` | `src/pages/treatments/OrtopediPage.tsx` |
-| Graviditet | `/graviditet` | `src/pages/treatments/Graviditet.tsx` |
-| Flere fagområder | `/flere-fagomrader` | `src/pages/treatments/FlereFagomraderPage.tsx` |
+## Data handling
 
-Because they are six separate components, the pages are not assumed identical — each is audited independently and then compared.
+Keep the component's existing data source (`useHomepage().reviewsSection`) and translation keys. Each review needs a `source` value ("google" | "legelisten") to pick the correct badge; when a review has no source, default to `"google"` so nothing breaks. Ratings, heading, subheading and the two average ratings stay driven by the Sanity section, with graceful fallbacks when fields are empty.
 
-## Method
+## Technical notes
 
-1. Read each page component top to bottom, plus every shared component it renders (hero, specialists carousel, reviews, FAQ, CTA bands, insurance, header, footer).
-2. Resolve design tokens to real values from `tailwind.config.ts` and `src/index.css` (brand colors, `--radius`, `.split-hero`, `.centered-hero`, `.stats-band-dark`, `.section-head`).
-3. Resolve content from the static fallbacks in the codebase (`categoryPageContent.ts`, `src/data/*`, `src/lib/trustTags.ts`, specialist data) — content is quoted verbatim, no paraphrasing.
-4. Build a media inventory from the actual imported asset paths and their CSS object-fit/position/aspect rules.
-5. Render each page in a headless browser at 1440 / 1280 / 1024 / 768 / 390 px to record real computed values (section heights, font sizes, paddings, column counts, what is hidden/shown, carousel behavior) and take screenshots for verification. This is read-only against the running preview.
-6. Fill the cross-page comparison table and mark every claim as FACT / OBSERVATION / UNKNOWN, using "Not reliably determined" where a value cannot be confirmed.
+- Reference implementation: `src/components/homepage/GoogleReviewsSection.tsx` in this project (marquee markup, `PartialStars`, `SourceBadge`, `ScrollArrows`, `useAutoScroll`).
+- The pasted file targets a different project (`"use client"`, `@/lib/router`, `@/lib/sanity/homepage-data`); the rewrite keeps those imports and only changes markup/styling plus adds `PartialStars` usage.
+- The mobile marquee relies on a `useAutoScroll`-style hook and a `ScrollArrows` component. If those do not exist in the target project, the mobile row falls back to plain scroll-snap swiping with no auto-scroll.
+- Delivered as the full updated component source in chat (the file lives in another project), unless you want it added to this codebase too.
 
-## Output
+## Open question
 
-New folder `docs/treatment-category-design/` with:
-
-- `README.md` — audit scope, master section comparison, shared visual patterns, page-specific differences, and hero / specialist / insurance / CTA / FAQ / media / responsive / content comparisons plus implementation notes.
-- `fertility.md`, `gynecology.md`, `urology.md`, `orthopedics.md`, `pregnancy.md`, `flere-fagomrader.md` — each with the 21 prescribed sections (overview, section order, header, hero, section-by-section design, "Hva kjenner du på?", specialists, insurance, CTA, FAQ, testimonials, articles, other sections, footer, content, media, responsive, shared patterns, page-specific differences, unknowns, developer checklist).
-
-Screenshots used for verification are kept out of the repo (written to a scratch folder), so the only repo additions are the seven Markdown files.
-
-## Scope guardrails
-
-- No edits to `src/`, Sanity schemas under `test/`, migrations, or config.
-- No commits, no deploys, no CMS access.
-- Ends with a final summary covering the 13 requested points.
+The optional "150 000+ / trust badges" block below the reviews is part of this project's homepage section but not visible in your screenshot — it is left out of the rewrite unless you want it included.
