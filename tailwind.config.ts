@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -30,7 +29,6 @@ export default {
           warm: "hsl(var(--brand-warm))",
           mid: "hsl(var(--brand-mid))",
           beige: "hsl(var(--brand-beige))",
-          terracotta: "hsl(var(--brand-terracotta))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -72,11 +70,16 @@ export default {
         },
       },
       borderRadius: {
+        /* Én felles radius for hele profilen — matcher Urologi-pillen.
+           sm/md er litt mindre varianter; xl/2xl/3xl kollapser til samme
+           verdi så ALLE knapper, kort og bokser får identisk avrunding.
+           rounded-full beholdes for sirkler (avatarer, ikoner). */
+        sm: "var(--radius)",
+        md: "var(--radius)",
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        "2xl": "1rem",
-        "3xl": "1.5rem",
+        xl: "var(--radius)",
+        "2xl": "var(--radius)",
+        "3xl": "var(--radius)",
       },
       keyframes: {
         "accordion-down": {
@@ -154,5 +157,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

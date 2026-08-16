@@ -79,6 +79,7 @@
     --brand-mid: 25 23% 74%;
     --brand-beige: 30 31.6% 92.5%;
     --brand-terracotta: 18 48% 44%;
+    --footer-bg: #140c0c;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
     --chat-background: 30 31.6% 92.5%;
@@ -357,6 +358,10 @@
   .chip-filter-dark[data-active="true"]:hover {
     background-color: #d8c9be;
     border-color: #d8c9be;
+  }
+
+  .aktuelt-search-input {
+    @apply w-full h-10 rounded-[var(--radius)] pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground border border-transparent bg-[rgba(204,186,173,0.5)] focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
   }
 
   .stats-band-dark {

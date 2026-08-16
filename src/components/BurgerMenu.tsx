@@ -180,9 +180,6 @@ const BurgerMenu = () => {
       aria-label={t("nav.navigationMenu")}
     >
       <div className="p-5">
-        <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-foreground/50">
-          {t("nav.menu")}
-        </h3>
         <nav className="space-y-0.5">
           {menuItems.map((item) => (
             <button
@@ -197,9 +194,6 @@ const BurgerMenu = () => {
         </nav>
 
         <div className="mt-5 border-t border-border pt-5">
-          <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-foreground/50">
-            {t("nav.quickContact")}
-          </h3>
           <div className="space-y-2">
             <a
               href={`tel:${phone.replace(/\s/g, "")}`}

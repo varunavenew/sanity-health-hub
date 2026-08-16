@@ -9,6 +9,8 @@
     "contact": "Contact",
     "specialists": "Specialists",
     "bookAppointment": "Book appointment",
+    "bookAppointmentHint": "Find available appointments with our specialists.",
+    "callUsHint": "Speak with us – we'll help you from here.",
     "bookNow": "Book now",
     "search": "Search",
     "searchPlaceholder": "Search for treatments, specialists, clinics...",
@@ -65,6 +67,7 @@
     "seeAllTreatments": "See treatments in {{name}}",
     "moreSectionTitle": "Already know what you need?",
     "moreSectionDescription": "Click to book directly, or read more about each service.",
+    "specialistsPerformTitle": "The specialists who perform the treatments",
     "seoTitle": "Services – Find the right treatment for you",
     "seoDescription": "View all services at CMedical: gynecology, fertility, urology, orthopedics and more specialties. No referral needed, short waiting times."
   },
@@ -100,6 +103,9 @@
     "ctaSubtitle": "Become part of our story",
     "googleLabel": "Google Reviews",
     "legelistenLabel": "Legelisten Reviews",
+    "progressLabel": "Review carousel progress",
+    "scrollLeft": "Scroll reviews left",
+    "scrollRight": "Scroll reviews right",
     "categoryEyebrow": "Patient experiences",
     "categoryHeading": "What patients say about {{category}}"
   },
@@ -184,6 +190,7 @@
   },
   "clinicsPage": {
     "listHeading": "List of clinics",
+    "heroDescription": "In Norway we offer short waiting times with some of the best specialists in gynecology, fertility, urology, orthopedics and other services.\n\nWe believe healthcare is a craft that requires empathy, care and continuous training. Surgical precision guides everything we do, from diagnosis to treatment and from check-in to check-out.\n\nWith us, you are in good hands. We combine experience and expertise with warmth, always with your best interests at heart.",
     "heroImageAlt": "CMedical clinic",
     "readMore": "Read more about the clinic",
     "readMoreAria": "Read more about CMedical {{name}}",

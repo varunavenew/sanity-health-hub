@@ -50,6 +50,7 @@ import {
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
   ABOUT_PAGE_QUERY,
   PRIVACY_POLICY_PAGE_QUERY,
+  OPENNESS_ACT_PAGE_QUERY,
   CONTACT_PAGE_QUERY,
   NEWS_PAGE_QUERY,
   PRICING_PAGE_QUERY,
@@ -565,6 +566,52 @@ export const usePrivacyPolicyPage = () => {
             ? data.body
             : [];
       return { ...data, title, body, pageSections: normalizePageSections(data.pageSections) };
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+// ─── Transparency Act Page ───────────────────────────────────────────
+export const useOpennessActPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "opennessActPage", lang],
+    queryFn: async () => {
+      const data = await fetchSanity<{
+        title?: string;
+        breadcrumbHome?: string;
+        slug?: string;
+        subtitle?: string;
+        body?: unknown[];
+        emptyMessage?: string;
+        showPracticalInfoSection?: boolean;
+        geoSummary?: string;
+        pageSections?: unknown;
+        seo?: {
+          metaTitle?: string;
+          metaDescription?: string;
+          ogImage?: unknown;
+          noIndex?: boolean;
+        };
+      }>(OPENNESS_ACT_PAGE_QUERY, { lang }, lang);
+      if (!data) return null;
+      const title = typeof data.title === "string" ? data.title : "";
+      const firstBlock = Array.isArray(data.body)
+        ? (data.body[0] as { _type?: string } | undefined)
+        : undefined;
+      const body =
+        firstBlock?._type === "block"
+          ? data.body
+          : Array.isArray(data.body)
+            ? data.body
+            : [];
+      return {
+        ...data,
+        title,
+        body,
+        showPracticalInfoSection: data.showPracticalInfoSection !== false,
+        pageSections: normalizePageSections(data.pageSections),
+      };
     },
     staleTime: 5 * 60 * 1000,
   });

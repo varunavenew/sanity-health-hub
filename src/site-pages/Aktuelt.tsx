@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
-import { Link } from "@/lib/router";
-import { ArrowRight, Calendar, FileText, Search, Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { ListPageHero } from "@/components/layout/ListPageHero";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { normalizeCategory, type Article } from "@/data/articles";
@@ -12,12 +12,14 @@ import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRen
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { getImageUrl } from "@/lib/sanity/image-url";
-import { AssetImg } from "@/components/AssetImg";
 import { NewsSocialPlatformSection } from "@/components/news/NewsSocialPlatformSection";
 import { NewsInstagramSection } from "@/components/news/NewsInstagramSection";
+import { resolveArticleCategoryLabel } from "@/lib/news/category-labels";
 import {
-  resolveArticleCategoryLabel,
-} from "@/lib/news/category-labels";
+  ArticleCard,
+  FeaturedCard,
+  type ListingArticle,
+} from "@/components/news/ArticleListingCards";
 
 interface AktueltProps {
   isChatOpen: boolean;
@@ -37,110 +39,10 @@ type RawArticle = {
   date?: string;
   category?: string;
   externalUrl?: string;
+  mediaType?: ListingArticle["mediaType"];
 };
 
-const formatDate = (dateStr: string, locale: string) => {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" });
-};
-
-const ArticleCard = ({
-  article,
-  categoryLabel,
-  newsPath,
-  dateLocale,
-}: {
-  article: Article;
-  categoryLabel: string;
-  newsPath: string;
-  dateLocale: string;
-}) => {
-  const linkTo = article.externalUrl || `${newsPath}/${article.slug}`;
-
-  return (
-    <Link to={linkTo} className="group">
-      <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
-        <AssetImg
-          src={article.image}
-          alt={article.title}
-          preset="card"
-          loading="lazy"
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-        />
-        <div className="absolute top-3 left-3">
-          <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
-            {categoryLabel}
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
-        <Calendar className="w-3 h-3" />
-        {formatDate(article.date, dateLocale)}
-      </div>
-      <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors mb-1 leading-snug line-clamp-2">
-        {article.title}
-      </h3>
-      <p className="text-xs text-muted-foreground font-light line-clamp-2">
-        {article.excerpt}
-      </p>
-    </Link>
-  );
-};
-
-const FeaturedCard = ({
-  article,
-  readMoreLabel,
-  categoryLabel,
-  newsPath,
-  dateLocale,
-}: {
-  article: Article;
-  readMoreLabel: string;
-  categoryLabel: string;
-  newsPath: string;
-  dateLocale: string;
-}) => {
-  const linkTo = article.externalUrl || `${newsPath}/${article.slug}`;
-
-  return (
-    <Link to={linkTo} className="group relative block rounded-sm overflow-hidden">
-      <div className="aspect-[16/10] overflow-hidden">
-        <AssetImg
-          src={article.image}
-          alt={article.title}
-          preset="gallery"
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/35 backdrop-blur-sm flex items-center justify-center">
-        <FileText className="w-3.5 h-3.5 text-white" strokeWidth={1.5} />
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-xs px-2.5 py-0.5 rounded-full mb-2">
-          {categoryLabel}
-        </span>
-        <h3 className="text-base md:text-xl font-medium text-white leading-snug mb-2 line-clamp-3">
-          {article.title}
-        </h3>
-        <p className="text-white/60 text-xs font-light line-clamp-2 mb-2 hidden md:block">
-          {article.excerpt}
-        </p>
-        <div className="flex items-center gap-4">
-          <span className="text-white/50 text-xs flex items-center gap-1.5">
-            <Calendar className="w-3 h-3" />
-            {formatDate(article.date, dateLocale)}
-          </span>
-          <span className="inline-flex items-center gap-1 text-white/90 text-xs font-medium group-hover:gap-2 transition-all">
-            {readMoreLabel} <ArrowRight className="w-3.5 h-3.5" />
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-};
-
-const mapRawArticle = (a: RawArticle): Article | null => {
+const mapRawArticle = (a: RawArticle): ListingArticle | null => {
   if (!a?.slug) return null;
   return {
     slug: a.slug,
@@ -150,6 +52,7 @@ const mapRawArticle = (a: RawArticle): Article | null => {
     date: a.date || "",
     category: normalizeCategory(a.category || ""),
     externalUrl: a.externalUrl,
+    mediaType: a.mediaType,
   };
 };
 
@@ -192,6 +95,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         : [],
     [newsPage?.filters],
   );
+
   const listableCategories = useMemo(() => {
     const set = new Set<string>();
     for (const filter of filterOptions) {
@@ -214,7 +118,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     [listableCategories],
   );
 
-  const articles: Article[] = useMemo(() => {
+  const articles: ListingArticle[] = useMemo(() => {
     const seen = new Set<string>();
     return (sanityArticles || [])
       .map((a) => ({
@@ -225,6 +129,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         date: a.date,
         category: normalizeCategory(a.category),
         externalUrl: a.externalUrl,
+        mediaType: (a as { mediaType?: ListingArticle["mediaType"] }).mediaType,
       }))
       .filter((a) => {
         if (!a.slug || seen.has(a.slug)) return false;
@@ -237,7 +142,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     if (!Array.isArray(newsPage?.listingArticles)) return null;
     const mapped = (newsPage.listingArticles as RawArticle[])
       .map(mapRawArticle)
-      .filter((a): a is Article => Boolean(a));
+      .filter((a): a is ListingArticle => Boolean(a));
     return mapped.length ? mapped : null;
   }, [newsPage?.listingArticles]);
 
@@ -249,7 +154,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const pageSize =
     typeof newsPage?.listSize === "number" && newsPage.listSize > 0
       ? newsPage.listSize
-      : 9;
+      : 6;
   const allFilterKey = filterOptions[0]?.key || "";
   const newsPath = newsPage?.slug
     ? withLocalePath(routeLocale, `/${newsPage.slug}`)
@@ -305,7 +210,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
   const manualFeatured = ((newsPage?.featuredArticles || []) as RawArticle[])
     .map(mapRawArticle)
-    .filter((a): a is Article => Boolean(a));
+    .filter((a): a is ListingArticle => Boolean(a));
   const featuredTop =
     activeFilter === allFilterKey && manualFeatured.length > 0
       ? manualFeatured.slice(0, 4)
@@ -323,6 +228,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     moreArticlesTitle: newsPage?.moreArticlesTitle || "",
     noArticlesText: newsPage?.noArticlesText || "",
     readMoreLabel: newsPage?.readMoreLabel || "",
+    loadMoreLabel:
+      routeLocale === "en" ? "Show more articles" : "Vis flere artikler",
     socialSectionTitle: newsPage?.socialSectionTitle || "",
     instagramSectionTitle: newsPage?.instagramSectionTitle || "",
   };
@@ -366,6 +273,9 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
   const getCategoryLabel = (category: string) =>
     resolveArticleCategoryLabel(category, filterOptions);
+
+  const articleLink = (article: Article) =>
+    article.externalUrl || `${newsPath}/${article.slug}`;
 
   const loadMore = useCallback(() => {
     if (!hasMore || isLoading) return;
@@ -420,59 +330,61 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         })}
       />
 
-      <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-2xl">
-            <p className="text-white/50 text-xs mb-2">{newsUi.label}</p>
-            <h1 className="text-3xl md:text-4xl font-light text-white mb-3">{newsUi.title}</h1>
-            <p className="text-white/60 font-light text-sm">{newsUi.subtitle}</p>
-          </div>
-        </div>
-      </section>
+      <ListPageHero
+        title={newsUi.title}
+        description={newsUi.subtitle}
+      />
 
-      <section className="bg-background border-b border-border">
-        <div className="container mx-auto px-6 md:px-16 py-6">
-          <div className="relative max-w-md mb-5">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder={newsUi.searchPlaceholder}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-[42px] pl-10 pr-4 py-2.5 bg-[rgba(204,186,173,0.5)] border border-transparent rounded-[10px] text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-            />
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            {filterOptions.map((opt) => (
-              <button
-                key={opt.key}
-                type="button"
-                onClick={() => setActiveFilter(opt.key)}
-                className={`px-5 min-h-12 md:min-h-0 py-3 md:py-2 rounded-full text-xs font-light border transition-all ${
-                  activeFilter === opt.key
-                    ? "bg-brand-dark text-[#f1ebe4] border-brand-dark"
-                    : "bg-white text-brand-dark border-brand-dark/20 hover:border-brand-dark/35"
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-background py-10 md:py-16">
+      <section className="bg-background pt-3 pb-6 md:pb-10">
         <div className="container mx-auto px-6 md:px-16">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-4 md:mb-3">
+            <div className="relative w-full md:w-72 md:flex-shrink-0">
+              <label htmlFor="aktuelt-search" className="sr-only">
+                {newsUi.searchPlaceholder}
+              </label>
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <input
+                id="aktuelt-search"
+                type="search"
+                placeholder={newsUi.searchPlaceholder}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label={newsUi.searchPlaceholder}
+                className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 md:justify-end md:flex-1">
+              {filterOptions.map((opt) => {
+                const isActive = activeFilter === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => setActiveFilter(opt.key)}
+                    className="chip-filter chip-filter-light"
+                    data-active={isActive ? "true" : undefined}
+                    aria-current={isActive ? "true" : undefined}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {featuredTop.length > 0 && (
-            <div className="mb-12 md:mb-16">
-              <div className="grid md:grid-cols-2 gap-4 md:gap-5">
+            <div className="mb-16">
+              <div className="grid md:grid-cols-2 gap-4">
                 {featuredTop.map((article) => (
                   <FeaturedCard
                     key={article.slug}
                     article={article}
                     readMoreLabel={newsUi.readMoreLabel}
                     categoryLabel={getCategoryLabel(article.category)}
-                    newsPath={newsPath}
+                    linkTo={articleLink(article)}
                     dateLocale={dateLocale}
                   />
                 ))}
@@ -485,13 +397,13 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               <h2 className="text-lg font-medium text-foreground mb-6">
                 {newsUi.moreArticlesTitle}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-x-8 md:gap-y-10">
+              <div className="grid md:grid-cols-3 gap-6">
                 {visibleRest.map((article) => (
                   <ArticleCard
                     key={article.slug}
                     article={article}
                     categoryLabel={getCategoryLabel(article.category)}
-                    newsPath={newsPath}
+                    linkTo={articleLink(article)}
                     dateLocale={dateLocale}
                   />
                 ))}
@@ -501,8 +413,16 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
           {hasMore && (
             <div ref={loaderRef} className="flex justify-center py-10">
-              {isLoading && (
+              {isLoading ? (
                 <Loader2 className="w-6 h-6 text-muted-foreground animate-spin" />
+              ) : (
+                <button
+                  type="button"
+                  onClick={loadMore}
+                  className="rounded-[var(--radius)] border border-border px-6 py-3 text-sm font-light text-foreground transition-colors hover:bg-muted"
+                >
+                  {newsUi.loadMoreLabel}
+                </button>
               )}
             </div>
           )}
@@ -549,3 +469,4 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 };
 
 export default Aktuelt;
+

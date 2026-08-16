@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { FaqSection } from "@/components/layout/FaqSection";
+import { Button } from "@/components/ui/button";
 
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
@@ -31,16 +31,16 @@ export const LifePhasesSection = () => {
     <section id="life-phases" className="bg-background">
       <FaqSection faqs={faqs} title={faqTitle} />
 
-      {/* Simple CTA below */}
       <div className="container mx-auto px-4 md:px-8">
-        <div className="mt-2 md:mt-4 mb-12 md:mb-16 text-center">
-          <button
+        <div className="max-w-3xl mx-auto mt-6 md:mt-4 mb-12 md:mb-16 text-center">
+          <Button
+            variant="cta-dark"
+            size="lg"
+            className="w-full h-14 text-base shadow-sm border border-border/30 md:w-auto md:h-12 md:px-8"
             onClick={() => navigate("/booking")}
-            className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground rounded-2xl font-normal hover:bg-secondary transition-colors"
           >
             {t("nav.bookAppointment")}
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          </Button>
         </div>
       </div>
     </section>

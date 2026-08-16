@@ -22,11 +22,13 @@ import ArticlePage from "@/site-pages/ArticlePage";
 import ClinicDetailPage from "@/site-pages/ClinicDetailPage";
 import Clinics from "@/site-pages/Clinics";
 import CmsThemePage from "@/site-pages/CmsThemePage";
+import ClinicianGuidePage from "@/site-pages/FastlegeveiledningOvergangsalder";
 import Contact from "@/site-pages/Contact";
 import Insurance from "@/site-pages/Insurance";
 import Karriere from "@/site-pages/Karriere";
 import KarriereDetail from "@/site-pages/KarriereDetail";
 import Personvern from "@/site-pages/Personvern";
+import Aapenhetsloven2025 from "@/site-pages/Aapenhetsloven2025";
 import Priser from "@/site-pages/Priser";
 import Services from "@/site-pages/Services";
 import SpecialistProfile from "@/site-pages/SpecialistProfile";
@@ -53,6 +55,7 @@ import {
   buildNewsMetadata,
   buildPricingMetadata,
   buildPrivacyMetadata,
+  buildOpennessActMetadata,
   buildServicesMetadata,
   buildSpecialistsAboutMetadata,
   buildSpecialistsListingMetadata,
@@ -65,6 +68,7 @@ import {
   buildJobListingMetadata,
   buildSpecialistMetadata,
   buildThemePageMetadata,
+  buildClinicianGuidePageMetadata,
   buildTreatmentCategoryMetadata,
   buildTreatmentMetadata,
 } from "@/lib/seo/dynamic-route-metadata";
@@ -83,6 +87,7 @@ const SINGLETON_HANDLERS: Record<
   specialistsListingPage: { Component: Specialists, buildMetadata: buildSpecialistsListingMetadata },
   clinicsPage: { Component: Clinics, buildMetadata: buildClinicsListingMetadata },
   privacyPolicyPage: { Component: Personvern, buildMetadata: buildPrivacyMetadata },
+  opennessActPage: { Component: Aapenhetsloven2025, buildMetadata: buildOpennessActMetadata },
   careersPage: { Component: Karriere, buildMetadata: buildKarriereListingMetadata },
   guidePage: { Component: Guide, buildMetadata: buildGuideMetadata },
 };
@@ -109,6 +114,8 @@ export async function buildCmsRouteMetadata(
       return SINGLETON_HANDLERS[route.documentType as SingletonPageType]?.buildMetadata(locale) ?? {};
     case "theme":
       return buildThemePageMetadata(locale, route.slug, route.slug);
+    case "clinicianGuide":
+      return buildClinicianGuidePageMetadata(locale, route.slug);
     case "category":
       return buildTreatmentCategoryMetadata(locale, route.categoryId || route.slug);
     case "treatment":
@@ -146,6 +153,8 @@ export async function renderCmsRoute(
     }
     case "theme":
       return <CmsThemePage isChatOpen={false} themeSlug={route.slug} />;
+    case "clinicianGuide":
+      return <ClinicianGuidePage isChatOpen={false} slug={route.slug} />;
     case "category": {
       const categoryId = normalizeCategoryRouteKey(route.categoryId || route.slug) ||
         route.categoryId ||

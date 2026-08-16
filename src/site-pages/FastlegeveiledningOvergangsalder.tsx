@@ -12,10 +12,11 @@ import {
   type ClinicianGuideSection,
 } from "@/hooks/useSanity";
 
-const GUIDE_SLUG = "fastlegeveiledning-overgangsalder";
+const DEFAULT_GUIDE_SLUG = "fastlegeveiledning-overgangsalder";
 
 interface PageProps {
   isChatOpen: boolean;
+  slug?: string;
 }
 
 function guidePageHasBody(data: ClinicianGuidePageData | null | undefined): boolean {
@@ -23,9 +24,10 @@ function guidePageHasBody(data: ClinicianGuidePageData | null | undefined): bool
   return (data.introTexts?.length ?? 0) > 0 || (data.sections?.length ?? 0) > 0;
 }
 
-/** Live route: clinicianGuidePage CMS content when populated, otherwise legacy static article. */
-export default function FastlegeveiledningOvergangsalder({ isChatOpen }: PageProps) {
-  const { data, isLoading } = useClinicianGuidePage(GUIDE_SLUG);
+/** CMS-driven clinician guide page (routed by slug from Sanity). */
+export default function ClinicianGuidePage({ isChatOpen, slug = DEFAULT_GUIDE_SLUG }: PageProps) {
+  const { data, isLoading } = useClinicianGuidePage(slug);
+  const pageSlug = data?.slug || slug;
 
   if (isLoading) {
     return (
@@ -38,16 +40,28 @@ export default function FastlegeveiledningOvergangsalder({ isChatOpen }: PagePro
   }
 
   if (guidePageHasBody(data)) {
-    return <CmsClinicianGuidePage isChatOpen={isChatOpen} data={data as ClinicianGuidePageData} />;
+    return (
+      <CmsClinicianGuidePage isChatOpen={isChatOpen} data={data as ClinicianGuidePageData} pageSlug={pageSlug} />
+    );
   }
 
-  return <FastlegeveiledningOvergangsalderStatic isChatOpen={isChatOpen} cmsTitle={data?.title} />;
+  return (
+    <FastlegeveiledningOvergangsalderStatic
+      isChatOpen={isChatOpen}
+      cmsTitle={data?.title}
+      pageSlug={pageSlug}
+    />
+  );
 }
+
+/** @deprecated Use default export `ClinicianGuidePage` — kept for legacy imports. */
+export const FastlegeveiledningOvergangsalder = ClinicianGuidePage;
 
 function CmsClinicianGuidePage({
   isChatOpen,
   data,
-}: PageProps & { data: ClinicianGuidePageData }) {
+  pageSlug,
+}: PageProps & { data: ClinicianGuidePageData; pageSlug: string }) {
   const navigate = useNavigate();
   const backLinkUrl = data.backLinkUrl || "/gynekologi/overgangsalder";
   const backLinkLabel = data.backLinkLabel || "Tilbake";
@@ -59,12 +73,12 @@ function CmsClinicianGuidePage({
       <PageSEO
         title={data.title}
         description={data.subtitle || data.introTexts[0] || ""}
-        canonical={`/${GUIDE_SLUG}`}
+        canonical={`/${pageSlug}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Gynekologi", path: "/gynekologi" },
           { name: "Overgangsalder", path: "/gynekologi/overgangsalder" },
-          { name: data.title, path: `/${GUIDE_SLUG}` },
+          { name: data.title, path: `/${pageSlug}` },
         ]}
       />
       {/* Hero */}
@@ -211,7 +225,8 @@ function GuideBlock({ block }: { block: ClinicianGuideBlock }) {
 function FastlegeveiledningOvergangsalderStatic({
   isChatOpen,
   cmsTitle,
-}: PageProps & { cmsTitle?: string }) {
+  pageSlug = DEFAULT_GUIDE_SLUG,
+}: PageProps & { cmsTitle?: string; pageSlug?: string }) {
   const navigate = useNavigate();
 
   return (
@@ -219,12 +234,12 @@ function FastlegeveiledningOvergangsalderStatic({
       <PageSEO
         title="Fastlegeveiledning overgangsalder"
         description="Praktisk veileder for fastleger ved utredning og behandling av peri- og menopausale kvinner. Basert på norske og internasjonale retningslinjer."
-        canonical="/fastlegeveiledning-overgangsalder"
+        canonical={`/${pageSlug}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Gynekologi", path: "/gynekologi" },
           { name: "Overgangsalder", path: "/gynekologi/overgangsalder" },
-          { name: "Fastlegeveiledning", path: "/fastlegeveiledning-overgangsalder" },
+          { name: "Fastlegeveiledning", path: `/${pageSlug}` },
         ]}
       />
       {/* Hero */}

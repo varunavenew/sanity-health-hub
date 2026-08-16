@@ -1,15 +1,21 @@
 import { redirect } from "next/navigation";
 import { cookies, headers } from "next/headers";
-import { LOCALE_COOKIE, localeFromGeoCountry } from "@/lib/i18n/detect-locale";
-import { isAppLocale, type AppLocale } from "@/lib/i18n/routing";
+import {
+  LOCALE_COOKIE,
+  isSiteLocale,
+  localeFromGeoCountry,
+  type SiteLocale,
+} from "@/lib/i18n/detect-locale";
 
-async function resolveRootLocale(): Promise<AppLocale> {
+async function resolveRootLocale(): Promise<SiteLocale> {
   const cookieStore = await cookies();
+  
   const fromCookie = cookieStore.get(LOCALE_COOKIE)?.value;
-  if (fromCookie && isAppLocale(fromCookie)) return fromCookie;
+  if (fromCookie && isSiteLocale(fromCookie)) return fromCookie;
 
   const h = await headers();
-  const country = h.get("x-vercel-ip-country");
+  const country =
+    h.get("x-vercel-ip-country") || h.get("cf-ipcountry") || undefined;
   return localeFromGeoCountry(country);
 }
 

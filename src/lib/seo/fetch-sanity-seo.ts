@@ -3,6 +3,7 @@ import {
   ARTICLE_BY_SLUG_QUERY,
   CONTACT_PAGE_QUERY,
   PRIVACY_POLICY_PAGE_QUERY,
+  OPENNESS_ACT_PAGE_QUERY,
   HOMEPAGE_QUERY,
   INSURANCE_PAGE_QUERY,
   CLINICS_PAGE_QUERY,
@@ -282,6 +283,25 @@ export async function fetchPrivacyPolicyPageDocument(lang: "no" | "en"): Promise
       SANITY_CACHE_TAGS.all,
       SANITY_CACHE_TAGS.privacyPolicyPage,
       SANITY_CACHE_TAGS.type("privacyPolicyPage"),
+    ],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+}
+
+export async function fetchOpennessActPageDocument(lang: "no" | "en"): Promise<{
+  title?: string;
+  subtitle?: string;
+  body?: unknown[];
+  seo?: DocWithSeo["seo"];
+} | null> {
+  return sanityFetchCached({
+    query: OPENNESS_ACT_PAGE_QUERY,
+    params: { lang },
+    key: ["sanity", "opennessActPage", lang, OPENNESS_ACT_PAGE_QUERY],
+    tags: [
+      SANITY_CACHE_TAGS.all,
+      SANITY_CACHE_TAGS.opennessActPage,
+      SANITY_CACHE_TAGS.type("opennessActPage"),
     ],
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });

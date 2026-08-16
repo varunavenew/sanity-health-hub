@@ -37,6 +37,7 @@ import {newsPageEditorConfig} from './page-editor/pages/newsSections'
 import {guidePageEditorConfig} from './page-editor/pages/guideSections'
 import {careersPageEditorConfig} from './page-editor/pages/careersSections'
 import {privacyPageEditorConfig} from './page-editor/pages/privacySections'
+import {opennessActPageEditorConfig} from './page-editor/pages/opennessActSections'
 import {
   createTreatmentCategoryPageEditorConfig,
   TREATMENT_CATEGORY_EDITORS,
@@ -203,6 +204,13 @@ function pagesSection(S: StructureBuilder) {
             schemaType: 'privacyPolicyPage',
             documentId: 'privacyPolicyPage',
             config: privacyPageEditorConfig,
+            withLocalePreviews: true,
+          }),
+          buildPageSectionListItem(S, {
+            title: 'Transparency Act 2025',
+            schemaType: 'opennessActPage',
+            documentId: 'opennessActPage',
+            config: opennessActPageEditorConfig,
             withLocalePreviews: true,
           }),
         ]),

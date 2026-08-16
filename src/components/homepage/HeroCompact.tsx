@@ -7,7 +7,12 @@ import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { AssetImg } from "@/components/AssetImg";
 
-export const HeroCompact = () => {
+type HeroCompactProps = {
+  /** When false, omit any section header above the category grid (services page). */
+  showHeader?: boolean;
+};
+
+export const HeroCompact = ({ showHeader: _showHeader = false }: HeroCompactProps) => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
   const { t } = useTranslation();

@@ -1,7 +1,7 @@
 "use client";
 
 import { PageLayout } from "@/components/layout/PageLayout";
-import { ArrowRight, Phone, Check, Shield } from "lucide-react";
+import { Phone, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "@/lib/router";
 import { useInsurancePage } from "@/hooks/useSanity";
@@ -48,13 +48,8 @@ const Insurance = ({ isChatOpen }: PageProps) => {
       ) : (
         <div className="bg-brand-warm pt-20 pb-8">
           <div className="container mx-auto px-6 md:px-16">
-            <Button
-              variant="outline"
-              size="lg"
-              className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light flex items-center"
-              onClick={() => navigate("/kontakt")}
-            >
-              <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
+            <Button variant="contact-outline" size="lg" onClick={() => navigate("/kontakt")}>
+              <Phone strokeWidth={1.5} aria-hidden="true" />
               {t("cta.contactUs")}
             </Button>
           </div>
@@ -145,8 +140,8 @@ const Insurance = ({ isChatOpen }: PageProps) => {
       </section>
       )}
 
-      {/* Help band — matches reference: contact + book CTAs */}
-      <section className="py-12 bg-muted/50">
+      {/* Help band — contact + book CTAs */}
+      <section className="py-12 bg-[#faf7f5]">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
@@ -156,26 +151,17 @@ const Insurance = ({ isChatOpen }: PageProps) => {
                 <p className="text-muted-foreground text-sm font-light">{t("insurance.weGuide")}</p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center md:justify-end">
               <Button
                 variant="outline"
-                className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light flex items-center"
+                size="lg"
+                className="rounded-2xl border-0 bg-white text-brand-dark shadow-none hover:bg-white/90 hover:text-brand-dark"
                 asChild
               >
-                <Link to="/kontakt">
-                  <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
-                  {t("cta.contactUs")}
-                </Link>
+                <Link to="/kontakt">{t("cta.contactUs")}</Link>
               </Button>
-              <Button
-                variant="default"
-                className="rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light bg-brand-dark text-white hover:bg-brand-dark/90"
-                asChild
-              >
-                <Link to="/booking">
-                  {t("nav.bookAppointment")}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
+              <Button variant="cta" size="lg" className="rounded-2xl" asChild>
+                <Link to="/booking">{t("nav.bookAppointment")}</Link>
               </Button>
             </div>
           </div>

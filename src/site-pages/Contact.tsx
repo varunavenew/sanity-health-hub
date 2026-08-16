@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "@/lib/router";
-import { ArrowRight, Calendar, Shield, Phone, Mail, MessageCircle, type LucideIcon } from "lucide-react";
+import { ArrowRight, Calendar, Shield, Phone, Mail, MessageCircle, MapPin, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -135,12 +135,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
               {t("nav.bookAppointment")}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <Button
-              variant="ghost"
-              size="lg"
-              className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl"
-              onClick={() => navigate("/klinikker")}
-            >
+            <Button variant="contact-outline" size="lg" onClick={() => navigate("/klinikker")}>
+              <MapPin strokeWidth={1.5} aria-hidden="true" />
               {t("contact.viewClinics")}
             </Button>
           </div>

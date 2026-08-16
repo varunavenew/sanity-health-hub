@@ -54,6 +54,7 @@ export {newsPageEditorConfig} from './pages/newsSections'
 export {guidePageEditorConfig} from './pages/guideSections'
 export {careersPageEditorConfig} from './pages/careersSections'
 export {privacyPageEditorConfig} from './pages/privacySections'
+export {opennessActPageEditorConfig} from './pages/opennessActSections'
 export {
   createTreatmentCategoryPageEditorConfig,
   fertilitetPageEditorConfig,
