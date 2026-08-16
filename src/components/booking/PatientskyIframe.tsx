@@ -1,6 +1,6 @@
 "use client";
 
-import { trackWithGTM } from "@/lib/tracking";
+import { trackBookingCompleted, trackBookingInit } from "@/lib/tracking/booking-analytics";
 import { cn } from "@/lib/utils";
 import { FC, useEffect, useMemo, useRef } from "react";
 
@@ -30,15 +30,23 @@ export const PatientskyIframe: FC<Props> = ({
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const iframeBaseUrl = process.env.NEXT_PUBLIC_PATIENTSKY_IFRAME_URL;
+  const initTracked = useRef(false);
 
   useEffect(() => {
-    trackWithGTM("booking_init", { booking_method: "pasientsky" });
+    if (initTracked.current) return;
+    initTracked.current = true;
+    trackBookingInit("pasientsky");
   }, []);
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       if (event.data?.event === "booking-completed") {
-        trackWithGTM("booking_completed");
+        const rawId = event.data?.appointmentId ?? event.data?.transaction_id;
+        trackBookingCompleted({
+          booking_method: "pasientsky",
+          transaction_id:
+            typeof rawId === "string" || typeof rawId === "number" ? rawId : undefined,
+        });
       }
 
       if (isResizeExternalBookingMessage(event.data) && iframeRef.current) {

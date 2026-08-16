@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { isProductionDeploy, siteUrl } from "@/lib/env";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo/defaults";
+import {
+  GoogleConsentDefault,
+  GoogleTagManagerHead,
+  GoogleTagManagerNoscript,
+} from "@/components/analytics/GoogleTagManager";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -54,7 +59,12 @@ export default async function RootLayout({
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">{children}</body>
+      <GoogleConsentDefault />
+      <GoogleTagManagerHead />
+      <body className="min-h-screen bg-background font-sans antialiased">
+        <GoogleTagManagerNoscript />
+        {children}
+      </body>
     </html>
   );
 }

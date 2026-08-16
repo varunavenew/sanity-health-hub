@@ -53,6 +53,14 @@ import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
+import { BookingPageAnalytics } from "@/components/analytics/BookingPageAnalytics";
+import {
+  bookingMethodForClinic,
+  trackBookingCompleted,
+  trackBookingInit,
+  trackBookingSelectClinic,
+  trackBookingStep,
+} from "@/lib/tracking/booking-analytics";
 import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
@@ -411,6 +419,26 @@ const BookingDemo = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep]);
+
+  const trackedStepRef = useRef<number | null>(null);
+  const bookingInitTracked = useRef(false);
+
+  useEffect(() => {
+    if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
+    bookingInitTracked.current = true;
+    trackBookingInit("metodika");
+  }, [isPasientskyBooking, isExternalBooking]);
+
+  useEffect(() => {
+    if (trackedStepRef.current === currentStep) return;
+    trackedStepRef.current = currentStep;
+    const stepName = progressAriaLabels[currentStep - 1] ?? `step_${currentStep}`;
+    trackBookingStep(
+      currentStep,
+      stepName,
+      bookingMethodForClinic(bookingData.clinic),
+    );
+  }, [currentStep, progressAriaLabels, bookingData.clinic]);
 
   // Prefill from URL params: ?kategori=gynekologi&kategoriId=1&tjeneste=endometriose&spesialist=slug&klinikk=majorstuen
   // Jumps to the first unfilled step so users coming from a specific
@@ -1027,6 +1055,7 @@ const BookingDemo = () => {
   ]);
 
   const handleSelectClinic = (clinic: BookingClinic) => {
+    trackBookingSelectClinic(clinic);
     setBookingData({
       ...bookingData,
       clinic,
@@ -1126,7 +1155,11 @@ const BookingDemo = () => {
         }),
       });
 
-      const json = (await res.json()) as { ok?: boolean; message?: string };
+      const json = (await res.json()) as {
+        ok?: boolean;
+        message?: string;
+        appointmentId?: string | number;
+      };
 
       if (!res.ok || !json.ok) {
         setSubmitError(
@@ -1135,6 +1168,11 @@ const BookingDemo = () => {
         );
         return;
       }
+
+      trackBookingCompleted({
+        booking_method: "metodika",
+        transaction_id: json.appointmentId,
+      });
 
       setIsSubmitted(true);
     } catch {
@@ -1188,6 +1226,7 @@ const BookingDemo = () => {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-[#f5f4f0] flex items-center justify-center p-6">
+        <BookingPageAnalytics />
         <div className="max-w-lg w-full text-center">
           <div className="w-20 h-20 rounded-full bg-foreground flex items-center justify-center mx-auto mb-6">
             <Check className="w-10 h-10 text-background" />
@@ -1244,6 +1283,7 @@ const BookingDemo = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <BookingPageAnalytics />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white border-b border-brand-dark/10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
