@@ -2,6 +2,7 @@
 export type CmsRouteKind =
   | "singleton"
   | "theme"
+  | "clinicianGuide"
   | "listing"
   | "category"
   | "treatment"
@@ -33,6 +34,7 @@ export type CmsRouteIndex = {
   listings: ListingSlugs;
   singletons: RouteIndexDoc[];
   themes: RouteIndexDoc[];
+  clinicianGuides: RouteIndexDoc[];
   categories: RouteIndexDoc[];
   treatments: RouteIndexDoc[];
   clinics: RouteIndexDoc[];

@@ -22,6 +22,7 @@ import ArticlePage from "@/site-pages/ArticlePage";
 import ClinicDetailPage from "@/site-pages/ClinicDetailPage";
 import Clinics from "@/site-pages/Clinics";
 import CmsThemePage from "@/site-pages/CmsThemePage";
+import ClinicianGuidePage from "@/site-pages/FastlegeveiledningOvergangsalder";
 import Contact from "@/site-pages/Contact";
 import Insurance from "@/site-pages/Insurance";
 import Karriere from "@/site-pages/Karriere";
@@ -62,6 +63,7 @@ import {
   buildJobListingMetadata,
   buildSpecialistMetadata,
   buildThemePageMetadata,
+  buildClinicianGuidePageMetadata,
   buildTreatmentCategoryMetadata,
   buildTreatmentMetadata,
 } from "@/lib/seo/dynamic-route-metadata";
@@ -107,6 +109,8 @@ export async function buildCmsRouteMetadata(
       return SINGLETON_HANDLERS[route.documentType as SingletonPageType]?.buildMetadata(locale) ?? {};
     case "theme":
       return buildThemePageMetadata(locale, route.slug, route.slug);
+    case "clinicianGuide":
+      return buildClinicianGuidePageMetadata(locale, route.slug);
     case "category":
       return buildTreatmentCategoryMetadata(locale, route.categoryId || route.slug);
     case "treatment":
@@ -144,6 +148,8 @@ export async function renderCmsRoute(
     }
     case "theme":
       return <CmsThemePage isChatOpen={false} themeSlug={route.slug} />;
+    case "clinicianGuide":
+      return <ClinicianGuidePage isChatOpen={false} slug={route.slug} />;
     case "category": {
       const categoryId = normalizeCategoryRouteKey(route.categoryId || route.slug) ||
         route.categoryId ||

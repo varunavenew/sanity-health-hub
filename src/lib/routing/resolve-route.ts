@@ -213,6 +213,18 @@ export function resolveCmsRoute(
       return buildRoute("theme", "themePage", segment, normalized, themePair);
     }
 
+    const clinicianGuide = matchDoc(index.clinicianGuides ?? [], segment, lang);
+    const clinicianPair = slugPairFromDoc(clinicianGuide);
+    if (clinicianGuide && clinicianPair) {
+      return buildRoute(
+        "clinicianGuide",
+        "clinicianGuidePage",
+        segment,
+        normalized,
+        clinicianPair,
+      );
+    }
+
     const category = matchCategoryDoc(index.categories, segment, lang);
     const categoryPair = slugPairFromDoc(category);
     if (category && categoryPair) {
@@ -264,6 +276,12 @@ export function staticParamsFromRouteIndex(
     }
 
     for (const doc of index.themes) {
+      const pair = slugPairFromDoc(doc);
+      const slug = slugForLocale(pair ?? undefined, lang);
+      if (slug) push(locale, [slug]);
+    }
+
+    for (const doc of index.clinicianGuides ?? []) {
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
       if (slug) push(locale, [slug]);

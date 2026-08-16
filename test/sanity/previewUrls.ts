@@ -108,6 +108,8 @@ async function pathForType(
       return treatmentPath(doc || {}, locale)
     case 'opennessActPage':
       return slug ? `/${slug}` : '/aapenhetsloven-2025'
+    case 'clinicianGuidePage':
+      return slug ? `/${slug}` : '/'
     default:
       return '/'
   }

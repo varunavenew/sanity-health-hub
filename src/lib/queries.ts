@@ -1412,6 +1412,12 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     _type,
     ${localizedSlugBoth}
   },
+  "clinicianGuides": *[_type == "clinicianGuidePage" && ${publishedOnly}]{
+    _id,
+    _type,
+    "slugNb": slug.current,
+    "slugEn": slug.current
+  },
   "categories": *[_type == "treatmentCategory"]{
     _id,
     _type,
