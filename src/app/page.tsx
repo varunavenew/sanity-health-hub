@@ -9,6 +9,7 @@ import {
 
 async function resolveRootLocale(): Promise<SiteLocale> {
   const cookieStore = await cookies();
+  
   const fromCookie = cookieStore.get(LOCALE_COOKIE)?.value;
   if (fromCookie && isSiteLocale(fromCookie)) return fromCookie;
 
