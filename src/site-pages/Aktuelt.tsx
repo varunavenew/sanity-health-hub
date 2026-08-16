@@ -331,7 +331,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       />
 
       <ListPageHero
-        label={newsUi.label}
         title={newsUi.title}
         description={newsUi.subtitle}
       />
