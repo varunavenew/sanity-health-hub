@@ -31,6 +31,7 @@ export const SANITY_CACHE_TAGS = {
   contactPage: "sanity:contactPage",
   aboutPage: "sanity:aboutPage",
   privacyPolicyPage: "sanity:privacyPolicyPage",
+  opennessActPage: "sanity:opennessActPage",
   type: (documentType: string) => `sanity:type:${documentType}`,
   article: (slug: string) => `sanity:article:${slug}`,
   treatment: (categorySlug: string, treatmentSlug: string) =>

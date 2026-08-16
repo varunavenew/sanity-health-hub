@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "@/lib/router";
+import { Link, useParams } from "@/lib/router";
 import { Plus, Minus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useFaqs } from "@/hooks/useSanity";
 import type { SpecialistFaq } from "@/lib/sanity/specialist-types";
+import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 
 const AccordionItem = ({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) => {
   const [open, setOpen] = useState(defaultOpen);
@@ -30,6 +31,14 @@ const AccordionItem = ({ title, children, defaultOpen = false }: { title: string
 };
 
 function FaqAnswer({ question, answer }: SpecialistFaq) {
+  const params = useParams<{ locale?: string }>();
+  const locale: AppLocale = params?.locale === "en" ? "en" : "no";
+  const localePath = (path: string) => withLocalePath(locale, path);
+  const isEn = locale === "en";
+  const opennessPath = localePath(
+    isEn ? "/transparency-act-2025" : "/aapenhetsloven-2025",
+  );
+
   if (question === "Pris") {
     return (
       <Link to="/priser" className="text-brand-dark font-normal hover:underline">
@@ -40,11 +49,14 @@ function FaqAnswer({ question, answer }: SpecialistFaq) {
   if (question === "Personvernerklæring") {
     return (
       <>
-        Her finner du vår{" "}
+        {isEn ? "Here you can find our " : "Her finner du vår "}
         <Link to="/personvern" className="text-brand-dark font-normal hover:underline">
-          personvernerklæring
+          {isEn ? "privacy policy" : "personvernerklæring"}
         </Link>
-        .
+        .{" "}
+        <Link to={opennessPath} className="text-brand-dark font-normal hover:underline">
+          {isEn ? "CMedical's due diligence assessment." : "CMedicals Aktsomhetsvurdering."}
+        </Link>
       </>
     );
   }

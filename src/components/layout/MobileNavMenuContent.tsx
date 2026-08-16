@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { ChevronDown, ChevronRight, Phone, Mail, MapPin } from "lucide-react";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
@@ -34,6 +34,15 @@ function subItemPath(sub: SubCategory, item: { label: string; anchor?: string; p
   return `${sub.path}#${anchor}`;
 }
 
+const submenuBgClass = "bg-[#faf7f5]";
+const submenuRowClass = cn(
+  submenuBgClass,
+  "w-full flex items-center justify-between py-4 px-5 text-left transition-colors hover:bg-[#f0ebe6] active:bg-[#f0ebe6] group",
+);
+const submenuLabelClass = "text-[15px] font-normal text-brand-dark/85";
+const submenuChevronClass =
+  "h-4 w-4 text-brand-dark/25 group-hover:text-brand-dark/45 shrink-0";
+
 function ServiceCategoryRow({
   category,
   isExpanded,
@@ -49,78 +58,77 @@ function ServiceCategoryRow({
   const hasChildren = category.subcategories.length > 0;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-brand-dark/15 bg-white">
-      <div className="flex items-stretch">
-        <button
-          type="button"
-          onClick={() => onNavigate(category.path)}
-          className="min-h-[48px] flex-1 px-5 py-3.5 text-left text-[15px] font-normal text-brand-dark hover:bg-brand-beige/5 transition-colors"
-        >
-          {category.label}
-        </button>
-        {hasChildren ? (
-          <button
-            type="button"
-            onClick={onToggle}
-            aria-expanded={isExpanded}
-            aria-label={t("nav.expandCategory", { category: category.label })}
-            className={cn(
-              "flex w-14 items-center justify-center self-stretch transition-colors border-l border-brand-dark/10",
-              isExpanded
-                ? "bg-[#3e3025] text-white hover:bg-[#3e3025]/95"
-                : "bg-transparent text-brand-dark/45 hover:bg-brand-dark/5",
-            )}
-          >
-            <ChevronDown
-              className={cn("h-5 w-5 transition-transform duration-300", isExpanded && "rotate-180")}
-              aria-hidden="true"
-            />
-          </button>
-        ) : (
+    <div>
+      <div
+        className={cn(
+          "overflow-hidden border border-brand-dark/15 bg-white",
+          isExpanded && hasChildren ? "rounded-t-2xl rounded-b-none" : "rounded-2xl",
+        )}
+      >
+        <div className="flex items-stretch bg-white">
           <button
             type="button"
             onClick={() => onNavigate(category.path)}
-            aria-label={t("nav.expandCategory", { category: category.label })}
-            className="flex w-14 items-center justify-center self-stretch bg-transparent text-brand-dark/45 transition-colors hover:bg-brand-dark/5 border-l border-brand-dark/10"
+            className="min-h-[48px] flex-1 bg-white px-5 py-3.5 text-left text-[15px] font-medium text-brand-dark transition-colors hover:bg-brand-dark/[0.02]"
           >
-            <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            {category.label}
           </button>
-        )}
+          {hasChildren ? (
+            <button
+              type="button"
+              onClick={onToggle}
+              aria-expanded={isExpanded}
+              aria-label={t("nav.expandCategory", { category: category.label })}
+              className={cn(
+                "flex w-14 items-center justify-center self-stretch transition-colors border-l border-brand-dark/10",
+                isExpanded
+                  ? "bg-[#3e3025] text-white hover:bg-[#3e3025]/95"
+                  : "bg-white text-brand-dark/45 hover:bg-brand-dark/[0.03]",
+              )}
+            >
+              <ChevronDown
+                className={cn("h-5 w-5 transition-transform duration-300", isExpanded && "rotate-180")}
+                aria-hidden="true"
+              />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onNavigate(category.path)}
+              aria-label={t("nav.expandCategory", { category: category.label })}
+              className="flex w-14 items-center justify-center self-stretch bg-white text-brand-dark/45 transition-colors hover:bg-brand-dark/[0.03] border-l border-brand-dark/10"
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+          )}
+        </div>
       </div>
 
       {hasChildren && isExpanded && (
-        <div className="border-t border-brand-dark/10 bg-white">
-          <div className="divide-y divide-brand-dark/10">
-            {category.subcategories.map((sub) => (
-              <div key={sub.id ?? sub.path} className="flex flex-col">
+        <div className={cn(submenuBgClass, "divide-y divide-brand-dark/[0.08]")}>
+          {category.subcategories.map((sub) => (
+            <Fragment key={sub.id ?? sub.path}>
+              <button
+                type="button"
+                onClick={() => onNavigate(sub.path)}
+                className={submenuRowClass}
+              >
+                <span className={submenuLabelClass}>{sub.label}</span>
+                <ChevronRight className={submenuChevronClass} aria-hidden="true" />
+              </button>
+              {sub.items?.map((item, index) => (
                 <button
+                  key={`${sub.path}-${item.label}-${index}`}
                   type="button"
-                  onClick={() => onNavigate(sub.path)}
-                  className="w-full flex items-center justify-between py-4 px-5 text-left transition-colors hover:bg-brand-beige/10 group"
+                  onClick={() => onNavigate(subItemPath(sub, item))}
+                  className={cn(submenuRowClass, "pl-8")}
                 >
-                  <span className="text-[15px] font-normal text-brand-dark/90">
-                    {sub.label}
-                  </span>
-                  <ChevronRight className="h-4 w-4 text-brand-dark/30 group-hover:text-brand-dark/60 group-hover:translate-x-0.5 transition-all" />
+                  <span className={submenuLabelClass}>{item.label}</span>
+                  <ChevronRight className={submenuChevronClass} aria-hidden="true" />
                 </button>
-                {sub.items && sub.items.length > 0 && (
-                  <div className="bg-brand-beige/5 divide-y divide-brand-dark/5 border-t border-brand-dark/5">
-                    {sub.items.map((item, index) => (
-                      <button
-                        key={`${sub.path}-${item.label}-${index}`}
-                        type="button"
-                        onClick={() => onNavigate(subItemPath(sub, item))}
-                        className="w-full flex items-center justify-between py-3 pl-8 pr-5 text-left text-sm font-light text-brand-dark/70 hover:bg-brand-beige/10 hover:text-brand-dark transition-colors group/sub"
-                      >
-                        <span>{item.label}</span>
-                        <ChevronRight className="h-3.5 w-3.5 text-brand-dark/25 group-hover/sub:text-brand-dark/50 group-hover/sub:translate-x-0.5 transition-all" />
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+              ))}
+            </Fragment>
+          ))}
         </div>
       )}
     </div>

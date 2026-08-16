@@ -105,8 +105,14 @@ export function resolveBookingCtaFromCollection(
   legacyInline: unknown,
 ): ResolvedBookingCtaBody {
   const fromCollection = mapBookingCtaBody(ctaCollection)
-  if (isUsableBookingCtaBody(fromCollection)) return fromCollection
-  return mapBookingCtaBody(legacyInline)
+  const fromInline = mapBookingCtaBody(legacyInline)
+  if (isUsableBookingCtaBody(fromCollection)) {
+    if (!fromCollection.quickInfoItems?.length && fromInline.quickInfoItems?.length) {
+      return { ...fromCollection, quickInfoItems: fromInline.quickInfoItems }
+    }
+    return fromCollection
+  }
+  return fromInline
 }
 
 /**

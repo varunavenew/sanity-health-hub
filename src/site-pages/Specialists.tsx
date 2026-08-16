@@ -1,23 +1,21 @@
 "use client";
 
-import { AssetImg } from "@/components/AssetImg";
-import { useMemo, useState } from "react";
-import { Link } from "@/lib/router";
+import { useEffect, useMemo, useState } from "react";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
+import { ListPageHero } from "@/components/layout/ListPageHero";
+import { SpecialistCard } from "@/components/SpecialistCarousel";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
-import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
-function formatCountLabel(template: string, count: number): string {
-  return template.replace(/\{count\}/g, String(count));
-}
+const norm = (v: unknown): string =>
+  typeof v === "string" ? v.trim().toLowerCase() : "";
 
 interface SpecialistsProps {
   isChatOpen: boolean;
@@ -33,6 +31,8 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const [activeClinic, setActiveClinic] = useState("alle");
   const { sorted: specialists, allClinics } = useSpecialistsData();
   const clinicNames = allClinics();
+  const [navTop, setNavTop] = useState(0);
+
   const categoryLabels = useMemo(
     () => ({
       alle: t("specialists.filters.all"),
@@ -45,193 +45,183 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
     [t],
   );
 
-  const filtered = specialists.filter((s) => {
-    const categoryMatch = activeFilter === "alle" || s.category === activeFilter;
-    const clinicMatch = activeClinic === "alle" || (s.clinics?.includes(activeClinic) ?? false);
-    return categoryMatch && clinicMatch;
-  });
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (!header) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setNavTop(Math.max(0, header.getBoundingClientRect().bottom));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  const heroEyebrow = page?.heroEyebrow?.trim() || "";
-  const heroTitle = page?.heroTitle?.trim() || "";
-  const heroDescription = page?.heroDescription?.trim() || "";
-  const countText = page?.countLabel?.trim()
-    ? formatCountLabel(page.countLabel, filtered.length)
-    : "";
-  const hasSeo = Boolean(page?.seo?.metaTitle || page?.seo?.metaDescription);
-  const geoName = heroTitle || page?.seo?.metaTitle || t("nav.specialists", "Spesialister");
-  const geoFallback = heroDescription || page?.seo?.metaDescription;
+  const filtered = useMemo(() => {
+    const wantCategory = norm(activeFilter);
+    const wantClinic = norm(activeClinic);
+
+    return specialists.filter((s) => {
+      const categoryMatch =
+        wantCategory === "alle" || norm(s.category) === wantCategory;
+      if (!categoryMatch) return false;
+
+      if (wantClinic === "alle") return true;
+      const clinics = Array.isArray(s.clinics) ? s.clinics : [];
+      return clinics.some((c) => norm(c) === wantClinic);
+    });
+  }, [specialists, activeFilter, activeClinic]);
+
+  const heroTitle = page?.heroTitle?.trim() || t("specialists.title");
+  const heroDescription =
+    page?.heroDescription?.trim() || t("specialists.description");
+  const countLabel = t("specialists.count", { count: filtered.length });
+  const seoTitle = page?.seo?.metaTitle || t("specialists.seoTitle");
+  const seoDescription = page?.seo?.metaDescription || t("specialists.seoDescription");
   const geoJsonLd = buildMedicalWebPageGeoJsonLd({
-    name: geoName,
+    name: heroTitle,
     geoSummary: page?.geoSummary,
-    fallbackDescription: geoFallback,
+    fallbackDescription: heroDescription || seoDescription,
     url: specialistsPath,
     locale,
   });
 
+  const clinicFilterItems = useMemo(
+    () => [
+      { id: "alle", label: t("specialists.filters.allClinics") },
+      ...clinicNames.map((c) => ({ id: c, label: c })),
+    ],
+    [clinicNames, t],
+  );
+
+  const mobileFilterRows = useMemo(
+    () => [
+      {
+        key: "kategori",
+        items: Object.entries(categoryLabels).map(([id, label]) => ({ id, label })),
+        active: activeFilter,
+        onSelect: setActiveFilter,
+        withIcon: false,
+      },
+      {
+        key: "klinikk",
+        items: clinicFilterItems,
+        active: activeClinic,
+        onSelect: setActiveClinic,
+        withIcon: true,
+      },
+    ],
+    [categoryLabels, clinicFilterItems, activeFilter, activeClinic],
+  );
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {hasSeo ? (
-        <PageSEO
-          title={page?.seo?.metaTitle || ""}
-          description={page?.seo?.metaDescription || ""}
-          canonical={specialistsPath}
-          breadcrumbs={[
-            { name: t("common.breadcrumbHome", "Hjem"), path: "/" },
-            { name: t("nav.specialists", "Spesialister"), path: specialistsPath },
-          ]}
-          jsonLd={geoJsonLd}
-        />
-      ) : (
-        <JsonLd data={geoJsonLd} />
-      )}
-      {(heroEyebrow || heroTitle || heroDescription) ? (
-      <section className="bg-brand-dark pt-32 pb-16 md:pt-40 md:pb-24">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl">
-            {heroTitle ? (
-              <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-light text-white tracking-tight leading-none mb-4 md:mb-5">
-                {heroTitle}
-              </h1>
-            ) : null}
-            {heroDescription ? (
-              <p className="text-white/80 font-light text-lg md:text-[20px] lg:text-[22px] leading-relaxed">
-                {heroDescription}
-              </p>
-            ) : null}
-          </div>
+      <PageSEO
+        title={seoTitle}
+        description={seoDescription}
+        canonical={specialistsPath}
+        breadcrumbs={[
+          { name: t("pricing.breadcrumbHome"), path: "/" },
+          { name: t("nav.specialists"), path: specialistsPath },
+        ]}
+        jsonLd={geoJsonLd}
+      />
 
-          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-12 md:mt-16">
-            {Object.entries(categoryLabels).map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setActiveFilter(key)}
-                className={`transition-all duration-200 ${
-                  activeFilter === key
-                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
-                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+      <ListPageHero title={heroTitle} description={heroDescription} />
 
-          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-4 md:mt-5">
-            <button
-              onClick={() => setActiveClinic("alle")}
-              className={`transition-all duration-200 flex items-center gap-2 ${
-                activeClinic === "alle"
-                  ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
-                  : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
-              }`}
+      <div
+        className="md:hidden sticky z-30 bg-background border-b border-brand-mid/30 shadow-sm"
+        style={{ top: `${navTop}px` }}
+      >
+        {mobileFilterRows.map((row) => (
+          <div key={row.key} className="relative">
+            <div
+              className="flex gap-2 overflow-x-auto overflow-y-visible px-4 pr-10 py-2 scrollbar-hide [scroll-behavior:smooth] [-webkit-overflow-scrolling:touch] [overscroll-behavior-x:contain]"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                touchAction: "pan-x pan-y",
+              }}
             >
-              <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === "alle" ? "text-white" : "text-brand-dark"}`} />
-              {t("specialists.filters.allClinics")}
-            </button>
-            {clinicNames.map((clinic) => (
-              <button
-                key={clinic}
-                onClick={() => setActiveClinic(clinic)}
-                className={`transition-all duration-200 flex items-center gap-2 ${
-                  activeClinic === clinic
-                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
-                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
-                }`}
-              >
-                <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === clinic ? "text-white" : "text-brand-dark"}`} />
-                {clinic}
-              </button>
-            ))}
+              {row.items.map((item) => {
+                const isActive = row.active === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => row.onSelect(item.id)}
+                    className="chip-filter chip-filter-light min-h-[36px] whitespace-nowrap"
+                    data-active={isActive}
+                    aria-current={isActive ? "true" : undefined}
+                  >
+                    {row.withIcon ? (
+                      <MapPin className="w-3 h-3" aria-hidden="true" />
+                    ) : null}
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent" />
           </div>
-        </div>
-      </section>
-      ) : (
-      <section className="bg-brand-dark pt-32 pb-16 md:pt-40 md:pb-24">
+        ))}
+      </div>
+
+      <section className="bg-background py-6 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="flex flex-wrap items-center gap-3 md:gap-4">
-            {Object.entries(categoryLabels).map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setActiveFilter(key)}
-                className={`transition-all duration-200 ${
-                  activeFilter === key
-                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
-                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
+          <div className="hidden md:flex md:flex-wrap md:items-center md:gap-2 mb-6">
+            {Object.entries(categoryLabels).map(([key, label]) => {
+              const isActive = activeFilter === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setActiveFilter(key)}
+                  className="chip-filter chip-filter-light"
+                  data-active={isActive}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  {label}
+                </button>
+              );
+            })}
+            <span className="mx-1 h-5 w-px bg-brand-mid/50" aria-hidden="true" />
+            {clinicFilterItems.map((clinic) => {
+              const isActive = activeClinic === clinic.id;
+              return (
+                <button
+                  key={clinic.id}
+                  type="button"
+                  onClick={() => setActiveClinic(clinic.id)}
+                  className="chip-filter chip-filter-light"
+                  data-active={isActive}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  <MapPin className="w-3 h-3" aria-hidden="true" />
+                  {clinic.label}
+                </button>
+              );
+            })}
+            <p className="text-sm text-muted-foreground md:ml-auto">{countLabel}</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-4 md:mt-5">
-            <button
-              onClick={() => setActiveClinic("alle")}
-              className={`transition-all duration-200 flex items-center gap-2 ${
-                activeClinic === "alle"
-                  ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
-                  : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
-              }`}
-            >
-              <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === "alle" ? "text-white" : "text-brand-dark"}`} />
-              {t("specialists.filters.allClinics")}
-            </button>
-            {clinicNames.map((clinic) => (
-              <button
-                key={clinic}
-                onClick={() => setActiveClinic(clinic)}
-                className={`transition-all duration-200 flex items-center gap-2 ${
-                  activeClinic === clinic
-                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
-                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
-                }`}
-              >
-                <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === clinic ? "text-white" : "text-brand-dark"}`} />
-                {clinic}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-      )}
+          <p className="md:hidden text-sm text-muted-foreground mb-4">{countLabel}</p>
 
-      <section className="bg-background py-10 md:py-14">
-        <div className="container mx-auto px-6 md:px-16">
-          {countText ? (
-            <p className="text-sm text-muted-foreground mb-6">{countText}</p>
-          ) : null}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-0 gap-y-8 md:gap-y-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {filtered.map((specialist) => (
-              <Link
-                key={specialist.slug}
-                to={`/spesialister/${specialist.slug}`}
-                className="group"
-              >
-                <div className="relative aspect-[3/4] rounded-none overflow-hidden mb-3 bg-secondary">
-                  <AssetImg
-                    src={specialist.image}
-                    alt={specialist.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="pr-4 md:pr-6">
-                  <h3 className="text-sm md:text-base font-semibold text-foreground mb-0.5">{specialist.name}</h3>
-                  <p className="text-xs md:text-[13px] text-muted-foreground font-light mb-1">
-                    {specialist.title}
-                    {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
-                  </p>
-                  {specialist.clinics && specialist.clinics.length > 0 && (
-                    <p className="flex items-center gap-1 text-xs md:text-[13px] text-muted-foreground/60 font-light">
-                      <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-muted-foreground/50" aria-hidden="true" />
-                      {specialist.clinics.join(" · ")}
-                    </p>
-                  )}
-                </div>
-              </Link>
+              <SpecialistCard key={specialist.slug} sp={specialist} />
             ))}
           </div>
         </div>
       </section>
+
       <PageSectionsRenderer sections={page?.pageSections} />
     </PageLayout>
   );

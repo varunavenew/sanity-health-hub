@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
  * ─────────────────────────────────────────
  * Primary CTA:      variant="cta"              — Accent/yellow button, used for main actions on LIGHT backgrounds
  * Secondary CTA:    variant="cta-outline"       — Outlined button, used alongside a primary CTA on LIGHT backgrounds
+ * Contact outline:  variant="contact-outline"   — Ghost border + icon, used for Kontakt oss / Se klinikker on warm backgrounds
  * Dark bg primary:  variant="cta-dark"          — White button on dark backgrounds (hero, brand-dark sections)
  * Dark bg secondary:variant="cta-outline-dark"  — Semi-transparent white outline on dark backgrounds
  *
@@ -31,7 +32,10 @@ const buttonVariants = cva(
         // max-sm:w-full matches demo Button helper (avenewdemo)
         cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90 max-sm:w-full max-sm:h-12 max-sm:px-6",
         "cta-outline": "rounded-2xl border border-current bg-transparent hover:bg-foreground/5 max-sm:w-full max-sm:h-12 max-sm:px-6",
-        "cta-outline-dark": "rounded-2xl border border-white/40 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-brand-dark transition-colors max-sm:w-full max-sm:h-12 max-sm:px-6",
+        "contact-outline":
+          "rounded-2xl border border-foreground/30 bg-transparent text-foreground font-light hover:bg-brand-dark hover:text-white hover:border-brand-dark max-sm:w-full max-sm:h-12 max-sm:px-6",
+        "cta-outline-dark":
+          "rounded-2xl border border-white/40 text-white bg-transparent font-light hover:bg-white hover:text-brand-dark hover:border-white max-sm:w-full max-sm:h-12 max-sm:px-6",
         "cta-dark": "rounded-2xl bg-white text-brand-dark hover:bg-white/90 max-sm:w-full max-sm:h-12 max-sm:px-6",
       },
       size: {

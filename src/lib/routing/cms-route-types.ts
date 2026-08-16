@@ -66,6 +66,7 @@ export const SINGLETON_PAGE_TYPES = [
   "specialistsListingPage",
   "clinicsPage",
   "privacyPolicyPage",
+  "opennessActPage",
   "careersPage",
   "guidePage",
 ] as const;

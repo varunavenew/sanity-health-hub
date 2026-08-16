@@ -58,6 +58,7 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
     'newsPage',
     'privacyPolicyPage',
+    'opennessActPage',
     'guidePage',
     'careersPage',
     'clinicianGuidePage',

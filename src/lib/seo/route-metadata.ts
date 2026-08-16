@@ -10,6 +10,7 @@ import {
   fetchNewsPageDocument,
   fetchPricingPageDocument,
   fetchPrivacyPolicyPageDocument,
+  fetchOpennessActPageDocument,
   fetchServicesPageDocument,
   fetchSpecialistsListingPageDocument,
   fetchSpecialistsPageDocument,
@@ -111,6 +112,19 @@ const PRIVACY_FALLBACK = {
   },
 } as const;
 
+const OPENNESS_ACT_FALLBACK = {
+  nb: {
+    title: "Åpenhetsloven 2025",
+    description:
+      "Redgjørelse rapporteringsåret 2025. Aktsomhetsvurderinger for bærekraftig forretningspraksis for CMedical Group AS.",
+  },
+  en: {
+    title: "Transparency Act 2025",
+    description:
+      "Disclosure for the 2025 reporting year. Due diligence assessments for sustainable business practices for CMedical Group AS.",
+  },
+} as const;
+
 export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
@@ -131,6 +145,34 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
   return buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("privacyPolicyPage"),
+    title,
+    description,
+    ogImage: ogImage || undefined,
+    noIndex: !!seo?.noIndex,
+    type: "website",
+  });
+}
+
+export async function buildOpennessActMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchOpennessActPageDocument(sanityLang);
+  const seo = data?.seo;
+  const { title, description } = resolveMetaStrings(seo, lang, {
+    nb: {
+      title: data?.title?.trim() || OPENNESS_ACT_FALLBACK.nb.title,
+      description: data?.subtitle?.trim() || OPENNESS_ACT_FALLBACK.nb.description,
+    },
+    en: {
+      title: data?.title?.trim() || OPENNESS_ACT_FALLBACK.en.title,
+      description: data?.subtitle?.trim() || OPENNESS_ACT_FALLBACK.en.description,
+    },
+  });
+  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
+
+  return buildPageMetadata({
+    locale,
+    paths: await fetchSingletonLocalizedPaths("opennessActPage"),
     title,
     description,
     ogImage: ogImage || undefined,

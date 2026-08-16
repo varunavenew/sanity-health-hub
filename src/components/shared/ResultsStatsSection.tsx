@@ -1,4 +1,5 @@
 import { AnimatedStat } from "@/components/AnimatedStat";
+import { StatsSkinBackground } from "@/components/shared/StatsSkinBackground";
 
 export type ResultStat = {
   v: string;
@@ -13,11 +14,18 @@ interface ResultsStatsSectionProps {
   stats: ResultStat[];
   footnote?: string;
   className?: string;
+  /**
+   * Visual variant:
+   * - "warm" (default): light skin-toned parallax bg with overlay + beige text.
+   * - "plain": flat brand-light bg, no image.
+   */
+  variant?: "plain" | "warm";
 }
 
 /**
  * ResultsStatsSection – "Tall som forteller en historie"-mønsteret.
- * Styled with a solid warm background to match the style of the reviews section.
+ *
+ * Default is the light skin-toned background with dark/beige text, used site-wide.
  */
 export const ResultsStatsSection = ({
   title,
@@ -25,26 +33,33 @@ export const ResultsStatsSection = ({
   stats,
   footnote,
   className = "",
+  variant = "warm",
 }: ResultsStatsSectionProps) => {
   if (stats.length === 0) return null;
 
+  const isWarm = variant === "warm";
+
   return (
     <section
-      className={`relative overflow-hidden text-foreground py-16 md:py-20 border-t border-brand-dark/5 bg-brand-warm ${className}`}
+      className={`relative overflow-hidden py-16 md:py-20 ${
+        isWarm ? "stats-band-dark" : "bg-brand-light text-foreground"
+      } ${className}`}
     >
+      {isWarm ? <StatsSkinBackground speed={0.14} /> : null}
+
       <div className="relative container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-4 md:gap-6 lg:gap-24 mb-10 md:mb-14">
+          <div className="section-head">
             <div className="lg:col-span-5">
               <h2 className="text-2xl md:text-3xl font-light leading-tight">{title}</h2>
             </div>
-            {description && (
+            {description ? (
               <div className="lg:col-span-7 lg:flex lg:items-end">
                 <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   {description}
                 </p>
               </div>
-            )}
+            ) : null}
           </div>
 
           <div className="border-t border-brand-dark/10 py-8 md:py-10">
@@ -58,17 +73,17 @@ export const ResultsStatsSection = ({
                     <AnimatedStat value={row.v} />
                   </dd>
                   <dt className="text-sm font-normal text-foreground mb-1">{row.k}</dt>
-                  {row.sub && (
+                  {row.sub ? (
                     <p className="text-xs font-light text-muted-foreground">{row.sub}</p>
-                  )}
+                  ) : null}
                 </div>
               ))}
             </dl>
           </div>
 
-          {footnote && (
+          {footnote ? (
             <p className="text-xs font-light text-muted-foreground mt-8">{footnote}</p>
-          )}
+          ) : null}
         </div>
       </div>
     </section>

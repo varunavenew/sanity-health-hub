@@ -1,6 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
+import { SpecialistCarousel } from "@/components/SpecialistCarousel";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
@@ -102,22 +103,42 @@ export function PageSectionSpecialistsBlock({
       return null;
     }
 
+    const title =
+      config.title?.trim() ||
+      t("specialists.title", { defaultValue: "Møt våre spesialister" });
+    const description =
+      config.description?.trim() ||
+      t("specialists.description", {
+        defaultValue:
+          "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
+      });
+
+    if (layoutVariant === "category") {
+      return (
+        <SpecialistsScroller
+          items={specialists}
+          fallbackCategory={
+            config.categorySlug ||
+            config.treatmentCategory?.categoryId ||
+            config.treatmentCategory?.slug
+          }
+          eyebrow={config.eyebrow || undefined}
+          title={title}
+          description={description}
+          seeAllHref={seeAllHref}
+          seeAllLabel={seeAllLabel}
+          layoutVariant="category"
+        />
+      );
+    }
+
     return (
-      <SpecialistsScroller
-        items={specialists}
-        fallbackCategory={
-          config.categorySlug ||
-          config.treatmentCategory?.categoryId ||
-          config.treatmentCategory?.slug
-        }
-        eyebrow={config.eyebrow || undefined}
-        title={config.title || undefined}
-        description={
-          config.description?.trim() ? config.description : undefined
-        }
+      <SpecialistCarousel
+        specialists={specialists}
+        title={title}
+        description={description}
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
-        layoutVariant={layoutVariant}
       />
     );
   }

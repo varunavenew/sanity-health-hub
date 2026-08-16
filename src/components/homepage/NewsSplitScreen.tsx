@@ -6,6 +6,8 @@ import { Link } from "@/lib/router";
 import { articles, normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useHomepage } from "@/hooks/useSanity";
 import { AssetImg } from "@/components/AssetImg";
+import { defaultNewsSplitSection } from "@/lib/sanity/homepage-data";
+import { useTranslation } from "react-i18next";
 
 type NewsSplitItem = {
   id: string;
@@ -42,6 +44,10 @@ function dedupeBySlug(items: NewsSplitItem[]): NewsSplitItem[] {
     seen.add(item.slug);
     return true;
   });
+}
+
+function sortByDateDesc(source: Article[]): Article[] {
+  return [...source].sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 function buildFallbackItems(source: Article[]): NewsSplitItem[] {
@@ -88,7 +94,10 @@ function buildFallbackItems(source: Article[]): NewsSplitItem[] {
 export const NewsSplitScreen = () => {
   const { data: sanityArticles } = useArticles();
   const { data: homepage } = useHomepage();
-  const copy = homepage?.newsSplitSection;
+  const { i18n } = useTranslation();
+  const lang = (i18n.language || "nb").toLowerCase().startsWith("en") ? "en" : "no";
+  const defaults = defaultNewsSplitSection(lang);
+  const copy = homepage?.newsSplitSection ?? defaults;
 
   const items = useMemo(() => {
     if (homepage?.featuredArticles && homepage.featuredArticles.length > 0) {
@@ -101,19 +110,21 @@ export const NewsSplitScreen = () => {
 
     const source =
       sanityArticles && sanityArticles.length > 0
-        ? sanityArticles.map(
-            (a): Article & { id?: string } => ({
-              id: a._id || a.slug,
-              slug: a.slug,
-              title: a.title,
-              excerpt: a.excerpt,
-              image: a.image,
-              date: a.date,
-              category: normalizeCategory(a.category),
-              externalUrl: a.externalUrl,
-            }),
+        ? sortByDateDesc(
+            sanityArticles.map(
+              (a): Article & { id?: string } => ({
+                id: a._id || a.slug,
+                slug: a.slug,
+                title: a.title,
+                excerpt: a.excerpt,
+                image: a.image,
+                date: a.date,
+                category: normalizeCategory(a.category),
+                externalUrl: a.externalUrl,
+              }),
+            ),
           )
-        : articles;
+        : sortByDateDesc(articles);
 
     if (source.length >= 4) {
       return dedupeBySlug(
@@ -128,30 +139,35 @@ export const NewsSplitScreen = () => {
     return buildFallbackItems(source);
   }, [sanityArticles, homepage?.featuredArticles]);
 
+  const ctaPath = copy.ctaPath || defaults.ctaPath;
+  const ctaLabel = copy.ctaLabel || defaults.ctaLabel;
+
   return (
-    <section aria-labelledby="news-split-heading" className="bg-brand-warm">
-      <div className="grid md:grid-cols-2 md:h-screen">
-        <div className="bg-brand-light text-brand-dark flex flex-col justify-center px-6 md:px-12 lg:px-16 py-12 md:py-16">
+    <section aria-labelledby="news-split-heading" className="bg-brand-warm py-16 md:py-24 lg:py-28">
+      <div className="flex flex-col md:grid md:grid-cols-2 md:h-screen">
+        {/* Venstre — redaksjonell intro */}
+        <div className="bg-brand-light text-brand-dark flex flex-col justify-center px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div>
             <h2
               id="news-split-heading"
               className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] max-w-md mb-6"
             >
-              {copy?.heading}
+              {copy.heading || defaults.heading}
             </h2>
             <p className="text-base md:text-lg font-light text-brand-dark/70 leading-relaxed max-w-md">
-              {copy?.description}
+              {copy.description || defaults.description}
             </p>
           </div>
           <Link
-            to={copy?.ctaPath ?? "/aktuelt"}
-            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark mt-10 group w-fit"
+            to={ctaPath}
+            className="hidden md:inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark mt-10 group w-fit"
           >
-            {copy?.ctaLabel}
+            {ctaLabel}
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
+        {/* Høyre — 2x2 artikler */}
         <div className="grid grid-cols-2 grid-rows-2 md:h-screen">
           {items.map((item) => (
             <Link
@@ -184,6 +200,17 @@ export const NewsSplitScreen = () => {
               </div>
             </Link>
           ))}
+        </div>
+
+        {/* Mobil — «Se alle artikler» under artiklene */}
+        <div className="md:hidden bg-brand-light px-6 pb-16">
+          <Link
+            to={ctaPath}
+            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/80 hover:text-brand-dark pt-10 group w-fit"
+          >
+            {ctaLabel}
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </section>

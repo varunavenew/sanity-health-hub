@@ -1,17 +1,15 @@
 import { pickForLang, pickNo } from '../../schemaTypes/i18n'
+import { DEFAULT_BOOKING_CTA_QUICK_INFO } from '../data/booking-cta-quick-info-defaults'
 import type { PageBookingCtaCopy } from '../data/page-booking-cta-copy'
 import { treatmentCategoryBottomCtaByKey } from '../data/treatment-category-bottom-cta'
 import { i18nString, i18nText } from './category-landing-i18n'
 
 export const DEFAULT_BOOKING_NO = {
   title: 'Bestill time hos spesialist',
-  subtitle: 'Velg tjeneste, klinikk og behandler – alt i én enkel booking.',
+  subtitle: 'Velg tjeneste, klinikk og behandler – alt i én enkel bestilling.',
   primaryLabel: 'Bestill time nå',
   secondaryLabel: 'Ring oss',
-  quickInfo: [
-    { icon: 'clock', no: 'Ledig time innen 1–3 dager', en: 'Available appointments within 1–3 days' },
-    { icon: 'shield', no: 'Ingen henvisning nødvendig', en: 'No referral needed' },
-  ],
+  quickInfo: DEFAULT_BOOKING_CTA_QUICK_INFO,
 }
 
 export const DEFAULT_BOOKING_EN = {

@@ -2,11 +2,7 @@
 
 import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Check,
-  ChevronDown,
-  type LucideIcon,
-} from "lucide-react";
+import { Check, type LucideIcon } from "lucide-react";
 import { useNavigate, Link } from "@/lib/router";
 import { useClinics } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
@@ -167,11 +163,10 @@ export const BookingCTA = ({
         {resolvedSubtitle}
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-10">
         <Button
           variant={useWarmChrome ? "cta" : darkPrimaryVariant}
           size="lg"
-          className="rounded-lg"
           style={
             hasCustomPrimaryBtn
               ? {
@@ -188,9 +183,8 @@ export const BookingCTA = ({
         {showSecondaryButton ? (
           secondaryPath?.trim() ? (
             <Button
-              variant={useWarmChrome ? "outline" : "cta-outline-dark"}
+              variant={useWarmChrome ? "contact-outline" : "cta-outline-dark"}
               size="lg"
-              className="rounded-lg"
               asChild
             >
               <Link to={secondaryPath.trim()}>{resolvedSecondaryLabel}</Link>
@@ -198,15 +192,11 @@ export const BookingCTA = ({
           ) : (
           <div className="relative" ref={dropdownRef}>
             <Button
-              variant={useWarmChrome ? "outline" : "cta-outline-dark"}
+              variant={useWarmChrome ? "contact-outline" : "cta-outline-dark"}
               size="lg"
-              className="rounded-lg"
               onClick={() => setShowClinicPicker(!showClinicPicker)}
             >
               {resolvedSecondaryLabel}
-              <ChevronDown
-                className={`ml-2 w-4 h-4 transition-transform ${showClinicPicker ? "rotate-180" : ""}`}
-              />
             </Button>
 
             {showClinicPicker && (
@@ -242,7 +232,7 @@ export const BookingCTA = ({
         ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-8">
+      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
         {resolvedQuickInfo.map((item, i) => {
           const Icon = QUICK_INFO_ICONS[item.icon === "shield" ? "shield" : "clock"];
           return (

@@ -27,6 +27,7 @@ import Insurance from "@/site-pages/Insurance";
 import Karriere from "@/site-pages/Karriere";
 import KarriereDetail from "@/site-pages/KarriereDetail";
 import Personvern from "@/site-pages/Personvern";
+import Aapenhetsloven2025 from "@/site-pages/Aapenhetsloven2025";
 import Priser from "@/site-pages/Priser";
 import Services from "@/site-pages/Services";
 import SpecialistProfile from "@/site-pages/SpecialistProfile";
@@ -48,6 +49,7 @@ import {
   buildNewsMetadata,
   buildPricingMetadata,
   buildPrivacyMetadata,
+  buildOpennessActMetadata,
   buildServicesMetadata,
   buildSpecialistsAboutMetadata,
   buildSpecialistsListingMetadata,
@@ -78,6 +80,7 @@ const SINGLETON_HANDLERS: Record<
   specialistsListingPage: { Component: Specialists, buildMetadata: buildSpecialistsListingMetadata },
   clinicsPage: { Component: Clinics, buildMetadata: buildClinicsListingMetadata },
   privacyPolicyPage: { Component: Personvern, buildMetadata: buildPrivacyMetadata },
+  opennessActPage: { Component: Aapenhetsloven2025, buildMetadata: buildOpennessActMetadata },
   careersPage: { Component: Karriere, buildMetadata: buildKarriereListingMetadata },
   guidePage: { Component: Guide, buildMetadata: buildGuideMetadata },
 };

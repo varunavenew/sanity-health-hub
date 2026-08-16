@@ -1,7 +1,10 @@
-import { ArrowRight, MapPin, Phone } from "lucide-react";
+"use client";
+
+import type { ReactNode } from "react";
+import { MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
-import { ResponsiveHeroMedia } from "@/components/media/ResponsiveHeroMedia";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import { assetSrc, type ImageRef } from "@/lib/media";
 import type { MediaFocalPoint, SanityHotspot } from "@/lib/media/focal-point";
 
@@ -21,16 +24,18 @@ type SecondaryHeroCta = {
 interface SplitHeroProps {
   eyebrow?: string;
   title?: string;
-  description?: string;
+  description?: ReactNode;
   image?: ImageRef;
   imageAlt?: string;
   /** Sanity hotspot when available — improves framing on wide desktops. */
   imageHotspot?: SanityHotspot | MediaFocalPoint | null;
-  /** When omitted/null, no primary button is rendered (avoids hardcoded locale text). */
+  /** When omitted/null, no primary button is rendered. */
   primaryCta?: HeroCta | null;
   secondaryCta?: SecondaryHeroCta | null;
-  /** Optional fine print under CTAs (e.g. Pricing disclaimer). */
+  /** Optional fine print under CTAs (Pricing disclaimer, etc.). */
   footnote?: string;
+  /** Alias for footnote — matches reference API. */
+  bottomNote?: string;
 }
 
 /**
@@ -47,110 +52,94 @@ export const SplitHero = ({
   primaryCta = null,
   secondaryCta = null,
   footnote,
+  bottomNote,
 }: SplitHeroProps) => {
   const navigate = useNavigate();
 
-  const hasText = Boolean(eyebrow?.trim() || title?.trim() || description?.trim());
+  const note = bottomNote?.trim() || footnote?.trim() || "";
   const imageSrc = image ? assetSrc(image) : "";
   const hasImage = Boolean(imageSrc);
+  const hasText = Boolean(eyebrow?.trim() || title?.trim() || description);
   const hasCtas = Boolean(primaryCta || secondaryCta);
-  const footnoteText = footnote?.trim() ?? "";
 
   return (
     <header className="bg-brand-warm">
-      <div
-        className={
-          hasImage
-            ? "grid md:grid-cols-2 min-h-[360px] md:min-h-[520px]"
-            : "flex flex-col"
-        }
-      >
+      <div className={hasImage ? "grid lg:grid-cols-2 split-hero" : "flex flex-col"}>
         {/* Left: text */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-8 pb-12 md:pt-12 md:pb-16 order-2 md:order-1">
+        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 lg:order-1">
           {eyebrow?.trim() ? (
-            <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">
-              {eyebrow}
-            </p>
+            <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">{eyebrow}</p>
           ) : null}
           {title?.trim() ? (
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
               {title}
             </h1>
           ) : null}
-          {description?.trim() ? (
-            <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
-              {description}
-            </p>
+          {description ? (
+            <div className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8 space-y-4">
+              {typeof description === "string"
+                ? description
+                    .split(/\n\s*\n/)
+                    .map((part) => part.trim())
+                    .filter(Boolean)
+                    .map((part, i) => <p key={i}>{part}</p>)
+                : description}
+            </div>
           ) : null}
           {hasCtas ? (
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col md:flex-row gap-3">
               {primaryCta ? (
                 primaryCta.variant === "contact" ? (
                   <Button
-                    variant="outline"
+                    variant="contact-outline"
                     size="lg"
-                    className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-[10px] px-6 py-5 text-sm font-light flex items-center"
                     onClick={() => navigate(primaryCta.to)}
                   >
-                    <Phone className="mr-2 w-4 h-4 text-foreground group-hover:text-white" strokeWidth={1.5} />
+                    <Phone strokeWidth={1.5} aria-hidden="true" />
                     {primaryCta.label}
                   </Button>
                 ) : (
-                  <Button
-                    variant="cta"
-                    size="lg"
-                    className="rounded-[10px]"
-                    onClick={() => navigate(primaryCta.to)}
-                  >
+                  <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
                     {primaryCta.label}
-                    <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 )
               ) : null}
               {secondaryCta ? (
                 <Button
-                  variant="ghost"
+                  variant="contact-outline"
                   size="lg"
-                  className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-[10px]"
                   onClick={() => navigate(secondaryCta.to)}
                 >
                   {secondaryCta.icon === "mapPin" ? (
-                    <MapPin className="mr-2 w-4 h-4" strokeWidth={1.5} />
-                  ) : (
-                    <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
-                  )}
+                    <MapPin strokeWidth={1.5} aria-hidden="true" />
+                  ) : secondaryCta.icon === "phone" ? (
+                    <Phone strokeWidth={1.5} aria-hidden="true" />
+                  ) : null}
                   {secondaryCta.label}
                 </Button>
               ) : null}
             </div>
           ) : null}
-          {footnoteText ? (
-            <p
-              className={`text-sm text-foreground/55 font-light leading-relaxed max-w-md ${
-                hasCtas ? "mt-6" : "mt-2"
-              }`}
-            >
-              {footnoteText}
+          {note ? (
+            <p className="mt-4 md:mt-6 text-xs text-brand-dark/60 font-light max-w-md leading-relaxed">
+              {note}
             </p>
           ) : null}
         </div>
+
         {/* Right: image */}
         {hasImage ? (
-          <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0 bg-brand-warm">
-            <ResponsiveHeroMedia
-              variant="hero"
-              src={imageSrc}
-              hotspot={imageHotspot}
-              alt={imageAlt || title || ""}
-              className="absolute inset-0 w-full h-full"
-              loading="eager"
-            />
-          </div>
+          <SplitHeroMedia
+            src={imageSrc}
+            alt={imageAlt || title || ""}
+            hotspot={imageHotspot}
+            className="relative order-1 lg:order-2 min-h-[260px] lg:min-h-0 h-full w-full overflow-hidden"
+          />
         ) : null}
       </div>
-      {!hasText && !hasImage ? null : (
+      {hasText || hasImage ? (
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
-      )}
+      ) : null}
     </header>
   );
 };

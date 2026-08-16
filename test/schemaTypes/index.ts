@@ -28,6 +28,7 @@ import guidePage from './guidePage'
 import article from './article'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
+import opennessActPage from './opennessActPage'
 import faq from './faq'
 import faqCollection from './faqCollection'
 import ctaCollection from './ctaCollection'
@@ -81,6 +82,7 @@ export const schemaTypes = [
   article,
   jobListing,
   privacyPolicyPage,
+  opennessActPage,
   faq,
   faqCollection,
   ctaCollection,

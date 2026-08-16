@@ -3,7 +3,6 @@
 import { AssetImg } from "@/components/AssetImg";
 import { useNavigate } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanity/image-url";
@@ -170,12 +169,12 @@ const About = ({ isChatOpen }: AboutProps) => {
                 shared booking CTA band is also rendered below. */}
             <div className={`${after.length > 0 ? "mt-8" : ""} pt-6 border-t border-brand-dark/10`}>
               <Button
-                size="sm"
-                className="bg-brand-dark text-white hover:bg-brand-dark/90 font-light rounded-sm md:rounded-md px-8 h-11"
+                variant="cta"
+                size="lg"
+                className="w-full md:w-auto"
                 onClick={() => navigate("/booking")}
               >
                 {t("cta.bookConsultation")}
-                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
           </div>

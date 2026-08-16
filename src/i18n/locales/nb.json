@@ -9,6 +9,8 @@
     "contact": "Kontakt",
     "specialists": "Spesialister",
     "bookAppointment": "Bestill time",
+    "bookAppointmentHint": "Finn ledig tid hos våre spesialister.",
+    "callUsHint": "Snakk med oss – vi hjelper deg videre.",
     "bookNow": "Bestill time nå",
     "search": "Søk",
     "searchPlaceholder": "Søk etter behandlinger, spesialister, klinikker...",
@@ -65,6 +67,7 @@
     "seeAllTreatments": "Se behandlinger innen {{name}}",
     "moreSectionTitle": "Vet du allerede hva du trenger?",
     "moreSectionDescription": "Klikk og book direkte, eller les mer om den enkelte tjenesten.",
+    "specialistsPerformTitle": "Spesialistene som utfører behandlingene",
     "seoTitle": "Tjenester – Finn behandlingen som passer for deg",
     "seoDescription": "Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."
   },
@@ -100,6 +103,9 @@
     "ctaSubtitle": "Bli en del av vår historie",
     "googleLabel": "Google-anmeldelser",
     "legelistenLabel": "Legelisten",
+    "progressLabel": "Fremdrift i anmeldelseskarusell",
+    "scrollLeft": "Scroll anmeldelser til venstre",
+    "scrollRight": "Scroll anmeldelser til høyre",
     "categoryEyebrow": "Pasienterfaringer",
     "categoryHeading": "Hva pasientene sier om {{category}}"
   },
@@ -184,6 +190,7 @@
   },
   "clinicsPage": {
     "listHeading": "Liste over klinikker",
+    "heroDescription": "I Norge tilbyr vi korte ventetider til noen av de beste spesialistene innen gynekologi, fertilitet, urologi, ortopedi og andre tjenester.\n\nVi mener helse er et håndverk, som krever empati, omsorg og kontinuerlig trening. Kirurgisk presisjon preger alt vi gjør, fra diagnostikk til behandling og fra innsjekk til utsjekk.\n\nHos oss er du i gode hender. Vi kombinerer erfaring og kompetanse med hjertevarme, alltid med ditt beste i fokus.",
     "heroImageAlt": "CMedical klinikk",
     "readMore": "Les mer om klinikken",
     "readMoreAria": "Les mer om CMedical {{name}}",

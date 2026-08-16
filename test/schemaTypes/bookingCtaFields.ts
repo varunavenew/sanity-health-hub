@@ -5,6 +5,7 @@
  *
  * Keep names/types identical so dual-read needs no permanent mapping layer.
  */
+import {DEFAULT_BOOKING_CTA_QUICK_INFO_SANITY} from '../sanity/data/booking-cta-quick-info-defaults'
 import {pickStudioEn} from './studioPreview'
 import {
   mediaDescription,
@@ -60,6 +61,7 @@ export const bookingCtaContentFields = [
     title: 'Quick info',
     type: 'array',
     description: 'Short facts under the buttons (e.g. waiting time, no referral).',
+    initialValue: DEFAULT_BOOKING_CTA_QUICK_INFO_SANITY,
     of: [
       {
         type: 'object',

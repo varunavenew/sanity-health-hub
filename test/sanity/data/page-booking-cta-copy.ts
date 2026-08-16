@@ -1,5 +1,7 @@
 /** Per-page booking CTA copy migrated from hardcoded frontend / i18n. */
 
+import { DEFAULT_BOOKING_CTA_QUICK_INFO } from './booking-cta-quick-info-defaults'
+
 export type PageBookingCtaCopy = {
   title: { no: string; en: string }
   subtitle: { no: string; en: string }
@@ -19,7 +21,7 @@ export const DEFAULT_PAGE_BOOKING_CTA: PageBookingCtaCopy = {
     en: 'Book an appointment with a specialist',
   },
   subtitle: {
-    no: 'Velg tjeneste, klinikk og behandler – alt i én enkel booking.',
+    no: 'Velg tjeneste, klinikk og behandler – alt i én enkel bestilling.',
     en: 'Choose service, clinic and practitioner – all in one simple booking.',
   },
   primaryLabel: {
@@ -32,6 +34,7 @@ export const DEFAULT_PAGE_BOOKING_CTA: PageBookingCtaCopy = {
     en: 'Call us',
   },
   showSecondaryButton: true,
+  quickInfoItems: DEFAULT_BOOKING_CTA_QUICK_INFO,
 }
 
 /** Priser.tsx hardcoded CTA section (`cta.*` + `nav.bookAppointment`). */
@@ -74,6 +77,7 @@ export const PAGE_SECTIONS_EXCLUDED_DOC_IDS = new Set([
   'specialistsPage',
   'specialistsListingPage',
   'privacyPolicyPage',
+  'opennessActPage',
   'newsPage',
 ])
 

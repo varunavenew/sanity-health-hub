@@ -117,6 +117,7 @@ export function cmsInvalidationPaths(
     case "aboutPage":
     case "contactPage":
     case "privacyPolicyPage":
+    case "opennessActPage":
     case "pricingPage":
     case "insurancePage":
     case "servicesPage":
