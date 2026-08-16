@@ -2,7 +2,6 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { SpecialistCarousel } from "@/components/SpecialistCarousel";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
@@ -112,25 +111,6 @@ export function PageSectionSpecialistsBlock({
         defaultValue:
           "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
       });
-
-    if (layoutVariant === "category") {
-      return (
-        <SpecialistsScroller
-          items={specialists}
-          fallbackCategory={
-            config.categorySlug ||
-            config.treatmentCategory?.categoryId ||
-            config.treatmentCategory?.slug
-          }
-          eyebrow={config.eyebrow || undefined}
-          title={title}
-          description={description}
-          seeAllHref={seeAllHref}
-          seeAllLabel={seeAllLabel}
-          layoutVariant="category"
-        />
-      );
-    }
 
     return (
       <SpecialistCarousel

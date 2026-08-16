@@ -11,7 +11,8 @@ import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { SpecialistCarousel } from "@/components/SpecialistCarousel";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { HeroCompact } from "@/components/homepage/HeroCompact";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
 import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
@@ -59,6 +60,7 @@ const Services = ({ isChatOpen }: PageProps) => {
   const routeLocale: AppLocale = params?.locale === "en" ? "en" : "no";
   const { data: page, isPending } = useServicesPage();
   const { data: sanityFaqs } = useFaqs("tjenester");
+  const { sorted: allSpecialists } = useSpecialistsData();
 
   const loadingLabel = locale === "en" ? "Loading services..." : "Laster tjenester...";
   const pageErrorMessage =
@@ -325,12 +327,13 @@ const Services = ({ isChatOpen }: PageProps) => {
         />
       ) : null}
 
-      <SpecialistsScroller
+      <SpecialistCarousel
         title={t("services.specialistsPerformTitle", {
           defaultValue: "Spesialistene som utfører behandlingene",
         })}
         description={t("specialists.description")}
         seeAllHref="/spesialister"
+        seeAllLabel={t("specialists.seeAll", { count: allSpecialists.length })}
       />
 
       <FaqSection faqs={faqs} title={page.faqSectionTitle || undefined} />
