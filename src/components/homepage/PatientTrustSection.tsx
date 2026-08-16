@@ -42,7 +42,7 @@ export const PatientTrustSection = () => {
       />
 
       <div className="container mx-auto px-6 md:px-16 relative">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="flex flex-row md:flex-row md:items-end items-center justify-between gap-6">
           <div className="space-y-1">
             {stat ? (
               <div className="flex items-baseline gap-2">

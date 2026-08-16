@@ -10,6 +10,7 @@ import { useArticle, useArticles, useNewsPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
 import { AssetImg } from "@/components/AssetImg";
+import { MediaChip } from "@/components/ui/MediaChip";
 import { createArticlePortableTextComponents } from "@/components/news/article-portable-text";
 import { ArticleRelatedSection } from "@/components/news/ArticleRelatedSection";
 import { normalizeCategory, type Article } from "@/data/articles";
@@ -185,9 +186,9 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
             {backLabel}
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <span className="bg-white/10 text-white/80 text-xs px-3 py-1 rounded-2xl md:rounded-full">
+            <MediaChip tone="light" className="rounded-2xl md:rounded-full px-3 py-1">
               {categoryLabel}
-            </span>
+            </MediaChip>
             <span className="text-white/70 text-xs flex items-center gap-1.5">
               <Calendar className="w-3 h-3" aria-hidden="true" />
               {formatDate(article.date, dateLocale)}
@@ -230,7 +231,6 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         newsPath={newsPath}
         dateLocale={dateLocale}
         getCategoryLabel={getCategoryLabel}
-        formatDate={formatDate}
       />
     </PageLayout>
   );

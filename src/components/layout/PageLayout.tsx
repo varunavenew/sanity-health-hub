@@ -24,6 +24,7 @@ import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { DEFAULT_MAIN_NAVIGATION, withRequiredMainNavigation } from "@/lib/navigation/default-main-navigation";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
@@ -48,6 +49,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const isHomepage = /^\/(?:nb|en)?\/?$/.test(location.pathname);
   const { data: siteSettings } = useSiteSettings();
   const { index: cmsRouteIndex, localeMap } = useCmsRouteContext();
 
@@ -313,7 +315,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       */}
       <div className="flex min-h-screen w-full min-w-0 bg-background">
         <div
-          className="flex-1 min-w-0 overflow-x-clip transition-all duration-300"
+          className={cn(
+            "flex-1 min-w-0 overflow-x-clip transition-all duration-300",
+            isHomepage && "pb-[calc(180px+env(safe-area-inset-bottom))] md:pb-0",
+          )}
           style={{
             marginLeft: isChatOpen ? "360px" : "0",
             maxWidth: isChatOpen ? "calc(100% - 360px)" : "100%",
@@ -328,6 +333,8 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           <Footer />
         </div>
       </div>
+
+      {isHomepage ? <MobileBottomNav /> : null}
     </>
   );
 };

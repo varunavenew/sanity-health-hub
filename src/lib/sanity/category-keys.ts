@@ -147,14 +147,19 @@ export function behandlingerCategorySegment(
 
 export function specialistMatchesCategory(
   specialist: {
-    category: string;
+    category?: string;
     sanityCategories?: Array<{ categoryId: string }>;
   },
   categoryId: string,
 ): boolean {
   const key = normalizeCategoryFilterKey(categoryId);
   if (!key || key === "alle") return true;
-  if (normalizeCategoryFilterKey(specialist.category) === key) return true;
+  if (
+    specialist.category &&
+    normalizeCategoryFilterKey(specialist.category) === key
+  ) {
+    return true;
+  }
   return (
     specialist.sanityCategories?.some(
       (c) => normalizeCategoryFilterKey(c.categoryId) === key,

@@ -42,7 +42,7 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
       <HeroBanner />
       <PatientTrustSection />
       <HeroCompact />
-      <GoogleReviewsSection />
+      <GoogleReviewsSection showTrustSection={false} />
       <NewsSplitScreen />
       <LifePhasesSection />
       <SpecialistsSectionElegant />

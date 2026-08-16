@@ -1,5 +1,7 @@
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 import { servicesTileGridClass } from "@/lib/ui/grid-cols-for-count";
 
 export interface ServiceListItem {
@@ -14,15 +16,19 @@ interface ServicesListSectionProps {
   description?: string;
   items: ServiceListItem[];
   background?: "background" | "brand-light";
+  /** Show a primary booking button below the grid. */
+  bookingCta?: boolean;
 }
 
 export function ServicesListSection({
-  eyebrow = "Tjenester",
+  eyebrow,
   title,
   description,
   items,
   background = "background",
+  bookingCta = false,
 }: ServicesListSectionProps) {
+  const { t } = useTranslation();
   const bgClass = background === "brand-light" ? "bg-brand-light" : "bg-background";
 
   return (
@@ -31,12 +37,10 @@ export function ServicesListSection({
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
             <div className="lg:col-span-6">
-              <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                {eyebrow}
-              </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                {title}
-              </h2>
+              {eyebrow?.trim() ? (
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">{eyebrow}</p>
+              ) : null}
+              <h2 className="text-3xl md:text-5xl font-light leading-tight">{title}</h2>
             </div>
             {description && (
               <div className="lg:col-span-6 lg:pt-3">
@@ -68,6 +72,14 @@ export function ServicesListSection({
               </Link>
             ))}
           </div>
+
+          {bookingCta ? (
+            <div className="mt-10 md:mt-12">
+              <Button variant="cta" size="lg" asChild>
+                <Link to="/booking">{t("nav.bookAppointment")}</Link>
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

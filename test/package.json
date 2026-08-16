@@ -105,6 +105,8 @@
     "migrate:homepage-faq-collection": "tsx sanity/migrate-homepage-faq-collection.ts",
     "migrate:homepage-booking-cta:dry": "DRY_RUN=1 tsx sanity/migrate-homepage-booking-cta.ts",
     "migrate:homepage-booking-cta": "tsx sanity/migrate-homepage-booking-cta.ts",
+    "migrate:homepage-booking-cta-quickinfo:dry": "DRY_RUN=1 tsx sanity/migrate-homepage-booking-cta-quickinfo.ts",
+    "migrate:homepage-booking-cta-quickinfo": "tsx sanity/migrate-homepage-booking-cta-quickinfo.ts",
     "migrate:media-object:dry": "DRY_RUN=1 tsx sanity/migrate-media-object.ts",
     "migrate:media-object": "tsx sanity/migrate-media-object.ts",
     "migrate:clinic-seo:dry": "DRY_RUN=1 tsx sanity/migrate-clinic-seo.ts",

@@ -37,6 +37,7 @@ const SINGLETON_PAGE_TYPES = [
   'guidePage',
   'careersPage',
   'privacyPolicyPage',
+  'opennessActPage',
 ] as const
 
 /** Non-singleton types that use pageSectionsFieldForGroup with custom groups. */

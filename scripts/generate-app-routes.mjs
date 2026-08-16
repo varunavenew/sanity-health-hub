@@ -70,7 +70,6 @@ const simple = [
   ["kvinnehelse", "@/site-pages/themes/KvinnehelsePage", "KvinnehelsePage"],
   ["tverrfaglige-team", "@/site-pages/themes/TverrfagligePage", "TverrfagligePage"],
   ["robotassistert-kirurgi", "@/site-pages/themes/RobotkirurgiPage", "RobotkirurgiPage"],
-  ["fastlegeveiledning-overgangsalder", "@/site-pages/FastlegeveiledningOvergangsalder", "FastlegeveiledningOvergangsalder"],
   ["personvern", "@/site-pages/Personvern", "Personvern"],
   ["karriere", "@/site-pages/Karriere", "Karriere"],
   ["karriere/[slug]", "@/site-pages/KarriereDetail", "KarriereDetail"],

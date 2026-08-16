@@ -79,6 +79,7 @@
     --brand-mid: 25 23% 74%;
     --brand-beige: 30 31.6% 92.5%;
     --brand-terracotta: 18 48% 44%;
+    --footer-bg: #140c0c;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
     --chat-background: 30 31.6% 92.5%;
@@ -290,6 +291,20 @@
     display: block;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+  }
+
+  .chip-filter {
+    @apply inline-flex items-center justify-center h-10 px-4 rounded-[var(--radius)] text-xs font-light border transition-all whitespace-nowrap;
+  }
+  .chip-filter-light {
+    @apply bg-background text-brand-dark border-brand-dark/20 hover:border-brand-dark/35;
+  }
+  .chip-filter-light[data-active="true"] {
+    @apply bg-brand-dark text-[#f1ebe4] border-brand-dark;
+  }
+
+  .aktuelt-search-input {
+    @apply w-full h-10 rounded-[var(--radius)] pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground border border-transparent bg-[rgba(204,186,173,0.5)] focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
   }
 
   .stats-band-dark {

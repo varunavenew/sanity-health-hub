@@ -283,13 +283,15 @@ async function run() {
         _key: 'no',
         _type: 'internationalizedArrayTextValue',
         language: 'no',
-        value: 'Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid.',
+        value:
+          'I Norge tilbyr vi korte ventetider til noen av de beste spesialistene innen gynekologi, fertilitet, urologi, ortopedi og andre tjenester.\n\nVi mener helse er et håndverk, som krever empati, omsorg og kontinuerlig trening. Kirurgisk presisjon preger alt vi gjør, fra diagnostikk til behandling og fra innsjekk til utsjekk.\n\nHos oss er du i gode hender. Vi kombinerer erfaring og kompetanse med hjertevarme, alltid med ditt beste i fokus.',
       },
       {
         _key: 'en',
         _type: 'internationalizedArrayTextValue',
         language: 'en',
-        value: 'Our clinics in Norway offer specialist care without referral and with short waiting times.',
+        value:
+          'In Norway we offer short waiting times with some of the best specialists in gynecology, fertility, urology, orthopedics and other services.\n\nWe believe healthcare is a craft that requires empathy, care and continuous training. Surgical precision guides everything we do, from diagnosis to treatment and from check-in to check-out.\n\nWith us, you are in good hands. We combine experience and expertise with warmth, always with your best interests at heart.',
       },
     ],
     'seo.metaTitle': [

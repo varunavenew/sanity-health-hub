@@ -839,6 +839,19 @@ export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage" && ${pu
   ${localizedSeoObject}
 }`;
 
+export const OPENNESS_ACT_PAGE_QUERY = `*[_type == "opennessActPage" && ${publishedOnly}][0]{
+  ${i18nString('title')},
+  ${i18nString('breadcrumbHome')},
+  ${localizedSlug},
+  ${i18nText('subtitle')},
+  ${i18nBlockContent('body')},
+  ${i18nText('emptyMessage')},
+  showPracticalInfoSection,
+  ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
+  ${localizedSeoObject}
+}`;
+
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && ${publishedOnly}][0]{
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
@@ -1389,7 +1402,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
   "singletons": *[_type in [
     "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
     "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
-    "privacyPolicyPage", "careersPage", "guidePage"
+    "privacyPolicyPage", "opennessActPage", "careersPage", "guidePage"
   ] && ${publishedOnly}]{
     _type,
     ${localizedSlugBoth}
@@ -1398,6 +1411,12 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     _id,
     _type,
     ${localizedSlugBoth}
+  },
+  "clinicianGuides": *[_type == "clinicianGuidePage" && ${publishedOnly}]{
+    _id,
+    _type,
+    "slugNb": slug.current,
+    "slugEn": slug.current
   },
   "categories": *[_type == "treatmentCategory"]{
     _id,

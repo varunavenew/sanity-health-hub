@@ -15,7 +15,6 @@ const STATIC_APP_SEGMENTS = [
   "icon-preview",
   "demoer",
   "design-demoer",
-  "fastlegeveiledning-overgangsalder",
   "fertilitet-design",
   "gynekologi-design",
 ].filter((seg) => !(NOINDEX_SEGMENTS as readonly string[]).includes(seg));

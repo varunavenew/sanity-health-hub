@@ -37,6 +37,11 @@ function formatEyebrow(template: string, count: number): string {
   return template.replace(/\{count\}/g, String(count));
 }
 
+const LEGACY_CLINICS_HERO_DESCRIPTIONS = new Set([
+  "Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid.",
+  "Our clinics in Norway offer specialist care without referral and with short waiting times.",
+]);
+
 interface ClinicsProps {
   isChatOpen: boolean;
 }
@@ -106,7 +111,11 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
     ? formatEyebrow(page.heroEyebrow, clinicCount)
     : "";
   const heroTitle = page?.heroTitle?.trim() || "";
-  const heroDescription = page?.heroDescription?.trim() || "";
+  const cmsHeroDescription = page?.heroDescription?.trim() || "";
+  const heroDescription =
+    cmsHeroDescription && !LEGACY_CLINICS_HERO_DESCRIPTIONS.has(cmsHeroDescription)
+      ? cmsHeroDescription
+      : t("clinicsPage.heroDescription");
   const heroImage = page?.heroImage;
   const hasHeroContent = Boolean(heroEyebrow || heroTitle || heroDescription || heroImage);
   const primaryCta = {
