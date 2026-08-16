@@ -8,6 +8,7 @@ import {
   normalizePageSections,
   type PageSectionBookingCtaConfig,
 } from "@/lib/sanity/page-sections";
+import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import type { Article } from "@/data/articles";
@@ -60,6 +61,7 @@ export type HomepageReview = {
   rating: number;
   text: string;
   date: string;
+  source: "google" | "legelisten";
 };
 
 export type HomepageReviewsSection = {
@@ -369,18 +371,7 @@ export function resolveHomepageFaqs(
 }
 
 function formatReviewDate(value: unknown, lang: SortLocale): string {
-  if (typeof value === "string" && value.trim()) {
-    const parsed = new Date(value);
-    if (!Number.isNaN(parsed.getTime())) {
-      return parsed.toLocaleDateString(lang === "en" ? "en-GB" : "nb-NO", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    }
-    return value;
-  }
-  return "";
+  return formatReviewDateLabel(value, lang === "en" ? "en" : "no");
 }
 
 function mapHomepageReviews(
@@ -403,6 +394,7 @@ function mapHomepageReviews(
         rating?: number;
         text?: unknown;
         date?: unknown;
+        source?: unknown;
       } | null;
       if (!review?._id) return null;
       const text = asPlainString(review.text);
@@ -414,6 +406,10 @@ function mapHomepageReviews(
         rating: typeof review.rating === "number" ? review.rating : 5,
         text,
         date: formatReviewDate(review.date, lang),
+        source:
+          review.source === "legelisten"
+            ? ("legelisten" as const)
+            : ("google" as const),
       };
     })
     .filter((review): review is HomepageReview => Boolean(review));

@@ -3,6 +3,7 @@ import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { normalizeFocalPoint } from "@/lib/media/focal-point";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
 function normalizeBookingCategoryIds(value: unknown): number[] {
@@ -79,6 +80,7 @@ export type RawSanitySpecialist = {
     quickInfoItems?: Array<{ text?: string }>;
     heroImage?: string;
   }>;
+  metodikaUserId?: number;
   bookingCategoryIds?: number[];
   sortOrder?: number;
   faqSectionTitle?: unknown;
@@ -180,20 +182,7 @@ function readEducation(value: unknown, lang: SanityLang): string | undefined {
 }
 
 function formatReviewDate(value: unknown, lang: SanityLang): string {
-  if (value == null) return "";
-  const locale = lang === "en" ? "en-GB" : "nb-NO";
-  if (typeof value === "string") {
-    const parsed = new Date(value);
-    if (!Number.isNaN(parsed.getTime())) {
-      return parsed.toLocaleDateString(locale, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    }
-    return value;
-  }
-  return "";
+  return formatReviewDateLabel(value, lang === "en" ? "en" : "no");
 }
 
 function mapPatientReviews(
@@ -354,6 +343,10 @@ export function mapSanitySpecialistRow(
     clinicRefs: mapClinicRefs(raw.clinicRefs),
     category: resolveSpecialistPrimaryCategory(raw.categories) as Specialist["category"],
     sanityCategories: mapSanitySpecialistCategories(raw.categories, lang),
+    metodikaUserId:
+      typeof raw.metodikaUserId === "number" && raw.metodikaUserId > 0
+        ? raw.metodikaUserId
+        : undefined,
     bookingCategoryIds,
     sortOrder: typeof raw.sortOrder === "number" ? raw.sortOrder : undefined,
     faqSectionTitle: readLocalizedString(raw.faqSectionTitle, lang) || undefined,

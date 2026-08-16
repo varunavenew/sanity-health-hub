@@ -148,6 +148,11 @@ const nextConfig: NextConfig = {
       // generation no longer emits it (see resolve-route.ts), redirect any existing links/bookmarks.
       { source: "/no/flere-fagomrader", destination: "/no/ovrige", permanent: true },
       { source: "/no/flere-fagomrader/:path*", destination: "/no/ovrige/:path*", permanent: true },
+
+      // Pregnancy overview lives under Graviditet (not Gynekologi nav) — match demo routing.
+      { source: "/:locale(nb|no)/gynekologi/graviditet", destination: "/:locale/graviditet/graviditet", permanent: true },
+      { source: "/:locale(en)/gynecology/graviditet", destination: "/:locale/pregnancy/graviditet", permanent: true },
+      { source: "/:locale(nb|no)/behandlinger/gynekologi/graviditet", destination: "/:locale/graviditet/graviditet", permanent: true },
     ];
   },
 };

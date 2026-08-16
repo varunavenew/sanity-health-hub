@@ -37,6 +37,20 @@ export default {
       type: 'date',
     },
     {
+      name: 'source',
+      title: 'Review source',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Google', value: 'google' },
+          { title: 'Legelisten', value: 'legelisten' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'google',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
       name: 'avatar',
       title: 'Profile image',
       type: 'image',
@@ -46,12 +60,28 @@ export default {
     },
   ],
   preview: {
-    select: { title: 'author', subtitle: 'text' },
-    prepare({ title, subtitle }: { title?: string; subtitle?: unknown }) {
+    select: {title: 'author', subtitle: 'text', source: 'source', rating: 'rating'},
+    prepare({
+      title,
+      subtitle,
+      source,
+      rating,
+    }: {
+      title?: string
+      subtitle?: unknown
+      source?: string
+      rating?: number
+    }) {
       const excerpt = pickStudioEn(subtitle)
+      const platform = source === 'legelisten' ? 'Legelisten' : 'Google'
+      const stars =
+        typeof rating === 'number'
+          ? `${'★'.repeat(Math.max(0, Math.min(5, rating)))}${'☆'.repeat(Math.max(0, 5 - rating))}`
+          : ''
+      const quote = excerpt ? `${excerpt.slice(0, 56)}${excerpt.length > 56 ? '…' : ''}` : ''
       return {
         title: title || 'Review',
-        subtitle: excerpt ? `${excerpt.slice(0, 60)}…` : '',
+        subtitle: [platform, stars, quote].filter(Boolean).join(' · '),
       }
     },
   },

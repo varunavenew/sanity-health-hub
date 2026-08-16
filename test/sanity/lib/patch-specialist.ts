@@ -23,3 +23,21 @@ export async function setSpecialistBookingCategoryIds(
 
   return patched
 }
+
+/** Set metodikaUserId on published and draft (whichever exist). */
+export async function setSpecialistMetodikaUserId(
+  documentId: string,
+  metodikaUserId: number,
+): Promise<string[]> {
+  const patched: string[] = []
+
+  for (const id of specialistDocumentIds(documentId)) {
+    const exists = await sanityClient.fetch<boolean>(`defined(*[_id == $id][0]._id)`, { id })
+    if (!exists) continue
+
+    await sanityClient.patch(id).set({ metodikaUserId }).commit()
+    patched.push(id)
+  }
+
+  return patched
+}

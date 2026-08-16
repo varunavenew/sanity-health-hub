@@ -110,6 +110,22 @@ export default {
       group: 'pageContent',
     },
     {
+      name: 'pcMidCta',
+      title: 'Mid-page CTA',
+      description:
+        'Optional conversion band between page content and reviews. Leave the heading empty to hide the band on the website.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcReviews',
+      title: 'Reviews',
+      description:
+        'Google and Legelisten reviews shown on this treatment page. Pick from Content Library → Google Reviews. Leave both lists empty to use automatic category matching on the website.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
       name: 'ssFaq',
       title: 'FAQ',
       description:
@@ -399,7 +415,7 @@ export default {
       group: 'pageContent',
       fieldset: 'pcHero',
       description:
-        'Book appointment button text in the hero only. Mid-page / footer Booking CTA is under Shared Sections.',
+        'Book appointment button text in the hero only. Mid-page CTA and footer Booking CTA have their own button fields.',
     },
     {
       name: 'seePricesLabel',
@@ -1114,28 +1130,109 @@ export default {
       of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
     },
     {
+      name: 'conversationCtaTitle',
+      title: 'Heading',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcMidCta',
+      description: 'Main line for the mid-page conversion band. Empty = band hidden on the website.',
+    },
+    {
+      name: 'ctaDescription',
+      title: 'Supporting text',
+      type: 'internationalizedArrayText',
+      group: 'pageContent',
+      fieldset: 'pcMidCta',
+      description: 'Optional text under the heading.',
+    },
+    {
+      name: 'midCtaPrimaryLabel',
+      title: 'Primary button',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcMidCta',
+      description: 'Book / primary action next to the heading.',
+      initialValue: [
+        {_key: 'no', language: 'no', value: 'Se ledige tider og book'},
+        {_key: 'en', language: 'en', value: 'See available times and book'},
+      ],
+    },
+    {
+      name: 'midCtaShowCallButton',
+      title: 'Show “Call us” button',
+      type: 'boolean',
+      group: 'pageContent',
+      fieldset: 'pcMidCta',
+      initialValue: true,
+    },
+    {
+      name: 'midCtaCallLabel',
+      title: 'Call us — text',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcMidCta',
+      hidden: ({parent}: {parent?: {midCtaShowCallButton?: boolean}}) =>
+        parent?.midCtaShowCallButton === false,
+      initialValue: [
+        {_key: 'no', language: 'no', value: 'Ring oss'},
+        {_key: 'en', language: 'en', value: 'Call us'},
+      ],
+    },
+    {
       name: 'ctaTitle',
       title: 'Closing CTA title (legacy)',
       type: 'internationalizedArrayString',
       group: 'advanced',
       fieldset: 'advancedLegacy',
-      description: 'Legacy CTA title queried for compatibility. Current layout uses booking CTA bands.',
+      description:
+        'Legacy fallback heading. Prefer Mid-page CTA → Heading. Kept to avoid Studio unknown-field warnings.',
+      hidden: true,
     },
     {
-      name: 'ctaDescription',
-      title: 'Closing CTA text (legacy)',
-      type: 'internationalizedArrayText',
-      group: 'advanced',
-      fieldset: 'advancedLegacy',
-      description: 'Legacy CTA text queried for compatibility. Current layout uses booking CTA bands.',
-    },
-    {
-      name: 'conversationCtaTitle',
-      title: 'Mid-page CTA title (legacy)',
+      name: 'reviewsSectionTitle',
+      title: 'Reviews heading',
       type: 'internationalizedArrayString',
-      group: 'advanced',
-      fieldset: 'advancedLegacy',
-      description: 'Legacy override still used by the hardcoded mid-page CTA.',
+      group: 'pageContent',
+      fieldset: 'pcReviews',
+      description: 'Optional. Website uses a default heading when empty.',
+    },
+    {
+      name: 'googleReviews',
+      title: 'Google reviews',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcReviews',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'googleReview'}],
+          options: {
+            filter: 'source == "google" || !defined(source)',
+          },
+        },
+      ],
+      description:
+        'Reviews marked as Google in Content Library. Studio order is kept on the website.',
+      validation: (Rule: any) => Rule.max(8).error('Select up to eight Google reviews'),
+    },
+    {
+      name: 'legelistenReviews',
+      title: 'Legelisten reviews',
+      type: 'array',
+      group: 'pageContent',
+      fieldset: 'pcReviews',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'googleReview'}],
+          options: {
+            filter: 'source == "legelisten"',
+          },
+        },
+      ],
+      description:
+        'Reviews marked as Legelisten in Content Library. Studio order is kept on the website.',
+      validation: (Rule: any) => Rule.max(8).error('Select up to eight Legelisten reviews'),
     },
     {
       name: 'specialistTitle',

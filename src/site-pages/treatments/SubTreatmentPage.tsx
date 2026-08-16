@@ -5,6 +5,7 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { useTreatment } from "@/hooks/useSanity";
 import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-treatment-page";
 import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
+import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
 import { useTreatmentSlug } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -22,7 +23,11 @@ const SubTreatmentPage = ({
   initialTreatment,
   sanityLang = "no",
 }: Props) => {
-  const treatmentSlug = useTreatmentSlug();
+  const urlSlug = useTreatmentSlug();
+  const treatmentSlug =
+    categoryId === "graviditet"
+      ? resolveGraviditetTreatmentSlug(urlSlug)
+      : urlSlug;
   const { t } = useTranslation();
   const { data: treatment, isPending } = useTreatment(categoryId, treatmentSlug);
   const resolved = treatment ?? initialTreatment ?? null;
@@ -38,10 +43,9 @@ const SubTreatmentPage = ({
     );
   }
 
-
   const content = mapTreatmentToSubTreatmentContent(resolved, {
     categoryId,
-    treatmentSlug: treatmentSlug || resolved.canonicalSlug || "",
+    treatmentSlug: treatmentSlug || resolved?.canonicalSlug || "",
     lang,
   });
 
@@ -50,9 +54,9 @@ const SubTreatmentPage = ({
       isChatOpen={isChatOpen}
       content={content}
       locale={lang}
-      pageSections={resolved.pageSections}
-      faqSectionTitle={resolved.faqSectionTitle}
-      faqs={resolved.faqs}
+      pageSections={resolved?.pageSections}
+      faqSectionTitle={resolved?.faqSectionTitle}
+      faqs={resolved?.faqs}
     />
   );
 };

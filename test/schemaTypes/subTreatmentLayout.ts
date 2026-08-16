@@ -86,6 +86,7 @@ export const subTreatmentLayoutType = {
     },
     { name: 'rating', title: 'Rating / tagline', ...i18nString },
     { name: 'heroPrice', title: 'Hero — prislinje', ...i18nString },
+    { name: 'heroPriceLabel', title: 'Hero — prislabel (over prisen)', ...i18nString },
     { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean' },
     { name: 'heroAvailability', title: 'Hero — tilgjengelighet', ...i18nString },
     {

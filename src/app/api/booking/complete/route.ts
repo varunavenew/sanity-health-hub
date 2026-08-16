@@ -2,17 +2,79 @@ import { NextResponse } from "next/server";
 import {
   extractCreatedEntityId,
   extractWebAccountCreatedIds,
+  pickExistingWebAccountIds,
 } from "@/lib/booking/extractEntityId";
-import { BOOKING_URLS, postBookingResource } from "@/lib/booking/upstream";
+import {
+  formatPatientNumberForLookup,
+  formatPersonalNumberForCreate,
+} from "@/lib/booking/personalNumber";
+import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 import type { CreateAppointmentBody } from "@/app/api/booking/appointments/route";
 import type { CreateWebAccountBody } from "@/app/api/booking/webaccounts/route";
 
-function formatPersonalNumber(raw: string): string {
-  const digits = raw.replace(/\D/g, "");
-  if (digits.length === 11) {
-    return `${digits.slice(0, 6)}-${digits.slice(6)}`;
+async function resolveWebAccountIds(
+  apiKey: string,
+  customer: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    mobile: string;
+    personalnumber: string;
+    newsletter: boolean;
+  },
+): Promise<{ webAccountId: number; patientId: number; created: boolean }> {
+  const patientnumber = formatPatientNumberForLookup(customer.personalnumber);
+  if (patientnumber) {
+    const lookupUrl = `${BOOKING_URLS.webaccounts}?patientnumber=${encodeURIComponent(patientnumber)}`;
+    try {
+      const existingPayload = await fetchBookingResource(lookupUrl, apiKey);
+      const existing = pickExistingWebAccountIds(existingPayload, {
+        email: customer.email,
+      });
+      if (existing) {
+        return { ...existing, created: false };
+      }
+    } catch {
+      // Lookup failed — fall through to create.
+    }
   }
-  return digits;
+
+  const patientnumberForCreate =
+    formatPatientNumberForLookup(customer.personalnumber) || undefined;
+
+  const webPayload = await postBookingResource(BOOKING_URLS.webaccounts, apiKey, {
+    firstname: customer.firstname,
+    lastname: customer.lastname,
+    email: customer.email,
+    mobile: customer.mobile,
+    personalnumber: customer.personalnumber,
+    ...(patientnumberForCreate ? { patientnumber: patientnumberForCreate } : {}),
+    newsletter: customer.newsletter,
+    username: " ",
+    password: " ",
+  });
+
+  let created = extractWebAccountCreatedIds(webPayload);
+
+  // Metodika create often returns only `{ id }` — re-fetch for patient-id / patientnumber.
+  if (created?.webAccountId) {
+    try {
+      const detailUrl = `${BOOKING_URLS.webaccounts}?id=${encodeURIComponent(String(created.webAccountId))}`;
+      const detailPayload = await fetchBookingResource(detailUrl, apiKey);
+      const detailed = pickExistingWebAccountIds(detailPayload, {
+        email: customer.email,
+      });
+      if (detailed) created = detailed;
+    } catch {
+      // Keep create response ids.
+    }
+  }
+
+  if (created == null) {
+    throw new Error("Web account created but no id returned from booking API.");
+  }
+
+  return { ...created, created: true };
 }
 
 export async function POST(request: Request) {
@@ -40,7 +102,8 @@ export async function POST(request: Request) {
   const firstname = customer?.firstname?.trim();
   const lastname = customer?.lastname?.trim();
   const mobile = customer?.mobile?.trim();
-  const personalnumber = formatPersonalNumber(customer?.personalnumber ?? "");
+  const email = customer?.email?.trim() || "";
+  const personalnumber = formatPersonalNumberForCreate(customer?.personalnumber ?? "");
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
@@ -64,26 +127,14 @@ export async function POST(request: Request) {
   }
 
   try {
-    const webPayload = await postBookingResource(BOOKING_URLS.webaccounts, apiKey, {
+    const { webAccountId, patientId, created } = await resolveWebAccountIds(apiKey, {
       firstname,
       lastname,
-      email: customer.email?.trim() || "",
+      email,
       mobile,
       personalnumber,
       newsletter: Boolean(customer.newsletter),
-      username: " ",
-      password: " ",
     });
-
-    const webAccountIds = extractWebAccountCreatedIds(webPayload);
-    if (webAccountIds == null) {
-      return NextResponse.json(
-        { ok: false, message: "Web account created but no id returned from booking API." },
-        { status: 502 },
-      );
-    }
-
-    const { webAccountId, patientId } = webAccountIds;
 
     const appointmentRequest = {
       "webaccount-id": webAccountId,
@@ -120,6 +171,7 @@ export async function POST(request: Request) {
       ok: true,
       webAccountId,
       patientId,
+      webAccountCreated: created,
       appointmentId: appointmentId ?? undefined,
     });
   } catch (error) {

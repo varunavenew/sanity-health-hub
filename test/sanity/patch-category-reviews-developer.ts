@@ -2,7 +2,7 @@
 /**
  * Developer-only: «Ord vi er takknemlige for» reviews for all category landings.
  * NO verbatim from avenewdemo + EN translations.
- * Stars/Google badge are rendered by the frontend (5★ + Google on category pages).
+ * Stars + Google/Legelisten badges are rendered by the frontend from each review's `source`.
  *
  *   cd test && npx tsx sanity/patch-category-reviews-developer.ts
  */
@@ -36,6 +36,7 @@ function review(
   author: string,
   dateNo: string,
   dateEn: string,
+  source: "google" | "legelisten" = "google",
 ) {
   return {
     _key: key,
@@ -43,6 +44,7 @@ function review(
     text: i18nText(textNo, textEn),
     author,
     date: i18nString(dateNo, dateEn),
+    source,
   };
 }
 
@@ -70,6 +72,7 @@ const PATCHES: Array<{ id: string; reviews: ReturnType<typeof review>[] }> = [
         "Marte og Jonas",
         "1 måned siden",
         "1 month ago",
+        "legelisten",
       ),
       review(
         "r3",
@@ -99,6 +102,7 @@ const PATCHES: Array<{ id: string; reviews: ReturnType<typeof review>[] }> = [
         "Marit S.",
         "3 måneder siden",
         "3 months ago",
+        "legelisten",
       ),
       review(
         "r3",
@@ -128,6 +132,7 @@ const PATCHES: Array<{ id: string; reviews: ReturnType<typeof review>[] }> = [
         "Jan E.",
         "3 måneder siden",
         "3 months ago",
+        "legelisten",
       ),
       review(
         "r3",
@@ -157,6 +162,7 @@ const PATCHES: Array<{ id: string; reviews: ReturnType<typeof review>[] }> = [
         "Mari T.",
         "3 måneder siden",
         "3 months ago",
+        "legelisten",
       ),
       review(
         "r3",
@@ -186,6 +192,7 @@ const PATCHES: Array<{ id: string; reviews: ReturnType<typeof review>[] }> = [
         "Anna og Henrik",
         "2 måneder siden",
         "2 months ago",
+        "legelisten",
       ),
       review(
         "r3",
@@ -215,6 +222,7 @@ const PATCHES: Array<{ id: string; reviews: ReturnType<typeof review>[] }> = [
         "Eva M.",
         "3 måneder siden",
         "3 months ago",
+        "legelisten",
       ),
       review(
         "r3",

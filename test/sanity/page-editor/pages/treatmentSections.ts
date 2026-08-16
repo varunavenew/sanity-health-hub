@@ -8,6 +8,7 @@
 import {
   BoltIcon,
   BlockElementIcon,
+  CommentIcon,
   ComposeIcon,
   DocumentTextIcon,
   EarthGlobeIcon,
@@ -46,7 +47,7 @@ function nestedArrayChips(
 /**
  * Website body order (SubTreatmentLayout):
  * Hero → Related (when asIntro) → Symptoms → Process → Expert areas → Benefits →
- * Text → FAQ → Articles → Mid CTA → Specialists → Insurance → Related → Booking CTA
+ * Text → FAQ → Articles → Mid CTA → Reviews → Specialists → Insurance → Related → Booking CTA
  *
  * Related is one card (placement controlled by “Show right after hero”).
  */
@@ -198,15 +199,36 @@ function treatmentSections(): PageSectionDefinition[] {
       id: 'midCta',
       title: 'Mid-page CTA',
       description:
-        'Optional mid-page conversion band. Leave titles empty to hide on the website.',
+        'Optional mid-page conversion band with heading and buttons. Leave the heading empty to hide on the website.',
       icon: ComposeIcon,
-      fields: ['conversationCtaTitle', 'ctaTitle', 'ctaDescription'],
+      fields: [
+        'conversationCtaTitle',
+        'ctaDescription',
+        'midCtaPrimaryLabel',
+        'midCtaShowCallButton',
+        'midCtaCallLabel',
+      ],
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
-          const has =
-            Boolean(i18nPreview(document.conversationCtaTitle)) ||
-            Boolean(i18nPreview(document.ctaTitle))
+          const has = Boolean(i18nPreview(document.conversationCtaTitle))
           return has ? ['Configured'] : []
+        }),
+    },
+    {
+      id: 'reviews',
+      title: 'Reviews',
+      description:
+        'Google and Legelisten reviews for this treatment. Leave empty to use automatic category matching on the website.',
+      icon: CommentIcon,
+      fields: ['reviewsSectionTitle', 'googleReviews', 'legelistenReviews'],
+      getChips: (doc) =>
+        chipsFromDocument(doc, Boolean(doc), (document) => {
+          const google = countArray(document.googleReviews) || 0
+          const lege = countArray(document.legelistenReviews) || 0
+          const chips: string[] = []
+          if (google > 0) chips.push(countChip(google, 'Google', 'Google'))
+          if (lege > 0) chips.push(countChip(lege, 'Legelisten', 'Legelisten'))
+          return chips
         }),
     },
     {

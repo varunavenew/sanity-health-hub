@@ -111,8 +111,13 @@ export function isMeaningfulReasonItem(item: ReasonItem): boolean {
 }
 
 /** Symptoms / reasons — same rule as ReasonsEditorial clean-items filter. */
-export function hasSymptomsSection(content: { reasons?: ReasonItem[] }): boolean {
-  return (content.reasons ?? []).some(isMeaningfulReasonItem);
+export function hasSymptomsSection(content: {
+  reasons?: ReasonItem[];
+  reasonsLead?: string;
+  reasonsLead2?: string;
+}): boolean {
+  if ((content.reasons ?? []).some(isMeaningfulReasonItem)) return true;
+  return Boolean(content.reasonsLead?.trim() || content.reasonsLead2?.trim());
 }
 
 export function hasProcessSection(content: { flow?: FlowItem[] }): boolean {
@@ -148,9 +153,8 @@ export function hasFaqSection(faqs: unknown): boolean {
 
 export function hasMidCtaSection(content: {
   conversationCtaTitle?: unknown;
-  ctaTitle?: unknown;
 }): boolean {
-  return hasText(content.conversationCtaTitle) || hasText(content.ctaTitle);
+  return hasText(content.conversationCtaTitle);
 }
 
 /** Booking CTA after dual-read / normalize — image counts as content. */

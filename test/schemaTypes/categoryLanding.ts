@@ -257,6 +257,19 @@ const reviewItem = {
     { name: 'text', title: 'Quote', ...i18nTxt, validation: reqI18n('Quote') },
     { name: 'author', title: 'Name', type: 'string', validation: reqStr('Name') },
     { name: 'date', title: 'Date / context', ...i18nStr, validation: reqI18n('Date / context') },
+    {
+      name: 'source',
+      title: 'Review source',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Google', value: 'google' },
+          { title: 'Legelisten', value: 'legelisten' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'google',
+    },
   ],
   // Fields are author/text/date — not title/description.
   preview: i18nReviewItemPreview,

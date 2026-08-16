@@ -16,6 +16,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['ABC Ginto Normal', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        serif: ['Georgia', 'Times New Roman', 'Times', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -145,7 +146,7 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "scale-in": "scale-in 0.3s ease-out",
         "scale-up": "scale-up 0.4s ease-out forwards",
-        "scroll-left": "scroll-left 30s linear infinite",
+        "scroll-left": "scroll-left 120s linear infinite",
         "marquee": "marquee 40s linear infinite",
         "word-float": "word-float 4s ease-in-out forwards",
         "word-float-slow": "word-float-slow 8s ease-in-out forwards",

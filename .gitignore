@@ -38,6 +38,10 @@ coverage/
 # Temporary files
 tmp/
 temp/
+test/sanity/_tmp*
+test/sanity/_tmp*/
+*_tmp-*
+*_tmp*/
 
 # Optional local backup folders
 backup/

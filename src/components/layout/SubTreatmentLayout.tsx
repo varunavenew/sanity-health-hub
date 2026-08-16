@@ -2,8 +2,8 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { CmsMedia } from "@/components/media/CmsMedia";
-import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { TreatmentCtaButtons } from "@/components/treatments/TreatmentCtaButtons";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSectionInsuranceBlock } from "@/components/page-sections/PageSectionInsuranceBlock";
@@ -18,7 +18,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { Link } from "@/lib/router";
@@ -66,6 +65,7 @@ export interface SubTreatmentContent {
   heroAvailability?: string;
   rating?: string;
   heroPrice?: string;
+  heroPriceLabel?: string;
   hideSeePriser?: boolean;
   booking: { kategori: string; tjeneste?: string };
   primaryCtaLabel?: string;
@@ -106,6 +106,12 @@ export interface SubTreatmentContent {
   ctaTitle?: string;
   ctaDescription?: string;
   conversationCtaTitle?: string;
+  midCtaPrimaryLabel?: string;
+  midCtaCallLabel?: string;
+  midCtaShowCallButton?: boolean;
+  reviewsSectionTitle?: string;
+  googleReviews?: { id: string; name: string; rating: number; text: string; date?: string; source: "google" | "legelisten" }[];
+  legelistenReviews?: { id: string; name: string; rating: number; text: string; date?: string; source: "google" | "legelisten" }[];
   specialistCategory?: Specialist["category"];
   specialistSlugs?: string[];
   specialistCtaLabel?: string;
@@ -144,7 +150,7 @@ function ReasonsEditorial({
   lead,
   lead2,
   items,
-  layout = "prose",
+  layout = "accordion",
 }: {
   title: string;
   lead?: string;
@@ -153,14 +159,17 @@ function ReasonsEditorial({
   layout?: "prose" | "accordion" | "auto";
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
+  const hasLead = Boolean(lead?.trim() || lead2?.trim());
 
-  if (cleanItems.length === 0) return null;
+  // Demo pages can show title + lead with no right-column items yet.
+  if (cleanItems.length === 0 && !hasLead) return null;
 
+  // Default / auto: collapsed accordion (demo Om section).
   const effectiveLayout: "prose" | "accordion" =
-    layout === "auto" ? (cleanItems.length > 4 ? "accordion" : "prose") : layout;
+    layout === "prose" ? "prose" : "accordion";
 
   return (
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
           <div className="lg:col-span-5">
@@ -198,7 +207,7 @@ function ReasonsEditorial({
                       {item.title}
                     </AccordionTrigger>
                     <AccordionContent className="pb-8">
-                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
                         {typeof item.desc === "string"
                           ? renderLightMarkdown(item.desc)
                           : item.desc}
@@ -214,7 +223,7 @@ function ReasonsEditorial({
                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
                       {item.title}
                     </h3>
-                    <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                    <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
                       {typeof item.desc === "string"
                         ? renderLightMarkdown(item.desc)
                         : item.desc}
@@ -262,8 +271,8 @@ function RelatedServicesCarousel({
     <section
       className={
         beforeBooking
-          ? "bg-background pt-20 md:pt-28 pb-10 md:pb-12 overflow-hidden"
-          : "bg-background py-20 md:py-28 overflow-hidden"
+          ? "bg-background pt-14 md:pt-20 pb-10 md:pb-12 overflow-hidden"
+          : "bg-background py-14 md:py-20 overflow-hidden"
       }
     >
       <div className="container mx-auto px-6 md:px-16">
@@ -364,7 +373,7 @@ function RelatedBlock({
   if (!items.length) return null;
 
   return (
-    <section className="bg-secondary/40 py-20 md:py-28">
+    <section className="bg-secondary/40 py-14 md:py-20">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           {lead ? (
@@ -504,12 +513,14 @@ export const SubTreatmentLayout = ({
             <span>›</span>
             <span className="text-foreground/80">{c.title}</span>
           </nav>
-          <h1 className="text-4xl font-light text-foreground leading-[1.05]">{heroTitle}</h1>
+          <h1 className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+            {heroTitle}
+          </h1>
         </div>
 
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
-          <div className="flex flex-col justify-center px-6 md:px-16 py-12 lg:py-20">
-            <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[560px]">
+          <div className="flex flex-col justify-center px-6 md:px-16 py-10 lg:py-16">
+            <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
               <Link to="/" className="hover:text-foreground">
                 {c.homeBreadcrumbLabel}
               </Link>
@@ -530,24 +541,26 @@ export const SubTreatmentLayout = ({
             </nav>
 
             <div className="max-w-xl w-full">
-              <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+              <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
                 {heroTitle}
               </h1>
-              <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground whitespace-pre-line">
-                {c.heroDescription}
-              </p>
+              {c.heroDescription ? (
+                <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-muted-foreground">
+                  {c.heroDescription}
+                </p>
+              ) : null}
 
               {c.heroAvailability ? (
                 <p className="mb-6 text-sm font-light text-foreground/70">{c.heroAvailability}</p>
               ) : null}
 
               {c.heroThemes && c.heroThemes.length > 0 ? (
-                <div className="mb-8">
+                <div className="mb-6">
                   <ul className="flex flex-wrap gap-1.5" aria-label={c.themesAriaLabel}>
                     {c.heroThemes.map((theme) => (
                       <li
                         key={theme}
-                        className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                        className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-[var(--radius)]"
                       >
                         {theme}
                       </li>
@@ -556,32 +569,35 @@ export const SubTreatmentLayout = ({
                 </div>
               ) : null}
 
-              <div className="mb-8 max-w-sm">
+              <div className="mb-8">
                 {c.heroPrice ? (
                   <div className="mb-4 text-sm font-light text-foreground/80">
-                    <span className="block text-base text-foreground">{c.heroPrice}</span>
+                    {c.heroPriceLabel ? (
+                      <span className="block text-base text-foreground font-normal">
+                        {c.heroPriceLabel}
+                      </span>
+                    ) : null}
+                    <span className={c.heroPriceLabel ? "block text-muted-foreground" : "block text-base text-foreground"}>
+                      {c.heroPrice}
+                    </span>
                   </div>
                 ) : null}
 
-                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                  <Button
-                    variant="cta"
-                    size="lg"
-                    className="px-6 w-full sm:w-auto"
-                    onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+                <TreatmentCtaButtons
+                  primaryLabel={c.primaryCtaLabel}
+                  callLabel={c.callCtaLabel}
+                  onPrimary={() => {
+                    window.location.href = buildBookingUrl(c.booking);
+                  }}
+                />
+                {!c.hideSeePriser ? (
+                  <Link
+                    to={c.seePricesHref}
+                    className="inline-block mt-4 text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
                   >
-                    {c.primaryCtaLabel}
-                  </Button>
-                  {!c.hideSeePriser ? (
-                    <Link
-                      to={c.seePricesHref}
-                      className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
-                    >
-                      {c.seePricesLabel}
-                    </Link>
-                  ) : null}
-                  <CallUsClinicPicker variant="light" label={c.callCtaLabel} />
-                </div>
+                    {c.seePricesLabel}
+                  </Link>
+                ) : null}
               </div>
 
               {c.rating ? (
@@ -595,7 +611,7 @@ export const SubTreatmentLayout = ({
                 </div>
               ) : null}
 
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm md:text-base font-light text-foreground">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-foreground">
                 {c.heroPoints.map((point) => (
                   <div key={point.title} className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-foreground/80 flex-shrink-0" />
@@ -673,7 +689,7 @@ export const SubTreatmentLayout = ({
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
-              <div className="px-6 md:px-16 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+              <div className="px-6 md:px-16 lg:px-20 py-12 lg:py-20 flex flex-col justify-center">
                 <div className="max-w-lg">
                   <h2 className="hidden lg:block text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
                     {c.flowTitle}
@@ -704,7 +720,7 @@ export const SubTreatmentLayout = ({
             </div>
           </section>
         ) : (
-          <section className="bg-brand-light text-foreground py-20 md:py-28">
+          <section className="bg-brand-light text-foreground py-14 md:py-20">
             <div className="container mx-auto px-6 md:px-16">
               <div className="max-w-6xl mx-auto">
                 <div className="max-w-2xl mb-14">
@@ -743,7 +759,7 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasExpertAreasSection(c) ? (
-        <section className="bg-secondary/40 py-20 md:py-28">
+        <section className="bg-secondary/40 py-14 md:py-20">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
@@ -797,13 +813,24 @@ export const SubTreatmentLayout = ({
                 ))}
               </div>
               <ScrollArrows scrollRef={expertAreasRef} />
+              {c.relatedSeeAll && !hasRelatedSection(c) ? (
+                <div className="mt-10 flex justify-center">
+                  <Link
+                    to={c.relatedSeeAll.href}
+                    className="inline-flex items-center text-sm font-light text-foreground gap-2 hover:gap-2.5 transition-all border-b border-foreground/30 pb-1"
+                  >
+                    {c.relatedSeeAll.label}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>
       ) : null}
 
       {hasBenefitsSection(c) ? (
-      <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
+      <section className="bg-secondary/40 py-14 md:py-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div
@@ -819,7 +846,7 @@ export const SubTreatmentLayout = ({
                         src={promise.image}
                         alt={promise.imageAlt}
                         loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       />
                     ) : null}
                   </div>
@@ -839,7 +866,7 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasTextSection(c) ? (
-        <section className="py-20 md:py-28 bg-background">
+        <section className="py-14 md:py-20 bg-background">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
               <div className="lg:col-span-5">
@@ -874,7 +901,7 @@ export const SubTreatmentLayout = ({
                         <h3 className="py-6 text-left text-lg md:text-xl font-normal text-foreground leading-snug">
                           {point.title}
                         </h3>
-                        <div className="pb-8 text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3">
+                        <div className="pb-8 text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
                           <p>{point.desc}</p>
                         </div>
                       </div>
@@ -896,6 +923,7 @@ export const SubTreatmentLayout = ({
             answer: faq.answer,
           }))}
           title={faqSectionTitle?.trim() || undefined}
+          sectionClassName="py-14 md:py-20"
         />
       ) : null}
 
@@ -910,7 +938,7 @@ export const SubTreatmentLayout = ({
         )}
       />
 
-      {/* MID-PAGE CONVERSION BAND — CMS title only (conversationCtaTitle / ctaTitle) */}
+      {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
       <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
@@ -925,32 +953,45 @@ export const SubTreatmentLayout = ({
                 </p>
               ) : null}
             </div>
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center w-full md:w-auto">
-              <Button
-                variant="cta"
-                size="lg"
-                className="px-6 w-full md:w-auto h-14 md:h-12"
-                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
-              >
-                {c.primaryCtaLabel || c.callCtaLabel}
-              </Button>
-              <div className="w-full md:w-auto">
-                <CallUsClinicPicker variant="light" label={c.callCtaLabel} className="w-full h-14 md:h-12" />
-              </div>
-            </div>
+            <TreatmentCtaButtons
+              primaryLabel={
+                c.midCtaPrimaryLabel || c.primaryCtaLabel || c.callCtaLabel
+              }
+              callLabel={
+                c.midCtaShowCallButton === false
+                  ? undefined
+                  : c.midCtaCallLabel || c.callCtaLabel
+              }
+              onPrimary={() => {
+                window.location.href = buildBookingUrl(c.booking);
+              }}
+              className="w-full md:w-auto"
+            />
           </div>
         </div>
       </section>
       ) : null}
 
-      <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
+      {/* Demo order: mid-CTA → reviews → specialists → insurance → Relaterte → booking */}
+      <CategoryReviews
+        categoryId={c.booking.kategori}
+        categoryTitle={c.parent.name}
+        sectionTitle={c.reviewsSectionTitle}
+        curatedReviews={[
+          ...(c.googleReviews || []),
+          ...(c.legelistenReviews || []),
+        ]}
+      />
 
       {(() => {
         const specialistsSections = filterMeaningfulPageSections(
           pageSections?.filter((s) => s._type === "pageSectionSpecialists"),
         );
         return specialistsSections.length > 0 ? (
-          <PageSectionsRenderer sections={specialistsSections} />
+          <PageSectionsRenderer
+            sections={specialistsSections}
+            specialistsLayoutVariant="category"
+          />
         ) : null;
       })()}
 

@@ -495,6 +495,16 @@ export default {
         'Studio list indicator (🚫 when off). Website booking still uses booking category numbers below.',
     },
     {
+      name: 'metodikaUserId',
+      title: 'Metodika user ID',
+      type: 'number',
+      group: 'advanced',
+      fieldset: 'advancedBooking',
+      description:
+        'Metodika caregiver / user id. Used to show this specialist’s photo in the booking wizard. Leave empty if they are not in Metodika.',
+      validation: (Rule: any) => Rule.integer().positive(),
+    },
+    {
       name: 'bookingCategoryIds',
       title: 'Booking activity groups',
       type: 'array',
@@ -655,16 +665,21 @@ export default {
       role: 'role',
       media: 'photo',
       booking: 'bookingEnabled',
+      metodikaUserId: 'metodikaUserId',
       bookingCategoryIds: 'bookingCategoryIds',
       c0: 'categories.0->title',
       c1: 'categories.1->title',
       c2: 'categories.2->title',
     },
-    prepare({ title, role, media, booking, bookingCategoryIds, c0, c1, c2 }: any) {
+    prepare({ title, role, media, booking, metodikaUserId, bookingCategoryIds, c0, c1, c2 }: any) {
       const categoryNames = [c0, c1, c2]
         .map((c) => pickStudioEn(c))
         .filter(Boolean)
       const roleLabel = pickStudioEn(role) || 'No role'
+      const userPart =
+        typeof metodikaUserId === 'number' && metodikaUserId > 0
+          ? ` · User #${metodikaUserId}`
+          : ''
       const idPart =
         Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
           ? ` · Booking #${bookingCategoryIds.join(', #')}`
@@ -674,7 +689,7 @@ export default {
         : ''
       return {
         title: `${booking === false ? '🚫 ' : ''}${title || ''}`,
-        subtitle: `${roleLabel}${idPart}${categoryLine}`,
+        subtitle: `${roleLabel}${userPart}${idPart}${categoryLine}`,
         media,
       }
     },
