@@ -309,17 +309,15 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                   className="rounded-sm border-brand-dark/20 bg-white"
                 />
               </div>
-              <div className="text-center">
-                <Button 
-                  type="submit" 
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-full px-8 font-light"
-                >
-                  {pick(formCopy?.submitButton, t("contact.form.submit"))}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isSubmitting}
+                className="w-full bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light"
+              >
+                {pick(formCopy?.submitButton, t("contact.form.submit"))}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
             </form>
           </div>
         </div>

@@ -21,16 +21,6 @@ export const HeroCompact = ({ showHeader: _showHeader = false }: HeroCompactProp
     (c: { image?: string; title?: string }) => c?.image && c?.title,
   );
 
-  const colMap: Record<number, string> = {
-    1: "md:grid-cols-1",
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-3",
-    4: "md:grid-cols-4",
-    5: "md:grid-cols-5",
-    6: "md:grid-cols-6",
-  };
-  const gridColsClass = colMap[serviceCategories.length] ?? "md:grid-cols-6";
-
   if (serviceCategories.length === 0) return null;
 
   return (
@@ -40,7 +30,7 @@ export const HeroCompact = ({ showHeader: _showHeader = false }: HeroCompactProp
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className={`grid grid-cols-2 ${gridColsClass} gap-0 w-full`}
+        className="grid w-full gap-0 grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
       >
           {serviceCategories.map((category: any, index: number) => (
             <motion.button

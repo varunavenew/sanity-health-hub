@@ -200,7 +200,7 @@ export const HeroBanner = () => {
                   </span>
                 ) : null}
                 <p
-                  className="text-3xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-4"
+                  className="max-w-[14ch] text-3xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-4"
                   aria-live="polite"
                 >
                   {slide.label}
@@ -274,7 +274,7 @@ export const HeroBanner = () => {
                     </span>
                   ) : null}
                   <p
-                    className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6"
+                    className="max-w-[14ch] text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6"
                     aria-live="polite"
                   >
                     {slide.label}

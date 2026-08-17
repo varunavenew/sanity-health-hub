@@ -31,6 +31,7 @@ import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
+import { formatOpeningHoursLines } from "@/lib/format-opening-hours";
 import { useTranslation } from "react-i18next";
 
 type MergedClinic = {
@@ -240,6 +241,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
   const allServicesLinked =
     clinic.services?.every((id) => Boolean(serviceLinks[id]?.path)) ?? false;
+  const openingHoursLines = formatOpeningHoursLines(clinic.hours);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -379,9 +381,17 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   <Clock className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75" aria-hidden="true" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Åpningstider</p>
-                    <p className="whitespace-pre-line text-sm font-light text-muted-foreground">
-                      {clinic.hours}
-                    </p>
+                    {openingHoursLines.length > 0 ? (
+                      <div className="space-y-0.5">
+                        {openingHoursLines.map((line) => (
+                          <p key={line} className="text-sm font-light text-muted-foreground">
+                            {line}
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm font-light text-muted-foreground">—</p>
+                    )}
                   </div>
                 </div>
               </div>

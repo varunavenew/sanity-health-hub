@@ -16,6 +16,9 @@ interface SpecialistHeroProps {
 const expertiseChipClass =
   "inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-transparent hover:bg-foreground hover:text-background hover:border-foreground transition-colors";
 
+const SPECIALIST_MOBILE_HERO_GRADIENT =
+  "linear-gradient(to top, rgba(24, 4, 4, 0.94) 0%, rgba(66, 51, 42, 0.88) 22%, rgba(66, 51, 42, 0.72) 40%, rgba(66, 51, 42, 0.48) 58%, rgba(66, 51, 42, 0.24) 78%, rgba(66, 51, 42, 0.1) 100%)";
+
 function categoryServicePath(
   specialist: Specialist,
   servicesPath: string,
@@ -34,13 +37,15 @@ function clinicLinks(specialist: Specialist): SpecialistClinicRef[] {
 function SpecialistHeroMedia({
   specialist,
   className,
+  variant = "profile",
 }: {
   specialist: Specialist;
   className?: string;
+  variant?: "hero" | "profile";
 }) {
   return (
     <ResponsiveHeroMedia
-      variant="hero"
+      variant={variant}
       media={specialist.heroMedia}
       src={specialist.image}
       hotspot={specialist.imageHotspot}
@@ -65,19 +70,20 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   return (
     <header className="bg-background lg:pt-0">
       {/* Mobile — full-bleed image with bottom overlay content */}
-      <div className="relative lg:hidden min-h-[min(85svh,640px)] overflow-hidden bg-brand-dark">
+      <div className="relative lg:hidden min-h-[100svh] overflow-hidden bg-brand-dark">
         <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
         <div
-          className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10"
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{ background: SPECIALIST_MOBILE_HERO_GRADIENT }}
           aria-hidden="true"
         />
 
-        <div className="absolute inset-0 z-20 flex flex-col justify-end px-6 pb-8">
+        <div className="absolute inset-x-0 bottom-[22%] z-20 px-6">
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-[2rem] font-medium text-white leading-[1.05] mb-3"
+            className="text-[2rem] font-light text-white leading-[1.05] mb-3"
           >
             {specialist.name}
           </motion.h1>
@@ -86,7 +92,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-base font-light text-white/85 mb-4 flex flex-wrap items-center gap-x-2 gap-y-1"
+            className="text-base font-light text-white mb-3 flex flex-wrap items-center gap-x-2 gap-y-1"
           >
             <span>{specialist.title}</span>
             {hasSubtitle ? (
@@ -118,13 +124,13 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.15 }}
-              className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-6"
+              className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4"
             >
               {specialist.expertise.map((tag) => (
                 <Link
                   key={tag}
                   to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
-                  className="text-sm font-light text-white/90 hover:text-white transition-colors"
+                  className="text-sm font-light text-white hover:text-white transition-colors"
                 >
                   {tag}
                 </Link>
@@ -140,7 +146,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             <Button
               variant="cta"
               size="lg"
-              className="w-full px-7"
+              className="w-full h-12 rounded-full font-normal"
               onClick={onScrollToBooking}
             >
               {ui.bookingCtaLabel}
