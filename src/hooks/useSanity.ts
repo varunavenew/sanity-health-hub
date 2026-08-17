@@ -1304,12 +1304,38 @@ export const useServiceCategoriesFromSanity = () => {
           if (!categoryId || !label) return null;
 
           // Drop null join slots + draft treatments before sort/map (never crash).
-          const treatments = (cat.treatments || []).filter(
+          const explicitTreatments = (cat.treatments || []).filter(
             (t: any) =>
               Boolean(t) &&
               typeof t._id === "string" &&
               !t._id.startsWith("drafts."),
           );
+          const linkedFallback = (cat.linkedTreatmentsFallback || []).filter(
+            (t: any) =>
+              Boolean(t) &&
+              typeof t._id === "string" &&
+              !t._id.startsWith("drafts."),
+          );
+          const categoryTeamTreatments = (cat.categoryTeamTreatments || []).filter(
+            (t: any) =>
+              Boolean(t) &&
+              typeof t._id === "string" &&
+              !t._id.startsWith("drafts."),
+          );
+          const seenTreatmentIds = new Set(
+            explicitTreatments.map((t: { _id: string }) => t._id),
+          );
+          const treatments = [
+            ...explicitTreatments,
+            ...linkedFallback.filter(
+              (t: { _id: string }) => !seenTreatmentIds.has(t._id),
+            ),
+            ...categoryTeamTreatments.filter((t: { _id: string }) => {
+              if (seenTreatmentIds.has(t._id)) return false;
+              seenTreatmentIds.add(t._id);
+              return true;
+            }),
+          ];
 
           const mapped = applyListingSort(
             treatments,

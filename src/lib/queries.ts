@@ -1715,16 +1715,20 @@ export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${
   ${localizedSeoObject}
 }`;
 
-export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
-  _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
-  "treatments": treatments[]->{
-    _id, _createdAt, ${i18nString("title")}, sortOrder, pageRole, ${localizedSlug},
+const SERVICE_DROPDOWN_TREATMENT_ROW = `
+    _id, _createdAt, pageRole, ${i18nString("title")}, sortOrder, ${localizedSlug},
     subItems[]{
       ${i18nString("label")},
       anchor,
       path
     }
-  }
+`;
+
+export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
+  _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
+  "treatments": treatments[]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
+  "linkedTreatmentsFallback": *[_type == "treatment" && ${publishedOnly} && _id in ^.treatments[]._ref]{${SERVICE_DROPDOWN_TREATMENT_ROW}},
+  "categoryTeamTreatments": *[_type == "treatment" && ${publishedOnly} && pageRole == "team" && references(^._id)]{${SERVICE_DROPDOWN_TREATMENT_ROW}}
 }`;
 
 export const CAREERS_PAGE_QUERY = `*[_type == "careersPage" && ${publishedOnly}][0]{
