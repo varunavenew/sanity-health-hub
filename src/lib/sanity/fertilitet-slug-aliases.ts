@@ -21,6 +21,12 @@ export const FERTILITET_SLUG_ALIASES: Record<string, string> = {
   ivf: "assistert-befruktning",
   /** Demo short path → full Sanity slug. */
   "par-og-single": "assistert-befruktning-for-par-og-single",
+  /**
+   * Legacy / mistaken production slug — keep both URL forms resolving whether
+   * the CMS slug is `infertilitet` or `fertilitet-infertilitet` (incl. ISR lag).
+   */
+  "fertilitet-infertilitet": "infertilitet",
+  infertilitet: "fertilitet-infertilitet",
 };
 
 export function resolveFertilitetTreatmentSlug(urlSlug: string): string {
