@@ -142,8 +142,8 @@ const Insurance = ({ isChatOpen }: PageProps) => {
 
       {/* Help band — contact + book CTAs */}
       <section className="py-12 bg-[#faf7f5]">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl mx-auto flex flex-col gap-6">
+        <div className="container mx-auto px-8 md:px-16">
+          <div className="max-w-lg mx-auto w-full flex flex-col gap-6">
             <div className="flex items-start gap-3">
               <Phone className="w-5 h-5 text-brand-dark shrink-0 mt-0.5" strokeWidth={1.5} aria-hidden="true" />
               <div>
@@ -151,7 +151,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
                 <p className="text-muted-foreground text-sm font-light">{t("insurance.weGuide")}</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
+            <div className="grid grid-cols-2 gap-3 w-full">
               <Button
                 variant="outline"
                 size="lg"
