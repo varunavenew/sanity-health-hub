@@ -344,8 +344,8 @@
     "title": "News and articles"
   },
   "news": {
-    "title": "News",
-    "backToAktuelt": "Back to News",
+    "title": "Current Affairs",
+    "backToAktuelt": "Back to Current Affairs",
     "relatedArticles": "Related articles",
     "articleNotFound": "Article not found"
   },

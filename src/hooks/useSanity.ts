@@ -5,7 +5,7 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { googleReviews } from "@/data/googleReviews";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { useSanityContentLang } from "@/lib/sanity/content-lang";
-import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { normalizeI18n, normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import {
   mapAndSortSanitySpecialists,
   mapSanitySpecialistRow,
@@ -95,8 +95,10 @@ import {
   categoryLandingPath,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
-import { FERTILITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/fertilitet-slug-aliases";
-import { GRAVIDITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/graviditet-slug-aliases";
+import {
+  orderTjenesterCategories,
+  orderTjenesterSubcategories,
+} from "@/lib/navigation/tjenester-nav-order";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -108,7 +110,8 @@ const useSanityLang = useSanityContentLang;
 const fetchSanity = async <T>(
   query: string,
   params?: Record<string, any>,
-  lang?: "no" | "en"
+  lang?: "no" | "en",
+  options?: { strict?: boolean }
 ): Promise<T> => {
   const resolved: "no" | "en" =
     lang || (params?.lang === "en" ? "en" : "no");
@@ -117,7 +120,11 @@ const fetchSanity = async <T>(
       ...params,
       lang: resolved,
     });
-    return normalizeI18n(data, resolved) as T;
+    return (
+      options?.strict
+        ? normalizeI18nStrict(data, resolved)
+        : normalizeI18n(data, resolved)
+    ) as T;
   } catch (err) {
       const preview = query.replace(/\s+/g, " ").slice(0, 80);
       console.error("[Sanity] GROQ fetch failed:", preview, err);
@@ -985,11 +992,13 @@ export const useArticles = () => {
   return useQuery({
     queryKey: ["sanity", "articles", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang }, lang);
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang }, lang, {
+        strict: true,
+      });
       return (data || []).map((a) => ({
         ...a,
-        title: typeof a.title === "string" ? a.title : (a.title?.[0]?.value ?? ""),
-        excerpt: typeof a.excerpt === "string" ? a.excerpt : (a.excerpt?.[0]?.value ?? ""),
+        title: typeof a.title === "string" ? a.title : "",
+        excerpt: typeof a.excerpt === "string" ? a.excerpt : "",
         image: a.image || "",
         date: a.date || "",
         category: a.category || "Nytt fra oss",
@@ -1004,17 +1013,23 @@ export const useArticle = (slug: string) => {
   return useQuery({
     queryKey: ["sanity", "article", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang }, lang);
+      const data = await fetchSanity<any>(
+        ARTICLE_BY_SLUG_QUERY,
+        { slug, lang },
+        lang,
+        { strict: true },
+      );
       if (!data) return null;
       return {
         ...data,
-        title: typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? ""),
-        excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
+        title: typeof data.title === "string" ? data.title : "",
+        excerpt: typeof data.excerpt === "string" ? data.excerpt : "",
         geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
         image: data.image || "",
         imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
+        body: Array.isArray(data.body) ? data.body : [],
         pageSections: normalizePageSections(data.pageSections),
       } as SanityArticle;
     },
@@ -1268,7 +1283,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v2"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v3"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1295,7 +1310,7 @@ export const useServiceCategoriesFromSanity = () => {
         (cat) => cat._createdAt
       );
 
-      return sortedCategories
+      const mappedCategories = sortedCategories
         .map((cat) => {
           const categoryId =
             typeof cat.categoryId === "string" ? cat.categoryId.trim() : "";
@@ -1375,16 +1390,7 @@ export const useServiceCategoriesFromSanity = () => {
               (sub): sub is NonNullable<typeof sub> => sub !== null,
             );
 
-          const subcategories =
-            categoryId === "fertilitet"
-              ? FERTILITET_NAV_TREATMENT_SLUGS.map((slug) =>
-                  mapped.find((item) => item.id === slug),
-                ).filter((item): item is NonNullable<typeof item> => Boolean(item))
-              : categoryId === "graviditet"
-                ? GRAVIDITET_NAV_TREATMENT_SLUGS.map((slug) =>
-                    mapped.find((item) => item.id === slug),
-                  ).filter((item): item is NonNullable<typeof item> => Boolean(item))
-              : mapped;
+          const subcategories = orderTjenesterSubcategories(categoryId, mapped);
 
           return {
             id: categoryId,
@@ -1394,6 +1400,8 @@ export const useServiceCategoriesFromSanity = () => {
           };
         })
         .filter((cat): cat is NonNullable<typeof cat> => cat !== null);
+
+      return orderTjenesterCategories(mappedCategories);
     },
     staleTime: 5 * 60 * 1000,
   });

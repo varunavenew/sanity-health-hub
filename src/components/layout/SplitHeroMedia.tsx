@@ -17,7 +17,7 @@ interface SplitHeroMediaProps {
 export function SplitHeroMedia({
   src,
   alt,
-  className = "relative min-h-[260px] lg:min-h-0 h-full w-full overflow-hidden",
+  className = "split-media",
   mediaClassName,
   loading = "eager",
   hotspot,

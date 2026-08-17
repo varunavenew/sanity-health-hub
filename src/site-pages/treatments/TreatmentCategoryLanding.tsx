@@ -143,7 +143,7 @@ function CategorySectionHead({
   description,
   className = "mb-8 md:mb-10",
   titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
-  descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed mt-4 md:mt-5 max-w-2xl",
+  descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed max-w-2xl",
 }: {
   eyebrow?: string;
   title: string;
@@ -158,16 +158,18 @@ function CategorySectionHead({
       {eyebrow ? (
         <p className="text-xs tracking-wide text-foreground/60 mb-4">{eyebrow}</p>
       ) : null}
-      <h2 className={titleClassName}>
-        {title}
-        {titleAccent ? (
-          <>
-            <br />
-            <span className="text-foreground/70">{titleAccent}</span>
-          </>
-        ) : null}
-      </h2>
-      {description ? <p className={descriptionClassName}>{description}</p> : null}
+      <div className="grid gap-y-3 md:gap-y-4">
+        <h2 className={titleClassName}>
+          {title}
+          {titleAccent ? (
+            <>
+              <br />
+              <span className="text-foreground/70">{titleAccent}</span>
+            </>
+          ) : null}
+        </h2>
+        {description ? <p className={descriptionClassName}>{description}</p> : null}
+      </div>
     </div>
   );
 }
@@ -245,7 +247,7 @@ function CategoryReviewsCarousel({
   if (uniqueCount === 0) return null;
 
   return (
-    <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden">
+    <section className="bg-brand-warm pt-10 lg:pt-20 pb-10 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
@@ -496,13 +498,8 @@ function ExpertAreaCards({
           return (
             <article
               key={`${a.title || "area"}-${index}`}
-              className="min-h-[420px] lg:min-h-[100svh] bg-secondary/40"
+              className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section bg-secondary/40"
             >
-              <div
-                className={`flex flex-col-reverse ${
-                  imageRight ? "lg:grid lg:grid-cols-2" : "lg:grid lg:grid-cols-2"
-                } lg:min-h-[100svh]`}
-              >
                 <div
                   className={`flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20 ${
                     imageRight ? "lg:order-1" : "lg:order-2"
@@ -529,7 +526,7 @@ function ExpertAreaCards({
                   </div>
                 </div>
                 <div
-                  className={`relative h-[420px] lg:h-auto lg:min-h-full overflow-hidden ${
+                  className={`split-media ${
                     imageRight ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
@@ -544,7 +541,6 @@ function ExpertAreaCards({
                     <div className="absolute inset-0 bg-secondary" />
                   )}
                 </div>
-              </div>
             </article>
           );
         })}
@@ -947,9 +943,7 @@ function SpotlightSection({
   );
 
   const copy = (
-    <div
-      className="px-6 md:px-12 lg:px-20 flex flex-col justify-center py-10 md:py-14 lg:py-20"
-    >
+    <div className="px-6 md:px-12 lg:px-20 flex items-center py-10 md:py-14 lg:py-20">
       <div className="max-w-lg">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
           {title}
@@ -973,13 +967,7 @@ function SpotlightSection({
   );
 
   const media = (
-    <div
-      className={`relative bg-secondary/40 overflow-hidden ${
-        matchFertilityReference
-          ? "h-[280px] md:h-[360px] lg:h-auto lg:min-h-[100svh]"
-          : "h-[320px] md:h-[420px] lg:h-auto lg:min-h-screen"
-      }`}
-    >
+    <div className="split-media bg-secondary/40">
       {spotlight.image ? (
         <AssetImg
           src={spotlight.image}
@@ -993,11 +981,7 @@ function SpotlightSection({
 
   return (
     <section className="bg-brand-light text-foreground">
-      <div
-        className={`grid lg:grid-cols-2 items-stretch ${
-          matchFertilityReference ? "lg:min-h-[100svh]" : "min-h-screen"
-        }`}
-      >
+      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section">
         {copy}
         {media}
       </div>
@@ -1237,7 +1221,7 @@ const TreatmentCategoryLanding = ({
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
       segmentsSection.segments.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-10">
           <div className="page-shell">
             <div className="max-w-3xl mx-auto">
               <div className="max-w-2xl mb-8">
@@ -1299,7 +1283,7 @@ const TreatmentCategoryLanding = ({
                 ) : null}
               </div>
             </div>
-            <div className="lg:col-span-5 relative bg-secondary/40 h-[420px] lg:h-auto lg:min-h-full overflow-hidden">
+            <div className="lg:col-span-5 split-media bg-secondary/40">
               {whySection.image ? (
                 <AssetImg
                   src={whySection.image}
@@ -1315,7 +1299,7 @@ const TreatmentCategoryLanding = ({
 
     audiences: () =>
       audiencesSection.audiences.length > 0 ? (
-        <section className="bg-secondary/40 py-14 md:py-20">
+        <section className="bg-secondary/40 py-10">
           <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               {(() => {
@@ -1405,7 +1389,7 @@ const TreatmentCategoryLanding = ({
             />
           </section>
         ) : (
-          <section className="bg-secondary/40 pt-14 md:pt-28 pb-10 md:pb-16 overflow-x-clip">
+          <section className="bg-secondary/40 py-10 overflow-x-clip">
             <div className="page-shell min-w-0">
               <div className="max-w-6xl mx-auto min-w-0">
                 {(() => {
@@ -1469,11 +1453,8 @@ const TreatmentCategoryLanding = ({
 
     services: () =>
       serviceGroups.length > 0 ? (
-        <section
-          className={`bg-brand-light text-foreground pt-14 md:pt-28 ${
-            isFertility ? "pb-10 md:pb-16" : "pb-16 md:pb-20"
-          }`}
-        >          <div className="page-shell">
+        <section className="bg-brand-light text-foreground py-10">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <CategorySectionHead
                 title={servicesSection.title}
@@ -1481,7 +1462,7 @@ const TreatmentCategoryLanding = ({
                 className="mb-6 md:mb-8"
                 descriptionClassName={
                   isFertility
-                    ? "text-base font-light text-muted-foreground leading-relaxed mt-4 md:mt-5 max-w-none"
+                    ? "text-base font-light text-muted-foreground leading-relaxed max-w-none"
                     : undefined
                 }
               />
@@ -1519,19 +1500,15 @@ const TreatmentCategoryLanding = ({
 
     support: () =>
       supportSection.areas.length > 0 ? (
-        <section
-          className={`bg-brand-light overflow-x-clip ${
-            isFertility ? "pt-8 md:pt-10 pb-14 md:pb-20" : "pt-14 md:pt-20 pb-14 md:pb-20"
-          }`}
-        >
+        <section className="bg-brand-light overflow-x-clip pt-8 md:pt-10 pb-10">
           <div className="page-shell min-w-0">
             <div className="max-w-6xl mx-auto min-w-0">
-              <div className="max-w-2xl mb-8 md:mb-10">
+              <div className="max-w-2xl mb-8 md:mb-10 grid gap-y-3 md:gap-y-4">
                 {supportSection.title ? (
                   <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">{supportSection.title}</h2>
                 ) : null}
                 {supportSection.description ? (
-                  <p className="text-base font-light text-muted-foreground leading-relaxed mt-6">{supportSection.description}</p>
+                  <p className="text-base font-light text-muted-foreground leading-relaxed">{supportSection.description}</p>
                 ) : null}
               </div>
               <ExpertAreaCards
@@ -1550,7 +1527,7 @@ const TreatmentCategoryLanding = ({
 
     results: () =>
       stats.length > 0 ? (
-        <section className="relative overflow-hidden text-brand-beige pt-10 md:pt-14 pb-10 md:pb-12">
+        <section className="relative overflow-hidden text-brand-beige pt-10 lg:pt-20 pb-10 md:pb-12">
           {/* Shared stats band: raw blur-skin texture (same for all categories). */}
           <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <div
@@ -1569,14 +1546,16 @@ const TreatmentCategoryLanding = ({
                       {resultsSection.eyebrow}
                     </p>
                   ) : null}
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-beige">
-                    {resultsSection.title}
-                  </h2>
-                  {resultsSection.description ? (
-                    <p className="text-base font-light text-brand-beige/85 leading-relaxed mt-4 md:mt-5 max-w-xl">
-                      {resultsSection.description}
-                    </p>
-                  ) : null}
+                  <div className="grid gap-y-3 md:gap-y-4">
+                    <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-beige">
+                      {resultsSection.title}
+                    </h2>
+                    {resultsSection.description ? (
+                      <p className="text-base font-light text-brand-beige/85 leading-relaxed max-w-xl">
+                        {resultsSection.description}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
               ) : (
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 mb-10 md:mb-12">
@@ -1690,7 +1669,7 @@ const TreatmentCategoryLanding = ({
       {/* Hero ├óΓé¼” always first, not part of sectionOrder */}
       {isFullWidthHero ? (
         <header className="relative">
-          <div className="relative h-[420px] min-h-[420px] lg:min-h-[520px] lg:h-auto flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
+          <div className="relative split-hero overflow-hidden flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
             <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40">
               {heroMedia ? (
                 <CategoryHeroMedia
@@ -1773,7 +1752,7 @@ const TreatmentCategoryLanding = ({
               <FertilityHeroHeading
                 heading={hero.heading}
                 emphasis={hero.headingEmphasis}
-                className="text-4xl font-light text-foreground leading-[1.05] tracking-[-0.02em]"
+                className="text-4xl font-light text-foreground leading-[1.05]"
               />
             ) : (
               <h2 className="text-4xl font-light text-foreground leading-[1.05]">
@@ -1792,7 +1771,7 @@ const TreatmentCategoryLanding = ({
               hasHeroMedia ? "lg:grid lg:grid-cols-2 split-hero" : ""
             }`}
           >
-            <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+            <div className="flex items-center page-edge-text-left py-16">
               <div className="w-full max-w-xl">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
                   <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
@@ -1803,10 +1782,10 @@ const TreatmentCategoryLanding = ({
                   <FertilityHeroHeading
                     heading={hero.heading}
                     emphasis={hero.headingEmphasis}
-                    className="hidden lg:block text-4xl md:text-5xl lg:text-[3.98rem] font-light mb-8 text-foreground leading-[1.05] tracking-[-0.02em]"
+                    className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]"
                   />
                 ) : (
-                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                     {hero.heading}
                     {hero.headingEmphasis ? (
                       <>
@@ -1852,7 +1831,7 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <div className="relative h-[420px] lg:h-auto lg:min-h-full bg-secondary/40 overflow-hidden order-1 lg:order-none">
+              <div className="split-media bg-secondary/40 order-1 lg:order-none">
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}

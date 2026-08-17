@@ -231,17 +231,6 @@
     }
   }
 
-  /* Category / split layouts — match avenewdemo production CSS */
-  .split-hero,
-  .split-section {
-    min-height: 420px;
-  }
-  @media (min-width: 1024px) {
-    .split-hero,
-    .split-section {
-      min-height: 100svh;
-    }
-  }
 
   .section-flush {
     padding-top: 0 !important;
@@ -634,4 +623,56 @@ body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus-within {
 }
 body.cm-edit-mode [data-editable-scope] {
   caret-color: hsl(var(--brand-dark));
+}
+
+/*
+ * Split heroes / full-screen slides — unlayered so this wins over Tailwind
+ * min-h-[560px] utilities. Header is fixed and overlays the hero; do not
+ * subtract header height. Use min-height (not height) so tall copy can grow.
+ */
+.split-hero,
+.split-section {
+  min-height: 420px;
+}
+
+@media (min-width: 1024px) {
+  .split-hero,
+  .split-section {
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: stretch;
+  }
+}
+
+.split-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+@media (min-width: 1024px) {
+  .split-media {
+    min-height: 0;
+    height: 100%;
+    align-self: stretch;
+  }
+}
+
+/* Fill the column even when only min-height is set (stacked / zoomed viewports). */
+.split-media > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.split-hero .split-media img,
+.split-hero .split-media video,
+.split-hero .split-media iframe,
+.split-section .split-media img,
+.split-section .split-media video,
+.split-section .split-media iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

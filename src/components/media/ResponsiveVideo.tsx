@@ -20,6 +20,7 @@ import {
   type CSSProperties,
   type VideoHTMLAttributes,
 } from "react";
+import { cn } from "@/lib/utils";
 import { AssetImg } from "@/components/AssetImg";
 import { optimizeSanityImageUrl } from "@/lib/sanity/image-url";
 
@@ -96,7 +97,7 @@ export function ResponsiveVideo({
 
   return (
     <div
-      className={`relative overflow-hidden ${className}`}
+      className={cn("relative overflow-hidden h-full w-full", className)}
       style={{
         ...style,
         ["--media-focal" as string]: focal["--media-focal"] ?? position,

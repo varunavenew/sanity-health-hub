@@ -65,6 +65,11 @@ export const serviceCategories: ServiceCategory[] = [
             { label: 'NIPT', path: '/behandlinger/graviditet/nipt' },
             { label: 'Svangerskapsteam', path: '/behandlinger/graviditet/svangerskapsteam' },
             { label: 'Fosterdiagnostikk', path: '/behandlinger/graviditet/fosterdiagnostikk' },
+            { label: 'Fostermedisin', path: '/behandlinger/graviditet/fostermedisin' },
+            { label: 'Graviditetsoppfølging', path: '/behandlinger/graviditet/svangerskapsoppfolging' },
+            { label: '6-ukerskontroll etter fødsel', path: '/behandlinger/graviditet/6-ukerskontroll' },
+            { label: 'Fødselsskader', path: '/behandlinger/graviditet/fodselsskader' },
+            { label: 'Spontanabort', path: '/behandlinger/graviditet/spontanabort' },
         ],
     },
     {

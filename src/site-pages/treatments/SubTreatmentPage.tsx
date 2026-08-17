@@ -6,6 +6,8 @@ import { useTreatment } from "@/hooks/useSanity";
 import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-treatment-page";
 import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
+import { FLERE_FAGOMRADER_CATEGORY_ID } from "@/lib/sanity/category-keys";
 import { useTreatmentSlug } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -27,7 +29,9 @@ const SubTreatmentPage = ({
   const treatmentSlug =
     categoryId === "graviditet"
       ? resolveGraviditetTreatmentSlug(urlSlug)
-      : urlSlug;
+      : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+        ? resolveFlereFagomraderTreatmentSlug(urlSlug)
+        : urlSlug;
   const { t } = useTranslation();
   const { data: treatment, isPending } = useTreatment(categoryId, treatmentSlug);
   const resolved = treatment ?? initialTreatment ?? null;
