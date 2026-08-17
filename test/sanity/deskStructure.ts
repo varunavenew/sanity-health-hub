@@ -386,11 +386,11 @@ function componentLibrarySection(S: StructureBuilder) {
           ]),
       ),
     S.documentTypeListItem('googleReview')
-      .title('Google Reviews')
+      .title('Google & Legelisten Reviews')
       .icon(ReviewIcon)
       .child(
         S.documentTypeList('googleReview')
-          .title('Google Reviews')
+          .title('Google & Legelisten Reviews')
           .defaultOrdering([{field: '_createdAt', direction: 'desc'}]),
       ),
     // Future:

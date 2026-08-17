@@ -20,6 +20,10 @@ import {
   categorySlugForFetch,
   FLERE_FAGOMRADER_CATEGORY_ID,
 } from "@/lib/sanity/category-keys";
+import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
+import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
+import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 
 function listingSlug(
   listings: ListingSlugs,
@@ -72,19 +76,38 @@ function matchCategoryDoc(
   return docs.find((doc) => categoryRouteSegmentMatches(segment, doc));
 }
 
-/** Match treatment slug for active locale or alternate locale slug. */
+/** Match treatment slug for active locale, alternate locale slug, or category aliases. */
 function treatmentSlugMatches(
   doc: RouteIndexDoc,
   segment: string,
   locale: string,
+  categoryId?: string | null,
 ): boolean {
   const pair = slugPairFromDoc(doc);
   if (!pair) return false;
-  return (
-    docSlug(doc, locale) === segment ||
-    pair.slugNb === segment ||
-    pair.slugEn === segment
-  );
+  const candidates = new Set<string>([segment]);
+  if (categoryId === "fertilitet") {
+    candidates.add(resolveFertilitetTreatmentSlug(segment));
+  }
+  if (categoryId === "gynekologi") {
+    candidates.add(resolveGynekologiTreatmentSlug(segment));
+  }
+  if (categoryId === "graviditet") {
+    candidates.add(resolveGraviditetTreatmentSlug(segment));
+  }
+  if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
+    candidates.add(resolveFlereFagomraderTreatmentSlug(segment));
+  }
+  for (const candidate of candidates) {
+    if (
+      docSlug(doc, locale) === candidate ||
+      pair.slugNb === candidate ||
+      pair.slugEn === candidate
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function buildRoute(
@@ -171,7 +194,9 @@ export function resolveCmsRoute(
     const category = matchCategoryDoc(index.categories, prefix, lang);
     if (category) {
       const treatment = index.treatments.find((t) => {
-        if (!treatmentSlugMatches(t, detailSlug, lang)) return false;
+        if (!treatmentSlugMatches(t, detailSlug, lang, category.categoryId)) {
+          return false;
+        }
         if (category.categoryId) {
           if (t.categoryId === category.categoryId) return true;
           if (t.categoryIds?.includes(category.categoryId)) return true;

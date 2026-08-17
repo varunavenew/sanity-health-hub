@@ -58,8 +58,9 @@ export function mapBookingCtaBody(source: unknown): ResolvedBookingCtaBody {
 
   return {
     title: str(row.title) || undefined,
-    subtitle: str(row.subtitle) || undefined,
-    primaryLabel: str(row.primaryLabel) || undefined,
+    // Legacy patches used description / primaryCtaLabel — accept both.
+    subtitle: str(row.subtitle) || str(row.description) || undefined,
+    primaryLabel: str(row.primaryLabel) || str(row.primaryCtaLabel) || undefined,
     primaryPath: str(row.primaryPath) || undefined,
     bookingCategory,
     showSecondaryButton: row.showSecondaryButton !== false,

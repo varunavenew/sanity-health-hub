@@ -20,9 +20,20 @@ import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
-import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { TreatmentCtaButtons } from "@/components/treatments/TreatmentCtaButtons";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
-import { useTreatmentCategory } from "@/hooks/useSanity";
+import {
+  useGoogleReviewSettings,
+  useSiteSettings,
+  useTreatmentCategory,
+} from "@/hooks/useSanity";
+import {
+  GoogleReviewMark,
+  LegelistenReviewMark,
+  ReviewSourceBadge,
+} from "@/components/reviews/ReviewPlatformMarks";
+import { PartialStars } from "@/components/ui/partial-stars";
+import { resolveBusinessReputationRatings } from "@/lib/sanity/business-reputation-dual-read";
 import type {
   CategoryLandingAudience,
   CategoryLandingExpertArea,
@@ -161,15 +172,6 @@ function CategorySectionHead({
   );
 }
 
-const GoogleMark = () => (
-  <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-    <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107" />
-    <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00" />
-    <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50" />
-    <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2" />
-  </svg>
-);
-
 /** Reference carousel: edge-bleed cards, progress bar, prev/next (avenewdemo category landings). */
 function CategoryReviewsCarousel({
   eyebrow,
@@ -178,6 +180,8 @@ function CategoryReviewsCarousel({
   prevLabel,
   nextLabel,
   progressLabel,
+  googleRating,
+  legelistenRating,
 }: {
   eyebrow?: string;
   title: string;
@@ -185,6 +189,8 @@ function CategoryReviewsCarousel({
   prevLabel: string;
   nextLabel: string;
   progressLabel: string;
+  googleRating: number;
+  legelistenRating: number;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [progressPct, setProgressPct] = useState(0);
@@ -242,13 +248,37 @@ function CategoryReviewsCarousel({
     <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-xl mb-8 md:mb-10">
-            {eyebrow ? (
-              <p className="text-sm text-brand-dark/60 font-light mb-3">{eyebrow}</p>
-            ) : null}
-            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
-              {title}
-            </h2>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
+            <div className="max-w-xl">
+              {eyebrow ? (
+                <p className="text-sm text-brand-dark/60 font-light mb-3">{eyebrow}</p>
+              ) : null}
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+                {title}
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+                <GoogleReviewMark className="w-5 h-5 shrink-0" />
+                <div>
+                  <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-2xl font-normal text-brand-dark">{googleRating}</span>
+                    <PartialStars rating={googleRating} />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+                <LegelistenReviewMark className="w-5 h-5 shrink-0" />
+                <div>
+                  <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
+                    <PartialStars rating={legelistenRating} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div
@@ -277,10 +307,7 @@ function CategoryReviewsCarousel({
                     <p className="text-brand-dark font-normal text-sm">{r.author}</p>
                     <p className="text-xs text-brand-dark/60 font-light">{r.date}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-brand-dark/75">
-                    <GoogleMark />
-                    <span>Google</span>
-                  </div>
+                  <ReviewSourceBadge source={r.source || "google"} />
                 </div>
               </div>
             ))}
@@ -844,7 +871,7 @@ function PatientJourneySection({
     <Button
       variant="cta"
       size="lg"
-      className="px-8 w-full sm:w-auto"
+      className="h-12 min-h-12 px-8 rounded-2xl w-full sm:w-auto"
       onClick={() => {
         window.location.href = ctaTarget;
       }}
@@ -986,6 +1013,12 @@ const TreatmentCategoryLanding = ({
 }: TreatmentCategoryLandingProps) => {
   const { t } = useTranslation();
   const { data: category, isPending } = useTreatmentCategory(categoryId);
+  const { data: reviewSettings } = useGoogleReviewSettings();
+  const { data: siteSettings } = useSiteSettings();
+  const reputation = resolveBusinessReputationRatings(
+    siteSettings?.businessReputation,
+    reviewSettings,
+  );
   const landing = category?.landingPage;
   const heroMedia = resolveCategoryHeroMedia(
     category?.heroMedia,
@@ -1614,6 +1647,8 @@ const TreatmentCategoryLanding = ({
           progressLabel={
             sanityLang === "en" ? "Carousel progress" : "Fremdrift i karusell"
           }
+          googleRating={reputation.googleAverageRating}
+          legelistenRating={reputation.legelistenAverageRating}
         />
       ) : null,
 
@@ -1696,16 +1731,14 @@ const TreatmentCategoryLanding = ({
                       <span className="block text-muted-foreground font-light">{hero.entryPriceValue}</span>
                     </div>
                   ) : null}
-                  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full">
-                    <Button variant="cta" size="lg" className="px-8 w-full sm:w-auto" onClick={() => { window.location.href = buildBookingUrl(bookingParams); }}>
-                      {hero.primaryCtaLabel}
-                    </Button>
-                    <CallUsClinicPicker
-                      variant="lightSolid"
-                      label={hero.secondaryCtaLabel}
-                      className="w-full sm:w-auto"
-                    />
-                  </div>
+                  <TreatmentCtaButtons
+                    primaryLabel={hero.primaryCtaLabel}
+                    callLabel={hero.secondaryCtaLabel}
+                    onPrimary={() => {
+                      window.location.href = buildBookingUrl(bookingParams);
+                    }}
+                    className="w-full"
+                  />
                   {hero.helpText ? (
                     <p className="text-sm font-light text-muted-foreground leading-relaxed">
                       {hero.helpText}
@@ -1773,7 +1806,7 @@ const TreatmentCategoryLanding = ({
                     className="hidden lg:block text-4xl md:text-5xl lg:text-[3.98rem] font-light mb-8 text-foreground leading-[1.05] tracking-[-0.02em]"
                   />
                 ) : (
-                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
                     {hero.heading}
                     {hero.headingEmphasis ? (
                       <>
@@ -1794,20 +1827,14 @@ const TreatmentCategoryLanding = ({
                     <span className="block">{hero.entryPriceValue}</span>
                   </div>
                 ) : null}
-                <div
-                  className={`flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full ${
-                    hero.helpText ? "mb-4" : "mb-10"
-                  }`}
-                >
-                  <Button variant="cta" size="lg" className="px-8 w-full sm:w-auto" onClick={() => { window.location.href = buildBookingUrl(bookingParams); }}>
-                    {hero.primaryCtaLabel}
-                  </Button>
-                  <CallUsClinicPicker
-                    variant="lightSolid"
-                    label={hero.secondaryCtaLabel}
-                    className="w-full sm:w-auto"
-                  />
-                </div>
+                <TreatmentCtaButtons
+                  primaryLabel={hero.primaryCtaLabel}
+                  callLabel={hero.secondaryCtaLabel}
+                  onPrimary={() => {
+                    window.location.href = buildBookingUrl(bookingParams);
+                  }}
+                  className={`w-full ${hero.helpText ? "mb-4" : "mb-10"}`}
+                />
                 {hero.helpText ? (
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-10">
                     {hero.helpText}

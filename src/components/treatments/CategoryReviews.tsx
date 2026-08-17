@@ -1,7 +1,16 @@
-import { useMemo } from "react";
-import { Quote, User } from "lucide-react";
+"use client";
+
+import { useEffect, useMemo, useRef } from "react";
+import { User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { PartialStars } from "@/components/ui/partial-stars";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import {
+  GoogleReviewMark,
+  LegelistenReviewMark,
+  ReviewSourceBadge,
+  normalizeReviewSource,
+} from "@/components/reviews/ReviewPlatformMarks";
 import { useGoogleReviews, useGoogleReviewSettings, useSiteSettings } from "@/hooks/useSanity";
 import { resolveBusinessReputationRatings } from "@/lib/sanity/business-reputation-dual-read";
 
@@ -13,43 +22,66 @@ const categoryKeywords: Record<string, string[]> = {
   graviditet: ["gravid", "foster", "fødsel", "ultralyd", "nipt"],
 };
 
-const GoogleIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107"/>
-    <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00"/>
-    <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50"/>
-    <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2"/>
-  </svg>
-);
-
-const LegelistenIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#0A7E8C"/>
-    <path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 10c-2.7 0-5.8 1.29-6 2h12c-.2-.71-3.3-2-6-2z" fill="white"/>
-    <path d="M12 13c-2 0-6 1-6 3v1h12v-1c0-2-4-3-6-3z" fill="white"/>
-  </svg>
-);
+/** Slow continuous drift — similar feel to former CSS marquee. */
+const AUTO_SCROLL_PX_PER_SEC = 32;
+const RESUME_AFTER_MS = 2200;
 
 interface CategoryReviewsProps {
   categoryId: string;
   categoryTitle: string;
+  /** Optional CMS heading override for this treatment. */
+  sectionTitle?: string;
+  /** When set (non-empty), use these instead of automatic category keyword matching. */
+  curatedReviews?: Array<{
+    id: string;
+    name: string;
+    rating: number;
+    text: string;
+    date?: string;
+    source: "google" | "legelisten";
+  }>;
 }
 
-export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsProps) => {
-  const { t } = useTranslation();
+/**
+ * Treatment-page reviews: auto-running track + swipe / drag / progress / arrows.
+ * Prefers CMS-selected Google + Legelisten reviews when present.
+ */
+export const CategoryReviews = ({
+  categoryId,
+  categoryTitle,
+  sectionTitle,
+  curatedReviews,
+}: CategoryReviewsProps) => {
+  const { t, i18n } = useTranslation();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const draggingRef = useRef(false);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { data: allReviews = [] } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
   const { data: siteSettings } = useSiteSettings();
+  const isEn = (i18n.language || "no").toLowerCase().startsWith("en");
 
   const reviews = useMemo(() => {
+    if (curatedReviews && curatedReviews.length > 0) {
+      return curatedReviews.map((r) => ({
+        id: r.id,
+        name: r.name,
+        rating: r.rating,
+        text: r.text,
+        date: r.date || "",
+        source: normalizeReviewSource(r.source),
+      }));
+    }
+
     const keywords = categoryKeywords[categoryId] || [];
     const mapped = allReviews.map((r, i) => ({
-      id: i,
+      id: String(i),
       name: r.name,
       rating: r.rating,
       text: r.text,
       date: r.date,
-      source: "google" as const,
+      source: normalizeReviewSource(r.source),
     }));
     if (keywords.length === 0) return mapped.slice(0, 8);
 
@@ -59,9 +91,116 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
     if (matched.length >= 6) return matched.slice(0, 8);
     const remaining = mapped.filter((r) => !matched.includes(r));
     return [...matched, ...remaining].slice(0, 8);
-  }, [allReviews, categoryId]);
+  }, [allReviews, categoryId, curatedReviews]);
 
-  const duplicated = [...reviews, ...reviews];
+  // Duplicate for seamless loop while auto-scrolling.
+  const track = useMemo(
+    () => (reviews.length > 1 ? [...reviews, ...reviews] : reviews),
+    [reviews],
+  );
+
+  const pauseAuto = () => {
+    pausedRef.current = true;
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+  };
+
+  const scheduleResume = () => {
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      if (!draggingRef.current) pausedRef.current = false;
+    }, RESUME_AFTER_MS);
+  };
+
+  // Auto-scroll + pointer/touch drag (mobile cursor / finger).
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || reviews.length < 2) return;
+
+    el.style.scrollBehavior = "auto";
+
+    let raf = 0;
+    let last = performance.now();
+    let dragStartX = 0;
+    let dragStartScroll = 0;
+
+    const tick = (now: number) => {
+      const dt = Math.min(64, now - last);
+      last = now;
+      if (!pausedRef.current && !draggingRef.current) {
+        const loopAt = el.scrollWidth / 2;
+        if (loopAt > 8) {
+          el.scrollLeft += (AUTO_SCROLL_PX_PER_SEC * dt) / 1000;
+          if (el.scrollLeft >= loopAt - 1) {
+            el.scrollLeft -= loopAt;
+          }
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      draggingRef.current = true;
+      pauseAuto();
+      dragStartX = e.clientX;
+      dragStartScroll = el.scrollLeft;
+      el.setPointerCapture(e.pointerId);
+      el.classList.add("cursor-grabbing");
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!draggingRef.current) return;
+      const dx = e.clientX - dragStartX;
+      el.scrollLeft = dragStartScroll - dx;
+    };
+
+    const onPointerUp = (e: PointerEvent) => {
+      if (!draggingRef.current) return;
+      draggingRef.current = false;
+      el.classList.remove("cursor-grabbing");
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {
+        /* already released */
+      }
+      scheduleResume();
+    };
+
+    const onWheel = () => {
+      pauseAuto();
+      scheduleResume();
+    };
+
+    const onEnter = () => {
+      if (window.matchMedia("(hover: hover)").matches) pauseAuto();
+    };
+    const onLeave = () => {
+      if (window.matchMedia("(hover: hover)").matches) scheduleResume();
+    };
+
+    el.addEventListener("pointerdown", onPointerDown);
+    el.addEventListener("pointermove", onPointerMove);
+    el.addEventListener("pointerup", onPointerUp);
+    el.addEventListener("pointercancel", onPointerUp);
+    el.addEventListener("wheel", onWheel, { passive: true });
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+      el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("pointermove", onPointerMove);
+      el.removeEventListener("pointerup", onPointerUp);
+      el.removeEventListener("pointercancel", onPointerUp);
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, [reviews.length]);
+
   const ratings = resolveBusinessReputationRatings(
     siteSettings?.businessReputation,
     settings,
@@ -72,79 +211,108 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   if (reviews.length === 0) return null;
 
   return (
-    <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">
+    <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-          <div>
-            <p className="text-sm text-brand-dark/50 font-light mb-2">
-              {t("reviews.categoryEyebrow")}
-            </p>
-            <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
-              {t("reviews.categoryHeading", { category: categoryTitle.toLowerCase() })}
-            </h2>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
-              <GoogleIcon />
-              <div>
-                <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{googleRating}</span>
-                  <PartialStars rating={googleRating} />
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
+            <div className="max-w-xl">
+              <p className="text-sm text-brand-dark/50 font-light mb-2">
+                {t("reviews.categoryEyebrow")}
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+                {sectionTitle?.trim() ||
+                  t("reviews.categoryHeading", { category: categoryTitle.toLowerCase() })}
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+                <GoogleReviewMark className="w-5 h-5 shrink-0" />
+                <div>
+                  <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-2xl font-normal text-brand-dark">{googleRating}</span>
+                    <PartialStars rating={googleRating} />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+                <LegelistenReviewMark className="w-5 h-5 shrink-0" />
+                <div>
+                  <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
+                    <PartialStars rating={legelistenRating} />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
-              <LegelistenIcon />
-              <div>
-                <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
-                  <PartialStars rating={legelistenRating} />
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="relative mt-8">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
-        <div className="flex w-max gap-6 animate-scroll-left hover:[animation-play-state:paused]">
-          {duplicated.map((review, index) => {
-            const isAnonymous = review.name === "Anonym";
-            return (
-              <div
-                key={`${review.id}-${index}`}
-                className="flex-shrink-0 w-[380px] p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
-              >
-                <Quote className="w-8 h-8 text-brand-dark/10 rotate-180 mb-3" />
-                <div className="mb-4">
-                  <PartialStars rating={review.rating} />
-                </div>
-                <p className="text-brand-dark font-light leading-relaxed text-base mb-2">
-                  "{review.text.length > 120 ? review.text.slice(0, 120) + "..." : review.text}"
-                </p>
-                <div className="mb-4" />
-                <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
-                  <div>
-                    <p
-                      className={`text-brand-dark ${isAnonymous ? "italic text-brand-dark/60 font-light" : "font-normal"} flex items-center gap-2`}
-                    >
-                      {isAnonymous && <User className="w-3.5 h-3.5" />}
-                      {review.name}
-                    </p>
-                    <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
+          <div
+            ref={scrollRef}
+            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2 cursor-grab touch-pan-x select-none"
+            style={{
+              scrollbarWidth: "none",
+              WebkitOverflowScrolling: "touch",
+              scrollBehavior: "auto",
+            }}
+            onFocusCapture={pauseAuto}
+            onBlurCapture={scheduleResume}
+          >
+            {track.map((review, index) => {
+              const isAnonymous = review.name === "Anonym";
+              const text =
+                review.text.length > 120
+                  ? `${review.text.slice(0, 120)}...`
+                  : review.text;
+              return (
+                <div
+                  key={`${review.id}-${index}`}
+                  className="flex-shrink-0 w-[78vw] sm:w-[360px] p-6 md:p-8 rounded-sm bg-white border border-brand-dark/10"
+                >
+                  <div className="mb-4">
+                    <PartialStars rating={review.rating} />
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
-                    <GoogleIcon />
-                    <span>Google</span>
+                  <p className="text-brand-dark font-light leading-relaxed mb-6 text-sm md:text-base">
+                    &ldquo;{text}&rdquo;
+                  </p>
+                  <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                    <div>
+                      <p
+                        className={`text-brand-dark text-sm ${
+                          isAnonymous
+                            ? "italic text-brand-dark/60 font-light"
+                            : "font-normal"
+                        } flex items-center gap-2`}
+                      >
+                        {isAnonymous ? <User className="w-3.5 h-3.5" /> : null}
+                        {review.name}
+                      </p>
+                      <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
+                    </div>
+                    <ReviewSourceBadge source={review.source} />
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          <div
+            onPointerDown={pauseAuto}
+            onPointerUp={scheduleResume}
+            onMouseEnter={pauseAuto}
+            onMouseLeave={scheduleResume}
+          >
+            <ScrollArrows
+              scrollRef={scrollRef}
+              visibility="all"
+              className="mt-4"
+              slideCount={reviews.length}
+              progressLabel={isEn ? "Carousel progress" : "Fremdrift i karusell"}
+              prevLabel={isEn ? "Previous" : "Forrige"}
+              nextLabel={isEn ? "Next" : "Neste"}
+            />
+          </div>
         </div>
       </div>
     </section>

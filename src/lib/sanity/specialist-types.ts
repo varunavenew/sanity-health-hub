@@ -74,6 +74,8 @@ export interface Specialist {
   clinicRefs?: SpecialistClinicRef[];
   /** Categories linked in Sanity Studio — drives inline booking section. */
   sanityCategories?: SpecialistSanityCategory[];
+  /** Metodika caregiver / user id — used to attach this photo in the booking wizard. */
+  metodikaUserId?: number;
   /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */
   bookingCategoryIds?: number[];
   sortOrder?: number;

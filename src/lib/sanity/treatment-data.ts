@@ -1,15 +1,19 @@
 import { TREATMENT_BY_SLUG_QUERY } from "@/lib/queries";
 import {
   categorySlugForFetch,
+  FLERE_FAGOMRADER_CATEGORY_ID,
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
+import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { isRelatedServiceEligible } from "@/lib/sanity/treatment-page-role";
+import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -37,15 +41,57 @@ function asPlainString(value: unknown): string {
   return "";
 }
 
+function pathSlug(path: string): string {
+  return path.split("/").filter(Boolean).pop() || "";
+}
+
 function asStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return value.map((v) => asPlainString(v)).filter(Boolean);
+}
+
+function mapTreatmentReviews(
+  value: unknown,
+  lang: "no" | "en" = "no",
+): TreatmentReview[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((row): TreatmentReview | null => {
+      if (!row || typeof row !== "object") return null;
+      const item = row as Record<string, unknown>;
+      const name = asPlainString(item.author);
+      const text = asPlainString(item.text);
+      if (!name || !text) return null;
+      const rating =
+        typeof item.rating === "number" && item.rating >= 1 && item.rating <= 5
+          ? item.rating
+          : 5;
+      const date = formatReviewDateLabel(item.date, lang) || undefined;
+      return {
+        id: asPlainString(item._id) || name,
+        name,
+        text,
+        rating,
+        date,
+        source: item.source === "legelisten" ? "legelisten" : "google",
+      };
+    })
+    .filter((row): row is TreatmentReview => row != null);
 }
 
 export type TreatmentSection = {
   id: string;
   heading: string;
   content: string;
+};
+
+export type TreatmentReview = {
+  id: string;
+  name: string;
+  rating: number;
+  text: string;
+  date?: string;
+  source: "google" | "legelisten";
 };
 
 export type TreatmentData = {
@@ -80,6 +126,7 @@ export type TreatmentData = {
   heroThemes?: string[];
   heroAvailability?: string;
   heroPrice?: string;
+  heroPriceLabel?: string;
   hideSeePriser?: boolean;
   heroVideo?: string;
   rating?: string;
@@ -131,6 +178,12 @@ export type TreatmentData = {
   ctaTitle?: string;
   ctaDescription?: string;
   conversationCtaTitle?: string;
+  midCtaPrimaryLabel?: string;
+  midCtaCallLabel?: string;
+  midCtaShowCallButton?: boolean;
+  reviewsSectionTitle?: string;
+  googleReviews?: TreatmentReview[];
+  legelistenReviews?: TreatmentReview[];
   specialistTitle?: string;
   specialistDescription?: string;
   specialistCtaLabel?: string;
@@ -148,6 +201,7 @@ export type TreatmentData = {
 
 export function mapTreatmentDocument(
   data: Record<string, unknown> | null | undefined,
+  lang: "no" | "en" = "no",
 ): TreatmentData | null {
   if (!data) return null;
 
@@ -167,6 +221,35 @@ export function mapTreatmentDocument(
   const relatedSpecialistSlugs = relatedSpecialists
     .map((r) => asPlainString((r as Record<string, unknown>).slug))
     .filter(Boolean);
+
+  const related = (() => {
+    const rs = data.relatedSection as Record<string, unknown> | undefined;
+    return ((rs?.items as unknown[]) || [])
+      .filter(Boolean)
+      .map((item) => {
+        const r = item as Record<string, unknown>;
+        return {
+          pageRole: asPlainString(r.pageRole) || undefined,
+          eyebrow: asPlainString(r.eyebrow),
+          title: asPlainString(r.title),
+          desc: asPlainString(r.desc),
+          path: asPlainString(r.path),
+          image: asPlainString(r.image) || undefined,
+          imageAlt:
+            asPlainString(r.imageAlt) ||
+            asPlainString(r.heroImageAlt) ||
+            undefined,
+        };
+      })
+      .filter((r) => r.title && r.path && isRelatedServiceEligible(r.pageRole));
+  })();
+
+  const relatedImageBySlug = new Map(
+    related
+      .filter((item) => item.image)
+      .map((item) => [pathSlug(item.path), item.image!] as const)
+      .filter(([slug]) => Boolean(slug)),
+  );
 
   return {
     title: asPlainString(data.title),
@@ -211,6 +294,7 @@ export function mapTreatmentDocument(
     heroThemes: asStringArray(data.heroThemes),
     heroAvailability: row("heroAvailability"),
     heroPrice: row("heroPrice"),
+    heroPriceLabel: row("heroPriceLabel"),
     hideSeePriser: data.hideSeePriser === true,
     heroVideo: row("heroVideo"),
     rating: row("rating"),
@@ -276,7 +360,13 @@ export function mapTreatmentDocument(
             title: asPlainString(r.title),
             desc: asPlainString(r.desc),
             path: asPlainString(r.path),
-            image: asPlainString(r.image) || undefined,
+            image:
+              asPlainString(r.image) ||
+              relatedImageBySlug.get(pathSlug(asPlainString(r.path))) ||
+              relatedImageBySlug.get(
+                resolveFertilitetTreatmentSlug(pathSlug(asPlainString(r.path))),
+              ) ||
+              undefined,
             imageAlt: asPlainString(r.imageAlt) || undefined,
           };
         })
@@ -329,32 +419,18 @@ export function mapTreatmentDocument(
     ctaTitle: row("ctaTitle"),
     ctaDescription: row("ctaDescription"),
     conversationCtaTitle: row("conversationCtaTitle"),
+    midCtaPrimaryLabel: row("midCtaPrimaryLabel"),
+    midCtaCallLabel: row("midCtaCallLabel"),
+    midCtaShowCallButton: data.midCtaShowCallButton !== false,
+    reviewsSectionTitle: row("reviewsSectionTitle"),
+    googleReviews: mapTreatmentReviews(data.googleReviews, lang),
+    legelistenReviews: mapTreatmentReviews(data.legelistenReviews, lang),
     specialistTitle: row("specialistTitle"),
     specialistDescription: row("specialistDescription"),
     specialistCtaLabel: row("specialistCtaLabel"),
     specialistCtaHref: row("specialistCtaHref"),
     relatedSpecialistSlugs,
-    related: (() => {
-      const rs = data.relatedSection as Record<string, unknown> | undefined;
-      return ((rs?.items as unknown[]) || [])
-        .filter(Boolean)
-        .map((item) => {
-          const r = item as Record<string, unknown>;
-          return {
-            pageRole: asPlainString(r.pageRole) || undefined,
-            eyebrow: asPlainString(r.eyebrow),
-            title: asPlainString(r.title),
-            desc: asPlainString(r.desc),
-            path: asPlainString(r.path),
-            image: asPlainString(r.image) || undefined,
-            imageAlt:
-              asPlainString(r.imageAlt) ||
-              asPlainString(r.heroImageAlt) ||
-              undefined,
-          };
-        })
-        .filter((r) => r.title && r.path && isRelatedServiceEligible(r.pageRole));
-    })(),
+    related,
     pageSections: normalizePageSections(data.pageSections),
     canonicalSlug: asPlainString(data.slug) || undefined,
     pageRole: row("pageRole"),
@@ -374,14 +450,18 @@ export async function fetchTreatmentData(
       ? resolveFertilitetTreatmentSlug(treatmentSlug)
       : categoryKey === "gynekologi"
         ? resolveGynekologiTreatmentSlug(treatmentSlug)
-        : treatmentSlug;
+        : categoryKey === "graviditet"
+          ? resolveGraviditetTreatmentSlug(treatmentSlug)
+          : categoryKey === FLERE_FAGOMRADER_CATEGORY_ID
+            ? resolveFlereFagomraderTreatmentSlug(treatmentSlug)
+            : treatmentSlug;
   const raw = await fetchSanityGroqBrowser<Record<string, unknown> | null>(
     TREATMENT_BY_SLUG_QUERY,
     { categorySlug: categorySlugForFetch(categorySlug), treatmentSlug: resolvedSlug, lang },
   );
   if (!raw) return null;
   const normalized = normalizeI18nStrict(raw, lang) as Record<string, unknown>;
-  const mapped = mapTreatmentDocument(normalized);
+  const mapped = mapTreatmentDocument(normalized, lang);
   if (mapped && !mapped.canonicalSlug) {
     mapped.canonicalSlug = resolvedSlug;
   }

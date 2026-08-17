@@ -96,7 +96,7 @@ export default {
       type: 'array',
       group: 'content',
       description:
-        'CMS source of truth for the Pricing page list. Optional Metodika activity ID on each line controls whether “Bestill time” appears — Metodika never removes a line from this list.',
+        'CMS source of truth for the Pricing page list. Keep both Metodika (bookable) and CMedical (design-only) lines. Same treatment in both sources is stored once with source=metodika. “Bestill time” only appears on Metodika lines.',
       of: [
         {
           type: 'object',
@@ -178,19 +178,21 @@ export default {
                               options: {
                                 list: [
                                   {title: 'Metodika', value: 'metodika'},
-                                  {title: 'Sanity only', value: 'sanity'},
+                                  {title: 'CMedical', value: 'cmedical'},
                                 ],
                                 layout: 'radio',
                               },
-                              initialValue: 'sanity',
+                              initialValue: 'cmedical',
                               validation: (Rule: any) =>
                                 Rule.required().custom((value: unknown) =>
-                                  value === 'metodika' || value === 'sanity'
+                                  value === 'metodika' ||
+                                  value === 'cmedical' ||
+                                  value === 'sanity'
                                     ? true
-                                    : 'Choose metodika or sanity',
+                                    : 'Choose metodika or cmedical',
                                 ),
                               description:
-                                'Identifies whether this pricing item originates from Metodika or is managed only in Sanity. Metodika items may have an activity ID and can show “Bestill time”. Sanity-only items never show a booking button.',
+                                'Metodika = bookable online (shows “Bestill time”). CMedical = design/CMS-only line (phone consults, packages, fees) with no booking button. Legacy “sanity” is treated as CMedical.',
                             },
                             {
                               name: 'apiActivityId',
@@ -220,8 +222,8 @@ export default {
                               const origin =
                                 source === 'metodika'
                                   ? 'metodika'
-                                  : source === 'sanity'
-                                    ? 'sanity'
+                                  : source === 'cmedical' || source === 'sanity'
+                                    ? 'cmedical'
                                     : 'source?'
                               const booking = bookable
                                 ? ` · bookable #${apiActivityId}`

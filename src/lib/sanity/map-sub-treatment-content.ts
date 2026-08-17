@@ -7,6 +7,35 @@ import {
 } from "@/lib/sanity/category-keys";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
+function firstHeroParagraph(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return "";
+  return trimmed.split(/\n\n+/).map((part) => part.trim()).find(Boolean) ?? trimmed;
+}
+
+/**
+ * Prefer an explicit CMS price label only.
+ * Never invent a label from the treatment title — that duplicates the H1
+ * on pages where title === heroTitle (common on fertility treatments).
+ */
+function resolveHeroPriceLabel(
+  treatment: TreatmentData,
+  _categoryId: string,
+): string | undefined {
+  const explicit = treatment.heroPriceLabel?.trim();
+  return explicit || undefined;
+}
+
+/** Demo format is "Pris fra 3.200 kr" / keep EN "from …" as stored. */
+function resolveHeroPrice(price: string | undefined, isEn: boolean): string | undefined {
+  const trimmed = price?.trim();
+  if (!trimmed) return undefined;
+  if (isEn) return trimmed;
+  if (/^pris\s+fra\b/i.test(trimmed)) return trimmed;
+  if (/^fra\b/i.test(trimmed)) return `Pris ${trimmed}`;
+  return trimmed;
+}
+
 function seoText(treatment: TreatmentData): { title: string; description: string } {
   const seo = treatment.seo as
     | { metaTitle?: string; metaDescription?: string }
@@ -82,11 +111,14 @@ export function mapTreatmentToSubTreatmentContent(
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
     heroTitle: treatment.heroTitle || treatment.title || "",
-    heroDescription: treatment.description || treatment.heroDescription || "",
+    heroDescription: firstHeroParagraph(
+      treatment.heroDescription || treatment.description || "",
+    ),
     heroThemes: treatment.heroThemes,
     heroPoints,
     heroAvailability: treatment.heroAvailability,
-    heroPrice: treatment.heroPrice,
+    heroPrice: resolveHeroPrice(treatment.heroPrice, isEn),
+    heroPriceLabel: resolveHeroPriceLabel(treatment, categoryId),
     hideSeePriser: treatment.hideSeePriser,
     heroImage: treatment.heroImage,
     heroImageAlt: treatment.heroImageAlt,
@@ -108,7 +140,7 @@ export function mapTreatmentToSubTreatmentContent(
     reasonsLead: treatment.reasonsLead,
     reasonsLead2: treatment.reasonsLead2,
     reasons,
-    reasonsLayout: treatment.reasonsLayout,
+    reasonsLayout: treatment.reasonsLayout || "accordion",
     promises: promises.map((p) => ({
       title: p.title,
       desc: p.desc,
@@ -153,6 +185,12 @@ export function mapTreatmentToSubTreatmentContent(
     ctaTitle: treatment.ctaTitle || "",
     ctaDescription: treatment.ctaDescription || "",
     conversationCtaTitle: treatment.conversationCtaTitle,
+    midCtaPrimaryLabel: treatment.midCtaPrimaryLabel,
+    midCtaCallLabel: treatment.midCtaCallLabel,
+    midCtaShowCallButton: treatment.midCtaShowCallButton !== false,
+    reviewsSectionTitle: treatment.reviewsSectionTitle,
+    googleReviews: treatment.googleReviews,
+    legelistenReviews: treatment.legelistenReviews,
     specialistCategory,
     specialistSlugs: specialistSlugs.length > 0 ? specialistSlugs : undefined,
     specialistCtaLabel: treatment.specialistCtaLabel,

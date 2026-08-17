@@ -1,7 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { SpecialistCarousel } from "@/components/SpecialistCarousel";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
@@ -27,17 +27,21 @@ function resolveSpecialists(
   const mode = resolveSpecialistsDisplayMode(config.displayMode);
   if (!mode) return [];
 
-  const limit = typeof config.limit === "number" ? config.limit : 8;
+  const hasExplicitLimit = typeof config.limit === "number" && config.limit > 0;
+  const limit = hasExplicitLimit ? config.limit : undefined;
 
   if (mode === "manual") {
     if (!config.specialists?.length) return [];
     const slugs = config.specialists
       .map((raw) => (raw as SanitySpecialist).slug)
       .filter(Boolean);
-    return slugs
+    // Manual picks are curated — show every selected specialist unless an
+    // explicit limit is set. Defaulting to 8 was hiding later entries
+    // (e.g. Thomas Thaulow on PMOS).
+    const list = slugs
       .map((slug) => all.find((s) => s.slug === slug))
-      .filter((s): s is Specialist => Boolean(s))
-      .slice(0, limit);
+      .filter((s): s is Specialist => Boolean(s));
+    return limit ? list.slice(0, limit) : list;
   }
 
   const categoryKey =
@@ -47,14 +51,15 @@ function resolveSpecialists(
 
   if (mode === "category") {
     if (!categoryKey) return [];
-    return all
+    const list = all
       .filter((s) => specialistMatchesCategory(s, categoryKey))
-      .sort((a, b) => a.name.localeCompare(b.name, "nb"))
-      .slice(0, limit);
+      .sort((a, b) => a.name.localeCompare(b.name, "nb"));
+    return hasExplicitLimit ? list.slice(0, limit) : list;
   }
 
-  // mode === "all" — only when explicitly stored
-  return all.slice(0, limit);
+  // mode === "all" — only when explicitly stored.
+  // Demo treatment pages (e.g. NIPT) show the full carousel unless limit is set.
+  return hasExplicitLimit ? all.slice(0, limit) : all;
 }
 
 function categoryHref(config: PageSectionSpecialistsConfig): string {
@@ -113,12 +118,13 @@ export function PageSectionSpecialistsBlock({
       });
 
     return (
-      <SpecialistCarousel
-        specialists={specialists}
+      <SpecialistsScroller
+        items={specialists}
         title={title}
         description={description}
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
+        layoutVariant={layoutVariant}
       />
     );
   }
