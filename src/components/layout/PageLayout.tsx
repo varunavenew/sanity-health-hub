@@ -317,7 +317,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         <div
           className={cn(
             "flex-1 min-w-0 overflow-x-clip transition-all duration-300",
-            isHomepage && "pb-[calc(180px+env(safe-area-inset-bottom))] md:pb-0",
+            isHomepage && "pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0",
           )}
           style={{
             marginLeft: isChatOpen ? "360px" : "0",
