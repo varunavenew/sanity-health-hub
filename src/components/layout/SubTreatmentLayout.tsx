@@ -813,8 +813,8 @@ export const SubTreatmentLayout = ({
                 ))}
               </div>
               <ScrollArrows scrollRef={expertAreasRef} />
-              {c.relatedSeeAll && !hasRelatedSection(c) ? (
-                <div className="mt-10 flex justify-center">
+              {c.relatedSeeAll ? (
+                <div className="mt-10 flex justify-start">
                   <Link
                     to={c.relatedSeeAll.href}
                     className="inline-flex items-center text-sm font-light text-foreground gap-2 hover:gap-2.5 transition-all border-b border-foreground/30 pb-1"

@@ -1,7 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { SpecialistCarousel } from "@/components/SpecialistCarousel";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
@@ -118,12 +118,13 @@ export function PageSectionSpecialistsBlock({
       });
 
     return (
-      <SpecialistCarousel
-        specialists={specialists}
+      <SpecialistsScroller
+        items={specialists}
         title={title}
         description={description}
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
+        layoutVariant={layoutVariant}
       />
     );
   }
