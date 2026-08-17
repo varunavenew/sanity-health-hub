@@ -9,8 +9,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { useArticle, useArticles, useNewsPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
-import { AssetImg } from "@/components/AssetImg";
-import { MediaChip } from "@/components/ui/MediaChip";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import { createArticlePortableTextComponents } from "@/components/news/article-portable-text";
 import { ArticleRelatedSection } from "@/components/news/ArticleRelatedSection";
 import { normalizeCategory, type Article } from "@/data/articles";
@@ -28,11 +27,8 @@ interface ArticlePageProps {
 const formatDate = (dateStr: string, locale: string) => {
   const date = new Date(dateStr);
   if (Number.isNaN(date.getTime())) return dateStr;
-  return date.toLocaleDateString(locale, {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const month = date.toLocaleDateString(locale, { month: "long" });
+  return `${month} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
@@ -102,9 +98,13 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     }
   }, [article]);
 
-  const backLabel = t("news.backToAktuelt", {
-    defaultValue: routeLocale === "en" ? "Back to News" : "Tilbake til Aktuelt",
-  });
+  const listingTitle =
+    newsPage?.title?.trim() ||
+    t("news.title", {
+      defaultValue: routeLocale === "en" ? "Current Affairs" : "Aktuelt",
+    });
+  const backLabel =
+    routeLocale === "en" ? `Back to ${listingTitle}` : `Tilbake til ${listingTitle}`;
   const relatedTitle = t("news.relatedArticles", {
     defaultValue:
       routeLocale === "en" ? "Related articles" : "Relaterte artikler",
@@ -176,44 +176,62 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
       />
 
-      <div className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
-        <div className="container mx-auto px-6 md:px-16">
-          <Link
-            to={newsPath}
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors mb-6"
+      <header className="bg-brand-dark">
+        <div
+          className={
+            article.image
+              ? "flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero"
+              : "flex flex-col"
+          }
+        >
+          <div
+            className={`flex items-center px-6 md:px-16 lg:px-20 order-2 lg:order-1 ${
+              article.image
+                ? "pt-10 pb-12 md:pb-16 lg:pt-28 lg:pb-16"
+                : "pt-28 pb-12 md:pt-32 md:pb-16"
+            }`}
           >
-            <ArrowLeft className="w-4 h-4" />
-            {backLabel}
-          </Link>
-          <div className="flex items-center gap-3 mb-4">
-            <MediaChip tone="light" className="rounded-2xl md:rounded-full px-3 py-1">
-              {categoryLabel}
-            </MediaChip>
-            <span className="text-white/70 text-xs flex items-center gap-1.5">
-              <Calendar className="w-3 h-3" aria-hidden="true" />
-              {formatDate(article.date, dateLocale)}
-            </span>
+            <div className="w-full max-w-xl">
+              <Link
+                to={newsPath}
+                className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors mb-6"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {backLabel}
+              </Link>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-white/70 text-xs font-light">
+                  {categoryLabel}
+                </span>
+                <span className="text-white/70 text-xs flex items-center gap-1.5">
+                  <Calendar className="w-3 h-3" aria-hidden="true" />
+                  {formatDate(article.date, dateLocale)}
+                </span>
+              </div>
+              <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-light text-white leading-tight mb-5">
+                {article.title}
+              </h1>
+              {article.excerpt ? (
+                <p className="text-base text-white/70 font-light leading-relaxed">
+                  {article.excerpt}
+                </p>
+              ) : null}
+            </div>
           </div>
-          <h1 className="text-2xl md:text-4xl font-light text-white leading-tight max-w-3xl">
-            {article.title}
-          </h1>
+
+          {article.image ? (
+            <SplitHeroMedia
+              src={article.image}
+              alt={sanityArticle?.imageAlt || article.title}
+              className="split-media order-1 lg:order-2"
+            />
+          ) : null}
         </div>
-      </div>
+      </header>
 
       <article className="bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto py-10 md:py-16">
-            {article.image ? (
-              <div className="rounded-sm overflow-hidden mb-10">
-                <AssetImg
-                  src={article.image}
-                  alt={sanityArticle?.imageAlt || article.title}
-                  preset="gallery"
-                  className="w-full rounded-sm"
-                />
-              </div>
-            ) : null}
-
             {bodyBlocks.length > 0 ? (
               <PortableText value={bodyBlocks} components={portableTextComponents} />
             ) : article.excerpt ? (

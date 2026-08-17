@@ -22,7 +22,7 @@ import {
   GUIDE_PAGE_QUERY,
   CLINICIAN_GUIDE_PAGE_QUERY,
 } from "@/lib/queries";
-import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { normalizeI18n, normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { isPublishableSanitySpecialist, type RawSanitySpecialist } from "@/lib/sanity/specialist-data";
 import { sanityFetchCached } from "@/lib/sanity/sanity-fetch-cached";
 import {
@@ -330,7 +330,7 @@ export async function fetchArticleSeo(
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });
   if (raw == null) return null;
-  return normalizeI18n(raw, lang) as DocWithSeo & {
+  return normalizeI18nStrict(raw, lang) as DocWithSeo & {
     title?: string;
     excerpt?: string;
     date?: string;

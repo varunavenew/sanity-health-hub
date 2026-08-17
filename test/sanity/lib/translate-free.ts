@@ -4,7 +4,6 @@
  */
 import * as fs from 'fs'
 import * as path from 'path'
-import { translate as googleTranslate } from '@vitalets/google-translate-api'
 
 const CACHE_FILE =
   process.env.TRANSLATION_CACHE ||
@@ -167,7 +166,8 @@ async function lingvaNoToEn(text: string, hosts: string[]): Promise<string> {
 }
 
 async function googleNoToEn(text: string): Promise<string> {
-  const res = await googleTranslate(text, { from: 'no', to: 'en' })
+  const { translate } = await import('@vitalets/google-translate-api')
+  const res = await translate(text, { from: 'no', to: 'en' })
   return res.text?.trim() || ''
 }
 

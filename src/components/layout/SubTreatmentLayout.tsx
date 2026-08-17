@@ -730,7 +730,7 @@ export const SubTreatmentLayout = ({
             </div>
           </section>
         ) : (
-          <section className="bg-brand-light text-foreground py-14 md:py-20">
+          <section className="bg-brand-light text-foreground py-10">
             <div className="container mx-auto px-6 md:px-16">
               <div className="max-w-6xl mx-auto">
                 <div className="max-w-2xl mb-14">
@@ -869,7 +869,7 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasTextSection(c) ? (
-        <section className="py-14 md:py-20 bg-background">
+        <section className="pt-14 md:pt-20 pb-10 bg-background">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
               <div className="lg:col-span-5">
