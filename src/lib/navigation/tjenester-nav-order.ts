@@ -142,7 +142,7 @@ export function orderTjenesterSubcategories(
 export function orderTjenesterCategories<T extends { id: string }>(
   categories: T[],
 ): T[] {
-  const rank = new Map(
+  const rank = new Map<string, number>(
     TJENESTER_CATEGORY_NAV_ORDER.map((id, index) => [id, index]),
   );
   return [...categories].sort((a, b) => {

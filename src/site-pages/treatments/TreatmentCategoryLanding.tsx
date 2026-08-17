@@ -143,7 +143,7 @@ function CategorySectionHead({
   description,
   className = "mb-8 md:mb-10",
   titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
-  descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed mt-4 md:mt-5 max-w-2xl",
+  descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed max-w-2xl",
 }: {
   eyebrow?: string;
   title: string;
@@ -158,16 +158,18 @@ function CategorySectionHead({
       {eyebrow ? (
         <p className="text-xs tracking-wide text-foreground/60 mb-4">{eyebrow}</p>
       ) : null}
-      <h2 className={titleClassName}>
-        {title}
-        {titleAccent ? (
-          <>
-            <br />
-            <span className="text-foreground/70">{titleAccent}</span>
-          </>
-        ) : null}
-      </h2>
-      {description ? <p className={descriptionClassName}>{description}</p> : null}
+      <div className="grid gap-y-3 md:gap-y-4">
+        <h2 className={titleClassName}>
+          {title}
+          {titleAccent ? (
+            <>
+              <br />
+              <span className="text-foreground/70">{titleAccent}</span>
+            </>
+          ) : null}
+        </h2>
+        {description ? <p className={descriptionClassName}>{description}</p> : null}
+      </div>
     </div>
   );
 }
@@ -245,7 +247,7 @@ function CategoryReviewsCarousel({
   if (uniqueCount === 0) return null;
 
   return (
-    <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden">
+    <section className="bg-brand-warm pt-10 lg:pt-20 pb-10 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
@@ -1219,7 +1221,7 @@ const TreatmentCategoryLanding = ({
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
       segmentsSection.segments.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-10">
           <div className="page-shell">
             <div className="max-w-3xl mx-auto">
               <div className="max-w-2xl mb-8">
@@ -1297,7 +1299,7 @@ const TreatmentCategoryLanding = ({
 
     audiences: () =>
       audiencesSection.audiences.length > 0 ? (
-        <section className="bg-secondary/40 py-14 md:py-20">
+        <section className="bg-secondary/40 py-10">
           <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               {(() => {
@@ -1387,7 +1389,7 @@ const TreatmentCategoryLanding = ({
             />
           </section>
         ) : (
-          <section className="bg-secondary/40 pt-14 md:pt-28 pb-10 md:pb-16 overflow-x-clip">
+          <section className="bg-secondary/40 py-10 overflow-x-clip">
             <div className="page-shell min-w-0">
               <div className="max-w-6xl mx-auto min-w-0">
                 {(() => {
@@ -1451,11 +1453,8 @@ const TreatmentCategoryLanding = ({
 
     services: () =>
       serviceGroups.length > 0 ? (
-        <section
-          className={`bg-brand-light text-foreground pt-14 md:pt-28 ${
-            isFertility ? "pb-10 md:pb-16" : "pb-16 md:pb-20"
-          }`}
-        >          <div className="page-shell">
+        <section className="bg-brand-light text-foreground py-10">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <CategorySectionHead
                 title={servicesSection.title}
@@ -1463,7 +1462,7 @@ const TreatmentCategoryLanding = ({
                 className="mb-6 md:mb-8"
                 descriptionClassName={
                   isFertility
-                    ? "text-base font-light text-muted-foreground leading-relaxed mt-4 md:mt-5 max-w-none"
+                    ? "text-base font-light text-muted-foreground leading-relaxed max-w-none"
                     : undefined
                 }
               />
@@ -1501,19 +1500,15 @@ const TreatmentCategoryLanding = ({
 
     support: () =>
       supportSection.areas.length > 0 ? (
-        <section
-          className={`bg-brand-light overflow-x-clip ${
-            isFertility ? "pt-8 md:pt-10 pb-14 md:pb-20" : "pt-14 md:pt-20 pb-14 md:pb-20"
-          }`}
-        >
+        <section className="bg-brand-light overflow-x-clip pt-8 md:pt-10 pb-10">
           <div className="page-shell min-w-0">
             <div className="max-w-6xl mx-auto min-w-0">
-              <div className="max-w-2xl mb-8 md:mb-10">
+              <div className="max-w-2xl mb-8 md:mb-10 grid gap-y-3 md:gap-y-4">
                 {supportSection.title ? (
                   <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">{supportSection.title}</h2>
                 ) : null}
                 {supportSection.description ? (
-                  <p className="text-base font-light text-muted-foreground leading-relaxed mt-6">{supportSection.description}</p>
+                  <p className="text-base font-light text-muted-foreground leading-relaxed">{supportSection.description}</p>
                 ) : null}
               </div>
               <ExpertAreaCards
@@ -1532,7 +1527,7 @@ const TreatmentCategoryLanding = ({
 
     results: () =>
       stats.length > 0 ? (
-        <section className="relative overflow-hidden text-brand-beige pt-10 md:pt-14 pb-10 md:pb-12">
+        <section className="relative overflow-hidden text-brand-beige pt-10 lg:pt-20 pb-10 md:pb-12">
           {/* Shared stats band: raw blur-skin texture (same for all categories). */}
           <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <div
@@ -1551,14 +1546,16 @@ const TreatmentCategoryLanding = ({
                       {resultsSection.eyebrow}
                     </p>
                   ) : null}
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-beige">
-                    {resultsSection.title}
-                  </h2>
-                  {resultsSection.description ? (
-                    <p className="text-base font-light text-brand-beige/85 leading-relaxed mt-4 md:mt-5 max-w-xl">
-                      {resultsSection.description}
-                    </p>
-                  ) : null}
+                  <div className="grid gap-y-3 md:gap-y-4">
+                    <h2 className="text-3xl md:text-5xl font-light leading-tight text-brand-beige">
+                      {resultsSection.title}
+                    </h2>
+                    {resultsSection.description ? (
+                      <p className="text-base font-light text-brand-beige/85 leading-relaxed max-w-xl">
+                        {resultsSection.description}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
               ) : (
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 mb-10 md:mb-12">
