@@ -97,6 +97,7 @@ import {
 } from "@/lib/sanity/category-keys";
 import { FERTILITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/fertilitet-slug-aliases";
 import { GRAVIDITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/graviditet-slug-aliases";
+import { GYNEKOLOGI_NAV_TREATMENT_SLUGS } from "@/lib/sanity/gynekologi-slug-aliases";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -1382,6 +1383,10 @@ export const useServiceCategoriesFromSanity = () => {
                 ).filter((item): item is NonNullable<typeof item> => Boolean(item))
               : categoryId === "graviditet"
                 ? GRAVIDITET_NAV_TREATMENT_SLUGS.map((slug) =>
+                    mapped.find((item) => item.id === slug),
+                  ).filter((item): item is NonNullable<typeof item> => Boolean(item))
+              : categoryId === "gynekologi"
+                ? GYNEKOLOGI_NAV_TREATMENT_SLUGS.map((slug) =>
                     mapped.find((item) => item.id === slug),
                   ).filter((item): item is NonNullable<typeof item> => Boolean(item))
               : mapped;
