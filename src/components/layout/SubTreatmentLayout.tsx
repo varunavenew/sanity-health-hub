@@ -556,7 +556,15 @@ export const SubTreatmentLayout = ({
 
               {c.heroThemes && c.heroThemes.length > 0 ? (
                 <div className="mb-6">
-                  <ul className="flex flex-wrap gap-1.5" aria-label={c.themesAriaLabel}>
+                  {c.themesAriaLabel?.trim() ? (
+                    <p className="mb-2 text-sm font-light text-foreground/80">
+                      {c.themesAriaLabel}
+                    </p>
+                  ) : null}
+                  <ul
+                    className="flex flex-wrap gap-1.5"
+                    aria-label={c.themesAriaLabel?.trim() || undefined}
+                  >
                     {c.heroThemes.map((theme) => (
                       <li
                         key={theme}

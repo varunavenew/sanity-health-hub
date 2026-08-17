@@ -97,7 +97,7 @@ export function mapTreatmentToSubTreatmentContent(
     // slot (e.g. callCtaLabel.en = "Ring oss"). Always use the app-level
     // locale default instead of trusting the CMS override for these.
     homeBreadcrumbLabel: isEn ? "Home" : "Hjem",
-    themesAriaLabel: treatment.themesAriaLabel || (isEn ? "Topics" : "Temaer"),
+    themesAriaLabel: treatment.themesAriaLabel || "",
     seePricesLabel: treatment.seePricesLabel || (isEn ? "See prices" : "Se priser"),
     seePricesHref: treatment.seePricesHref || "/priser",
     callCtaLabel: isEn ? "Call us" : "Ring oss",

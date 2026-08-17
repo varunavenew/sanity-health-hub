@@ -95,9 +95,10 @@ import {
   categoryLandingPath,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
-import { FERTILITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/fertilitet-slug-aliases";
-import { GRAVIDITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/graviditet-slug-aliases";
-import { GYNEKOLOGI_NAV_TREATMENT_SLUGS } from "@/lib/sanity/gynekologi-slug-aliases";
+import {
+  orderTjenesterCategories,
+  orderTjenesterSubcategories,
+} from "@/lib/navigation/tjenester-nav-order";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -1269,7 +1270,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v2"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v3"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1296,7 +1297,7 @@ export const useServiceCategoriesFromSanity = () => {
         (cat) => cat._createdAt
       );
 
-      return sortedCategories
+      const mappedCategories = sortedCategories
         .map((cat) => {
           const categoryId =
             typeof cat.categoryId === "string" ? cat.categoryId.trim() : "";
@@ -1376,20 +1377,7 @@ export const useServiceCategoriesFromSanity = () => {
               (sub): sub is NonNullable<typeof sub> => sub !== null,
             );
 
-          const subcategories =
-            categoryId === "fertilitet"
-              ? FERTILITET_NAV_TREATMENT_SLUGS.map((slug) =>
-                  mapped.find((item) => item.id === slug),
-                ).filter((item): item is NonNullable<typeof item> => Boolean(item))
-              : categoryId === "graviditet"
-                ? GRAVIDITET_NAV_TREATMENT_SLUGS.map((slug) =>
-                    mapped.find((item) => item.id === slug),
-                  ).filter((item): item is NonNullable<typeof item> => Boolean(item))
-              : categoryId === "gynekologi"
-                ? GYNEKOLOGI_NAV_TREATMENT_SLUGS.map((slug) =>
-                    mapped.find((item) => item.id === slug),
-                  ).filter((item): item is NonNullable<typeof item> => Boolean(item))
-              : mapped;
+          const subcategories = orderTjenesterSubcategories(categoryId, mapped);
 
           return {
             id: categoryId,
@@ -1399,6 +1387,8 @@ export const useServiceCategoriesFromSanity = () => {
           };
         })
         .filter((cat): cat is NonNullable<typeof cat> => cat !== null);
+
+      return orderTjenesterCategories(mappedCategories);
     },
     staleTime: 5 * 60 * 1000,
   });

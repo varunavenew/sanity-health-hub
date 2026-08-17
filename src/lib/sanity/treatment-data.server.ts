@@ -13,7 +13,9 @@ import {
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
-import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
+import {
+  flereFagomraderTreatmentSlugCandidates,
+} from "@/lib/sanity/flere-fagomrader-slug-aliases";
 import { fetchSanityGroqServer } from "@/lib/sanity/fetch-groq-server";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 
@@ -24,24 +26,35 @@ export async function fetchTreatmentData(
   lang: "no" | "en",
 ): Promise<TreatmentData | null> {
   const categoryKey = normalizeCategoryRouteKey(categorySlug) || categorySlug;
-  const resolvedSlug =
-    categoryKey === "fertilitet"
-      ? resolveFertilitetTreatmentSlug(treatmentSlug)
-      : categoryKey === "gynekologi"
-        ? resolveGynekologiTreatmentSlug(treatmentSlug)
-        : categoryKey === "graviditet"
-          ? resolveGraviditetTreatmentSlug(treatmentSlug)
-          : categoryKey === FLERE_FAGOMRADER_CATEGORY_ID
-            ? resolveFlereFagomraderTreatmentSlug(treatmentSlug)
-            : treatmentSlug;
-  const raw = await fetchSanityGroqServer<Record<string, unknown> | null>(
-    TREATMENT_BY_SLUG_QUERY,
-    {
-      categorySlug: categorySlugForFetch(categorySlug),
-      treatmentSlug: resolvedSlug,
-      lang,
-    },
-  );
+  const slugCandidates =
+    categoryKey === FLERE_FAGOMRADER_CATEGORY_ID
+      ? flereFagomraderTreatmentSlugCandidates(treatmentSlug)
+      : [
+          categoryKey === "fertilitet"
+            ? resolveFertilitetTreatmentSlug(treatmentSlug)
+            : categoryKey === "gynekologi"
+              ? resolveGynekologiTreatmentSlug(treatmentSlug)
+              : categoryKey === "graviditet"
+                ? resolveGraviditetTreatmentSlug(treatmentSlug)
+                : treatmentSlug,
+        ];
+
+  let raw: Record<string, unknown> | null = null;
+  let resolvedSlug = slugCandidates[0] || treatmentSlug;
+  for (const candidate of slugCandidates) {
+    raw = await fetchSanityGroqServer<Record<string, unknown> | null>(
+      TREATMENT_BY_SLUG_QUERY,
+      {
+        categorySlug: categorySlugForFetch(categorySlug),
+        treatmentSlug: candidate,
+        lang,
+      },
+    );
+    if (raw) {
+      resolvedSlug = candidate;
+      break;
+    }
+  }
   if (!raw) return null;
   const normalized = normalizeI18nStrict(raw, lang) as Record<string, unknown>;
   const mapped = mapTreatmentDocument(normalized, lang);
