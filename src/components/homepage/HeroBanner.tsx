@@ -187,7 +187,81 @@ export const HeroBanner = () => {
 
           {/* Slide Content — bottom-anchored so all slides share the same vertical position */}
           <div className="absolute inset-0 z-20 pointer-events-none">
-            <div className="container mx-auto h-full px-6 md:px-16 flex items-end pb-24 md:pb-28">
+            {/* Mobile — copy + controls in one bottom stack (no gap below CTA) */}
+            <div className="md:hidden absolute inset-x-0 bottom-0 px-6 pb-5 pointer-events-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+              >
+                {slide.subtitle ? (
+                  <span className="block text-xs text-white/80 mb-3 font-light tracking-wider uppercase">
+                    {slide.subtitle}
+                  </span>
+                ) : null}
+                <p
+                  className="text-3xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-4"
+                  aria-live="polite"
+                >
+                  {slide.label}
+                </p>
+                {slide.cta && slide.ctaPath ? (
+                  <span
+                    className="inline-flex items-center text-sm text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(slide.ctaPath);
+                    }}
+                  >
+                    {slide.cta}
+                    <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
+                  </span>
+                ) : null}
+
+                <div className="mt-3 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    {heroSlides.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          goTo(i);
+                        }}
+                        className={`h-1 rounded-full transition-all duration-300 ${
+                          i === current ? "w-8 bg-white" : "w-4 bg-white/30 hover:bg-white/50"
+                        }`}
+                        aria-label={t("hero.goToSlide", { num: i + 1 })}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prev();
+                      }}
+                      className="w-10 h-10 rounded-sm border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
+                      aria-label={t("hero.prevSlide")}
+                    >
+                      <ChevronLeft className="w-5 h-5 text-white" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        next();
+                      }}
+                      className="w-10 h-10 rounded-sm border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
+                      aria-label={t("hero.nextSlide")}
+                    >
+                      <ChevronRight className="w-5 h-5 text-white" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Desktop — text block clears the separate bottom control bar */}
+            <div className="hidden md:flex container mx-auto h-full px-6 md:px-16 items-end pb-28">
               <div className="max-w-xl lg:max-w-[45%] w-full pointer-events-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
@@ -199,7 +273,10 @@ export const HeroBanner = () => {
                       {slide.subtitle}
                     </span>
                   ) : null}
-                  <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
+                  <p
+                    className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6"
+                    aria-live="polite"
+                  >
                     {slide.label}
                   </p>
                   {slide.cta && slide.ctaPath ? (
@@ -221,7 +298,7 @@ export const HeroBanner = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute bottom-0 inset-x-0 z-30">
+      <div className="absolute bottom-0 inset-x-0 z-30 hidden md:block">
         <div className="container mx-auto px-6 md:px-16 pb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {heroSlides.map((_, i) => (
