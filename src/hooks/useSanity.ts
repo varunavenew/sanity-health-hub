@@ -952,6 +952,7 @@ export interface SanitySocialMedia {
   twitter?: string;
   youtube?: string;
   tiktok?: string;
+  snapchat?: string;
 }
 
 export const useSiteSettings = () => {

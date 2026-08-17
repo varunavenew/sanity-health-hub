@@ -32,6 +32,9 @@ const buttonVariants = cva(
         // max-sm:w-full matches demo Button helper (avenewdemo)
         cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90 max-sm:w-full max-sm:h-12 max-sm:px-6",
         "cta-outline": "rounded-2xl border border-current bg-transparent hover:bg-foreground/5 max-sm:w-full max-sm:h-12 max-sm:px-6",
+        /** Matches specialist expertise chips: outline → filled on hover. */
+        "cta-outline-fill":
+          "rounded-2xl border border-foreground/30 bg-transparent text-foreground hover:bg-foreground hover:text-background hover:border-foreground max-sm:w-full max-sm:h-12 max-sm:px-6",
         "contact-outline":
           "rounded-2xl border border-foreground/30 bg-transparent text-foreground font-light hover:bg-brand-dark hover:text-white hover:border-brand-dark max-sm:w-full max-sm:h-12 max-sm:px-6",
         "cta-outline-dark":
@@ -61,7 +64,7 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    return <Comp className={cn(buttonVariants({ variant, size }), className)} ref={ref} {...props} />;
   },
 );
 Button.displayName = "Button";

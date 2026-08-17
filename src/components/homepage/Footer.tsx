@@ -8,16 +8,24 @@ import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { resolveNavLabel, resolveNavPath } from "@/lib/navigation/resolve-nav-label";
 import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 
 const FOOTER_CATEGORY_ORDER = [
+  "fertilitet",
   "gynekologi",
   "graviditet",
-  "fertilitet",
   "urologi",
   "ortopedi",
   "flere",
   "flere-fagomrader",
 ];
+
+const DEFAULT_SOCIAL = {
+  instagram: "https://www.instagram.com/cmedical.no",
+  facebook: "https://www.facebook.com/cmedical.no",
+  linkedin: "https://www.linkedin.com/company/cmedical",
+  snapchat: "https://www.snapchat.com/@cmedical",
+} as const;
 
 function SnapchatIcon({ className }: { className?: string }) {
   return (
@@ -25,7 +33,7 @@ function SnapchatIcon({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -37,7 +45,7 @@ function SnapchatIcon({ className }: { className?: string }) {
 }
 
 const socialButtonClass =
-  "flex h-9 w-9 items-center justify-center rounded-[var(--radius)] border border-white/10 bg-white/[0.08] text-white/80 transition-colors hover:bg-white/[0.14] hover:text-white";
+  "flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.07] text-white/80 transition-colors hover:bg-white/[0.14] hover:text-white";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -47,6 +55,7 @@ export const Footer = () => {
   const { index: cmsRouteIndex } = useCmsRouteContext();
   const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
+  const clinicsPath = useNavCmsPath("clinics");
 
   const footerLabelMap: Record<string, string> = {
     flere: t("footer.moreServices"),
@@ -86,22 +95,43 @@ export const Footer = () => {
   const phone = settings?.phone?.trim() || "";
   const email = settings?.email?.trim() || "";
   const address = settings?.address?.trim() || "";
-  const telHref = phone ? `tel:${phone.replace(/\s/g, "")}` : undefined;
   const social = (settings?.socialMedia || {}) as Record<string, string | undefined>;
-  const snapchat = social.snapchat?.trim();
+
+  const socialLinks = [
+    {
+      href: social.instagram?.trim() || DEFAULT_SOCIAL.instagram,
+      label: "Instagram",
+      Icon: Instagram,
+    },
+    {
+      href: social.facebook?.trim() || DEFAULT_SOCIAL.facebook,
+      label: "Facebook",
+      Icon: Facebook,
+    },
+    {
+      href: social.linkedin?.trim() || DEFAULT_SOCIAL.linkedin,
+      label: "LinkedIn",
+      Icon: Linkedin,
+    },
+    {
+      href: social.snapchat?.trim() || DEFAULT_SOCIAL.snapchat,
+      label: "Snapchat",
+      Icon: SnapchatIcon,
+    },
+  ];
 
   const linkClass =
-    "text-sm text-white/70 hover:text-white transition-colors font-light leading-snug";
+    "text-sm text-white/70 hover:text-white transition-colors font-light leading-relaxed";
   const blockLinkClass = `block ${linkClass}`;
-  const headingClass = "text-sm font-medium text-white/90 mb-4";
+  const headingClass = "text-sm font-light text-white mb-5";
 
   return (
-    <footer className="bg-[var(--footer-bg)] text-brand-beige pt-16 md:pt-20 pb-8 md:pb-10" role="contentinfo">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-14 lg:gap-16 mb-12 md:mb-16">
+    <footer className="bg-[#180404] text-white pt-16 md:pt-20 pb-8 md:pb-10" role="contentinfo">
+      <div className="page-shell">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 lg:gap-16 mb-14 md:mb-16">
           <div>
             <h3 className={headingClass}>{t("footer.services")}</h3>
-            <nav className="space-y-2" aria-label={t("footer.services")}>
+            <nav className="space-y-3" aria-label={t("footer.services")}>
               {serviceLinks.map((link) => (
                 <Link key={link.path} to={link.path} className={blockLinkClass}>
                   {link.label}
@@ -112,11 +142,11 @@ export const Footer = () => {
 
           <div>
             <h3 className={headingClass}>{t("footer.clinics")}</h3>
-            <nav className="space-y-2" aria-label={t("footer.clinics")}>
+            <nav className="space-y-3" aria-label={t("footer.clinics")}>
               {clinicLinks.map((clinic) => (
                 <Link
                   key={clinic.slug}
-                  to={`/klinikker/${clinic.slug}`}
+                  to={`${clinicsPath}/${clinic.slug}`}
                   className={blockLinkClass}
                 >
                   {clinic.label}
@@ -127,7 +157,7 @@ export const Footer = () => {
 
           <div>
             <h3 className={headingClass}>{t("footer.aboutCMedical")}</h3>
-            <nav className="space-y-2" aria-label={t("footer.aboutCMedical")}>
+            <nav className="space-y-3" aria-label={t("footer.aboutCMedical")}>
               {footerAboutLinks.map((link) => (
                 <Link
                   key={link._key || link.path}
@@ -142,68 +172,56 @@ export const Footer = () => {
 
           <div>
             <h3 className={headingClass}>{t("footer.contact")}</h3>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {phone ? (
                 <a
                   href={`tel:${phone.replace(/\s/g, "")}`}
                   className={`flex items-center gap-2.5 ${linkClass}`}
                 >
-                  <Phone className="w-4 h-4 flex-shrink-0 text-white/70" aria-hidden="true" />
+                  <Phone className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                   {phone}
                 </a>
               ) : null}
               {email ? (
                 <a href={`mailto:${email}`} className={`flex items-center gap-2.5 ${linkClass}`}>
-                  <Mail className="w-4 h-4 flex-shrink-0 text-white/70" aria-hidden="true" />
+                  <Mail className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                   {email}
                 </a>
               ) : null}
               {address ? (
-                <div className={`flex items-start gap-2.5 text-sm text-white/70 font-light leading-snug`}>
-                  <MapPin className="w-4 h-4 flex-shrink-0 text-white/70 mt-0.5" aria-hidden="true" />
+                <div className={`flex items-start gap-2.5 ${linkClass}`}>
+                  <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" strokeWidth={1.5} aria-hidden="true" />
                   {address}
                 </div>
               ) : null}
-              {social.instagram || social.facebook || social.linkedin || snapchat ? (
-                <div className="flex flex-wrap gap-2 pt-3">
-                  {social.instagram ? (
-                    <a href={social.instagram} aria-label="Instagram" className={socialButtonClass}>
-                      <Instagram className="w-4 h-4" />
-                    </a>
-                  ) : null}
-                  {social.facebook ? (
-                    <a href={social.facebook} aria-label="Facebook" className={socialButtonClass}>
-                      <Facebook className="w-4 h-4" />
-                    </a>
-                  ) : null}
-                  {social.linkedin ? (
-                    <a href={social.linkedin} aria-label="LinkedIn" className={socialButtonClass}>
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                  ) : null}
-                  {snapchat ? (
-                    <a href={snapchat} aria-label="Snapchat" className={socialButtonClass}>
-                      <SnapchatIcon className="w-4 h-4" />
-                    </a>
-                  ) : null}
-                </div>
-              ) : null}
+              <div className="flex flex-wrap gap-2 pt-4">
+                {socialLinks.map(({ href, label, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={socialButtonClass}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/10 flex flex-col items-center gap-3 text-center md:pt-8">
-          <p className="text-xs text-white/50 font-light">
-            <span className="font-medium text-white/80">CMedical</span>
-            <span className="mx-2 text-white/30" aria-hidden="true">
-              ·
-            </span>
-            © {new Date().getFullYear()} CMedical. {t("footer.rights")}
-          </p>
-
+        <div className="pt-6 md:pt-8 border-t border-white/10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
+            <span className="text-sm font-light text-white">CMedical</span>
+            <p className="text-sm font-light text-white/50">
+              © {new Date().getFullYear()} CMedical. {t("footer.rights")}
+            </p>
+          </div>
           <Link
             to="/personvern"
-            className="text-xs text-white/50 hover:text-white/80 transition-colors font-light"
+            className="text-sm font-light text-white/50 hover:text-white/80 transition-colors"
           >
             {t("footer.privacy")}
           </Link>

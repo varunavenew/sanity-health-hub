@@ -4,15 +4,17 @@ import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { useClinics } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 interface Props {
   /**
    * Visual variant:
    * - "light" — outlined on light backgrounds
    * - "lightSolid" — white filled on light backgrounds (category hero reference)
+   * - "fill" — same hover invert as specialist expertise chips
    * - "dark" — outline on dark backgrounds
    */
-  variant?: "light" | "lightSolid" | "dark";
+  variant?: "light" | "lightSolid" | "dark" | "fill";
   size?: "default" | "lg";
   label?: string;
   className?: string;
@@ -47,11 +49,17 @@ export const CallUsClinicPicker = ({
     .map((c) => ({ label: c.label, phone: c.phone! }));
 
   const buttonVariant =
-    variant === "dark" ? "cta-outline-dark" : "cta-outline";
+    variant === "dark"
+      ? "cta-outline-dark"
+      : variant === "fill"
+        ? "cta-outline-fill"
+        : "cta-outline";
   const solidLightClass =
     variant === "lightSolid"
       ? "bg-white border border-foreground/25 text-foreground hover:bg-foreground/[0.04] shadow-none"
-      : undefined;
+      : variant === "fill"
+        ? "border border-foreground/30 bg-transparent text-foreground shadow-none hover:bg-foreground hover:text-background hover:border-foreground"
+        : undefined;
 
   const widthOnWrapper = [
     className?.includes("w-full") ? "w-full" : null,
@@ -65,7 +73,7 @@ export const CallUsClinicPicker = ({
       <Button
         variant={buttonVariant}
         size={size}
-        className={[solidLightClass, className].filter(Boolean).join(" ") || undefined}
+        className={cn(solidLightClass, className)}
         onClick={() => setOpen((o) => !o)}
       >
         {label ?? t("booking.callUs")}

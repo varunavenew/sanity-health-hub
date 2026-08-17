@@ -424,6 +424,12 @@ export default {
           type: 'url',
           validation: (Rule: any) => Rule.uri({ allowRelative: false, scheme: ['https'] }),
         },
+        {
+          name: 'snapchat',
+          title: 'Snapchat URL',
+          type: 'url',
+          validation: (Rule: any) => Rule.uri({ allowRelative: false, scheme: ['https'] }),
+        },
       ],
     },
 
