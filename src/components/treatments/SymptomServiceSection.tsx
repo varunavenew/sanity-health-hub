@@ -38,15 +38,15 @@ export function SymptomServiceSection({
       : "bg-background";
 
   return (
-    <section className={`${bgClass} text-foreground pt-8 md:pt-10 pb-12 md:pb-16`}>
+    <section className={`${bgClass} text-foreground pt-8 md:pt-10 pb-10`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-3xl mb-8 md:mb-10">
+          <div className="max-w-3xl mb-8 md:mb-10 grid gap-y-3 md:gap-y-4">
             <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
               {title}
             </h2>
             {description ? (
-              <p className="text-base font-light text-muted-foreground leading-relaxed mt-3 md:mt-4 max-w-2xl">
+              <p className="text-base font-light text-muted-foreground leading-relaxed max-w-2xl">
                 {description}
               </p>
             ) : null}
