@@ -2,7 +2,7 @@ import type { PageSectionInsuranceConfig } from "@/lib/sanity/page-sections";
 
 interface Props {
   config: PageSectionInsuranceConfig;
-  /** Treatment pages use tighter padding + smaller heading than category landings. */
+  /** Treatment pages: py-10 + text-xl/md:text-2xl. Category landings keep the larger band. */
   compact?: boolean;
 }
 

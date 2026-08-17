@@ -32,10 +32,22 @@ export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
   hormonbehandling: "poi",
   /** Legacy slug after rename to pms-pmdd. */
   "pms-og-pmdd": "pms-pmdd",
+  /**
+   * Reference URL — no dedicated CMS page; serve Vulvalidelser
+   * (vaginal tørrhet is a topic on that treatment).
+   */
+  "vaginal-torrhet": "vulvalidelser",
 };
 
 export function resolveGynekologiTreatmentSlug(urlSlug: string): string {
   const trimmed = urlSlug.trim();
   if (!trimmed) return trimmed;
   return GYNEKOLOGI_SLUG_ALIASES[trimmed] ?? trimmed;
+}
+
+export function gynekologiTreatmentSlugCandidates(urlSlug: string): string[] {
+  const trimmed = urlSlug.trim();
+  if (!trimmed) return [];
+  const resolved = resolveGynekologiTreatmentSlug(trimmed);
+  return [...new Set([trimmed, resolved].filter(Boolean))];
 }

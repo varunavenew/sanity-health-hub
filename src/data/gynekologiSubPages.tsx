@@ -410,15 +410,15 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
 
   /* ───────────────────────── VULVALIDELSER ───────────────────────── */
   vulvalidelser: {
-    seoTitle: "Vulvalidelser | CMedical — spesialisert utredning",
+    seoTitle: "Vulvalidelser og vulvodyni | CMedical",
     seoDescription:
-      "Smerter og ubehag i vulva blir ofte oversett. Vi har spesialister som forstår — og finner svar.",
+      "Vulvalidelser og vulvodyni trenger en tverrfaglig tilnærming. Vårt team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut, som hjelper deg ved behov.",
     canonical: "/behandlinger/gynekologi/vulvalidelser",
     parent,
-    title: "Vulvalidelser",
-    heroTitle: <>Smertene er <span className="italic">ekte</span> — og de kan behandles</>,
+    title: "Vulvalidelser og vulvodyni",
+    heroTitle: "Vulvalidelser og vulvodyni",
     heroDescription:
-      "Vulvodyni, lichen og kroniske vulvasmerter blir ofte avfeid eller oversett. Hos oss møter du spesialister som har erfaring med nettopp dette feltet.",
+      "Vulvalidelser og vulvodyni trenger en tverrfaglig tilnærming. Vårt team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut, som hjelper deg ved behov.",
     heroPoints: [
       { title: "Spesialisert kompetanse", desc: "Få gynekologer jobber dypt med vulvalidelser. Vi gjør det." },
       { title: "Tid og forståelse", desc: "Vulvasmerter krever lange konsultasjoner — vi setter av tiden som trengs." },

@@ -24,7 +24,6 @@ const COPIES: { source: string; targets: string[] }[] = [
   {
     source: "treatment-flere-fagomrader-gastrokirurgi",
     targets: [
-      "treatment-flere-fagomrader-gastrokirurgi-brokkoperasjon",
       "treatment-flere-fagomrader-gastrokirurgi-hemorroider-og-endetarmsplager",
     ],
   },
