@@ -143,6 +143,40 @@ export default {
       group: 'related',
     },
     {
+      name: 'servicesSection',
+      title: 'Seksjon: Tjenester ved denne klinikken',
+      type: 'object',
+      options: { collapsible: true },
+      group: 'related',
+      fields: [
+        { name: 'title', title: 'Overskrift', type: 'internationalizedArrayString' },
+        { name: 'description', title: 'Ingress', type: 'internationalizedArrayText' },
+        {
+          name: 'items',
+          title: 'Tjenester',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              name: 'clinicServiceItem',
+              fields: [
+                { name: 'serviceId', title: 'Tjeneste-ID', type: 'string' },
+                { name: 'label', title: 'Tittel', type: 'internationalizedArrayString' },
+                { name: 'href', title: 'Lenke (intern sti)', type: 'string' },
+              ],
+              preview: {
+                select: { title: 'label', subtitle: 'href' },
+                prepare({ title, subtitle }: any) {
+                  return { title: pickNo(title) || 'Tjeneste', subtitle: subtitle || '' }
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+
+    {
       name: 'booking',
       title: 'Booking',
       type: 'object',
