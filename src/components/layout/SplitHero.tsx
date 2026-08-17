@@ -64,9 +64,9 @@ export const SplitHero = ({
 
   return (
     <header className="bg-brand-warm">
-      <div className={hasImage ? "flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero" : "flex flex-col"}>
+      <div className={hasImage ? "flex flex-col lg:grid lg:grid-cols-2 split-hero" : "flex flex-col"}>
         {/* Left: text */}
-        <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 lg:order-1">
+        <div className="flex items-center px-6 md:px-16 lg:px-20 py-10 md:py-20 order-2 lg:order-1">
           <div className="w-full max-w-xl">
           {eyebrow?.trim() ? (
             <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">{eyebrow}</p>
@@ -77,7 +77,7 @@ export const SplitHero = ({
             </h1>
           ) : null}
           {description ? (
-            <div className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8 space-y-4">
+            <div className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-6 md:mb-8 space-y-4">
               {typeof description === "string"
                 ? description
                     .split(/\n\s*\n/)
@@ -135,7 +135,7 @@ export const SplitHero = ({
             src={imageSrc}
             alt={imageAlt || title || ""}
             hotspot={imageHotspot}
-            className="split-media order-1 lg:order-2"
+            className="split-media order-1 lg:order-2 max-lg:min-h-[40vh] max-lg:max-h-[44vh]"
           />
         ) : null}
       </div>
