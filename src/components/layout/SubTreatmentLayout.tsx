@@ -518,8 +518,9 @@ export const SubTreatmentLayout = ({
           </h1>
         </div>
 
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[560px]">
-          <div className="flex flex-col justify-center px-6 md:px-16 py-10 lg:py-16">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
+          <div className="flex items-center px-6 md:px-16 py-10 lg:py-16">
+            <div className="max-w-xl w-full">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
               <Link to="/" className="hover:text-foreground">
                 {c.homeBreadcrumbLabel}
@@ -539,8 +540,6 @@ export const SubTreatmentLayout = ({
               <span>›</span>
               <span className="text-foreground/80">{c.title}</span>
             </nav>
-
-            <div className="max-w-xl w-full">
               <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
                 {heroTitle}
               </h1>
@@ -630,7 +629,7 @@ export const SubTreatmentLayout = ({
             </div>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40 overflow-hidden">
+          <div className="split-media bg-secondary/40">
             {resolvedHero ? (
               <CmsMedia
                 media={resolvedHero}
@@ -688,8 +687,8 @@ export const SubTreatmentLayout = ({
             <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-16 pt-12 pb-4">
               {c.flowTitle}
             </h2>
-            <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
-              <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+            <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section">
+              <div className="split-media bg-secondary/40">
                 <AssetImg
                   src={c.flowImage}
                   alt={c.flowImageAlt}
@@ -697,7 +696,7 @@ export const SubTreatmentLayout = ({
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
-              <div className="px-6 md:px-16 lg:px-20 py-12 lg:py-20 flex flex-col justify-center">
+              <div className="px-6 md:px-16 lg:px-20 py-12 lg:py-20 flex items-center">
                 <div className="max-w-lg">
                   <h2 className="hidden lg:block text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
                     {c.flowTitle}

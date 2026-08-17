@@ -496,13 +496,8 @@ function ExpertAreaCards({
           return (
             <article
               key={`${a.title || "area"}-${index}`}
-              className="min-h-[420px] lg:min-h-[100svh] bg-secondary/40"
+              className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section bg-secondary/40"
             >
-              <div
-                className={`flex flex-col-reverse ${
-                  imageRight ? "lg:grid lg:grid-cols-2" : "lg:grid lg:grid-cols-2"
-                } lg:min-h-[100svh]`}
-              >
                 <div
                   className={`flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20 ${
                     imageRight ? "lg:order-1" : "lg:order-2"
@@ -529,7 +524,7 @@ function ExpertAreaCards({
                   </div>
                 </div>
                 <div
-                  className={`relative h-[420px] lg:h-auto lg:min-h-full overflow-hidden ${
+                  className={`split-media ${
                     imageRight ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
@@ -544,7 +539,6 @@ function ExpertAreaCards({
                     <div className="absolute inset-0 bg-secondary" />
                   )}
                 </div>
-              </div>
             </article>
           );
         })}
@@ -947,9 +941,7 @@ function SpotlightSection({
   );
 
   const copy = (
-    <div
-      className="px-6 md:px-12 lg:px-20 flex flex-col justify-center py-10 md:py-14 lg:py-20"
-    >
+    <div className="px-6 md:px-12 lg:px-20 flex items-center py-10 md:py-14 lg:py-20">
       <div className="max-w-lg">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
           {title}
@@ -973,13 +965,7 @@ function SpotlightSection({
   );
 
   const media = (
-    <div
-      className={`relative bg-secondary/40 overflow-hidden ${
-        matchFertilityReference
-          ? "h-[280px] md:h-[360px] lg:h-auto lg:min-h-[100svh]"
-          : "h-[320px] md:h-[420px] lg:h-auto lg:min-h-screen"
-      }`}
-    >
+    <div className="split-media bg-secondary/40">
       {spotlight.image ? (
         <AssetImg
           src={spotlight.image}
@@ -993,11 +979,7 @@ function SpotlightSection({
 
   return (
     <section className="bg-brand-light text-foreground">
-      <div
-        className={`grid lg:grid-cols-2 items-stretch ${
-          matchFertilityReference ? "lg:min-h-[100svh]" : "min-h-screen"
-        }`}
-      >
+      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section">
         {copy}
         {media}
       </div>
@@ -1299,7 +1281,7 @@ const TreatmentCategoryLanding = ({
                 ) : null}
               </div>
             </div>
-            <div className="lg:col-span-5 relative bg-secondary/40 h-[420px] lg:h-auto lg:min-h-full overflow-hidden">
+            <div className="lg:col-span-5 split-media bg-secondary/40">
               {whySection.image ? (
                 <AssetImg
                   src={whySection.image}
@@ -1690,7 +1672,7 @@ const TreatmentCategoryLanding = ({
       {/* Hero ├óΓé¼” always first, not part of sectionOrder */}
       {isFullWidthHero ? (
         <header className="relative">
-          <div className="relative h-[420px] min-h-[420px] lg:min-h-[520px] lg:h-auto flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
+          <div className="relative split-hero overflow-hidden flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
             <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40">
               {heroMedia ? (
                 <CategoryHeroMedia
@@ -1773,7 +1755,7 @@ const TreatmentCategoryLanding = ({
               <FertilityHeroHeading
                 heading={hero.heading}
                 emphasis={hero.headingEmphasis}
-                className="text-4xl font-light text-foreground leading-[1.05] tracking-[-0.02em]"
+                className="text-4xl font-light text-foreground leading-[1.05]"
               />
             ) : (
               <h2 className="text-4xl font-light text-foreground leading-[1.05]">
@@ -1792,7 +1774,7 @@ const TreatmentCategoryLanding = ({
               hasHeroMedia ? "lg:grid lg:grid-cols-2 split-hero" : ""
             }`}
           >
-            <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+            <div className="flex items-center page-edge-text-left py-16">
               <div className="w-full max-w-xl">
                 <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
                   <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
@@ -1803,10 +1785,10 @@ const TreatmentCategoryLanding = ({
                   <FertilityHeroHeading
                     heading={hero.heading}
                     emphasis={hero.headingEmphasis}
-                    className="hidden lg:block text-4xl md:text-5xl lg:text-[3.98rem] font-light mb-8 text-foreground leading-[1.05] tracking-[-0.02em]"
+                    className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]"
                   />
                 ) : (
-                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+                  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                     {hero.heading}
                     {hero.headingEmphasis ? (
                       <>
@@ -1852,7 +1834,7 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <div className="relative h-[420px] lg:h-auto lg:min-h-full bg-secondary/40 overflow-hidden order-1 lg:order-none">
+              <div className="split-media bg-secondary/40 order-1 lg:order-none">
                 <CategoryHeroMedia
                   media={heroMedia}
                   alt={hero.heroImageAlt}

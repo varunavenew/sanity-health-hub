@@ -81,7 +81,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
       {/* HERO */}
       <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
-          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16">
             <div className="max-w-xl w-full">
               <p className="text-xs tracking-wide text-foreground/60 mb-8 uppercase">
                 <span className="mr-6">Kort ventetid</span>

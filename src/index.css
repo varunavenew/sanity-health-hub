@@ -231,17 +231,6 @@
     }
   }
 
-  /* Category / split layouts — match avenewdemo production CSS */
-  .split-hero,
-  .split-section {
-    min-height: 420px;
-  }
-  @media (min-width: 1024px) {
-    .split-hero,
-    .split-section {
-      min-height: 100svh;
-    }
-  }
 
   .section-flush {
     padding-top: 0 !important;
@@ -634,4 +623,45 @@ body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus-within {
 }
 body.cm-edit-mode [data-editable-scope] {
   caret-color: hsl(var(--brand-dark));
+}
+
+/*
+ * Split heroes / full-screen slides — unlayered so this wins over Tailwind
+ * min-h-[560px] utilities. Header is fixed and overlays the hero; do not
+ * subtract header height. Use min-height (not height) so tall copy can grow.
+ */
+.split-hero,
+.split-section {
+  min-height: 420px;
+}
+
+@media (min-width: 1024px) {
+  .split-hero,
+  .split-section {
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: stretch;
+  }
+}
+
+.split-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+@media (min-width: 1024px) {
+  .split-media {
+    min-height: 0;
+    align-self: stretch;
+  }
+}
+
+.split-hero img,
+.split-hero video,
+.split-section img,
+.split-section video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
