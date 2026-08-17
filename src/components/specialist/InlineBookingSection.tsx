@@ -143,7 +143,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
         ))}
       </div>
 
-      <div className="mt-6 text-center">
+      <div className="mt-6">
         <Button
           variant="outline"
           className="rounded-full font-light text-sm bg-brand-mid text-brand-dark border-brand-mid hover:bg-brand-mid/80"
