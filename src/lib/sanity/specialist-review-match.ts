@@ -1,3 +1,11 @@
+type PatientReview = {
+  id: string;
+  name: string;
+  text: string;
+  rating: number;
+  date?: string;
+};
+
 /** Keywords for auto-matching Google reviews to specialist category (Norwegian text). */
 export const CATEGORY_REVIEW_KEYWORDS: Record<string, string[]> = {
   gynekologi: ["gynekolog", "kvinne", "ultralyd"],
@@ -50,4 +58,43 @@ export function getAutoMatchedReviews(
   }
 
   return combined;
+}
+
+type SeedReview = {
+  id: number;
+  name: string;
+  rating: number;
+  text: string;
+  date: string;
+};
+
+/** CMS refs first; otherwise auto-match Lovable/static seed reviews (at least 3). */
+export function patientReviewsForSpecialist(
+  specialistName: string,
+  category: string,
+  cmsReviews: PatientReview[] | undefined,
+  seed: SeedReview[],
+): PatientReview[] {
+  if (cmsReviews && cmsReviews.length > 0) return cmsReviews;
+
+  const matched = getAutoMatchedReviews(
+    specialistName,
+    category,
+    seed.map((review) => ({ id: String(review.id), text: review.text })),
+  );
+  const byId = new Map(seed.map((review) => [String(review.id), review]));
+
+  return matched.flatMap((item) => {
+    const review = byId.get(item.id);
+    if (!review) return [];
+    return [
+      {
+        id: String(review.id),
+        name: review.name,
+        text: review.text,
+        rating: review.rating,
+        date: review.date,
+      },
+    ];
+  });
 }

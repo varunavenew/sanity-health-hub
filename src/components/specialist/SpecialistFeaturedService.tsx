@@ -42,6 +42,11 @@ export const SpecialistFeaturedService = ({ specialist }: SpecialistFeaturedServ
             <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
               {category.title}
             </h2>
+            {category.description ? (
+              <p className="text-base md:text-lg text-foreground/75 font-light leading-relaxed mb-6 max-w-md whitespace-pre-line">
+                {category.description}
+              </p>
+            ) : null}
             <Link
               to={href}
               className="inline-flex items-center gap-2 text-sm font-normal text-foreground border-b border-foreground pb-1 hover:gap-3 transition-all"

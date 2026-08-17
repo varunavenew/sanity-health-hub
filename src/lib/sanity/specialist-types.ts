@@ -7,6 +7,8 @@ export interface SpecialistSanityCategory {
   title: string;
   categoryNumericId?: number;
   heroImage?: string;
+  /** Category intro shown between the heading and “View full service”. */
+  description?: string;
 }
 
 export type SpecialistCategory =

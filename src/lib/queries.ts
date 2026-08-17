@@ -134,7 +134,7 @@ const localizedFaqRowLocale = `
 const faqCollectionProjection = `"faqCollection": faqCollection->{
   _id,
   title,
-  "questions": questions[]->{
+  "questions": coalesce(questions, faqs)[]->{
     sortOrder,
     ${localizedFaqRow}
   }
@@ -151,7 +151,17 @@ const localizedGoogleReviewRow = `_id, author, rating, source, ${i18nText('text'
 const specialistCategoryProjection = `
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "heroImage": heroImage.asset->url
+  "heroImage": heroImage.asset->url,
+  "description": coalesce(
+    landingPage.hero.body[language == $lang][0].value,
+    landingPage.hero.body[_key == $lang][0].value,
+    landingPage.hero.body[language == "no"][0].value,
+    landingPage.hero.body[_key == "no"][0].value,
+    geoSummary[language == $lang][0].value,
+    geoSummary[_key == $lang][0].value,
+    geoSummary[language == "no"][0].value,
+    geoSummary[_key == "no"][0].value
+  )
 `;
 
 const i18nBlockContent = (field: string) =>
@@ -322,7 +332,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   "faqCollection": faqCollection->{
     _id,
     title,
-    "questions": questions[]->{
+    "questions": coalesce(questions, faqs)[]->{
       sortOrder,
       ${localizedFaqRow}
     }
@@ -418,7 +428,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   "faqCollection": faqCollection->{
     _id,
     title,
-    "questions": questions[]->{
+    "questions": coalesce(questions, faqs)[]->{
       sortOrder,
       ${localizedFaqRow}
     }
@@ -674,7 +684,7 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   "faqCollection": faqCollection->{
     _id,
     title,
-    "questions": questions[]->{
+    "questions": coalesce(questions, faqs)[]->{
       sortOrder,
       ${localizedFaqRowLocale}
     }
@@ -715,7 +725,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   "faqCollection": faqCollection->{
     _id,
     title,
-    "questions": questions[]->{
+    "questions": coalesce(questions, faqs)[]->{
       sortOrder,
       ${localizedFaqRowLocale}
     }
@@ -1410,7 +1420,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   "faqCollection": faqCollection->{
     _id,
     title,
-    "questions": questions[]->{
+    "questions": coalesce(questions, faqs)[]->{
       sortOrder,
       ${localizedFaqRow}
     }

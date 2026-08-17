@@ -103,7 +103,7 @@ export type RawSanitySpecialist = {
     _id?: string;
     author?: string;
     rating?: number;
-    text?: string;
+    text?: unknown;
     date?: string;
   }>;
   relatedSpecialistsSection?: {
@@ -185,6 +185,19 @@ function formatReviewDate(value: unknown, lang: SanityLang): string {
   return formatReviewDateLabel(value, lang === "en" ? "en" : "no");
 }
 
+/** Review quotes must not pass through specialist keyword translation. */
+function readReviewText(value: unknown, lang: SanityLang): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  const entries = value as I18nValueItem[];
+  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
+  if (typeof matchLang === "string" && matchLang.trim()) return matchLang.trim();
+  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
+  if (typeof matchNo === "string" && matchNo.trim()) return matchNo.trim();
+  const first = entries[0]?.value;
+  return typeof first === "string" ? first.trim() : "";
+}
+
 function mapPatientReviews(
   reviews: RawSanitySpecialist["patientReviews"],
   lang: SanityLang,
@@ -192,7 +205,8 @@ function mapPatientReviews(
   if (!Array.isArray(reviews) || reviews.length === 0) return undefined;
   const mapped = reviews
     .map((review): SpecialistPatientReview | null => {
-      const text = typeof review.text === "string" ? review.text.trim() : "";
+      if (!review || typeof review !== "object") return null;
+      const text = readReviewText(review.text, lang);
       const name = typeof review.author === "string" ? review.author.trim() : "";
       if (!text || !name) return null;
       const formattedDate = formatReviewDate(review.date, lang);
@@ -250,6 +264,10 @@ function mapSanitySpecialistCategories(
       title: readLocalizedString(c.title, lang),
       categoryNumericId: c.categoryNumericId,
       heroImage: typeof c.heroImage === "string" ? c.heroImage : undefined,
+      description:
+        typeof c.description === "string" && c.description.trim()
+          ? c.description.trim()
+          : undefined,
     }));
 }
 

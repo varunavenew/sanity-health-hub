@@ -56,10 +56,15 @@ export function resolveFaqsFromCollection(
   faqCollection: unknown,
   legacyFaqs: unknown,
 ): ResolvedFaqItem[] {
-  const fromCollection =
+  const collection =
     faqCollection && typeof faqCollection === "object"
-      ? mapFaqRows((faqCollection as { questions?: unknown }).questions)
-      : [];
+      ? (faqCollection as { questions?: unknown; faqs?: unknown })
+      : null;
+  const collectionRows =
+    Array.isArray(collection?.questions) && collection.questions.length > 0
+      ? collection.questions
+      : collection?.faqs;
+  const fromCollection = mapFaqRows(collectionRows);
   if (fromCollection.length > 0) return fromCollection;
   return mapFaqRows(legacyFaqs);
 }

@@ -1,6 +1,8 @@
-import { Quote, User } from "lucide-react";
+import { User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
+import { googleReviews } from "@/data/googleReviews";
+import { patientReviewsForSpecialist } from "@/lib/sanity/specialist-review-match";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
 interface SpecialistReviewsProps {
@@ -9,7 +11,12 @@ interface SpecialistReviewsProps {
 
 export const SpecialistReviews = ({ specialist }: SpecialistReviewsProps) => {
   const ui = useSpecialistProfileUi();
-  const reviews = specialist.patientReviews ?? [];
+  const reviews = patientReviewsForSpecialist(
+    specialist.name,
+    specialist.category,
+    specialist.patientReviews,
+    googleReviews,
+  );
 
   if (reviews.length === 0) return null;
 

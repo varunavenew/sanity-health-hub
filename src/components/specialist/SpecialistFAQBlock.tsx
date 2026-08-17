@@ -18,7 +18,7 @@ export const SpecialistFAQBlock = ({ faqs, title }: SpecialistFAQBlockProps) => 
       }));
   }, [faqs]);
 
-  if (items.length === 0 || !title?.trim()) return null;
+  if (items.length === 0) return null;
 
   return <FaqSection faqs={items} title={title} />;
 };
