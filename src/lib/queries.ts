@@ -272,6 +272,8 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   },
   "serviceCategories": serviceCategories[]->{
     _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug},
+    "homepageCardImage": homepageCardImage.asset->url,
+    ${i18nString("homepageCardImageAlt")},
     "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
     "heroImage": heroImage.asset->url
   },
@@ -337,14 +339,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   reviewsLegelistenRating,
   ${i18nString("reviewsCtaTitle")},
   ${i18nString("reviewsCtaSubtitle")},
-  "googleReviews": googleReviews[]->{
-    _id,
-    author,
-    rating,
-    source,
-    ${i18nText("text")},
-    date
-  },
+  reviewsGoldStarsWidgetId,
   specialistsSection{
     ${i18nString("eyebrow")},
     ${i18nString("heading")},

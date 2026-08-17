@@ -1,27 +1,135 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { BackLink } from "@/components/ui/BackLink";
 import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {
+  MapPin,
+  Phone,
+  Clock,
+  Car,
+  Train,
+  Accessibility,
+  ExternalLink,
+  ArrowRight,
+} from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  getClinicBySlug,
+  withCanonicalAddress,
+  clinicFaqs,
+  type Clinic,
+} from "@/data/clinicServices";
+import { clinicGalleries, clinicHeroImages } from "@/data/clinicImagery";
 import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
-import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { SpecialistCarousel } from "@/components/SpecialistCarousel";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { combineGeoJsonLd, faqPageJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
-import { ClinicMap } from "@/components/clinic/ClinicMap";
-import { clinicMapsEmbedUrl } from "@/lib/maps/clinic-location";
+import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
-import type { PageSection } from "@/lib/sanity/page-sections";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
-import { AssetImg } from "@/components/AssetImg";
+
+type MergedClinic = {
+  id: string;
+  slug: string;
+  label: string;
+  address: string;
+  phone?: string;
+  hours?: string;
+  description?: string;
+  detail?: {
+    parking?: string;
+    publicTransport?: string;
+    accessibility?: string;
+  };
+  mapsUrl?: string;
+  faqs?: { question: string; answer: string }[];
+  services?: string[];
+  booking?: Record<string, unknown>;
+  seo?: { metaTitle?: string; metaDescription?: string };
+  heroImage?: string;
+  primaryImage?: string;
+  gallery?: { src: string; alt?: string }[];
+  email?: string;
+  treatments?: Array<{ slug: string; title?: string; categorySlug?: string }>;
+};
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
+}
+
+function staticClinicToMerged(staticClinic: Clinic): MergedClinic {
+  return {
+    id: staticClinic.id,
+    slug: staticClinic.slug,
+    label: staticClinic.label,
+    address: staticClinic.address,
+    phone: staticClinic.phone,
+    hours: staticClinic.hours,
+    description: staticClinic.detail.description,
+    detail: {
+      parking: staticClinic.detail.parking,
+      publicTransport: staticClinic.detail.publicTransport,
+      accessibility: staticClinic.detail.accessibility,
+    },
+    mapsUrl: staticClinic.mapsUrl,
+    faqs: clinicFaqs[staticClinic.slug] || [],
+    services: staticClinic.services,
+    booking: undefined,
+    seo: undefined,
+  };
+}
+
+function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no" | "en"): MergedClinic {
+  const label = plainMetaString(raw.label ?? raw.title, "Klinikk", lang);
+  const description = plainMetaString(raw.description, "", lang);
+  const hours = plainMetaString(raw.hours, "", lang);
+  const detailRaw = (raw.detail || {}) as Record<string, unknown>;
+  const galleryRaw = Array.isArray(raw.gallery) ? raw.gallery : [];
+
+  return withCanonicalAddress({
+    id: String(raw.id || raw.slug || slug),
+    slug: String(raw.slug || slug),
+    label,
+    address: String(raw.address || ""),
+    phone: typeof raw.phone === "string" ? raw.phone : undefined,
+    hours,
+    description,
+    detail: {
+      parking: plainMetaString(detailRaw.parking, "", lang),
+      publicTransport: plainMetaString(detailRaw.publicTransport, "", lang),
+      accessibility: plainMetaString(detailRaw.accessibility, "", lang),
+    },
+    mapsUrl: typeof raw.mapsUrl === "string" ? raw.mapsUrl : undefined,
+    faqs: Array.isArray(raw.faqs)
+      ? (raw.faqs as { question?: unknown; answer?: unknown }[])
+          .map((faq) => ({
+            question: plainMetaString(faq.question, "", lang),
+            answer: plainMetaString(faq.answer, "", lang),
+          }))
+          .filter((faq) => faq.question && faq.answer)
+      : [],
+    services: Array.isArray(raw.services) ? (raw.services as string[]) : [],
+    booking: (raw.booking as Record<string, unknown>) || undefined,
+    seo: raw.seo as MergedClinic["seo"],
+    heroImage: typeof raw.heroImage === "string" ? raw.heroImage : undefined,
+    primaryImage: typeof raw.primaryImage === "string" ? raw.primaryImage : undefined,
+    gallery: galleryRaw
+      .map((item) => {
+        const row = item as { url?: string; src?: string; alt?: string };
+        const src = row.url || row.src;
+        if (!src) return null;
+        return { src, alt: row.alt };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null),
+    email: typeof raw.email === "string" ? raw.email : undefined,
+    treatments: Array.isArray(raw.treatments)
+      ? (raw.treatments as MergedClinic["treatments"])
+      : undefined,
+  });
 }
 
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
@@ -32,29 +140,53 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const clinicsPath = useNavCmsPath("clinics");
   const specialistsPath = useNavCmsPath("specialists");
   const aboutPath = useNavCmsPath("about");
+  const { data: sanityClinic, isLoading } = useClinic(slug || "");
   const { data: treatmentCategories } = useTreatmentCategories();
+  const staticClinic = slug ? getClinicBySlug(slug) : undefined;
+
   const serviceLinks = useMemo(
     () => buildClinicServiceLinks(treatmentCategories, sanityLang),
     [treatmentCategories, sanityLang],
   );
-  const { data: clinic, isLoading } = useClinic(slug || "");
+
+  const clinic = useMemo((): MergedClinic | undefined => {
+    if (sanityClinic) {
+      const merged = mergeSanityClinic(sanityClinic as Record<string, unknown>, slug, sanityLang);
+      if (!merged.faqs?.length && staticClinic) {
+        merged.faqs = clinicFaqs[staticClinic.slug] || [];
+      }
+      if (!merged.services?.length && staticClinic) {
+        merged.services = staticClinic.services;
+      }
+      if (!merged.description && staticClinic) {
+        merged.description = staticClinic.detail.description;
+      }
+      if (staticClinic) {
+        merged.detail = {
+          parking: merged.detail?.parking || staticClinic.detail.parking,
+          publicTransport: merged.detail?.publicTransport || staticClinic.detail.publicTransport,
+          accessibility: merged.detail?.accessibility || staticClinic.detail.accessibility,
+        };
+      }
+      return merged;
+    }
+    return staticClinic ? staticClinicToMerged(staticClinic) : undefined;
+  }, [sanityClinic, slug, sanityLang, staticClinic]);
 
   useEffect(() => {
     if (clinic) {
-      const name = plainMetaString(clinic.label ?? clinic.title, "Klinikk", sanityLang);
-      document.title = `CMedical ${name} | Klinikk`;
+      document.title = `CMedical ${clinic.label} | Klinikk`;
     }
-  }, [clinic, sanityLang]);
+  }, [clinic]);
 
-  // Only show skeleton if Sanity is still loading AND we have no static fallback
-  if (isLoading) {
+  if (isLoading && !staticClinic) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
-        <div className="bg-brand-warm pt-24 pb-16">
+        <div className="centered-hero bg-brand-warm">
           <div className="container mx-auto px-6 md:px-16 text-center">
-            <div className="animate-pulse space-y-4 max-w-3xl mx-auto">
-              <div className="h-8 bg-brand-mid/20 rounded w-1/3" />
-              <div className="h-4 bg-brand-mid/20 rounded w-2/3" />
+            <div className="mx-auto max-w-3xl animate-pulse space-y-4">
+              <div className="h-8 w-1/3 rounded bg-brand-mid/20" />
+              <div className="h-4 w-2/3 rounded bg-brand-mid/20" />
             </div>
           </div>
         </div>
@@ -65,273 +197,247 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   if (!clinic) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
-        <div className="bg-brand-warm pt-24 pb-16">
+        <div className="centered-hero bg-brand-warm">
           <div className="container mx-auto px-6 md:px-16 text-center">
-            <h1 className="text-2xl font-light text-brand-dark mb-4">Klinikken ble ikke funnet</h1>
-            <Button asChild variant="outline" className="rounded-sm">
-              <Link to={aboutPath}>Tilbake til Om oss</Link>
-            </Button>
+            <h1 className="mb-4 text-2xl font-light text-brand-dark">Klinikken ble ikke funnet</h1>
+            <BackLink to={clinicsPath}>Tilbake til klinikker</BackLink>
           </div>
         </div>
       </PageLayout>
     );
   }
 
-  const rawDetail = clinic.detail || {};
-  const label = plainMetaString(clinic.label ?? clinic.title, "Klinikk", sanityLang);
-  const description = plainMetaString(clinic.description, "", sanityLang);
-  const hours = plainMetaString(clinic.hours, "", sanityLang);
-  const email =
-    typeof (clinic as { email?: unknown }).email === "string"
-      ? (clinic as { email: string }).email.trim()
-      : "";
-  const contactDescription = plainMetaString(
-    (clinic as { contactDescription?: unknown }).contactDescription,
-    "",
-    sanityLang,
-  );
-  const rawValueProposition = (clinic as { valueProposition?: Record<string, unknown> })
-    .valueProposition;
-  const valueProposition1 = plainMetaString(rawValueProposition?.valueProposition1, "", sanityLang);
-  const socialProof = plainMetaString(rawValueProposition?.socialProof, "", sanityLang);
-  const detail = {
-    parking: plainMetaString(rawDetail.parking, "", sanityLang),
-    publicTransport: plainMetaString(rawDetail.publicTransport, "", sanityLang),
-    accessibility: plainMetaString(rawDetail.accessibility, "", sanityLang),
-  };
-  const faqs = (clinic.faqs || [])
-    .map((faq: { question?: unknown; answer?: unknown }) => ({
-      question: plainMetaString(faq.question, "", sanityLang),
-      answer: plainMetaString(faq.answer, "", sanityLang),
-    }))
-    .filter((faq) => faq.question && faq.answer);
-  const pageSections = (clinic.pageSections ?? []) as PageSection[];
-  const bookingCtaSections = pageSections.filter((s) => s._type === "pageSectionBookingCta");
-  const otherPageSections = pageSections.filter((s) => s._type !== "pageSectionBookingCta");
-  const clinicBookingPath = clinic.id
-    ? `/booking?klinikk=${encodeURIComponent(clinic.id)}`
-    : "/booking";
-  const mapsUrl = clinic.mapsUrl;
-  const mapsEmbedUrl = clinicMapsEmbedUrl(clinic.locationSearch, clinic.address);
-  const galleryImages = (
-    (clinic as { gallery?: { url?: string; alt?: string }[] }).gallery ?? []
-  ).filter(
-    (img): img is { url: string; alt?: string } =>
-      typeof img?.url === "string" && img.url.trim().length > 0,
-  );
-  const hasClinicImages = galleryImages.length > 0;
-  const seoTitle = plainMetaString(
-    clinic.seo?.metaTitle,
-    `CMedical ${label} – Klinikk`,
-    sanityLang,
-  );
-  const seoDescription = plainMetaString(
-    clinic.seo?.metaDescription,
-    `Besøk CMedical ${label}. ${clinic.address || ""}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`,
-    sanityLang,
-  );
-  const geoSummary = plainMetaString(
-    (clinic as { geoSummary?: unknown }).geoSummary,
-    "",
-    sanityLang,
-  );
+  const heroImage =
+    clinic.heroImage || clinicHeroImages[clinic.slug] || clinic.primaryImage;
+  const faqs = clinic.faqs || [];
+  const detail = clinic.detail || {};
+  const mapsUrl =
+    clinic.mapsUrl ||
+    (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
-  const locale = sanityLang === "en" ? "en" : "nb";
-  const summaryText = geoSummary || description.split("\n")[0].trim() || seoDescription;
-  const geoJsonLd = combineGeoJsonLd(
-    {
-      "@context": "https://schema.org",
-      "@type": "MedicalClinic",
-      name: `CMedical ${label}`,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: clinic.address,
-        addressCountry: "NO",
-      },
-      telephone: clinic.phone ? `+47 ${clinic.phone}` : undefined,
-      email: email || undefined,
-      url: `https://cmedical.no${clinicPath}`,
-    },
-    medicalWebPageJsonLd({
-      name: `CMedical ${label}`,
-      description: summaryText.slice(0, 320),
-      url: clinicPath,
-      inLanguage: locale === "en" ? "en" : "nb-NO",
-    }),
-    faqPageJsonLd(faqs),
+  const sanityGallery = (clinic.gallery || [])
+    .filter((g) => g.src)
+    .map((g) => ({ src: g.src, alt: g.alt || `CMedical ${clinic.label}` }));
+  const gallery = (sanityGallery.length > 0 ? sanityGallery : clinicGalleries[clinic.slug])?.slice(
+    0,
+    4,
   );
+  const allServicesLinked =
+    clinic.services?.every((id) => Boolean(serviceLinks[id]?.path)) ?? false;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={seoTitle}
-        description={seoDescription}
+        title={clinic.seo?.metaTitle || `CMedical ${clinic.label} – Klinikk`}
+        description={
+          clinic.seo?.metaDescription ||
+          `Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`
+        }
         canonical={clinicPath}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Om oss", path: aboutPath },
-          { name: `CMedical ${label}`, path: clinicPath },
+          { name: `CMedical ${clinic.label}`, path: clinicPath },
         ]}
-        jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "MedicalClinic",
+          name: `CMedical ${clinic.label}`,
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: clinic.address,
+            addressCountry: "NO",
+          },
+          telephone: clinic.phone ? `+47 ${clinic.phone}` : undefined,
+          url: `https://cmedical.no${clinicPath}`,
+        }}
       />
-      {/* Header */}
-      <div className="bg-brand-warm pt-20">
-        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
-          <div className="max-w-3xl mx-auto">
-            <Link to={clinicsPath} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
-              <ArrowLeft className="w-3 h-3" />
-              Alle klinikker
-            </Link>
 
-            <header className="mb-8 pb-6 border-b border-brand-dark/10">
-              <p className="text-muted-foreground text-xs mb-2">Klinikk</p>
-              <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
-                CMedical {label}
+      {heroImage ? (
+        <>
+          <ParallaxImage
+            src={heroImage}
+            alt={`CMedical ${clinic.label}`}
+            loading="eager"
+            speed={0.16}
+            objectPosition="50% 45%"
+            className="h-[58svh] w-full md:hidden"
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(24,4,4,0.92) 0%, rgba(66,51,42,0.82) 24%, rgba(66,51,42,0.6) 46%, rgba(66,51,42,0.32) 70%, rgba(66,51,42,0.12) 100%)",
+              }}
+            />
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-dark/65 via-brand-dark/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 px-6 pb-8">
+              <BackLink to={clinicsPath} tone="onImage" className="mb-4">
+                Alle klinikker
+              </BackLink>
+              <h1 className="text-2xl font-light leading-tight text-brand-warm">
+                CMedical {clinic.label}
+              </h1>
+            </div>
+          </ParallaxImage>
+
+          <ParallaxImage
+            src={heroImage}
+            alt={`CMedical ${clinic.label}`}
+            loading="eager"
+            speed={0.14}
+            className="hidden h-[46vh] w-full md:block"
+          >
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-dark/60 via-brand-dark/20 to-transparent" />
+          </ParallaxImage>
+        </>
+      ) : null}
+
+      <div className={`bg-brand-warm ${heroImage ? "md:pt-0" : "pt-[4.5rem]"}`}>
+        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+          <div className="mx-auto max-w-3xl">
+            {!heroImage ? (
+              <BackLink to={clinicsPath} className="mb-6">
+                Alle klinikker
+              </BackLink>
+            ) : null}
+
+            <header
+              className={`mb-8 border-b border-brand-dark/10 pb-6 ${heroImage ? "hidden md:block" : ""}`}
+            >
+              <h1 className="text-3xl font-light text-brand-dark md:text-4xl">
+                CMedical {clinic.label}
               </h1>
             </header>
 
-            {description ? (
-              <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-                {description}
+            {clinic.description ? (
+              <p className="text-[15px] font-light leading-[1.8] text-brand-dark/80 md:text-base">
+                {clinic.description}
               </p>
             ) : null}
-
-            {(valueProposition1 || socialProof) && (
-              <div className="mt-6 space-y-2 pt-6 border-t border-brand-dark/10">
-                {valueProposition1 ? (
-                  <p className="text-base text-brand-dark font-normal leading-snug">
-                    {valueProposition1}
-                  </p>
-                ) : null}
-                {socialProof ? (
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                    {socialProof}
-                  </p>
-                ) : null}
-              </div>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Practical info */}
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg font-normal text-foreground mb-6">Praktisk informasjon</h2>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="mb-6 text-lg font-normal text-foreground">Praktisk informasjon</h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                  <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75" aria-hidden="true" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Adresse</p>
-                    <p className="text-sm text-muted-foreground font-light">{clinic.address}</p>
-                    {mapsUrl && (
-                      <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-dark/70 hover:underline inline-flex items-center gap-1 mt-1">
-                        Vis i kart <ExternalLink className="w-3 h-3" />
+                    <p className="text-sm font-light text-muted-foreground">{clinic.address}</p>
+                    {mapsUrl ? (
+                      <a
+                        href={mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 inline-flex items-center gap-1 text-xs text-brand-dark/70 hover:underline"
+                      >
+                        Vis i kart <ExternalLink className="h-3 w-3" aria-hidden="true" />
                       </a>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Phone className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-normal text-foreground">Telefon</p>
+                    {clinic.phone ? (
+                      <a
+                        href={`tel:+47${clinic.phone.replace(/\s/g, "")}`}
+                        className="text-sm font-light text-muted-foreground hover:underline"
+                      >
+                        {clinic.phone}
+                      </a>
+                    ) : (
+                      <span className="text-sm font-light text-muted-foreground">—</span>
                     )}
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                  <Clock className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-normal text-foreground">Telefon</p>
-                    <a href={`tel:+47${clinic.phone?.replace(/\s/g, '')}`} className="text-sm text-muted-foreground font-light hover:underline">
-                      {clinic.phone}
-                    </a>
-                  </div>
-                </div>
-                {email ? (
-                  <div className="flex items-start gap-3">
-                    <Mail className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-normal text-foreground">E-post</p>
-                      <a href={`mailto:${email}`} className="text-sm text-muted-foreground font-light hover:underline">
-                        {email}
-                      </a>
-                    </div>
-                  </div>
-                ) : null}
-                <div className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
-                  <div>                  
                     <p className="text-sm font-normal text-foreground">Åpningstider</p>
-                    {hours ? (
-                      <p className="text-sm text-muted-foreground font-light">{hours}</p>
-                    ) : null}
+                    <p className="whitespace-pre-line text-sm font-light text-muted-foreground">
+                      {clinic.hours}
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-4">
-                {detail.publicTransport && (
+                {detail.publicTransport ? (
                   <div className="flex items-start gap-3">
-                    <Train className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <Train className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75" aria-hidden="true" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Kollektivtransport</p>
-                      <p className="text-sm text-muted-foreground font-light">{detail.publicTransport}</p>
+                      <p className="text-sm font-light text-muted-foreground">{detail.publicTransport}</p>
                     </div>
                   </div>
-                )}
-                {detail.parking && (
+                ) : null}
+                {detail.parking ? (
                   <div className="flex items-start gap-3">
-                    <Car className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <Car className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75" aria-hidden="true" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Parkering</p>
-                      <p className="text-sm text-muted-foreground font-light">{detail.parking}</p>
+                      <p className="text-sm font-light text-muted-foreground">{detail.parking}</p>
                     </div>
                   </div>
-                )}
-                {detail.accessibility && (
+                ) : null}
+                {detail.accessibility ? (
                   <div className="flex items-start gap-3">
-                    <Accessibility className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <Accessibility
+                      className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-dark/75"
+                      aria-hidden="true"
+                    />
                     <div>
                       <p className="text-sm font-normal text-foreground">Tilgjengelighet</p>
-                      <p className="text-sm text-muted-foreground font-light">{detail.accessibility}</p>
+                      <p className="text-sm font-light text-muted-foreground">{detail.accessibility}</p>
                     </div>
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
-
-            {contactDescription ? (
-              <p className="mt-8 text-sm text-muted-foreground font-light leading-[1.8] border-t border-border/40 pt-6">
-                {contactDescription}
-              </p>
-            ) : null}
           </div>
         </div>
       </section>
 
-      {/* Services at this clinic */}
-      {clinic.services && clinic.services.length > 0 && (
+      {clinic.services && clinic.services.length > 0 ? (
         <section className="bg-brand-warm/40 py-10 md:py-14">
           <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <div className="flex items-center gap-2 mb-2">
-                <Stethoscope className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
-                <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">Tilbud</p>
-              </div>
-              <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
-              <p className="text-sm text-muted-foreground font-light mb-6">
-                CMedical {label} tilbyr {clinic.services.length} ulike fagområder. Klikk for å lese mer.
+            <div className="mx-auto max-w-3xl">
+              <h2 className="mb-2 text-lg font-normal text-foreground">Tjenester ved denne klinikken</h2>
+              <p className="mb-6 text-sm font-light text-muted-foreground">
+                CMedical {clinic.label} tilbyr {clinic.services.length} ulike tjenester.{" "}
+                {allServicesLinked
+                  ? "Klikk for å lese mer."
+                  : "Klikk på tjenestene med pil for å lese mer."}
               </p>
 
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
-                {clinic.services.map((id: string) => {
+              <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
+                {clinic.services.map((id) => {
                   const svc = serviceLinks[id] || { label: id };
                   const content = (
-                    <span className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
+                    <span
+                      className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${svc.path ? " group-hover:text-brand-dark" : ""}`}
+                    >
                       <span>{svc.label}</span>
-                      {svc.path && (
-                        <ArrowRight className="w-3.5 h-3.5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} aria-hidden="true" />
-                      )}
+                      {svc.path ? (
+                        <ArrowRight
+                          className="h-3.5 w-3.5 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                        />
+                      ) : null}
                     </span>
                   );
                   return (
-                    <li key={id} className="group">
+                    <li key={id} className={svc.path ? "group" : ""}>
                       {svc.path ? (
                         <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
                           {content}
@@ -346,61 +452,77 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             </div>
           </div>
         </section>
-      )}
-
-      {/* Clinic images – full bleed, no gap (matches homepage tjenester pattern) */}
-      {hasClinicImages ? (
-        <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${label}`}>
-          <div className="container mx-auto px-6 md:px-16 mb-6">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
-            {galleryImages.map((img, i) => (
-              <div key={`${img.url}-${i}`} className="aspect-[4/3] overflow-hidden">
-                <AssetImg
-                  src={img.url}
-                  alt={img.alt?.trim() || `CMedical ${label}`}
-                  preset="gallery"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
       ) : null}
 
-      {mapsEmbedUrl ? (
-        <section className="bg-background py-10 md:py-14">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
-              <ClinicMap
-                location={clinic.locationSearch}
-                address={clinic.address}
-                title={label}
-                className="h-[350px] md:h-[350px]"
+      {(() => {
+        if (!(gallery && gallery.length > 0) && !clinic.primaryImage) return null;
+        return (
+          <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
+            <div className="container mx-auto mb-6 px-6 md:px-16">
+              <div className="mx-auto max-w-3xl">
+                <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
+              </div>
+            </div>
+            {gallery && gallery.length > 0 ? (
+              <div className="grid w-full grid-cols-2 gap-0 md:grid-cols-4">
+                {gallery.map((img) => (
+                  <ParallaxImage
+                    key={img.src}
+                    src={img.src}
+                    alt={img.alt}
+                    speed={0.1}
+                    className="aspect-[4/5] bg-brand-mid/10"
+                  />
+                ))}
+              </div>
+            ) : clinic.primaryImage ? (
+              <ParallaxImage
+                src={clinic.primaryImage}
+                alt={`CMedical ${clinic.label}`}
+                speed={0.12}
+                className="aspect-[4/3] w-full md:aspect-[21/9]"
+              />
+            ) : null}
+          </section>
+        );
+      })()}
+
+      <section className="bg-background py-10 md:py-14">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="mx-auto max-w-3xl">
+            <h2 className="mb-6 text-lg font-normal text-foreground">Finn oss</h2>
+            <div className="overflow-hidden rounded-sm border border-border/40">
+              <iframe
+                title={`Kart over CMedical ${clinic.label}`}
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}&output=embed`}
+                width="100%"
+                height="350"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
           </div>
-        </section>
-      ) : null}
+        </div>
+      </section>
 
-      {/* FAQ */}
-      {faqs.length > 0 && (
+      {faqs.length > 0 ? (
         <section className="bg-muted/50 py-10 md:py-14">
           <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-lg font-normal text-foreground mb-6">Ofte stilte spørsmål</h2>
+            <div className="mx-auto max-w-3xl">
+              <h2 className="mb-6 text-lg font-normal text-foreground">Ofte stilte spørsmål</h2>
               <Accordion type="single" collapsible className="space-y-2">
-                {faqs.map((faq: { question: string; answer: string }, i: number) => (
-                  <AccordionItem key={i} value={`faq-${i}`} className="bg-background border border-border/40 rounded-sm px-5">
-                    <AccordionTrigger className="text-sm font-normal text-foreground py-4 hover:no-underline">
+                {faqs.map((faq, i) => (
+                  <AccordionItem
+                    key={i}
+                    value={`faq-${i}`}
+                    className="rounded-sm border border-border/40 bg-background px-5"
+                  >
+                    <AccordionTrigger className="py-4 text-sm font-normal text-foreground hover:no-underline">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-sm text-muted-foreground font-light pb-4 leading-relaxed">
+                    <AccordionContent className="pb-4 text-sm font-light leading-relaxed text-muted-foreground">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -409,66 +531,45 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
-      {/* Specialists at this clinic (Sanity-only) */}
-      {Array.isArray((clinic as any).specialists) && (clinic as any).specialists.length > 0 && (
-        <section className="bg-background py-10 md:py-14">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <div className="flex items-center gap-2 mb-2">
-                <Users className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
-                <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">Spesialister</p>
-              </div>
-              <h2 className="text-lg font-normal text-foreground mb-6">Spesialister ved klinikken</h2>
-              <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-                {(clinic as any).specialists.map((s: any) => (
-                  <li key={s.slug}>
-                    <Link to={`${specialistsPath}/${s.slug}`} className="group block">
-                      <div className="aspect-[3/4] bg-brand-mid/20 overflow-hidden rounded-sm mb-2">
-                        {s.image && (
-                          <AssetImg
-                            src={s.image}
-                            alt={s.name}
-                            preset="profile"
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
-                        )}
-                      </div>
-                      <p className="text-sm font-normal text-foreground group-hover:text-brand-dark transition-colors">
-                        {plainMetaString(s.name, "", sanityLang)}
-                      </p>
-                      {plainMetaString(s.role, "", sanityLang) ? (
-                        <p className="text-xs text-muted-foreground font-light">
-                          {plainMetaString(s.role, "", sanityLang)}
-                        </p>
-                      ) : null}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-      )}
+      <SpecialistCarousel
+        filter={(s) => {
+          if (!Array.isArray(s.clinics)) return false;
+          const label = String(clinic.label).toLowerCase();
+          return s.clinics.some((c) => {
+            const name = String(c).toLowerCase();
+            return name === label || label.includes(name) || name.includes(label);
+          });
+        }}
+        title="Spesialister ved klinikken"
+        description={`Møt spesialistene som jobber ved CMedical ${clinic.label}.`}
+        seeAllHref={`${specialistsPath}?klinikk=${encodeURIComponent(clinic.label)}`}
+        seeAllLabel="Se alle spesialister"
+      />
 
-      {/* Treatments at this clinic (cross-links) */}
-      {Array.isArray((clinic as any).treatments) && (clinic as any).treatments.length > 0 && (
+      {Array.isArray(clinic.treatments) && clinic.treatments.length > 0 ? (
         <section className="bg-brand-warm/40 py-10 md:py-14">
           <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-lg font-normal text-foreground mb-6">Behandlinger ved klinikken</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
-                {(clinic as any).treatments.map((t: any) => {
+            <div className="mx-auto max-w-3xl">
+              <h2 className="mb-6 text-lg font-normal text-foreground">Behandlinger ved klinikken</h2>
+              <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
+                {clinic.treatments.map((t) => {
                   const href = t.categorySlug
                     ? `/${t.categorySlug}/${t.slug}`
                     : `/${t.slug}`;
                   return (
                     <li key={t.slug} className="group">
-                      <Link to={href} className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
-                        <span>{plainMetaString(t.title, "", sanityLang)}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} aria-hidden="true" />
+                      <Link
+                        to={href}
+                        className="flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors group-hover:text-brand-dark"
+                      >
+                        <span>{plainMetaString(t.title, t.slug, sanityLang)}</span>
+                        <ArrowRight
+                          className="h-3.5 w-3.5 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
+                          strokeWidth={1.5}
+                          aria-hidden="true"
+                        />
                       </Link>
                     </li>
                   );
@@ -477,21 +578,15 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             </div>
           </div>
         </section>
-      )}
-
-      {bookingCtaSections.length > 0 ? (
-        <PageSectionsRenderer sections={bookingCtaSections} />
-      ) : (
-        <BookingCTA
-          primaryPath={clinicBookingPath}
-          title={`Bestill time ved CMedical ${label}`}
-          subtitle="Velg tjeneste, klinikk og behandler – alt i én enkel booking."
-          variant="dark"
-        />
-      )}
-      {otherPageSections.length > 0 ? (
-        <PageSectionsRenderer sections={otherPageSections} />
       ) : null}
+
+      <ClinicBookingBlock
+        booking={clinic.booking as Parameters<typeof ClinicBookingBlock>[0]["booking"]}
+        clinicLabel={clinic.label}
+        clinicId={clinic.id}
+        phone={clinic.phone}
+        email={clinic.email}
+      />
     </PageLayout>
   );
 };

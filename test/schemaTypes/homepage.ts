@@ -137,7 +137,7 @@ export default {
       name: 'serviceCategories',
       title: 'Treatment categories',
       description:
-        'Categories shown in the homepage grid. Choose from Medical Content; order here. Not a Library pack.',
+        'Categories shown in the homepage grid. Tile image comes from each category → General → Homepage category tile image. Order categories here. Not a Library pack.',
       type: 'array',
       of: [
         {
@@ -369,7 +369,7 @@ export default {
       name: 'reviewsSubheading',
       title: 'Reviews - Subtitle',
       description:
-        'Page-owned review band chrome. Reviews are selected below from Content Library → Google Reviews.',
+        'Page-owned review band chrome. Review cards load from Gold Stars; set ratings and widget ID below.',
       type: 'internationalizedArrayString',
     },
     {
@@ -402,12 +402,21 @@ export default {
       type: 'internationalizedArrayString',
     },
     {
+      name: 'reviewsGoldStarsWidgetId',
+      title: 'Gold Stars slider widget ID',
+      type: 'string',
+      description:
+        'Review Pixel simple-slider widget ID from Gold Stars. Leave empty to use the default homepage slider.',
+      initialValue: '6137cba4-0791-45ec-9cab-6ea667442f9a',
+    },
+    {
       name: 'googleReviews',
-      title: 'Reviews on the homepage',
+      title: 'Reviews on the homepage (legacy)',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
       description:
-        'Select and sort patient reviews shown on the homepage. Reviews live in Content Library → Google Reviews.',
+        'Deprecated — homepage review cards now load from Gold Stars. Kept for reference only.',
+      hidden: () => true,
     },
     {
       name: 'specialistsSection',
