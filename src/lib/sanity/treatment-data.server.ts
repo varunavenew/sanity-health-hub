@@ -1,16 +1,21 @@
 import "server-only";
 
 import { TREATMENT_BY_SLUG_QUERY } from "@/lib/queries";
-import { categorySlugForFetch } from "@/lib/sanity/category-keys";
+import {
+  categorySlugForFetch,
+  FLERE_FAGOMRADER_CATEGORY_ID,
+  normalizeCategoryRouteKey,
+} from "@/lib/sanity/category-keys";
 import {
   mapTreatmentDocument,
   type TreatmentData,
 } from "@/lib/sanity/treatment-data";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
+import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 import { fetchSanityGroqServer } from "@/lib/sanity/fetch-groq-server";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
-import { normalizeCategoryRouteKey } from "@/lib/sanity/category-keys";
 
 /** Server-side treatment payload for RSC + hydration. */
 export async function fetchTreatmentData(
@@ -24,7 +29,11 @@ export async function fetchTreatmentData(
       ? resolveFertilitetTreatmentSlug(treatmentSlug)
       : categoryKey === "gynekologi"
         ? resolveGynekologiTreatmentSlug(treatmentSlug)
-        : treatmentSlug;
+        : categoryKey === "graviditet"
+          ? resolveGraviditetTreatmentSlug(treatmentSlug)
+          : categoryKey === FLERE_FAGOMRADER_CATEGORY_ID
+            ? resolveFlereFagomraderTreatmentSlug(treatmentSlug)
+            : treatmentSlug;
   const raw = await fetchSanityGroqServer<Record<string, unknown> | null>(
     TREATMENT_BY_SLUG_QUERY,
     {
@@ -35,7 +44,7 @@ export async function fetchTreatmentData(
   );
   if (!raw) return null;
   const normalized = normalizeI18nStrict(raw, lang) as Record<string, unknown>;
-  const mapped = mapTreatmentDocument(normalized);
+  const mapped = mapTreatmentDocument(normalized, lang);
   if (mapped && !mapped.canonicalSlug) {
     mapped.canonicalSlug = resolvedSlug;
   }

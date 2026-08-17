@@ -4,6 +4,10 @@ import {
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
 import {
+  fetchSanityCaregiverPortraits,
+  resolveSanityCaregiverImage,
+} from "@/lib/booking/sanityBookingCaregiver";
+import {
   BOOKING_URLS,
   bookingResourceUrl,
   fetchBookingResource,
@@ -72,6 +76,7 @@ export async function GET(request: Request) {
   const specialty = searchParams.get("specialty")?.trim();
 
   try {
+    const portraits = await fetchSanityCaregiverPortraits();
     const caregivers = await mapWithConcurrency(ids, DEFAULT_CONCURRENCY, async (userId) => {
       try {
         const url = bookingResourceUrl(BOOKING_URLS.users, userId);
@@ -79,10 +84,16 @@ export async function GET(request: Request) {
         const entries = unwrapList(payload);
         const entry = entries[0];
         if (!entry || typeof entry !== "object") return null;
-        return normalizeBookingCaregiver(
+        const caregiver = normalizeBookingCaregiver(
           entry as Record<string, unknown>,
           specialty || undefined,
         );
+        if (!caregiver) return null;
+        const sanityImage = resolveSanityCaregiverImage(portraits, {
+          apiUserId: caregiver.apiUserId,
+          name: caregiver.name,
+        });
+        return sanityImage ? { ...caregiver, image: sanityImage } : caregiver;
       } catch {
         return null;
       }

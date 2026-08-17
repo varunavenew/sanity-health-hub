@@ -63,6 +63,54 @@ export function extractWebAccountCreatedIds(payload: unknown): WebAccountCreated
   return { webAccountId, patientId };
 }
 
+function isDeactivated(row: Record<string, unknown>): boolean {
+  return row.deactivated === true || row.deactivated === 1 || row.deactivated === "true";
+}
+
+/**
+ * Pick an existing webaccount from GET `/webaccounts?patientnumber=…` results.
+ * Prefers active accounts, then email match (when provided), then lowest id (oldest).
+ */
+export function pickExistingWebAccountIds(
+  payload: unknown,
+  options?: { email?: string },
+): WebAccountCreatedIds | null {
+  const list = unwrapList(payload).filter(
+    (entry): entry is Record<string, unknown> =>
+      !!entry && typeof entry === "object" && !Array.isArray(entry),
+  );
+
+  if (list.length === 0) return null;
+
+  const email = options?.email?.trim().toLowerCase();
+  const active = list.filter((row) => !isDeactivated(row));
+  const pool = active.length > 0 ? active : list;
+
+  const ranked = [...pool].sort((a, b) => {
+    if (email) {
+      const aMatch = String(a.email ?? "").trim().toLowerCase() === email ? 0 : 1;
+      const bMatch = String(b.email ?? "").trim().toLowerCase() === email ? 0 : 1;
+      if (aMatch !== bMatch) return aMatch - bMatch;
+    }
+    const aId = typeof a.id === "number" ? a.id : Number.POSITIVE_INFINITY;
+    const bId = typeof b.id === "number" ? b.id : Number.POSITIVE_INFINITY;
+    return aId - bId;
+  });
+
+  const best = ranked[0];
+  if (!best) return null;
+
+  const webAccountId = best.id;
+  if (typeof webAccountId !== "number" || !Number.isFinite(webAccountId)) return null;
+
+  const patientId = readPatientId(best);
+  // Metodika may return patient-id 0 for incomplete guest accounts; still reusable by webaccount id.
+  if (patientId == null) return { webAccountId, patientId: webAccountId };
+  if (patientId === 0) return { webAccountId, patientId: 0 };
+
+  return { webAccountId, patientId };
+}
+
 /** Read created entity `id` from booking API POST responses. */
 export function extractCreatedEntityId(payload: unknown): number | null {
   const list = unwrapList(payload);

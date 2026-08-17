@@ -41,7 +41,12 @@ import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
 import SubTreatmentPage from "@/site-pages/treatments/SubTreatmentPage";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
-import { normalizeCategoryRouteKey } from "@/lib/sanity/category-keys";
+import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
+import {
+  FLERE_FAGOMRADER_CATEGORY_ID,
+  normalizeCategoryRouteKey,
+} from "@/lib/sanity/category-keys";
 import {
   buildAboutMetadata,
   buildClinicsListingMetadata,
@@ -186,10 +191,21 @@ export async function renderCmsRoute(
           ? resolveFertilitetTreatmentSlug(route.slug)
           : categoryId === "gynekologi"
             ? resolveGynekologiTreatmentSlug(route.slug)
-            : route.slug;
+            : categoryId === "graviditet"
+              ? resolveGraviditetTreatmentSlug(route.slug)
+              : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+                ? resolveFlereFagomraderTreatmentSlug(route.slug)
+                : route.slug;
       const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
-      // Team / profile treatments redirect to the specialists listing (CMS pageRole).
-      if (initialTreatment?.pageRole === "team") {
+      // Only dedicated team/profile slugs redirect to the specialists listing.
+      // Regular treatments (e.g. fertilitetsutredning) must keep their own page
+      // even if pageRole was set incorrectly in CMS.
+      const isTeamSlug =
+        treatmentSlug === "teamet" ||
+        treatmentSlug === "fertilitetsteamet" ||
+        route.slug === "teamet" ||
+        route.slug === "fertilitetsteamet";
+      if (initialTreatment?.pageRole === "team" && isTeamSlug) {
         const listingSlug = sanityLang === "en" ? "specialists" : "spesialister";
         const kategori = normalizeCategoryFilterKey(categoryId) || categoryId;
         redirect(`/${locale}/${listingSlug}?kategori=${encodeURIComponent(kategori)}`);

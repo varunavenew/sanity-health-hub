@@ -107,6 +107,7 @@ export type CategoryLandingReview = {
   text: string;
   author: string;
   date: string;
+  source?: "google" | "legelisten";
 };
 
 export type CategoryLandingPage = {
@@ -385,6 +386,10 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       text: asPlainString(r.text),
       author: asPlainString(r.author),
       date: asPlainString(r.date),
+      source:
+        asPlainString(r.source) === "legelisten"
+          ? ("legelisten" as const)
+          : ("google" as const),
     };
   });
 

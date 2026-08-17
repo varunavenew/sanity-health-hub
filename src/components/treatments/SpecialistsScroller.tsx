@@ -65,11 +65,16 @@ export const SpecialistsScroller = ({
   const resolvedTitle =
     title?.trim() ||
     t("specialists.title", { defaultValue: "Møt våre spesialister" });
-  const resolvedDescription =
-    description?.trim() ||
-    t("specialists.description", {
-      defaultValue: "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
-    });
+  // Only fall back to the default ingress when the CMS did not set a heading.
+  // Treatment pages often use the "Erfaring…" line as the title alone (demo parity).
+  const resolvedDescription = description?.trim()
+    ? description.trim()
+    : title?.trim()
+      ? undefined
+      : t("specialists.description", {
+          defaultValue:
+            "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
+        });
 
   const filtered = useMemo(() => {
     if (itemsOverride?.length) return itemsOverride;
@@ -103,17 +108,15 @@ export const SpecialistsScroller = ({
     const el = scrollRef.current;
     if (!el || filtered.length === 0) return;
     const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
-    const minPct = 100 / (filtered.length * (filtered.length + 1));
-    const pct =
-      maxScroll <= 0 ? 100 : minPct + (el.scrollLeft / maxScroll) * (100 - minPct);
-    setProgressPct(Math.min(100, Math.max(minPct, pct)));
-
     const firstCard = el.querySelector<HTMLElement>(":scope > div");
     const step = firstCard?.offsetWidth || 300;
     const rawIndex = Math.round(el.scrollLeft / Math.max(step, 1));
-    setActiveIndex(Math.min(filtered.length, Math.max(1, rawIndex + 1)));
+    const index = Math.min(filtered.length, Math.max(1, rawIndex + 1));
+    setActiveIndex(index);
+    // Demo: progress ≈ active card / total (e.g. 1/3 at start).
+    setProgressPct(Math.min(100, Math.max(0, (index / filtered.length) * 100)));
     setCanPrev(el.scrollLeft > 4);
-    setCanNext(el.scrollLeft < maxScroll - 4);
+    setCanNext(maxScroll > 4 && el.scrollLeft < maxScroll - 4);
   }, [filtered.length]);
 
   useEffect(() => {
@@ -163,13 +166,23 @@ export const SpecialistsScroller = ({
   });
 
   if (isCategory) {
+    const seeAllLink = showSeeAllButton ? (
+      <Link
+        to={seeAllHref}
+        className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity"
+      >
+        {computedSeeAllLabel}
+        <ArrowRight className="w-4 h-4" />
+      </Link>
+    ) : null;
+
     return (
       <section className="pt-8 md:pt-10 pb-10 md:pb-12 bg-secondary/30 overflow-hidden">
         <div className="page-shell mb-5 md:mb-6">
           {eyebrow ? (
             <p className="text-sm text-muted-foreground font-light mb-3">{eyebrow}</p>
           ) : null}
-          {/* Reference: title + ingress stacked left (not split columns). */}
+          {/* Reference: title + ingress stacked left (not split columns / no header CTA). */}
           <div className="max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground mb-4">
               {resolvedTitle}
@@ -185,12 +198,13 @@ export const SpecialistsScroller = ({
         {filtered.length === 1 ? (
           <div className="page-shell">
             <SpecialistFeature sp={filtered[0]} />
+            {seeAllLink ? <div className="mt-6 md:mt-8">{seeAllLink}</div> : null}
           </div>
         ) : (
           <div className="relative">
             <div
               ref={scrollRef}
-              className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
+              className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)] pr-[var(--gutter)] md:pr-0"
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
@@ -200,7 +214,7 @@ export const SpecialistsScroller = ({
               {filtered.map((sp) => (
                 <div
                   key={sp.slug}
-                  className="flex-shrink-0 w-[260px] md:w-[300px] snap-start"
+                  className="flex-shrink-0 w-[70vw] sm:w-[240px] md:w-[280px] snap-start"
                 >
                   <CategorySpecialistCard sp={sp} profileLabel={profileLabel} />
                 </div>
@@ -218,7 +232,7 @@ export const SpecialistsScroller = ({
                   aria-label={progressLabel}
                 >
                   <div
-                    className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-200"
+                    className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-300 ease-out"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
@@ -243,17 +257,7 @@ export const SpecialistsScroller = ({
                   </button>
                 </div>
               </div>
-              {showSeeAllButton ? (
-                <div className="shrink-0">
-                  <Link
-                    to={seeAllHref}
-                    className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity"
-                  >
-                    {computedSeeAllLabel}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              ) : null}
+              {seeAllLink}
             </div>
           </div>
         )}
@@ -391,30 +395,31 @@ const CategorySpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        hotspot={sp.imageHotspot}
+        objectPosition="50% 20%"
         loading="lazy"
-        className="w-full h-full object-cover object-top md:object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+        className="w-full h-full transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.05]"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
-      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/25 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
 
       {sp.clinics && sp.clinics.length > 0 ? (
-        <div className="absolute top-4 left-4 flex items-center gap-1 text-white/80 text-sm font-light">
+        <div className="absolute top-4 left-4 flex items-center gap-1 text-white/80 text-sm font-light z-[1]">
           <MapPin className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
           {sp.clinics.join(" · ")}
         </div>
       ) : null}
 
-      <div className="absolute bottom-0 left-0 right-0 p-5">
+      <div className="absolute bottom-0 left-0 right-0 p-5 z-[1]">
         <h3 className="font-normal text-white text-lg leading-snug mb-0.5">
           {sp.name}
         </h3>
         <p className="text-sm text-white/70 font-light leading-snug">
           {specialistRoleLine(sp)}
         </p>
-        <div className="hidden [@media(hover:hover)]:grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] transition-[grid-template-rows] duration-200 ease-out">
-          <div className="overflow-hidden">
-            <div className="flex items-center gap-1.5 pt-3 text-sm font-light text-brand-yellow opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
+        {/* Demo: “Se profil →” expands on hover */}
+        <div className="grid grid-rows-[0fr] opacity-0 translate-y-1 transition-[grid-template-rows,opacity,transform] duration-300 ease-out group-hover:grid-rows-[1fr] group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:grid-rows-[1fr] group-focus-visible:opacity-100 group-focus-visible:translate-y-0">
+          <div className="overflow-hidden min-h-0">
+            <div className="flex items-center gap-1.5 pt-3 text-sm font-light text-brand-yellow">
               <span>{profileLabel}</span>
               <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </div>
@@ -425,10 +430,15 @@ const CategorySpecialistCard = ({
   </Link>
 );
 
-/** Editorial split layout when there is exactly one specialist for a service. */
+/**
+ * Editorial split layout when there is exactly one specialist for a service.
+ * Name as heading, role as subtitle; bio + specialty list + CTA (demo treatment layout).
+ */
 const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
   const bio = sp.bio ?? "";
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
+  const firstName = sp.name.split(" ")[0] || sp.name;
+  const roleLine = specialistRoleLine(sp);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-stretch">
@@ -442,12 +452,12 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
             src={sp.image}
             alt={sp.name}
             variant="card"
-            hotspot={sp.imageHotspot}
+            objectPosition="50% 20%"
             className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
           {sp.clinics && sp.clinics.length > 0 ? (
-            <div className="absolute top-3 left-3 flex items-center gap-1 text-white/90 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
-              <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
+            <div className="absolute top-4 left-4 flex items-center gap-1 text-white/90 text-sm font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-[1]">
+              <MapPin className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
               {sp.clinics.join(" · ")}
             </div>
           ) : null}
@@ -456,13 +466,14 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
 
       <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between border-t border-brand-dark/15 pt-8 md:pt-0 md:border-t-0">
         <div>
-          <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-4">
+          <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-3 hyphens-auto [overflow-wrap:anywhere]">
             {sp.name}
           </h3>
-          <p className="text-base md:text-lg text-muted-foreground font-light mb-6 max-w-md">
-            {sp.title}
-            {sp.subtitle && sp.subtitle !== sp.title ? ` · ${sp.subtitle}` : ""}
-          </p>
+          {roleLine ? (
+            <p className="text-base md:text-lg text-muted-foreground font-light mb-6 max-w-md">
+              {roleLine}
+            </p>
+          ) : null}
 
           {shortBio ? (
             <p className="text-sm font-light text-foreground/80 mb-8 max-w-md leading-relaxed">
@@ -474,7 +485,7 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
           {sp.expertise && sp.expertise.length > 0 ? (
             <div className="border-t border-brand-dark/15">
               <ul className="divide-y divide-brand-dark/10">
-                {sp.expertise.slice(0, 6).map((item) => (
+                {sp.expertise.map((item) => (
                   <li
                     key={item}
                     className="py-3 text-sm font-light text-foreground"
@@ -489,10 +500,7 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
 
         <div className="mt-10">
           <Button variant="cta" asChild>
-            <Link to="/booking">
-              Finn ledig tid hos {sp.name.split(" ")[0]}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
+            <Link to="/booking">Finn ledig tid hos {firstName}</Link>
           </Button>
         </div>
       </div>
@@ -524,7 +532,7 @@ const SpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        hotspot={sp.imageHotspot}
+        objectPosition="50% 20%"
         loading="lazy"
         className="w-full h-full saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
       />

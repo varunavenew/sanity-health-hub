@@ -145,7 +145,7 @@ const legacyFaqsRefsProjection = `"faqs": faqs[]->{
   ${localizedFaqRow}
 }`;
 
-const localizedGoogleReviewRow = `_id, author, rating, ${i18nText('text')}, date`;
+const localizedGoogleReviewRow = `_id, author, rating, source, ${i18nText('text')}, date`;
 
 /** Treatment category fields used on specialist profile featured-service block. */
 const specialistCategoryProjection = `
@@ -341,6 +341,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
     _id,
     author,
     rating,
+    source,
     ${i18nText("text")},
     date
   },
@@ -389,7 +390,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
   _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
-  bookingCategoryIds, sortOrder,
+  metodikaUserId, bookingCategoryIds, sortOrder,
   "clinics": clinics[]->title,
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
@@ -402,7 +403,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")) && ${slugMatchesParam("slug")}][0]{
   _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
-  bookingCategoryIds, sortOrder,
+  metodikaUserId, bookingCategoryIds, sortOrder,
   "clinicRefs": clinics[]->{
     "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
     ${localizedSlug}
@@ -437,7 +438,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
     ctaPath,
     "specialists": specialists[]->{
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
-      bookingCategoryIds, sortOrder,
+      metodikaUserId, bookingCategoryIds, sortOrder,
       "clinicRefs": clinics[]->{
         "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
         ${localizedSlug}
@@ -454,7 +455,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
 }`;
 
 export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_createdAt desc){
-  _id, author, rating, ${i18nText("text")}, date
+  _id, author, rating, source, ${i18nText("text")}, date
 }`;
 
 export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings" && ${publishedOnly}][0]{
@@ -646,7 +647,8 @@ const CATEGORY_LANDING_GROQ = `
       reviews[]{
         ${i18nTextLocale("text")},
         author,
-        ${i18nStringLocale("date")}
+        ${i18nStringLocale("date")},
+        source
       }
     },
     sectionOrder
@@ -745,6 +747,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   ${i18nTextLocale('heroDescription')},
   ${i18nStringLocale('rating')},
   ${i18nStringLocale('heroPrice')},
+  ${i18nStringLocale('heroPriceLabel')},
   hideSeePriser,
   ${i18nStringLocale('heroAvailability')},
   heroThemes,
@@ -765,6 +768,16 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   ${i18nStringLocale('ctaTitle')},
   ${i18nTextLocale('ctaDescription')},
   ${i18nStringLocale('conversationCtaTitle')},
+  ${i18nStringLocale('midCtaPrimaryLabel')},
+  ${i18nStringLocale('midCtaCallLabel')},
+  midCtaShowCallButton,
+  ${i18nStringLocale('reviewsSectionTitle')},
+  "googleReviews": googleReviews[]->{
+    _id, author, rating, source, ${i18nTextLocale('text')}, date
+  },
+  "legelistenReviews": legelistenReviews[]->{
+    _id, author, rating, source, ${i18nTextLocale('text')}, date
+  },
   ${i18nStringLocale('specialistTitle')},
   ${i18nTextLocale('specialistDescription')},
   ${i18nStringLocale('specialistCtaLabel')},
@@ -793,7 +806,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
         slug[language == $lang][0].value.current,
         slug[_key == $lang][0].value.current
       ),
-      "image": heroImage.asset->url,
+      "image": coalesce(heroImage.asset->url, heroMedia.image.asset->url),
       ${i18nStringLocale('heroImageAlt')}
     }
   },
@@ -814,8 +827,25 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       ${i18nStringLocale('title')},
       ${i18nTextLocale('desc')},
       path,
-      "image": image.asset->url,
-      ${i18nStringLocale('imageAlt')}
+      ${i18nStringLocale('imageAlt')},
+      "ownImage": image.asset->url,
+      "linkedSlug": array::compact(string::split(coalesce(path, ""), "/"))[-1]
+    }{
+      title,
+      desc,
+      path,
+      imageAlt,
+      "image": coalesce(
+        ownImage,
+        *[_type == "treatment" && ${publishedOnly} && (
+          slug[language == $lang][0].value.current == ^.linkedSlug
+          || slug[_key == $lang][0].value.current == ^.linkedSlug
+          || slug[language == "no"][0].value.current == ^.linkedSlug
+          || slug[_key == "no"][0].value.current == ^.linkedSlug
+        )][0]{
+          "url": coalesce(heroImage.asset->url, heroMedia.image.asset->url)
+        }.url
+      )
     }
   },
   textSection{
@@ -1688,7 +1718,7 @@ export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{
-    _id, _createdAt, ${i18nString("title")}, sortOrder, ${localizedSlug},
+    _id, _createdAt, ${i18nString("title")}, sortOrder, pageRole, ${localizedSlug},
     subItems[]{
       ${i18nString("label")},
       anchor,

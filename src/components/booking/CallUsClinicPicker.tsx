@@ -50,7 +50,7 @@ export const CallUsClinicPicker = ({
     variant === "dark" ? "cta-outline-dark" : "cta-outline";
   const solidLightClass =
     variant === "lightSolid"
-      ? "bg-white border-transparent text-foreground hover:bg-white/90 shadow-sm"
+      ? "bg-white border border-foreground/25 text-foreground hover:bg-foreground/[0.04] shadow-none"
       : undefined;
 
   const widthOnWrapper = [

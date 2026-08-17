@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { googleReviews } from "@/data/googleReviews";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { useSanityContentLang } from "@/lib/sanity/content-lang";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
@@ -34,6 +35,7 @@ import {
   type ContactRequestDialogCopy,
 } from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
+import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
 import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
@@ -93,6 +95,8 @@ import {
   categoryLandingPath,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
+import { FERTILITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/fertilitet-slug-aliases";
+import { GRAVIDITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/graviditet-slug-aliases";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -299,37 +303,11 @@ export interface SanityReview {
   rating: number;
   text: string;
   date: string;
+  source?: "google" | "legelisten";
 }
 
 function formatSanityReviewDate(value: unknown, lang: "no" | "en"): string {
-  if (value == null) return "";
-  const locale = lang === "en" ? "en-GB" : "nb-NO";
-  if (typeof value === "string") {
-    const parsed = new Date(value);
-    if (!Number.isNaN(parsed.getTime())) {
-      return parsed.toLocaleDateString(locale, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    }
-    return value;
-  }
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return new Date(value).toLocaleDateString(locale, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
-  if (value instanceof Date) {
-    return value.toLocaleDateString(locale, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
-  return String(value);
+  return formatReviewDateLabel(value, lang);
 }
 
 export const useGoogleReviews = () => {
@@ -338,12 +316,27 @@ export const useGoogleReviews = () => {
     queryKey: ["sanity", "googleReviews", lang],
     queryFn: async () => {
       const data = await fetchSanity<any[]>(GOOGLE_REVIEWS_QUERY, undefined, lang);
-      return (data || []).map((r) => ({
-        ...r,
-        name: r.author || "",
-        text: typeof r.text === "string" ? r.text : "",
-        date: formatSanityReviewDate(r.date, lang),
-      })) as SanityReview[];
+      return (data || []).map((r) => {
+        const name = r.author || "";
+        const text = typeof r.text === "string" ? r.text : "";
+        let source: "google" | "legelisten" =
+          r.source === "legelisten" ? "legelisten" : "google";
+        if (r.source == null) {
+          const seed = googleReviews.find(
+            (g) =>
+              g.name === name ||
+              (text && g.text.slice(0, 40) === text.slice(0, 40)),
+          );
+          if (seed) source = seed.source;
+        }
+        return {
+          ...r,
+          name,
+          text,
+          date: formatSanityReviewDate(r.date, lang),
+          source,
+        };
+      }) as SanityReview[];
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -754,7 +747,7 @@ export const useNewsPage = () => {
 export const usePricingPage = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "pricingPage", lang],
+    queryKey: ["sanity", "pricingPage", lang, "src-v2"],
     queryFn: async () => {
       const data = await fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang);
       const withSections = withPageSections(data);
@@ -1275,7 +1268,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v2"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1318,7 +1311,7 @@ export const useServiceCategoriesFromSanity = () => {
               !t._id.startsWith("drafts."),
           );
 
-          const subcategories = applyListingSort(
+          const mapped = applyListingSort(
             treatments,
             sortSettings?.treatmentsSort,
             lang,
@@ -1331,6 +1324,10 @@ export const useServiceCategoriesFromSanity = () => {
               const treatmentLabel =
                 textForSort(t.title, lang) || slug || "";
               if (!slug || !treatmentLabel) return null;
+              if (t.pageRole === "team") return null;
+              if (slug === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
+                return null;
+              }
               return {
                 id: slug,
                 label: treatmentLabel,
@@ -1351,6 +1348,17 @@ export const useServiceCategoriesFromSanity = () => {
             .filter(
               (sub): sub is NonNullable<typeof sub> => sub !== null,
             );
+
+          const subcategories =
+            categoryId === "fertilitet"
+              ? FERTILITET_NAV_TREATMENT_SLUGS.map((slug) =>
+                  mapped.find((item) => item.id === slug),
+                ).filter((item): item is NonNullable<typeof item> => Boolean(item))
+              : categoryId === "graviditet"
+                ? GRAVIDITET_NAV_TREATMENT_SLUGS.map((slug) =>
+                    mapped.find((item) => item.id === slug),
+                  ).filter((item): item is NonNullable<typeof item> => Boolean(item))
+              : mapped;
 
           return {
             id: categoryId,
