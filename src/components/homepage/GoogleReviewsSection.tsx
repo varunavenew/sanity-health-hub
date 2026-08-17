@@ -8,11 +8,6 @@ import { Link } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useTranslation } from "react-i18next";
-import {
-  googleReviews as staticReviews,
-  googleRatingData,
-  type GoogleReview,
-} from "@/data/googleReviews";
 import type { HomepageReview } from "@/lib/sanity/homepage-data";
 import {
   GoogleReviewMark,
@@ -25,7 +20,7 @@ const getSource = (review: HomepageReview): "google" | "legelisten" =>
     ? "legelisten"
     : "google";
 
-function toGoogleReview(review: HomepageReview, index: number): GoogleReview {
+function toGoogleReview(review: HomepageReview, index: number) {
   return {
     id: Number.parseInt(review.id, 10) || index,
     name: review.name,
@@ -36,7 +31,7 @@ function toGoogleReview(review: HomepageReview, index: number): GoogleReview {
   };
 }
 
-const ReviewCard = ({ review }: { review: GoogleReview }) => {
+const ReviewCard = ({ review }: { review: ReturnType<typeof toGoogleReview> }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
   const maxLength = 120;
@@ -88,10 +83,7 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
   const { data: homepage } = useHomepage();
   const section = homepage?.reviewsSection;
 
-  const googleReviewsList =
-    section?.reviews.length
-      ? section.reviews.map(toGoogleReview)
-      : staticReviews;
+  const googleReviewsList = section?.reviews.map(toGoogleReview) ?? [];
 
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
   const mobileLoop = googleReviewsList.length > 1;
@@ -101,7 +93,7 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
 
   if (googleReviewsList.length === 0) return null;
 
-  const averageRating = section?.googleAverageRating ?? googleRatingData.averageRating;
+  const averageRating = section?.googleAverageRating ?? 4.6;
   const legelistenRating = section?.legelistenAverageRating ?? 4.8;
   const heading = section?.heading || t("reviews.heading");
   const ctaTitle = section?.ctaTitle || t("reviews.ctaTitle");

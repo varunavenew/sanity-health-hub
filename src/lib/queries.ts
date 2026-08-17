@@ -339,7 +339,9 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   reviewsLegelistenRating,
   ${i18nString("reviewsCtaTitle")},
   ${i18nString("reviewsCtaSubtitle")},
-  reviewsGoldStarsWidgetId,
+  "googleReviews": googleReviews[]->{
+    _id, author, rating, source, ${i18nText("text")}, date
+  },
   specialistsSection{
     ${i18nString("eyebrow")},
     ${i18nString("heading")},
@@ -1384,6 +1386,15 @@ export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter
 export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
+  servicesSection{
+    ${i18nString("title")},
+    ${i18nText("description")},
+    items[]{
+      serviceId,
+      ${i18nString("label")},
+      href
+    }
+  },
   ${i18nText("description")},
   email,
   ${i18nText("contactDescription")},

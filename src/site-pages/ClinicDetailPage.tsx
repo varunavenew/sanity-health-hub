@@ -21,13 +21,14 @@ import {
   clinicFaqs,
   type Clinic,
 } from "@/data/clinicServices";
-import { clinicGalleries, clinicHeroImages } from "@/data/clinicImagery";
+import { clinicHeroImages } from "@/data/clinicImagery";
 import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { SpecialistCarousel } from "@/components/SpecialistCarousel";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
+import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
@@ -52,7 +53,6 @@ type MergedClinic = {
   seo?: { metaTitle?: string; metaDescription?: string };
   heroImage?: string;
   primaryImage?: string;
-  gallery?: { src: string; alt?: string }[];
   email?: string;
   treatments?: Array<{ slug: string; title?: string; categorySlug?: string }>;
 };
@@ -78,9 +78,26 @@ function staticClinicToMerged(staticClinic: Clinic): MergedClinic {
     mapsUrl: staticClinic.mapsUrl,
     faqs: clinicFaqs[staticClinic.slug] || [],
     services: staticClinic.services,
+    heroImage: clinicHeroImages[staticClinic.slug],
     booking: undefined,
     seo: undefined,
   };
+}
+
+function resolveSanityGalleryImages(
+  raw: Record<string, unknown> | null | undefined,
+  fallbackAlt: string,
+): { src: string; alt: string }[] {
+  if (!raw) return [];
+  const galleryRaw = Array.isArray(raw.gallery) ? raw.gallery : [];
+  return galleryRaw
+    .map((item) => {
+      const row = item as { url?: string; src?: string; alt?: string };
+      const src = (row.url || row.src || "").trim();
+      if (!src) return null;
+      return { src, alt: (row.alt || fallbackAlt).trim() || fallbackAlt };
+    })
+    .filter((item): item is { src: string; alt: string } => item != null);
 }
 
 function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no" | "en"): MergedClinic {
@@ -88,7 +105,14 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
   const description = plainMetaString(raw.description, "", lang);
   const hours = plainMetaString(raw.hours, "", lang);
   const detailRaw = (raw.detail || {}) as Record<string, unknown>;
-  const galleryRaw = Array.isArray(raw.gallery) ? raw.gallery : [];
+  const primaryImage = typeof raw.primaryImage === "string" ? raw.primaryImage : undefined;
+  const resolvedHero = resolveCmsMedia(raw.heroMedia, {
+    mediaType: "image",
+    imageUrl: primaryImage,
+  });
+  const heroImage =
+    (resolvedHero?.kind === "image" ? resolvedHero.src : resolvedHero?.poster) ||
+    primaryImage;
 
   return withCanonicalAddress({
     id: String(raw.id || raw.slug || slug),
@@ -115,16 +139,8 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     services: Array.isArray(raw.services) ? (raw.services as string[]) : [],
     booking: (raw.booking as Record<string, unknown>) || undefined,
     seo: raw.seo as MergedClinic["seo"],
-    heroImage: typeof raw.heroImage === "string" ? raw.heroImage : undefined,
-    primaryImage: typeof raw.primaryImage === "string" ? raw.primaryImage : undefined,
-    gallery: galleryRaw
-      .map((item) => {
-        const row = item as { url?: string; src?: string; alt?: string };
-        const src = row.url || row.src;
-        if (!src) return null;
-        return { src, alt: row.alt };
-      })
-      .filter((item): item is NonNullable<typeof item> => item !== null),
+    heroImage,
+    primaryImage,
     email: typeof raw.email === "string" ? raw.email : undefined,
     treatments: Array.isArray(raw.treatments)
       ? (raw.treatments as MergedClinic["treatments"])
@@ -173,6 +189,14 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     return staticClinic ? staticClinicToMerged(staticClinic) : undefined;
   }, [sanityClinic, slug, sanityLang, staticClinic]);
 
+  const sanityGalleryImages = useMemo(() => {
+    const raw = sanityClinic as Record<string, unknown> | null | undefined;
+    const label = raw
+      ? plainMetaString(raw.label ?? raw.title, "Klinikk", sanityLang)
+      : "klinikk";
+    return resolveSanityGalleryImages(raw, `CMedical ${label}`);
+  }, [sanityClinic, sanityLang]);
+
   useEffect(() => {
     if (clinic) {
       document.title = `CMedical ${clinic.label} | Klinikk`;
@@ -207,21 +231,13 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     );
   }
 
-  const heroImage =
-    clinic.heroImage || clinicHeroImages[clinic.slug] || clinic.primaryImage;
+  const heroImage = clinic.heroImage;
   const faqs = clinic.faqs || [];
   const detail = clinic.detail || {};
   const mapsUrl =
     clinic.mapsUrl ||
     (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
-  const sanityGallery = (clinic.gallery || [])
-    .filter((g) => g.src)
-    .map((g) => ({ src: g.src, alt: g.alt || `CMedical ${clinic.label}` }));
-  const gallery = (sanityGallery.length > 0 ? sanityGallery : clinicGalleries[clinic.slug])?.slice(
-    0,
-    4,
-  );
   const allServicesLinked =
     clinic.services?.every((id) => Boolean(serviceLinks[id]?.path)) ?? false;
 
@@ -454,38 +470,26 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </section>
       ) : null}
 
-      {(() => {
-        if (!(gallery && gallery.length > 0) && !clinic.primaryImage) return null;
-        return (
-          <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
-            <div className="container mx-auto mb-6 px-6 md:px-16">
-              <div className="mx-auto max-w-3xl">
-                <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
-              </div>
+      {sanityGalleryImages.length > 0 ? (
+        <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
+          <div className="container mx-auto mb-6 px-6 md:px-16">
+            <div className="mx-auto max-w-3xl">
+              <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
             </div>
-            {gallery && gallery.length > 0 ? (
-              <div className="grid w-full grid-cols-2 gap-0 md:grid-cols-4">
-                {gallery.map((img) => (
-                  <ParallaxImage
-                    key={img.src}
-                    src={img.src}
-                    alt={img.alt}
-                    speed={0.1}
-                    className="aspect-[4/5] bg-brand-mid/10"
-                  />
-                ))}
-              </div>
-            ) : clinic.primaryImage ? (
+          </div>
+          <div className="grid w-full grid-cols-2 gap-0 md:grid-cols-4">
+            {sanityGalleryImages.map((img, index) => (
               <ParallaxImage
-                src={clinic.primaryImage}
-                alt={`CMedical ${clinic.label}`}
-                speed={0.12}
-                className="aspect-[4/3] w-full md:aspect-[21/9]"
+                key={`${img.src}-${index}`}
+                src={img.src}
+                alt={img.alt}
+                speed={0.1}
+                className="aspect-[4/5] bg-brand-mid/10"
               />
-            ) : null}
-          </section>
-        );
-      })()}
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
@@ -583,7 +587,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       <ClinicBookingBlock
         booking={clinic.booking as Parameters<typeof ClinicBookingBlock>[0]["booking"]}
         clinicLabel={clinic.label}
-        clinicId={clinic.id}
+        clinicSlug={clinic.slug}
         phone={clinic.phone}
         email={clinic.email}
       />

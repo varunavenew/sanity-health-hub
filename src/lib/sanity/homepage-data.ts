@@ -8,7 +8,7 @@ import {
   normalizePageSections,
   type PageSectionBookingCtaConfig,
 } from "@/lib/sanity/page-sections";
-import { DEFAULT_GOLD_STARS_WIDGET_ID } from "@/components/ReviewPixel/gold-stars-slider-config";
+import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import type { Article } from "@/data/articles";
@@ -87,9 +87,8 @@ export type HomepageReviewsSection = {
   legelistenAverageRating: number;
   ctaTitle: string;
   ctaSubtitle: string;
-  /** @deprecated Review cards are loaded from Gold Stars; kept for legacy callers. */
+  /** Review cards from homepage.googleReviews references in Sanity. */
   reviews: HomepageReview[];
-  goldStarsWidgetId: string;
 };
 
 export type HomepagePatientTrustBanner = {
@@ -388,6 +387,35 @@ export function resolveHomepageFaqs(
   return resolveFaqsFromCollection(faqCollection, legacyFaqs);
 }
 
+function mapHomepageReviews(
+  value: unknown,
+  lang: SortLocale,
+): HomepageReview[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((row): HomepageReview | null => {
+      if (!row || typeof row !== "object") return null;
+      const item = row as Record<string, unknown>;
+      const name = asPlainString(item.author);
+      const text = asPlainString(item.text);
+      if (!name || !text) return null;
+      const rating =
+        typeof item.rating === "number" && item.rating >= 1 && item.rating <= 5
+          ? item.rating
+          : 5;
+      const date = formatReviewDateLabel(item.date, lang === "en" ? "en" : "no");
+      return {
+        id: asPlainString(item._id) || name,
+        name,
+        rating,
+        text,
+        date,
+        source: item.source === "legelisten" ? "legelisten" : "google",
+      };
+    })
+    .filter((row): row is HomepageReview => row != null);
+}
+
 function mapHomepageReviewsSection(
   googleAverageRating: unknown,
   legelistenAverageRating: unknown,
@@ -395,10 +423,9 @@ function mapHomepageReviewsSection(
   heading: unknown,
   ctaTitle: unknown,
   ctaSubtitle: unknown,
-  goldStarsWidgetId: unknown,
+  googleReviews: unknown,
+  lang: SortLocale,
 ): HomepageReviewsSection {
-  const widgetId = asPlainString(goldStarsWidgetId);
-
   return {
     subheading: asPlainString(subheading),
     heading: asPlainString(heading),
@@ -408,8 +435,7 @@ function mapHomepageReviewsSection(
       typeof legelistenAverageRating === "number" ? legelistenAverageRating : 4.8,
     ctaTitle: asPlainString(ctaTitle),
     ctaSubtitle: asPlainString(ctaSubtitle),
-    reviews: [],
-    goldStarsWidgetId: widgetId || DEFAULT_GOLD_STARS_WIDGET_ID,
+    reviews: mapHomepageReviews(googleReviews, lang),
   };
 }
 
@@ -445,7 +471,8 @@ export function mapHomepageDocument(
       data.reviewsHeading,
       data.reviewsCtaTitle,
       data.reviewsCtaSubtitle,
-      data.reviewsGoldStarsWidgetId,
+      data.googleReviews,
+      lang,
     ),
     statsBar: statsBar.map((s) => {
       const row = s as { value?: string; label?: string };

@@ -402,21 +402,12 @@ export default {
       type: 'internationalizedArrayString',
     },
     {
-      name: 'reviewsGoldStarsWidgetId',
-      title: 'Gold Stars slider widget ID',
-      type: 'string',
-      description:
-        'Review Pixel simple-slider widget ID from Gold Stars. Leave empty to use the default homepage slider.',
-      initialValue: '6137cba4-0791-45ec-9cab-6ea667442f9a',
-    },
-    {
       name: 'googleReviews',
-      title: 'Reviews on the homepage (legacy)',
+      title: 'Reviews on the homepage',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
       description:
-        'Deprecated — homepage review cards now load from Gold Stars. Kept for reference only.',
-      hidden: () => true,
+        'Review cards shown in the homepage reviews slider. Order here controls display order.',
     },
     {
       name: 'specialistsSection',

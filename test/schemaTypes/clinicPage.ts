@@ -309,6 +309,76 @@ export default {
         },
       ],
     },
+    {
+      name: 'servicesSection',
+      title: 'Services section',
+      type: 'object',
+      group: 'pageContent',
+      options: { collapsible: true, collapsed: true },
+      description:
+        '“Tjenester ved denne klinikken” block — heading, intro, and linked service rows. Service IDs under Advanced stay in sync for booking.',
+      fields: [
+        {
+          name: 'title',
+          title: 'Heading',
+          type: 'internationalizedArrayString',
+          description: 'e.g. “Tjenester ved denne klinikken”.',
+        },
+        {
+          name: 'description',
+          title: 'Intro',
+          type: 'internationalizedArrayText',
+          description: 'e.g. “CMedical Oslo Majorstuen tilbyr 16 ulike tjenester …”.',
+        },
+        {
+          name: 'items',
+          title: 'Service rows',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              name: 'clinicServiceItem',
+              title: 'Service',
+              fields: [
+                {
+                  name: 'serviceId',
+                  title: 'Service ID',
+                  type: 'string',
+                  description:
+                    'Technical ID (e.g. gynekolog). Keep aligned with Advanced → Service IDs.',
+                },
+                {
+                  name: 'label',
+                  title: 'Label',
+                  type: 'internationalizedArrayString',
+                },
+                {
+                  name: 'href',
+                  title: 'Link path',
+                  type: 'string',
+                  description: 'Internal path (e.g. /gynekologi). Omit when no link.',
+                },
+              ],
+              preview: {
+                select: { serviceId: 'serviceId', label: 'label' },
+                prepare({
+                  serviceId,
+                  label,
+                }: {
+                  serviceId?: string
+                  label?: unknown
+                }) {
+                  return {
+                    title: pickStudioEn(label) || serviceId || 'Service',
+                    subtitle: serviceId,
+                  }
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
 
     // ── Shared Sections ─────────────────────────────────────────────────────
     {
