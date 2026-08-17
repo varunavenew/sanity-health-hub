@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { stripLocaleFromPathname, type AppLocale } from "@/lib/i18n/routing";
-import { writeLocaleCookie } from "@/lib/i18n/detect-locale";
+import { writeLocaleCookie, type SiteLocale } from "@/lib/i18n/detect-locale";
 import { appLocaleToI18n, syncI18nLanguage } from "@/lib/i18n/sync-language";
 import { invalidateSanityLocaleQueries } from "@/lib/sanity/invalidate-locale-queries";
 import { resolveLocaleSwitchPath } from "@/lib/navigation/nav-path-utils";
@@ -14,6 +14,7 @@ import { useSiteSettings } from "@/hooks/useSanity";
 const languages = [
   { code: "no", label: "Norsk", short: "NO", flag: "🇳🇴" },
   { code: "en", label: "English", short: "EN", flag: "🇬🇧" },
+  { code: "se", label: "Swedish", short: "SE", flag: "🇸🇪" },
 ];
 
 export const LanguageSelector = () => {
@@ -26,11 +27,17 @@ export const LanguageSelector = () => {
   const { data: siteSettings } = useSiteSettings();
   const { localeMap } = useCmsRouteContext();
 
-  const routeLocale = pathname.split("/").filter(Boolean)[0] === "en" ? "en" : "no";
-  const currentLang = routeLocale;
+  const firstSeg = pathname.split("/").filter(Boolean)[0];
+  const currentLang: SiteLocale =
+    firstSeg === "en" ? "en" : firstSeg === "se" ? "se" : "no";
   const current = languages.find((l) => l.code === currentLang) || languages[0];
 
   const handleSelect = (code: string) => {
+    if (code === "se") {
+      writeLocaleCookie("se");
+      window.location.assign("/se");
+      return;
+    }
     const target: AppLocale = code.startsWith("en") ? "en" : "no";
     const i18nCode = appLocaleToI18n(target);
     syncI18nLanguage(i18nCode);
