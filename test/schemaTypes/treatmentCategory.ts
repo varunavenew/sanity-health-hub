@@ -194,6 +194,25 @@ export default {
       ],
     },
     {
+      name: 'homepageCardImage',
+      title: 'Homepage category tile image',
+      type: 'image',
+      group: 'general',
+      options: mediaImageOptions('card'),
+      description: mediaDescription(
+        'card',
+        'Portrait still shown in the homepage category grid (under the hero carousel). Separate from Page Content → Hero Media, which is used on the category landing page only.',
+      ),
+      validation: softImageRules('card'),
+    },
+    {
+      name: 'homepageCardImageAlt',
+      title: 'Homepage tile — alt text',
+      type: 'internationalizedArrayString',
+      group: 'general',
+      description: 'Accessibility text for the homepage category tile image.',
+    },
+    {
       name: 'sortOrder',
       title: 'List order',
       type: 'number',
@@ -230,7 +249,7 @@ export default {
       fieldset: 'pcHero',
       description: mediaDescription(
         'category',
-        'Preferred hero media (Image or Video). Legacy fields below are kept until migration is verified.',
+        'Category landing page hero only (image or video). For the homepage category grid, use General → Homepage category tile image.',
       ),
     },
     {

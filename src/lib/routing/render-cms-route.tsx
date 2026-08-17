@@ -42,6 +42,8 @@ import SubTreatmentPage from "@/site-pages/treatments/SubTreatmentPage";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
+import { resolveOrtopediTreatmentSlug } from "@/lib/sanity/ortopedi-slug-aliases";
 import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 import {
   FLERE_FAGOMRADER_CATEGORY_ID,
@@ -193,9 +195,13 @@ export async function renderCmsRoute(
             ? resolveGynekologiTreatmentSlug(route.slug)
             : categoryId === "graviditet"
               ? resolveGraviditetTreatmentSlug(route.slug)
-              : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
-                ? resolveFlereFagomraderTreatmentSlug(route.slug)
-                : route.slug;
+              : categoryId === "urologi"
+                ? resolveUrologiTreatmentSlug(route.slug)
+                : categoryId === "ortopedi"
+                  ? resolveOrtopediTreatmentSlug(route.slug)
+                  : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+                    ? resolveFlereFagomraderTreatmentSlug(route.slug)
+                    : route.slug;
       const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
       // Only dedicated team/profile slugs redirect to the specialists listing.
       // Regular treatments (e.g. fertilitetsutredning) must keep their own page

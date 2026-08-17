@@ -443,9 +443,6 @@ function buildDocFields(
     primaryCtaLabel: i18nString(SHARED_UI.bookCta.no, SHARED_UI.bookCta.en),
     callCtaLabel: i18nString(SHARED_UI.callCta.no, SHARED_UI.callCta.en),
     hideSeePriser: true,
-    reasonsTitle: i18nString(content.reasonsTitleNo, content.reasonsTitleEn),
-    reasonsLayout: "accordion",
-    reasons,
     promises: promiseRows(),
     conversationCtaTitle: i18nString(content.midCtaNo, content.midCtaEn),
     midCtaPrimaryLabel: i18nString(SHARED_UI.bookCta.no, SHARED_UI.bookCta.en),
@@ -497,6 +494,12 @@ function buildDocFields(
     patch.reasonsLead = i18nText(content.reasonsLeadNo, content.reasonsLeadEn);
   }
 
+  if (content.reasons.length > 0) {
+    patch.reasonsTitle = i18nString(content.reasonsTitleNo, content.reasonsTitleEn);
+    patch.reasonsLayout = content.reasonsLayout || "accordion";
+    patch.reasons = reasons;
+  }
+
   return patch;
 }
 
@@ -534,6 +537,12 @@ async function patchPage(page: PageCfg, content: PageContent) {
   if (!content.heroPriceLabelNo) unset.push("heroPriceLabel");
   if (!content.heroPriceNo) unset.push("heroPrice");
   if (!(THEMES_BY_SLUG[page.slug] || []).length) unset.push("heroThemes");
+  if (content.reasons.length === 0) {
+    unset.push("reasons", "reasonsTitle", "reasonsLead", "reasonsLead2", "reasonsLayout");
+  }
+  if (page.slug === "hemorroider") {
+    unset.push("flow", "flowTitle", "flowImage", "flowEyebrow", "flowLinkLabel", "flowLinkHref");
+  }
 
   console.log(
     `  reasons=${content.reasons.length} related=${relatedIds.length} specialists=${specialistIds.length} themes=${(THEMES_BY_SLUG[page.slug] || []).length} price="${content.heroPriceNo || "—"}" insurance=${Boolean(insurance)}`,

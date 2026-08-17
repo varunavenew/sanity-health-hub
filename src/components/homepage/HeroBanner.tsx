@@ -185,18 +185,20 @@ export const HeroBanner = () => {
           {/* A soft left-to-right gradient overlay to make the text on the left readable, without blocking the image */}
           <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 bg-gradient-to-r from-black/45 via-black/10 to-transparent z-10" />
 
-          {/* Slide Content */}
-          <div className="absolute inset-0 z-20">
-            <div className="container mx-auto h-full px-6 md:px-16 flex items-center">
-              <div className="max-w-xl lg:max-w-[45%] w-full">
+          {/* Slide Content — bottom-anchored so all slides share the same vertical position */}
+          <div className="absolute inset-0 z-20 pointer-events-none">
+            <div className="container mx-auto h-full px-6 md:px-16 flex items-end pb-24 md:pb-28">
+              <div className="max-w-xl lg:max-w-[45%] w-full pointer-events-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.15 }}
                 >
-                  <span className="block text-xs text-white/80 mb-3 font-light tracking-wider uppercase">
-                    {slide.subtitle}
-                  </span>
+                  {slide.subtitle ? (
+                    <span className="block text-xs text-white/80 mb-3 font-light tracking-wider uppercase">
+                      {slide.subtitle}
+                    </span>
+                  ) : null}
                   <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
                     {slide.label}
                   </p>

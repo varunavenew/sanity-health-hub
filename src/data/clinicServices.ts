@@ -117,3 +117,94 @@ export const clinicOffersService = (clinicId: string, serviceCategoryId: string)
 export const getClinicBySlug = (slug: string): Clinic | undefined => {
   return clinics.find(c => c.slug === slug);
 };
+
+type ClinicAddressFields = {
+  slug?: string;
+  address?: string;
+  phone?: string;
+  hours?: string;
+  mapsUrl?: string;
+};
+
+/** Fill missing address/contact fields from static clinic data when CMS is partial. */
+export function withCanonicalAddress<T extends ClinicAddressFields>(clinic: T): T {
+  const canonical = clinic.slug ? getClinicBySlug(clinic.slug) : undefined;
+  if (!canonical) return clinic;
+  return {
+    ...clinic,
+    address: clinic.address?.trim() || canonical.address,
+    phone: clinic.phone?.trim() || canonical.phone,
+    hours: clinic.hours?.trim() || canonical.hours,
+    mapsUrl: clinic.mapsUrl?.trim() || canonical.mapsUrl,
+  };
+}
+
+export type ClinicFaq = { question: string; answer: string };
+
+export const clinicFaqs: Record<string, ClinicFaq[]> = {
+  majorstuen: [
+    {
+      question: "Trenger jeg henvisning?",
+      answer:
+        "For de fleste konsultasjoner trenger du ikke henvisning. Dersom du ønsker å bruke forsikring eller offentlig refusjon, kan det være krav om henvisning fra fastlege.",
+    },
+    {
+      question: "Kan jeg bruke helseforsikring?",
+      answer:
+        "Ja, vi samarbeider med de fleste forsikringsselskap. Ta kontakt med ditt forsikringsselskap i forkant for å avklare dekning.",
+    },
+    {
+      question: "Hvor lang tid tar en konsultasjon?",
+      answer:
+        "En standardkonsultasjon varer normalt 30–45 minutter, avhengig av type undersøkelse.",
+    },
+    {
+      question: "Er det ventetid for time?",
+      answer: "Vi tilstreber kort ventetid. De fleste får time innen 1–2 uker.",
+    },
+  ],
+  bekkestua: [
+    {
+      question: "Trenger jeg henvisning?",
+      answer:
+        "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med ditt forsikringsselskap dersom du ønsker forsikringsdekning.",
+    },
+    {
+      question: "Hvilke tjenester tilbys på Bekkestua?",
+      answer: "Vi tilbyr gynekologi og hudhelse ved vår klinikk på Bekkestua.",
+    },
+    {
+      question: "Er det parkering?",
+      answer: "Ja, det er gratis parkering rett utenfor klinikken.",
+    },
+  ],
+  moss: [
+    {
+      question: "Hvordan bestiller jeg time i Moss?",
+      answer: "Timebestilling gjøres via Colosseum Faust sitt bookingsystem.",
+    },
+    {
+      question: "Trenger jeg henvisning?",
+      answer:
+        "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med forsikringsselskapet dersom relevant.",
+    },
+    {
+      question: "Er det parkering?",
+      answer: "Ja, det er gratis parkering rett utenfor klinikken.",
+    },
+  ],
+  moelv: [
+    {
+      question: "Trenger jeg henvisning?",
+      answer: "For de fleste konsultasjoner trenger du ikke henvisning.",
+    },
+    {
+      question: "Hvilke tjenester tilbys i Moelv?",
+      answer: "Vi tilbyr gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin.",
+    },
+    {
+      question: "Er det parkering?",
+      answer: "Ja, det er gratis parkering rett utenfor klinikken.",
+    },
+  ],
+};

@@ -8,6 +8,8 @@ interface SplitHeroMediaProps {
   src: ImageRef | string;
   alt: string;
   className?: string;
+  mediaClassName?: string;
+  loading?: "eager" | "lazy";
   hotspot?: SanityHotspot | MediaFocalPoint | null;
 }
 
@@ -16,6 +18,8 @@ export function SplitHeroMedia({
   src,
   alt,
   className = "split-media",
+  mediaClassName,
+  loading = "eager",
   hotspot,
 }: SplitHeroMediaProps) {
   const imageSrc = typeof src === "string" ? src : assetSrc(src);
@@ -29,8 +33,8 @@ export function SplitHeroMedia({
         alt={alt}
         hotspot={hotspot}
         variant="hero"
-        loading="eager"
-        className="absolute inset-0 w-full h-full"
+        loading={loading}
+        className={`absolute inset-0 w-full h-full${mediaClassName ? ` ${mediaClassName}` : ""}`}
       />
     </div>
   );

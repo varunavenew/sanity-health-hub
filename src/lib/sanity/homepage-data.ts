@@ -48,7 +48,23 @@ export type HomepageCategoryCard = {
   title: string;
   path: string;
   image: string;
+  imageAlt?: string;
 };
+
+/** Prefer dedicated homepage tile; fall back to legacy hero fields until CMS is filled. */
+function resolveHomepageCategoryCardImage(row: Record<string, unknown>): string {
+  const dedicated = asPlainString(row.homepageCardImage);
+  if (dedicated) return dedicated;
+
+  const media = resolveCmsMedia(row.heroMedia, {
+    mediaType: "image",
+    imageUrl: asPlainString(row.heroImage),
+  });
+  return (
+    (media?.kind === "image" ? media.src : media?.poster) ||
+    asPlainString(row.heroImage)
+  );
+}
 
 export type HomepageFaq = {
   question: string;
@@ -71,6 +87,7 @@ export type HomepageReviewsSection = {
   legelistenAverageRating: number;
   ctaTitle: string;
   ctaSubtitle: string;
+  /** Review cards from homepage.googleReviews references in Sanity. */
   reviews: HomepageReview[];
 };
 
@@ -370,52 +387,45 @@ export function resolveHomepageFaqs(
   return resolveFaqsFromCollection(faqCollection, legacyFaqs);
 }
 
-function formatReviewDate(value: unknown, lang: SortLocale): string {
-  return formatReviewDateLabel(value, lang === "en" ? "en" : "no");
+function mapHomepageReviews(
+  value: unknown,
+  lang: SortLocale,
+): HomepageReview[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((row): HomepageReview | null => {
+      if (!row || typeof row !== "object") return null;
+      const item = row as Record<string, unknown>;
+      const name = asPlainString(item.author);
+      const text = asPlainString(item.text);
+      if (!name || !text) return null;
+      const rating =
+        typeof item.rating === "number" && item.rating >= 1 && item.rating <= 5
+          ? item.rating
+          : 5;
+      const date = formatReviewDateLabel(item.date, lang === "en" ? "en" : "no");
+      return {
+        id: asPlainString(item._id) || name,
+        name,
+        rating,
+        text,
+        date,
+        source: item.source === "legelisten" ? "legelisten" : "google",
+      };
+    })
+    .filter((row): row is HomepageReview => row != null);
 }
 
-function mapHomepageReviews(
-  rows: unknown,
-  lang: SortLocale,
+function mapHomepageReviewsSection(
   googleAverageRating: unknown,
   legelistenAverageRating: unknown,
   subheading: unknown,
   heading: unknown,
   ctaTitle: unknown,
   ctaSubtitle: unknown,
-): HomepageReviewsSection | null {
-  if (!Array.isArray(rows)) return null;
-
-  const reviews = rows
-    .map((row) => {
-      const review = row as {
-        _id?: string;
-        author?: string;
-        rating?: number;
-        text?: unknown;
-        date?: unknown;
-        source?: unknown;
-      } | null;
-      if (!review?._id) return null;
-      const text = asPlainString(review.text);
-      const name = typeof review.author === "string" ? review.author.trim() : "";
-      if (!name || !text) return null;
-      return {
-        id: review._id,
-        name,
-        rating: typeof review.rating === "number" ? review.rating : 5,
-        text,
-        date: formatReviewDate(review.date, lang),
-        source:
-          review.source === "legelisten"
-            ? ("legelisten" as const)
-            : ("google" as const),
-      };
-    })
-    .filter((review): review is HomepageReview => Boolean(review));
-
-  if (reviews.length === 0) return null;
-
+  googleReviews: unknown,
+  lang: SortLocale,
+): HomepageReviewsSection {
   return {
     subheading: asPlainString(subheading),
     heading: asPlainString(heading),
@@ -425,7 +435,7 @@ function mapHomepageReviews(
       typeof legelistenAverageRating === "number" ? legelistenAverageRating : 4.8,
     ctaTitle: asPlainString(ctaTitle),
     ctaSubtitle: asPlainString(ctaSubtitle),
-    reviews,
+    reviews: mapHomepageReviews(googleReviews, lang),
   };
 }
 
@@ -454,15 +464,15 @@ export function mapHomepageDocument(
       typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
     faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
     faqs: resolveHomepageFaqs(data.faqCollection, data.faqs),
-    reviewsSection: mapHomepageReviews(
-      data.googleReviews,
-      lang,
+    reviewsSection: mapHomepageReviewsSection(
       data.reviewsGoogleRating,
       data.reviewsLegelistenRating,
       data.reviewsSubheading,
       data.reviewsHeading,
       data.reviewsCtaTitle,
       data.reviewsCtaSubtitle,
+      data.googleReviews,
+      lang,
     ),
     statsBar: statsBar.map((s) => {
       const row = s as { value?: string; label?: string };
@@ -504,19 +514,15 @@ export function mapHomepageDocument(
         const categoryId = asPlainString(row.categoryId);
         const slug = asPlainString(row.slug);
         const routeKey = categoryId || slug;
-        const media = resolveCmsMedia(row.heroMedia, {
-          mediaType: "image",
-          imageUrl: asPlainString(row.heroImage),
-        });
-        const image =
-          (media?.kind === "image" ? media.src : media?.poster) ||
-          asPlainString(row.heroImage);
+        const image = resolveHomepageCategoryCardImage(row);
+        const imageAlt = asPlainString(row.homepageCardImageAlt);
         return {
           id: routeKey,
           title: asPlainString(row.title),
           // Preserve homepage.serviceCategories array order (Studio drag-and-drop).
           path: routeKey ? `/${routeKey}` : "",
           image,
+          ...(imageAlt ? { imageAlt } : {}),
         };
       })
       .filter((c): c is HomepageCategoryCard => Boolean(c?.id && c?.title && c?.image)),

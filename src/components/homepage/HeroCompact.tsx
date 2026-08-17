@@ -54,7 +54,7 @@ export const HeroCompact = ({ showHeader: _showHeader = false }: HeroCompactProp
             >
               <AssetImg
                 src={category.image}
-                alt=""
+                alt={category.imageAlt || category.title}
                 preset="card"
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"

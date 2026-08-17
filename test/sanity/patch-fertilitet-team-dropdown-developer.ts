@@ -11,6 +11,8 @@
  * Studio still shows it while the site omits it until publish.
  *
  *   cd test && npx tsx sanity/patch-fertilitet-team-dropdown-developer.ts
+ *   cd test && DRY_RUN=1 ALLOW_PRODUCTION_MIGRATION=true SANITY_DATASET_FORCE=production npx tsx sanity/patch-fertilitet-team-dropdown-developer.ts
+ *   cd test && ALLOW_PRODUCTION_MIGRATION=true SANITY_DATASET_FORCE=production npx tsx sanity/patch-fertilitet-team-dropdown-developer.ts
  */
 import { DATASET, PROJECT_ID, sanityClient } from "./config";
 
@@ -29,8 +31,8 @@ async function main() {
   if (PROJECT_ID !== "9jhqpk3a") {
     throw new Error(`Refusing to run: unexpected projectId ${PROJECT_ID}`);
   }
-  if (DATASET !== "developer") {
-    throw new Error(`Refusing to run on dataset "${DATASET}". Developer only.`);
+  if (DATASET !== "developer" && DATASET !== "production") {
+    throw new Error(`Refusing to run on dataset "${DATASET}". Expected developer or production.`);
   }
 
   const teamExists = await sanityClient.fetch<string | null>(

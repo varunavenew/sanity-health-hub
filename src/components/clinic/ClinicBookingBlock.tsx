@@ -11,7 +11,8 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/lib/router";
+import { useNavigate } from "@/lib/router";
+import { buildBookingUrl } from "@/lib/bookingLinks";
 
 export interface ClinicBookingData {
   method?: "info" | "pasientsky" | "metodika" | "closed";
@@ -23,7 +24,8 @@ export interface ClinicBookingData {
 interface ClinicBookingBlockProps {
   booking?: ClinicBookingData;
   clinicLabel: string;
-  clinicId?: string;
+  /** Clinic slug for booking deep links (?klinikk=majorstuen). */
+  clinicSlug?: string;
   phone?: string;
   email?: string;
 }
@@ -35,17 +37,28 @@ interface ClinicBookingBlockProps {
 export const ClinicBookingBlock = ({
   booking,
   clinicLabel,
-  clinicId,
+  clinicSlug,
   phone,
   email,
 }: ClinicBookingBlockProps) => {
+  const navigate = useNavigate();
   const method = booking?.method || "info";
-  const bookingHref = clinicId
-    ? `/booking?klinikk=${encodeURIComponent(clinicId)}`
-    : "/booking";
+  const externalBookingUrl = booking?.externalBookingUrl?.trim();
 
   const [showPhonePicker, setShowPhonePicker] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handlePrimaryBookingClick = () => {
+    if (method === "info" && externalBookingUrl) {
+      window.location.href = externalBookingUrl;
+      return;
+    }
+    navigate(
+      clinicSlug
+        ? buildBookingUrl({ klinikk: clinicSlug })
+        : buildBookingUrl(),
+    );
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -115,7 +128,7 @@ export const ClinicBookingBlock = ({
   const hasBookingLink =
     method === "pasientsky" ||
     method === "metodika" ||
-    (method === "info" && (booking?.externalBookingUrl || clinicId));
+    (method === "info" && (externalBookingUrl || clinicSlug));
 
   return (
     <section className="py-20 md:py-28 bg-brand-dark" aria-labelledby="clinic-booking-heading">
@@ -146,15 +159,12 @@ export const ClinicBookingBlock = ({
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             {hasBookingLink ? (
-              <Button variant="cta-dark" size="lg" asChild>
-                <Link to={bookingHref}>
-                  <Calendar className="mr-2 w-5 h-5" />
-                  Bestill time nå
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
+              <Button variant="cta-dark" size="lg" onClick={handlePrimaryBookingClick}>
+                <Calendar className="mr-2 w-5 h-5" />
+                Bestill time nå
+                <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             ) : (
-              /* info-only with no booking link — just a phone CTA */
               phone && (
                 <Button variant="cta-dark" size="lg" asChild>
                   <a href={`tel:+47${phone.replace(/\s/g, "")}`}>

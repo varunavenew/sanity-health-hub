@@ -438,14 +438,15 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
   const bio = sp.bio ?? "";
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
   const firstName = sp.name.split(" ")[0] || sp.name;
-  const roleLine = specialistRoleLine(sp);
+  // Treatment editorial: job title only (e.g. "Gastrokirurg"), not "Category · Title".
+  const roleLine = (sp.subtitle?.trim() || sp.title).trim();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-stretch">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
       <Link
         to={`/spesialister/${sp.slug}`}
         aria-label={`Les mer om ${sp.name}`}
-        className="group md:col-span-5 md:col-start-1 block"
+        className="group md:col-span-5 md:col-start-1 block no-underline"
       >
         <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
           <ResponsiveImage
@@ -455,16 +456,10 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
             objectPosition="50% 20%"
             className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
-          {sp.clinics && sp.clinics.length > 0 ? (
-            <div className="absolute top-4 left-4 flex items-center gap-1 text-white/90 text-sm font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-[1]">
-              <MapPin className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
-              {sp.clinics.join(" · ")}
-            </div>
-          ) : null}
         </div>
       </Link>
 
-      <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between border-t border-brand-dark/15 pt-8 md:pt-0 md:border-t-0">
+      <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between">
         <div>
           <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-3 hyphens-auto [overflow-wrap:anywhere]">
             {sp.name}

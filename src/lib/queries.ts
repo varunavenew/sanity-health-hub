@@ -247,9 +247,9 @@ export const PAGE_SECTIONS_GROQ = `
     },
     "articles": articles[]->{
       _id,
-      "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+      ${i18nStringLocale("title")},
       ${localizedSlug},
-      "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+      ${i18nTextLocale("excerpt")},
       "image": primaryImage.asset->url,
       "date": publishedAt,
       category
@@ -282,6 +282,8 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   },
   "serviceCategories": serviceCategories[]->{
     _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug},
+    "homepageCardImage": homepageCardImage.asset->url,
+    ${i18nString("homepageCardImageAlt")},
     "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
     "heroImage": heroImage.asset->url
   },
@@ -301,9 +303,9 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   },
   "featuredArticles": featuredArticles[]->{
     _id,
-    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${i18nStringLocale("title")},
     ${localizedSlug},
-    "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+    ${i18nTextLocale("excerpt")},
     "image": primaryImage.asset->url,
     "date": publishedAt,
     category,
@@ -348,12 +350,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   ${i18nString("reviewsCtaTitle")},
   ${i18nString("reviewsCtaSubtitle")},
   "googleReviews": googleReviews[]->{
-    _id,
-    author,
-    rating,
-    source,
-    ${i18nText("text")},
-    date
+    _id, author, rating, source, ${i18nText("text")}, date
   },
   specialistsSection{
     ${i18nString("eyebrow")},
@@ -1065,18 +1062,18 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
   listSize,
   "listingArticles": listingArticles[]->{
     _id,
-    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${i18nStringLocale("title")},
     ${localizedSlug},
-    "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+    ${i18nTextLocale("excerpt")},
     "image": primaryImage.asset->url,
     "date": publishedAt,
     category,
   },
   "featuredArticles": featuredArticles[]->{
     _id,
-    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${i18nStringLocale("title")},
     ${localizedSlug},
-    "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+    ${i18nTextLocale("excerpt")},
     "image": primaryImage.asset->url,
     "date": publishedAt,
     category,
@@ -1399,6 +1396,15 @@ export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter
 export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
+  servicesSection{
+    ${i18nString("title")},
+    ${i18nText("description")},
+    items[]{
+      serviceId,
+      ${i18nString("label")},
+      href
+    }
+  },
   ${i18nText("description")},
   email,
   ${i18nText("contactDescription")},
@@ -1596,35 +1602,32 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && ${publishedOnly
 }`;
 
 // ─── Articles (localized) ────────────────────────────────────────────
-// `title`, `excerpt`, `body` are internationalizedArray fields stored as
-// [{language:'no', value:...},{language:'en', value:...}]. We pick the entry that
-// matches $lang and fall back to the Norwegian entry. Legacy un-migrated
-// docs may still hold plain strings — we coalesce both shapes and let the
-// frontend hook normalize.
+// `title`, `excerpt`, `body` are internationalizedArray fields. Pick $lang
+// only — do not fall back to Norwegian on `/en` (that mixed languages).
 export const ARTICLES_QUERY = `*[_type == "article" && ${publishedOnly}] | order(publishedAt desc){
   _id,
-  "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  ${i18nStringLocale("title")},
   ${localizedSlug},
-  "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+  ${i18nTextLocale("excerpt")},
   "image": primaryImage.asset->url,
-  "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
+  "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value),
   "date": publishedAt,
   category,
 }`;
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${publishedOnly} && ${slugMatchesParam("slug")}][0]{
   _id,
-  "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  ${i18nStringLocale("title")},
   ${localizedSlug},
-  "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
-  ${i18nText('geoSummary')},
+  ${i18nTextLocale("excerpt")},
+  ${i18nTextLocale("geoSummary")},
   "image": primaryImage.asset->url,
-  "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
+  "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value),
   "date": publishedAt,
   category,
-  "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
+  "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value),
   ${PAGE_SECTIONS_GROQ},
-  ${localizedSeoObject}
+  ${localizedSeoObjectLocale}
 }`;
 
 export const JOB_LISTINGS_QUERY = `*[_type == "jobListing" && active == true] | order(publishedAt desc){

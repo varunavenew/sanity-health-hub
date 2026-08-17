@@ -589,14 +589,14 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
   },
 
   vulvalidelser: {
-    titleNo: "Vulvalidelser",
-    titleEn: "Vulval conditions",
-    heroTitleNo: "Vulvalidelser",
-    heroTitleEn: "Vulval conditions",
+    titleNo: "Vulvalidelser og vulvodyni",
+    titleEn: "Vulvar disorders and vulvodynia",
+    heroTitleNo: "Vulvalidelser og vulvodyni",
+    heroTitleEn: "Vulvar disorders and vulvodynia",
     heroLeadNo:
-      "Kompliserte sykdommer som vulvasykdommer trenger en tverrfaglig tilnærming. Vårt multidisiplinære team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut. Avhengig av vulvovaginal lidelse og diagnose, vil du få tilbud om videre konsultasjon med andre spesialister.",
+      "Vulvalidelser og vulvodyni trenger en tverrfaglig tilnærming. Vårt team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut, som hjelper deg ved behov.",
     heroLeadEn:
-      "Complex conditions such as vulval disease require a multidisciplinary approach. Our multidisciplinary team therefore includes a gynaecologist, dermatologist, sexologist, psychologist and pelvic floor physiotherapist. Depending on the vulvovaginal condition and diagnosis, you will be offered further consultation with other specialists.",
+      "Vulvar disorders and vulvodynia require a multidisciplinary approach. Our team therefore includes a gynaecologist, dermatologist, sexologist, psychologist and pelvic floor physiotherapist, who help you as needed.",
     reasonsTitleNo: "Om vulvalidelser",
     reasonsTitleEn: "About vulval conditions",
     reasonsLeadNo:

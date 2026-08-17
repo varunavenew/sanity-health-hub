@@ -5,7 +5,7 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { googleReviews } from "@/data/googleReviews";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { useSanityContentLang } from "@/lib/sanity/content-lang";
-import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { normalizeI18n, normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import {
   mapAndSortSanitySpecialists,
   mapSanitySpecialistRow,
@@ -110,7 +110,8 @@ const useSanityLang = useSanityContentLang;
 const fetchSanity = async <T>(
   query: string,
   params?: Record<string, any>,
-  lang?: "no" | "en"
+  lang?: "no" | "en",
+  options?: { strict?: boolean }
 ): Promise<T> => {
   const resolved: "no" | "en" =
     lang || (params?.lang === "en" ? "en" : "no");
@@ -119,7 +120,11 @@ const fetchSanity = async <T>(
       ...params,
       lang: resolved,
     });
-    return normalizeI18n(data, resolved) as T;
+    return (
+      options?.strict
+        ? normalizeI18nStrict(data, resolved)
+        : normalizeI18n(data, resolved)
+    ) as T;
   } catch (err) {
       const preview = query.replace(/\s+/g, " ").slice(0, 80);
       console.error("[Sanity] GROQ fetch failed:", preview, err);
@@ -988,11 +993,13 @@ export const useArticles = () => {
   return useQuery({
     queryKey: ["sanity", "articles", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang }, lang);
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang }, lang, {
+        strict: true,
+      });
       return (data || []).map((a) => ({
         ...a,
-        title: typeof a.title === "string" ? a.title : (a.title?.[0]?.value ?? ""),
-        excerpt: typeof a.excerpt === "string" ? a.excerpt : (a.excerpt?.[0]?.value ?? ""),
+        title: typeof a.title === "string" ? a.title : "",
+        excerpt: typeof a.excerpt === "string" ? a.excerpt : "",
         image: a.image || "",
         date: a.date || "",
         category: a.category || "Nytt fra oss",
@@ -1007,17 +1014,23 @@ export const useArticle = (slug: string) => {
   return useQuery({
     queryKey: ["sanity", "article", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang }, lang);
+      const data = await fetchSanity<any>(
+        ARTICLE_BY_SLUG_QUERY,
+        { slug, lang },
+        lang,
+        { strict: true },
+      );
       if (!data) return null;
       return {
         ...data,
-        title: typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? ""),
-        excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
+        title: typeof data.title === "string" ? data.title : "",
+        excerpt: typeof data.excerpt === "string" ? data.excerpt : "",
         geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
         image: data.image || "",
         imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
+        body: Array.isArray(data.body) ? data.body : [],
         pageSections: normalizePageSections(data.pageSections),
       } as SanityArticle;
     },

@@ -137,7 +137,7 @@ export default {
       name: 'serviceCategories',
       title: 'Treatment categories',
       description:
-        'Categories shown in the homepage grid. Choose from Medical Content; order here. Not a Library pack.',
+        'Categories shown in the homepage grid. Tile image comes from each category → General → Homepage category tile image. Order categories here. Not a Library pack.',
       type: 'array',
       of: [
         {
@@ -369,7 +369,7 @@ export default {
       name: 'reviewsSubheading',
       title: 'Reviews - Subtitle',
       description:
-        'Page-owned review band chrome. Reviews are selected below from Content Library → Google Reviews.',
+        'Page-owned review band chrome. Review cards load from Gold Stars; set ratings and widget ID below.',
       type: 'internationalizedArrayString',
     },
     {
@@ -407,7 +407,7 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
       description:
-        'Select and sort patient reviews shown on the homepage. Reviews live in Content Library → Google Reviews.',
+        'Review cards shown in the homepage reviews slider. Order here controls display order.',
     },
     {
       name: 'specialistsSection',

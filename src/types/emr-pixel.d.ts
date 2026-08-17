@@ -10,6 +10,14 @@ type EmrWidgetProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement
   "widget-id": string;
 };
 
+declare global {
+  interface Window {
+    EMRPixel?: {
+      init: (domain: string, id: number) => void;
+    };
+  }
+}
+
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
@@ -18,3 +26,5 @@ declare module "react" {
     }
   }
 }
+
+export {};
