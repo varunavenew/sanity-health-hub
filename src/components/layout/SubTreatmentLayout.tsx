@@ -169,7 +169,7 @@ function ReasonsEditorial({
     layout === "prose" ? "prose" : "accordion";
 
   return (
-    <section className="py-14 md:py-20 bg-background">
+    <section className="pt-14 md:pt-20 pb-10 bg-background">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
           <div className="lg:col-span-5">
@@ -243,15 +243,12 @@ function RelatedServicesCarousel({
   title,
   items,
   seeAll,
-  beforeBooking = false,
   scrollLeftLabel,
   scrollRightLabel,
 }: {
   title: string;
   items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   seeAll: { href: string; label: string } | null;
-  /** Tighter bottom spacing when placed directly above the booking CTA. */
-  beforeBooking?: boolean;
   scrollLeftLabel: string;
   scrollRightLabel: string;
 }) {
@@ -268,13 +265,7 @@ function RelatedServicesCarousel({
   };
 
   return (
-    <section
-      className={
-        beforeBooking
-          ? "bg-background pt-14 md:pt-20 pb-10 md:pb-12 overflow-hidden"
-          : "bg-background py-14 md:py-20 overflow-hidden"
-      }
-    >
+    <section className="bg-background pt-10 pb-20 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
@@ -373,7 +364,7 @@ function RelatedBlock({
   if (!items.length) return null;
 
   return (
-    <section className="bg-secondary/40 py-14 md:py-20">
+    <section className="bg-secondary/40 py-10">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           {lead ? (
@@ -519,7 +510,7 @@ export const SubTreatmentLayout = ({
         </div>
 
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
-          <div className="flex items-center px-6 md:px-16 py-10 lg:py-16">
+          <div className="flex items-center px-6 md:px-16 py-10 lg:py-20">
             <div className="max-w-xl w-full">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
               <Link to="/" className="hover:text-foreground">
@@ -727,7 +718,7 @@ export const SubTreatmentLayout = ({
             </div>
           </section>
         ) : (
-          <section className="bg-brand-light text-foreground py-14 md:py-20">
+          <section className="bg-brand-light text-foreground py-10">
             <div className="container mx-auto px-6 md:px-16">
               <div className="max-w-6xl mx-auto">
                 <div className="max-w-2xl mb-14">
@@ -766,7 +757,7 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasExpertAreasSection(c) ? (
-        <section className="bg-secondary/40 py-14 md:py-20">
+        <section className="bg-secondary/40 py-10">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
               <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
@@ -873,7 +864,7 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasTextSection(c) ? (
-        <section className="py-14 md:py-20 bg-background">
+        <section className="pt-14 md:pt-20 pb-10 bg-background">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
               <div className="lg:col-span-5">
@@ -947,7 +938,7 @@ export const SubTreatmentLayout = ({
 
       {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
-      <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
+      <section className="bg-brand-light text-foreground py-10 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
@@ -1003,7 +994,7 @@ export const SubTreatmentLayout = ({
       })()}
 
       {insuranceSection && hasInsuranceSection(insuranceSection) ? (
-        <PageSectionInsuranceBlock config={insuranceSection} />
+        <PageSectionInsuranceBlock config={insuranceSection} compact />
       ) : null}
 
       {hasRelatedSection(c) && !c.relatedAsIntro ? (

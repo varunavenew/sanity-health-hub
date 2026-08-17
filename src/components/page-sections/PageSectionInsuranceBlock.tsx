@@ -2,9 +2,11 @@ import type { PageSectionInsuranceConfig } from "@/lib/sanity/page-sections";
 
 interface Props {
   config: PageSectionInsuranceConfig;
+  /** Treatment pages use tighter padding + smaller heading than category landings. */
+  compact?: boolean;
 }
 
-export function PageSectionInsuranceBlock({ config }: Props) {
+export function PageSectionInsuranceBlock({ config, compact = false }: Props) {
   const eyebrow = config.eyebrow?.trim() || "";
   const title = config.title || "Vi har avtale med de største forsikringsselskapene i Norge.";
   const partners = config.partners || [];
@@ -12,7 +14,13 @@ export function PageSectionInsuranceBlock({ config }: Props) {
   if (partners.length === 0) return null;
 
   return (
-    <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
+    <section
+      className={
+        compact
+          ? "bg-brand-light text-foreground py-10 border-t border-brand-dark/10"
+          : "bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10"
+      }
+    >
       <div className="container mx-auto px-6 md:px-16">
         {/* Reference: title stacked above a full-width partner grid (not split columns). */}
         <div className="max-w-6xl mx-auto">
@@ -21,7 +29,13 @@ export function PageSectionInsuranceBlock({ config }: Props) {
               {eyebrow}
             </p>
           ) : null}
-          <h3 className="text-2xl md:text-3xl font-light leading-snug text-foreground mb-10 md:mb-12 max-w-3xl">
+          <h3
+            className={
+              compact
+                ? "text-xl md:text-2xl font-light leading-snug text-foreground mb-10 md:mb-12 max-w-3xl"
+                : "text-2xl md:text-3xl font-light leading-snug text-foreground mb-10 md:mb-12 max-w-3xl"
+            }
+          >
             {title}
           </h3>
           <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-brand-dark/10">
