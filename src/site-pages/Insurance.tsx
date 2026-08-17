@@ -143,24 +143,24 @@ const Insurance = ({ isChatOpen }: PageProps) => {
       {/* Help band — contact + book CTAs */}
       <section className="py-12 bg-[#faf7f5]">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} aria-hidden="true" />
+          <div className="max-w-4xl mx-auto flex flex-col gap-6">
+            <div className="flex items-start gap-3">
+              <Phone className="w-5 h-5 text-brand-dark shrink-0 mt-0.5" strokeWidth={1.5} aria-hidden="true" />
               <div>
                 <p className="text-foreground font-normal">{t("insurance.needHelp")}</p>
                 <p className="text-muted-foreground text-sm font-light">{t("insurance.weGuide")}</p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3 justify-center md:justify-end">
+            <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
               <Button
                 variant="outline"
                 size="lg"
-                className="rounded-2xl border-0 bg-white text-brand-dark shadow-none hover:bg-white/90 hover:text-brand-dark"
+                className="rounded-2xl border-0 bg-white text-brand-dark shadow-sm hover:bg-white/90 hover:text-brand-dark w-full"
                 asChild
               >
                 <Link to="/kontakt">{t("cta.contactUs")}</Link>
               </Button>
-              <Button variant="cta" size="lg" className="rounded-2xl" asChild>
+              <Button variant="cta" size="lg" className="rounded-2xl w-full" asChild>
                 <Link to="/booking">{t("nav.bookAppointment")}</Link>
               </Button>
             </div>

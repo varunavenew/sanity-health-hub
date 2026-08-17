@@ -676,3 +676,21 @@ body.cm-edit-mode [data-editable-scope] {
   height: 100%;
   object-fit: cover;
 }
+
+/* Stacked split heroes (Contact, Priser, Insurance, …) — image on top on mobile */
+@media (max-width: 1023px) {
+  .split-hero-image-first {
+    min-height: 0;
+  }
+
+  .split-hero-image-first > .split-media {
+    order: 1;
+    min-height: 40vh;
+    max-height: 44vh;
+    height: 44vh;
+  }
+
+  .split-hero-image-first > .order-2 {
+    order: 2;
+  }
+}
