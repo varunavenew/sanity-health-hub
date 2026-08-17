@@ -129,6 +129,31 @@ interface Props {
   faqs?: { question: string; answer: string }[];
 }
 
+/** Title + ingress stacked; gap only from the grid (overrides global h2+p margin). */
+function TreatmentSectionHead({
+  title,
+  description,
+  description2,
+  titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
+  descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed",
+  className = "",
+}: {
+  title: ReactNode;
+  description?: ReactNode;
+  description2?: ReactNode;
+  titleClassName?: string;
+  descriptionClassName?: string;
+  className?: string;
+}) {
+  return (
+    <div className={`grid gap-y-3 md:gap-y-4 ${className}`.trim()}>
+      <h2 className={`${titleClassName} !mb-0`}>{title}</h2>
+      {description ? <p className={`${descriptionClassName} !mb-0`}>{description}</p> : null}
+      {description2 ? <p className={descriptionClassName}>{description2}</p> : null}
+    </div>
+  );
+}
+
 const parseHeroTitle = (heroTitle: string | ReactNode): ReactNode => {
   if (typeof heroTitle !== "string") return heroTitle;
 
@@ -169,24 +194,17 @@ function ReasonsEditorial({
     layout === "prose" ? "prose" : "accordion";
 
   return (
-    <section className="py-14 md:py-20 bg-background">
+    <section className="pt-14 md:pt-20 pb-10 bg-background">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
-                {title}
-              </h2>
-              {lead ? (
-                <p className="text-base font-light text-muted-foreground leading-relaxed mb-3">
-                  {lead}
-                </p>
-              ) : null}
-              {lead2 ? (
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  {lead2}
-                </p>
-              ) : null}
+              <TreatmentSectionHead
+                title={title}
+                description={lead}
+                description2={lead2}
+                titleClassName="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1]"
+              />
             </div>
           </div>
 
@@ -243,15 +261,12 @@ function RelatedServicesCarousel({
   title,
   items,
   seeAll,
-  beforeBooking = false,
   scrollLeftLabel,
   scrollRightLabel,
 }: {
   title: string;
   items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   seeAll: { href: string; label: string } | null;
-  /** Tighter bottom spacing when placed directly above the booking CTA. */
-  beforeBooking?: boolean;
   scrollLeftLabel: string;
   scrollRightLabel: string;
 }) {
@@ -268,13 +283,7 @@ function RelatedServicesCarousel({
   };
 
   return (
-    <section
-      className={
-        beforeBooking
-          ? "bg-background pt-14 md:pt-20 pb-10 md:pb-12 overflow-hidden"
-          : "bg-background py-14 md:py-20 overflow-hidden"
-      }
-    >
+    <section className="bg-background pt-10 pb-20 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
@@ -373,28 +382,22 @@ function RelatedBlock({
   if (!items.length) return null;
 
   return (
-    <section className="bg-secondary/40 py-14 md:py-20">
+    <section className="bg-secondary/40 py-10">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           {lead ? (
-            <div className="grid lg:grid-cols-12 gap-6 md:gap-14 lg:gap-24 mb-10 md:mb-14">
-              <div className="lg:col-span-6">
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  {title}
-                </h2>
-              </div>
-              <div className="lg:col-span-6 lg:pt-3">
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  {lead}
-                </p>
-              </div>
-            </div>
+            <TreatmentSectionHead
+              title={title}
+              description={lead}
+              className="lg:grid-cols-12 lg:gap-x-24 mb-10 md:mb-14"
+              titleClassName="text-3xl md:text-5xl font-light leading-tight text-foreground lg:col-span-6"
+              descriptionClassName="text-base font-light text-muted-foreground leading-relaxed lg:col-span-6"
+            />
           ) : (
-            <div className="max-w-2xl mb-8 md:mb-12">
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                {title}
-              </h2>
-            </div>
+            <TreatmentSectionHead
+              title={title}
+              className="mb-8 md:mb-12 max-w-2xl"
+            />
           )}
 
           <div
@@ -519,7 +522,7 @@ export const SubTreatmentLayout = ({
         </div>
 
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
-          <div className="flex items-center px-6 md:px-16 py-10 lg:py-16">
+          <div className="flex items-center px-6 md:px-16 py-10 lg:py-20">
             <div className="max-w-xl w-full">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
               <Link to="/" className="hover:text-foreground">
@@ -766,23 +769,16 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasExpertAreasSection(c) ? (
-        <section className="bg-secondary/40 py-14 md:py-20">
+        <section className="bg-secondary/40 py-10">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-                <div className="lg:col-span-6">
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                    {c.expertAreas?.title}
-                  </h2>
-                </div>
-                {c.expertAreas?.description ? (
-                  <div className="lg:col-span-6 lg:pt-3">
-                    <p className="text-base font-light text-muted-foreground leading-relaxed">
-                      {c.expertAreas.description}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
+              <TreatmentSectionHead
+                title={c.expertAreas?.title ?? ""}
+                description={c.expertAreas?.description}
+                className="lg:grid-cols-12 lg:gap-x-24 mb-14"
+                titleClassName="text-3xl md:text-5xl font-light leading-tight text-foreground lg:col-span-6"
+                descriptionClassName="text-base font-light text-muted-foreground leading-relaxed lg:col-span-6"
+              />
               <div
                 ref={expertAreasRef}
                 className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
@@ -879,15 +875,16 @@ export const SubTreatmentLayout = ({
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-28">
                   {c.textSection.title ? (
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
-                      {c.textSection.title}
-                    </h2>
-                  ) : null}
-                  {c.textSection.lead && (
+                    <TreatmentSectionHead
+                      title={c.textSection.title}
+                      description={c.textSection.lead}
+                      titleClassName="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1]"
+                    />
+                  ) : c.textSection.lead ? (
                     <p className="text-base font-light text-muted-foreground leading-relaxed">
                       {c.textSection.lead}
                     </p>
-                  )}
+                  ) : null}
                   {c.textSection.image ? (
                     <div className="relative mt-8 aspect-[4/5] overflow-hidden bg-secondary rounded-sm">
                       <AssetImg
@@ -947,18 +944,16 @@ export const SubTreatmentLayout = ({
 
       {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
-      <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
+      <section className="bg-brand-light text-foreground py-10 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
-              <h2 className="text-xl md:text-3xl font-light leading-tight">
-                {c.conversationCtaTitle || c.ctaTitle}
-              </h2>
-              {c.ctaDescription ? (
-                <p className="mt-3 text-sm md:text-base font-light text-muted-foreground leading-relaxed">
-                  {c.ctaDescription}
-                </p>
-              ) : null}
+              <TreatmentSectionHead
+                title={c.conversationCtaTitle || c.ctaTitle || ""}
+                description={c.ctaDescription}
+                titleClassName="text-xl md:text-3xl font-light leading-tight"
+                descriptionClassName="text-sm md:text-base font-light text-muted-foreground leading-relaxed"
+              />
             </div>
             <TreatmentCtaButtons
               primaryLabel={
@@ -1003,7 +998,7 @@ export const SubTreatmentLayout = ({
       })()}
 
       {insuranceSection && hasInsuranceSection(insuranceSection) ? (
-        <PageSectionInsuranceBlock config={insuranceSection} />
+        <PageSectionInsuranceBlock config={insuranceSection} compact />
       ) : null}
 
       {hasRelatedSection(c) && !c.relatedAsIntro ? (

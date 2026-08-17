@@ -23,6 +23,8 @@ import {
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
+import { resolveOrtopediTreatmentSlug } from "@/lib/sanity/ortopedi-slug-aliases";
 import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 
 function listingSlug(
@@ -94,6 +96,12 @@ function treatmentSlugMatches(
   }
   if (categoryId === "graviditet") {
     candidates.add(resolveGraviditetTreatmentSlug(segment));
+  }
+  if (categoryId === "urologi") {
+    candidates.add(resolveUrologiTreatmentSlug(segment));
+  }
+  if (categoryId === "ortopedi") {
+    candidates.add(resolveOrtopediTreatmentSlug(segment));
   }
   if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
     candidates.add(resolveFlereFagomraderTreatmentSlug(segment));

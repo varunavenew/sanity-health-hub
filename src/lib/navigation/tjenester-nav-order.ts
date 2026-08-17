@@ -1,6 +1,14 @@
 import { FERTILITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/fertilitet-slug-aliases";
 import { GRAVIDITET_NAV_TREATMENT_SLUGS } from "@/lib/sanity/graviditet-slug-aliases";
 import { GYNEKOLOGI_NAV_TREATMENT_SLUGS } from "@/lib/sanity/gynekologi-slug-aliases";
+import {
+  UROLOGI_NAV_TREATMENT_SLUGS,
+  resolveUrologiTreatmentSlug,
+} from "@/lib/sanity/urologi-slug-aliases";
+import {
+  ORTOPEDI_NAV_TREATMENT_SLUGS,
+  resolveOrtopediTreatmentSlug,
+} from "@/lib/sanity/ortopedi-slug-aliases";
 import { FLERE_FAGOMRADER_CATEGORY_ID } from "@/lib/sanity/category-keys";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
@@ -17,25 +25,9 @@ export const TJENESTER_CATEGORY_NAV_ORDER = [
   FLERE_FAGOMRADER_CATEGORY_ID,
 ] as const;
 
-export const UROLOGI_NAV_TREATMENT_SLUGS = [
-  "blaere",
-  "forhud",
-  "infertilitet",
-  "nyrer",
-  "prostata",
-  "refertilisering",
-  "robotkirurgi",
-  "sterilisering",
-  "testikler",
-] as const;
+export { UROLOGI_NAV_TREATMENT_SLUGS };
 
-export const ORTOPEDI_NAV_TREATMENT_SLUGS = [
-  "fot-ankel",
-  "hofte",
-  "hand-albue",
-  "kne",
-  "skulder",
-] as const;
+export { ORTOPEDI_NAV_TREATMENT_SLUGS };
 
 export const FLERE_FAGOMRADER_NAV_TREATMENT_SLUGS = [
   "endokrinologi",
@@ -57,7 +49,7 @@ export const FLERE_FAGOMRADER_NAV_NESTED: Record<string, readonly string[]> = {
   gastrokirurgi: [
     "overvektskirurgi",
     "brokkoperasjon",
-    "hemorroider-og-endetarmsplager",
+    "hemorroider",
   ],
 };
 
@@ -74,6 +66,8 @@ function resolveNavSlug(categoryId: string, slug: string): string {
   if (categoryId === "fertilitet") return resolveFertilitetTreatmentSlug(slug);
   if (categoryId === "graviditet") return resolveGraviditetTreatmentSlug(slug);
   if (categoryId === "gynekologi") return resolveGynekologiTreatmentSlug(slug);
+  if (categoryId === "urologi") return resolveUrologiTreatmentSlug(slug);
+  if (categoryId === "ortopedi") return resolveOrtopediTreatmentSlug(slug);
   if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
     return resolveFlereFagomraderTreatmentSlug(slug);
   }
@@ -136,7 +130,12 @@ export function orderTjenesterSubcategories(
       return children.length > 0 ? { ...item, items: children } : item;
     })
     .filter((item): item is TjenesterNavItem => Boolean(item))
-    .filter((item) => !nestedSlugs.has(item.id));
+    .filter((item) => {
+      if (nestedSlugs.has(item.id)) return false;
+      return !slugCandidates(categoryId, item.id).some((slug) =>
+        nestedSlugs.has(slug),
+      );
+    });
 }
 
 export function orderTjenesterCategories<T extends { id: string }>(

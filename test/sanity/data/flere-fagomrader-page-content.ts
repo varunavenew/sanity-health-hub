@@ -20,6 +20,7 @@ export type PageContent = {
   reasonsTitleEn: string;
   reasonsLeadNo?: string;
   reasonsLeadEn?: string;
+  reasonsLayout?: "prose" | "accordion" | "auto";
   midCtaNo: string;
   midCtaEn: string;
   promiseVariant: "standard";
@@ -503,45 +504,21 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
     heroTitleNo: "Åreknutebehandling",
     heroTitleEn: "Varicose vein treatment",
     heroLeadNo:
-      "Åreknuter er veldig vanlig, og nesten 30 % av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner. Risikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina. Åreknuter oppstår i de overfladiske venene grunnet svikt i klaffene.",
+      "Åreknuter er veldig vanlig, og nesten 30 % av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner.",
     heroLeadEn:
-      "Varicose veins are very common, affecting almost 30% of people over 30 to varying degrees. They are equally common in men and women. Risk factors include heredity, pregnancy, excess weight, age and occupations that place extra strain on the legs through prolonged standing or sitting. Varicose veins develop in the superficial veins when their valves fail.",
-    heroPriceNo: "fra 1.400 kr",
+      "Varicose veins are very common, affecting almost 30% of people over 30 to varying degrees. They are equally common in men and women.",
+    heroPriceNo: "Pris fra 1.400 kr",
     heroPriceEn: "from NOK 1,400",
-    heroPriceLabelNo: "Konsultasjon åreknuter",
-    heroPriceLabelEn: "Varicose vein consultation",
+    heroPriceLabelNo: "Åreknutebehandling",
+    heroPriceLabelEn: "Varicose vein treatment",
     reasonsTitleNo: "Om åreknuter",
     reasonsTitleEn: "About varicose veins",
     midCtaNo: "Snakk med en av våre karkirurger",
     midCtaEn: "Talk to one of our vascular surgeons",
     promiseVariant: "standard",
     relatedSlugs: ["hudhelse"],
-    reasons: [
-      {
-        titleNo: "Årsaker og undersøkelse",
-        titleEn: "Causes and assessment",
-        descNo:
-          "Åreknuter skyldes svikt i veneklaffene. En grundig ultralydundersøkelse avdekker årsaken og gir grunnlag for en moderne og individuelt tilpasset behandling.",
-        descEn:
-          "Varicose veins are caused by failed venous valves. A thorough ultrasound identifies the cause and provides the basis for modern, individually tailored treatment.",
-      },
-      {
-        titleNo: "Symptomer",
-        titleEn: "Symptoms",
-        descNo:
-          "Vanlige symptomer er smerter, tunge eller trøtte bein, prikkende ubehag, kløe, nattekramper og hevelse. Støttestrømper kan lindre, men fjerner ikke åreknutene.",
-        descEn:
-          "Common symptoms include pain, heavy or tired legs, tingling, itching, night cramps and swelling. Compression stockings may relieve symptoms but do not remove varicose veins.",
-      },
-      {
-        titleNo: "Behandling",
-        titleEn: "Treatment",
-        descNo:
-          "Vi tilbyr moderne og skånsomme metoder som sklerosering, laserbehandling og kirurgisk fjerning, tilpasset funnene ved ultralyd.",
-        descEn:
-          "We offer modern, gentle methods including sclerotherapy, laser treatment and surgical removal, tailored to the ultrasound findings.",
-      },
-    ],
+    // Reference page has no Om-section on /areknuter.
+    reasons: [],
   },
 
   osteopati: {
@@ -795,11 +772,16 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
     heroTitleNo: "Hemorroider og endetarmsplager (rektocele)",
     heroTitleEn: "Haemorrhoids and rectal conditions (rectocele)",
     heroLeadNo:
-      "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
+      "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen.",
     heroLeadEn:
-      "Haemorrhoids are swollen blood vessels in the rectum and can be described as a type of varicose vein. Anal skin tags may occur in the same places but consist of skin and connective tissue without large blood vessels. These conditions are very common and harmless, but can cause substantial everyday discomfort and pain. When self-care and non-prescription ointments no longer help, surgery may be the best way to resolve the symptoms fully.",
-    reasonsTitleNo: "Om hemorroider og endetarmsplager",
-    reasonsTitleEn: "About haemorrhoids and rectal conditions",
+      "Haemorrhoids are swollen blood vessels in the rectum and can be described as a type of varicose vein. Anal skin tags may occur in the same places but consist of skin and connective tissue without large blood vessels. These conditions are very common and harmless, but can cause substantial everyday discomfort and pain.",
+    reasonsTitleNo: "Om hemorroider og endetarmsplager (rektocele)",
+    reasonsTitleEn: "About haemorrhoids and rectal conditions (rectocele)",
+    reasonsLeadNo:
+      "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer.",
+    reasonsLeadEn:
+      "Haemorrhoids are swollen blood vessels in the rectum and can be described as a type of varicose vein. Anal skin tags may occur in the same places but consist of skin and connective tissue without large blood vessels.",
+    reasonsLayout: "prose",
     midCtaNo: gastroCta.no,
     midCtaEn: gastroCta.en,
     promiseVariant: "standard",
@@ -809,25 +791,9 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
         titleNo: "Behandling av hemorroider og marisker",
         titleEn: "Treatment of haemorrhoids and skin tags",
         descNo:
-          "Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen. Inngrepet gjøres i narkose, og du reiser vanligvis hjem samme dag.",
+          "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
         descEn:
-          "When self-care and non-prescription ointments no longer help, surgery may be the best solution. The procedure is performed under general anaesthesia and you normally go home the same day.",
-      },
-      {
-        titleNo: "Gode råd og forholdsregler etter hjemkomst",
-        titleEn: "Advice and precautions after returning home",
-        descNo:
-          "Smerter, særlig ved avføring, og litt blødning er vanlig de første dagene. Bruk anbefalt smertelindring, skånsom sårpleie og hold avføringen myk ved å drikke godt og eventuelt bruke bløtgjørende midler. Eventuelle små sting forsvinner av seg selv.",
-        descEn:
-          "Pain, particularly during bowel movements, and some bleeding are common at first. Use the recommended pain relief and gentle wound care, and keep stools soft by drinking well and using a softener if needed. Any small sutures dissolve by themselves.",
-      },
-      {
-        titleNo: "Trygghet og ekspertise i sentrum",
-        titleEn: "Safety and expertise at the centre",
-        descNo:
-          "Kirurgisk fjerning av hemorroider har lav risiko for komplikasjoner. Du får oppfølging og settes automatisk opp til kontroll hos kirurgen 6–8 uker etter inngrepet.",
-        descEn:
-          "Surgical removal of haemorrhoids carries a low risk of complications. You receive follow-up and are automatically booked for a surgical review six to eight weeks after the procedure.",
+          "Haemorrhoids are swollen blood vessels in the rectum and can be described as a type of varicose vein. Anal skin tags may occur in the same places but consist of skin and connective tissue without large blood vessels. These conditions are very common and harmless, but can cause substantial everyday discomfort and pain. When self-care and non-prescription ointments no longer help, surgery may be the best way to resolve the symptoms fully.",
       },
     ],
   },

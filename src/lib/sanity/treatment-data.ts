@@ -6,8 +6,10 @@ import {
 } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
-import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
+import { gynekologiTreatmentSlugCandidates } from "@/lib/sanity/gynekologi-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { urologiTreatmentSlugCandidates } from "@/lib/sanity/urologi-slug-aliases";
+import { ortopediTreatmentSlugCandidates } from "@/lib/sanity/ortopedi-slug-aliases";
 import { flereFagomraderTreatmentSlugCandidates } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
@@ -448,15 +450,19 @@ export async function fetchTreatmentData(
   const slugCandidates =
     categoryKey === FLERE_FAGOMRADER_CATEGORY_ID
       ? flereFagomraderTreatmentSlugCandidates(treatmentSlug)
-      : [
-          categoryKey === "fertilitet"
-            ? resolveFertilitetTreatmentSlug(treatmentSlug)
-            : categoryKey === "gynekologi"
-              ? resolveGynekologiTreatmentSlug(treatmentSlug)
-              : categoryKey === "graviditet"
-                ? resolveGraviditetTreatmentSlug(treatmentSlug)
-                : treatmentSlug,
-        ];
+      : categoryKey === "urologi"
+        ? urologiTreatmentSlugCandidates(treatmentSlug)
+        : categoryKey === "ortopedi"
+          ? ortopediTreatmentSlugCandidates(treatmentSlug)
+          : categoryKey === "gynekologi"
+            ? gynekologiTreatmentSlugCandidates(treatmentSlug)
+            : [
+                categoryKey === "fertilitet"
+                  ? resolveFertilitetTreatmentSlug(treatmentSlug)
+                  : categoryKey === "graviditet"
+                    ? resolveGraviditetTreatmentSlug(treatmentSlug)
+                    : treatmentSlug,
+              ];
 
   let raw: Record<string, unknown> | null = null;
   let resolvedSlug = slugCandidates[0] || treatmentSlug;
