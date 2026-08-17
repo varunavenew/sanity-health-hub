@@ -14,6 +14,7 @@ import {
 } from "@/lib/video/to-embed-url";
 import { Play } from "lucide-react";
 import { useState, type CSSProperties } from "react";
+import { cn } from "@/lib/utils";
 
 type CmsMediaProps = {
   media: ResolvedCmsMedia;
@@ -168,7 +169,7 @@ function CmsEmbedVideo({
   if (!embed) return null;
 
   return (
-    <div className={`relative overflow-hidden ${className}`} style={style}>
+    <div className={cn("relative overflow-hidden h-full w-full", className)} style={style}>
       {poster && !interactiveMode ? (
         <ResponsiveVideoPoster
           src={poster}

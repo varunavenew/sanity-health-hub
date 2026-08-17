@@ -653,14 +653,25 @@ body.cm-edit-mode [data-editable-scope] {
 @media (min-width: 1024px) {
   .split-media {
     min-height: 0;
+    height: 100%;
     align-self: stretch;
   }
 }
 
-.split-hero img,
-.split-hero video,
-.split-section img,
-.split-section video {
+/* Fill the column even when only min-height is set (stacked / zoomed viewports). */
+.split-media > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.split-hero .split-media img,
+.split-hero .split-media video,
+.split-hero .split-media iframe,
+.split-section .split-media img,
+.split-section .split-media video,
+.split-section .split-media iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
