@@ -5,7 +5,6 @@ import {
 } from "@/lib/booking/extractEntityId";
 import {
   formatPatientNumberForLookup,
-  formatPersonalNumberForCreate,
   patientNumberLookupCandidates,
 } from "@/lib/booking/personalNumber";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
@@ -21,8 +20,8 @@ export interface CreateWebAccountBody {
 }
 
 /**
- * GET ?patientnumber=12-01-1977xxxxx&email=optional@x.y
- * Also accepts 11-digit personalnumber and normalizes to Metodika format.
+ * GET ?patientnumber=070887-40259&email=optional@x.y
+ * Also accepts 11-digit personalnumber and normalizes to `DDMMYY-XXXXX`.
  */
 export async function GET(request: Request) {
   const apiKey = process.env.BOOKING_API_KEY;
@@ -98,8 +97,7 @@ export async function POST(request: Request) {
   const mobile = body.mobile?.trim();
   const email = body.email?.trim() || "";
   const personalnumberRaw = body.personalnumber ?? "";
-  const personalnumber = formatPersonalNumberForCreate(personalnumberRaw);
-  const digits = personalnumberRaw.replace(/\D/g, "") || personalnumber;
+  const personalnumber = formatPatientNumberForLookup(personalnumberRaw);
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
@@ -109,7 +107,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    for (const patientnumber of patientNumberLookupCandidates(digits)) {
+    for (const patientnumber of patientNumberLookupCandidates(personalnumber)) {
       const lookupUrl = `${BOOKING_URLS.webaccounts}?patientnumber=${encodeURIComponent(patientnumber)}`;
       try {
         const existingPayload = await fetchBookingResource(lookupUrl, apiKey);
@@ -135,7 +133,7 @@ export async function POST(request: Request) {
         lastname,
         email,
         mobile,
-        personalnumber: digits,
+        personalnumber,
       }),
     );
 

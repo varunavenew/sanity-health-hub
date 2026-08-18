@@ -27,7 +27,7 @@ export const BOOKING_GROUP_KEY_TO_NUMERIC_ID: Record<string, number> = {
 
 /** Site category slug → booking group keys (from InlineBookingSection). */
 export const STATIC_CATEGORY_TO_BOOKING_KEYS: Record<string, string[]> = {
-  gynekologi: ['gynekolog', 'fostermedisiner'],
+  gynekologi: ['gynekolog'],
   fertilitet: ['fertilitet'],
   urologi: ['urolog'],
   ortopedi: ['ortoped', 'handterapeut'],

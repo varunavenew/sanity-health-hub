@@ -9,6 +9,7 @@ import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices
 import {
   bookingUrlForSpecialistContext,
   clinicSlugForSpecialistBooking,
+  filterSpecialistBookingCategories,
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
@@ -25,7 +26,12 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     () => resolveSpecialistBookingCategoryIds(specialist),
     [specialist.bookingCategoryIds],
   );
-  const { categories, loading } = useSpecialistMetodikaBooking(bookingCategoryIds);
+  const { categories: metodikaCategories, loading } =
+    useSpecialistMetodikaBooking(bookingCategoryIds);
+  const categories = useMemo(
+    () => filterSpecialistBookingCategories(specialist, metodikaCategories),
+    [specialist, metodikaCategories],
+  );
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   if (bookingCategoryIds.length === 0) {
