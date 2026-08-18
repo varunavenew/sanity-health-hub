@@ -6,7 +6,9 @@ import {
 import {
   formatPatientNumberForLookup,
   formatPersonalNumberForCreate,
+  patientNumberLookupCandidates,
 } from "@/lib/booking/personalNumber";
+import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
 import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 
 export interface CreateWebAccountBody {
@@ -19,8 +21,8 @@ export interface CreateWebAccountBody {
 }
 
 /**
- * GET ?patientnumber=25.09.199112345&email=optional@x.y
- * Proxies Metodika webaccount lookup.
+ * GET ?patientnumber=12-01-1977xxxxx&email=optional@x.y
+ * Also accepts 11-digit personalnumber and normalizes to Metodika format.
  */
 export async function GET(request: Request) {
   const apiKey = process.env.BOOKING_API_KEY;
@@ -38,9 +40,12 @@ export async function GET(request: Request) {
     "";
   const email = searchParams.get("email")?.trim() || "";
 
+  const normalized = formatPatientNumberForLookup(rawPatientNumber);
   const patientnumber =
-    formatPatientNumberForLookup(rawPatientNumber) ||
-    (rawPatientNumber.includes(".") ? rawPatientNumber : null);
+    normalized ||
+    (rawPatientNumber.includes("-") || rawPatientNumber.includes(".")
+      ? rawPatientNumber
+      : null);
 
   if (!patientnumber) {
     return NextResponse.json(
@@ -92,7 +97,9 @@ export async function POST(request: Request) {
   const lastname = body.lastname?.trim();
   const mobile = body.mobile?.trim();
   const email = body.email?.trim() || "";
-  const personalnumber = formatPersonalNumberForCreate(body.personalnumber ?? "");
+  const personalnumberRaw = body.personalnumber ?? "";
+  const personalnumber = formatPersonalNumberForCreate(personalnumberRaw);
+  const digits = personalnumberRaw.replace(/\D/g, "") || personalnumber;
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
@@ -102,8 +109,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const patientnumber = formatPatientNumberForLookup(personalnumber);
-    if (patientnumber) {
+    for (const patientnumber of patientNumberLookupCandidates(digits)) {
       const lookupUrl = `${BOOKING_URLS.webaccounts}?patientnumber=${encodeURIComponent(patientnumber)}`;
       try {
         const existingPayload = await fetchBookingResource(lookupUrl, apiKey);
@@ -117,23 +123,21 @@ export async function POST(request: Request) {
           });
         }
       } catch {
-        // Lookup failed — fall through to create.
+        // Try next candidate / fall through to create.
       }
     }
 
-    const patientnumberForCreate = formatPatientNumberForLookup(personalnumber) || undefined;
-
-    const payload = await postBookingResource(BOOKING_URLS.webaccounts, apiKey, {
-      firstname,
-      lastname,
-      email,
-      mobile,
-      personalnumber,
-      ...(patientnumberForCreate ? { patientnumber: patientnumberForCreate } : {}),
-      newsletter: Boolean(body.newsletter),
-      username: " ",
-      password: " ",
-    });
+    const payload = await postBookingResource(
+      BOOKING_URLS.webaccounts,
+      apiKey,
+      buildWebAccountCreateBody({
+        firstname,
+        lastname,
+        email,
+        mobile,
+        personalnumber: digits,
+      }),
+    );
 
     let ids = extractWebAccountCreatedIds(payload);
     if (ids?.webAccountId) {
