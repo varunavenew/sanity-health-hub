@@ -92,12 +92,25 @@ function findNavItem(
   slug: string,
 ): TjenesterNavItem | undefined {
   const wanted = new Set(slugCandidates(categoryId, slug));
-  return items.find((item) => {
-    if (wanted.has(item.id)) return true;
-    return slugCandidates(categoryId, item.id).some((candidate) =>
-      wanted.has(candidate),
-    );
-  });
+  const exact = items.find((item) => wanted.has(item.id));
+  if (exact) return exact;
+  // Alias fallback only when the canonical nav slug is missing (e.g. IVF → Assistert befruktning).
+  return items.find((item) =>
+    slugCandidates(categoryId, item.id).some((candidate) => wanted.has(candidate)),
+  );
+}
+
+/** True when a treatment belongs in the Tjenester dropdown for this category. */
+export function isTjenesterNavTreatmentSlug(
+  categoryId: string,
+  slug: string,
+): boolean {
+  const order = NAV_SLUGS_BY_CATEGORY[categoryId];
+  if (!order) return false;
+  const wanted = new Set(slugCandidates(categoryId, slug));
+  return order.some((navSlug) =>
+    slugCandidates(categoryId, navSlug).some((candidate) => wanted.has(candidate)),
+  );
 }
 
 export function orderTjenesterSubcategories(

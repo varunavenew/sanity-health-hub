@@ -510,6 +510,12 @@ export function mapTreatmentCategoryDocument(
   if (!data) return null;
 
   const categoryId = asPlainString(data.categoryId) || asPlainString(data.slug) || "";
+  const categoryKey = normalizeCategoryRouteKey(categoryId) || categoryId;
+  const categorySlug = asPlainString(data.slug);
+  const categoryPath = categorySlug
+    ? `/${categorySlug}`
+    : categoryLandingPath(categoryKey, lang);
+
   const treatmentsRaw = sortBySortOrder(
     (data.treatments as unknown[]) || [],
     (row) => (row as Record<string, unknown>).sortOrder,
@@ -521,8 +527,6 @@ export function mapTreatmentCategoryDocument(
     .map((row) => {
       const t = row as Record<string, unknown>;
       const slug = asPlainString(t.slug);
-      const categoryKey = normalizeCategoryRouteKey(categoryId) || categoryId;
-      const categoryPath = categoryLandingPath(categoryKey, lang);
       return {
         title: asPlainString(t.title),
         desc: asPlainString(t.description) || asPlainString(t.subtitle),

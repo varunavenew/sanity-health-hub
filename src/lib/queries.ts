@@ -1730,6 +1730,12 @@ export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${
 
 const SERVICE_DROPDOWN_TREATMENT_ROW = `
     _id, _createdAt, pageRole, ${i18nString("title")}, sortOrder, ${localizedSlug},
+    "slugNo": coalesce(
+      slug[language == "no"][0].value.current,
+      slug[_key == "no"][0].value.current,
+      slug[0].value.current,
+      slug.current
+    ),
     subItems[]{
       ${i18nString("label")},
       anchor,

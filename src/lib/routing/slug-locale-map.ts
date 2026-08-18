@@ -9,8 +9,7 @@ import {
   behandlingerCategorySegment,
   FLERE_FAGOMRADER_CATEGORY_ID,
 } from "@/lib/sanity/category-keys";
-
-const BEHANDLINGER_PREFIX = "behandlinger";
+import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 
 export type SlugLocaleMap = {
   nbToEn: Record<string, string>;
@@ -47,39 +46,19 @@ function addPathPair(
   }
 }
 
-/** Register both bare and `/behandlinger/…` variants for locale switching. */
-function addPathPairWithBehandlinger(
-  map: SlugLocaleMap,
-  nbSegments: string,
-  enSegments: string,
-  navId?: NavRouteId,
-) {
-  addPathPair(map, nbSegments, enSegments, navId);
-  addPathPair(map, `${BEHANDLINGER_PREFIX}/${nbSegments}`, `${BEHANDLINGER_PREFIX}/${enSegments}`, navId);
-}
-
-/** Resolve a path using CMS slug pairs, including `/behandlinger/` prefix variants. */
+/** Resolve a path using CMS slug pairs. Legacy `/behandlinger/` is stripped first. */
 export function lookupLocalizedPath(
   path: string,
   locale: "no" | "en",
   cmsMap?: SlugLocaleMap,
 ): string | undefined {
-  const base = path.trim() || "/";
+  const base = stripBehandlingerPrefix(path.trim() || "/");
   if (base === "/") return "/";
 
   const map = locale === "en" ? cmsMap?.nbToEn : cmsMap?.enToNb;
   if (!map) return undefined;
 
   if (map[base]) return map[base];
-
-  const behandlingerLead = `/${BEHANDLINGER_PREFIX}/`;
-  if (base.startsWith(behandlingerLead)) {
-    const inner = base.slice(`/${BEHANDLINGER_PREFIX}`.length) || "/";
-    if (map[inner]) return `/${BEHANDLINGER_PREFIX}${map[inner]}`;
-  } else {
-    const withPrefix = `/${BEHANDLINGER_PREFIX}${base}`;
-    if (map[withPrefix]) return map[withPrefix];
-  }
 
   return undefined;
 }
@@ -154,12 +133,12 @@ export function buildSlugLocaleMap(index: CmsRouteIndex | null | undefined): Slu
     const nbMarketing = behandlingerCategorySegment(categoryId, "no");
     const enMarketing = behandlingerCategorySegment(categoryId, "en");
 
-    addPathPairWithBehandlinger(map, pair.slugNb, pair.slugEn);
+    addPathPair(map, pair.slugNb, pair.slugEn);
     if (nbMarketing !== pair.slugNb || enMarketing !== pair.slugEn) {
-      addPathPairWithBehandlinger(map, nbMarketing, enMarketing);
+      addPathPair(map, nbMarketing, enMarketing);
     }
     if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
-      addPathPairWithBehandlinger(map, "flere-fagomrader", enMarketing);
+      addPathPair(map, "flere-fagomrader", enMarketing);
     }
   }
 
@@ -196,20 +175,20 @@ export function buildSlugLocaleMap(index: CmsRouteIndex | null | undefined): Slu
 
       const nbInner = `${catNb}/${treatmentPair.slugNb}`;
       const enInner = `${catEn}/${treatmentPair.slugEn}`;
-      addPathPairWithBehandlinger(map, nbInner, enInner);
+      addPathPair(map, nbInner, enInner);
 
       if (categoryId) {
         const nbMarketing = behandlingerCategorySegment(categoryId, "no");
         const enMarketing = behandlingerCategorySegment(categoryId, "en");
         if (nbMarketing !== catNb || enMarketing !== catEn) {
-          addPathPairWithBehandlinger(
+          addPathPair(
             map,
             `${nbMarketing}/${treatmentPair.slugNb}`,
             `${enMarketing}/${treatmentPair.slugEn}`,
           );
         }
         if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
-          addPathPairWithBehandlinger(
+          addPathPair(
             map,
             `flere-fagomrader/${treatmentPair.slugNb}`,
             `${enMarketing}/${treatmentPair.slugEn}`,

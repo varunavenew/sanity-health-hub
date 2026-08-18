@@ -5,9 +5,9 @@ import {
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
-import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
+import { fertilitetTreatmentSlugCandidates, resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import { gynekologiTreatmentSlugCandidates } from "@/lib/sanity/gynekologi-slug-aliases";
-import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
+import { graviditetTreatmentSlugCandidates } from "@/lib/sanity/graviditet-slug-aliases";
 import { urologiTreatmentSlugCandidates } from "@/lib/sanity/urologi-slug-aliases";
 import { ortopediTreatmentSlugCandidates } from "@/lib/sanity/ortopedi-slug-aliases";
 import { flereFagomraderTreatmentSlugCandidates } from "@/lib/sanity/flere-fagomrader-slug-aliases";
@@ -456,13 +456,11 @@ export async function fetchTreatmentData(
           ? ortopediTreatmentSlugCandidates(treatmentSlug)
           : categoryKey === "gynekologi"
             ? gynekologiTreatmentSlugCandidates(treatmentSlug)
-            : [
-                categoryKey === "fertilitet"
-                  ? resolveFertilitetTreatmentSlug(treatmentSlug)
-                  : categoryKey === "graviditet"
-                    ? resolveGraviditetTreatmentSlug(treatmentSlug)
-                    : treatmentSlug,
-              ];
+            : categoryKey === "fertilitet"
+              ? fertilitetTreatmentSlugCandidates(treatmentSlug)
+              : categoryKey === "graviditet"
+                ? graviditetTreatmentSlugCandidates(treatmentSlug)
+                : [treatmentSlug];
 
   let raw: Record<string, unknown> | null = null;
   let resolvedSlug = slugCandidates[0] || treatmentSlug;

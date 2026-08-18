@@ -23,10 +23,19 @@ export const GRAVIDITET_SLUG_ALIASES: Record<string, string> = {
    * (Previously aliased to `graviditet`, which broke matching.)
    */
   graviditetsoppfolging: "svangerskapsoppfolging",
+  ultrasound: "ultralyd",
+  "pregnancy-follow-up": "svangerskapsoppfolging",
 };
 
 export function resolveGraviditetTreatmentSlug(urlSlug: string): string {
   const trimmed = urlSlug.trim();
   if (!trimmed) return trimmed;
   return GRAVIDITET_SLUG_ALIASES[trimmed] ?? trimmed;
+}
+
+export function graviditetTreatmentSlugCandidates(urlSlug: string): string[] {
+  const trimmed = urlSlug.trim();
+  if (!trimmed) return [];
+  const resolved = resolveGraviditetTreatmentSlug(trimmed);
+  return [...new Set([trimmed, resolved].filter(Boolean))];
 }

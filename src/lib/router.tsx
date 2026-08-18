@@ -96,7 +96,7 @@ export function useRouteSlug(): string {
   return parts[parts.length - 1] ?? "";
 }
 
-/** Treatment slug from `/behandlinger/:category/:treatment` (legacy `subId` or CMS `segments`). */
+/** Treatment slug from the last URL segment (legacy `/behandlinger/…` still parsed). */
 export function useTreatmentSlug(): string {
   const params = useParams<{ subId?: string; segments?: string | string[] }>();
   const pathname = usePathname() || "/";

@@ -26,6 +26,15 @@ export const UROLOGI_SLUG_ALIASES: Record<string, string> = {
    */
   infertilitet: "fertilitet-infertilitet",
   "fertilitet-infertilitet": "infertilitet",
+  "bladder-and-urinary-tract": "blaere",
+  foreskin: "forhud",
+  "7-56-male-infertility-disorders": "infertilitet",
+  "male-infertility": "infertilitet",
+  refertilization: "refertilisering",
+  "robot-assisted-surgery": "robotkirurgi",
+  sterilization: "sterilisering",
+  sterilize: "sterilisering",
+  "testicles-and-scrotum": "testikler",
 };
 
 export function resolveUrologiTreatmentSlug(urlSlug: string): string {

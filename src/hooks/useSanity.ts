@@ -90,15 +90,21 @@ import {
   parseSpecialistProfileUi,
   type SpecialistProfileUi,
 } from "@/lib/sanity/specialist-profile-ui";
+import { coercePath } from "@/lib/navigation/coerce-path";
 import {
   behandlingerCategorySegment,
-  categoryLandingPath,
+  normalizeCategoryRouteKey,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
 import {
   orderTjenesterCategories,
   orderTjenesterSubcategories,
+  isTjenesterNavTreatmentSlug,
 } from "@/lib/navigation/tjenester-nav-order";
+import {
+  englishCategoryNavLabel,
+  englishTreatmentNavLabel,
+} from "@/lib/navigation/tjenester-nav-labels";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -1284,7 +1290,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v3"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v5"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1313,11 +1319,26 @@ export const useServiceCategoriesFromSanity = () => {
 
       const mappedCategories = sortedCategories
         .map((cat) => {
-          const categoryId =
+          const rawCategoryId =
             typeof cat.categoryId === "string" ? cat.categoryId.trim() : "";
-          const label =
+          const categoryId =
+            normalizeCategoryRouteKey(rawCategoryId) || rawCategoryId;
+          const categorySlug =
+            (typeof cat.slug === "string" && cat.slug.trim()) ||
+            behandlingerCategorySegment(categoryId, lang);
+          const cmsLabel =
             textForSort(cat.title, lang) || categoryId || cat.slug || "";
+          const label =
+            lang === "en"
+              ? englishCategoryNavLabel(categoryId, cmsLabel)
+              : cmsLabel;
           if (!categoryId || !label) return null;
+          if (
+            categoryId === "new-category" ||
+            label.toLowerCase() === "new category"
+          ) {
+            return null;
+          }
 
           // Drop null join slots + draft treatments before sort/map (never crash).
           const explicitTreatments = (cat.treatments || []).filter(
@@ -1362,27 +1383,40 @@ export const useServiceCategoriesFromSanity = () => {
             (t: any) => t._createdAt
           )
             .map((t: any) => {
-              const slug = typeof t.slug === "string" ? t.slug.trim() : "";
+              const slugLocalized =
+                typeof t.slug === "string" ? t.slug.trim() : "";
+              const slugNo =
+                typeof t.slugNo === "string" ? t.slugNo.trim() : "";
+              const navId = slugNo || slugLocalized;
+              const pathSlug = slugLocalized || slugNo;
+              const cmsTreatmentLabel =
+                textForSort(t.title, lang) || pathSlug || "";
               const treatmentLabel =
-                textForSort(t.title, lang) || slug || "";
-              if (!slug || !treatmentLabel) return null;
-              if (t.pageRole === "team") return null;
-              if (slug === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
+                lang === "en"
+                  ? englishTreatmentNavLabel(categoryId, navId, cmsTreatmentLabel)
+                  : cmsTreatmentLabel;
+              if (!navId || !pathSlug || !treatmentLabel) return null;
+              if (
+                t.pageRole === "team" &&
+                !isTjenesterNavTreatmentSlug(categoryId, navId)
+              ) {
+                return null;
+              }
+              if (slugLocalized === "new-treatment" || slugNo === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
                 return null;
               }
               return {
-                id: slug,
+                id: navId,
                 label: treatmentLabel,
-                path: `/${behandlingerCategorySegment(
-                  categoryId,
-                  lang,
-                )}/${slug}`,
+                path: `/${categorySlug}/${pathSlug}`,
                 items: sortByLabel(t.subItems || [], (item: any) => item.label)
                   .map((item: any) => ({
                     label:
                       typeof item.label === "string" ? item.label.trim() : "",
                     anchor: item.anchor || undefined,
-                    path: item.path || undefined,
+                    path: item.path
+                      ? coercePath(item.path, lang) || undefined
+                      : undefined,
                   }))
                   .filter((item) => item.label.length > 0),
               };
@@ -1396,7 +1430,7 @@ export const useServiceCategoriesFromSanity = () => {
           return {
             id: categoryId,
             label,
-            path: categoryLandingPath(categoryId, lang),
+            path: `/${categorySlug}`,
             subcategories,
           };
         })

@@ -5,6 +5,7 @@ import {
   normalizeCategoryFilterKey,
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
+import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
 function firstHeroParagraph(text: string): string {
@@ -60,10 +61,11 @@ export function mapTreatmentToSubTreatmentContent(
   const { categoryId, treatmentSlug } = options;
   const isEn = options.lang === "en";
   const categoryKey = normalizeCategoryRouteKey(categoryId) || categoryId;
-  const parentPath =
+  const parentPath = stripBehandlingerPrefix(
     treatment.parentSlug?.trim()
       ? `/${treatment.parentSlug.trim()}`
-      : categoryLandingPath(categoryKey, options.lang);
+      : categoryLandingPath(categoryKey, options.lang),
+  );
 
   const canonical = treatmentSlug ? `${parentPath}/${treatmentSlug}` : parentPath;
   const parentName = treatment.parentCategory?.trim() || "";
@@ -77,7 +79,7 @@ export function mapTreatmentToSubTreatmentContent(
   const related = (treatment.related ?? []).map((r) => ({
     title: r.title,
     desc: r.desc || "",
-    href: r.path,
+    href: stripBehandlingerPrefix(r.path || ""),
     image: r.image,
     imageAlt: r.imageAlt,
   }));

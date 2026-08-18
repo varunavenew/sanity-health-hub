@@ -27,10 +27,27 @@ export const FERTILITET_SLUG_ALIASES: Record<string, string> = {
    */
   "fertilitet-infertilitet": "infertilitet",
   infertilitet: "fertilitet-infertilitet",
+  "cannot-achieve-a-pregnancy": "infertilitet",
+  "assisted-reproduction": "assistert-befruktning",
+  "egg-freezing": "eggfrys",
+  "donor-treatment": "donorbehandling",
+  "diagnostic-hysteroscopy": "hysteroskopi",
+  "semen-analysis": "saedanalyse",
+  "fertility-investigation-and-assessment": "fertilitetsutredning",
+  "fertility-workup": "fertilitetsutredning",
+  "assisted-reproduction-for-couples-and-individuals":
+    "assistert-befruktning-for-par-og-single",
 };
 
 export function resolveFertilitetTreatmentSlug(urlSlug: string): string {
   const trimmed = urlSlug.trim();
   if (!trimmed) return trimmed;
   return FERTILITET_SLUG_ALIASES[trimmed] ?? trimmed;
+}
+
+export function fertilitetTreatmentSlugCandidates(urlSlug: string): string[] {
+  const trimmed = urlSlug.trim();
+  if (!trimmed) return [];
+  const resolved = resolveFertilitetTreatmentSlug(trimmed);
+  return [...new Set([trimmed, resolved].filter(Boolean))];
 }

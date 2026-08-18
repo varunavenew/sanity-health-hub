@@ -10,8 +10,10 @@ export const FLERE_FAGOMRADER_CATEGORY_ID = "flere-fagomrader";
 const SLUG_TO_CATEGORY_ID: Record<string, string> = {
   fertility: "fertilitet",
   gynecology: "gynekologi",
+  gynaecology: "gynekologi",
   urology: "urologi",
   orthopedics: "ortopedi",
+  orthopedy: "ortopedi",
   pregnancy: "graviditet",
   "flere-fagomrader": "annet",
   ovrige: "annet",
@@ -21,14 +23,17 @@ const SLUG_TO_CATEGORY_ID: Record<string, string> = {
 const CATEGORY_ROUTE_ALIASES: Record<string, string> = {
   fertility: "fertilitet",
   gynecology: "gynekologi",
+  gynaecology: "gynekologi",
   urology: "urologi",
   orthopedics: "ortopedi",
+  orthopedy: "ortopedi",
   pregnancy: "graviditet",
   "flere-fagomrader": FLERE_FAGOMRADER_CATEGORY_ID,
   ovrige: FLERE_FAGOMRADER_CATEGORY_ID,
   annet: FLERE_FAGOMRADER_CATEGORY_ID,
   other: FLERE_FAGOMRADER_CATEGORY_ID,
   "more-specialties": FLERE_FAGOMRADER_CATEGORY_ID,
+  "more-services": FLERE_FAGOMRADER_CATEGORY_ID,
 };
 
 /** Normalize slug or categoryId to the key used by filters and booking. */
@@ -119,8 +124,8 @@ export function categoryLandingPath(
 }
 
 /**
- * Treatment-category URL segment used under `/behandlinger/<segment>/...`.
- * (Same mapping as `categoryLandingPath`, but returns the raw segment without the leading slash.)
+ * Treatment-category URL segment (locale-aware Sanity / marketing slug).
+ * Public routes are `/{segment}/...` — never `/behandlinger/{segment}/...`.
  */
 export function behandlingerCategorySegment(
   categoryId: string,

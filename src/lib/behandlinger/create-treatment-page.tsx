@@ -46,7 +46,7 @@ export function createBehandlingerTreatmentPage(
       redirect(
         withLocalePath(
           appLocale,
-          `/behandlinger/${categorySlug}/${initialTreatment.canonicalSlug}`,
+          `/${categorySlug}/${initialTreatment.canonicalSlug}`,
         ),
       );
     }

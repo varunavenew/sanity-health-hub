@@ -16,7 +16,13 @@ import {
   slugForLocale,
   slugPairFromDoc,
 } from "@/lib/routing/cms-route-types";
-import { categoryRouteSegmentMatches, categorySlugForFetch, behandlingerCategorySegment } from "@/lib/sanity/category-keys";
+import { categoryRouteSegmentMatches, categorySlugForFetch, behandlingerCategorySegment, FLERE_FAGOMRADER_CATEGORY_ID } from "@/lib/sanity/category-keys";
+import { fertilitetTreatmentSlugCandidates } from "@/lib/sanity/fertilitet-slug-aliases";
+import { gynekologiTreatmentSlugCandidates } from "@/lib/sanity/gynekologi-slug-aliases";
+import { graviditetTreatmentSlugCandidates } from "@/lib/sanity/graviditet-slug-aliases";
+import { urologiTreatmentSlugCandidates } from "@/lib/sanity/urologi-slug-aliases";
+import { ortopediTreatmentSlugCandidates } from "@/lib/sanity/ortopedi-slug-aliases";
+import { flereFagomraderTreatmentSlugCandidates } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 
 export async function fetchThemeLocalizedPaths(
   urlSlug: string,
@@ -76,16 +82,32 @@ export async function pathsForCategorySlug(categorySlug: string): Promise<{ nbPa
 }
 
 function treatmentSlugMatches(
-  row: { slugNb?: string; slugEn?: string },
+  row: { slugNb?: string; slugEn?: string; categoryId?: string },
   treatmentSlug: string,
   lang: "no" | "en",
 ): boolean {
   const pair = slugPairFromDoc(row);
   if (!pair) return false;
-  return (
-    slugForLocale(pair, lang) === treatmentSlug ||
-    pair.slugNb === treatmentSlug ||
-    pair.slugEn === treatmentSlug
+  const categoryId = row.categoryId;
+  const candidates =
+    categoryId === "fertilitet"
+      ? fertilitetTreatmentSlugCandidates(treatmentSlug)
+      : categoryId === "gynekologi"
+        ? gynekologiTreatmentSlugCandidates(treatmentSlug)
+        : categoryId === "graviditet"
+          ? graviditetTreatmentSlugCandidates(treatmentSlug)
+          : categoryId === "urologi"
+            ? urologiTreatmentSlugCandidates(treatmentSlug)
+            : categoryId === "ortopedi"
+              ? ortopediTreatmentSlugCandidates(treatmentSlug)
+              : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+                ? flereFagomraderTreatmentSlugCandidates(treatmentSlug)
+                : [treatmentSlug];
+  return candidates.some(
+    (candidate) =>
+      slugForLocale(pair, lang) === candidate ||
+      pair.slugNb === candidate ||
+      pair.slugEn === candidate,
   );
 }
 
@@ -148,19 +170,18 @@ export async function pathsForTreatment(
   const cPair = slugPairFromDoc(resolvedCat);
 
   if (tPair && cPair) {
-    const categoryId = resolvedCat?.categoryId || normalizedCategory;
-    const nbCat = behandlingerCategorySegment(categoryId, "no") || cPair.slugNb;
-    const enCat = behandlingerCategorySegment(categoryId, "en") || cPair.slugEn;
     return {
-      nbPath: `/no/${nbCat}/${tPair.slugNb}`,
-      enPath: `/en/${enCat}/${tPair.slugEn}`,
+      nbPath: `/no/${cPair.slugNb}/${tPair.slugNb}`,
+      enPath: `/en/${cPair.slugEn}/${tPair.slugEn}`,
     };
   }
 
   const nbCat =
+    cat?.slugNb ||
     (cat?.categoryId && behandlingerCategorySegment(cat.categoryId, "no")) ||
     categorySlug;
   const enCat =
+    cat?.slugEn ||
     (cat?.categoryId && behandlingerCategorySegment(cat.categoryId, "en")) ||
     categorySlug;
   return {

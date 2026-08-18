@@ -179,7 +179,7 @@ function resolveSubcategoryLearnMorePath(
         ),
       ) || bookingCategorySlug;
     // Prefer parent pricing category for known top-level booking slugs so a
-    // mis-linked treatment.category cannot break Fertilitet → /behandlinger/fertilitet/…
+    // mis-linked treatment.category cannot break Fertilitet → /fertilitet/…
     const segmentSource =
       bookingCategorySlug && bookingCategorySlug !== "flere-fagomrader"
         ? normalizeCategoryRouteKey(bookingCategorySlug) || routeKey
@@ -188,14 +188,14 @@ function resolveSubcategoryLearnMorePath(
       segmentSource === "annet" ? FLERE_FAGOMRADER_CATEGORY_ID : segmentSource,
       locale,
     );
-    return `/behandlinger/${segment}/${treatmentSlug}`;
+    return `/${segment}/${treatmentSlug}`;
   }
 
   if (sub.linkToCategoryPage) {
     const key =
       normalizeCategoryRouteKey(bookingCategorySlug) || bookingCategorySlug;
     if (key === FLERE_FAGOMRADER_CATEGORY_ID || key === "annet") {
-      return `/behandlinger/${behandlingerCategorySegment(FLERE_FAGOMRADER_CATEGORY_ID, locale)}`;
+      return `/${behandlingerCategorySegment(FLERE_FAGOMRADER_CATEGORY_ID, locale)}`;
     }
     return categoryLandingPath(key, locale);
   }

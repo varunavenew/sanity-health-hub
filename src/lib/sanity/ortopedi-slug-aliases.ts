@@ -12,8 +12,11 @@ export const ORTOPEDI_NAV_TREATMENT_SLUGS = [
 
 /** URL slug → Sanity treatment document slug for ortopedi sub-pages. */
 export const ORTOPEDI_SLUG_ALIASES: Record<string, string> = {
+  /** English / demo short path ↔ production long slug. */
   "fot-ankel": "fot-og-ankel",
   "fot-og-ankel": "fot-ankel",
+  "hand-albue": "hand-og-albue",
+  "hand-og-albue": "hand-albue",
 };
 
 export function resolveOrtopediTreatmentSlug(urlSlug: string): string {

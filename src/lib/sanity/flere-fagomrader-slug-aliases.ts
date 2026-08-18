@@ -15,6 +15,16 @@ export const FLERE_FAGOMRADER_SLUG_ALIASES: Record<string, string> = {
   /** Nested gastro path segments used as bare treatment slugs. */
   brokkbehandling: "brokkoperasjon",
   endetarmsplager: "hemorroider",
+  physician: "hudlege",
+  "skin-health": "hudhelse",
+  dietitian: "ernaeringsfysiolog",
+  "digestive-system-surg-procedure": "gastrokirurgi",
+  "med-osteopathic": "osteopati",
+  "obesity-surgery": "overvektskirurgi",
+  "procedure-reconstructive-surg": "plastikkirurgi",
+  psychol: "psykologi",
+  rheumatol: "revmatologi",
+  sexol: "sexologi",
 };
 
 export function resolveFlereFagomraderTreatmentSlug(urlSlug: string): string {

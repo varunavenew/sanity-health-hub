@@ -18,9 +18,6 @@ export const GYNEKOLOGI_NAV_TREATMENT_SLUGS = [
   "hysteroskopi",
   "labiaplastikk",
   "pmos",
-  "pms-pmdd",
-  "robotkirurgi",
-  "vulvalidelser",
 ] as const;
 
 /** URL slug → Sanity treatment document slug for gynekologi sub-pages. */
@@ -37,6 +34,23 @@ export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
    * (vaginal tørrhet is a topic on that treatment).
    */
   "vaginal-torrhet": "vulvalidelser",
+  pcos: "pmos",
+  pmos: "pcos",
+  "multidisciplinary-team": "tverrfaglig",
+  "gynaecological-examination": "undersokelse",
+  "gynecological-examination": "undersokelse",
+  "urinary-incontinence": "urinlekkasje",
+  menopause: "overgangsalder",
+  "vaginal-prolapse": "vaginale-fremfall",
+  urogynaecology: "urogynekologi",
+  urogynecology: "urogynekologi",
+  "bleeding-disorders": "blodningsforstyrrelser",
+  "cell-changes": "celleforandringer",
+  "ovarian-cysts": "cyster",
+  hysterectomy: "fjerne-livmor",
+  "gynaecological-surgery": "kirurgi",
+  "gynecological-surgery": "kirurgi",
+  labiaplasty: "labiaplastikk",
 };
 
 export function resolveGynekologiTreatmentSlug(urlSlug: string): string {
