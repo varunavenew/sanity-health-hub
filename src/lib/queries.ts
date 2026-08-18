@@ -1004,7 +1004,8 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage" && ${publishedOnly}]
     ${i18nString("successTitle")},
     ${i18nText("successDescription")},
     ${i18nString("errorTitle")},
-    ${i18nText("errorDescription")}
+    ${i18nText("errorDescription")},
+    ${i18nText("sensitiveDataNote")}
   },
   ${CONTACT_REQUEST_DIALOG_I18N_FIELDS.join(",\n  ")},
   ${PAGE_SECTIONS_GROQ},
@@ -1191,7 +1192,7 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}]
     categoryKeys,
     badges[]{
       badgeKey,
-      label,
+      "label": coalesce(label[language == $lang][0].value, label[_key == $lang][0].value, label[language == "no"][0].value, label[0].value),
       sortOrder,
       metodikaLocationId,
       "clinicId": coalesce(

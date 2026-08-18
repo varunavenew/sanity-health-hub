@@ -295,6 +295,13 @@ export default {
           title: 'Error message — body',
           type: 'internationalizedArrayText',
         },
+        {
+          name: 'sensitiveDataNote',
+          title: 'Sensitive data notice',
+          description:
+            'Shown below the message field (e.g. «Ikke legg inn personsensitiv informasjon i kontaktskjema»).',
+          type: 'internationalizedArrayText',
+        },
       ],
     },
     // Legacy phone/email/address kept hidden for backward compatibility.

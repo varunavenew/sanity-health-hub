@@ -5,12 +5,31 @@ import {
   pickExistingWebAccountIds,
 } from "@/lib/booking/extractEntityId";
 import {
-  formatPatientNumberForLookup,
   formatPersonalNumberForCreate,
+  patientNumberLookupCandidates,
 } from "@/lib/booking/personalNumber";
+import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
 import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 import type { CreateAppointmentBody } from "@/app/api/booking/appointments/route";
 import type { CreateWebAccountBody } from "@/app/api/booking/webaccounts/route";
+
+async function lookupExistingWebAccount(
+  apiKey: string,
+  personalnumber: string,
+  email: string,
+): Promise<{ webAccountId: number; patientId: number } | null> {
+  for (const patientnumber of patientNumberLookupCandidates(personalnumber)) {
+    const lookupUrl = `${BOOKING_URLS.webaccounts}?patientnumber=${encodeURIComponent(patientnumber)}`;
+    try {
+      const existingPayload = await fetchBookingResource(lookupUrl, apiKey);
+      const existing = pickExistingWebAccountIds(existingPayload, { email });
+      if (existing) return existing;
+    } catch {
+      // Try next candidate / fall through to create.
+    }
+  }
+  return null;
+}
 
 async function resolveWebAccountIds(
   apiKey: string,
@@ -20,43 +39,26 @@ async function resolveWebAccountIds(
     email: string;
     mobile: string;
     personalnumber: string;
-    newsletter: boolean;
   },
 ): Promise<{ webAccountId: number; patientId: number; created: boolean }> {
-  const patientnumber = formatPatientNumberForLookup(customer.personalnumber);
-  if (patientnumber) {
-    const lookupUrl = `${BOOKING_URLS.webaccounts}?patientnumber=${encodeURIComponent(patientnumber)}`;
-    try {
-      const existingPayload = await fetchBookingResource(lookupUrl, apiKey);
-      const existing = pickExistingWebAccountIds(existingPayload, {
-        email: customer.email,
-      });
-      if (existing) {
-        return { ...existing, created: false };
-      }
-    } catch {
-      // Lookup failed — fall through to create.
-    }
+  const existing = await lookupExistingWebAccount(
+    apiKey,
+    customer.personalnumber,
+    customer.email,
+  );
+  if (existing) {
+    return { ...existing, created: false };
   }
 
-  const patientnumberForCreate =
-    formatPatientNumberForLookup(customer.personalnumber) || undefined;
-
-  const webPayload = await postBookingResource(BOOKING_URLS.webaccounts, apiKey, {
-    firstname: customer.firstname,
-    lastname: customer.lastname,
-    email: customer.email,
-    mobile: customer.mobile,
-    personalnumber: customer.personalnumber,
-    ...(patientnumberForCreate ? { patientnumber: patientnumberForCreate } : {}),
-    newsletter: customer.newsletter,
-    username: " ",
-    password: " ",
-  });
+  const webPayload = await postBookingResource(
+    BOOKING_URLS.webaccounts,
+    apiKey,
+    buildWebAccountCreateBody(customer),
+  );
 
   let created = extractWebAccountCreatedIds(webPayload);
 
-  // Metodika create often returns only `{ id }` — re-fetch for patient-id / patientnumber.
+  // Metodika create often returns only `{ id }` — re-fetch for patient-id.
   if (created?.webAccountId) {
     try {
       const detailUrl = `${BOOKING_URLS.webaccounts}?id=${encodeURIComponent(String(created.webAccountId))}`;
@@ -103,7 +105,8 @@ export async function POST(request: Request) {
   const lastname = customer?.lastname?.trim();
   const mobile = customer?.mobile?.trim();
   const email = customer?.email?.trim() || "";
-  const personalnumber = formatPersonalNumberForCreate(customer?.personalnumber ?? "");
+  const personalnumberRaw = customer?.personalnumber ?? "";
+  const personalnumber = formatPersonalNumberForCreate(personalnumberRaw);
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
@@ -132,8 +135,8 @@ export async function POST(request: Request) {
       lastname,
       email,
       mobile,
-      personalnumber,
-      newsletter: Boolean(customer.newsletter),
+      // Prefer raw digits so patientnumber formatter always sees 11 digits
+      personalnumber: personalnumberRaw.replace(/\D/g, "") || personalnumber,
     });
 
     const appointmentRequest = {

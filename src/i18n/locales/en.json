@@ -252,7 +252,8 @@
       "subjectPlaceholder": "What is your inquiry about?",
       "message": "Message",
       "messagePlaceholder": "Describe your inquiry...",
-      "submit": "Send message"
+      "submit": "Send message",
+      "sensitiveDataNote": "Do not include sensitive personal information in the contact form."
     },
     "toast": {
       "title": "Message sent!",
