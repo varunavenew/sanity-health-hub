@@ -652,6 +652,7 @@ export type ContactFormCopy = {
   successDescription: string;
   errorTitle: string;
   errorDescription: string;
+  sensitiveDataNote: string;
 };
 
 function mapContactForm(raw: Record<string, unknown> | null | undefined): ContactFormCopy | undefined {
@@ -677,6 +678,7 @@ function mapContactForm(raw: Record<string, unknown> | null | undefined): Contac
     successDescription: str(raw.successDescription),
     errorTitle: str(raw.errorTitle),
     errorDescription: str(raw.errorDescription),
+    sensitiveDataNote: str(raw.sensitiveDataNote),
   };
   const hasAny = Object.values(mapped).some((v) => v.length > 0);
   return hasAny ? mapped : undefined;

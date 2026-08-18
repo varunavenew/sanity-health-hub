@@ -358,6 +358,15 @@ export default {
       fieldset: 'pcHero',
     },
     {
+      name: 'heroPriceLabel',
+      title: 'Price label (above price)',
+      type: 'internationalizedArrayString',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      description:
+        'Optional short label shown above the price line in the hero (e.g. «Fertilitetsutredning»). Leave empty to show only the price.',
+    },
+    {
       name: 'hideSeePriser',
       title: 'Hide See prices link',
       type: 'boolean',

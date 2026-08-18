@@ -252,7 +252,8 @@
       "subjectPlaceholder": "Hva gjelder henvendelsen?",
       "message": "Melding",
       "messagePlaceholder": "Beskriv din henvendelse...",
-      "submit": "Send melding"
+      "submit": "Send melding",
+      "sensitiveDataNote": "Ikke legg inn personsensitiv informasjon i kontaktskjema."
     },
     "toast": {
       "title": "Melding sendt!",

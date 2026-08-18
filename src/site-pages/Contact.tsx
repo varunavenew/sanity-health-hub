@@ -309,6 +309,9 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                   className="rounded-sm border-brand-dark/20 bg-white"
                 />
               </div>
+              <p className="text-sm text-brand-dark/60 font-light">
+                {pick(formCopy?.sensitiveDataNote, t("contact.form.sensitiveDataNote"))}
+              </p>
               <Button
                 type="submit"
                 size="lg"

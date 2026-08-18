@@ -139,7 +139,11 @@ export function step1ClinicDisplayTagsForCategory(
   }
 
   const group = findCategoryBadgeGroup(config, categoryKeys);
-  if (!group) return [];
+  if (!group) {
+    // CMS config exists but this category has no badge group — keep auto badges
+    // so clinics don't flash on load and then disappear.
+    return sanityClinicDisplayTagsForCategory(sanityClinics, categoryId, categoryApiSlug);
+  }
 
   return group.badges.map((badge) => toDisplayTag(badge, sanityClinics));
 }
