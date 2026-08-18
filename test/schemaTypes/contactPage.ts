@@ -35,7 +35,7 @@ const MODAL_PRIMARY_FIELDS: Array<{
   {name: 'categoryOtherLabel', title: 'Specialty — other / not sure'},
   {name: 'timingLabel', title: 'When to contact — heading'},
   {name: 'timingAsapLabel', title: 'Option — as soon as possible'},
-  {name: 'timingSpecificLabel', title: 'Option — select day and time'},
+  {name: 'timingSpecificLabel', title: 'Option — select day'},
   {name: 'dayLabel', title: 'Day — label'},
   {name: 'timeOfDayLabel', title: 'Time slot — label'},
   {name: 'timeOfDayPlaceholder', title: 'Time slot — placeholder'},

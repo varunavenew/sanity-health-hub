@@ -83,7 +83,7 @@ const DEFAULT_MODAL_COPY = {
     'When would you like to be contacted?',
   ),
   timingAsapLabel: i18nString('Snarest mulig', 'As soon as possible'),
-  timingSpecificLabel: i18nString('Velg dag og tid', 'Choose day and time'),
+  timingSpecificLabel: i18nString('Velg dag', 'Choose day only'),
   dayLabel: i18nString('Dag', 'Day'),
   timeOfDayLabel: i18nString('Tidspunkt', 'Time of day'),
   timeOfDayPlaceholder: i18nString('Velg tidspunkt', 'Choose time'),
