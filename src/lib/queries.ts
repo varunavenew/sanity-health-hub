@@ -274,10 +274,14 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
       ${i18nString("subheading")},
       ${i18nString("ctaText")},
       ${i18nString("ctaLink")},
+      desktopMediaType,
+      mobileMediaType,
       "media": media${MEDIA_OBJECT_PROJECTION},
       "image": image.asset->url,
       "mobileImage": mobileImage.asset->url,
-      "videoUrl": videoFile.asset->url
+      "desktopVideoUrl": desktopVideo.asset->url,
+      "mobileVideoUrl": mobileVideo.asset->url,
+      "videoUrl": coalesce(desktopVideo.asset->url, videoFile.asset->url)
     }
   },
   "serviceCategories": serviceCategories[]->{

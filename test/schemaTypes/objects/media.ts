@@ -62,6 +62,11 @@ function hasImage(parent?: MediaParent): boolean {
   return Boolean(parent?.image?.asset?._ref)
 }
 
+/** Homepage hero slides use sibling Desktop/Mobile Video fields instead of these. */
+function isHomepageDocument(document?: {_type?: string}): boolean {
+  return document?._type === 'homepage'
+}
+
 export const mediaObject = {
   name: 'media',
   title: 'Media',
@@ -81,6 +86,7 @@ export const mediaObject = {
       },
       initialValue: 'image',
       validation: (Rule: any) => Rule.required(),
+      hidden: ({document}: {document?: {_type?: string}}) => isHomepageDocument(document),
     },
     {
       name: 'image',
@@ -91,9 +97,16 @@ export const mediaObject = {
         'general',
         'Shown when Media Type is Image. Match dimensions to the parent field (hero, specialist, clinic, etc.).',
       ),
-      hidden: ({parent}: {parent?: MediaParent}) => isVideo(parent),
+      hidden: ({
+        parent,
+        document,
+      }: {
+        parent?: MediaParent
+        document?: {_type?: string}
+      }) => (isHomepageDocument(document) ? false : isVideo(parent)),
       validation: composeImageValidation('general', (Rule: any) =>
-        Rule.custom((value: unknown, context: {parent?: MediaParent}) => {
+        Rule.custom((value: unknown, context: {parent?: MediaParent; document?: {_type?: string}}) => {
+          if (isHomepageDocument(context.document)) return true
           if (!isImage(context.parent)) return true
           if ((value as {asset?: {_ref?: string}} | undefined)?.asset?._ref) return true
           return 'Image is required when Media Type is Image'
@@ -113,10 +126,16 @@ export const mediaObject = {
       },
       initialValue: 'upload',
       description: 'Choose how this video is provided. Only one source is used on the website.',
-      hidden: ({parent}: {parent?: MediaParent}) => !isVideo(parent),
+      hidden: ({
+        parent,
+        document,
+      }: {
+        parent?: MediaParent
+        document?: {_type?: string}
+      }) => isHomepageDocument(document) || !isVideo(parent),
       validation: (Rule: any) =>
-        Rule.custom((value: string | undefined, context: {parent?: MediaParent}) => {
-          if (!isVideo(context.parent)) return true
+        Rule.custom((value: string | undefined, context: {parent?: MediaParent; document?: {_type?: string}}) => {
+          if (isHomepageDocument(context.document) || !isVideo(context.parent)) return true
           if (value === 'upload' || value === 'url') return true
           return 'Select Uploaded Video or External Video URL'
         }),
@@ -131,10 +150,16 @@ export const mediaObject = {
       description: videoDescription(
         'Stored as a Sanity asset. Prefer external YouTube/Vimeo for longer videos.',
       ),
-      hidden: ({parent}: {parent?: MediaParent}) => !isUploadSource(parent),
+      hidden: ({
+        parent,
+        document,
+      }: {
+        parent?: MediaParent
+        document?: {_type?: string}
+      }) => isHomepageDocument(document) || !isUploadSource(parent),
       validation: (Rule: any) => [
-        Rule.custom((value: unknown, context: {parent?: MediaParent}) => {
-          if (!isUploadSource(context.parent)) return true
+        Rule.custom((value: unknown, context: {parent?: MediaParent; document?: {_type?: string}}) => {
+          if (isHomepageDocument(context.document) || !isUploadSource(context.parent)) return true
           if ((value as {asset?: {_ref?: string}} | undefined)?.asset?._ref) return true
           return 'Upload a video file when Video Source is Uploaded Video'
         }),
@@ -147,11 +172,17 @@ export const mediaObject = {
       type: 'url',
       description:
         'YouTube, Vimeo, or a direct MP4/WebM URL. Store the URL only — never embed HTML.\n\nPrefer external URLs for videos longer than ~30 seconds.',
-      hidden: ({parent}: {parent?: MediaParent}) => !isUrlSource(parent),
+      hidden: ({
+        parent,
+        document,
+      }: {
+        parent?: MediaParent
+        document?: {_type?: string}
+      }) => isHomepageDocument(document) || !isUrlSource(parent),
       validation: (Rule: any) =>
         Rule.uri({allowRelative: false, scheme: ['http', 'https']})
-          .custom((value: string | undefined, context: {parent?: MediaParent}) => {
-            if (!isUrlSource(context.parent)) return true
+          .custom((value: string | undefined, context: {parent?: MediaParent; document?: {_type?: string}}) => {
+            if (isHomepageDocument(context.document) || !isUrlSource(context.parent)) return true
             if (!value?.trim()) return 'Video URL is required when Video Source is External Video URL'
             try {
               const host = new URL(value.trim()).hostname.replace(/^www\./, '')
@@ -174,8 +205,14 @@ export const mediaObject = {
     },
   ],
   validation: (Rule: any) =>
-    Rule.custom((value: MediaParent | undefined) => {
+    Rule.custom((value: MediaParent | undefined, context: {document?: {_type?: string}; parent?: {desktopMediaType?: string}}) => {
       if (!value) return true
+      if (isHomepageDocument(context.document)) {
+        const desktopType = context.parent?.desktopMediaType || value.mediaType || 'image'
+        if (desktopType === 'video') return true
+        if (hasImage(value)) return true
+        return 'Upload an image when Desktop Media Type is Image'
+      }
       if (isImage(value)) {
         if (hasImage(value)) return true
         return 'Image is required when Media Type is Image'

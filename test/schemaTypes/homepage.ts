@@ -18,6 +18,35 @@ import {
   VIDEO_GUIDELINE,
 } from './mediaGuidelines'
 
+type HeroSlideParent = {
+  desktopMediaType?: string
+  mobileMediaType?: string
+  media?: {mediaType?: string}
+  desktopVideo?: unknown
+}
+
+function heroDesktopMediaType(parent?: HeroSlideParent): 'image' | 'video' {
+  if (parent?.desktopMediaType === 'video' || parent?.desktopMediaType === 'image') {
+    return parent.desktopMediaType
+  }
+  return parent?.media?.mediaType === 'video' ? 'video' : 'image'
+}
+
+function heroMobileMediaType(parent?: HeroSlideParent): 'image' | 'video' {
+  if (parent?.mobileMediaType === 'video' || parent?.mobileMediaType === 'image') {
+    return parent.mobileMediaType
+  }
+  return 'image'
+}
+
+const heroMediaTypeOptions = {
+  list: [
+    {title: 'Image', value: 'image'},
+    {title: 'Video', value: 'video'},
+  ],
+  layout: 'radio' as const,
+}
+
 export default {
   name: 'homepage',
   title: 'Home',
@@ -49,26 +78,94 @@ export default {
           of: [
             {
               type: 'object',
+              fieldsets: [
+                {
+                  name: 'desktopMedia',
+                  title: 'Desktop media',
+                  options: {collapsible: false},
+                },
+                {
+                  name: 'mobileMedia',
+                  title: 'Mobile media',
+                  options: {collapsible: false},
+                },
+              ],
               fields: [
                 {
+                  name: 'desktopMediaType',
+                  title: 'Desktop Media Type',
+                  type: 'string',
+                  fieldset: 'desktopMedia',
+                  options: heroMediaTypeOptions,
+                  initialValue: 'image',
+                  description:
+                    'Website uses this choice on desktop, even if both an image and a video are uploaded.',
+                },
+                {
                   name: 'media',
-                  title: 'Media',
+                  title: 'Image',
                   type: 'media',
+                  fieldset: 'desktopMedia',
                   description: mediaDescription(
                     'hero',
-                    'Preferred. Image or Video for this slide.',
+                    'Desktop hero image. Hidden when Desktop Media Type is Video — the file is kept.',
                   ),
+                  hidden: ({parent}: {parent?: HeroSlideParent}) =>
+                    heroDesktopMediaType(parent) === 'video',
+                },
+                {
+                  name: 'desktopVideo',
+                  title: 'Video',
+                  type: 'file',
+                  fieldset: 'desktopMedia',
+                  options: {
+                    accept: VIDEO_GUIDELINE.accept,
+                  },
+                  description: videoDescription(
+                    'Desktop hero video. Hidden when Desktop Media Type is Image — the file is kept.',
+                  ),
+                  hidden: ({parent}: {parent?: HeroSlideParent}) =>
+                    heroDesktopMediaType(parent) !== 'video',
+                  validation: softVideoRules(),
+                },
+                {
+                  name: 'mobileMediaType',
+                  title: 'Mobile Media Type',
+                  type: 'string',
+                  fieldset: 'mobileMedia',
+                  options: heroMediaTypeOptions,
+                  initialValue: 'image',
+                  description:
+                    'Website uses this choice on mobile, even if both an image and a video are uploaded.',
                 },
                 {
                   name: 'mobileImage',
-                  title: 'Mobile Image',
+                  title: 'Image',
                   type: 'image',
+                  fieldset: 'mobileMedia',
                   options: mediaImageOptions('heroMobile'),
                   description: mediaDescription(
                     'heroMobile',
-                    'Optional. Used instead of the main Image on mobile screens. Desktop keeps using Media.',
+                    'Mobile hero image. Hidden when Mobile Media Type is Video — the file is kept.',
                   ),
+                  hidden: ({parent}: {parent?: HeroSlideParent}) =>
+                    heroMobileMediaType(parent) === 'video',
                   validation: softImageRules('heroMobile'),
+                },
+                {
+                  name: 'mobileVideo',
+                  title: 'Video',
+                  type: 'file',
+                  fieldset: 'mobileMedia',
+                  options: {
+                    accept: VIDEO_GUIDELINE.accept,
+                  },
+                  description: videoDescription(
+                    'Mobile hero video. Hidden when Mobile Media Type is Image — the file is kept.',
+                  ),
+                  hidden: ({parent}: {parent?: HeroSlideParent}) =>
+                    heroMobileMediaType(parent) !== 'video',
+                  validation: softVideoRules(),
                 },
                 {
                   name: 'image',
@@ -80,7 +177,7 @@ export default {
                     'Legacy. Prefer Media → Image. Kept until migration is verified; website dual-reads both.',
                   ),
                   validation: softImageRules('hero'),
-                  hidden: ({parent}: {parent?: {media?: unknown}}) => Boolean(parent?.media),
+                  hidden: ({parent}: {parent?: HeroSlideParent}) => Boolean(parent?.media),
                 },
                 {
                   name: 'videoFile',
@@ -90,10 +187,11 @@ export default {
                     accept: VIDEO_GUIDELINE.accept,
                   },
                   description: videoDescription(
-                    'Legacy. Prefer Media → Upload Video. Website dual-reads both until migration is verified.',
+                    'Legacy. Prefer Video or Media → Upload Video. Website dual-reads both until migration is verified.',
                   ),
                   validation: softVideoRules(),
-                  hidden: ({parent}: {parent?: {media?: unknown}}) => Boolean(parent?.media),
+                  hidden: ({parent}: {parent?: HeroSlideParent}) =>
+                    Boolean(parent?.media) || Boolean(parent?.desktopVideo),
                 },
                 { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
                 { name: 'subheading', title: 'Subheading', type: 'internationalizedArrayString' },
@@ -110,14 +208,32 @@ export default {
                 select: {
                   title: 'heading',
                   subtitle: 'subheading',
+                  desktopMediaType: 'desktopMediaType',
+                  mobileMediaType: 'mobileMediaType',
                   mediaImage: 'media.image',
                   legacyImage: 'image',
+                  mobileImage: 'mobileImage',
                 },
-                prepare({ title, subtitle, mediaImage, legacyImage }: any) {
+                prepare({
+                  title,
+                  subtitle,
+                  desktopMediaType,
+                  mobileMediaType,
+                  mediaImage,
+                  legacyImage,
+                  mobileImage,
+                }: any) {
+                  const extras = [
+                    `Desktop ${desktopMediaType === 'video' ? 'video' : 'image'}`,
+                    `Mobile ${mobileMediaType === 'video' ? 'video' : 'image'}`,
+                  ]
+                  const subtitleText = [pickStudioEn(subtitle), ...extras]
+                    .filter(Boolean)
+                    .join(' · ')
                   return {
                     title: pickStudioEn(title),
-                    subtitle: pickStudioEn(subtitle),
-                    media: mediaImage || legacyImage,
+                    subtitle: subtitleText,
+                    media: mediaImage || mobileImage || legacyImage,
                   }
                 },
               },

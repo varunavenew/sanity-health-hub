@@ -17,6 +17,9 @@ interface HeroSlide {
   image?: ImageRef;
   mobileImage?: ImageRef;
   videoUrl?: string;
+  mobileVideoUrl?: string;
+  desktopMediaType?: "image" | "video";
+  mobileMediaType?: "image" | "video";
   media?: ResolvedCmsMedia | null;
   alt: string;
   label: string;
@@ -24,6 +27,116 @@ interface HeroSlide {
   cta: string;
   ctaPath: string;
   objectPosition: string;
+}
+
+function posterUrl(image?: ImageRef): string | undefined {
+  return typeof image === "string"
+    ? optimizeSanityImageUrl(image, { width: 1920 })
+    : undefined;
+}
+
+function HeroSlideVideo({
+  src,
+  poster,
+  objectPosition,
+  className,
+}: {
+  src: string;
+  poster?: string;
+  objectPosition: string;
+  className: string;
+}) {
+  return (
+    <video
+      src={src}
+      poster={poster}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      className={className}
+      style={{ objectPosition }}
+    />
+  );
+}
+
+const mediaClassName =
+  "cm-media cm-media--hero w-full h-full transition-transform duration-700 group-hover:scale-[1.02]";
+
+function HeroSlideBackground({
+  slide,
+  loading,
+}: {
+  slide: HeroSlide;
+  loading: "eager" | "lazy";
+}) {
+  const useMobileVideo =
+    slide.mobileMediaType === "video" && Boolean(slide.mobileVideoUrl);
+  const useMobileImage =
+    slide.mobileMediaType !== "video" && Boolean(slide.mobileImage);
+  const hasMobileLayer = useMobileVideo || useMobileImage;
+  const useDesktopVideo =
+    slide.desktopMediaType === "video" && Boolean(slide.videoUrl);
+
+  const desktop = useDesktopVideo ? (
+    <HeroSlideVideo
+      src={slide.videoUrl!}
+      poster={posterUrl(slide.image)}
+      objectPosition={slide.objectPosition}
+      className={mediaClassName}
+    />
+  ) : slide.media ? (
+    <CmsMedia
+      media={slide.media}
+      alt={slide.alt}
+      variant="hero"
+      objectPosition={slide.objectPosition}
+      className="w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
+      loading={loading}
+      interactive={false}
+    />
+  ) : slide.image ? (
+    <AssetImg
+      src={slide.image}
+      alt={slide.alt}
+      preset="hero"
+      className={mediaClassName}
+      style={{ objectPosition: slide.objectPosition }}
+      loading={loading}
+    />
+  ) : (
+    <div className="w-full h-full bg-brand-dark/20" />
+  );
+
+  return (
+    <>
+      {hasMobileLayer ? (
+        <div className="block md:hidden w-full h-full">
+          {useMobileVideo ? (
+            <HeroSlideVideo
+              src={slide.mobileVideoUrl!}
+              poster={posterUrl(slide.mobileImage) || posterUrl(slide.image)}
+              objectPosition={slide.objectPosition}
+              className={mediaClassName}
+            />
+          ) : (
+            <AssetImg
+              src={slide.mobileImage!}
+              alt={slide.alt}
+              preset="hero"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{ objectPosition: slide.objectPosition }}
+              loading={loading}
+            />
+          )}
+        </div>
+      ) : null}
+      <div className={hasMobileLayer ? "hidden md:block w-full h-full" : "w-full h-full"}>
+        {desktop}
+      </div>
+    </>
+  );
 }
 
 export const HeroBanner = () => {
@@ -34,12 +147,18 @@ export const HeroBanner = () => {
   const [direction, setDirection] = useState(1);
 
   const heroSlides: HeroSlide[] = (homepage?.heroSlides || [])
-    .filter((s: any) => (s?.image || s?.videoUrl || s?.media) && s?.label)
+    .filter(
+      (s: any) =>
+        (s?.image || s?.videoUrl || s?.mobileVideoUrl || s?.media) && s?.label,
+    )
     .map((s: any, i: number) => ({
       id: s.id || `slide-${i}`,
       image: s.image,
       mobileImage: s.mobileImage,
       videoUrl: s.videoUrl,
+      mobileVideoUrl: s.mobileVideoUrl,
+      desktopMediaType: s.desktopMediaType || "image",
+      mobileMediaType: s.mobileMediaType || "image",
       media: s.media,
       alt: s.label || "",
       label: s.label,
@@ -126,57 +245,10 @@ export const HeroBanner = () => {
             if (!dragging.current && slide.ctaPath) navigate(slide.ctaPath);
           }}
         >
-          {slide.mobileImage ? (
-            <AssetImg
-              src={slide.mobileImage}
-              alt={slide.alt}
-              preset="hero"
-              className="block md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
-              loading={current === 0 ? "eager" : "lazy"}
-            />
-          ) : null}
-
-          <div className={slide.mobileImage ? "hidden md:block w-full h-full" : "w-full h-full"}>
-            {slide.media ? (
-              <CmsMedia
-                media={slide.media}
-                alt={slide.alt}
-                variant="hero"
-                objectPosition={slide.objectPosition}
-                className="w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
-                loading={current === 0 ? "eager" : "lazy"}
-                interactive={false}
-              />
-            ) : slide.videoUrl ? (
-              <video
-                src={slide.videoUrl}
-                poster={
-                  typeof slide.image === "string"
-                    ? optimizeSanityImageUrl(slide.image, { width: 1920 })
-                    : undefined
-                }
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="cm-media cm-media--hero w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
-                style={{ objectPosition: slide.objectPosition }}
-              />
-            ) : slide.image ? (
-              <AssetImg
-                src={slide.image}
-                alt={slide.alt}
-                preset="hero"
-                className="cm-media cm-media--hero w-full h-full transition-transform duration-700 group-hover:scale-[1.02]"
-                style={{ objectPosition: slide.objectPosition }}
-                loading={current === 0 ? "eager" : "lazy"}
-              />
-            ) : (
-              <div className="w-full h-full bg-brand-dark/20" />
-            )}
-          </div>
+          <HeroSlideBackground
+            slide={slide}
+            loading={current === 0 ? "eager" : "lazy"}
+          />
 
           {/* Overlays for readability and style */}
           {/* A bottom-to-top gradient overlay to ensure contrast for indicators and text at the bottom */}
