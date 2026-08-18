@@ -1,9 +1,13 @@
-import type { Specialist } from "@/lib/sanity/specialist-types";
 import {
   buildBookingUrl,
   categoryNumericIdToPageId,
+  categoryPageIdToNumericId,
   slugifyNo,
 } from "@/lib/bookingLinks";
+
+/** Metodika wbactivitygroup for «Fostermedisiner - graviditet». */
+const FOSTERMEDISIN_BOOKING_GROUP_ID =
+  categoryPageIdToNumericId.graviditet ?? 10;
 
 export function resolveSpecialistBookingCategoryIds(specialist: {
   bookingCategoryIds?: number[];
@@ -12,7 +16,39 @@ export function resolveSpecialistBookingCategoryIds(specialist: {
     (id) => typeof id === "number" && Number.isFinite(id) && id > 0,
   );
   if (!fromSanity || fromSanity.length === 0) return [];
-  return [...new Set(fromSanity)].sort((a, b) => a - b);
+  return [...new Set(fromSanity)]
+    .filter((id) => id !== FOSTERMEDISIN_BOOKING_GROUP_ID)
+    .sort((a, b) => a - b);
+}
+
+export function isFetalMedicineBookingCategory(category: {
+  id?: string;
+  clinicServiceId?: string;
+}): boolean {
+  const id = (category.id || "").trim().toLowerCase();
+  const clinicId = (category.clinicServiceId || "").trim().toLowerCase();
+  return (
+    clinicId === "fostermedisiner" ||
+    id === "fostermedisiner" ||
+    id === "fostermedisiner-graviditet"
+  );
+}
+
+/** Never show «Fostermedisiner - graviditet» on specialist profile booking. */
+export function filterSpecialistBookingCategories<
+  T extends { apiGroupId: number; id?: string; clinicServiceId?: string },
+>(
+  specialist: {
+    bookingCategoryIds?: number[];
+  },
+  categories: T[],
+): T[] {
+  const allowedIds = new Set(resolveSpecialistBookingCategoryIds(specialist));
+  return categories.filter((category) => {
+    if (!allowedIds.has(category.apiGroupId)) return false;
+    if (isFetalMedicineBookingCategory(category)) return false;
+    return true;
+  });
 }
 
 export function bookingUrlForSpecialistContext(params: {

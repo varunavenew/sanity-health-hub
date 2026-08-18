@@ -5,7 +5,7 @@ import {
   pickExistingWebAccountIds,
 } from "@/lib/booking/extractEntityId";
 import {
-  formatPersonalNumberForCreate,
+  formatPatientNumberForLookup,
   patientNumberLookupCandidates,
 } from "@/lib/booking/personalNumber";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
@@ -106,11 +106,11 @@ export async function POST(request: Request) {
   const mobile = customer?.mobile?.trim();
   const email = customer?.email?.trim() || "";
   const personalnumberRaw = customer?.personalnumber ?? "";
-  const personalnumber = formatPersonalNumberForCreate(personalnumberRaw);
+  const personalnumber = formatPatientNumberForLookup(personalnumberRaw);
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
-      { ok: false, message: "Customer firstname, lastname, mobile and personalnumber are required." },
+      { ok: false, message: "Customer firstname, lastname, mobile and 11-digit personalnumber are required." },
       { status: 400 },
     );
   }
@@ -135,8 +135,7 @@ export async function POST(request: Request) {
       lastname,
       email,
       mobile,
-      // Prefer raw digits so patientnumber formatter always sees 11 digits
-      personalnumber: personalnumberRaw.replace(/\D/g, "") || personalnumber,
+      personalnumber,
     });
 
     const appointmentRequest = {

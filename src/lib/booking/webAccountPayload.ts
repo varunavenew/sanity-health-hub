@@ -19,7 +19,7 @@ export function generateWebAccountUsername(): string {
 
 /**
  * Body for POST /webaccounts per Metodika / Henrik schema.
- * Links webaccount to patient via accounttype SSN + patientnumber.
+ * Links webaccount to patient via accounttype SSN + plain 11-digit patientnumber.
  */
 export function buildWebAccountCreateBody(
   customer: WebAccountCustomerInput,
