@@ -20,8 +20,8 @@ export interface CreateWebAccountBody {
 }
 
 /**
- * GET ?patientnumber=25099112345&email=optional@x.y
- * Also accepts 11-digit personalnumber (any separators) and normalizes to plain digits.
+ * GET ?patientnumber=070887-40259&email=optional@x.y
+ * Also accepts 11-digit personalnumber and normalizes to `DDMMYY-XXXXX`.
  */
 export async function GET(request: Request) {
   const apiKey = process.env.BOOKING_API_KEY;
@@ -101,7 +101,7 @@ export async function POST(request: Request) {
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
-      { ok: false, message: "firstname, lastname, mobile and 11-digit personalnumber are required." },
+      { ok: false, message: "firstname, lastname, mobile and personalnumber are required." },
       { status: 400 },
     );
   }

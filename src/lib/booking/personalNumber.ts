@@ -41,30 +41,26 @@ function splitFodselsnummer(raw: string): {
 }
 
 /**
- * Metodika `patientnumber` for GET lookup + POST create.
- * Plain 11-digit Norwegian fødselsnummer (no separators) so Metodika matches
- * existing patients and Folkeregister lookup works.
- * Example: `25099112345` → `25099112345`
+ * Canonical Metodika `patientnumber` for GET lookup + POST create.
+ * Matches existing clinic patients: `DDMMYY-XXXXX`.
+ * Example: `07088740259` → `070887-40259`
  */
 export function formatPatientNumberForLookup(raw: string): string | null {
-  const parts = splitFodselsnummer(raw);
-  if (!parts) return null;
-  return parts.digits;
-}
-
-/**
- * Legacy form we used to POST (`250991-12345`).
- * Kept for lookup so Metodika still finds those duplicate records.
- */
-export function formatPatientNumberHyphenLegacy(raw: string): string | null {
   const digits = personalNumberDigits(raw);
   if (digits.length !== 11) return null;
   return `${digits.slice(0, 6)}-${digits.slice(6)}`;
 }
 
+/** Plain 11 digits, kept for lookup of any records created without a hyphen. */
+export function formatPatientNumberDigitsLegacy(raw: string): string | null {
+  const digits = personalNumberDigits(raw);
+  if (digits.length !== 11) return null;
+  return digits;
+}
+
 /**
- * Legacy dash form previously used for create/lookup (`25-09-199112345`).
- * Kept for lookup fallback against duplicate webaccounts created with that format.
+ * Old booking format that created duplicates (`07-08-198740259`).
+ * Kept for lookup fallback so those records can still be reused.
  */
 export function formatPatientNumberDashLegacy(raw: string): string | null {
   const parts = splitFodselsnummer(raw);
@@ -84,16 +80,16 @@ export function formatPatientNumberDottedLegacy(raw: string): string | null {
 
 /**
  * Candidate patientnumber strings to try for lookup.
- * Prefer plain 11-digit first, then older hyphen/date formats so we still find duplicates.
+ * Prefer `DDMMYY-XXXXX` (existing patients), then older duplicates we created.
  */
 export function patientNumberLookupCandidates(raw: string): string[] {
   const primary = formatPatientNumberForLookup(raw);
-  const hyphenLegacy = formatPatientNumberHyphenLegacy(raw);
+  const digitsLegacy = formatPatientNumberDigitsLegacy(raw);
   const dashLegacy = formatPatientNumberDashLegacy(raw);
   const dottedLegacy = formatPatientNumberDottedLegacy(raw);
   return [
     ...new Set(
-      [primary, hyphenLegacy, dashLegacy, dottedLegacy].filter(
+      [primary, digitsLegacy, dashLegacy, dottedLegacy].filter(
         (v): v is string => Boolean(v),
       ),
     ),

@@ -110,7 +110,7 @@ export async function POST(request: Request) {
 
   if (!firstname || !lastname || !mobile || !personalnumber) {
     return NextResponse.json(
-      { ok: false, message: "Customer firstname, lastname, mobile and 11-digit personalnumber are required." },
+      { ok: false, message: "Customer firstname, lastname, mobile and personalnumber are required." },
       { status: 400 },
     );
   }
