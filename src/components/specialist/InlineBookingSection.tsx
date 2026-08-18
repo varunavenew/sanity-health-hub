@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
 import {
   bookingUrlForSpecialistContext,
+  clinicSlugForSpecialistBooking,
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
@@ -59,6 +60,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
         apiGroupId,
         kategori: categorySlug,
         tjeneste: serviceName,
+        klinikk: clinicSlugForSpecialistBooking(specialist),
       }),
     );
   };
@@ -155,6 +157,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                   categoryNumericIdToPageId[firstCategoryId],
                 kategoriId: firstCategoryId,
                 spesialist: specialist.slug,
+                klinikk: clinicSlugForSpecialistBooking(specialist),
               }),
             )
           }

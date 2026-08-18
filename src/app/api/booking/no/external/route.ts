@@ -30,14 +30,35 @@ async function fetchCalendars(serviceProviderId: string): Promise<PatientskyCale
     throw new Error("Missing PATIENTSKY_API_URL or NEXT_PUBLIC_PATIENTSKY_API_URL");
   }
 
+  const from = new Date();
+  const to = new Date();
+  to.setMonth(to.getMonth() + 6);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const formatDate = (d: Date) =>
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
   const pathTemplate =
     process.env.PATIENTSKY_CALENDARS_PATH?.trim() ||
-    "/api/service-providers/{serviceProviderId}/calendars-for-external-booking";
-  const path = pathTemplate.replace("{serviceProviderId}", encodeURIComponent(serviceProviderId));
+    "/open-api/service-providers/{serviceProviderId}/external-booking-flow";
+  const path = pathTemplate.replace(
+    "{serviceProviderId}",
+    encodeURIComponent(serviceProviderId),
+  );
   const url = new URL(path, base.endsWith("/") ? base : `${base}/`);
 
   const res = await fetch(url, {
-    headers: { Accept: "application/json" },
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      customBookingFlowId: null,
+      calendarIds: null,
+      timeslotTypeIds: null,
+      dateRange: { from: formatDate(from), to: formatDate(to) },
+      selectedDateForDetails: null,
+    }),
     next: { revalidate: 300 },
   });
 

@@ -217,6 +217,8 @@ export function bookingUrlForPricingItem(params: {
 export function bookingUrlForSpecialist(specialist: {
   slug?: string;
   category?: string;
+  clinicRefs?: Array<{ slug?: string; label?: string }>;
+  clinics?: string[];
 }): string {
   if (!specialist?.slug) return "/booking";
   const bookingCategoryId = specialist.category
@@ -227,7 +229,20 @@ export function bookingUrlForSpecialist(specialist: {
   const kategori = bookingCategoryId
     ? bookingIdToCategoryPage[bookingCategoryId]
     : undefined;
-  return buildBookingUrl({ kategori, spesialist: specialist.slug });
+
+  let klinikk: string | undefined;
+  const refs = specialist.clinicRefs?.filter((r) => r.slug?.trim() || r.label?.trim()) ?? [];
+  if (refs.length === 1) {
+    klinikk = refs[0].slug?.trim() || slugifyNo(refs[0].label ?? "");
+  } else if (refs.length === 0 && specialist.clinics?.length === 1) {
+    klinikk = slugifyNo(specialist.clinics[0]);
+  }
+
+  return buildBookingUrl({
+    kategori,
+    spesialist: specialist.slug,
+    klinikk: klinikk || undefined,
+  });
 }
 
 /**

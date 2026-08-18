@@ -81,6 +81,7 @@ export type RawSanitySpecialist = {
     heroImage?: string;
   }>;
   metodikaUserId?: number;
+  pasientskyCalendarId?: string;
   bookingCategoryIds?: number[];
   sortOrder?: number;
   faqSectionTitle?: unknown;
@@ -364,6 +365,10 @@ export function mapSanitySpecialistRow(
     metodikaUserId:
       typeof raw.metodikaUserId === "number" && raw.metodikaUserId > 0
         ? raw.metodikaUserId
+        : undefined,
+    pasientskyCalendarId:
+      typeof raw.pasientskyCalendarId === "string" && raw.pasientskyCalendarId.trim()
+        ? raw.pasientskyCalendarId.trim()
         : undefined,
     bookingCategoryIds,
     sortOrder: typeof raw.sortOrder === "number" ? raw.sortOrder : undefined,

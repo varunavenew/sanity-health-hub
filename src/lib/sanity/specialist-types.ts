@@ -78,6 +78,8 @@ export interface Specialist {
   sanityCategories?: SpecialistSanityCategory[];
   /** Metodika caregiver / user id — used to attach this photo in the booking wizard. */
   metodikaUserId?: number;
+  /** Pasientsky calendar / timebok id — preselects Behandler in the Moelv iframe. */
+  pasientskyCalendarId?: string;
   /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */
   bookingCategoryIds?: number[];
   sortOrder?: number;

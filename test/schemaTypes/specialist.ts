@@ -505,6 +505,15 @@ export default {
       validation: (Rule: any) => Rule.integer().positive(),
     },
     {
+      name: 'pasientskyCalendarId',
+      title: 'Pasientsky calendar ID',
+      type: 'string',
+      group: 'advanced',
+      fieldset: 'advancedBooking',
+      description:
+        'Pasientsky timebok / Behandler calendar id (UUID). Used to preselect this specialist in the Moelv (Pasientsky) booking iframe. Leave empty to match by name.',
+    },
+    {
       name: 'bookingCategoryIds',
       title: 'Booking activity groups',
       type: 'array',

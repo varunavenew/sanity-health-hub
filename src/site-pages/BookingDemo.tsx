@@ -49,6 +49,12 @@ import {
   isBookingCaregiver,
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
+import {
+  clinicAllowedForSpecialist,
+  filterClinicsForPreselectedSpecialist,
+  resolveBookingCaregiverUserId,
+} from "@/lib/booking/filterClinicsForSpecialist";
+import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
 import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
@@ -444,7 +450,9 @@ const BookingDemo = () => {
   // Jumps to the first unfilled step so users coming from a specific
   // page never have to start over.
   useEffect(() => {
-    if (bookingData.service || bookingData.clinic || bookingData.specialist) return;
+    // Clinic may already be set from ?klinikk= (Pasientsky/Moelv) before this runs —
+    // still allow service/specialist prefill. Only skip once service is chosen.
+    if (bookingData.service) return;
     if (specialists.length === 0 || servicesLoading) return;
 
     const kategori = searchParams.get("kategori");
@@ -502,7 +510,7 @@ const BookingDemo = () => {
 
     // If specialist is given but no category, derive from the specialist's category
     let resolvedSpecialist: Specialist | undefined;
-    if (spesialistSlug) {
+    if (spesialistSlug && !bookingData.specialist) {
       resolvedSpecialist = specialists.find((s) => s.slug === spesialistSlug);
       if (
         resolvedSpecialist &&
@@ -547,22 +555,37 @@ const BookingDemo = () => {
 
     // 3. Clinic from URL is resolved after API availability loads (see effect below)
 
-    // 4. Commit prefilled state — only if we have at least service/clinic/specialist
+    // 4. Commit prefilled state — merge into existing clinic from ?klinikk=
     if (resolvedService || resolvedSpecialist) {
-      const next: BookingData = {};
-      if (resolvedCategoryClinicId) next.categoryId = resolvedCategoryClinicId;
-      if (resolvedCategoryListId) next.categoryApiSlug = resolvedCategoryListId;
-      if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
-      if (resolvedService) next.service = resolvedService;
-      if (resolvedSpecialist) {
-        next.specialist = resolvedSpecialist;
-        next.specialistChosen = true;
-      }
-      setBookingData(next);
+      setBookingData((prev) => {
+        const next: BookingData = { ...prev };
+        if (resolvedCategoryClinicId) next.categoryId = resolvedCategoryClinicId;
+        if (resolvedCategoryListId) next.categoryApiSlug = resolvedCategoryListId;
+        if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
+        if (resolvedService) next.service = resolvedService;
+        if (resolvedSpecialist) {
+          next.specialist = resolvedSpecialist;
+          next.specialistChosen = true;
+        }
+        return next;
+      });
     }
     // If only kategori was given (or aktivitetId failed to resolve), Step 1
     // keeps the relevant category expanded/filtered — no error page.
-  }, [searchParams, specialists, bookingServices, servicesLoading, bookingData.service, bookingData.clinic, bookingData.specialist]);
+  }, [searchParams, specialists, bookingServices, servicesLoading, bookingData.service, bookingData.specialist]);
+
+  // Apply ?spesialist= even when clinic was already set (Pasientsky Moelv deep link race).
+  useEffect(() => {
+    const spesialistSlug = searchParams.get("spesialist");
+    if (!spesialistSlug || bookingData.specialist || specialists.length === 0) return;
+    const match = specialists.find((s) => s.slug === spesialistSlug);
+    if (!match) return;
+    setBookingData((prev) => ({
+      ...prev,
+      specialist: match,
+      specialistChosen: true,
+    }));
+  }, [searchParams, specialists, bookingData.specialist]);
 
   // Active category filter is derived above; no debug logging in production.
   // Step 1: load duration from wbfreetimes when a category is expanded (cached per activity)
@@ -734,10 +757,23 @@ const BookingDemo = () => {
     const klinikk = pendingKlinikkRef.current;
     if (!klinikk || bookingData.clinic) return;
 
+    const allowClinic = (clinic: BookingClinic) => {
+      if (!bookingData.specialistChosen || !bookingData.specialist) return true;
+      return clinicAllowedForSpecialist(
+        clinic,
+        bookingData.specialist,
+        apiFreeTimeSlots,
+      );
+    };
+
     const sanityRow = findSanityClinicBySlugOrId(sanityClinics, klinikk);
     if (sanityRow) {
       const managed = findSanityManagedClinicBySlug(sanityClinics, klinikk);
       if (managed) {
+        if (!allowClinic(managed)) {
+          pendingKlinikkRef.current = null;
+          return;
+        }
         setBookingData((prev) => ({ ...prev, clinic: managed }));
         pendingKlinikkRef.current = null;
         return;
@@ -758,6 +794,10 @@ const BookingDemo = () => {
     );
     const match = bySanitySlug ?? byId ?? bySlug;
     if (match) {
+      if (!allowClinic(match)) {
+        pendingKlinikkRef.current = null;
+        return;
+      }
       setBookingData((prev) => ({ ...prev, clinic: match }));
       pendingKlinikkRef.current = null;
     }
@@ -766,6 +806,9 @@ const BookingDemo = () => {
     enrichedMetodikaClinics,
     bookingData.clinic,
     bookingData.service?.apiActivityId,
+    bookingData.specialist,
+    bookingData.specialistChosen,
+    apiFreeTimeSlots,
     sanityClinics,
   ]);
 
@@ -776,16 +819,24 @@ const BookingDemo = () => {
 
     const sanityMatch = findSanityManagedClinicBySlug(sanityClinics, klinikk);
     if (sanityMatch) {
-      setBookingData({ clinic: sanityMatch });
+      // Preserve specialist/category already resolved from ?spesialist=
+      setBookingData((prev) => ({ ...prev, clinic: sanityMatch }));
     }
   }, [searchParams, sanityClinics, bookingData.clinic, bookingData.service]);
 
+  // Prefer URL specialist for Pasientsky Behandler preselect (covers race with ?klinikk=).
+  const pasientskySpecialist = useMemo(() => {
+    if (bookingData.specialist) return bookingData.specialist;
+    const slug = searchParams.get("spesialist");
+    if (!slug) return undefined;
+    return specialists.find((s) => s.slug === slug);
+  }, [bookingData.specialist, searchParams, specialists]);
+
   const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
 
-  const selectedCaregiverUserId =
-    bookingData.specialist && isBookingCaregiver(bookingData.specialist)
-      ? bookingData.specialist.apiUserId
-      : undefined;
+  const selectedCaregiverUserId = resolveBookingCaregiverUserId(
+    bookingData.specialist,
+  );
 
   const caregiverIdsFromSlots = useMemo(() => {
     if (!hasApiActivity) return [];
@@ -1027,42 +1078,71 @@ const BookingDemo = () => {
     [sanityClinics, bookingData.categoryId, bookingData.categoryApiSlug],
   );
 
-  // Step 2: Metodika locations (enriched from Sanity) + Pasientsky / external from Sanity
+  // Step 2: Metodika locations (enriched from Sanity) + Pasientsky / external from Sanity.
+  // When a specialist is already chosen (e.g. ?spesialist=), only show clinics where they work.
   const availableClinics: BookingClinic[] = useMemo(() => {
     const metodika = bookingData.service?.apiActivityId ? enrichedMetodikaClinics : [];
-    return mergeMetodikaAndSanityClinics(metodika, sanityManagedClinicOptions);
-  }, [bookingData.service?.apiActivityId, enrichedMetodikaClinics, sanityManagedClinicOptions]);
+    const merged = mergeMetodikaAndSanityClinics(metodika, sanityManagedClinicOptions);
+    if (!bookingData.specialistChosen || !bookingData.specialist) return merged;
+    return filterClinicsForPreselectedSpecialist(
+      merged,
+      bookingData.specialist,
+      apiFreeTimeSlots,
+    );
+  }, [
+    bookingData.service?.apiActivityId,
+    bookingData.specialist,
+    bookingData.specialistChosen,
+    enrichedMetodikaClinics,
+    sanityManagedClinicOptions,
+    apiFreeTimeSlots,
+  ]);
 
   const step2Ready =
     !bookingData.service?.apiActivityId || clinicsAvailabilityReady;
 
-  // Auto-select when API returns exactly one Metodika location (once per service; not after "Tilbake")
+  // Auto-select when exactly one clinic is available (once per service; not after "Tilbake")
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
-    if (sanityManagedClinicOptions.length > 0) return;
-    if (!availabilityFromApi || apiBookingClinics.length !== 1) return;
+    if (!step2Ready) return;
+    if (availableClinics.length !== 1) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;
 
     autoSelectedClinicActivityRef.current = activityId;
-    setBookingData((prev) => ({ ...prev, clinic: apiBookingClinics[0] }));
+    const onlyClinic = availableClinics[0];
+    setBookingData((prev) => ({
+      ...prev,
+      clinic: onlyClinic,
+      // Keep preselected specialist when auto-picking their only clinic
+      specialist: prev.specialist,
+      specialistChosen: prev.specialistChosen,
+    }));
   }, [
     bookingData.service?.apiActivityId,
     bookingData.clinic,
-    availabilityFromApi,
-    apiBookingClinics,
-    sanityManagedClinicOptions.length,
+    step2Ready,
+    availableClinics,
   ]);
 
   const handleSelectClinic = (clinic: BookingClinic) => {
     trackBookingSelectClinic(clinic);
+    const keepSpecialist =
+      Boolean(bookingData.specialistChosen) &&
+      Boolean(bookingData.specialist) &&
+      clinicAllowedForSpecialist(
+        clinic,
+        bookingData.specialist,
+        apiFreeTimeSlots,
+      );
+
     setBookingData({
       ...bookingData,
       clinic,
-      specialistChosen: false,
+      specialistChosen: keepSpecialist,
       date: undefined,
       time: undefined,
-      specialist: undefined,
+      specialist: keepSpecialist ? bookingData.specialist : undefined,
       slotDurationMinutes: undefined,
       selectedSlot: undefined,
     });
@@ -1073,9 +1153,8 @@ const BookingDemo = () => {
   const handleSelectTimeSlot = (slot: DisplayTimeSlot) => {
     const roomId = slot.roomId;
     const caregiverUserId =
-      (bookingData.specialist && isBookingCaregiver(bookingData.specialist)
-        ? bookingData.specialist.apiUserId
-        : undefined) ?? slot.caregiverUserId;
+      resolveBookingCaregiverUserId(bookingData.specialist) ??
+      slot.caregiverUserId;
 
     const lengthTime =
       slot.lengthTime?.trim() ||
@@ -1413,6 +1492,10 @@ const BookingDemo = () => {
               <PatientskyIframe
                 serviceProviderId={bookingData.clinic.serviceProviderId}
                 calendarId={bookingData.clinic.calendarId}
+                specialistName={pasientskySpecialist?.name}
+                specialistCalendarId={pasientskyCalendarIdForSpecialist(
+                  pasientskySpecialist,
+                )}
               />
             </motion.div>
           ) : isExternalBooking &&
