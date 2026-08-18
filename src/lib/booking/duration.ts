@@ -20,7 +20,19 @@ export function minutesToLengthTime(minutes: number): string {
   return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}:00`;
 }
 
-export function formatDurationMinutes(minutes: number): string {
+export function formatDurationMinutes(
+  minutes: number,
+  locale: "no" | "en" = "en",
+): string {
+  if (locale === "no") {
+    if (minutes < 60) return `${minutes} minutter`;
+    const hours = Math.floor(minutes / 60);
+    const remainder = minutes % 60;
+    if (remainder === 0) return hours === 1 ? "1 time" : `${hours} timer`;
+    const hourLabel = hours === 1 ? "1 time" : `${hours} timer`;
+    return `${hourLabel} ${remainder} minutter`;
+  }
+
   if (minutes < 60) return `${minutes} minutes`;
   const hours = Math.floor(minutes / 60);
   const remainder = minutes % 60;

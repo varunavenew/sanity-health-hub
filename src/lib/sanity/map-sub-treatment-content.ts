@@ -7,6 +7,8 @@ import {
 } from "@/lib/sanity/category-keys";
 import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import type { BookingLinkParams } from "@/lib/bookingLinks";
+import { FERTILITETSUTREDNING_BOOKING_OPTIONS } from "@/lib/booking/resolve-booking-service";
 
 function firstHeroParagraph(text: string): string {
   const trimmed = text.trim();
@@ -35,6 +37,35 @@ function resolveHeroPrice(price: string | undefined, isEn: boolean): string | un
   if (/^pris\s+fra\b/i.test(trimmed)) return trimmed;
   if (/^fra\b/i.test(trimmed)) return `Pris ${trimmed}`;
   return trimmed;
+}
+
+function buildTreatmentBookingParams(
+  treatment: TreatmentData,
+  categoryId: string,
+  treatmentSlug: string,
+): BookingLinkParams {
+  const kategori = normalizeCategoryFilterKey(categoryId);
+  const cmsOptions = (treatment.bookingServiceOptions ?? [])
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const options =
+    cmsOptions.length > 0
+      ? cmsOptions
+      : treatmentSlug === "fertilitetsutredning"
+        ? [...FERTILITETSUTREDNING_BOOKING_OPTIONS]
+        : [];
+
+  if (options.length > 1) {
+    return { kategori, tjenesteValg: options };
+  }
+  if (options.length === 1) {
+    return { kategori, tjeneste: options[0] };
+  }
+  const single = treatment.bookingService?.trim();
+  if (single) {
+    return { kategori, tjeneste: single };
+  }
+  return { kategori };
 }
 
 function seoText(treatment: TreatmentData): { title: string; description: string } {
@@ -127,10 +158,7 @@ export function mapTreatmentToSubTreatmentContent(
     heroVideo: treatment.heroVideo,
     heroMedia: treatment.heroMedia,
     rating: treatment.rating,
-    booking: {
-      kategori: normalizeCategoryFilterKey(categoryId),
-      tjeneste: treatment.bookingService,
-    },
+    booking: buildTreatmentBookingParams(treatment, categoryId, treatmentSlug),
     primaryCtaLabel: treatment.primaryCtaLabel,
     flowTitle: treatment.flowTitle || "",
     flow,
