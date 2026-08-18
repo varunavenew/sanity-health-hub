@@ -245,6 +245,7 @@
       "phone": "Telefon",
       "email": "E-post",
       "emailPlaceholder": "din@email.no",
+      "emailRequired": "Vennligst fyll inn en gyldig e-post",
       "clinic": "Klinikk",
       "clinicPlaceholder": "Velg klinikk",
       "subject": "Emne",

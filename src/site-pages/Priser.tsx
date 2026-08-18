@@ -756,7 +756,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
           {hasCmsPrices && (
             <>
-              <div className="mb-12 md:mb-16" ref={overviewRef}>
+              <div className="hidden md:block mb-12 md:mb-16" ref={overviewRef}>
                 <h2 className="text-3xl md:text-4xl font-light text-brand-dark">
                   {t("pricing.menuTitle")}
                 </h2>
@@ -787,7 +787,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               >
                 <div
                   ref={navScrollerRef}
-                  className="flex gap-2 overflow-x-auto scrollbar-hide [scroll-behavior:smooth]"
+                  className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide [scroll-behavior:smooth]"
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
                   {sortedCategories.map((category) => {
@@ -859,9 +859,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
                                 return (
                                   <li key={itemKey} className="py-5 first:pt-0">
-                                    <div className="flex items-center gap-4 md:gap-6">
-                                      <div className="flex-1 min-w-0">
-                                        <p className="font-normal text-brand-dark">
+                                    <div className="flex items-start md:items-center justify-between gap-4 md:gap-6">
+                                      <div className="min-w-0 flex-1">
+                                        <p className="font-normal text-brand-dark break-words [overflow-wrap:anywhere]">
                                           {item.name}
                                         </p>
                                         {(durationLoading || durationLabel) && (
@@ -873,20 +873,20 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         )}
                                       </div>
 
-                                      <div className="flex items-center gap-4 shrink-0 sm:pt-0.5">
-                                      <span className="font-normal text-brand-dark tabular-nums whitespace-nowrap">
-                                        {priceLabel}
-                                      </span>
-                                      {bookingUrl ? (
-                                        <Link
-                                          to={bookingUrl}
-                                          className="inline-flex items-center gap-1 px-4 py-2 rounded-[var(--radius)] text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
-                                        >
-                                          {t("nav.bookAppointment")}
-                                        </Link>
-                                      ) : (
-                                        <span className="hidden md:block w-28 shrink-0" aria-hidden />
-                                      )}
+                                      <div className="shrink-0 flex flex-col items-end gap-2 md:flex-row md:items-center md:gap-4">
+                                        <span className="font-normal text-brand-dark tabular-nums whitespace-nowrap">
+                                          {priceLabel}
+                                        </span>
+                                        {bookingUrl ? (
+                                          <Link
+                                            to={bookingUrl}
+                                            className="inline-flex items-center px-4 py-2 rounded-[var(--radius)] text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
+                                          >
+                                            {t("nav.bookAppointment")}
+                                          </Link>
+                                        ) : (
+                                          <span className="hidden md:block w-28 shrink-0" aria-hidden />
+                                        )}
                                       </div>
                                     </div>
                                   </li>

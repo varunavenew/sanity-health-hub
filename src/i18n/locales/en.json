@@ -245,6 +245,7 @@
       "phone": "Phone",
       "email": "Email",
       "emailPlaceholder": "your@email.com",
+      "emailRequired": "Please enter a valid email",
       "clinic": "Clinic",
       "clinicPlaceholder": "Select clinic",
       "subject": "Subject",

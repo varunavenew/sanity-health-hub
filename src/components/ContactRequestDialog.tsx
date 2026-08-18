@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -11,21 +11,22 @@ import { useToast } from "@/hooks/use-toast";
 import { useClinics, useContactRequestDialogCopy } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import type { ContactRequestDialogCopy } from "@/lib/sanity/contact-request-dialog-copy";
+import { useTranslation } from "react-i18next";
 
 interface ContactRequestDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-function buildFormSchema(copy: ContactRequestDialogCopy) {
+function buildFormSchema(copy: ContactRequestDialogCopy, emailRequired: string) {
   return z.object({
     name: z.string().trim().min(1, copy.validationNameRequired).max(100),
     phone: z.string().trim().min(4, copy.validationPhoneRequired).max(30),
+    email: z.string().trim().email(emailRequired).max(200),
     clinic: z.string().min(1, copy.validationClinicRequired),
     category: z.string().min(1, copy.validationCategoryRequired),
     timing: z.enum(["snarest", "specific"]),
     day: z.string().max(50).optional(),
-    timeOfDay: z.enum(["formiddag", "ettermiddag", "kveld"]).optional(),
     details: z.string().trim().max(1000).optional(),
   });
 }
@@ -34,48 +35,39 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
   const { data: clinics = [] } = useClinics();
   const { categories: serviceCategories } = useServiceCategories();
   const { copy, isLoading } = useContactRequestDialogCopy();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isSending, setIsSending] = useState(false);
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
     clinic: "",
     category: "",
     timing: "snarest" as "snarest" | "specific",
     day: "",
-    timeOfDay: "" as "" | "formiddag" | "ettermiddag" | "kveld",
     details: "",
   });
-
-  const timeOptions = useMemo(() => {
-    if (!copy) return [];
-    return [
-      { value: "formiddag" as const, label: copy.timeMorningLabel },
-      { value: "ettermiddag" as const, label: copy.timeAfternoonLabel },
-      { value: "kveld" as const, label: copy.timeEveningLabel },
-    ];
-  }, [copy]);
 
   const reset = () => {
     setForm({
       name: "",
       phone: "",
+      email: "",
       clinic: "",
       category: "",
       timing: "snarest",
       day: "",
-      timeOfDay: "",
       details: "",
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!copy) return;
+    if (!copy || isSending) return;
 
-    const parsed = buildFormSchema(copy).safeParse({
+    const parsed = buildFormSchema(copy, t("contact.form.emailRequired")).safeParse({
       ...form,
-      timeOfDay: form.timeOfDay || undefined,
       day: form.day || undefined,
     });
     if (!parsed.success) {
@@ -88,15 +80,59 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
     }
 
     setIsSending(true);
-    await new Promise((r) => setTimeout(r, 700));
-    setIsSending(false);
+    try {
+      const categoryLabel =
+        serviceCategories.find((c: { id: string }) => c.id === parsed.data.category)
+          ?.label ||
+        (parsed.data.category === "annet"
+          ? copy.categoryOtherLabel
+          : parsed.data.category);
+      const res = await fetch("/api/contact-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: parsed.data.name,
+          phone: parsed.data.phone,
+          email: parsed.data.email,
+          clinic: parsed.data.clinic,
+          category: categoryLabel,
+          timing: parsed.data.timing,
+          day: parsed.data.day || "",
+          details: parsed.data.details || "",
+        }),
+      });
 
-    toast({
-      title: copy.toastSuccessTitle,
-      description: copy.toastSuccessDescription,
-    });
-    reset();
-    onOpenChange(false);
+      let payload: { ok?: boolean } = {};
+      try {
+        payload = (await res.json()) as { ok?: boolean };
+      } catch {
+        payload = {};
+      }
+
+      if (!res.ok || !payload.ok) {
+        toast({
+          title: copy.toastValidationTitle,
+          description: copy.toastValidationDescription,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: copy.toastSuccessTitle,
+        description: copy.toastSuccessDescription,
+      });
+      reset();
+      onOpenChange(false);
+    } catch {
+      toast({
+        title: copy.toastValidationTitle,
+        description: copy.toastValidationDescription,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -140,6 +176,21 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
                     maxLength={30}
                   />
                 </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="cr-email" className="text-sm font-light">
+                  {t("contact.form.email")}
+                </Label>
+                <Input
+                  id="cr-email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder={t("contact.form.emailPlaceholder")}
+                  required
+                  maxLength={200}
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -191,31 +242,15 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               </div>
 
               {form.timing === "specific" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="cr-day" className="text-sm font-light">{copy.dayLabel}</Label>
-                    <Input
-                      id="cr-day"
-                      type="date"
-                      value={form.day}
-                      onChange={(e) => setForm({ ...form, day: e.target.value })}
-                      min={new Date().toISOString().split("T")[0]}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label className="text-sm font-light">{copy.timeOfDayLabel}</Label>
-                    <Select
-                      value={form.timeOfDay}
-                      onValueChange={(v) => setForm({ ...form, timeOfDay: v as typeof form.timeOfDay })}
-                    >
-                      <SelectTrigger><SelectValue placeholder={copy.timeOfDayPlaceholder} /></SelectTrigger>
-                      <SelectContent>
-                        {timeOptions.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <div className="space-y-1.5 animate-fade-in">
+                  <Label htmlFor="cr-day" className="text-sm font-light">{copy.dayLabel}</Label>
+                  <Input
+                    id="cr-day"
+                    type="date"
+                    value={form.day}
+                    onChange={(e) => setForm({ ...form, day: e.target.value })}
+                    min={new Date().toISOString().split("T")[0]}
+                  />
                 </div>
               )}
 
