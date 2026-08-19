@@ -765,6 +765,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   heroVideo,
   ${i18nStringLocale('primaryCtaLabel')},
   bookingService,
+  bookingServiceOptions,
   ${i18nStringLocale('flowEyebrow')},
   ${i18nStringLocale('flowTitle')},
   "flowImage": flowImage.asset->url,

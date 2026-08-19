@@ -19,7 +19,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
-import { buildBookingUrl } from "@/lib/bookingLinks";
+import { buildBookingUrl, type BookingLinkParams } from "@/lib/bookingLinks";
 import { Link } from "@/lib/router";
 import type { PageSection } from "@/lib/sanity/page-sections";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -67,7 +67,7 @@ export interface SubTreatmentContent {
   heroPrice?: string;
   heroPriceLabel?: string;
   hideSeePriser?: boolean;
-  booking: { kategori: string; tjeneste?: string };
+  booking: BookingLinkParams;
   primaryCtaLabel?: string;
   flowTitle: string;
   flow: { n: string; title: string; desc: string | ReactNode }[];

@@ -924,7 +924,17 @@ export default {
       group: 'advanced',
       fieldset: 'advancedOverrides',
       description:
-        'Optional service ID for the booking system (e.g. hysterectomy). Not the Booking CTA band — that is under Shared Sections → Website bands.',
+        'Optional single service slug for booking preselect (e.g. hysterectomy). Ignored when Booking service options has 2+ entries. Not the Booking CTA band — that is under Shared Sections → Website bands.',
+    },
+    {
+      name: 'bookingServiceOptions',
+      title: 'Booking service options',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedOverrides',
+      of: [{ type: 'string' }],
+      description:
+        'When 2+ entries: booking shows only these Metodika services and the customer chooses (no auto-preselect). Use slug fragments matching activity names, e.g. fertilitetsutredning-for-eggfrys. When 1 entry: same as Booking service ID. Leave empty to use Booking service ID only.',
     },
     {
       name: 'subItems',

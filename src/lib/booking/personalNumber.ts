@@ -4,18 +4,6 @@ export function personalNumberDigits(raw: string): string {
 }
 
 /**
- * Format for Metodika webaccount POST (`personalnumber`) when still sent.
- * Example: `25099112345` → `250991-12345`
- */
-export function formatPersonalNumberForCreate(raw: string): string {
-  const digits = personalNumberDigits(raw);
-  if (digits.length === 11) {
-    return `${digits.slice(0, 6)}-${digits.slice(6)}`;
-  }
-  return digits;
-}
-
-/**
  * Resolve full birth year from Norwegian fødselsnummer YY + individnummer.
  * @see https://en.wikipedia.org/wiki/National_identity_number_(Norway)
  */
@@ -34,6 +22,7 @@ export function norwegianBirthYear(yy: number, individnummer: number): number {
 }
 
 function splitFodselsnummer(raw: string): {
+  digits: string;
   dd: string;
   mm: string;
   yyyy: number;
@@ -48,22 +37,39 @@ function splitFodselsnummer(raw: string): {
   const individnummer = Number(digits.slice(6, 9));
   const rest = digits.slice(6);
   const yyyy = norwegianBirthYear(yy, individnummer);
-  return { dd, mm, yyyy, rest };
+  return { digits, dd, mm, yyyy, rest };
 }
 
 /**
- * Metodika `patientnumber` for GET lookup + POST create (Henrik).
- * Prefer dash form: `12-01-1977xxxxx` (not dots).
- * Example: `25099112345` → `25-09-199112345`
+ * Canonical Metodika `patientnumber` for GET lookup + POST create.
+ * Matches existing clinic patients: `DDMMYY-XXXXX`.
+ * Example: `07088740259` → `070887-40259`
  */
 export function formatPatientNumberForLookup(raw: string): string | null {
+  const digits = personalNumberDigits(raw);
+  if (digits.length !== 11) return null;
+  return `${digits.slice(0, 6)}-${digits.slice(6)}`;
+}
+
+/** Plain 11 digits, kept for lookup of any records created without a hyphen. */
+export function formatPatientNumberDigitsLegacy(raw: string): string | null {
+  const digits = personalNumberDigits(raw);
+  if (digits.length !== 11) return null;
+  return digits;
+}
+
+/**
+ * Old booking format that created duplicates (`07-08-198740259`).
+ * Kept for lookup fallback so those records can still be reused.
+ */
+export function formatPatientNumberDashLegacy(raw: string): string | null {
   const parts = splitFodselsnummer(raw);
   if (!parts) return null;
   return `${parts.dd}-${parts.mm}-${parts.yyyy}${parts.rest}`;
 }
 
 /**
- * Legacy dotted form previously used in logs (`12.01.1977xxxxx`).
+ * Legacy dotted form previously used (`12.01.1977xxxxx`).
  * Kept for lookup fallback against older webaccounts.
  */
 export function formatPatientNumberDottedLegacy(raw: string): string | null {
@@ -72,9 +78,20 @@ export function formatPatientNumberDottedLegacy(raw: string): string | null {
   return `${parts.dd}.${parts.mm}.${parts.yyyy}${parts.rest}`;
 }
 
-/** Candidate patientnumber strings to try for lookup (dash first, then legacy dotted). */
+/**
+ * Candidate patientnumber strings to try for lookup.
+ * Prefer `DDMMYY-XXXXX` (existing patients), then older duplicates we created.
+ */
 export function patientNumberLookupCandidates(raw: string): string[] {
   const primary = formatPatientNumberForLookup(raw);
-  const legacy = formatPatientNumberDottedLegacy(raw);
-  return [...new Set([primary, legacy].filter((v): v is string => Boolean(v)))];
+  const digitsLegacy = formatPatientNumberDigitsLegacy(raw);
+  const dashLegacy = formatPatientNumberDashLegacy(raw);
+  const dottedLegacy = formatPatientNumberDottedLegacy(raw);
+  return [
+    ...new Set(
+      [primary, digitsLegacy, dashLegacy, dottedLegacy].filter(
+        (v): v is string => Boolean(v),
+      ),
+    ),
+  ];
 }

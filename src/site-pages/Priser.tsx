@@ -526,7 +526,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               results.push({
                 id,
                 status: "ready",
-                label: formatDurationMinutes(mins),
+                label: formatDurationMinutes(mins, locale === "en" ? "en" : "no"),
               });
             }
           }

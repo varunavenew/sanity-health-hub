@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
+import { FERTILITETSUTREDNING_BOOKING_OPTIONS } from "@/lib/booking/resolve-booking-service";
 
 const parent = { name: "Fertilitet", path: "/fertilitet" };
 const baseBooking = { kategori: "fertilitet" as const };
@@ -510,7 +511,10 @@ export const fertilitetSubPages: Record<string, Partial<SubTreatmentContent>> = 
             { title: "Samme team hele veien", desc: "Du møter de samme fagpersonene — kontinuitet skaper trygghet." },
         ],
         rating: "4,8 — Norges eldste private fertilitetsklinikk",
-        booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
+        booking: {
+            ...baseBooking,
+            tjenesteValg: [...FERTILITETSUTREDNING_BOOKING_OPTIONS],
+        },
         primaryCtaLabel: "Bestill fertilitetsutredning",
         flowTitle: "Slik foregår en fertilitetsutredning",
         flow: [

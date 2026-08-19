@@ -162,7 +162,7 @@ export function normalizeClinicLabelForCompare(label: string): string {
     .trim();
 }
 
-function clinicOffersBookingCategory(
+export function clinicOffersBookingCategory(
   clinicServices: string[] | undefined,
   categoryKeys: string[],
 ): boolean {

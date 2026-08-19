@@ -5,6 +5,7 @@
 // Supported params:
 //   ?kategori=gynekologi        — pre-selects service category
 //   &tjeneste=endometriose      — pre-selects a specific service (slug or fragment of name)
+//   &tjenesteValg=a,b,c         — show only these services; customer must choose (no auto-preselect)
 //   &aktivitetId=9              — Metodika wbactivity id (preferred for pricing Step 2)
 //   &spesialist=dr-hansen       — pre-selects a specialist (slug)
 //   &klinikk=majorstuen         — pre-selects a clinic
@@ -15,6 +16,8 @@ export interface BookingLinkParams {
   kategori?: string;     // category page id (gynekologi, urologi, fertilitet, ortopedi, graviditet, flere-fagomrader)
   kategoriId?: number;   // numeric category id from Sanity (optional)
   tjeneste?: string;     // service slug or partial name match
+  /** When set (2+ items), booking shows only these services — no auto-preselect. */
+  tjenesteValg?: string[];
   /** Metodika wbactivity id — resolves service across categories for Step 2. */
   aktivitetId?: number;
   spesialist?: string;   // specialist slug
@@ -181,7 +184,11 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   const sp = new URLSearchParams();
   if (params.kategori) sp.set("kategori", params.kategori);
   if (params.kategoriId != null) sp.set("kategoriId", String(params.kategoriId));
-  if (params.tjeneste) sp.set("tjeneste", params.tjeneste);
+  if (params.tjenesteValg?.length) {
+    sp.set("tjenesteValg", params.tjenesteValg.join(","));
+  } else if (params.tjeneste) {
+    sp.set("tjeneste", params.tjeneste);
+  }
   if (params.aktivitetId != null && Number.isFinite(params.aktivitetId) && params.aktivitetId > 0) {
     sp.set("aktivitetId", String(params.aktivitetId));
   }
@@ -189,6 +196,15 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   if (params.klinikk) sp.set("klinikk", params.klinikk);
   const qs = sp.toString();
   return qs ? `/booking?${qs}` : "/booking";
+}
+
+/** Parse ?tjenesteValg=slug-a,slug-b from booking URL search params. */
+export function parseTjenesteValg(raw: string | null | undefined): string[] {
+  if (!raw?.trim()) return [];
+  return raw
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
 }
 
 /**
