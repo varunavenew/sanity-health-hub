@@ -1,5 +1,5 @@
-import { randomBytes } from "node:crypto";
 import { formatPatientNumberForLookup } from "@/lib/booking/personalNumber";
+import { normalizeNorwegianMobileForMetodika } from "@/lib/booking/phoneMobile";
 
 export type WebAccountCustomerInput = {
   firstname: string;
@@ -10,16 +10,10 @@ export type WebAccountCustomerInput = {
   personalnumber: string;
 };
 
-/** Unique username for Metodika webaccount create (Henrik: can be any unique value). */
-export function generateWebAccountUsername(): string {
-  const stamp = Date.now().toString(36);
-  const rand = randomBytes(4).toString("hex");
-  return `web-${stamp}-${rand}`;
-}
-
 /**
  * Body for POST /webaccounts per Metodika / Henrik schema.
  * Links webaccount to patient via accounttype SSN + `DDMMYY-XXXXX` patientnumber.
+ * Username and phonemobile use normalized Norwegian mobile (`4740617409`).
  */
 export function buildWebAccountCreateBody(
   customer: WebAccountCustomerInput,
@@ -29,13 +23,15 @@ export function buildWebAccountCreateBody(
     throw new Error("Invalid personalnumber: expected 11-digit fødselsnummer.");
   }
 
+  const phonemobile = normalizeNorwegianMobileForMetodika(customer.mobile);
+
   return {
-    username: generateWebAccountUsername(),
+    username: phonemobile,
     firstname: customer.firstname,
     lastname: customer.lastname,
     patientnumber,
     email: customer.email,
-    phonemobile: customer.mobile,
+    phonemobile,
     smsallowed: true,
     passwordtype: "nopassword",
     accounttype: "SSN",

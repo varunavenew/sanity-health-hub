@@ -8,6 +8,7 @@ import {
   formatPatientNumberForLookup,
   patientNumberLookupCandidates,
 } from "@/lib/booking/personalNumber";
+import { buildAppointmentCreateBody } from "@/lib/booking/appointmentPayload";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
 import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 import type { CreateAppointmentBody } from "@/app/api/booking/appointments/route";
@@ -138,28 +139,16 @@ export async function POST(request: Request) {
       personalnumber,
     });
 
-    const appointmentRequest = {
-      "webaccount-id": webAccountId,
-      "wbactivity-id": appointment.wbactivityId,
-      patient: {
-        patient: {
-          id: patientId,
-        },
-      },
-      activitytype: {
-        activitytype: {
-          id: appointment.activityTypeId,
-        },
-      },
-      "maincaregiver_user-id": appointment.mainCaregiverUserId,
-      "room-id": appointment.roomId,
-      starttime: appointment.starttime.trim(),
-      lengthtime: appointment.lengthtime.trim(),
-      smsreminder: true,
-      smsconfirmation: true,
-      emailconfirmation: true,
-      createifnotexists: true,
-    };
+    const appointmentRequest = buildAppointmentCreateBody({
+      webAccountId,
+      patientId,
+      wbactivityId: appointment.wbactivityId,
+      activityTypeId: appointment.activityTypeId,
+      mainCaregiverUserId: appointment.mainCaregiverUserId,
+      roomId: appointment.roomId,
+      starttime: appointment.starttime,
+      lengthtime: appointment.lengthtime,
+    });
 
     const appointmentPayload = await postBookingResource(
       BOOKING_URLS.appointments,

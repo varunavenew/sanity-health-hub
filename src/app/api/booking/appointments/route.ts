@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { buildAppointmentCreateBody } from "@/lib/booking/appointmentPayload";
 import { extractCreatedEntityId } from "@/lib/booking/extractEntityId";
 import { BOOKING_URLS, postBookingResource } from "@/lib/booking/upstream";
 
@@ -60,28 +61,20 @@ export async function POST(request: Request) {
   }
 
   try {
-    const payload = await postBookingResource(BOOKING_URLS.appointments, apiKey, {
-      "webaccount-id": webAccountId,
-      "wbactivity-id": wbactivityId,
-      patient: {
-        patient: {
-          id: patientId,
-        },
-      },
-      activitytype: {
-        activitytype: {
-          id: activityTypeId,
-        },
-      },
-      "maincaregiver_user-id": mainCaregiverUserId,
-      "room-id": roomId,
-      starttime: starttime.trim(),
-      lengthtime: lengthtime.trim(),
-      smsreminder: true,
-      smsconfirmation: true,
-      emailconfirmation: true,
-      createifnotexists: true,
-    });
+    const payload = await postBookingResource(
+      BOOKING_URLS.appointments,
+      apiKey,
+      buildAppointmentCreateBody({
+        webAccountId,
+        patientId,
+        wbactivityId,
+        activityTypeId,
+        mainCaregiverUserId,
+        roomId,
+        starttime,
+        lengthtime,
+      }),
+    );
 
     const appointmentId = extractCreatedEntityId(payload);
 
