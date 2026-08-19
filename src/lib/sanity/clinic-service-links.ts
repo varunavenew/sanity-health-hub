@@ -1,3 +1,4 @@
+import { bookingCategoryHrefForClinicService } from "@/lib/bookingLinks";
 import {
   behandlingerCategorySegment,
   normalizeCategoryFilterKey,
@@ -12,12 +13,49 @@ type CategoryRow = {
 
 export type ClinicServiceLink = { label: string; path?: string };
 
-/** Legacy clinic `services` IDs → categoryId or treatment slug in CMS. */
+/** Metodika clinic `services` IDs → CMS categoryId or treatment slug. */
 const SERVICE_ID_ALIASES: Record<string, string> = {
   gynekolog: "gynekologi",
   ortoped: "ortopedi",
   urolog: "urologi",
   gastrokirurg: "gastrokirurgi",
+  psykolog: "psykologi",
+  sexolog: "sexologi",
+  revmatolog: "revmatologi",
+  endokrinolog: "endokrinologi",
+  ernaringsfysiolog: "ernaeringsfysiolog",
+  hudlege: "hudhelse",
+  fostermedisiner: "fostermedisin",
+  areknuter: "areknutebehandling",
+};
+
+/** Display labels when CMS title is missing (clinic Metodika IDs). */
+const CLINIC_SERVICE_LABELS: Record<string, { no: string; en: string }> = {
+  fertilitet: { no: "Fertilitet", en: "Fertility" },
+  fostermedisiner: { no: "Fostermedisin", en: "Fetal medicine" },
+  gynekolog: { no: "Gynekologi", en: "Gynaecology" },
+  ernaringsfysiolog: { no: "Ernæringsfysiolog", en: "Clinical nutritionist" },
+  psykolog: { no: "Psykolog", en: "Psychologist" },
+  sexolog: { no: "Sexolog", en: "Sexologist" },
+  gastrokirurg: { no: "Mage- og tarmlidelser (Gastrokirurgi)", en: "Gastrointestinal surgery" },
+  ortoped: { no: "Ortopedi", en: "Orthopaedics" },
+  handterapeut: { no: "Håndterapeut", en: "Hand therapist" },
+  revmatolog: { no: "Revmatolog", en: "Rheumatologist" },
+  urolog: { no: "Urologi", en: "Urology" },
+  hudhelse: { no: "Hudhelse", en: "Skin health" },
+  hudlege: { no: "Hudlege", en: "Dermatologist" },
+  areknuter: { no: "Åreknutebehandling", en: "Varicose vein treatment" },
+  "sprengte-blodkar": { no: "Sprengte blodkar", en: "Broken capillaries" },
+  fysioterapeut: { no: "Fysioterapeut", en: "Physiotherapist" },
+  uroterapi: { no: "Uroterapi", en: "Urotherapy" },
+  osteopati: { no: "Osteopati", en: "Osteopathy" },
+  robotkirurgi: { no: "Robotassistert kirurgi", en: "Robot-assisted surgery" },
+  endokrinolog: { no: "Endokrinolog", en: "Endocrinologist" },
+  overvektskirurgi: { no: "Overvektskirurgi (slankeoperasjon)", en: "Bariatric surgery" },
+  plastikkirurgi: { no: "Plastikkirurgi", en: "Plastic surgery" },
+  karkirurgi: { no: "Karkirurgi", en: "Vascular surgery" },
+  hjertespesialist: { no: "Hjertespesialist", en: "Cardiologist" },
+  almennlege: { no: "Allmennlege", en: "General practitioner" },
 };
 
 function categorySegment(cat: CategoryRow, lang: "no" | "en"): string {
@@ -31,6 +69,37 @@ function treatmentPath(categorySegment: string, treatmentSlug: string): string {
   return `/${categorySegment}/${treatmentSlug}`;
 }
 
+function applyAlias(map: Record<string, ClinicServiceLink>, alias: string, target: string) {
+  if (map[alias]?.path) return;
+  if (map[target]) {
+    map[alias] = map[target];
+    return;
+  }
+  const normalized = normalizeCategoryFilterKey(target);
+  if (map[normalized]) map[alias] = map[normalized];
+}
+
+function applyFallbacks(map: Record<string, ClinicServiceLink>, lang: "no" | "en") {
+  for (const [serviceId, labels] of Object.entries(CLINIC_SERVICE_LABELS)) {
+    const existing = map[serviceId];
+    const fallbackPath = bookingCategoryHrefForClinicService(serviceId);
+    const label = existing?.label || labels[lang] || serviceId;
+
+    if (existing?.path) {
+      if (!existing.label || existing.label === serviceId) {
+        map[serviceId] = { ...existing, label };
+      }
+      continue;
+    }
+
+    if (fallbackPath) {
+      map[serviceId] = { label, path: fallbackPath };
+    } else if (!existing) {
+      map[serviceId] = { label };
+    }
+  }
+}
+
 /**
  * Map clinic service IDs to localized labels and category/treatment paths from CMS categories.
  */
@@ -39,9 +108,8 @@ export function buildClinicServiceLinks(
   lang: "no" | "en",
 ): Record<string, ClinicServiceLink> {
   const map: Record<string, ClinicServiceLink> = {};
-  if (!categories?.length) return map;
 
-  for (const cat of categories) {
+  for (const cat of categories || []) {
     const categoryId = (cat.categoryId || cat.slug || "").trim();
     if (!categoryId) continue;
 
@@ -68,13 +136,10 @@ export function buildClinicServiceLinks(
   }
 
   for (const [alias, target] of Object.entries(SERVICE_ID_ALIASES)) {
-    if (map[target]) {
-      map[alias] = map[target];
-      continue;
-    }
-    const normalized = normalizeCategoryFilterKey(target);
-    if (map[normalized]) map[alias] = map[normalized];
+    applyAlias(map, alias, target);
   }
+
+  applyFallbacks(map, lang);
 
   return map;
 }

@@ -175,8 +175,10 @@ async function main() {
   if (PROJECT_ID !== "9jhqpk3a") {
     throw new Error(`Refusing to run: unexpected projectId ${PROJECT_ID}`);
   }
-  if (DATASET !== "developer") {
-    throw new Error(`Refusing to run on dataset "${DATASET}". Developer only.`);
+  if (DATASET !== "developer" && DATASET !== "production") {
+    throw new Error(
+      `Refusing to run on dataset "${DATASET}". Expected developer or production.`,
+    );
   }
 
   console.log(`project=${PROJECT_ID} dataset=${DATASET}`);

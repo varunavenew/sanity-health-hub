@@ -219,6 +219,7 @@ export function cmsInvalidationPaths(
       break;
 
     case "siteSettings":
+    case "googleAnalyticsSettings":
       paths.add("/no");
       paths.add("/en");
       break;

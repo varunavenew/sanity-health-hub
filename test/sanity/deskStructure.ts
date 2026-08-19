@@ -24,6 +24,7 @@ import {
   SpecialistIcon,
   ThemeIcon,
   TreatmentIcon,
+  AnalyticsIcon,
 } from '../schemaTypes/icons'
 import {buildDocumentPageSectionChild, buildPageSectionListItem} from './page-editor/buildPageSectionStructure'
 import {homepagePageEditorConfig} from './page-editor/pages/homepageSections'
@@ -416,6 +417,12 @@ function settingsSection(S: StructureBuilder) {
             title: 'Site Settings',
             schemaType: 'siteSettings',
             documentId: 'siteSettings',
+          }),
+          singletonListItem(S, {
+            title: 'Google Analytics',
+            schemaType: 'googleAnalyticsSettings',
+            documentId: 'googleAnalyticsSettings',
+            icon: AnalyticsIcon,
           }),
           singletonListItem(S, {
             title: 'Booking',

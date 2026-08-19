@@ -142,14 +142,35 @@ export const bookingIdToCategoryPage: Record<string, string> = Object.entries(
  */
 const CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG: Record<string, string> = {
   areknuter: "areknuter",
-  hudlege: "hudlege",
-  ernaringsfysiolog: "ernaringsfysiolog",
+  hudlege: "hudhelse",
+  hudhelse: "hudhelse",
+  ernaringsfysiolog: "ernaeringsfysiolog",
   revmatolog: "revmatologi",
   endokrinolog: "endokrinologi",
   sexolog: "sexologi",
   psykolog: "psykologi",
   gastrokirurg: "gastrokirurgi",
+  osteopati: "osteopati",
+  robotkirurgi: "robotkirurgi",
+  overvektskirurgi: "overvektskirurgi",
+  plastikkirurgi: "plastikkirurgi",
 };
+
+/** Clinic service IDs with a dedicated page but a non-standard path shape. */
+const CLINIC_SERVICE_PATH_OVERRIDES: Record<string, string> = {
+  fostermedisiner: "/graviditet/fostermedisin",
+  "sprengte-blodkar": "/ovrige/hudbehandlinger/rodhet-og-synlige-blodkar",
+  karkirurgi: "/ovrige/areknuter",
+};
+
+/** Metodika-only services — no public treatment page; omit link on clinic pages. */
+export const CLINIC_SERVICE_IDS_WITHOUT_PAGE = new Set([
+  "handterapeut",
+  "fysioterapeut",
+  "uroterapi",
+  "hjertespesialist",
+  "almennlege",
+]);
 
 /**
  * Href for "see all <category> services" deep-links on the pricing page.
@@ -157,11 +178,16 @@ const CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG: Record<string, string> = {
  * go to their specific treatment page under /ovrige when one exists, otherwise
  * to the /ovrige category landing page.
  */
-export function bookingCategoryHrefForClinicService(clinicServiceId: string): string {
+export function bookingCategoryHrefForClinicService(clinicServiceId: string): string | undefined {
+  if (CLINIC_SERVICE_IDS_WITHOUT_PAGE.has(clinicServiceId)) return undefined;
+  if (CLINIC_SERVICE_PATH_OVERRIDES[clinicServiceId]) {
+    return CLINIC_SERVICE_PATH_OVERRIDES[clinicServiceId];
+  }
   const pageId = bookingIdToCategoryPage[clinicServiceId];
   if (pageId) return `/${pageId}`;
   const treatmentSlug = CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG[clinicServiceId];
-  return treatmentSlug ? `/ovrige/${treatmentSlug}` : "/ovrige";
+  if (treatmentSlug) return `/ovrige/${treatmentSlug}`;
+  return undefined;
 }
 
 /**
