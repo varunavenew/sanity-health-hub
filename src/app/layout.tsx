@@ -4,9 +4,11 @@ import { isProductionDeploy, siteUrl } from "@/lib/env";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo/defaults";
 import {
   GoogleConsentDefault,
+  GoogleCookiebotHead,
   GoogleTagManagerHead,
   GoogleTagManagerNoscript,
 } from "@/components/analytics/GoogleTagManager";
+import { fetchGoogleAnalyticsSettings } from "@/lib/sanity/google-analytics.server";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -56,13 +58,16 @@ export default async function RootLayout({
 }) {
   const h = await headers();
   const htmlLang = h.get("x-cmedical-html-lang") ?? "nb-NO";
+  const analyticsLang = htmlLang.toLowerCase().startsWith("en") ? "en" : "no";
+  const analyticsSettings = await fetchGoogleAnalyticsSettings(analyticsLang);
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
-      <GoogleConsentDefault />
-      <GoogleTagManagerHead />
+      <GoogleConsentDefault settings={analyticsSettings} />
+      <GoogleCookiebotHead settings={analyticsSettings} />
+      <GoogleTagManagerHead settings={analyticsSettings} />
       <body className="min-h-screen bg-background font-sans antialiased">
-        <GoogleTagManagerNoscript />
+        <GoogleTagManagerNoscript settings={analyticsSettings} />
         {children}
       </body>
     </html>

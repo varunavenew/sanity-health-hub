@@ -37,8 +37,12 @@ export type HomepageHeroSlide = {
   ctaPath: string;
   image: string;
   mobileImage?: string;
-  /** @deprecated Prefer `media` — kept for callers that only check videoUrl. */
+  /** Desktop video URL when Desktop Media Type is Video. */
   videoUrl?: string;
+  /** Mobile video URL when Mobile Media Type is Video. */
+  mobileVideoUrl?: string;
+  desktopMediaType: "image" | "video";
+  mobileMediaType: "image" | "video";
   media?: ResolvedCmsMedia | null;
   objectPosition: string;
 };
@@ -481,18 +485,33 @@ export function mapHomepageDocument(
     heroSlides: (heroBanner?.slides || [])
       .map((slide, i) => {
         const s = slide as Record<string, unknown>;
-        const media = resolveCmsMedia(s.media, {
-          mediaType: asPlainString(s.videoUrl) ? "video" : "image",
-          imageUrl: asPlainString(s.image),
-          videoUrl: asPlainString(s.videoUrl),
-        });
+        const mediaRow =
+          s.media && typeof s.media === "object"
+            ? (s.media as Record<string, unknown>)
+            : undefined;
+        const desktopMediaType: "image" | "video" =
+          s.desktopMediaType === "video" || s.desktopMediaType === "image"
+            ? s.desktopMediaType
+            : mediaRow?.mediaType === "video"
+              ? "video"
+              : "image";
+        const mobileMediaType: "image" | "video" =
+          s.mobileMediaType === "video" ? "video" : "image";
+        const desktopVideoUrl =
+          asPlainString(s.desktopVideoUrl) || asPlainString(s.videoUrl);
+        const media = resolveCmsMedia(
+          desktopMediaType === "image" && mediaRow
+            ? {...mediaRow, mediaType: "image"}
+            : s.media,
+          {
+            mediaType: desktopMediaType,
+            imageUrl: asPlainString(s.image),
+            videoUrl: desktopMediaType === "video" ? desktopVideoUrl : undefined,
+          },
+        );
         const image =
           (media?.kind === "image" ? media.src : media?.poster) ||
           asPlainString(s.image);
-        const videoUrl =
-          media?.kind === "video" && media.src
-            ? media.src
-            : asPlainString(s.videoUrl) || undefined;
         return {
           id: `slide-${i}`,
           label: asPlainString(s.heading),
@@ -501,12 +520,23 @@ export function mapHomepageDocument(
           ctaPath: asPlainString(s.ctaLink) || "/",
           image,
           mobileImage: asPlainString(s.mobileImage) || undefined,
-          videoUrl,
+          videoUrl:
+            desktopMediaType === "video" ? desktopVideoUrl || undefined : undefined,
+          mobileVideoUrl:
+            mobileMediaType === "video"
+              ? asPlainString(s.mobileVideoUrl) || undefined
+              : undefined,
+          desktopMediaType,
+          mobileMediaType,
           media,
-          objectPosition: "center 30%",
+          objectPosition:
+            media?.kind === "video" ? "center center" : "center 30%",
         };
       })
-      .filter((s) => (s.image || s.videoUrl || s.media) && s.label),
+      .filter(
+        (s) =>
+          (s.image || s.videoUrl || s.mobileVideoUrl || s.media) && s.label,
+      ),
     categoryCards: serviceCategories
       .map((c) => {
         const row = c as Record<string, unknown> | null;

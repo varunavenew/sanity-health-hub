@@ -134,6 +134,7 @@ export type TreatmentData = {
   rating?: string;
   primaryCtaLabel?: string;
   bookingService?: string;
+  bookingServiceOptions?: string[];
   flowEyebrow?: string;
   flowTitle?: string;
   flowImage?: string;
@@ -302,6 +303,14 @@ export function mapTreatmentDocument(
     rating: row("rating"),
     primaryCtaLabel: row("primaryCtaLabel"),
     bookingService: row("bookingService"),
+    bookingServiceOptions: (() => {
+      const raw = data.bookingServiceOptions;
+      if (!Array.isArray(raw)) return undefined;
+      const values = raw
+        .map((item) => (typeof item === "string" ? item.trim() : ""))
+        .filter(Boolean);
+      return values.length > 0 ? values : undefined;
+    })(),
     flowEyebrow: row("flowEyebrow"),
     flowTitle: row("flowTitle"),
     flowImage: row("flowImage"),

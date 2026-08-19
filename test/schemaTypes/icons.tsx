@@ -180,3 +180,13 @@ export const HeroIcon = () => (
   </svg>
 )
 
+/** Settings — Google Analytics / GTM */
+export const AnalyticsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M3 3V21H21V19H5V3H3ZM7 17H9V10H7V17ZM11 17H13V7H11V17ZM15 17H17V13H15V17Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+

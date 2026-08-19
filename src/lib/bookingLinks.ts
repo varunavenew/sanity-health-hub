@@ -5,6 +5,7 @@
 // Supported params:
 //   ?kategori=gynekologi        — pre-selects service category
 //   &tjeneste=endometriose      — pre-selects a specific service (slug or fragment of name)
+//   &tjenesteValg=a,b,c         — show only these services; customer must choose (no auto-preselect)
 //   &aktivitetId=9              — Metodika wbactivity id (preferred for pricing Step 2)
 //   &spesialist=dr-hansen       — pre-selects a specialist (slug)
 //   &klinikk=majorstuen         — pre-selects a clinic
@@ -15,6 +16,8 @@ export interface BookingLinkParams {
   kategori?: string;     // category page id (gynekologi, urologi, fertilitet, ortopedi, graviditet, flere-fagomrader)
   kategoriId?: number;   // numeric category id from Sanity (optional)
   tjeneste?: string;     // service slug or partial name match
+  /** When set (2+ items), booking shows only these services — no auto-preselect. */
+  tjenesteValg?: string[];
   /** Metodika wbactivity id — resolves service across categories for Step 2. */
   aktivitetId?: number;
   spesialist?: string;   // specialist slug
@@ -139,14 +142,35 @@ export const bookingIdToCategoryPage: Record<string, string> = Object.entries(
  */
 const CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG: Record<string, string> = {
   areknuter: "areknuter",
-  hudlege: "hudlege",
-  ernaringsfysiolog: "ernaringsfysiolog",
+  hudlege: "hudhelse",
+  hudhelse: "hudhelse",
+  ernaringsfysiolog: "ernaeringsfysiolog",
   revmatolog: "revmatologi",
   endokrinolog: "endokrinologi",
   sexolog: "sexologi",
   psykolog: "psykologi",
   gastrokirurg: "gastrokirurgi",
+  osteopati: "osteopati",
+  robotkirurgi: "robotkirurgi",
+  overvektskirurgi: "overvektskirurgi",
+  plastikkirurgi: "plastikkirurgi",
 };
+
+/** Clinic service IDs with a dedicated page but a non-standard path shape. */
+const CLINIC_SERVICE_PATH_OVERRIDES: Record<string, string> = {
+  fostermedisiner: "/graviditet/fostermedisin",
+  "sprengte-blodkar": "/ovrige/hudbehandlinger/rodhet-og-synlige-blodkar",
+  karkirurgi: "/ovrige/areknuter",
+};
+
+/** Metodika-only services — no public treatment page; omit link on clinic pages. */
+export const CLINIC_SERVICE_IDS_WITHOUT_PAGE = new Set([
+  "handterapeut",
+  "fysioterapeut",
+  "uroterapi",
+  "hjertespesialist",
+  "almennlege",
+]);
 
 /**
  * Href for "see all <category> services" deep-links on the pricing page.
@@ -154,11 +178,16 @@ const CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG: Record<string, string> = {
  * go to their specific treatment page under /ovrige when one exists, otherwise
  * to the /ovrige category landing page.
  */
-export function bookingCategoryHrefForClinicService(clinicServiceId: string): string {
+export function bookingCategoryHrefForClinicService(clinicServiceId: string): string | undefined {
+  if (CLINIC_SERVICE_IDS_WITHOUT_PAGE.has(clinicServiceId)) return undefined;
+  if (CLINIC_SERVICE_PATH_OVERRIDES[clinicServiceId]) {
+    return CLINIC_SERVICE_PATH_OVERRIDES[clinicServiceId];
+  }
   const pageId = bookingIdToCategoryPage[clinicServiceId];
   if (pageId) return `/${pageId}`;
   const treatmentSlug = CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG[clinicServiceId];
-  return treatmentSlug ? `/ovrige/${treatmentSlug}` : "/ovrige";
+  if (treatmentSlug) return `/ovrige/${treatmentSlug}`;
+  return undefined;
 }
 
 /**
@@ -181,7 +210,11 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   const sp = new URLSearchParams();
   if (params.kategori) sp.set("kategori", params.kategori);
   if (params.kategoriId != null) sp.set("kategoriId", String(params.kategoriId));
-  if (params.tjeneste) sp.set("tjeneste", params.tjeneste);
+  if (params.tjenesteValg?.length) {
+    sp.set("tjenesteValg", params.tjenesteValg.join(","));
+  } else if (params.tjeneste) {
+    sp.set("tjeneste", params.tjeneste);
+  }
   if (params.aktivitetId != null && Number.isFinite(params.aktivitetId) && params.aktivitetId > 0) {
     sp.set("aktivitetId", String(params.aktivitetId));
   }
@@ -189,6 +222,15 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   if (params.klinikk) sp.set("klinikk", params.klinikk);
   const qs = sp.toString();
   return qs ? `/booking?${qs}` : "/booking";
+}
+
+/** Parse ?tjenesteValg=slug-a,slug-b from booking URL search params. */
+export function parseTjenesteValg(raw: string | null | undefined): string[] {
+  if (!raw?.trim()) return [];
+  return raw
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
 }
 
 /**

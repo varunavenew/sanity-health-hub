@@ -19,6 +19,7 @@ import mediaObject from './objects/media'
 import homepageSpecialistsSectionType from './homepageSpecialistsSection'
 import seo from './seo'
 import siteSettings from './siteSettings'
+import googleAnalyticsSettings from './googleAnalyticsSettings'
 import clinicPage from './clinicPage'
 import clinicsPage from './clinicsPage'
 import careersPage from './careersPage'
@@ -104,5 +105,6 @@ export const schemaTypes = [
   blockContent,
   seo,
   siteSettings,
+  googleAnalyticsSettings,
   ...clinicianGuideObjectTypes,
 ]

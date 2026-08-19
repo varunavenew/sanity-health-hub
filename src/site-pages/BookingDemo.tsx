@@ -19,9 +19,13 @@ import {
   categoryNumericIdToPageId,
   findBookingCategoryByApiGroupId,
   findBookingCategoryForPage,
-  slugifyNo,
+  parseTjenesteValg,
 } from "@/lib/bookingLinks";
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
+import {
+  filterServicesByOptions,
+  resolvePreselectedService,
+} from "@/lib/booking/resolve-booking-service";
 import {
   apiLocationToClinic,
   isExternalClinic,
@@ -209,6 +213,11 @@ const BookingDemo = () => {
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "no";
   const [searchParams] = useSearchParams();
+  const serviceChoiceSlugs = useMemo(
+    () => parseTjenesteValg(searchParams.get("tjenesteValg")),
+    [searchParams],
+  );
+  const hasServiceChoice = serviceChoiceSlugs.length > 1;
   const { specialists } = useSpecialistsData();
   const { data: bookingPageData = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
   const copy = bookingPageData;
@@ -458,6 +467,7 @@ const BookingDemo = () => {
     const kategori = searchParams.get("kategori");
     const kategoriIdRaw = searchParams.get("kategoriId");
     const tjeneste = searchParams.get("tjeneste");
+    const tjenesteValg = parseTjenesteValg(searchParams.get("tjenesteValg"));
     const aktivitetIdRaw = searchParams.get("aktivitetId");
     const spesialistSlug = searchParams.get("spesialist");
     const klinikkId = searchParams.get("klinikk");
@@ -474,6 +484,7 @@ const BookingDemo = () => {
       !effectiveKategori &&
       !kategoriIdRaw &&
       !tjeneste &&
+      tjenesteValg.length === 0 &&
       !Number.isFinite(aktivitetId) &&
       !spesialistSlug &&
       !klinikkId
@@ -544,13 +555,24 @@ const BookingDemo = () => {
       // (expandedCategory / filter already set). Do not invent a service.
     }
 
-    if (!resolvedService && tjeneste && resolvedCategoryListId) {
+    if (!resolvedService && tjenesteValg.length === 1 && resolvedCategoryListId) {
       const cat = bookingServices.find((c) => c.id === resolvedCategoryListId);
-      const targetSlug = slugifyNo(tjeneste);
-      resolvedService = cat?.services.find((s) => {
-        const nameSlug = slugifyNo(s.name);
-        return nameSlug === targetSlug || nameSlug.includes(targetSlug) || targetSlug.includes(nameSlug);
-      });
+      if (cat) {
+        const filtered = filterServicesByOptions(cat.services, tjenesteValg);
+        resolvedService = resolvePreselectedService(filtered, tjenesteValg[0]);
+      }
+    }
+
+    if (!resolvedService && tjeneste && resolvedCategoryListId && tjenesteValg.length === 0) {
+      const cat = bookingServices.find((c) => c.id === resolvedCategoryListId);
+      if (cat) {
+        resolvedService = resolvePreselectedService(cat.services, tjeneste);
+      }
+    }
+
+    // Multi-service choice: expand category but do not auto-select a service.
+    if (tjenesteValg.length > 1 && resolvedCategoryListId) {
+      setExpandedCategory(resolvedCategoryListId);
     }
 
     // 3. Clinic from URL is resolved after API availability loads (see effect below)
@@ -638,7 +660,7 @@ const BookingDemo = () => {
           return {
             id,
             status: "ready" as const,
-            label: formatDurationMinutes(mins),
+            label: formatDurationMinutes(mins, locale),
           };
         });
 
@@ -678,7 +700,7 @@ const BookingDemo = () => {
         return changed ? next : prev;
       });
     };
-  }, [expandedCategory, bookingServices]);
+  }, [expandedCategory, bookingServices, locale]);
 
   // wbfreetimes → rooms → locations (availability API)
   useEffect(() => {
@@ -1035,8 +1057,8 @@ const BookingDemo = () => {
     );
     const mins = onDay.find((slot) => slot.durationMinutes != null)?.durationMinutes;
     if (mins == null) return null;
-    return formatDurationMinutes(mins);
-  }, [selectedDate, apiFreeTimeSlots]);
+    return formatDurationMinutes(mins, locale);
+  }, [selectedDate, apiFreeTimeSlots, locale]);
 
   const handleClose = () => navigate("/");
 
@@ -1534,7 +1556,7 @@ const BookingDemo = () => {
                   : copy.step1Heading}
               </h2>
 
-              {filterToCategoryId && (
+              {filterToCategoryId && !hasServiceChoice && (
                 <div className="flex justify-center -mt-2 mb-2">
                   <button
                     type="button"
@@ -1573,7 +1595,13 @@ const BookingDemo = () => {
                       clinicsForCategory.length > 0 &&
                       allStep1ClinicTags.length > 0 &&
                       clinicsForCategory.length === allStep1ClinicTags.length;
-                    const isExpanded = expandedCategory === category.id;
+                    const visibleServices = hasServiceChoice
+                      ? filterServicesByOptions(category.services, serviceChoiceSlugs)
+                      : category.services;
+                    if (hasServiceChoice && visibleServices.length === 0) return null;
+                    const isExpanded =
+                      expandedCategory === category.id ||
+                      (hasServiceChoice && filterToCategoryId === category.id);
 
                     return (
                       <div
@@ -1627,7 +1655,7 @@ const BookingDemo = () => {
                               className="overflow-hidden bg-white border-t border-brand-dark/10"
                             >
                               <div className="p-3 space-y-2">
-                                {category.services.map((service) => {
+                                {visibleServices.map((service) => {
                                   const isFree = service.price === "0";
                                   const duration = serviceDurationLabel(
                                     service,
@@ -2151,7 +2179,7 @@ const BookingDemo = () => {
                     <div>
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
                       <p className="font-normal mt-1 text-brand-dark">
-                        {formatDurationMinutes(bookingData.slotDurationMinutes)}
+                        {formatDurationMinutes(bookingData.slotDurationMinutes, locale)}
                       </p>
                     </div>
                   )}

@@ -36,6 +36,7 @@ const MARKETING_NB_TO_EN: Record<string, string> = {
   "/kvinnehelse": "/kvinnehelse",
   "/robotassistert-kirurgi": "/robotassistert-kirurgi",
   "/tverrfaglige-team": "/tverrfaglige-team",
+  "/tjenester": "/services",
 };
 
 const MARKETING_EN_TO_NB: Record<string, string> = {};
