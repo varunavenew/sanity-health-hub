@@ -440,9 +440,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               <h2 className="mb-2 text-lg font-normal text-foreground">Tjenester ved denne klinikken</h2>
               <p className="mb-6 text-sm font-light text-muted-foreground">
                 CMedical {clinic.label} tilbyr {clinic.services.length} ulike tjenester.{" "}
-                {allServicesLinked
-                  ? "Klikk for å lese mer."
-                  : "Klikk på tjenestene med pil for å lese mer."}
+                {allServicesLinked && "Klikk på tjenestene med pil for å lese mer."}
               </p>
 
               <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
@@ -561,38 +559,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         seeAllHref={`${specialistsPath}?klinikk=${encodeURIComponent(clinic.label)}`}
         seeAllLabel="Se alle spesialister"
       />
-
-      {Array.isArray(clinic.treatments) && clinic.treatments.length > 0 ? (
-        <section className="bg-brand-warm/40 py-10 md:py-14">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="mx-auto max-w-3xl">
-              <h2 className="mb-6 text-lg font-normal text-foreground">Behandlinger ved klinikken</h2>
-              <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
-                {clinic.treatments.map((t) => {
-                  const href = t.categorySlug
-                    ? `/${t.categorySlug}/${t.slug}`
-                    : `/${t.slug}`;
-                  return (
-                    <li key={t.slug} className="group">
-                      <Link
-                        to={href}
-                        className="flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors group-hover:text-brand-dark"
-                      >
-                        <span>{plainMetaString(t.title, t.slug, sanityLang)}</span>
-                        <ArrowRight
-                          className="h-3.5 w-3.5 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
-                          strokeWidth={1.5}
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        </section>
-      ) : null}
 
       <ClinicBookingBlock
         booking={clinic.booking as Parameters<typeof ClinicBookingBlock>[0]["booking"]}
