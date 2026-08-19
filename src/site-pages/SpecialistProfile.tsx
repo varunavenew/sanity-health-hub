@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
-import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
@@ -92,7 +91,7 @@ function SpecialistProfileBody({
   specialist: Specialist;
   profileUi: SpecialistProfileUi;
 }) {
-  const bookingRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "nb";
   const specialistsPath = useNavCmsPath("specialists");
@@ -105,9 +104,7 @@ function SpecialistProfileBody({
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
   const profilePath = `${specialistsPath}/${specialist.slug}`;
 
-  const scrollToBooking = () => {
-    bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const goToBooking = () => navigate("/booking");
 
   const physicianJsonLd = {
     "@context": "https://schema.org",
@@ -144,7 +141,7 @@ function SpecialistProfileBody({
         ]}
         jsonLd={profileJsonLd}
       />
-      <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
+      <SpecialistHero specialist={specialist} onBookingClick={goToBooking} />
       <SpecialistBio specialist={specialist} />
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
