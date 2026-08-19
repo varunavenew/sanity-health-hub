@@ -529,7 +529,8 @@ export function mapHomepageDocument(
           desktopMediaType,
           mobileMediaType,
           media,
-          objectPosition: "center 30%",
+          objectPosition:
+            media?.kind === "video" ? "center center" : "center 30%",
         };
       })
       .filter(

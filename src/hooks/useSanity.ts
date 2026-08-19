@@ -1118,9 +1118,24 @@ export const useThemePage = (slug: string) => {
         title: string;
         geoSummary?: string;
         heroImage?: string;
+        heroMedia?: unknown;
         introTexts?: string[];
         sections?: { heading: string; paragraphs?: string[]; bulletPoints?: string[] }[];
         lifePhases?: { title: string; text: string }[];
+        supportSpecialtiesSection?: {
+          title?: string;
+          intro?: string;
+          items?: Array<{ title?: string; description?: string }>;
+        };
+        specialtyAreasSection?: {
+          title?: string;
+          cards?: Array<{
+            title?: string;
+            href?: string;
+            image?: string;
+            imageAlt?: string;
+          }>;
+        };
         ctaText?: string;
         ctaLink?: string;
         pageSections?: unknown;
@@ -1164,6 +1179,48 @@ export const useThemePage = (slug: string) => {
             .filter((phase) => phase.title && phase.text)
         : [];
 
+      const supportSpecialtiesSection = data.supportSpecialtiesSection
+        ? {
+            title:
+              typeof data.supportSpecialtiesSection.title === "string"
+                ? data.supportSpecialtiesSection.title.trim()
+                : "",
+            intro:
+              typeof data.supportSpecialtiesSection.intro === "string"
+                ? data.supportSpecialtiesSection.intro.trim()
+                : "",
+            items: Array.isArray(data.supportSpecialtiesSection.items)
+              ? data.supportSpecialtiesSection.items
+                  .map((item) => ({
+                    title: typeof item.title === "string" ? item.title.trim() : "",
+                    description:
+                      typeof item.description === "string" ? item.description.trim() : "",
+                  }))
+                  .filter((item) => item.title && item.description)
+              : [],
+          }
+        : undefined;
+
+      const specialtyAreasSection = data.specialtyAreasSection
+        ? {
+            title:
+              typeof data.specialtyAreasSection.title === "string"
+                ? data.specialtyAreasSection.title.trim()
+                : "",
+            cards: Array.isArray(data.specialtyAreasSection.cards)
+              ? data.specialtyAreasSection.cards
+                  .map((card) => ({
+                    title: typeof card.title === "string" ? card.title.trim() : "",
+                    href: typeof card.href === "string" ? card.href.trim() : "",
+                    image: typeof card.image === "string" ? card.image.trim() : "",
+                    imageAlt:
+                      typeof card.imageAlt === "string" ? card.imageAlt.trim() : "",
+                  }))
+                  .filter((card) => card.title && card.href && card.image)
+              : [],
+          }
+        : undefined;
+
       return {
         ...data,
         title: typeof data.title === "string" ? data.title.trim() : "",
@@ -1171,6 +1228,8 @@ export const useThemePage = (slug: string) => {
         introTexts,
         sections,
         lifePhases,
+        supportSpecialtiesSection,
+        specialtyAreasSection,
         ctaText: typeof data.ctaText === "string" ? data.ctaText.trim() : "",
         ctaLink: typeof data.ctaLink === "string" ? data.ctaLink.trim() : "",
         pageSections: normalizePageSections(data.pageSections),

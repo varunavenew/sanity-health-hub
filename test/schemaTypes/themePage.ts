@@ -33,6 +33,13 @@ export default {
       validation: softImageRules('hero'),
     },
     {
+      name: 'heroMedia',
+      title: 'Hero media (optional)',
+      type: 'media',
+      description:
+        'Optional video/image hero. When set, replaces the static hero image on the live page.',
+    },
+    {
       name: 'introTexts',
       title: 'Intro texts',
       type: 'array',
@@ -87,6 +94,91 @@ export default {
               return { title: pickStudioEn(title) }
             },
           },
+        },
+      ],
+    },
+    {
+      name: 'supportSpecialtiesSection',
+      title: 'Support specialties (støttefag)',
+      type: 'object',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        { name: 'title', title: 'Heading', type: 'internationalizedArrayString' },
+        {
+          name: 'intro',
+          title: 'Intro (optional)',
+          type: 'internationalizedArrayText',
+          description: 'Lead-in paragraph before the støttefag list',
+        },
+        {
+          name: 'items',
+          title: 'Items',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+                {
+                  name: 'description',
+                  title: 'Description',
+                  type: 'internationalizedArrayText',
+                },
+              ],
+              preview: {
+                select: { title: 'title' },
+                prepare({ title }: any) {
+                  return { title: pickStudioEn(title) || 'Støttefag' }
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'specialtyAreasSection',
+      title: 'Specialty areas (Fagområdene våre)',
+      type: 'object',
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        { name: 'title', title: 'Heading', type: 'internationalizedArrayString' },
+        {
+          name: 'cards',
+          title: 'Image cards',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+                {
+                  name: 'href',
+                  title: 'Link path',
+                  type: 'internationalizedArrayString',
+                  description: 'Internal path without locale, e.g. /gynekologi or /services',
+                },
+                {
+                  name: 'image',
+                  title: 'Card image',
+                  type: 'image',
+                  options: mediaImageOptions('card'),
+                  validation: softImageRules('card'),
+                },
+                {
+                  name: 'imageAlt',
+                  title: 'Image alt text',
+                  type: 'internationalizedArrayString',
+                },
+              ],
+              preview: {
+                select: { title: 'title', media: 'image' },
+                prepare({ title, media }: any) {
+                  return { title: pickStudioEn(title) || 'Card', media }
+                },
+              },
+            },
+          ],
         },
       ],
     },

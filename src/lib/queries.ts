@@ -1690,11 +1690,41 @@ export const FAQS_BY_TREATMENT_CATEGORY_QUERY = `*[_type == "faq" && ${slugMatch
 export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("slug")}][0]{
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   "heroImage": heroImage.asset->url,
-  introTexts,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
+  "introTexts": introTexts[]{
+    "text": coalesce(@[language == $lang][0].value, @[_key == $lang][0].value, @[language == "no"][0].value, @[_key == "no"][0].value)
+  }.text,
   ${i18nText('geoSummary')},
-  sections[]{heading, paragraphs, bulletPoints},
-  lifePhases[]{title, text},
-  ctaText, ctaLink,
+  sections[]{
+    "heading": coalesce(heading[language == $lang][0].value, heading[_key == $lang][0].value, heading[language == "no"][0].value, heading[_key == "no"][0].value, heading),
+    paragraphs,
+    "bulletPoints": bulletPoints[]{
+      "text": coalesce(@[language == $lang][0].value, @[_key == $lang][0].value, @[language == "no"][0].value, @[_key == "no"][0].value)
+    }.text
+  },
+  lifePhases[]{
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value, text)
+  },
+  supportSpecialtiesSection{
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${i18nText('intro')},
+    "items": items[]{
+      "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+      "description": coalesce(description[language == $lang][0].value, description[_key == $lang][0].value, description[language == "no"][0].value, description[_key == "no"][0].value, description)
+    }
+  },
+  specialtyAreasSection{
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    cards[]{
+      "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+      "href": coalesce(href[language == $lang][0].value, href[_key == $lang][0].value, href[language == "no"][0].value, href[_key == "no"][0].value, href),
+      "image": image.asset->url,
+      "imageAlt": coalesce(imageAlt[language == $lang][0].value, imageAlt[_key == $lang][0].value, imageAlt[language == "no"][0].value, imageAlt[_key == "no"][0].value, imageAlt)
+    }
+  },
+  "ctaText": coalesce(ctaText[language == $lang][0].value, ctaText[_key == $lang][0].value, ctaText[language == "no"][0].value, ctaText[_key == "no"][0].value, ctaText),
+  ctaLink,
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
