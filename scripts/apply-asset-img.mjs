@@ -50,7 +50,6 @@ const files = [
   "src/site-pages/ProductDetail.tsx",
   "src/site-pages/Specialists.tsx",
   "src/site-pages/themes/RobotkirurgiPage.tsx",
-  "src/site-pages/themes/TverrfagligePage.tsx",
   "src/site-pages/treatments/CategoryPageNew.tsx",
   "src/site-pages/treatments/CategoryPage.tsx",
   "src/site-pages/treatments/Fertility.tsx",

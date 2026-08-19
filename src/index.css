@@ -389,18 +389,10 @@
     object-position: var(--media-focal, 50% 20%);
   }
 
-  /* Portraits / specialist heroes: cover on phones–laptop, contain on large desktops
-     so faces aren't side-cropped in wide half-columns (1600–2560+). */
+  /* Portraits / specialist heroes: always cover, fills the half-column edge to edge. */
   .cm-media--profile {
     object-fit: cover;
     object-position: var(--media-focal, 50% 20%);
-  }
-
-  @media (min-width: 1440px) {
-    .cm-media--profile {
-      object-fit: contain;
-      object-position: var(--media-focal, 50% 15%);
-    }
   }
 
   /* Soften full-bleed hero crop on ultrawide: keep cover but prefer focal. */

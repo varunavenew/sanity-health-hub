@@ -11,11 +11,6 @@ export type MediaFitMode = "cover" | "contain";
 type VariantConfig = {
   /** Base object-fit */
   fit: MediaFitMode;
-  /**
-   * On large desktops / ultrawide, prefer contain for portraits so faces aren't
-   * side-cropped. Cover remains the default for marketing heroes.
-   */
-  largeScreenFit?: MediaFitMode;
   /** Default object-position when no Sanity hotspot is present */
   fallbackPosition: string;
   /** Utility class applied to the media element */
@@ -30,8 +25,6 @@ export const MEDIA_VARIANT_CONFIG: Record<MediaVariant, VariantConfig> = {
   },
   profile: {
     fit: "cover",
-    // Prefer full subject on wide half-columns (specialist / portrait heroes).
-    largeScreenFit: "contain",
     fallbackPosition: "50% 20%",
     className: "cm-media cm-media--profile",
   },
