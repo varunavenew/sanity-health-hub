@@ -210,6 +210,8 @@ interface BookingData {
   service?: BookingServiceItem;
   clinic?: BookingClinic;
   specialistChosen?: boolean; // true once user has passed the specialist step
+  /** Step 3 "Første ledige" — persists through slot pick so back from step 5 restores all specialists. */
+  firstAvailableFlow?: boolean;
   date?: Date;
   time?: string;
   specialist?: Specialist | BookingCaregiver;
@@ -447,8 +449,7 @@ const BookingDemo = () => {
     isPasientskyBooking,
   ]);
 
-  const isFirstAvailableFlow =
-    Boolean(bookingData.specialistChosen) && !bookingData.specialist;
+  const isFirstAvailableFlow = Boolean(bookingData.firstAvailableFlow);
 
   const progressAriaLabels = useMemo(() => {
     if (isPasientskyBooking) {
@@ -622,6 +623,7 @@ const BookingDemo = () => {
         if (resolvedSpecialist) {
           next.specialist = resolvedSpecialist;
           next.specialistChosen = true;
+          next.firstAvailableFlow = false;
         }
         return next;
       });
@@ -640,6 +642,7 @@ const BookingDemo = () => {
       ...prev,
       specialist: match,
       specialistChosen: true,
+      firstAvailableFlow: false,
     }));
   }, [searchParams, specialists, bookingData.specialist]);
 
@@ -1327,6 +1330,7 @@ const BookingDemo = () => {
       service,
       clinic: undefined,
       specialistChosen: false,
+      firstAvailableFlow: undefined,
       date: undefined,
       time: undefined,
       specialist: undefined,
@@ -1411,7 +1415,8 @@ const BookingDemo = () => {
     setBookingData({
       ...bookingData,
       clinic,
-      specialistChosen: keepSpecialist,
+      specialistChosen: keepSpecialist || Boolean(bookingData.firstAvailableFlow),
+      firstAvailableFlow: keepSpecialist ? false : bookingData.firstAvailableFlow,
       date: undefined,
       time: undefined,
       specialist: keepSpecialist ? bookingData.specialist : undefined,
@@ -1559,6 +1564,7 @@ const BookingDemo = () => {
         ...bookingData,
         clinic: undefined,
         specialistChosen: false,
+        firstAvailableFlow: undefined,
         date: undefined,
         time: undefined,
         specialist: undefined,
@@ -1569,6 +1575,7 @@ const BookingDemo = () => {
       setBookingData({
         ...bookingData,
         specialistChosen: false,
+        firstAvailableFlow: undefined,
         specialist: undefined,
         date: undefined,
         time: undefined,
@@ -1580,7 +1587,7 @@ const BookingDemo = () => {
         ...bookingData,
         date: undefined,
         time: undefined,
-        specialist: bookingData.specialist,
+        specialist: bookingData.firstAvailableFlow ? undefined : bookingData.specialist,
         slotDurationMinutes: undefined,
         selectedSlot: undefined,
       });
@@ -2076,6 +2083,7 @@ const BookingDemo = () => {
                     setBookingData({
                       ...bookingData,
                       specialistChosen: true,
+                      firstAvailableFlow: true,
                       specialist: undefined,
                       date: undefined,
                       time: undefined,
@@ -2132,6 +2140,7 @@ const BookingDemo = () => {
                           setBookingData({
                             ...bookingData,
                             specialistChosen: true,
+                            firstAvailableFlow: false,
                             specialist: spec,
                             date: undefined,
                             time: undefined,
