@@ -1,6 +1,8 @@
 const BOOKING_API_BASE =
   process.env.BOOKING_API_BASE_URL || "http://13.50.107.42/api/v1/resources";
 
+export { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
+
 export const BOOKING_URLS = {
   freetimes: process.env.BOOKING_FREETIMES_URL || `${BOOKING_API_BASE}/wbfreetimes`,
   rooms: process.env.BOOKING_ROOMS_URL || `${BOOKING_API_BASE}/rooms`,
@@ -141,8 +143,46 @@ function bookingCacheKey(url: string, apiKey: string): string {
   return `${url}::${apiKey}`;
 }
 
-function freetimesUrlFor(wbactivityId: string | number): string {
-  return `${BOOKING_URLS.freetimes}?wbactivity-id=${encodeURIComponent(String(wbactivityId))}`;
+export interface FreetimesQueryOptions {
+  version?: number;
+  queryMode?: "alltimes";
+  useInterval?: boolean;
+  searchFromTime?: string;
+  searchToTime?: string;
+  locationId?: number;
+  caregiverUserId?: number;
+}
+
+export function freetimesUrlFor(
+  wbactivityId: string | number,
+  options?: FreetimesQueryOptions,
+): string {
+  const params = new URLSearchParams();
+  params.set("wbactivity-id", String(wbactivityId));
+
+  if (options?.version != null) {
+    params.set("version", String(options.version));
+  }
+  if (options?.queryMode) {
+    params.set("querymode", options.queryMode);
+  }
+  if (options?.useInterval) {
+    params.set("useinterval", "true");
+  }
+  if (options?.searchFromTime) {
+    params.set("searchfromtime", options.searchFromTime);
+  }
+  if (options?.searchToTime) {
+    params.set("searchtotime", options.searchToTime);
+  }
+  if (options?.locationId != null) {
+    params.set("location-id", String(options.locationId));
+  }
+  if (options?.caregiverUserId != null) {
+    params.set("caregiver_user-id", String(options.caregiverUserId));
+  }
+
+  return `${BOOKING_URLS.freetimes}?${params.toString()}`;
 }
 
 /** Deduped fetch with optional TTL cache (shares in-flight requests for the same URL). */
@@ -196,8 +236,9 @@ async function fetchBookingResourceDeduped(
 export async function fetchBookingFreetimesPayload(
   wbactivityId: string | number,
   apiKey: string,
+  options?: FreetimesQueryOptions,
 ): Promise<unknown> {
-  return fetchBookingResourceDeduped(freetimesUrlFor(wbactivityId), apiKey, {
+  return fetchBookingResourceDeduped(freetimesUrlFor(wbactivityId, options), apiKey, {
     cacheTtlMs: FREETIMES_CACHE_TTL_MS,
     negativeCacheTtlMs: FREETIMES_NEGATIVE_CACHE_TTL_MS,
   });
@@ -207,9 +248,10 @@ export async function fetchBookingFreetimesPayload(
 export async function fetchBookingFreetimesList(
   wbactivityId: string | number,
   apiKey: string,
+  options?: FreetimesQueryOptions,
 ): Promise<unknown[]> {
   try {
-    const payload = await fetchBookingFreetimesPayload(wbactivityId, apiKey);
+    const payload = await fetchBookingFreetimesPayload(wbactivityId, apiKey, options);
     return unwrapList(payload);
   } catch {
     return [];
@@ -233,6 +275,25 @@ export async function fetchBookingResourceCached(
 export function bookingResourceUrl(base: string, id: number | string): string {
   const separator = base.includes("?") ? "&" : "?";
   return `${base}${separator}id=${encodeURIComponent(String(id))}`;
+}
+
+export const WBACTIVITIES_SELLIMIT = 1000;
+
+export interface WbActivitiesListOptions {
+  fields?: string;
+  sellimit?: number;
+}
+
+/** List URL for Metodika wbactivities (Henrik: sellimit=1000 + optional fields). */
+export function wbactivitiesListUrl(options?: WbActivitiesListOptions): string {
+  const base = BOOKING_URLS.wbactivities.replace(/\/$/, "");
+  const params = new URLSearchParams();
+  params.set("sellimit", String(options?.sellimit ?? WBACTIVITIES_SELLIMIT));
+  if (options?.fields) {
+    params.set("fields", options.fields);
+  }
+  const separator = base.includes("?") ? "&" : "?";
+  return `${base}${separator}${params.toString()}`;
 }
 
 export async function postBookingResource(

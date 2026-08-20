@@ -71,12 +71,27 @@ function priceFromApiItem(entry: ApiItemPrice | undefined): string | null {
   );
 }
 
+/** Build Metodika itemprices URL for one procedure id. */
+export function itemPricesUrl(
+  procedureId: number,
+  options?: { baseDate?: string },
+): string {
+  const params = new URLSearchParams();
+  params.set("item.procedure.id", String(procedureId));
+  const baseDate = options?.baseDate?.trim();
+  if (baseDate) {
+    params.set("basedate", baseDate);
+  }
+  return `${BOOKING_URLS.itemPrices}?${params.toString()}`;
+}
+
 /** Fetch price for one procedure id (`activity-id` / `item.procedure.id`). */
 export async function fetchProcedurePrice(
   procedureId: number,
   apiKey: string,
+  options?: { baseDate?: string },
 ): Promise<string | null> {
-  const url = `${BOOKING_URLS.itemPrices}?item.procedure.id=${procedureId}`;
+  const url = itemPricesUrl(procedureId, options);
   const payload = await fetchBookingResource(url, apiKey);
   const prices = unwrapList(payload) as ApiItemPrice[];
   return priceFromApiItem(prices[0]);
@@ -86,11 +101,12 @@ export async function fetchProcedurePrice(
 export async function fetchProcedurePriceMap(
   procedureIds: number[],
   apiKey: string,
+  options?: { baseDate?: string },
 ): Promise<Map<number, string>> {
   const unique = [...new Set(procedureIds)];
   const entries = await mapWithConcurrency(unique, PRICE_FETCH_CONCURRENCY, async (procedureId) => {
     try {
-      const price = await fetchProcedurePrice(procedureId, apiKey);
+      const price = await fetchProcedurePrice(procedureId, apiKey, options);
       return [procedureId, price] as const;
     } catch {
       return [procedureId, null] as const;

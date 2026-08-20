@@ -6,9 +6,12 @@ import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfil
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
+import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
+import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import {
   bookingUrlForSpecialistContext,
   clinicSlugForSpecialistBooking,
+  filterServicesForCaregiverWbActivities,
   filterSpecialistBookingCategories,
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
@@ -28,17 +31,29 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
   );
   const { categories: metodikaCategories, loading } =
     useSpecialistMetodikaBooking(bookingCategoryIds);
-  const categories = useMemo(
-    () => filterSpecialistBookingCategories(specialist, metodikaCategories),
-    [specialist, metodikaCategories],
-  );
+  const caregiverUserId = resolveBookingCaregiverUserId(specialist);
+  const { allowedIds, loading: matrixLoading } =
+    useCaregiverWbActivities(caregiverUserId);
+  const categories = useMemo(() => {
+    const filtered = filterSpecialistBookingCategories(specialist, metodikaCategories);
+    if (allowedIds.size === 0) return filtered;
+    return filtered
+      .map((category) => ({
+        ...category,
+        services: filterServicesForCaregiverWbActivities(
+          category.services,
+          allowedIds,
+        ),
+      }))
+      .filter((category) => category.services.length > 0);
+  }, [specialist, metodikaCategories, allowedIds]);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   if (bookingCategoryIds.length === 0) {
     return null;
   }
 
-  if (loading) {
+  if (loading || (caregiverUserId != null && matrixLoading)) {
     return (
       <div className="flex items-center justify-center gap-2 py-8 text-white/60">
         <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
