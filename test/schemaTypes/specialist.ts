@@ -2,10 +2,8 @@
 // Phase 16B: Studio polish — Category/Treatment UX parity; architecture preserved
 import { SpecialistIcon } from './icons'
 import {
-  hasNoEnBlockContent,
   hasSpecialtyWithEnText,
   hasSpecialtyWithNoText,
-  requiredNoEnBlockContent,
   i18nSlugFieldFromString,
   pickForLang,
   pickNo,
@@ -294,8 +292,7 @@ export default {
       type: 'internationalizedArrayBlockContent',
       group: 'pageContent',
       fieldset: 'pcBio',
-      description: 'Required. Extended biography on the profile page (NO + EN).',
-      validation: requiredNoEnBlockContent('Biography'),
+      description: 'Extended biography on the profile page (NO + EN).',
     },
     {
       name: 'education',
@@ -548,13 +545,6 @@ export default {
       if (!pickNo(document.role)?.trim()) issues.push('Title / role (Norwegian) is missing')
       if (!pickForLang(document.role, 'en')?.trim()) {
         issues.push('Title / role (English) is missing')
-      }
-      if (!pickNo(document.shortBio)?.trim()) issues.push('Short biography (Norwegian) is missing')
-      if (!pickForLang(document.shortBio, 'en')?.trim()) {
-        issues.push('Short biography (English) is missing')
-      }
-      if (!hasNoEnBlockContent(document.bio)) {
-        issues.push('Biography (Norwegian and English) is missing')
       }
       if (!hasSpecialtyWithNoText(document.specialties)) {
         issues.push('At least one specialty with Norwegian text is missing')
