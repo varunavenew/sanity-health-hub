@@ -1,5 +1,7 @@
-import type { ImageRef } from "@/lib/media";
+import { personNamesLooselyEqual } from "@/lib/booking/caregiverNameMatch";
 import { placeholderImageForCaregiverId } from "@/lib/booking/caregiverPlaceholders";
+import type { Specialist } from "@/lib/sanity/specialist-types";
+import type { ImageRef } from "@/lib/media";
 
 export type BookingCaregiver = {
   name: string;
@@ -9,6 +11,24 @@ export type BookingCaregiver = {
   slug: string;
   phonemobile?: string;
 };
+
+/** Match Metodika caregiver to Sanity specialist (metodikaUserId, then name). */
+export function resolveSanitySpecialistForCaregiver(
+  caregiver: BookingCaregiver,
+  specialists: Specialist[],
+): Specialist | undefined {
+  const byId = specialists.find((s) => s.metodikaUserId === caregiver.apiUserId);
+  if (byId) return byId;
+  return specialists.find((s) => personNamesLooselyEqual(s.name, caregiver.name));
+}
+
+export function bookingPersonForModal(
+  person: Specialist | BookingCaregiver,
+  specialists: Specialist[],
+): Specialist | BookingCaregiver {
+  if (!isBookingCaregiver(person)) return person;
+  return resolveSanitySpecialistForCaregiver(person, specialists) ?? person;
+}
 
 export function isBookingCaregiver(value: unknown): value is BookingCaregiver {
   return (

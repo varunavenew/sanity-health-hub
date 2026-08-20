@@ -57,7 +57,9 @@ import {
   step1ClinicDisplayTagsForCategory,
 } from "@/lib/sanity/booking-page-step1-clinics";
 import {
+  bookingPersonForModal,
   isBookingCaregiver,
+  resolveSanitySpecialistForCaregiver,
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
 import {
@@ -317,7 +319,9 @@ const BookingDemo = () => {
   // When user arrives with ?kategori=..., filter step 1 to that category only.
   // Cleared by "Vis alle tjenester" button so the user can change their mind.
   const [filterToCategoryId, setFilterToCategoryId] = useState<string | null>(null);
-  const [selectedSpecialistInfo, setSelectedSpecialistInfo] = useState<Specialist | null>(null);
+  const [selectedSpecialistInfo, setSelectedSpecialistInfo] = useState<
+    Specialist | BookingCaregiver | null
+  >(null);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -442,6 +446,9 @@ const BookingDemo = () => {
     bookingData.time,
     isPasientskyBooking,
   ]);
+
+  const isFirstAvailableFlow =
+    Boolean(bookingData.specialistChosen) && !bookingData.specialist;
 
   const progressAriaLabels = useMemo(() => {
     if (isPasientskyBooking) {
@@ -1050,6 +1057,14 @@ const BookingDemo = () => {
     bookingData.specialist,
   );
 
+  const caregiverByUserId = useMemo(() => {
+    const map = new Map<number, BookingCaregiver>();
+    for (const caregiver of bookingCaregivers) {
+      map.set(caregiver.apiUserId, caregiver);
+    }
+    return map;
+  }, [bookingCaregivers]);
+
   const caregiverIdsFromSlots = useMemo(() => {
     if (!hasApiActivity) return [];
     const selectedLocationId =
@@ -1202,9 +1217,15 @@ const BookingDemo = () => {
         : undefined;
     if (selectedLocationId != null && calendarHintsLoading) return;
 
-    if (selectedDate && selectedDate >= today) return;
+    const selectedHasSlots =
+      selectedDate != null && datesWithApiSlots.has(dayKey(selectedDate));
+    if (selectedDate && selectedDate >= today && selectedHasSlots) return;
 
-    const firstDay = bookableDates[0] ?? today;
+    const firstDay = bookableDates[0];
+    if (!firstDay) {
+      setSelectedDate(undefined);
+      return;
+    }
     setSelectedDate(firstDay);
     setWeekOffset(Math.max(0, Math.min(MAX_CALENDAR_WEEKS, weekOffsetForDate(firstDay, today))));
   }, [
@@ -1216,6 +1237,7 @@ const BookingDemo = () => {
     selectedDate,
     today,
     bookingData.clinic,
+    datesWithApiSlots,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
@@ -1262,7 +1284,11 @@ const BookingDemo = () => {
         lengthTime: slot.lengthTime,
         caregiverUserId: slot.caregiverUserId,
         roomId: slot.roomId,
-      }));
+      }))
+      .sort(
+        (a, b) =>
+          new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+      );
   }, [
     selectedDate,
     selectedDaySlots,
@@ -1400,9 +1426,20 @@ const BookingDemo = () => {
 
   const handleSelectTimeSlot = (slot: DisplayTimeSlot) => {
     const roomId = slot.roomId;
+    const slotCaregiver =
+      slot.caregiverUserId != null
+        ? caregiverByUserId.get(slot.caregiverUserId)
+        : undefined;
     const caregiverUserId =
       resolveBookingCaregiverUserId(bookingData.specialist) ??
       slot.caregiverUserId;
+
+    const resolvedSpecialist: Specialist | BookingCaregiver | undefined =
+      bookingData.specialist ??
+      (slotCaregiver
+        ? resolveSanitySpecialistForCaregiver(slotCaregiver, specialists) ??
+          slotCaregiver
+        : undefined);
 
     const lengthTime =
       slot.lengthTime?.trim() ||
@@ -1414,6 +1451,7 @@ const BookingDemo = () => {
       ...bookingData,
       date: selectedDate,
       time: slot.time,
+      specialist: resolvedSpecialist,
       slotDurationMinutes: slot.durationMinutes,
       selectedSlot: {
         startDateTime: slot.startDateTime,
@@ -2044,7 +2082,7 @@ const BookingDemo = () => {
                       slotDurationMinutes: undefined,
                     })
                   }
-                  className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
+                  className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
                   <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
@@ -2083,7 +2121,7 @@ const BookingDemo = () => {
                 )}
 
               {(!hasApiActivity || !caregiversLoading) && step3Caregivers.length > 0 && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   {step3Caregivers.map((spec) => (
                     <div
                       key={isBookingCaregiver(spec) ? `api-${spec.apiUserId}` : spec.slug}
@@ -2100,7 +2138,7 @@ const BookingDemo = () => {
                             slotDurationMinutes: undefined,
                           })
                         }
-                        className="w-full flex flex-col items-center p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-center group"
+                        className="w-full flex flex-col items-center p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-center group"
                       >
                         <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                           <AssetImg
@@ -2116,18 +2154,17 @@ const BookingDemo = () => {
                           {spec.title}
                         </span>
                       </button>
-                      {"bio" in spec && spec.bio ? (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedSpecialistInfo(spec as Specialist);
-                          }}
-                          className="absolute top-2 right-2 w-6 h-6 rounded-full bg-brand-beige hover:bg-brand-dark hover:text-brand-warm flex items-center justify-center transition-colors"
-                          aria-label={`Les mer om ${spec.name}`}
-                        >
-                          <Info className="w-3.5 h-3.5" />
-                        </button>
-                      ) : null}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedSpecialistInfo(bookingPersonForModal(spec, specialists));
+                        }}
+                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-brand-beige hover:bg-brand-dark hover:text-brand-warm flex items-center justify-center transition-colors"
+                        aria-label={`Les mer om ${spec.name}`}
+                      >
+                        <Info className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -2155,10 +2192,10 @@ const BookingDemo = () => {
               {/* Horisontal 7-dagers stripe — hverdager, ledighet fra API */}
               <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
                 <div className="mb-5 flex items-end justify-between">
-                  <div>
-                    <p className="text-xs text-brand-dark/60 font-medium mb-1 uppercase">
-                      {copy.step4SelectedDayLabel}
-                    </p>
+                    <div>
+                      <p className="text-xs text-brand-dark/60 font-medium mb-1">
+                        {copy.step4SelectedDayLabel}
+                      </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
                       {selectedDate
                         ? format(selectedDate, "EEEE d. MMMM", { locale: nb })
@@ -2301,7 +2338,7 @@ const BookingDemo = () => {
                             </span>
                             <span
                               className={cn(
-                                "text-xs font-light",
+                                "text-[10px] font-light leading-none",
                                 isSelected
                                   ? "text-brand-warm/80"
                                   : isDisabled
@@ -2324,7 +2361,7 @@ const BookingDemo = () => {
                 <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
-                      <p className="text-xs text-brand-dark/60 font-medium mb-1 uppercase">
+                      <p className="text-xs text-brand-dark/60 font-medium mb-1">
                         {copy.step4PickTimeLabel}
                       </p>
                       <h3 className="text-xl font-light text-brand-dark capitalize">
@@ -2348,17 +2385,58 @@ const BookingDemo = () => {
                   ) : timesLoading ? (
                     <p className="text-sm text-brand-dark/60 font-light">{copy.step4LoadingTimes}</p>
                   ) : availableSlots.length > 0 ? (
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                      {availableSlots.map((slot) => (
-                        <button
-                          key={slot.startDateTime}
-                          onClick={() => handleSelectTimeSlot(slot)}
-                          className="py-3 px-4 bg-white border border-brand-dark/10 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
-                        >
-                          {slot.time}
-                        </button>
-                      ))}
-                    </div>
+                    isFirstAvailableFlow ? (
+                      <div className="space-y-2">
+                        {availableSlots.map((slot) => {
+                          const caregiver =
+                            slot.caregiverUserId != null
+                              ? caregiverByUserId.get(slot.caregiverUserId)
+                              : undefined;
+                          return (
+                            <button
+                              key={`${slot.startDateTime}-${slot.caregiverUserId ?? "unknown"}`}
+                              type="button"
+                              onClick={() => handleSelectTimeSlot(slot)}
+                              className="w-full flex items-center gap-4 p-3 bg-white border border-brand-dark/10 rounded-md hover:border-brand-dark/40 hover:shadow-sm transition-all text-left"
+                            >
+                              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-brand-dark/10">
+                                <AssetImg
+                                  src={resolveBookingSpecialistImage(caregiver?.image)}
+                                  alt={caregiver?.name ?? copy.stepLabelSpecialist}
+                                  className="w-full h-full object-cover object-top"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <span className="text-sm font-normal text-brand-dark block">
+                                  {caregiver?.name ?? copy.stepLabelSpecialist}
+                                </span>
+                                {caregiver?.title ? (
+                                  <span className="text-xs text-brand-dark/60 font-light">
+                                    {caregiver.title}
+                                  </span>
+                                ) : null}
+                              </div>
+                              <span className="font-light text-brand-dark text-lg tabular-nums">
+                                {slot.time}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                        {availableSlots.map((slot) => (
+                          <button
+                            key={`${slot.startDateTime}-${slot.caregiverUserId ?? "single"}`}
+                            type="button"
+                            onClick={() => handleSelectTimeSlot(slot)}
+                            className="py-3 px-4 bg-white border border-brand-dark/10 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
+                          >
+                            {slot.time}
+                          </button>
+                        ))}
+                      </div>
+                    )
                   ) : (
                     <FriendlyEmpty
                       title={copy.step4NoSlotsTitle}
@@ -2634,80 +2712,89 @@ const BookingDemo = () => {
         <DialogContent className="sm:max-w-2xl bg-brand-beige border-none p-0 overflow-hidden">
           {selectedSpecialistInfo && (
             <div className="flex flex-col">
-              {/* Header with image left, info right */}
               <div className="relative pt-8 pb-6 px-8">
                 <div className="flex items-start gap-6">
-                  {/* Image */}
                   <div className="flex-shrink-0">
                     <div className="h-28 w-28 rounded-full overflow-hidden ring-4 ring-white shadow-xl">
-                      <AssetImg 
-                        src={resolveBookingSpecialistImage(selectedSpecialistInfo.image)} 
-                        alt={selectedSpecialistInfo.name} 
+                      <AssetImg
+                        src={resolveBookingSpecialistImage(selectedSpecialistInfo.image)}
+                        alt={selectedSpecialistInfo.name}
                         className="h-full w-full object-cover object-top"
                       />
                     </div>
                   </div>
-                  
-                  {/* Name, title and badges */}
+
                   <div className="flex-1 pt-2">
-                    <h3 className="text-2xl font-normal text-foreground tracking-tight">{selectedSpecialistInfo.name}</h3>
-                    <p className="text-base text-muted-foreground mt-1 font-light">{selectedSpecialistInfo.title}</p>
-                    
-                    {/* Expertise badges */}
-                    {selectedSpecialistInfo.expertise && selectedSpecialistInfo.expertise.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {selectedSpecialistInfo.expertise.map((exp, idx) => (
-                          <span 
-                            key={idx} 
-                            className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
-                          >
-                            {exp}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    <h3 className="text-2xl font-normal text-foreground tracking-tight">
+                      {selectedSpecialistInfo.name}
+                    </h3>
+                    <p className="text-base text-muted-foreground mt-1 font-light">
+                      {selectedSpecialistInfo.title}
+                    </p>
+
+                    {!isBookingCaregiver(selectedSpecialistInfo) &&
+                      selectedSpecialistInfo.expertise &&
+                      selectedSpecialistInfo.expertise.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          {selectedSpecialistInfo.expertise.map((exp, idx) => (
+                            <span
+                              key={idx}
+                              className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
+                            >
+                              {exp}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
-              
-              {/* Bio and details section */}
+
               <div className="px-8 pb-8 space-y-5">
-                {/* Bio */}
-                {selectedSpecialistInfo.bio && (
+                {!isBookingCaregiver(selectedSpecialistInfo) && selectedSpecialistInfo.bio && (
                   <div>
-                    <p className="text-base text-muted-foreground font-light leading-relaxed">
+                    <p className="text-base text-muted-foreground font-light leading-relaxed whitespace-pre-line">
                       {selectedSpecialistInfo.bio}
                     </p>
                   </div>
                 )}
-                
-                {/* Info cards grid - 2x2 */}
-                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-foreground/10">
-                  {selectedSpecialistInfo.languages && selectedSpecialistInfo.languages.length > 0 && (
-                    <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs text-foreground/60 mb-1.5">Språk</p>
-                      <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.languages.join(", ")}</p>
-                    </div>
-                  )}
-                  {selectedSpecialistInfo.clinics && selectedSpecialistInfo.clinics.length > 0 && (
-                    <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs text-foreground/60 mb-1.5">Klinikk</p>
-                      <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.clinics.join(", ")}</p>
-                    </div>
-                  )}
-                  {selectedSpecialistInfo.education && (
-                    <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs text-foreground/60 mb-1.5">Utdanning</p>
-                      <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.education}</p>
-                    </div>
-                  )}
-                  {selectedSpecialistInfo.experience && (
-                    <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs text-foreground/60 mb-1.5">Erfaring</p>
-                      <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.experience}</p>
-                    </div>
-                  )}
-                </div>
+
+                {!isBookingCaregiver(selectedSpecialistInfo) && (
+                  <div className="grid grid-cols-2 gap-3 pt-4 border-t border-foreground/10">
+                    {selectedSpecialistInfo.languages && selectedSpecialistInfo.languages.length > 0 && (
+                      <div className="bg-white/50 rounded-xl p-4">
+                        <p className="text-xs text-foreground/60 mb-1.5">Språk</p>
+                        <p className="text-sm text-foreground font-light">
+                          {selectedSpecialistInfo.languages.join(", ")}
+                        </p>
+                      </div>
+                    )}
+                    {selectedSpecialistInfo.clinics && selectedSpecialistInfo.clinics.length > 0 && (
+                      <div className="bg-white/50 rounded-xl p-4">
+                        <p className="text-xs text-foreground/60 mb-1.5">Klinikk</p>
+                        <p className="text-sm text-foreground font-light">
+                          {selectedSpecialistInfo.clinics.join(", ")}
+                        </p>
+                      </div>
+                    )}
+                    {selectedSpecialistInfo.education && (
+                      <div className="bg-white/50 rounded-xl p-4">
+                        <p className="text-xs text-foreground/60 mb-1.5">Utdanning</p>
+                        <p className="text-sm text-foreground font-light">
+                          {selectedSpecialistInfo.education}
+                        </p>
+                      </div>
+                    )}
+                    {selectedSpecialistInfo.experience && (
+                      <div className="bg-white/50 rounded-xl p-4">
+                        <p className="text-xs text-foreground/60 mb-1.5">Erfaring</p>
+                        <p className="text-sm text-foreground font-light">
+                          {selectedSpecialistInfo.experience}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}
