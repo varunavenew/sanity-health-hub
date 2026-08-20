@@ -41,9 +41,14 @@ function clientKey(request: Request): string {
   return `contact-request:${ip}`;
 }
 
-function formatTiming(timing: "snarest" | "specific", day: string): string {
+function formatTimingClinic(timing: "snarest" | "specific", day: string): string {
   if (timing === "snarest") return "As soon as possible";
   return day ? `Preferred day: ${day}` : "Preferred day (not specified)";
+}
+
+function formatWhenVisitor(timing: "snarest" | "specific", day: string): string {
+  if (timing === "snarest") return "Snarest";
+  return day.trim() || "Ikke oppgitt";
 }
 
 export async function POST(request: Request) {
@@ -126,7 +131,7 @@ export async function POST(request: Request) {
     }
 
     const submittedAt = new Date();
-    const timing = formatTiming(data.timing, data.day);
+    const timing = formatTimingClinic(data.timing, data.day);
     const message = [
       `Callback request`,
       `Specialty: ${data.category}`,
@@ -145,6 +150,13 @@ export async function POST(request: Request) {
       submittedAt,
       senderName: settings.senderName,
       website: siteUrl(),
+    };
+
+    const confirmationPayload = {
+      ...payload,
+      subject: data.category,
+      message: data.details || "—",
+      when: formatWhenVisitor(data.timing, data.day),
     };
 
     const clinicContent = buildClinicEmailContent(payload, {
@@ -176,7 +188,7 @@ export async function POST(request: Request) {
 
     await sendContactEmail(clinicMail);
 
-    const confirmation = buildConfirmationEmailContent(payload, {
+    const confirmation = buildConfirmationEmailContent(confirmationPayload, {
       enabled: true,
       subject: settings.confirmationEmail.subject,
       body: settings.confirmationEmail.body,
