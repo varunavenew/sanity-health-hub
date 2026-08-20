@@ -164,9 +164,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
             clinicImages[clinic.slug];
           const reverse = idx % 2 === 1;
           const description =
-            (typeof clinic.description === "string" && clinic.description) ||
-            clinic.detail?.description ||
-            "";
+            (typeof clinic.description === "string" && clinic.description) || "";
 
           return (
             <div
