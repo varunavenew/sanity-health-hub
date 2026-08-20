@@ -14,7 +14,6 @@ import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { Button } from "@/components/ui/button";
-import { clinics as staticClinics } from "@/data/clinicServices";
 import type { ImageRef } from "@/lib/media";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 
@@ -53,58 +52,20 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const navigate = useNavigate();
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
-  const sanityBySlug = new Map(
-    sanityClinics
-      .filter((clinic: { slug?: string }) => clinic.slug && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug))
-      .map((clinic: { slug: string }) => [clinic.slug, clinic]),
-  );
-  const usedSlugs = new Set<string>();
-  const mergedStaticClinics = staticClinics
-    .filter((staticClinic) => !EXCLUDED_CLINIC_SLUGS.has(staticClinic.slug))
-    .map((staticClinic) => {
-      const fromSanity = sanityBySlug.get(staticClinic.slug);
-      usedSlugs.add(staticClinic.slug);
-      if (!fromSanity) return staticClinic;
-
-      const overrides: Record<string, unknown> = {};
-      for (const [key, value] of Object.entries(fromSanity)) {
-        if (value !== null && value !== undefined && value !== "") overrides[key] = value;
-      }
-
-      const sanityDescription =
-        typeof (fromSanity as { description?: string }).description === "string"
-          ? (fromSanity as { description?: string }).description
-          : undefined;
-
-      return {
-        ...staticClinic,
-        ...overrides,
-        detail: {
-          ...staticClinic.detail,
-          ...((fromSanity as { detail?: object }).detail || {}),
-          ...(sanityDescription ? { description: sanityDescription } : {}),
-        },
-      };
-    });
-  const extraSanityClinics = sanityClinics
-    .filter(
-      (clinic: { slug?: string }) =>
-        clinic.slug && !usedSlugs.has(clinic.slug) && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug),
-    )
-    .map((clinic: { detail?: object; description?: string }) => ({
+  const list = (sanityClinics as Array<Record<string, any>>)
+    .filter((clinic) => clinic.slug && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug))
+    .map((clinic) => ({
       ...clinic,
       detail: {
         ...(clinic.detail || {}),
         ...(clinic.description ? { description: clinic.description } : {}),
       },
-    }));
-  const list = ([...mergedStaticClinics, ...extraSanityClinics] as Array<Record<string, any>>).sort(
-    (a, b) => {
+    }))
+    .sort((a, b) => {
       const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
       const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
       return ao - bo;
-    },
-  );
+    });
 
   const clinicCount = list.length;
   const heroEyebrow = page?.heroEyebrow?.trim()

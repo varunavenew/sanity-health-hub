@@ -15,13 +15,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  getClinicBySlug,
-  withCanonicalAddress,
-  clinicFaqs,
-  type Clinic,
-} from "@/data/clinicServices";
-import { clinicHeroImages } from "@/data/clinicImagery";
 import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { SpecialistCarousel } from "@/components/SpecialistCarousel";
@@ -62,29 +55,6 @@ interface ClinicDetailPageProps {
   isChatOpen: boolean;
 }
 
-function staticClinicToMerged(staticClinic: Clinic): MergedClinic {
-  return {
-    id: staticClinic.id,
-    slug: staticClinic.slug,
-    label: staticClinic.label,
-    address: staticClinic.address,
-    phone: staticClinic.phone,
-    hours: staticClinic.hours,
-    description: staticClinic.detail.description,
-    detail: {
-      parking: staticClinic.detail.parking,
-      publicTransport: staticClinic.detail.publicTransport,
-      accessibility: staticClinic.detail.accessibility,
-    },
-    mapsUrl: staticClinic.mapsUrl,
-    faqs: clinicFaqs[staticClinic.slug] || [],
-    services: staticClinic.services,
-    heroImage: clinicHeroImages[staticClinic.slug],
-    booking: undefined,
-    seo: undefined,
-  };
-}
-
 function resolveSanityGalleryImages(
   raw: Record<string, unknown> | null | undefined,
   fallbackAlt: string,
@@ -115,7 +85,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     (resolvedHero?.kind === "image" ? resolvedHero.src : resolvedHero?.poster) ||
     primaryImage;
 
-  return withCanonicalAddress({
+  return {
     id: String(raw.id || raw.slug || slug),
     slug: String(raw.slug || slug),
     label,
@@ -146,7 +116,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     treatments: Array.isArray(raw.treatments)
       ? (raw.treatments as MergedClinic["treatments"])
       : undefined,
-  });
+  };
 }
 
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
@@ -159,7 +129,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const aboutPath = useNavCmsPath("about");
   const { data: sanityClinic, isLoading } = useClinic(slug || "");
   const { data: treatmentCategories } = useTreatmentCategories();
-  const staticClinic = slug ? getClinicBySlug(slug) : undefined;
 
   const serviceLinks = useMemo(
     () => buildClinicServiceLinks(treatmentCategories, sanityLang),
@@ -167,26 +136,9 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   );
 
   const clinic = useMemo((): MergedClinic | undefined => {
-    if (sanityClinic) {
-      const merged = mergeSanityClinic(sanityClinic as Record<string, unknown>, slug, sanityLang);
-      if (!merged.faqs?.length && staticClinic) {
-        merged.faqs = clinicFaqs[staticClinic.slug] || [];
-      }
-      // services: Sanity only — do not refill from static clinicServices when CMS is empty
-      if (!merged.description && staticClinic) {
-        merged.description = staticClinic.detail.description;
-      }
-      if (staticClinic) {
-        merged.detail = {
-          parking: merged.detail?.parking || staticClinic.detail.parking,
-          publicTransport: merged.detail?.publicTransport || staticClinic.detail.publicTransport,
-          accessibility: merged.detail?.accessibility || staticClinic.detail.accessibility,
-        };
-      }
-      return merged;
-    }
-    return staticClinic ? staticClinicToMerged(staticClinic) : undefined;
-  }, [sanityClinic, slug, sanityLang, staticClinic]);
+    if (!sanityClinic) return undefined;
+    return mergeSanityClinic(sanityClinic as Record<string, unknown>, slug, sanityLang);
+  }, [sanityClinic, slug, sanityLang]);
 
   const sanityGalleryImages = useMemo(() => {
     const raw = sanityClinic as Record<string, unknown> | null | undefined;
@@ -202,7 +154,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     }
   }, [clinic]);
 
-  if (isLoading && !staticClinic) {
+  if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="centered-hero bg-brand-warm">
