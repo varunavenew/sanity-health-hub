@@ -172,9 +172,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       if (!merged.faqs?.length && staticClinic) {
         merged.faqs = clinicFaqs[staticClinic.slug] || [];
       }
-      if (!merged.services?.length && staticClinic) {
-        merged.services = staticClinic.services;
-      }
+      // services: Sanity only — do not refill from static clinicServices when CMS is empty
       if (!merged.description && staticClinic) {
         merged.description = staticClinic.detail.description;
       }
