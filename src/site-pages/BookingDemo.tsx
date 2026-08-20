@@ -353,6 +353,9 @@ const BookingDemo = () => {
   const [calendarHintsLoading, setCalendarHintsLoading] = useState(false);
   const [calendarHintsReady, setCalendarHintsReady] = useState(false);
   const slotsByDayRef = useRef<Record<string, ApiFreeTimeSlot[]>>({});
+  /** Tracks step-4 calendar init per clinic/specialist so date clicks are not overwritten. */
+  const step4CalendarInitKeyRef = useRef<string | null>(null);
+  const daySlotsFetchGenRef = useRef(0);
   /** Duration per activity from wbfreetimes only (no static fallback). */
   const [durationByActivityId, setDurationByActivityId] = useState<
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
@@ -818,6 +821,9 @@ const BookingDemo = () => {
     setSlotsByDayKey({});
     setCalendarHintSlots([]);
     setCalendarHintsReady(false);
+    setCalendarHintsLoading(false);
+    step4CalendarInitKeyRef.current = null;
+    setSelectedDate(undefined);
   }, [slotsFetchContextKey]);
 
   // Step 4: discovery hints filtered by clinic + specialist (correct days per caregiver)
@@ -837,7 +843,6 @@ const BookingDemo = () => {
 
     let cancelled = false;
     setCalendarHintsLoading(true);
-    setCalendarHintsReady(false);
 
     async function loadCalendarHints() {
       try {
@@ -913,6 +918,7 @@ const BookingDemo = () => {
     const searchFromTime = metodikaSearchTime(selectedDate, false);
     const searchToTime = metodikaSearchTime(selectedDate, true);
 
+    const fetchGen = ++daySlotsFetchGenRef.current;
     let cancelled = false;
     setTimesLoading(true);
 
@@ -933,18 +939,20 @@ const BookingDemo = () => {
           ok?: boolean;
           slots?: ApiFreeTimeSlot[];
         };
-        if (cancelled) return;
+        if (cancelled || fetchGen !== daySlotsFetchGenRef.current) return;
 
         const slots = res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [];
         slotsByDayRef.current[key] = slots;
         setSlotsByDayKey((prev) => ({ ...prev, [key]: slots }));
       } catch {
-        if (!cancelled) {
+        if (!cancelled && fetchGen === daySlotsFetchGenRef.current) {
           slotsByDayRef.current[key] = [];
           setSlotsByDayKey((prev) => ({ ...prev, [key]: [] }));
         }
       } finally {
-        if (!cancelled) setTimesLoading(false);
+        if (!cancelled && fetchGen === daySlotsFetchGenRef.current) {
+          setTimesLoading(false);
+        }
       }
     }
 
@@ -1168,10 +1176,6 @@ const BookingDemo = () => {
       keys.add(day.toISOString());
     }
 
-    for (const [key, slots] of Object.entries(slotsByDayKey)) {
-      if (slots.length > 0) keys.add(key);
-    }
-
     return keys;
   }, [
     currentStep,
@@ -1180,7 +1184,6 @@ const BookingDemo = () => {
     apiFreeTimeSlots,
     bookingData.clinic,
     selectedCaregiverUserId,
-    slotsByDayKey,
   ]);
 
   const currentWeekStart = useMemo(
@@ -1218,17 +1221,25 @@ const BookingDemo = () => {
       bookingData.clinic && "apiLocationId" in bookingData.clinic
         ? bookingData.clinic.apiLocationId
         : undefined;
-    if (selectedLocationId != null && calendarHintsLoading) return;
+    if (selectedLocationId != null && (!calendarHintsReady || calendarHintsLoading)) return;
 
-    const selectedHasSlots =
-      selectedDate != null && datesWithApiSlots.has(dayKey(selectedDate));
-    if (selectedDate && selectedDate >= today && selectedHasSlots) return;
+    const initKey = slotsFetchContextKey;
+    if (
+      step4CalendarInitKeyRef.current === initKey &&
+      selectedDate != null &&
+      selectedDate >= today &&
+      datesWithApiSlots.has(dayKey(selectedDate))
+    ) {
+      return;
+    }
 
     const firstDay = bookableDates[0];
     if (!firstDay) {
+      step4CalendarInitKeyRef.current = initKey;
       setSelectedDate(undefined);
       return;
     }
+    step4CalendarInitKeyRef.current = initKey;
     setSelectedDate(firstDay);
     setWeekOffset(Math.max(0, Math.min(MAX_CALENDAR_WEEKS, weekOffsetForDate(firstDay, today))));
   }, [
@@ -1241,6 +1252,7 @@ const BookingDemo = () => {
     today,
     bookingData.clinic,
     datesWithApiSlots,
+    slotsFetchContextKey,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
@@ -2275,6 +2287,11 @@ const BookingDemo = () => {
                 </div>
 
                 <div className="overflow-hidden min-h-24">
+                  {calendarHintsLoading && !calendarHintsReady && (
+                    <p className="text-xs text-brand-dark/50 font-light mb-3">
+                      {copy.step4LoadingTimes}
+                    </p>
+                  )}
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
                       key={weekOffset}
@@ -2293,17 +2310,13 @@ const BookingDemo = () => {
                           bookingData.clinic && "apiLocationId" in bookingData.clinic
                             ? bookingData.clinic.apiLocationId
                             : undefined;
-                        const hasDiscoveryData =
+                        const calendarDatesReady =
                           currentStep >= 4 && selectedLocationId != null
-                            ? calendarHintsReady
+                            ? calendarHintsReady && !calendarHintsLoading
                             : apiFreeTimeSlots.length > 0;
                         const isDisabled =
                           isPast ||
-                          (hasApiActivity &&
-                            !timesLoading &&
-                            !calendarHintsLoading &&
-                            hasDiscoveryData &&
-                            !hasSlots);
+                          (hasApiActivity && (!calendarDatesReady || !hasSlots));
 
                         return (
                           <button
@@ -2391,7 +2404,7 @@ const BookingDemo = () => {
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
                     />
-                  ) : timesLoading ? (
+                  ) : timesLoading && availableSlots.length === 0 ? (
                     <p className="text-sm text-brand-dark/60 font-light">{copy.step4LoadingTimes}</p>
                   ) : availableSlots.length > 0 ? (
                     isFirstAvailableFlow ? (
