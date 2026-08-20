@@ -24,7 +24,6 @@ const FLERE_ASSET_PATHS = {
   expertErnaering: "articles/ernaeringsfysiolog.jpg",
   expertHudhelse: "hero/cmedical-skin-texture.jpg",
   expertGastro: "articles/gastroenterolog.png",
-  expertPlastikk: "hero/cmedical-hero-1.jpg",
   expertRobot: "hero/robotkirurgi-hero.jpg",
   expertAreknuter: "articles/karkirurgi.jpg",
   expertOsteopati: "articles/osteopat-fysioterapeut.png",
@@ -160,12 +159,6 @@ const landingPageBase = {
           "Stomach, bowel, bariatric surgery, hernia, haemorrhoids",
         ),
         href: `${FF}/gastrokirurgi`,
-      },
-      {
-        _key: "e5",
-        title: i18nString("Plastikkirurgi", "Plastic surgery"),
-        description: i18nString("Rekonstruksjon og estetisk", "Reconstructive and aesthetic"),
-        href: `${FF}/plastikkirurgi`,
       },
       {
         _key: "e6",
@@ -393,7 +386,6 @@ async function main() {
   let expertErnaering: SanityImageRef | null = null;
   let expertHudhelse: SanityImageRef | null = null;
   let expertGastro: SanityImageRef | null = null;
-  let expertPlastikk: SanityImageRef | null = null;
   let expertRobot: SanityImageRef | null = null;
   let expertAreknuter: SanityImageRef | null = null;
   let expertOsteopati: SanityImageRef | null = null;
@@ -408,7 +400,6 @@ async function main() {
       expertErnaering,
       expertHudhelse,
       expertGastro,
-      expertPlastikk,
       expertRobot,
       expertAreknuter,
       expertOsteopati,
@@ -421,7 +412,6 @@ async function main() {
       uploadImage(FLERE_ASSET_PATHS.expertErnaering, "flere-expert-ernaering"),
       uploadImage(FLERE_ASSET_PATHS.expertHudhelse, "flere-expert-hudhelse"),
       uploadImage(FLERE_ASSET_PATHS.expertGastro, "flere-expert-gastro"),
-      uploadImage(FLERE_ASSET_PATHS.expertPlastikk, "flere-expert-plastikk"),
       uploadImage(FLERE_ASSET_PATHS.expertRobot, "flere-expert-robot"),
       uploadImage(FLERE_ASSET_PATHS.expertAreknuter, "flere-expert-areknuter"),
       uploadImage(FLERE_ASSET_PATHS.expertOsteopati, "flere-expert-osteopati"),
@@ -442,7 +432,6 @@ async function main() {
           e2: expertErnaering,
           e3: expertHudhelse,
           e4: expertGastro,
-          e5: expertPlastikk,
           e6: expertRobot,
           e7: expertAreknuter,
           e8: expertOsteopati,

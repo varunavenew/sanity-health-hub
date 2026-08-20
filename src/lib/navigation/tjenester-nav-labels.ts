@@ -93,7 +93,6 @@ export const EN_TREATMENT_NAV_LABELS: Record<string, Record<string, string>> = {
     hudhelse: "Skin health",
     gastrokirurgi: "Gastrointestinal disorders (Gastro surgery)",
     osteopati: "Osteopathy",
-    plastikkirurgi: "Plastic surgery",
     psykologi: "Psychology",
     revmatologi: "Rheumatology",
     robotkirurgi: "Robot-assisted surgery",

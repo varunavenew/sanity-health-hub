@@ -17,7 +17,7 @@ const clusters = [
   {
     title: "Kropp og vev",
     desc: "Spesialister på hud, kirurgi og karsystemet. For deg med synlige plager, operasjonsbehov eller tilstander som krever kirurgisk vurdering.",
-    tags: ["Hudlege", "Plastikkirurgi", "Gastrokirurgi", "Karkirurgi", "Åreknutebehandling"],
+    tags: ["Hudlege", "Gastrokirurgi", "Karkirurgi", "Åreknutebehandling"],
   },
   {
     title: "Helse og balanse",
@@ -39,7 +39,6 @@ const allSpecialists = [
   { name: "Endokrinologi", desc: "Diabetes, skjoldbruskkjertelen, binyrer, hormoner" },
   { name: "Osteopati", desc: "Muskel- og skjelettsystemet, kroniske smerter" },
   { name: "Revmatologi", desc: "Leddgikt, artrose, bindevevssykdommer" },
-  { name: "Plastikkirurgi", desc: "Rekonstruksjon, korreksjon, estetisk kirurgi" },
   { name: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære" },
   { name: "Karkirurgi", desc: "Åreknuter, blodkar, sirkulasjonsplager" },
   { name: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi med robot" },

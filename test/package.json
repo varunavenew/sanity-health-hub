@@ -81,6 +81,8 @@
     "migrate:fertilitet-landing:dry": "DRY_RUN=1 tsx sanity/migrate-fertility-landing.ts",
     "migrate:flere-fagomrader-landing": "tsx sanity/migrate-flere-fagomrader-landing.ts",
     "migrate:flere-fagomrader-landing:dry": "DRY_RUN=1 tsx sanity/migrate-flere-fagomrader-landing.ts",
+    "unpublish:plastikkirurgi:dry": "DRY_RUN=1 tsx sanity/unpublish-plastikkirurgi-developer.ts",
+    "unpublish:plastikkirurgi": "tsx sanity/unpublish-plastikkirurgi-developer.ts",
     "migrate:ortopedi-landing": "tsx sanity/migrate-ortopedi-landing.ts",
     "migrate:ortopedi-landing:dry": "DRY_RUN=1 tsx sanity/migrate-ortopedi-landing.ts",
     "migrate:urologi-landing": "tsx sanity/migrate-urologi-landing.ts",

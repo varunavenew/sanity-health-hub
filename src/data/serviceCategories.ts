@@ -145,7 +145,6 @@ export const serviceCategories: ServiceCategory[] = [
                 ],
             },
             { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },
-            { label: 'Plastikkirurgi', path: '/behandlinger/flere-fagomrader/plastikkirurgi' },
             { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi' },
             { label: 'Revmatologi', path: '/behandlinger/flere-fagomrader/revmatologi' },
             { label: 'Robotassistert kirurgi', path: '/behandlinger/flere-fagomrader/robotkirurgi' },

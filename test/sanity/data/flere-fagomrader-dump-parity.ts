@@ -5,7 +5,6 @@
 export const FLERE_SIBLING_SLUGS = [
   "revmatologi",
   "endokrinologi",
-  "plastikkirurgi",
   "osteopati",
   "sexologi",
   "psykologi",
@@ -36,7 +35,6 @@ export function hudChildRelated(exclude: string): string[] {
 export const RELATED_BY_SLUG: Record<string, string[]> = {
   endokrinologi: siblingRelated("endokrinologi"),
   ernaeringsfysiolog: siblingRelated("ernaeringsfysiolog"),
-  plastikkirurgi: siblingRelated("plastikkirurgi"),
   osteopati: siblingRelated("osteopati"),
   revmatologi: siblingRelated("revmatologi"),
   psykologi: siblingRelated("psykologi"),
@@ -97,12 +95,6 @@ export const THEMES_BY_SLUG: Record<
     { no: "Vekt og kosthold", en: "Weight and diet" },
     { no: "Matintoleranser", en: "Food intolerances" },
     { no: "Sykdomsernæring", en: "Clinical nutrition" },
-  ],
-  plastikkirurgi: [
-    { no: "Bryst", en: "Breast" },
-    { no: "Kropp", en: "Body" },
-    { no: "Ansikt", en: "Face" },
-    { no: "Rekonstruksjon", en: "Reconstruction" },
   ],
   robotkirurgi: [
     { no: "Gynekologisk robotkirurgi", en: "Gynaecological robotic surgery" },

@@ -35,7 +35,6 @@ export const FLERE_FAGOMRADER_NAV_TREATMENT_SLUGS = [
   "hudhelse",
   "gastrokirurgi",
   "osteopati",
-  "plastikkirurgi",
   "psykologi",
   "revmatologi",
   "robotkirurgi",

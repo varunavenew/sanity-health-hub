@@ -1476,7 +1476,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     categoryId,
     ${localizedSlugBoth}
   },
-  "treatments": *[_type == "treatment"]{
+  "treatments": *[_type == "treatment" && ${publishedOnly}]{
     _id,
     _type,
     ${localizedSlugBoth},

@@ -129,11 +129,6 @@ const SERVICES: Record<string, ServiceDef> = {
   },
   endokrinolog: { no: "Endokrinolog", en: "Endocrinologist" },
   overvektskirurgi: { no: "Overvektskirurgi", en: "Bariatric surgery" },
-  plastikkirurgi: {
-    no: "Plastikkirurgi",
-    en: "Plastic surgery",
-    href: "/behandlinger/flere-fagomrader/plastikkirurgi",
-  },
   karkirurgi: {
     no: "Karkirurgi",
     en: "Vascular surgery",
@@ -164,7 +159,7 @@ const clinics: { slug: string; label: { no: string; en: string }; services: stri
   {
     slug: "moss",
     label: { no: "Moss", en: "Moss" },
-    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi", "areknuter"],
+    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "areknuter"],
   },
   {
     slug: "moelv",

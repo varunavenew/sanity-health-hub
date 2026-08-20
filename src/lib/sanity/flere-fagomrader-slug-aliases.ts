@@ -21,7 +21,6 @@ export const FLERE_FAGOMRADER_SLUG_ALIASES: Record<string, string> = {
   "digestive-system-surg-procedure": "gastrokirurgi",
   "med-osteopathic": "osteopati",
   "obesity-surgery": "overvektskirurgi",
-  "procedure-reconstructive-surg": "plastikkirurgi",
   psychol: "psykologi",
   rheumatol: "revmatologi",
   sexol: "sexologi",

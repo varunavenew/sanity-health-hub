@@ -153,7 +153,6 @@ const CLINIC_SERVICE_TO_OVRIGE_TREATMENT_SLUG: Record<string, string> = {
   osteopati: "osteopati",
   robotkirurgi: "robotkirurgi",
   overvektskirurgi: "overvektskirurgi",
-  plastikkirurgi: "plastikkirurgi",
 };
 
 /** Clinic service IDs with a dedicated page but a non-standard path shape. */
@@ -170,6 +169,8 @@ export const CLINIC_SERVICE_IDS_WITHOUT_PAGE = new Set([
   "uroterapi",
   "hjertespesialist",
   "almennlege",
+  /** CMedical does not offer plastic surgery as a public service page. */
+  "plastikkirurgi",
 ]);
 
 /**

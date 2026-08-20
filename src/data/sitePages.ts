@@ -87,7 +87,6 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/flere-fagomrader/gastrokirurgi", name: "Gastrokirurgi", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/osteopati", name: "Osteopati", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/overvektskirurgi", name: "Overvektskirurgi", category: "Flere – underbehandlinger" },
-  { path: "/behandlinger/flere-fagomrader/plastikkirurgi", name: "Plastikkirurgi", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/psykologi", name: "Psykologi", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/revmatologi", name: "Revmatologi", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/robotkirurgi", name: "Robotkirurgi (flere)", category: "Flere – underbehandlinger" },
