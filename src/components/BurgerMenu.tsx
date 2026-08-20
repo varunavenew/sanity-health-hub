@@ -9,7 +9,6 @@ import { useCmsRouteContext } from '@/lib/routing/cms-route-context';
 import { useTranslation } from 'react-i18next';
 import { MobileNavMenuContent } from '@/components/layout/MobileNavMenuContent';
 import {
-  BURGER_EXTRA_NAV_ITEMS,
   DEFAULT_MAIN_NAVIGATION,
   withRequiredMainNavigation,
 } from '@/lib/navigation/default-main-navigation';
@@ -26,14 +25,11 @@ const BurgerMenu = () => {
   const { data: siteSettings } = useSiteSettings();
   const { index: cmsRouteIndex, localeMap } = useCmsRouteContext();
 
-  const staticMenuItems = useMemo(
-    () => [...DEFAULT_MAIN_NAVIGATION, ...BURGER_EXTRA_NAV_ITEMS],
-    [],
-  );
+  const staticMenuItems = useMemo(() => [...DEFAULT_MAIN_NAVIGATION], []);
 
   const menuItems = useMemo(() => {
     const raw = siteSettings?.mainNavigation?.length
-      ? [...withRequiredMainNavigation(siteSettings.mainNavigation), ...BURGER_EXTRA_NAV_ITEMS]
+      ? withRequiredMainNavigation(siteSettings.mainNavigation)
       : staticMenuItems;
     const seen = new Set<string>();
     const deduped = raw.filter((item: { navId?: string; label?: string }) => {

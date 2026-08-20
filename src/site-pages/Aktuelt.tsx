@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
-import { Search, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ListPageHero } from "@/components/layout/ListPageHero";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -65,7 +65,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { data: newsPage } = useNewsPage();
   const { data: siteSettings } = useSiteSettings();
   const [activeFilter, setActiveFilter] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -168,12 +167,12 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       setActiveFilter(allFilterKey);
     }
     setVisibleCount(pageSize);
-  }, [activeFilter, allFilterKey, filterOptions, searchQuery, pageSize]);
+  }, [activeFilter, allFilterKey, filterOptions, pageSize]);
 
   const filteredArticles = useMemo(() => {
     const pool = activeFilter === allFilterKey ? articlePool : articles;
     return pool.filter((a) => {
-      const matchesFilter =
+      return (
         activeFilter === allFilterKey ||
         (filterOptions.find((filter) => filter.key === activeFilter)
           ?.acceptedArticleCategories.length ?? 0) === 0 ||
@@ -182,12 +181,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           ?.acceptedArticleCategories.includes(a.category) ||
         filterOptions
           .find((filter) => filter.key === activeFilter)
-          ?.acceptedArticleCategories.includes(normalizeCategory(a.category));
-      const matchesSearch =
-        !searchQuery ||
-        a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        a.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesFilter && matchesSearch;
+          ?.acceptedArticleCategories.includes(normalizeCategory(a.category))
+      );
     });
   }, [
     activeFilter,
@@ -195,7 +190,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     articlePool,
     articles,
     filterOptions,
-    searchQuery,
   ]);
 
   const sortedArticles = useMemo(() => {
@@ -224,7 +218,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     label: newsPage?.label || "",
     title: newsPage?.title || "",
     subtitle: newsPage?.subtitle || "",
-    searchPlaceholder: newsPage?.searchPlaceholder || "",
     moreArticlesTitle: newsPage?.moreArticlesTitle || "",
     noArticlesText: newsPage?.noArticlesText || "",
     readMoreLabel: newsPage?.readMoreLabel || "",
@@ -337,26 +330,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
       <section className="bg-background pt-3 pb-6 md:pb-10">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-4 md:mb-3">
-            <div className="relative w-full md:w-72 md:flex-shrink-0">
-              <label htmlFor="aktuelt-search" className="sr-only">
-                {newsUi.searchPlaceholder}
-              </label>
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-                aria-hidden="true"
-              />
-              <input
-                id="aktuelt-search"
-                type="search"
-                placeholder={newsUi.searchPlaceholder}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                aria-label={newsUi.searchPlaceholder}
-                className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-              />
-            </div>
-            <div className="flex flex-wrap gap-2 md:justify-end md:flex-1">
+          <div className="mb-4 flex flex-wrap gap-2 md:mb-3 md:justify-end">
               {filterOptions.map((opt) => {
                 const isActive = activeFilter === opt.key;
                 return (
@@ -372,7 +346,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
                   </button>
                 );
               })}
-            </div>
           </div>
 
           {featuredTop.length > 0 && (
