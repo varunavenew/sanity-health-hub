@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { parseDurationMinutes } from "@/lib/booking/duration";
 import { parseActivityTypeId } from "@/lib/booking/parseActivityTypeId";
+import { fetchAlltimesForDayRange } from "@/lib/booking/fetchAlltimesForDayRange";
 import {
   BOOKING_URLS,
   bookingResourceUrl,
   fetchBookingFreetimesList,
   fetchBookingResource,
   unwrapList,
+  type FreetimesQueryOptions,
 } from "@/lib/booking/upstream";
 import type { BookingLocation } from "@/app/api/booking/locations/route";
 import type { BookingRoom } from "@/app/api/booking/rooms/route";
@@ -70,6 +72,71 @@ function normalizeApiLocation(entry: unknown): BookingLocation | null {
   };
 }
 
+function parseOptionalInt(value: string | null): number | undefined {
+  if (value == null || value.trim() === "") return undefined;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+function freetimesOptionsFromSearchParams(
+  searchParams: URLSearchParams,
+): FreetimesQueryOptions | undefined {
+  const searchFromTime =
+    searchParams.get("searchFromTime") ?? searchParams.get("searchfromtime");
+  const searchToTime =
+    searchParams.get("searchToTime") ?? searchParams.get("searchtotime");
+  const locationId = parseOptionalInt(
+    searchParams.get("locationId") ?? searchParams.get("location-id"),
+  );
+  const caregiverUserId = parseOptionalInt(
+    searchParams.get("caregiverUserId") ?? searchParams.get("caregiver_user-id"),
+  );
+
+  const hasDateRange = Boolean(searchFromTime && searchToTime);
+  if (!hasDateRange && locationId == null && caregiverUserId == null) {
+    return undefined;
+  }
+
+  return {
+    ...(hasDateRange
+      ? {
+          version: 3,
+          queryMode: "alltimes" as const,
+          useInterval: true,
+          searchFromTime: searchFromTime!,
+          searchToTime: searchToTime!,
+        }
+      : {}),
+    ...(locationId != null ? { locationId } : {}),
+    ...(caregiverUserId != null ? { caregiverUserId } : {}),
+  };
+}
+
+async function loadRawFreetimes(
+  wbactivityId: string,
+  apiKey: string,
+  options?: FreetimesQueryOptions,
+): Promise<unknown[]> {
+  if (
+    options?.queryMode === "alltimes" &&
+    options.searchFromTime &&
+    options.searchToTime
+  ) {
+    return fetchAlltimesForDayRange(
+      wbactivityId,
+      apiKey,
+      options.searchFromTime,
+      options.searchToTime,
+      {
+        locationId: options.locationId,
+        caregiverUserId: options.caregiverUserId,
+      },
+    );
+  }
+
+  return fetchBookingFreetimesList(wbactivityId, apiKey, options);
+}
+
 /**
  * GET ?wbactivityId=31
  * Chains: wbfreetimes → rooms → locations
@@ -102,7 +169,12 @@ export async function GET(request: Request) {
       /* activity type optional until appointment step */
     }
 
-    const rawSlots = (await fetchBookingFreetimesList(wbactivityId, apiKey)) as ApiFreeTime[];
+    const freetimesOptions = freetimesOptionsFromSearchParams(searchParams);
+    const rawSlots = (await loadRawFreetimes(
+      wbactivityId,
+      apiKey,
+      freetimesOptions,
+    )) as ApiFreeTime[];
 
     const roomIds = [
       ...new Set(

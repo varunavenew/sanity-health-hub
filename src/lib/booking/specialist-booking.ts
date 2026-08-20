@@ -94,3 +94,15 @@ export function formatBookingServicePrice(price: string): string {
   if (!Number.isFinite(n) || n <= 0) return "Gratis";
   return `${n.toLocaleString("nb-NO")},-`;
 }
+
+/** Keep only services the caregiver is configured to perform in Metodika. */
+export function filterServicesForCaregiverWbActivities<
+  T extends { apiActivityId?: number },
+>(services: T[], allowedWbActivityIds: Set<number>): T[] {
+  if (allowedWbActivityIds.size === 0) return services;
+  return services.filter(
+    (service) =>
+      service.apiActivityId != null &&
+      allowedWbActivityIds.has(service.apiActivityId),
+  );
+}

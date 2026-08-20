@@ -3,6 +3,7 @@ import { fetchProcedurePrice } from "@/lib/booking/item-prices";
 
 /**
  * GET ?activity-id=123 or ?item.procedure.id=123
+ * Optional: ?basedate=YYYY-MM-DD (Metodika price as of date)
  * Proxies Metodika itemprices for a single procedure.
  */
 export async function GET(request: Request) {
@@ -17,6 +18,8 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const rawId = searchParams.get("activity-id") ?? searchParams.get("item.procedure.id");
   const procedureId = rawId ? Number.parseInt(rawId, 10) : Number.NaN;
+  const baseDate =
+    searchParams.get("basedate") ?? searchParams.get("baseDate") ?? undefined;
 
   if (!Number.isFinite(procedureId) || procedureId <= 0) {
     return NextResponse.json(
@@ -26,7 +29,11 @@ export async function GET(request: Request) {
   }
 
   try {
-    const price = await fetchProcedurePrice(procedureId, apiKey);
+    const price = await fetchProcedurePrice(
+      procedureId,
+      apiKey,
+      baseDate ? { baseDate } : undefined,
+    );
     if (price === null) {
       return NextResponse.json(
         { ok: false, message: `No price found for procedure ${procedureId}.` },

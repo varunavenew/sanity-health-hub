@@ -5,15 +5,18 @@ import {
   resolveActivityPrice,
   stripPriceFromActivityName,
 } from "@/lib/booking/item-prices";
-import { fetchBookingResourceCached, unwrapList } from "@/lib/booking/upstream";
+import {
+  fetchBookingResourceCached,
+  unwrapList,
+  wbactivitiesListUrl,
+} from "@/lib/booking/upstream";
 
 const GROUPS_URL =
   process.env.BOOKING_ACTIVITY_GROUPS_URL ||
   "http://13.50.107.42/api/v1/resources/wbactivitygroups";
 
 const ACTIVITIES_URL =
-  process.env.BOOKING_ACTIVITIES_URL ||
-  "http://13.50.107.42/api/v1/resources/wbactivities";
+  process.env.BOOKING_ACTIVITIES_URL || wbactivitiesListUrl();
 
 interface BookingService {
   name: string;
@@ -129,8 +132,10 @@ export async function GET(request: Request) {
     );
   }
 
-  const includeApiPrices =
-    new URL(request.url).searchParams.get("prices") === "api";
+  const { searchParams } = new URL(request.url);
+  const includeApiPrices = searchParams.get("prices") === "api";
+  const baseDate =
+    searchParams.get("basedate") ?? searchParams.get("baseDate") ?? undefined;
 
   try {
     const [groupsPayload, activitiesPayload] = await Promise.all([
@@ -159,6 +164,7 @@ export async function GET(request: Request) {
             ),
           ],
           apiKey,
+          baseDate ? { baseDate } : undefined,
         )
       : new Map<number, string>();
 

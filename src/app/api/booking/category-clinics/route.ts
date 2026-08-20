@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import type { BookingAvailabilityLocation } from "@/app/api/booking/availability/route";
-import { fetchBookingResourceCached, unwrapList } from "@/lib/booking/upstream";
+import {
+  fetchBookingResourceCached,
+  unwrapList,
+  wbactivitiesListUrl,
+} from "@/lib/booking/upstream";
 import {
   createLocationResolveCaches,
   mapWithConcurrency,
@@ -15,8 +19,7 @@ const GROUPS_URL =
   "http://13.50.107.42/api/v1/resources/wbactivitygroups";
 
 const ACTIVITIES_URL =
-  process.env.BOOKING_ACTIVITIES_URL ||
-  "http://13.50.107.42/api/v1/resources/wbactivities";
+  process.env.BOOKING_ACTIVITIES_URL || wbactivitiesListUrl();
 
 const DEFAULT_CONCURRENCY = Number(process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY || 2);
 

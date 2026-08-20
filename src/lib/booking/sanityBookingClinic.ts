@@ -271,9 +271,25 @@ export function enrichMetodikaClinicWithSanity(
   sanity?: SanityClinicListRow,
 ): BookingMetodikaClinic {
   if (!sanity) return metodika;
+
+  const sanityLocationId = sanity.booking?.metodikaLocationId;
+  if (
+    typeof sanityLocationId === "number" &&
+    sanityLocationId !== metodika.apiLocationId
+  ) {
+    return metodika;
+  }
+
+  const normalizedApi = normalizeClinicLabelForCompare(metodika.label);
+  const normalizedSanity = normalizeClinicLabelForCompare(sanity.label);
+  const labelsCompatible =
+    normalizedApi === normalizedSanity ||
+    normalizedApi.includes(normalizedSanity) ||
+    normalizedSanity.includes(normalizedApi);
+
   return {
     ...metodika,
-    label: sanity.label,
+    label: labelsCompatible ? sanity.label : metodika.label,
     sanityClinicId: sanity.id,
     sanityImage: sanity.primaryImage,
   };

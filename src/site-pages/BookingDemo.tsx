@@ -6,7 +6,14 @@ import { useNavigate, useSearchParams } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
-import { format, addDays, isSameDay, parseISO } from "date-fns";
+import {
+  format,
+  addDays,
+  addWeeks,
+  isSameDay,
+  parseISO,
+  startOfWeek,
+} from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -56,8 +63,11 @@ import {
 import {
   clinicAllowedForSpecialist,
   filterClinicsForPreselectedSpecialist,
+  filterClinicsForWbActivity,
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
+import { caregiverIdsForWbActivityAtLocation } from "@/lib/booking/wbactivitiesMatrix";
+import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
 import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
@@ -81,6 +91,7 @@ import {
   fillBookingTemplate,
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
+import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
 
 export type BookingServiceCategory = {
   id: string;
@@ -98,6 +109,15 @@ function dayKey(date: Date): string {
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
   return d.toISOString();
+}
+
+const CALENDAR_WEEK_STARTS_ON = 1 as const;
+const MAX_CALENDAR_WEEKS = 52;
+
+function weekOffsetForDate(date: Date, anchor: Date): number {
+  const base = startOfWeek(anchor, { weekStartsOn: CALENDAR_WEEK_STARTS_ON });
+  const target = startOfWeek(date, { weekStartsOn: CALENDAR_WEEK_STARTS_ON });
+  return Math.round((target.getTime() - base.getTime()) / (7 * 24 * 60 * 60 * 1000));
 }
 
 function LinkedTemplateText({
@@ -287,9 +307,9 @@ const BookingDemo = () => {
     date.setHours(0, 0, 0, 0);
     return date;
   }, []);
-  // Horisontal 7-dagers stripe (hverdager)
+  // Horisontal 7-dagers stripe (mandag–søndag, som Metodika)
   const VISIBLE_DAYS = 7;
-  const [dateOffset, setDateOffset] = useState(0);
+  const [weekOffset, setWeekOffset] = useState(0);
   const [dateDirection, setDateDirection] = useState<1 | -1>(1);
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -320,6 +340,13 @@ const BookingDemo = () => {
   const [bookingCaregivers, setBookingCaregivers] = useState<BookingCaregiver[]>([]);
   const [caregiversLoading, setCaregiversLoading] = useState(false);
   const [timesLoading, setTimesLoading] = useState(false);
+  /** Full alltimes slots per day (fetched on date click). Discovery stays in apiFreeTimeSlots. */
+  const [slotsByDayKey, setSlotsByDayKey] = useState<Record<string, ApiFreeTimeSlot[]>>({});
+  /** Step 4 calendar hints: discovery filtered by clinic + specialist (1 slot/day). */
+  const [calendarHintSlots, setCalendarHintSlots] = useState<ApiFreeTimeSlot[]>([]);
+  const [calendarHintsLoading, setCalendarHintsLoading] = useState(false);
+  const [calendarHintsReady, setCalendarHintsReady] = useState(false);
+  const slotsByDayRef = useRef<Record<string, ApiFreeTimeSlot[]>>({});
   /** Duration per activity from wbfreetimes only (no static fallback). */
   const [durationByActivityId, setDurationByActivityId] = useState<
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
@@ -702,7 +729,7 @@ const BookingDemo = () => {
     };
   }, [expandedCategory, bookingServices, locale]);
 
-  // wbfreetimes → rooms → locations (availability API)
+  // wbfreetimes → rooms → locations: discovery (clinics + caregivers, 1 slot/day)
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId) {
@@ -718,9 +745,8 @@ const BookingDemo = () => {
     let cancelled = false;
     setClinicsAvailabilityReady(false);
     setAvailabilityLoading(true);
-    setTimesLoading(true);
 
-    async function loadAvailability() {
+    async function loadDiscovery() {
       try {
         const res = await fetch(`/api/booking/availability?wbactivityId=${activityId}`);
         const json = (await res.json()) as {
@@ -757,17 +783,181 @@ const BookingDemo = () => {
       } finally {
         if (!cancelled) {
           setAvailabilityLoading(false);
-          setTimesLoading(false);
           setClinicsAvailabilityReady(true);
         }
       }
     }
 
-    loadAvailability();
+    loadDiscovery();
     return () => {
       cancelled = true;
     };
   }, [bookingData.service?.apiActivityId]);
+
+  const slotsFetchContextKey = [
+    bookingData.service?.apiActivityId ?? "",
+    bookingData.clinic && "apiLocationId" in (bookingData.clinic ?? {})
+      ? (bookingData.clinic as BookingMetodikaClinic).apiLocationId
+      : "",
+    resolveBookingCaregiverUserId(bookingData.specialist) ?? "",
+  ].join(":");
+
+  // Clear per-day slot cache when service, clinic, or specialist changes
+  useEffect(() => {
+    slotsByDayRef.current = {};
+    setSlotsByDayKey({});
+    setCalendarHintSlots([]);
+    setCalendarHintsReady(false);
+  }, [slotsFetchContextKey]);
+
+  // Step 4: discovery hints filtered by clinic + specialist (correct days per caregiver)
+  useEffect(() => {
+    const activityId = bookingData.service?.apiActivityId;
+    const selectedLocationId =
+      bookingData.clinic && "apiLocationId" in bookingData.clinic
+        ? bookingData.clinic.apiLocationId
+        : undefined;
+
+    if (currentStep < 4 || !activityId || selectedLocationId == null) {
+      setCalendarHintSlots([]);
+      setCalendarHintsLoading(false);
+      setCalendarHintsReady(false);
+      return;
+    }
+
+    let cancelled = false;
+    setCalendarHintsLoading(true);
+    setCalendarHintsReady(false);
+
+    async function loadCalendarHints() {
+      try {
+        const params = new URLSearchParams({
+          wbactivityId: String(activityId),
+          locationId: String(selectedLocationId),
+        });
+        const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
+        if (caregiverUserId != null) {
+          params.set("caregiverUserId", String(caregiverUserId));
+        }
+
+        const res = await fetch(`/api/booking/availability?${params.toString()}`);
+        const json = (await res.json()) as {
+          ok?: boolean;
+          slots?: ApiFreeTimeSlot[];
+        };
+        if (cancelled) return;
+
+        setCalendarHintSlots(
+          res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [],
+        );
+      } catch {
+        if (!cancelled) setCalendarHintSlots([]);
+      } finally {
+        if (!cancelled) {
+          setCalendarHintsLoading(false);
+          setCalendarHintsReady(true);
+        }
+      }
+    }
+
+    loadCalendarHints();
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    currentStep,
+    bookingData.service?.apiActivityId,
+    bookingData.clinic && "apiLocationId" in (bookingData.clinic ?? {})
+      ? (bookingData.clinic as BookingMetodikaClinic).apiLocationId
+      : undefined,
+    bookingData.specialist,
+    slotsFetchContextKey,
+  ]);
+
+  // Fetch alltimes for the selected day only (fast — one Metodika request per click)
+  useEffect(() => {
+    const activityId = bookingData.service?.apiActivityId;
+    const selectedLocationId =
+      bookingData.clinic && "apiLocationId" in bookingData.clinic
+        ? bookingData.clinic.apiLocationId
+        : undefined;
+
+    if (
+      currentStep !== 4 ||
+      !selectedDate ||
+      !activityId ||
+      selectedLocationId == null
+    ) {
+      setTimesLoading(false);
+      return;
+    }
+
+    const key = dayKey(selectedDate);
+    const cached = slotsByDayRef.current[key];
+    if (cached) {
+      setTimesLoading(false);
+      return;
+    }
+
+    const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
+    const searchFromTime = metodikaSearchTime(selectedDate, false);
+    const searchToTime = metodikaSearchTime(selectedDate, true);
+
+    let cancelled = false;
+    setTimesLoading(true);
+
+    async function loadDaySlots() {
+      try {
+        const params = new URLSearchParams({
+          wbactivityId: String(activityId),
+          searchFromTime,
+          searchToTime,
+          locationId: String(selectedLocationId),
+        });
+        if (caregiverUserId != null) {
+          params.set("caregiverUserId", String(caregiverUserId));
+        }
+
+        const res = await fetch(`/api/booking/availability?${params.toString()}`);
+        const json = (await res.json()) as {
+          ok?: boolean;
+          slots?: ApiFreeTimeSlot[];
+        };
+        if (cancelled) return;
+
+        const slots = res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [];
+        slotsByDayRef.current[key] = slots;
+        setSlotsByDayKey((prev) => ({ ...prev, [key]: slots }));
+      } catch {
+        if (!cancelled) {
+          slotsByDayRef.current[key] = [];
+          setSlotsByDayKey((prev) => ({ ...prev, [key]: [] }));
+        }
+      } finally {
+        if (!cancelled) setTimesLoading(false);
+      }
+    }
+
+    loadDaySlots();
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    currentStep,
+    selectedDate,
+    bookingData.service?.apiActivityId,
+    bookingData.clinic && "apiLocationId" in (bookingData.clinic ?? {})
+      ? (bookingData.clinic as BookingMetodikaClinic).apiLocationId
+      : undefined,
+    bookingData.specialist,
+    slotsFetchContextKey,
+  ]);
+
+  const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
+
+  const { activity: wbActivityMatrix } = useWbActivityMatrix(
+    bookingData.service?.apiActivityId,
+  );
 
   // Prefill clinic from ?klinikk= when it matches an API location id (location-1) or legacy slug after load
   const pendingKlinikkRef = useRef<string | null>(null);
@@ -785,6 +975,7 @@ const BookingDemo = () => {
         clinic,
         bookingData.specialist,
         apiFreeTimeSlots,
+        wbActivityMatrix,
       );
     };
 
@@ -832,6 +1023,7 @@ const BookingDemo = () => {
     bookingData.specialistChosen,
     apiFreeTimeSlots,
     sanityClinics,
+    wbActivityMatrix,
   ]);
 
   // Direct Sanity-managed deep link: /booking?klinikk=moelv|moss (no Metodika service required)
@@ -854,8 +1046,6 @@ const BookingDemo = () => {
     return specialists.find((s) => s.slug === slug);
   }, [bookingData.specialist, searchParams, specialists]);
 
-  const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
-
   const selectedCaregiverUserId = resolveBookingCaregiverUserId(
     bookingData.specialist,
   );
@@ -866,6 +1056,15 @@ const BookingDemo = () => {
       bookingData.clinic && "apiLocationId" in bookingData.clinic
         ? bookingData.clinic.apiLocationId
         : undefined;
+
+    if (wbActivityMatrix && selectedLocationId != null) {
+      const fromMatrix = caregiverIdsForWbActivityAtLocation(
+        wbActivityMatrix,
+        selectedLocationId,
+      );
+      if (fromMatrix.length > 0) return fromMatrix;
+    }
+
     const ids = new Set<number>();
     for (const slot of apiFreeTimeSlots) {
       if (
@@ -878,7 +1077,7 @@ const BookingDemo = () => {
       if (slot.caregiverUserId != null) ids.add(slot.caregiverUserId);
     }
     return [...ids].sort((a, b) => a - b);
-  }, [hasApiActivity, apiFreeTimeSlots, bookingData.clinic]);
+  }, [hasApiActivity, apiFreeTimeSlots, bookingData.clinic, wbActivityMatrix]);
 
   useEffect(() => {
     if (!hasApiActivity || caregiverIdsFromSlots.length === 0) {
@@ -927,7 +1126,11 @@ const BookingDemo = () => {
         ? bookingData.clinic.apiLocationId
         : undefined;
     const keys = new Set<string>();
-    for (const slot of apiFreeTimeSlots) {
+    const useCalendarHints =
+      currentStep >= 4 && selectedLocationId != null && calendarHintsReady;
+    const source = useCalendarHints ? calendarHintSlots : apiFreeTimeSlots;
+
+    for (const slot of source) {
       if (
         selectedLocationId != null &&
         slot.locationId != null &&
@@ -946,69 +1149,90 @@ const BookingDemo = () => {
       day.setHours(0, 0, 0, 0);
       keys.add(day.toISOString());
     }
-    return keys;
-  }, [apiFreeTimeSlots, bookingData.clinic, selectedCaregiverUserId]);
 
-  const weekdayDates = useMemo(() => {
-    const out: Date[] = [];
-    for (let i = 0; i < 365; i++) {
-      const d = addDays(today, i);
-      const dow = d.getDay();
-      if (dow === 0 || dow === 6) continue;
-      out.push(d);
+    for (const [key, slots] of Object.entries(slotsByDayKey)) {
+      if (slots.length > 0) keys.add(key);
     }
-    return out;
-  }, [today]);
 
-  const bookableDates = useMemo(
-    () => weekdayDates.filter((d) => datesWithApiSlots.has(dayKey(d))),
-    [weekdayDates, datesWithApiSlots],
+    return keys;
+  }, [
+    currentStep,
+    calendarHintSlots,
+    calendarHintsReady,
+    apiFreeTimeSlots,
+    bookingData.clinic,
+    selectedCaregiverUserId,
+    slotsByDayKey,
+  ]);
+
+  const currentWeekStart = useMemo(
+    () => startOfWeek(today, { weekStartsOn: CALENDAR_WEEK_STARTS_ON }),
+    [today],
   );
 
-  const canGoPrevRange = dateOffset > 0;
-  const canGoNextRange = dateOffset + VISIBLE_DAYS < weekdayDates.length;
+  const visibleWeekStart = useMemo(
+    () => addWeeks(currentWeekStart, weekOffset),
+    [currentWeekStart, weekOffset],
+  );
+
+  const visibleDates = useMemo(
+    () => Array.from({ length: VISIBLE_DAYS }, (_, i) => addDays(visibleWeekStart, i)),
+    [visibleWeekStart],
+  );
+
+  const bookableDates = useMemo(() => {
+    const dates: Date[] = [];
+    for (const key of datesWithApiSlots) {
+      dates.push(new Date(key));
+    }
+    dates.sort((a, b) => a.getTime() - b.getTime());
+    return dates.filter((d) => d >= today);
+  }, [datesWithApiSlots, today]);
+
+  const canGoPrevRange = weekOffset > 0;
+  const canGoNextRange = weekOffset < MAX_CALENDAR_WEEKS;
 
   // Pick first API day with slots when entering step 4 (no static default date)
   useEffect(() => {
-    if (currentStep !== 4 || !hasApiActivity || timesLoading) return;
-    if (apiFreeTimeSlots.length === 0) {
-      setSelectedDate(undefined);
-      return;
-    }
+    if (currentStep !== 4 || !hasApiActivity) return;
 
-    const selectedHasSlots =
-      selectedDate != null && datesWithApiSlots.has(dayKey(selectedDate));
-    if (selectedHasSlots) return;
+    const selectedLocationId =
+      bookingData.clinic && "apiLocationId" in bookingData.clinic
+        ? bookingData.clinic.apiLocationId
+        : undefined;
+    if (selectedLocationId != null && calendarHintsLoading) return;
 
-    const firstDay = bookableDates[0];
-    if (!firstDay) {
-      setSelectedDate(undefined);
-      return;
-    }
+    if (selectedDate && selectedDate >= today) return;
+
+    const firstDay = bookableDates[0] ?? today;
     setSelectedDate(firstDay);
-    const idx = weekdayDates.findIndex((d) => isSameDay(d, firstDay));
-    setDateOffset(Math.max(0, Math.min(idx, Math.max(0, weekdayDates.length - VISIBLE_DAYS))));
+    setWeekOffset(Math.max(0, Math.min(MAX_CALENDAR_WEEKS, weekOffsetForDate(firstDay, today))));
   }, [
     currentStep,
     hasApiActivity,
-    timesLoading,
-    apiFreeTimeSlots.length,
-    datesWithApiSlots,
+    calendarHintsLoading,
+    calendarHintsReady,
     bookableDates,
-    weekdayDates,
     selectedDate,
+    today,
+    bookingData.clinic,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
   useEffect(() => {
     if (!selectedDate) return;
-    const idx = weekdayDates.findIndex((d) => isSameDay(d, selectedDate));
-    if (idx < 0) return;
-    setDateOffset((prev) => {
-      if (idx >= prev && idx < prev + VISIBLE_DAYS) return prev;
-      return Math.max(0, Math.min(idx, Math.max(0, weekdayDates.length - VISIBLE_DAYS)));
+    const offset = weekOffsetForDate(selectedDate, today);
+    if (offset < 0 || offset > MAX_CALENDAR_WEEKS) return;
+    setWeekOffset((prev) => {
+      if (offset === prev) return prev;
+      return offset;
     });
-  }, [selectedDate, weekdayDates]);
+  }, [selectedDate, today]);
+
+  const selectedDaySlots = useMemo(() => {
+    if (!selectedDate) return [];
+    return slotsByDayKey[dayKey(selectedDate)] ?? [];
+  }, [selectedDate, slotsByDayKey]);
 
   const availableSlots = useMemo((): DisplayTimeSlot[] => {
     if (!selectedDate || !hasApiActivity) return [];
@@ -1018,8 +1242,7 @@ const BookingDemo = () => {
         ? bookingData.clinic.apiLocationId
         : undefined;
 
-    return apiFreeTimeSlots
-      .filter((slot) => isSameDay(parseISO(slot.startDateTime), selectedDate))
+    return selectedDaySlots
       .filter(
         (slot) =>
           selectedLocationId == null ||
@@ -1042,7 +1265,7 @@ const BookingDemo = () => {
       }));
   }, [
     selectedDate,
-    apiFreeTimeSlots,
+    selectedDaySlots,
     hasApiActivity,
     bookingData.clinic && "apiLocationId" in bookingData.clinic
       ? bookingData.clinic.apiLocationId
@@ -1051,14 +1274,11 @@ const BookingDemo = () => {
   ]);
 
   const selectedDayDurationLabel = useMemo(() => {
-    if (!selectedDate || apiFreeTimeSlots.length === 0) return null;
-    const onDay = apiFreeTimeSlots.filter((slot) =>
-      isSameDay(parseISO(slot.startDateTime), selectedDate),
-    );
-    const mins = onDay.find((slot) => slot.durationMinutes != null)?.durationMinutes;
+    if (!selectedDate || selectedDaySlots.length === 0) return null;
+    const mins = selectedDaySlots.find((slot) => slot.durationMinutes != null)?.durationMinutes;
     if (mins == null) return null;
     return formatDurationMinutes(mins, locale);
-  }, [selectedDate, apiFreeTimeSlots, locale]);
+  }, [selectedDate, selectedDaySlots, locale]);
 
   const handleClose = () => navigate("/");
 
@@ -1104,12 +1324,14 @@ const BookingDemo = () => {
   // When a specialist is already chosen (e.g. ?spesialist=), only show clinics where they work.
   const availableClinics: BookingClinic[] = useMemo(() => {
     const metodika = bookingData.service?.apiActivityId ? enrichedMetodikaClinics : [];
-    const merged = mergeMetodikaAndSanityClinics(metodika, sanityManagedClinicOptions);
+    const metodikaForActivity = filterClinicsForWbActivity(metodika, wbActivityMatrix);
+    const merged = mergeMetodikaAndSanityClinics(metodikaForActivity, sanityManagedClinicOptions);
     if (!bookingData.specialistChosen || !bookingData.specialist) return merged;
     return filterClinicsForPreselectedSpecialist(
       merged,
       bookingData.specialist,
       apiFreeTimeSlots,
+      wbActivityMatrix,
     );
   }, [
     bookingData.service?.apiActivityId,
@@ -1118,6 +1340,7 @@ const BookingDemo = () => {
     enrichedMetodikaClinics,
     sanityManagedClinicOptions,
     apiFreeTimeSlots,
+    wbActivityMatrix,
   ]);
 
   const step2Ready =
@@ -1156,6 +1379,7 @@ const BookingDemo = () => {
         clinic,
         bookingData.specialist,
         apiFreeTimeSlots,
+        wbActivityMatrix,
       );
 
     setBookingData({
@@ -1169,7 +1393,9 @@ const BookingDemo = () => {
       selectedSlot: undefined,
     });
     setBookingCaregivers([]);
-    setDateOffset(0);
+    setWeekOffset(0);
+    slotsByDayRef.current = {};
+    setSlotsByDayKey({});
   };
 
   const handleSelectTimeSlot = (slot: DisplayTimeSlot) => {
@@ -1946,11 +2172,11 @@ const BookingDemo = () => {
                       type="button"
                       onClick={() => {
                         setDateDirection(-1);
-                        setDateOffset(0);
+                        setWeekOffset(0);
                         if (bookableDates.length > 0) setSelectedDate(bookableDates[0]);
                       }}
                       disabled={
-                        dateOffset === 0 &&
+                        weekOffset === 0 &&
                         (!selectedDate ||
                           (bookableDates[0] != null && isSameDay(selectedDate, bookableDates[0])))
                       }
@@ -1968,7 +2194,7 @@ const BookingDemo = () => {
                       onClick={() => {
                         if (!canGoPrevRange) return;
                         setDateDirection(-1);
-                        setDateOffset(Math.max(0, dateOffset - VISIBLE_DAYS));
+                        setWeekOffset(Math.max(0, weekOffset - 1));
                       }}
                       disabled={!canGoPrevRange}
                       aria-label="Forrige dager"
@@ -1986,9 +2212,7 @@ const BookingDemo = () => {
                       onClick={() => {
                         if (!canGoNextRange) return;
                         setDateDirection(1);
-                        setDateOffset(
-                          Math.min(weekdayDates.length - VISIBLE_DAYS, dateOffset + VISIBLE_DAYS),
-                        );
+                        setWeekOffset(Math.min(MAX_CALENDAR_WEEKS, weekOffset + 1));
                       }}
                       disabled={!canGoNextRange}
                       aria-label="Neste dager"
@@ -2007,23 +2231,32 @@ const BookingDemo = () => {
                 <div className="overflow-hidden min-h-24">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
-                      key={dateOffset}
+                      key={weekOffset}
                       initial={{ opacity: 0, x: dateDirection * 24 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: dateDirection * -24 }}
                       transition={{ duration: 0.25, ease: "easeOut" }}
                       className="grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-3"
                     >
-                      {weekdayDates.slice(dateOffset, dateOffset + VISIBLE_DAYS).map((date) => {
+                      {visibleDates.map((date) => {
                         const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
                         const isToday = isSameDay(date, today);
                         const hasSlots = datesWithApiSlots.has(dayKey(date));
                         const isPast = date < today;
+                        const selectedLocationId =
+                          bookingData.clinic && "apiLocationId" in bookingData.clinic
+                            ? bookingData.clinic.apiLocationId
+                            : undefined;
+                        const hasDiscoveryData =
+                          currentStep >= 4 && selectedLocationId != null
+                            ? calendarHintsReady
+                            : apiFreeTimeSlots.length > 0;
                         const isDisabled =
                           isPast ||
                           (hasApiActivity &&
                             !timesLoading &&
-                            apiFreeTimeSlots.length > 0 &&
+                            !calendarHintsLoading &&
+                            hasDiscoveryData &&
                             !hasSlots);
 
                         return (

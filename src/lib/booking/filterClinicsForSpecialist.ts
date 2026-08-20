@@ -7,6 +7,11 @@ import {
 import { normalizeClinicLabelForCompare } from "@/lib/booking/sanityBookingClinic";
 import { slugifyNo } from "@/lib/bookingLinks";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import {
+  locationIdsForCaregiverOnActivity,
+  locationIdsForWbActivity,
+  type WbActivityMatrixEntry,
+} from "@/lib/booking/wbactivitiesMatrix";
 
 export type SpecialistClinicConstraint = {
   /** Sanity clinic slugs / ids / labels the specialist works at. */
@@ -97,6 +102,17 @@ export type FreeTimeSlotLocationHint = {
   caregiverUserId?: number;
 };
 
+function filterMetodikaClinicsByLocationIds<T extends BookingClinic>(
+  clinics: T[],
+  locationIds: number[],
+): T[] {
+  if (locationIds.length === 0) return [];
+  const allowed = new Set(locationIds);
+  return clinics.filter(
+    (clinic) => isMetodikaClinic(clinic) && allowed.has(clinic.apiLocationId),
+  );
+}
+
 /**
  * When a specialist is preselected (e.g. from ?spesialist=), only keep clinics
  * where that person works / has availability — never fall back to the full list.
@@ -105,9 +121,20 @@ export function filterClinicsForPreselectedSpecialist<T extends BookingClinic>(
   clinics: T[],
   specialist: Specialist | BookingCaregiver | undefined | null,
   freeTimeSlots: FreeTimeSlotLocationHint[] = [],
+  activityEntry?: WbActivityMatrixEntry | null,
 ): T[] {
   const constraint = getSpecialistClinicConstraint(specialist);
   if (!constraint) return clinics;
+
+  // Metodika wbactivities matrix (authoritative: treatment → location → caregiver)
+  if (activityEntry && constraint.caregiverUserId != null) {
+    const matrixLocationIds = locationIdsForCaregiverOnActivity(
+      activityEntry,
+      constraint.caregiverUserId,
+    );
+    const byMatrix = filterMetodikaClinicsByLocationIds(clinics, matrixLocationIds);
+    if (byMatrix.length > 0) return byMatrix;
+  }
 
   const locationIdsFromSlots = new Set<number>();
   if (constraint.caregiverUserId != null) {
@@ -159,16 +186,29 @@ export function filterClinicsForPreselectedSpecialist<T extends BookingClinic>(
   return clinics;
 }
 
+/** Clinics where a wbactivity may be booked according to Metodika setup. */
+export function filterClinicsForWbActivity<T extends BookingClinic>(
+  clinics: T[],
+  activityEntry: WbActivityMatrixEntry | null | undefined,
+): T[] {
+  if (!activityEntry) return clinics;
+  const locationIds = locationIdsForWbActivity(activityEntry);
+  const byMatrix = filterMetodikaClinicsByLocationIds(clinics, locationIds);
+  return byMatrix.length > 0 ? byMatrix : clinics;
+}
+
 /** Whether the given clinic is allowed for the preselected specialist. */
 export function clinicAllowedForSpecialist(
   clinic: BookingClinic,
   specialist: Specialist | BookingCaregiver | undefined | null,
   freeTimeSlots: FreeTimeSlotLocationHint[] = [],
+  activityEntry?: WbActivityMatrixEntry | null,
 ): boolean {
   if (!getSpecialistClinicConstraint(specialist)) return true;
   return filterClinicsForPreselectedSpecialist(
     [clinic],
     specialist,
     freeTimeSlots,
+    activityEntry,
   ).length > 0;
 }
