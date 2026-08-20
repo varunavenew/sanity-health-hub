@@ -10,24 +10,14 @@ import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-ty
 
 interface SpecialistHeroProps {
   specialist: Specialist;
-  onScrollToBooking: () => void;
+  onBookingClick: () => void;
 }
 
 const expertiseChipClass =
-  "inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-transparent hover:bg-foreground hover:text-background hover:border-foreground transition-colors";
+  "inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-transparent";
 
 const SPECIALIST_MOBILE_HERO_GRADIENT =
   "linear-gradient(to top, rgba(24, 4, 4, 0.94) 0%, rgba(66, 51, 42, 0.88) 22%, rgba(66, 51, 42, 0.72) 40%, rgba(66, 51, 42, 0.48) 58%, rgba(66, 51, 42, 0.24) 78%, rgba(66, 51, 42, 0.1) 100%)";
-
-function categoryServicePath(
-  specialist: Specialist,
-  servicesPath: string,
-): string {
-  const primary = specialist.sanityCategories?.[0];
-  if (!primary?.slug) return servicesPath;
-  if (primary.categoryId === "flere-fagomrader") return servicesPath;
-  return `/${primary.slug}`;
-}
 
 function clinicLinks(specialist: Specialist): SpecialistClinicRef[] {
   if (specialist.clinicRefs?.length) return specialist.clinicRefs;
@@ -57,11 +47,9 @@ function SpecialistHeroMedia({
   );
 }
 
-export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHeroProps) => {
+export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroProps) => {
   const ui = useSpecialistProfileUi();
   const clinicsPath = useNavCmsPath("clinics");
-  const servicesPath = useNavCmsPath("services");
-  const servicePath = categoryServicePath(specialist, servicesPath);
   const clinics = clinicLinks(specialist);
   const hasSubtitle = Boolean(
     specialist.subtitle && specialist.subtitle !== specialist.title,
@@ -127,13 +115,9 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4"
             >
               {specialist.expertise.map((tag) => (
-                <Link
-                  key={tag}
-                  to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
-                  className="text-sm font-light text-white hover:text-white transition-colors"
-                >
+                <span key={tag} className="text-sm font-light text-white">
                   {tag}
-                </Link>
+                </span>
               ))}
             </motion.div>
           ) : null}
@@ -147,7 +131,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               variant="cta"
               size="lg"
               className="w-full h-12 rounded-full font-normal"
-              onClick={onScrollToBooking}
+              onClick={onBookingClick}
             >
               {ui.bookingCtaLabel}
             </Button>
@@ -207,13 +191,9 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 className="flex flex-wrap items-center gap-1.5 mb-8"
               >
                 {specialist.expertise.map((tag) => (
-                  <Link
-                    key={tag}
-                    to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
-                    className={expertiseChipClass}
-                  >
+                  <span key={tag} className={expertiseChipClass}>
                     {tag}
-                  </Link>
+                  </span>
                 ))}
               </motion.div>
             ) : null}
@@ -228,7 +208,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 variant="cta"
                 size="lg"
                 className="px-7 w-full sm:w-auto"
-                onClick={onScrollToBooking}
+                onClick={onBookingClick}
               >
                 {ui.bookingCtaLabel}
               </Button>

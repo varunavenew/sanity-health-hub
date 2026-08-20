@@ -143,7 +143,7 @@ export default {
               type: 'text',
               rows: 14,
               description:
-                'Plain-text body sent to the clinic. Supports placeholders:\n{{name}} {{email}} {{phone}} {{clinic}} {{subject}} {{message}} {{date}} {{website}} {{senderName}}\n\nLeave empty to use the built-in default layout.',
+                'Plain-text body sent to the clinic. Supports placeholders:\n{{name}} {{email}} {{phone}} {{clinic}} {{subject}} {{message}} {{date}} {{when}} {{website}} {{senderName}}\n\nLeave empty to use the built-in default layout.',
             },
           ],
         },
@@ -176,7 +176,7 @@ export default {
               type: 'text',
               rows: 14,
               description:
-                'Plain-text confirmation body. Supports placeholders:\n{{name}} {{email}} {{phone}} {{clinic}} {{subject}} {{message}} {{date}} {{website}} {{senderName}}\n\nRequired when confirmation is enabled (otherwise a simple default is used).',
+                'Plain-text confirmation body. Supports placeholders:\n{{name}} {{email}} {{phone}} {{clinic}} {{subject}} {{message}} {{date}} {{when}} {{website}} {{senderName}}\n\nRequired when confirmation is enabled (otherwise a simple default is used).',
               hidden: ({parent}: {parent?: {enabled?: boolean}}) => parent?.enabled === false,
             },
           ],

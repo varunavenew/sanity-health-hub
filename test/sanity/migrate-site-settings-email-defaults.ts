@@ -2,7 +2,7 @@
 /**
  * Seed Site Settings → Email Settings defaults (idempotent).
  *
- * - Never overwrites non-empty editor content
+ * - Never overwrites non-empty editor content (except stock English visitor confirmation copy)
  * - Creates emailSettings when missing on siteSettings / drafts.siteSettings
  * - Only fills missing / empty scalar fields and nested template fields
  * - Does NOT touch SMTP credentials (env-only)
@@ -54,29 +54,33 @@ Please reply directly to this email to contact the patient.
 Regards,
 CMedical Website`
 
-const CONFIRMATION_SUBJECT = 'Thank you for contacting CMedical'
+/** Previous English stock copy — replaced when still present in CMS. */
+const LEGACY_CONFIRMATION_SUBJECTS = [
+  'Thank you for contacting CMedical',
+  'We received your message',
+]
 
-const CONFIRMATION_BODY = `Hello {{name}},
+const CONFIRMATION_SUBJECT = 'Takk for at du kontaktet CMedical'
 
-Thank you for contacting CMedical.
+const CONFIRMATION_BODY = `Hei {{name}},
 
-We have received your enquiry and it has been forwarded to the selected clinic.
+Takk for din henvendelse. Vi har mottatt meldingen din, og den er videresendt til valgt klinikk. Vi tar kontakt så snart som mulig.
 
-Our team will review your message and contact you as soon as possible.
+Oppsummering
 
-Your enquiry summary
-
-Clinic:
+Klinikk:
 {{clinic}}
 
-Subject:
+Emne:
 {{subject}}
 
-Message:
+Melding:
 {{message}}
 
-Best regards,
+Ønsket dag:
+{{when}}
 
+Med vennlig hilsen,
 CMedical`
 
 const DEFAULTS = {
@@ -131,6 +135,22 @@ function isEmptyString(value: unknown): boolean {
 /** Only seed booleans when the field has never been set (null/undefined). */
 function isUnsetBoolean(value: unknown): boolean {
   return value !== true && value !== false
+}
+
+function isLegacyEnglishConfirmationSubject(value: unknown): boolean {
+  if (typeof value !== 'string') return false
+  return LEGACY_CONFIRMATION_SUBJECTS.includes(value.trim())
+}
+
+function isLegacyEnglishConfirmationBody(value: unknown): boolean {
+  if (typeof value !== 'string') return false
+  const body = value.trim()
+  return (
+    body.includes('Your enquiry summary') ||
+    body.includes('Thank you for contacting') ||
+    body.includes('We have received your enquiry') ||
+    body.includes('We have received your message')
+  )
 }
 
 /**
@@ -222,14 +242,17 @@ function mergeEmailSettings(existing: EmailSettings | null | undefined): {
     confirmation.enabled = confirmSrc.enabled
     skippedKeys.push('confirmationEmail.enabled')
   }
-  if (isEmptyString(confirmSrc.subject)) {
+  if (
+    isEmptyString(confirmSrc.subject) ||
+    isLegacyEnglishConfirmationSubject(confirmSrc.subject)
+  ) {
     confirmation.subject = DEFAULTS.confirmationEmail.subject
     filledKeys.push('confirmationEmail.subject')
   } else {
     confirmation.subject = confirmSrc.subject
     skippedKeys.push('confirmationEmail.subject')
   }
-  if (isEmptyString(confirmSrc.body)) {
+  if (isEmptyString(confirmSrc.body) || isLegacyEnglishConfirmationBody(confirmSrc.body)) {
     confirmation.body = DEFAULTS.confirmationEmail.body
     filledKeys.push('confirmationEmail.body')
   } else {
@@ -460,7 +483,7 @@ async function run() {
       [
         'confirmationEmail.body ok',
         (es?.confirmationEmail?.body || '').includes('{{name}}') &&
-          (es?.confirmationEmail?.body || '').includes('Your enquiry summary'),
+          (es?.confirmationEmail?.body || '').includes('Oppsummering'),
         true,
       ],
     ]

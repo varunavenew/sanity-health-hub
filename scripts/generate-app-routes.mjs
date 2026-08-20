@@ -68,7 +68,6 @@ const simple = [
   ["behandlinger/ortopedi", "@/site-pages/treatments/OrtopediPage", "OrtopediPage"],
   ["behandlinger/flere-fagomrader", "@/site-pages/treatments/FlereFagomraderPage", "FlereFagomraderPage"],
   ["kvinnehelse", "@/site-pages/themes/KvinnehelsePage", "KvinnehelsePage"],
-  ["tverrfaglige-team", "@/site-pages/themes/TverrfagligePage", "TverrfagligePage"],
   ["robotassistert-kirurgi", "@/site-pages/themes/RobotkirurgiPage", "RobotkirurgiPage"],
   ["personvern", "@/site-pages/Personvern", "Personvern"],
   ["karriere", "@/site-pages/Karriere", "Karriere"],

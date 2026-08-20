@@ -62,8 +62,7 @@ export default {
     {
       name: 'pcRelated',
       title: 'Related specialists',
-      description:
-        '“Other specialists” band at the bottom of the profile. Required for publish — select at least one peer.',
+      description: '“Other specialists” band at the bottom of the profile. Optional.',
       options: sectionCollapsed,
       group: 'pageContent',
     },
@@ -342,32 +341,26 @@ export default {
       type: 'object',
       group: 'pageContent',
       fieldset: 'pcRelated',
-      description:
-        'Required for publish. The “Other specialists” section at the bottom of the profile.',
+      description: 'The “Other specialists” section at the bottom of the profile.',
       options: { collapsible: true, collapsed: false },
-      validation: (Rule: any) =>
-        Rule.required().error('Related specialists must be filled out'),
       fields: [
         {
           name: 'eyebrow',
           title: 'Subheading',
           type: 'internationalizedArrayString',
           description: 'E.g. Same specialty (NO + EN).',
-          validation: reqI18n('Subheading'),
         },
         {
           name: 'heading',
           title: 'Heading',
           type: 'internationalizedArrayString',
           description: 'E.g. Other specialists (NO + EN).',
-          validation: reqI18n('Heading'),
         },
         {
           name: 'ctaLabel',
           title: 'Link text',
           type: 'internationalizedArrayString',
           description: 'E.g. See all (NO + EN).',
-          validation: reqI18n('Link text'),
         },
         {
           name: 'ctaPath',
@@ -376,44 +369,38 @@ export default {
           description: 'Internal path without language prefix, e.g. /spesialister',
           initialValue: '/spesialister',
           validation: (Rule: any) =>
-            Rule.required()
-              .error('Link is required')
-              .custom((value: any) => {
-                if (!value) return true
-                if (typeof value !== 'string') return true
-                return value.startsWith('/')
-                  ? true
-                  : 'The path must be a relative link starting with a slash (e.g. /spesialister)'
-              }),
+            Rule.custom((value: any) => {
+              if (!value) return true
+              if (typeof value !== 'string') return true
+              return value.startsWith('/')
+                ? true
+                : 'The path must be a relative link starting with a slash (e.g. /spesialister)'
+            }),
         },
         {
           name: 'specialists',
           title: 'Specialists',
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
-          description:
-            'Select peers to display (Studio order kept). At least one required — not yourself.',
+          description: 'Select peers to display (Studio order kept). Not yourself.',
           validation: (Rule: any) =>
-            Rule.required()
-              .min(1)
-              .error('Select at least one specialist')
-              .custom(
-                (
-                  refs: Array<{ _ref?: string }> | undefined,
-                  context: { document?: { _id?: string } },
-                ) => {
-                  if (!Array.isArray(refs) || refs.length === 0) return true
-                  const docId = String(context.document?._id || '').replace(
-                    /^drafts\./,
-                    '',
-                  )
-                  if (!docId) return true
-                  const includesSelf = refs.some((ref) => ref?._ref === docId)
-                  return includesSelf
-                    ? 'Select other specialists — not the profile you are editing'
-                    : true
-                },
-              ),
+            Rule.custom(
+              (
+                refs: Array<{ _ref?: string }> | undefined,
+                context: { document?: { _id?: string } },
+              ) => {
+                if (!Array.isArray(refs) || refs.length === 0) return true
+                const docId = String(context.document?._id || '').replace(
+                  /^drafts\./,
+                  '',
+                )
+                if (!docId) return true
+                const includesSelf = refs.some((ref) => ref?._ref === docId)
+                return includesSelf
+                  ? 'Select other specialists — not the profile you are editing'
+                  : true
+              },
+            ),
         },
       ],
     },
@@ -597,40 +584,6 @@ export default {
       }
       if ((hasFaqs || hasFaqCollection) && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
         issues.push('FAQ heading (English) is missing')
-      }
-      const related = document.relatedSpecialistsSection as
-        | Record<string, unknown>
-        | undefined
-      if (!related || typeof related !== 'object') {
-        issues.push('Related specialists section is missing')
-      }
-      if (!pickNo(related?.eyebrow)?.trim()) {
-        issues.push('Related specialists: subheading (Norwegian) is missing')
-      }
-      if (!pickForLang(related?.eyebrow, 'en')?.trim()) {
-        issues.push('Related specialists: subheading (English) is missing')
-      }
-      if (!pickNo(related?.heading)?.trim()) {
-        issues.push('Related specialists: heading (Norwegian) is missing')
-      }
-      if (!pickForLang(related?.heading, 'en')?.trim()) {
-        issues.push('Related specialists: heading (English) is missing')
-      }
-      if (!pickNo(related?.ctaLabel)?.trim()) {
-        issues.push('Related specialists: link text (Norwegian) is missing')
-      }
-      if (!pickForLang(related?.ctaLabel, 'en')?.trim()) {
-        issues.push('Related specialists: link text (English) is missing')
-      }
-      const ctaPath = String(related?.ctaPath || '').trim()
-      if (!ctaPath) {
-        issues.push('Related specialists: link is missing')
-      } else if (!ctaPath.startsWith('/')) {
-        issues.push('Related specialists: link must start with /')
-      }
-      const relatedSpecialists = related?.specialists as unknown[] | undefined
-      if (!Array.isArray(relatedSpecialists) || relatedSpecialists.length === 0) {
-        issues.push('Related specialists: select at least one specialist')
       }
       const seo = document.seo as Record<string, unknown> | undefined
       if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta title (Norwegian) is missing')

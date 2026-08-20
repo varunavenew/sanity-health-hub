@@ -29,7 +29,6 @@ export const sitePages: SitePage[] = [
 
   // Tema
   { path: "/kvinnehelse", name: "Kvinnehelse", category: "Tema" },
-  { path: "/tverrfaglige-team", name: "Tverrfaglige team", category: "Tema" },
   { path: "/robotassistert-kirurgi", name: "Robotassistert kirurgi", category: "Tema" },
   { path: "/fastlegeveiledning-overgangsalder", name: "Fastlegeveiledning – overgangsalder", category: "Tema" },
 

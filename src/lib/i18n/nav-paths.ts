@@ -35,7 +35,6 @@ const MARKETING_NB_TO_EN: Record<string, string> = {
   "/flere-fagomrader": "/other",
   "/kvinnehelse": "/kvinnehelse",
   "/robotassistert-kirurgi": "/robotassistert-kirurgi",
-  "/tverrfaglige-team": "/tverrfaglige-team",
   "/tjenester": "/services",
 };
 
