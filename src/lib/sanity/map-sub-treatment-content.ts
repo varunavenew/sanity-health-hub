@@ -92,10 +92,10 @@ export function mapTreatmentToSubTreatmentContent(
   const { categoryId, treatmentSlug } = options;
   const isEn = options.lang === "en";
   const categoryKey = normalizeCategoryRouteKey(categoryId) || categoryId;
+  // Always follow the URL category so dual-tagged treatments (e.g. miscarriage
+  // under /pregnancy) breadcrumb to Pregnancy, not the CMS primary category.
   const parentPath = stripBehandlingerPrefix(
-    treatment.parentSlug?.trim()
-      ? `/${treatment.parentSlug.trim()}`
-      : categoryLandingPath(categoryKey, options.lang),
+    categoryLandingPath(categoryKey, options.lang),
   );
 
   const canonical = treatmentSlug ? `${parentPath}/${treatmentSlug}` : parentPath;

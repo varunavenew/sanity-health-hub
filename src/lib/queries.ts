@@ -6,7 +6,6 @@ import {
 import { MEDIA_OBJECT_PROJECTION } from "@/lib/sanity/media-dual-read";
 import {
   localizedPrimaryCategorySlugField,
-  localizedPrimaryCategorySlugFieldLocale,
   localizedRefSlugField,
   localizedSlug,
   orderSlugAsc,
@@ -699,13 +698,56 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   ${CATEGORY_LANDING_GROQ},
   ${PAGE_SECTIONS_GROQ}
 }`;
+/** Breadcrumb parent: prefer the category matching the current URL ($categorySlug). */
 const localizedParentCategory = `"parentCategory": coalesce(
+  categories[
+    @->categoryId == $categorySlug
+    || count(@->slug[value.current == $categorySlug]) > 0
+    || @->slug.current == $categorySlug
+  ][0]->title[language == $lang][0].value,
+  categories[
+    @->categoryId == $categorySlug
+    || count(@->slug[value.current == $categorySlug]) > 0
+    || @->slug.current == $categorySlug
+  ][0]->title[_key == $lang][0].value,
+  select(
+    category->categoryId == $categorySlug || count(category->slug[value.current == $categorySlug]) > 0 =>
+      coalesce(
+        category->title[language == $lang][0].value,
+        category->title[_key == $lang][0].value
+      )
+  ),
   parentCategoryLabel[language == $lang][0].value,
   parentCategoryLabel[_key == $lang][0].value,
   categories[0]->title[language == $lang][0].value,
   categories[0]->title[_key == $lang][0].value,
   category->title[language == $lang][0].value,
   category->title[_key == $lang][0].value
+)`;
+
+/** Breadcrumb parent slug: same route-matched category as parentCategory. */
+const localizedRouteParentSlug = `"parentSlug": coalesce(
+  categories[
+    @->categoryId == $categorySlug
+    || count(@->slug[value.current == $categorySlug]) > 0
+    || @->slug.current == $categorySlug
+  ][0]->slug[language == $lang][0].value.current,
+  categories[
+    @->categoryId == $categorySlug
+    || count(@->slug[value.current == $categorySlug]) > 0
+    || @->slug.current == $categorySlug
+  ][0]->slug[_key == $lang][0].value.current,
+  select(
+    category->categoryId == $categorySlug || count(category->slug[value.current == $categorySlug]) > 0 =>
+      coalesce(
+        category->slug[language == $lang][0].value.current,
+        category->slug[_key == $lang][0].value.current
+      )
+  ),
+  categories[0]->slug[language == $lang][0].value.current,
+  categories[0]->slug[_key == $lang][0].value.current,
+  category->slug[language == $lang][0].value.current,
+  category->slug[_key == $lang][0].value.current
 )`;
 
 export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnly} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
@@ -720,7 +762,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   "heroImage": heroImage.asset->url,
   ${i18nStringLocale('heroImageAlt')},
   ${localizedParentCategory},
-  ${localizedPrimaryCategorySlugFieldLocale("parentSlug")},
+  ${localizedRouteParentSlug},
   "categoryNumericId": coalesce(categories[0]->categoryNumericId, category->categoryNumericId),
   ${i18nStringLocale("faqSectionTitle")},
   "faqCollection": faqCollection->{

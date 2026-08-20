@@ -22,6 +22,7 @@ export type NavLocale = "no" | "en";
  */
 export const FIXED_NAV_PATHS: Partial<Record<NavRouteId, { nb: string; en: string }>> = {
   bookAppointment: { nb: "/booking", en: "/book-appointment" },
+  specialists: { nb: "/spesialister", en: "/specialists" },
 };
 
 /** Non-CMS marketing / design paths — locale switch fallback only. */
