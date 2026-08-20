@@ -52,20 +52,9 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const navigate = useNavigate();
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
-  const list = (sanityClinics as Array<Record<string, any>>)
-    .filter((clinic) => clinic.slug && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug))
-    .map((clinic) => ({
-      ...clinic,
-      detail: {
-        ...(clinic.detail || {}),
-        ...(clinic.description ? { description: clinic.description } : {}),
-      },
-    }))
-    .sort((a, b) => {
-      const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
-      const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
-      return ao - bo;
-    });
+  const list = sanityClinics.filter(
+    (clinic) => clinic.slug && !EXCLUDED_CLINIC_SLUGS.has(clinic.slug),
+  );
 
   const clinicCount = list.length;
   const heroEyebrow = page?.heroEyebrow?.trim()
