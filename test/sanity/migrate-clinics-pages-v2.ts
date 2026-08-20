@@ -321,7 +321,7 @@ const clinics: ClinicSource[] = [
     },
     booking: { method: "info", externalBookingUrl: "https://colosseumfaust.no/spesialister/" },
     locationSearch: { lat: 59.4369, lng: 10.6716 },
-    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi"],
+    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut"],
     sortOrder: 3,
     faqs: [
       {

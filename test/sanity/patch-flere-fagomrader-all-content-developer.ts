@@ -105,7 +105,6 @@ const PAGES: PageCfg[] = [
     seeAll: "hudhelse",
   },
   { id: "treatment-flere-fagomrader-gastrokirurgi", slug: "gastrokirurgi", seeAll: "gastro" },
-  { id: "treatment-flere-fagomrader-plastikkirurgi", slug: "plastikkirurgi", seeAll: "all" },
   { id: "treatment-flere-fagomrader-robotkirurgi", slug: "robotkirurgi", seeAll: "all" },
   { id: "treatment-flere-fagomrader-areknuter", slug: "areknuter", seeAll: "all" },
   { id: "treatment-flere-fagomrader-osteopati", slug: "osteopati", seeAll: "all" },
@@ -376,7 +375,6 @@ function resolveSpecialists(page: PageCfg): string[] {
       return [SPEC.bjorn, SPEC.nicolai, SPEC.thomas];
     // Dump shows the full Flere tjenester carousel team
     case "endokrinologi":
-    case "plastikkirurgi":
     case "hudhelse":
     case "hudbehandlinger":
     case "hudpleieprodukter":

@@ -15,13 +15,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  getClinicBySlug,
-  withCanonicalAddress,
-  clinicFaqs,
-  type Clinic,
-} from "@/data/clinicServices";
-import { clinicHeroImages } from "@/data/clinicImagery";
 import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { SpecialistCarousel } from "@/components/SpecialistCarousel";
@@ -33,6 +26,18 @@ import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { formatOpeningHoursLines } from "@/lib/format-opening-hours";
 import { useTranslation } from "react-i18next";
+
+type ClinicServiceItem = {
+  serviceId: string;
+  label: string;
+  href?: string;
+};
+
+type ClinicServicesSection = {
+  title?: string;
+  description?: string;
+  items: ClinicServiceItem[];
+};
 
 type MergedClinic = {
   id: string;
@@ -50,6 +55,7 @@ type MergedClinic = {
   mapsUrl?: string;
   faqs?: { question: string; answer: string }[];
   services?: string[];
+  servicesSection?: ClinicServicesSection;
   booking?: Record<string, unknown>;
   seo?: { metaTitle?: string; metaDescription?: string };
   heroImage?: string;
@@ -60,29 +66,6 @@ type MergedClinic = {
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
-}
-
-function staticClinicToMerged(staticClinic: Clinic): MergedClinic {
-  return {
-    id: staticClinic.id,
-    slug: staticClinic.slug,
-    label: staticClinic.label,
-    address: staticClinic.address,
-    phone: staticClinic.phone,
-    hours: staticClinic.hours,
-    description: staticClinic.detail.description,
-    detail: {
-      parking: staticClinic.detail.parking,
-      publicTransport: staticClinic.detail.publicTransport,
-      accessibility: staticClinic.detail.accessibility,
-    },
-    mapsUrl: staticClinic.mapsUrl,
-    faqs: clinicFaqs[staticClinic.slug] || [],
-    services: staticClinic.services,
-    heroImage: clinicHeroImages[staticClinic.slug],
-    booking: undefined,
-    seo: undefined,
-  };
 }
 
 function resolveSanityGalleryImages(
@@ -101,6 +84,40 @@ function resolveSanityGalleryImages(
     .filter((item): item is { src: string; alt: string } => item != null);
 }
 
+function normalizeServicesSection(
+  raw: unknown,
+  lang: "no" | "en",
+): ClinicServicesSection | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const section = raw as Record<string, unknown>;
+  const itemsRaw = Array.isArray(section.items) ? section.items : [];
+  const items = itemsRaw
+    .map((item) => {
+      const row = item as { serviceId?: unknown; label?: unknown; href?: unknown };
+      const serviceId =
+        typeof row.serviceId === "string" ? row.serviceId.trim() : "";
+      const label = plainMetaString(row.label, "", lang).trim();
+      const href = typeof row.href === "string" ? row.href.trim() : "";
+      if (!serviceId && !label) return null;
+      return {
+        serviceId: serviceId || label,
+        label: label || serviceId,
+        ...(href ? { href } : {}),
+      };
+    })
+    .filter((item): item is ClinicServiceItem => item != null);
+
+  const title = plainMetaString(section.title, "", lang).trim();
+  const description = plainMetaString(section.description, "", lang).trim();
+  if (!items.length && !title && !description) return undefined;
+
+  return {
+    ...(title ? { title } : {}),
+    ...(description ? { description } : {}),
+    items,
+  };
+}
+
 function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no" | "en"): MergedClinic {
   const label = plainMetaString(raw.label ?? raw.title, "Klinikk", lang);
   const description = plainMetaString(raw.description, "", lang);
@@ -115,7 +132,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     (resolvedHero?.kind === "image" ? resolvedHero.src : resolvedHero?.poster) ||
     primaryImage;
 
-  return withCanonicalAddress({
+  return {
     id: String(raw.id || raw.slug || slug),
     slug: String(raw.slug || slug),
     label,
@@ -138,6 +155,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
           .filter((faq) => faq.question && faq.answer)
       : [],
     services: Array.isArray(raw.services) ? (raw.services as string[]) : [],
+    servicesSection: normalizeServicesSection(raw.servicesSection, lang),
     booking: (raw.booking as Record<string, unknown>) || undefined,
     seo: raw.seo as MergedClinic["seo"],
     heroImage,
@@ -146,7 +164,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     treatments: Array.isArray(raw.treatments)
       ? (raw.treatments as MergedClinic["treatments"])
       : undefined,
-  });
+  };
 }
 
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
@@ -159,7 +177,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const aboutPath = useNavCmsPath("about");
   const { data: sanityClinic, isLoading } = useClinic(slug || "");
   const { data: treatmentCategories } = useTreatmentCategories();
-  const staticClinic = slug ? getClinicBySlug(slug) : undefined;
 
   const serviceLinks = useMemo(
     () => buildClinicServiceLinks(treatmentCategories, sanityLang),
@@ -167,28 +184,34 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   );
 
   const clinic = useMemo((): MergedClinic | undefined => {
-    if (sanityClinic) {
-      const merged = mergeSanityClinic(sanityClinic as Record<string, unknown>, slug, sanityLang);
-      if (!merged.faqs?.length && staticClinic) {
-        merged.faqs = clinicFaqs[staticClinic.slug] || [];
-      }
-      if (!merged.services?.length && staticClinic) {
-        merged.services = staticClinic.services;
-      }
-      if (!merged.description && staticClinic) {
-        merged.description = staticClinic.detail.description;
-      }
-      if (staticClinic) {
-        merged.detail = {
-          parking: merged.detail?.parking || staticClinic.detail.parking,
-          publicTransport: merged.detail?.publicTransport || staticClinic.detail.publicTransport,
-          accessibility: merged.detail?.accessibility || staticClinic.detail.accessibility,
-        };
-      }
-      return merged;
-    }
-    return staticClinic ? staticClinicToMerged(staticClinic) : undefined;
-  }, [sanityClinic, slug, sanityLang, staticClinic]);
+    if (!sanityClinic) return undefined;
+    return mergeSanityClinic(sanityClinic as Record<string, unknown>, slug, sanityLang);
+  }, [sanityClinic, slug, sanityLang]);
+
+  const servicesSection = useMemo((): ClinicServicesSection | undefined => {
+    if (!clinic) return undefined;
+    if (clinic.servicesSection?.items?.length) return clinic.servicesSection;
+
+    // Fallback: Advanced → Service IDs only (labels/paths from treatment categories)
+    const ids = clinic.services || [];
+    if (!ids.length) return undefined;
+    const items = ids.map((id) => {
+      const link = serviceLinks[id];
+      return {
+        serviceId: id,
+        label: link?.label || id,
+        ...(link?.path ? { href: link.path } : {}),
+      };
+    });
+    const allLinked = items.every((item) => Boolean(item.href));
+    return {
+      title: "Tjenester ved denne klinikken",
+      description: `CMedical ${clinic.label} tilbyr ${ids.length} ulike tjenester.${
+        allLinked ? " Klikk på tjenestene med pil for å lese mer." : ""
+      }`,
+      items,
+    };
+  }, [clinic, serviceLinks]);
 
   const sanityGalleryImages = useMemo(() => {
     const raw = sanityClinic as Record<string, unknown> | null | undefined;
@@ -204,7 +227,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     }
   }, [clinic]);
 
-  if (isLoading && !staticClinic) {
+  if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="centered-hero bg-brand-warm">
@@ -239,8 +262,9 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     clinic.mapsUrl ||
     (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
-  const allServicesLinked =
-    clinic.services?.every((id) => Boolean(serviceLinks[id]?.path)) ?? false;
+  const serviceItems = servicesSection?.items || [];
+  const servicesTitle = servicesSection?.title || "Tjenester ved denne klinikken";
+  const servicesDescription = servicesSection?.description || "";
   const openingHoursLines = formatOpeningHoursLines(clinic.hours);
 
   return (
@@ -433,25 +457,25 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </div>
       </section>
 
-      {clinic.services && clinic.services.length > 0 ? (
+      {serviceItems.length > 0 ? (
         <section className="bg-brand-warm/40 py-10 md:py-14">
           <div className="container mx-auto px-6 md:px-16">
             <div className="mx-auto max-w-3xl">
-              <h2 className="mb-2 text-lg font-normal text-foreground">Tjenester ved denne klinikken</h2>
-              <p className="mb-6 text-sm font-light text-muted-foreground">
-                CMedical {clinic.label} tilbyr {clinic.services.length} ulike tjenester.{" "}
-                {allServicesLinked && "Klikk på tjenestene med pil for å lese mer."}
-              </p>
+              <h2 className="mb-2 text-lg font-normal text-foreground">{servicesTitle}</h2>
+              {servicesDescription ? (
+                <p className="mb-6 text-sm font-light text-muted-foreground">
+                  {servicesDescription}
+                </p>
+              ) : null}
 
               <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
-                {clinic.services.map((id) => {
-                  const svc = serviceLinks[id] || { label: id };
+                {serviceItems.map((item) => {
                   const content = (
                     <span
-                      className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${svc.path ? " group-hover:text-brand-dark" : ""}`}
+                      className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${item.href ? " group-hover:text-brand-dark" : ""}`}
                     >
-                      <span>{svc.label}</span>
-                      {svc.path ? (
+                      <span>{item.label}</span>
+                      {item.href ? (
                         <ArrowRight
                           className="h-3.5 w-3.5 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
                           strokeWidth={1.5}
@@ -461,9 +485,9 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </span>
                   );
                   return (
-                    <li key={id} className={svc.path ? "group" : ""}>
-                      {svc.path ? (
-                        <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
+                    <li key={item.serviceId} className={item.href ? "group" : ""}>
+                      {item.href ? (
+                        <Link to={item.href} aria-label={`Les mer om ${item.label}`}>
                           {content}
                         </Link>
                       ) : (

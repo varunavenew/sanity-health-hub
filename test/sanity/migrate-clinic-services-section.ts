@@ -23,6 +23,7 @@ import { sanityClient } from "./config";
 
 const DRY = process.argv.includes("--dry-run");
 const FORCE = process.env.FORCE === "1";
+const ONLY = process.argv.find((a) => a.startsWith("--only="))?.slice("--only=".length);
 
 type L = "no" | "en";
 const LANGS: L[] = ["no", "en"];
@@ -129,11 +130,6 @@ const SERVICES: Record<string, ServiceDef> = {
   },
   endokrinolog: { no: "Endokrinolog", en: "Endocrinologist" },
   overvektskirurgi: { no: "Overvektskirurgi", en: "Bariatric surgery" },
-  plastikkirurgi: {
-    no: "Plastikkirurgi",
-    en: "Plastic surgery",
-    href: "/behandlinger/flere-fagomrader/plastikkirurgi",
-  },
   karkirurgi: {
     no: "Karkirurgi",
     en: "Vascular surgery",
@@ -164,7 +160,7 @@ const clinics: { slug: string; label: { no: string; en: string }; services: stri
   {
     slug: "moss",
     label: { no: "Moss", en: "Moss" },
-    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi", "areknuter"],
+    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "areknuter"],
   },
   {
     slug: "moelv",
@@ -211,7 +207,13 @@ async function migrate() {
     `🏥 Migrating clinic services section${DRY ? " (dry run)" : ""}${FORCE ? " [FORCE]" : ""}\n`,
   );
 
-  const slugs = clinics.map((c) => c.slug);
+  const targets = ONLY ? clinics.filter((c) => c.slug === ONLY) : clinics;
+  if (ONLY && targets.length === 0) {
+    console.error(`❌ No clinic source data for --only=${ONLY}`);
+    process.exit(1);
+  }
+
+  const slugs = targets.map((c) => c.slug);
   const docs = await sanityClient.fetch<
     Array<{ _id: string; slug?: unknown; servicesSection?: unknown; services?: string[] }>
   >(
@@ -224,7 +226,7 @@ async function migrate() {
   let updated = 0;
   let skipped = 0;
 
-  for (const clinic of clinics) {
+  for (const clinic of targets) {
     const doc =
       docs.find((d) => slugFromDoc(d) === clinic.slug) ||
       docs.find((d) => d._id.replace(/^drafts\./, "") === `clinicPage-${clinic.slug}`);

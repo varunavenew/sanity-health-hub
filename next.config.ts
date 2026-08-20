@@ -172,6 +172,34 @@ const nextConfig: NextConfig = {
       { source: "/en/gynecology/pmos", destination: "/en/gynecology/pcos", permanent: true },
       { source: "/en/behandlinger/gynekologi/pmos", destination: "/en/behandlinger/gynekologi/pcos", permanent: true },
 
+      // Plastikkirurgi retired — CMedical does not offer plastic surgery.
+      // Destination (/ovrige or /other) pending final SEO sign-off with Erlend.
+      // Place BEFORE /no/flere-fagomrader/:path* so we do not chain via /no/ovrige/plastikkirurgi.
+      { source: "/ovrige/plastikkirurgi", destination: "/no/ovrige", permanent: true },
+      { source: "/flere-fagomrader/plastikkirurgi", destination: "/no/ovrige", permanent: true },
+      { source: "/behandlinger/flere-fagomrader/plastikkirurgi", destination: "/no/ovrige", permanent: true },
+      { source: "/behandlinger/ovrige/plastikkirurgi", destination: "/no/ovrige", permanent: true },
+      { source: "/:locale(nb|no)/ovrige/plastikkirurgi", destination: "/:locale/ovrige", permanent: true },
+      { source: "/:locale(nb|no)/flere-fagomrader/plastikkirurgi", destination: "/:locale/ovrige", permanent: true },
+      { source: "/:locale(nb|no)/behandlinger/flere-fagomrader/plastikkirurgi", destination: "/:locale/ovrige", permanent: true },
+      { source: "/:locale(nb|no)/behandlinger/ovrige/plastikkirurgi", destination: "/:locale/ovrige", permanent: true },
+      { source: "/en/other/plastikkirurgi", destination: "/en/other", permanent: true },
+      { source: "/en/other/plastic-surgery", destination: "/en/other", permanent: true },
+      { source: "/en/more-specialties/plastikkirurgi", destination: "/en/other", permanent: true },
+      { source: "/en/more-specialties/plastic-surgery", destination: "/en/other", permanent: true },
+      { source: "/en/behandlinger/flere-fagomrader/plastikkirurgi", destination: "/en/other", permanent: true },
+      { source: "/en/behandlinger/more-specialties/plastikkirurgi", destination: "/en/other", permanent: true },
+      {
+        source: "/:locale(nb|no)/ovrige/procedure-reconstructive-surg",
+        destination: "/:locale/ovrige",
+        permanent: true,
+      },
+      {
+        source: "/en/other/procedure-reconstructive-surg",
+        destination: "/en/other",
+        permanent: true,
+      },
+
       // "sleeve-gastrektomi" recreated under flere-fagomrader/ovrige — "bariatrisk-kirurgi" was never a real category.
       { source: "/no/bariatrisk-kirurgi/sleeve-gastrektomi", destination: "/no/ovrige/sleeve-gastrektomi", permanent: true },
       { source: "/no/bariatrisk-kirurgi/:path*", destination: "/no/ovrige/:path*", permanent: true },

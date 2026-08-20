@@ -326,7 +326,6 @@ const serviceCategories: ServiceCategory[] = [
         path: "/behandlinger/flere-fagomrader/overvektskirurgi",
         items: [{ label: "Gastrisk bypass" }, { label: "Sleeve gastrektomi" }, { label: "Utredning" }],
       },
-      { label: "Plastikkirurgi", path: "/behandlinger/flere-fagomrader/plastikkirurgi" },
       { label: "Psykologi", path: "/behandlinger/flere-fagomrader/psykologi" },
       {
         label: "Revmatologi",

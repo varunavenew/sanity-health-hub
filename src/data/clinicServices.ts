@@ -75,7 +75,7 @@ export const clinics: Clinic[] = [
     bookingSystem: "external",
     externalBookingUrl: "https://colosseumfaust.no/spesialister/",
     mapsUrl: "https://maps.google.com/?q=Lilleengveien+8+1523+Moss",
-    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi"],
+    services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut"],
     detail: {
       description: "CMedical Moss holder til i Lilleengveien 8 og tilbyr et bredt spekter av tjenester inkludert gynekologi, ortopedi, gastrokirurgi og fysioterapi.",
       parking: "Gratis parkering rett utenfor klinikken.",

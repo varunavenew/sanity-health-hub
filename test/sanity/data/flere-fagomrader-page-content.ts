@@ -186,7 +186,6 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
     relatedSlugs: [
       "revmatologi",
       "endokrinologi",
-      "plastikkirurgi",
       "osteopati",
       "sexologi",
       "psykologi",
@@ -695,7 +694,6 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
     relatedSlugs: [
       "revmatologi",
       "endokrinologi",
-      "plastikkirurgi",
       "osteopati",
       "psykologi",
       "ernaeringsfysiolog",
