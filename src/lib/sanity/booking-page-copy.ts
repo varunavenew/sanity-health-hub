@@ -81,6 +81,7 @@ export type BookingPageCopy = {
   formEmailHelp: string;
   formNoteLabel: string;
   formNotePlaceholder: string;
+  formCancellationRulesHeading: string;
   formCancellationRules: string;
   formTermsPageTeaser: string;
   formTermsLinkText: string;
@@ -192,6 +193,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   formEmailHelp: "Valgfritt. Bekreftelse sendes også til e-post om oppgitt.",
   formNoteLabel: "Melding til klinikken",
   formNotePlaceholder: "Valgfritt — f.eks. spørsmål eller info vi bør vite",
+  formCancellationRulesHeading: "Avbestillingsregler",
   formCancellationRules:
     "Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.",
   formTermsPageTeaser:
@@ -223,6 +225,22 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
     "Ugyldig fødselsnummer. Kontroller at du har skrevet 11 siffer med gyldig fødselsdato.",
 };
 
+/** English fallbacks when CMS has no `en` value yet (e.g. newly added fields). */
+const BOOKING_PAGE_EN_FALLBACKS: Partial<BookingPageCopy> = {
+  formNoteLabel: "Message to the clinic",
+  formNotePlaceholder: "Optional — e.g. questions or information we should know",
+  formCancellationRulesHeading: "Cancellation rules",
+  errorInvalidBirthNumber:
+    "Invalid national ID. Please check that you have entered 11 digits with a valid date of birth.",
+};
+
+export function defaultBookingPageCopyForLang(lang: "no" | "en"): BookingPageCopy {
+  if (lang === "en") {
+    return { ...DEFAULT_BOOKING_PAGE_COPY, ...BOOKING_PAGE_EN_FALLBACKS };
+  }
+  return DEFAULT_BOOKING_PAGE_COPY;
+}
+
 export function splitTemplateLink(
   template: string,
   token: string,
@@ -242,8 +260,9 @@ export function fillBookingTemplate(
 
 export function resolveBookingPageCopy(
   cms: Partial<BookingPageCopy> | null | undefined,
+  lang: "no" | "en" = "no",
 ): BookingPageCopy {
-  const merged = { ...DEFAULT_BOOKING_PAGE_COPY };
+  const merged = { ...defaultBookingPageCopyForLang(lang) };
   if (!cms) return merged;
 
   for (const key of Object.keys(DEFAULT_BOOKING_PAGE_COPY) as (keyof BookingPageCopy)[]) {

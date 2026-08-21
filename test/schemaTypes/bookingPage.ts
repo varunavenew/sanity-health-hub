@@ -237,6 +237,7 @@ export default {
     i18n('formEmailHelp', 'Email – help text', 'form', undefined, 'internationalizedArrayText'),
     i18n('formNoteLabel', 'Message to clinic – label', 'form'),
     i18n('formNotePlaceholder', 'Message to clinic – placeholder', 'form'),
+    i18n('formCancellationRulesHeading', 'Cancellation rules – heading', 'form'),
     i18n('formCancellationRules', 'Cancellation rules', 'form', undefined, 'internationalizedArrayText'),
     i18n('formTermsPageTeaser', 'Terms paragraph', 'form', 'Use {{termsLink}} for link text'),
     i18n('formTermsLinkText', 'Terms link text (infobox)', 'form'),

@@ -2713,7 +2713,7 @@ const BookingDemo = () => {
                     />
                   </div>
                   <div className="bg-brand-beige rounded-lg p-4 text-xs text-brand-dark/70 leading-relaxed space-y-2 font-light">
-                    <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> {copy.formCancellationRules}</p>
+                    <p><strong className="text-brand-dark font-normal">{copy.formCancellationRulesHeading}:</strong> {copy.formCancellationRules}</p>
                     <p>
                       <LinkedTemplateText
                         template={copy.formTermsPageTeaser}

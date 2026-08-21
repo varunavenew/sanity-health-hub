@@ -799,7 +799,7 @@ export const useBookingPage = () => {
         lang,
       );
       return {
-        ...resolveBookingPageCopy(data),
+        ...resolveBookingPageCopy(data, lang),
         step1CategoryClinicBadges: mapStep1CategoryClinicBadges(
           data?.step1CategoryClinicBadges as Parameters<typeof mapStep1CategoryClinicBadges>[0],
         ),

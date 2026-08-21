@@ -26,6 +26,13 @@ const i18nString = (field: string) =>
 const i18nText = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
 
+/** Booking page: resolve requested locale only — code defaults fill gaps (avoids showing Norwegian on /en). */
+const bookingI18nString = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
+
+const bookingI18nText = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
+
 const GEO_SUMMARY = i18nText("geoSummary");
 
 const i18nNestedString = (parent: string, field: string) =>
@@ -1191,6 +1198,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "formEmailPlaceholder",
   "formNoteLabel",
   "formNotePlaceholder",
+  "formCancellationRulesHeading",
   "formTermsPageTeaser",
   "formTermsLinkText",
   "formTermsInlineLinkText",
@@ -1206,7 +1214,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "successLabelDateTime",
   "successLabelSpecialist",
   "successBackHome",
-].map((field) => i18nString(field));
+].map((field) => bookingI18nString(field));
 
 const BOOKING_PAGE_I18N_TEXT_FIELDS = [
   "step1EmptyMessage",
@@ -1228,7 +1236,7 @@ const BOOKING_PAGE_I18N_TEXT_FIELDS = [
   "errorSubmit",
   "errorSubmitNetwork",
   "errorInvalidBirthNumber",
-].map((field) => i18nText(field));
+].map((field) => bookingI18nText(field));
 
 export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}][0]{
   ${BOOKING_PAGE_I18N_FIELDS.join(",\n  ")},

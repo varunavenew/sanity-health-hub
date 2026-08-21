@@ -152,6 +152,7 @@ async function run() {
       'Valgfritt — f.eks. spørsmål eller info vi bør vite',
       'Optional — e.g. questions or information we should know',
     ),
+    formCancellationRulesHeading: S('Avbestillingsregler', 'Cancellation rules'),
     formCancellationRules: T(
       'Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.',
       'Rescheduling or cancellation must happen at least 24 hours before the appointment. No-shows or late cancellations incur a fee.',
