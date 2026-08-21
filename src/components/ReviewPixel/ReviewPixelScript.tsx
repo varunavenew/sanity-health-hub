@@ -1,9 +1,9 @@
 import Script from "next/script";
 
-// Verbatim vendor snippet (onlinerep.goldstars.no / revw.me). It already
-// guards against double-injection via `window.EMRPixel`, and next/script
-// dedupes by `id` across rerenders and client-side navigation, so mounting
-// this once in the root layout is enough for the whole app.
+// Verbatim vendor snippet (onlinerep.goldstars.no / revw.me). Self-contained
+// per embed block; guards against double-injection via `window.EMRPixel`.
+// next/script dedupes by `id` when badge + slider mount on the same page.
+// Requires HTTPS — plain http://localhost will fail widget API calls.
 const REVIEW_PIXEL_INIT = `
 !function(){
   var e,t=document;

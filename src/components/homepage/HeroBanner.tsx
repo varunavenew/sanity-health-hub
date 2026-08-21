@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import type { ImageRef } from "@/lib/media";
 import type { ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
 import { optimizeSanityImageUrl } from "@/lib/sanity/image-url";
+import { GoldStarsReviewBadge } from "@/components/ReviewPixel/GoldStarsReviewBadge";
 
 interface HeroSlide {
   id: string;
@@ -231,6 +232,10 @@ export const HeroBanner = () => {
       onPointerUp={onPointerUp}
       style={{ cursor: "grab" }}
     >
+      <div className="absolute top-5 right-5 md:top-8 md:right-8 z-30 pointer-events-none">
+        <GoldStarsReviewBadge className="pointer-events-auto ml-auto" />
+      </div>
+
       <AnimatePresence custom={direction} mode="wait">
         <motion.div
           key={slide.id}
