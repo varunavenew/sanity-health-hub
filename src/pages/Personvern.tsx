@@ -4,6 +4,8 @@ import { sanityClient } from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { ListPageHero } from "@/components/layout/ListPageHero";
+
 
 interface PersonvernProps {
   isChatOpen?: boolean;
