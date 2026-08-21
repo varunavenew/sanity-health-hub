@@ -37,11 +37,8 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
   const suggestions = useMemo(() => {
     const path = location.pathname.toLowerCase();
     const hit = SUGGESTIONS.find((s) => s.match.some((m) => path.includes(m)));
-    if (!hit) return SUGGESTIONS.map((s) => ({ ...s, highlighted: false }));
-    return [
-      { ...hit, highlighted: true },
-      ...SUGGESTIONS.filter((s) => s !== hit).map((s) => ({ ...s, highlighted: false })),
-    ];
+    if (!hit) return SUGGESTIONS;
+    return [hit, ...SUGGESTIONS.filter((s) => s !== hit)];
   }, [location.pathname]);
 
   const handleSubmit = (e: React.FormEvent) => {
