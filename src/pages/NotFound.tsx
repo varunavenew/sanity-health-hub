@@ -76,7 +76,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
               </label>
               <div className="relative">
                 <Search
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/60"
                   aria-hidden="true"
                 />
                 <input
@@ -86,12 +86,12 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Hva leter du etter?"
                   autoComplete="off"
-                  className="w-full rounded-[10px] border border-brand-dark/15 bg-background pl-11 pr-4 py-3.5 text-base font-light text-foreground placeholder:text-foreground/40 outline-none focus:border-brand-dark/40 transition-colors"
+                  className="w-full rounded-[10px] border border-brand-dark/25 bg-background pl-11 pr-4 py-3.5 text-base font-light text-foreground placeholder:text-foreground/60 outline-none focus:border-brand-dark/40 transition-colors"
                 />
               </div>
 
               {query.trim().length > 1 && results.length > 0 && (
-                <ul className="mt-2 rounded-[10px] border border-brand-dark/10 bg-background overflow-hidden">
+                <ul className="mt-2 rounded-[10px] border border-brand-dark/20 bg-background overflow-hidden">
                   {results.slice(0, 5).map((r) => (
                     <li key={r.path}>
                       <Link
@@ -99,7 +99,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
                         className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-brand-light transition-colors"
                       >
                         <span className="text-sm font-light text-foreground">{r.label}</span>
-                        <ArrowRight className="w-4 h-4 text-foreground/35 flex-shrink-0" aria-hidden="true" />
+                        <ArrowRight className="w-4 h-4 text-foreground/55 flex-shrink-0" aria-hidden="true" />
                       </Link>
                     </li>
                   ))}
@@ -113,11 +113,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
                 <Link
                   key={s.href}
                   to={s.href}
-                  className={
-                    s.highlighted
-                      ? "rounded-[10px] border border-brand-dark bg-brand-dark px-4 py-2 text-sm font-light text-brand-light transition-colors"
-                      : "rounded-[10px] border border-brand-dark/15 bg-background px-4 py-2 text-sm font-light text-foreground hover:border-brand-dark/40 transition-colors"
-                  }
+                  className="rounded-[10px] border border-brand-dark/25 bg-background px-4 py-2 text-sm font-light text-foreground hover:border-brand-dark/60 transition-colors"
                 >
                   {s.label}
                 </Link>
@@ -133,14 +129,14 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
                 asChild
                 variant="outline"
                 size="lg"
-                className="px-8 border-brand-dark/20 text-foreground hover:bg-brand-dark/5"
+                className="px-8 border-brand-dark/40 text-foreground hover:bg-brand-dark/5"
               >
                 <a href={`tel:+47${PHONE.replace(/\s/g, "")}`}>Ring oss {PHONE}</a>
               </Button>
             </div>
 
             {/* Stille fotnote */}
-            <p className="mt-10 text-xs font-light text-foreground/50">
+            <p className="mt-10 text-xs font-light text-muted-foreground">
               Kom du hit fra en lenke?{" "}
               <Link to="/kontakt" className="underline underline-offset-2 hover:text-foreground">
                 Si gjerne ifra til oss
