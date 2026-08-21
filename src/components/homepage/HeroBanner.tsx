@@ -247,10 +247,11 @@ export const HeroBanner = () => {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-full bg-gradient-to-r from-black/45 via-black/10 to-transparent lg:w-1/2" />
 
-      {/* Layer 3 — fixed review badge on the right (demo layout), never tied to slide key */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-40 flex w-full items-start justify-end pt-6 md:items-center md:pt-0">
-        <div className="container mx-auto flex justify-end px-6 md:px-16">
-          <GoldStarsReviewBadge className="pointer-events-auto md:mr-[2%] lg:mr-[4%]" />
+      {/* Layer 3 — fixed review badge: centered on right half (demo), never tied to slide key */}
+      <div className="pointer-events-none absolute inset-0 z-40 grid grid-cols-1 md:grid-cols-2">
+        <div aria-hidden="true" className="hidden md:block" />
+        <div className="flex items-end justify-end px-6 pb-28 pt-16 md:items-center md:justify-center md:px-10 md:pb-0 md:pt-0 lg:px-16">
+          <GoldStarsReviewBadge className="pointer-events-auto" />
         </div>
       </div>
 
