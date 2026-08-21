@@ -231,15 +231,11 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
           { name: "Personvern", path: "/personvern" },
         ]}
       />
-      <header className="bg-brand-warm">
-        <div className="container mx-auto px-6 md:px-16 py-16 md:py-24">
-          
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] max-w-3xl">
-            {title}
-          </h1>
-        </div>
-        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
-      </header>
+      <ListPageHero
+        title={title}
+        description="Slik behandler vi personopplysningene dine — i samsvar med GDPR og norsk personvernlovgivning."
+      />
+
 
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
