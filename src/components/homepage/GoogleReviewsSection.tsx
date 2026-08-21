@@ -11,6 +11,7 @@ import {
   LegelistenReviewMark,
 } from "@/components/reviews/ReviewPlatformMarks";
 import { GoldStarsReviewSlider } from "@/components/ReviewPixel/GoldStarsReviewSlider";
+import { GoldStarsReviewBadge } from "@/components/ReviewPixel/GoldStarsReviewBadge";
 
 interface GoogleReviewsSectionProps {
   showTrustSection?: boolean;
@@ -69,7 +70,8 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
       </div>
 
       <div className="relative mt-6 md:mt-8">
-        <div className="container mx-auto mb-3 flex justify-end px-6 md:mb-4 md:px-16">
+        <div className="container mx-auto mb-3 flex flex-wrap items-end justify-end gap-4 px-6 md:mb-4 md:gap-6 md:px-16">
+          <GoldStarsReviewBadge variant="light" />
           {ratingSummary}
         </div>
         <div className="relative">
