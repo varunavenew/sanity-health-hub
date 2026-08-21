@@ -1,136 +1,157 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { ArrowRight } from "lucide-react";
-import { useSiteSettings } from "@/hooks/useSanity";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, Search } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
-import notFoundImg from "@/assets/hero/cmedical-hands.jpg";
+import { useSmartSearch } from "@/hooks/useSmartSearch";
 
 interface NotFoundProps {
- isChatOpen?: boolean;
+  isChatOpen?: boolean;
 }
 
-const quickLinks = [
- { label: "Gynekologi", desc: "Hele kvinnehelseforløpet — fra ung til moden.", href: "/gynekologi" },
- { label: "Fertilitet", desc: "IVF, utredning og rådgivning — for alle veier til familie.", href: "/fertilitet" },
- { label: "Tjenester", desc: "Se hele tilbudet vårt på tvers av spesialiteter.", href: "/tjenester" },
- { label: "Spesialister", desc: "Møt teamet som følger deg gjennom forløpet.", href: "/spesialister" },
- { label: "Bestill time", desc: "Finn ledig time hos riktig spesialist.", href: "/booking" },
- { label: "Kontakt", desc: "Ring, skriv eller besøk en av klinikkene våre.", href: "/kontakt" },
+/** Most sought-after destinations, shown as pills. */
+const SUGGESTIONS = [
+  { label: "Gynekologi", href: "/behandlinger/gynekologi", match: ["gynekologi", "kvinnehelse", "underliv"] },
+  { label: "Fertilitet", href: "/fertilitet", match: ["fertilitet", "ivf", "inseminasjon", "egg"] },
+  { label: "Urologi", href: "/behandlinger/urologi", match: ["urologi", "prostata", "urin"] },
+  { label: "Priser", href: "/priser", match: ["pris", "priser", "kostnad", "betaling"] },
+  { label: "Spesialister", href: "/spesialister", match: ["spesialist", "lege", "behandler", "team"] },
+  { label: "Bestill time", href: "/booking", match: ["booking", "bestill", "time", "timebestilling"] },
 ];
 
+const PHONE = "22 44 40 00";
+
 const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
- const location = useLocation();
- const { data: settings } = useSiteSettings();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const { results } = useSmartSearch(query, 5);
 
- useEffect(() => {
- // Soft signal for analytics — not user-visible
- console.warn("[404] Ukjent sti:", location.pathname);
- }, [location.pathname]);
+  useEffect(() => {
+    // Soft signal for analytics — not user-visible
+    console.warn("[404] Ukjent sti:", location.pathname);
+  }, [location.pathname]);
 
- const title = settings?.notFoundTitle || "Denne siden finnes ikke lenger.";
- const text =
- settings?.notFoundText ||
- "Lenken kan være utdatert, eller siden kan ha flyttet seg. Du finner det meste igjen et av disse stedene — eller du kan starte forfra på forsiden.";
- const image = settings?.notFoundImage || notFoundImg;
- const ctaLabel = settings?.notFoundCtaLabel || "Tilbake til forsiden";
- const ctaPath = settings?.notFoundCtaPath || "/";
+  // Reorder suggestions so a category detected in the broken URL comes first.
+  const suggestions = useMemo(() => {
+    const path = location.pathname.toLowerCase();
+    const hit = SUGGESTIONS.find((s) => s.match.some((m) => path.includes(m)));
+    if (!hit) return SUGGESTIONS.map((s) => ({ ...s, highlighted: false }));
+    return [
+      { ...hit, highlighted: true },
+      ...SUGGESTIONS.filter((s) => s !== hit).map((s) => ({ ...s, highlighted: false })),
+    ];
+  }, [location.pathname]);
 
- return (
- <PageLayout isChatOpen={isChatOpen}>
- <PageSEO
- title="Siden finnes ikke | CMedical"
- description="Lenken er utdatert eller siden er flyttet. Finn frem til gynekologi, fertilitet, spesialister og booking hos CMedical."
- canonical="/404"
- noIndex
- />
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (results.length > 0) navigate(results[0].path);
+  };
 
- {/* HERO — rolig, varmt, på merkevaren */}
- <section className="bg-brand-light">
- <div className="grid lg:grid-cols-12 min-h-[70vh]">
- <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 flex items-center">
- <div className="max-w-xl">
- <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-light leading-[1.05] text-foreground mb-6">
- {title}
- </h1>
- <p className="text-base font-light text-muted-foreground leading-relaxed mb-10 max-w-md">
- {text}
- </p>
+  return (
+    <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Denne siden har fått nytt hjem | CMedical"
+        description="Vi har nylig lansert ny nettside, og noe innhold har flyttet på seg. Søk eller gå videre til gynekologi, fertilitet, urologi, priser, spesialister og booking."
+        canonical="/404"
+        noIndex
+      />
 
- <div className="flex flex-wrap items-center gap-3">
- <Button asChild variant="cta" size="lg" className="px-8">
- <Link to={ctaPath}>{ctaLabel}</Link>
- </Button>
- <Button
- asChild
- variant="outline"
- size="lg"
- className="px-8 border-brand-dark/20 text-foreground hover:bg-brand-dark/5"
- >
- <Link to="/kontakt">Ta kontakt</Link>
- </Button>
- </div>
+      <section className="bg-brand-light min-h-[calc(100svh-var(--header-h,80px))] flex items-center">
+        <div className="w-full px-6 md:px-16 lg:px-20 py-16 md:py-20">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl md:text-5xl font-light leading-[1.08] text-foreground mb-4 md:mb-5">
+              Denne siden har fått nytt hjem
+            </h1>
+            <p className="text-base font-light text-muted-foreground leading-relaxed max-w-lg">
+              Vi har nylig lansert ny nettside, og noe innhold har flyttet på seg.
+              La oss hjelpe deg videre.
+            </p>
 
- {location.pathname && location.pathname !== "/" && (
- <p className="mt-8 text-xs font-light text-foreground/45">
- Forsøkt sti:{" "}
- <code className="font-mono text-foreground/70">
- {location.pathname}
- </code>
- </p>
- )}
- </div>
- </div>
+            {/* Søk */}
+            <form onSubmit={handleSubmit} className="mt-8 md:mt-10 max-w-md" role="search">
+              <label htmlFor="nf-search" className="sr-only">
+                Hva leter du etter?
+              </label>
+              <div className="relative">
+                <Search
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40"
+                  aria-hidden="true"
+                />
+                <input
+                  id="nf-search"
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Hva leter du etter?"
+                  autoComplete="off"
+                  className="w-full rounded-[10px] border border-brand-dark/15 bg-background pl-11 pr-4 py-3.5 text-base font-light text-foreground placeholder:text-foreground/40 outline-none focus:border-brand-dark/40 transition-colors"
+                />
+              </div>
 
- <div className="lg:col-span-5 relative bg-secondary/40 min-h-[320px] lg:min-h-full overflow-hidden">
- <img
- src={image}
- alt=""
- loading="lazy"
- className="absolute inset-0 w-full h-full object-cover"
- />
- </div>
- </div>
- </section>
+              {query.trim().length > 1 && results.length > 0 && (
+                <ul className="mt-2 rounded-[10px] border border-brand-dark/10 bg-background overflow-hidden">
+                  {results.slice(0, 5).map((r) => (
+                    <li key={r.path}>
+                      <Link
+                        to={r.path}
+                        className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-brand-light transition-colors"
+                      >
+                        <span className="text-sm font-light text-foreground">{r.label}</span>
+                        <ArrowRight className="w-4 h-4 text-foreground/35 flex-shrink-0" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </form>
 
- {/* HJELPENDE NAVIGASJON — populære destinasjoner */}
- <section className="bg-background py-14 md:py-24">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="max-w-2xl mb-12">
- <p className="text-xs text-foreground/60 mb-4">
- Kanskje du var på vei hit
- </p>
- <h2 className="text-2xl md:text-4xl font-light leading-tight text-foreground">
- Populære steder hos oss.
- </h2>
- </div>
+            {/* Forslag */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              {suggestions.map((s) => (
+                <Link
+                  key={s.href}
+                  to={s.href}
+                  className={
+                    s.highlighted
+                      ? "rounded-[10px] border border-brand-dark bg-brand-dark px-4 py-2 text-sm font-light text-brand-light transition-colors"
+                      : "rounded-[10px] border border-brand-dark/15 bg-background px-4 py-2 text-sm font-light text-foreground hover:border-brand-dark/40 transition-colors"
+                  }
+                >
+                  {s.label}
+                </Link>
+              ))}
+            </div>
 
- <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {quickLinks.map((link) => (
- <Link
- key={link.href}
- to={link.href}
- className="bg-background p-7 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
- >
- <div>
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {link.label}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-snug max-w-xs">
- {link.desc}
- </p>
- </div>
- <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
- </Link>
- ))}
- </div>
- </div>
- </div>
- </section>
- </PageLayout>
- );
+            {/* CTA */}
+            <div className="mt-9 flex flex-col sm:flex-row sm:items-center gap-3">
+              <Button asChild variant="cta" size="lg" className="px-8">
+                <Link to="/booking">Bestill time</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="px-8 border-brand-dark/20 text-foreground hover:bg-brand-dark/5"
+              >
+                <a href={`tel:+47${PHONE.replace(/\s/g, "")}`}>Ring oss {PHONE}</a>
+              </Button>
+            </div>
+
+            {/* Stille fotnote */}
+            <p className="mt-10 text-xs font-light text-foreground/50">
+              Kom du hit fra en lenke?{" "}
+              <Link to="/kontakt" className="underline underline-offset-2 hover:text-foreground">
+                Si gjerne ifra til oss
+              </Link>
+              , så fikser vi den.
+            </p>
+          </div>
+        </div>
+      </section>
+    </PageLayout>
+  );
 };
 
 export default NotFound;
