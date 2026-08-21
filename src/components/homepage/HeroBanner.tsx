@@ -113,8 +113,11 @@ export const HeroBanner = () => {
       onPointerUp={onPointerUp}
       style={{ cursor: "grab" }}
     >
-      <div className="absolute top-5 right-5 md:top-8 md:right-8 z-30 pointer-events-none">
-        <GoldStarsReviewBadge className="pointer-events-auto ml-auto" />
+      {/* Badge sits over the hero image (bottom-right), not under the site header/menu. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-[5.75rem] z-30 md:bottom-[7.25rem]">
+        <div className="container mx-auto flex justify-end px-6 md:px-16">
+          <GoldStarsReviewBadge className="pointer-events-auto" />
+        </div>
       </div>
 
       <AnimatePresence custom={direction} mode="wait">
