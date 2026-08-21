@@ -39,6 +39,7 @@ export const PatientskyIframe: FC<Props> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const iframeBaseUrl = process.env.NEXT_PUBLIC_PATIENTSKY_IFRAME_URL;
   const initTracked = useRef(false);
+  const bookingCompletedTracked = useRef(false);
   const [resolvedCalendarId, setResolvedCalendarId] = useState<string | undefined>(
     specialistCalendarId?.trim() || calendarId?.trim() || undefined,
   );
@@ -106,11 +107,19 @@ export const PatientskyIframe: FC<Props> = ({
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       if (event.data?.event === "booking-completed") {
+        if (bookingCompletedTracked.current) return;
+        bookingCompletedTracked.current = true;
         const rawId = event.data?.appointmentId ?? event.data?.transaction_id;
         trackBookingCompleted({
           booking_method: "pasientsky",
           transaction_id:
             typeof rawId === "string" || typeof rawId === "number" ? rawId : undefined,
+          currency: "NOK",
+          clinic: null,
+          service_name: null,
+          category: null,
+          practitioner: specialistName?.trim() || null,
+          value: null,
         });
       }
 

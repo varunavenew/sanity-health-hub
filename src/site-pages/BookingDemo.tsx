@@ -78,6 +78,7 @@ import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { BookingPageAnalytics } from "@/components/analytics/BookingPageAnalytics";
 import {
   bookingMethodForClinic,
+  metodikaBookingCompletedFromState,
   trackBookingCompleted,
   trackBookingInit,
   trackBookingSelectClinic,
@@ -356,6 +357,8 @@ const BookingDemo = () => {
   /** Tracks step-4 calendar init per clinic/specialist so date clicks are not overwritten. */
   const step4CalendarInitKeyRef = useRef<string | null>(null);
   const daySlotsFetchGenRef = useRef(0);
+  /** Prevents duplicate booking_completed if submit succeeds twice in the same session. */
+  const bookingCompletedTrackedRef = useRef(false);
   /** Duration per activity from wbfreetimes only (no static fallback). */
   const [durationByActivityId, setDurationByActivityId] = useState<
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
@@ -1509,6 +1512,13 @@ const BookingDemo = () => {
     setSubmitLoading(true);
     setSubmitError(null);
 
+    const completedTracking = metodikaBookingCompletedFromState({
+      clinic: bookingData.clinic,
+      service: bookingData.service,
+      category: bookingData.category,
+      specialist: bookingData.specialist,
+    });
+
     try {
       const res = await fetch("/api/booking/complete", {
         method: "POST",
@@ -1551,10 +1561,18 @@ const BookingDemo = () => {
         return;
       }
 
-      trackBookingCompleted({
-        booking_method: "metodika",
-        transaction_id: json.appointmentId,
-      });
+      if (
+        json.appointmentId != null &&
+        String(json.appointmentId).trim() &&
+        !bookingCompletedTrackedRef.current
+      ) {
+        bookingCompletedTrackedRef.current = true;
+        trackBookingCompleted({
+          booking_method: "metodika",
+          transaction_id: json.appointmentId,
+          ...completedTracking,
+        });
+      }
 
       setIsSubmitted(true);
     } catch {

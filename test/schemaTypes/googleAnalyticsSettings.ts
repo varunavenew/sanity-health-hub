@@ -113,6 +113,7 @@ export default defineType({
         '• No booking form field values (names, DOB, symptoms) in dataLayer or URL params.',
         '• Block Microsoft Clarity on /booking (site sends block_clarity via booking_page_context).',
         '• Event tracking uses src/lib/tracking.ts — params are PII-sanitized in code.',
+        '• Full event list and parameters: Settings → Tracking events (reference).',
       ].join('\n'),
     }),
   ],

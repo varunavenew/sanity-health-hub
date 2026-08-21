@@ -42,7 +42,12 @@ export function sanitizeTrackingParams(
     if (BLOCKED_PARAM_FRAGMENTS.some((fragment) => normalizedKey.includes(fragment))) {
       continue;
     }
-    if (value === undefined || value === null || value === "") continue;
+    if (value === undefined || value === "") continue;
+    // Explicit null is allowed (GA4 custom dimensions — “unknown” vs empty string).
+    if (value === null) {
+      safe[key] = null;
+      continue;
+    }
     safe[key] = value;
   }
 
