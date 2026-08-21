@@ -218,6 +218,17 @@ export const Footer = () => {
             <p className="text-sm font-light text-white/50">
               © {new Date().getFullYear()} CMedical. {t("footer.rights")}
             </p>
+            <p className="text-sm font-light text-white/50">
+              Nettsiden er designet og utviklet av{" "}
+              <a
+                href="https://www.avenew.no/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white/80 transition-colors"
+              >
+                Avenew
+              </a>
+            </p>
           </div>
           <Link
             to="/personvern"

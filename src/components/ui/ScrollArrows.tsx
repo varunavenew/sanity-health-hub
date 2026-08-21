@@ -113,7 +113,7 @@ export function ScrollArrows({
   if (!needsNav || childCount <= 1) {
     if (!trailing) return null;
     return (
-      <div className="flex items-center justify-start w-full max-w-full carousel-nav">
+      <div className={`flex items-center justify-start w-full max-w-full carousel-nav ${className}`}>
         {trailing}
       </div>
     );
