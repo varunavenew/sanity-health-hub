@@ -1625,7 +1625,7 @@ const BookingDemo = () => {
  className="mt-0.5"
  />
  <label htmlFor="terms" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
- Jeg godtar <a href="/vilkar" className="underline">vilkårene</a> for bestilling *
+ Jeg godtar <a href="/vilkar" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-70">vilkårene</a> for bestilling *
  </label>
  </div>
  <div className="flex items-start gap-3">
