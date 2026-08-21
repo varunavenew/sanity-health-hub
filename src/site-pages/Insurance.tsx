@@ -9,6 +9,7 @@ import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRen
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -157,7 +158,12 @@ const Insurance = ({ isChatOpen }: PageProps) => {
                 <Link to="/kontakt">{t("cta.contactUs")}</Link>
               </Button>
               <Button variant="cta" size="lg" className="rounded-2xl w-full" asChild>
-                <Link to="/booking">{t("nav.bookAppointment")}</Link>
+                <Link
+                  to="/booking"
+                  onClick={() => trackBookingMenuStartForPath("/booking", "insurance_page")}
+                >
+                  {t("nav.bookAppointment")}
+                </Link>
               </Button>
             </div>
           </div>

@@ -84,6 +84,7 @@ import {
   trackBookingSelectClinic,
   trackBookingStep,
 } from "@/lib/tracking/booking-analytics";
+import { trackBookingMenuStart, trackBookingStart } from "@/lib/tracking/seo-events";
 import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
@@ -478,12 +479,37 @@ const BookingDemo = () => {
 
   const trackedStepRef = useRef<number | null>(null);
   const bookingInitTracked = useRef(false);
+  const deepLinkMenuStartTracked = useRef(false);
 
   useEffect(() => {
     if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
     bookingInitTracked.current = true;
     trackBookingInit("metodika");
   }, [isPasientskyBooking, isExternalBooking]);
+
+  useEffect(() => {
+    if (deepLinkMenuStartTracked.current) return;
+    const hasDeepLinkParam = [
+      "kategori",
+      "kategoriId",
+      "tjeneste",
+      "tjenesteValg",
+      "aktivitetId",
+      "spesialist",
+      "klinikk",
+    ].some((key) => searchParams.get(key));
+    if (!hasDeepLinkParam) return;
+
+    deepLinkMenuStartTracked.current = true;
+    trackBookingMenuStart({
+      entry_point: "deep_link",
+      category: searchParams.get("kategori"),
+      service_name: searchParams.get("tjeneste"),
+      clinic: searchParams.get("klinikk"),
+      practitioner: null,
+      specialty: null,
+    });
+  }, [searchParams]);
 
   useEffect(() => {
     if (trackedStepRef.current === currentStep) return;
@@ -1335,6 +1361,7 @@ const BookingDemo = () => {
     service: BookingServiceItem,
     categoryApiSlug?: string,
   ) => {
+    trackBookingStart("metodika");
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
 

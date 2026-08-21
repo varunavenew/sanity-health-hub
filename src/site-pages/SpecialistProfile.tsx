@@ -24,6 +24,8 @@ import { siteUrl } from "@/lib/env";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
+import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
+import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
@@ -104,7 +106,16 @@ function SpecialistProfileBody({
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
   const profilePath = `${specialistsPath}/${specialist.slug}`;
 
-  const goToBooking = () => navigate("/booking");
+  const goToBooking = () => {
+    const bookingPath = bookingUrlForSpecialist(specialist);
+    trackBookingMenuStart({
+      entry_point: "specialist_page",
+      practitioner: specialist.name,
+      specialty: specialist.title || specialist.expertise?.[0] || null,
+      category: specialist.category || null,
+    });
+    navigate(bookingPath);
+  };
 
   const physicianJsonLd = {
     "@context": "https://schema.org",

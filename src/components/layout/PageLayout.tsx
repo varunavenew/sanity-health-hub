@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import BurgerMenu from "@/components/BurgerMenu";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { DEFAULT_MAIN_NAVIGATION, withRequiredMainNavigation } from "@/lib/navigation/default-main-navigation";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
 interface PageLayoutProps {
@@ -146,7 +147,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               <Button
                 size="sm"
                 className="hidden md:inline-flex bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl md:rounded-md px-2 md:px-3 lg:px-6 text-xs lg:text-sm"
-                onClick={() => navigate(ctaButton.path)}
+                onClick={() => {
+                  trackBookingMenuStartForPath(ctaButton.path, "header_cta");
+                  navigate(ctaButton.path);
+                }}
               >
                 {ctaButton.label}
               </Button>

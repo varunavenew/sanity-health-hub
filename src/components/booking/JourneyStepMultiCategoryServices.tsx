@@ -9,6 +9,7 @@ import {
 } from "@/lib/bookingLinks";
 import type { BookingCategoryFromApi } from "@/hooks/useBookingCategoryServices";
 import { formatBookingServicePrice } from "@/lib/booking/specialist-booking";
+import { parsePriceFromLabel, trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
 const PRIMARY_CLINIC_IDS = new Set(Object.values(categoryPageToBookingId));
 
@@ -73,6 +74,14 @@ export function JourneyStepMultiCategoryServices() {
                       kategori: pageId,
                       tjeneste: slugifyNo(service.name),
                     })}
+                    onClick={() =>
+                      trackBookingMenuStart({
+                        entry_point: "service_page_cta",
+                        category: category.label,
+                        service_name: service.name,
+                        price_from: parsePriceFromLabel(service.price),
+                      })
+                    }
                     className="group flex items-center justify-between gap-3 text-sm font-light text-foreground hover:text-foreground/80 transition-colors"
                   >
                     <div className="min-w-0">

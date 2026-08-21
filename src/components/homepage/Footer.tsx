@@ -176,6 +176,7 @@ export const Footer = () => {
               {phone ? (
                 <a
                   href={`tel:${phone.replace(/\s/g, "")}`}
+                  data-phone-location="footer"
                   className={`flex items-center gap-2.5 ${linkClass}`}
                 >
                   <Phone className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />

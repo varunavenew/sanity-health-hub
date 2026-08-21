@@ -17,6 +17,7 @@ import {
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
 import { buildBookingUrl, categoryNumericIdToPageId } from "@/lib/bookingLinks";
+import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
 interface InlineBookingSectionProps {
   specialist: Specialist;
@@ -75,6 +76,13 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     categorySlug: string,
     serviceName: string,
   ) => {
+    trackBookingMenuStart({
+      entry_point: "specialist_page",
+      practitioner: specialist.name,
+      specialty: specialist.title || specialist.expertise?.[0] || null,
+      category: categorySlug,
+      service_name: serviceName,
+    });
     navigate(
       bookingUrlForSpecialistContext({
         specialistSlug: specialist.slug,
@@ -170,7 +178,12 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
         <Button
           variant="outline"
           className="rounded-full font-light text-sm bg-brand-mid text-brand-dark border-brand-mid hover:bg-brand-mid/80"
-          onClick={() =>
+          onClick={() => {
+            trackBookingMenuStart({
+              entry_point: "specialist_page",
+              practitioner: specialist.name,
+              specialty: specialist.title || specialist.expertise?.[0] || null,
+            });
             navigate(
               buildBookingUrl({
                 kategori:
@@ -180,8 +193,8 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                 spesialist: specialist.slug,
                 klinikk: clinicSlugForSpecialistBooking(specialist),
               }),
-            )
-          }
+            );
+          }}
         >
           {ui.bookingViewAllLabel}
           <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />

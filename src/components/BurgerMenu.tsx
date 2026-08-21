@@ -12,6 +12,7 @@ import {
   DEFAULT_MAIN_NAVIGATION,
   withRequiredMainNavigation,
 } from '@/lib/navigation/default-main-navigation';
+import { trackBookingMenuStartForPath } from '@/lib/tracking/seo-events';
 
 const BurgerMenu = () => {
   const { t } = useTranslation();
@@ -124,6 +125,7 @@ const BurgerMenu = () => {
   }, [menuItems, locale, cmsRouteIndex]);
 
   const handleNavigate = (path: string) => {
+    trackBookingMenuStartForPath(path, "header_cta");
     navigate(path);
     setIsMenuOpen(false);
   };
@@ -193,6 +195,7 @@ const BurgerMenu = () => {
           <div className="space-y-2">
             <a
               href={`tel:${phone.replace(/\s/g, "")}`}
+              data-phone-location="header"
               className="flex items-center gap-2 text-sm text-foreground/70 transition-colors hover:text-foreground"
             >
               <Phone className="h-4 w-4" />

@@ -7,6 +7,7 @@ import { resolveNavPath } from "@/lib/navigation/resolve-nav-label";
 import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
 
 type MobileBottomNavProps = {
   className?: string;
@@ -42,6 +43,7 @@ export const MobileBottomNav = ({ className, style }: MobileBottomNavProps) => {
       <div className="flex items-stretch">
         <Link
           to={bookingPath}
+          onClick={() => trackBookingMenuStartForPath(bookingPath, "header_cta")}
           className="flex flex-1 items-center justify-center bg-accent px-4 py-4 text-base font-medium text-accent-foreground transition-colors hover:bg-accent/90"
         >
           {t("nav.bookAppointment")}
@@ -49,6 +51,7 @@ export const MobileBottomNav = ({ className, style }: MobileBottomNavProps) => {
 
         <a
           href={telHref}
+          data-phone-location="header"
           className="flex flex-1 items-center justify-center bg-brand-warm px-4 py-4 text-base font-medium text-brand-dark transition-colors hover:bg-brand-warm/80"
           aria-label={t("nav.callPhone", { phone })}
         >

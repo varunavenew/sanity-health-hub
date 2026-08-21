@@ -14,6 +14,7 @@ import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useParams } from "@/lib/router";
@@ -117,7 +118,11 @@ const Contact = ({ isChatOpen }: ContactProps) => {
           description={heroDescription || undefined}
           image={heroImage}
           imageAlt={t("contact.heroImageAlt")}
-          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+          primaryCta={{
+            label: t("nav.bookAppointment"),
+            to: "/booking",
+            bookingEntryPoint: "contact_page",
+          }}
           secondaryCta={{
             label: t("contact.viewClinics"),
             to: "/klinikker",
@@ -130,7 +135,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
             <Button
               variant="cta"
               size="lg"
-              onClick={() => navigate("/booking")}
+              onClick={() => {
+                trackBookingMenuStartForPath("/booking", "contact_page");
+                navigate("/booking");
+              }}
             >
               {t("nav.bookAppointment")}
               <ArrowRight className="ml-2 w-4 h-4" />
