@@ -79,6 +79,8 @@ export type BookingPageCopy = {
   formEmailLabel: string;
   formEmailPlaceholder: string;
   formEmailHelp: string;
+  formNoteLabel: string;
+  formNotePlaceholder: string;
   formCancellationRules: string;
   formTermsPageTeaser: string;
   formTermsLinkText: string;
@@ -100,6 +102,7 @@ export type BookingPageCopy = {
   errorActivityType: string;
   errorSubmit: string;
   errorSubmitNetwork: string;
+  errorInvalidBirthNumber: string;
 };
 
 export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
@@ -187,6 +190,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   formEmailLabel: "E-postadresse",
   formEmailPlaceholder: "din@epost.no",
   formEmailHelp: "Valgfritt. Bekreftelse sendes også til e-post om oppgitt.",
+  formNoteLabel: "Melding til klinikken",
+  formNotePlaceholder: "Valgfritt — f.eks. spørsmål eller info vi bør vite",
   formCancellationRules:
     "Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.",
   formTermsPageTeaser:
@@ -214,6 +219,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   errorSubmit: "Bestillingen kunne ikke fullføres. Prøv igjen eller ring oss på 22 60 00 50.",
   errorSubmitNetwork:
     "Bestillingen kunne ikke fullføres. Sjekk nettverket og prøv igjen, eller ring oss på 22 60 00 50.",
+  errorInvalidBirthNumber:
+    "Ugyldig fødselsnummer. Kontroller at du har skrevet 11 siffer med gyldig fødselsdato.",
 };
 
 export function splitTemplateLink(

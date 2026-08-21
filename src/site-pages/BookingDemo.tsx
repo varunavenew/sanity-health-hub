@@ -16,6 +16,7 @@ import {
 } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -96,6 +97,7 @@ import {
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
 import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
+import { isValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
 
 export type BookingServiceCategory = {
   id: string;
@@ -229,6 +231,7 @@ interface FormData {
   phone: string;
   email: string;
   birthNumber: string;
+  note: string;
   acceptTerms: boolean;
   acceptMarketing: boolean;
   acceptDataProcessing: boolean;
@@ -332,6 +335,7 @@ const BookingDemo = () => {
     phone: "",
     email: "",
     birthNumber: "",
+    note: "",
     acceptTerms: true,
     acceptMarketing: false,
     acceptDataProcessing: true,
@@ -339,6 +343,7 @@ const BookingDemo = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [birthNumberError, setBirthNumberError] = useState<string | null>(null);
   const [apiFreeTimeSlots, setApiFreeTimeSlots] = useState<ApiFreeTimeSlot[]>([]);
   const [apiBookingClinics, setApiBookingClinics] = useState<BookingMetodikaClinic[]>([]);
   const [availabilityFromApi, setAvailabilityFromApi] = useState(false);
@@ -1536,8 +1541,14 @@ const BookingDemo = () => {
       return;
     }
 
+    if (!isValidPersonalnumberForWebAccount(formData.birthNumber)) {
+      setBirthNumberError(copy.errorInvalidBirthNumber);
+      return;
+    }
+
     setSubmitLoading(true);
     setSubmitError(null);
+    setBirthNumberError(null);
 
     const completedTracking = metodikaBookingCompletedFromState({
       clinic: bookingData.clinic,
@@ -1566,6 +1577,7 @@ const BookingDemo = () => {
             roomId: slot.roomId,
             starttime: slot.startDateTime,
             lengthtime: slot.lengthTime,
+            note: formData.note.trim() || undefined,
             smsreminder: true,
             smsconfirmation: true,
             emailconfirmation: true,
@@ -1577,10 +1589,15 @@ const BookingDemo = () => {
       const json = (await res.json()) as {
         ok?: boolean;
         message?: string;
+        code?: string;
         appointmentId?: string | number;
       };
 
       if (!res.ok || !json.ok) {
+        if (json.code === "INVALID_PERSONALNUMBER") {
+          setBirthNumberError(copy.errorInvalidBirthNumber);
+          return;
+        }
         setSubmitError(
           json.message ??
             copy.errorSubmit,
@@ -2628,15 +2645,27 @@ const BookingDemo = () => {
                       onChange={(e) => {
                         const val = e.target.value.replace(/\D/g, '').slice(0, 11);
                         setFormData({ ...formData, birthNumber: val });
+                        if (birthNumberError) setBirthNumberError(null);
                       }}
                       placeholder={copy.formBirthNumberPlaceholder}
                       maxLength={11}
                       inputMode="numeric"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
+                      aria-invalid={birthNumberError ? true : undefined}
+                      aria-describedby={birthNumberError ? "birthNumber-error" : "birthNumber-help"}
+                      className={cn(
+                        "mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60",
+                        birthNumberError && "border-destructive focus-visible:ring-destructive",
+                      )}
                     />
-                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
-                      {copy.formBirthNumberHelp}
-                    </p>
+                    {birthNumberError ? (
+                      <p id="birthNumber-error" className="text-xs text-destructive mt-1.5 leading-relaxed font-light" role="alert">
+                        {birthNumberError}
+                      </p>
+                    ) : (
+                      <p id="birthNumber-help" className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
+                        {copy.formBirthNumberHelp}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="phone" className="text-sm text-brand-dark/70">{copy.formPhoneLabel}</label>
@@ -2670,6 +2699,18 @@ const BookingDemo = () => {
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       {copy.formEmailHelp}
                     </p>
+                  </div>
+                  <div>
+                    <label htmlFor="note" className="text-sm text-brand-dark/70">{copy.formNoteLabel}</label>
+                    <Textarea
+                      id="note"
+                      name="note"
+                      value={formData.note}
+                      onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                      placeholder={copy.formNotePlaceholder}
+                      rows={3}
+                      className="mt-1.5 min-h-[96px] rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60 resize-y"
+                    />
                   </div>
                   <div className="bg-brand-beige rounded-lg p-4 text-xs text-brand-dark/70 leading-relaxed space-y-2 font-light">
                     <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> {copy.formCancellationRules}</p>

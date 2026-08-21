@@ -10,6 +10,7 @@ import {
 } from "@/lib/booking/personalNumber";
 import { buildAppointmentCreateBody } from "@/lib/booking/appointmentPayload";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
+import { BookingValidationError } from "@/lib/booking/booking-validation";
 import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 import type { CreateAppointmentBody } from "@/app/api/booking/appointments/route";
 import type { CreateWebAccountBody } from "@/app/api/booking/webaccounts/route";
@@ -148,6 +149,7 @@ export async function POST(request: Request) {
       roomId: appointment.roomId,
       starttime: appointment.starttime,
       lengthtime: appointment.lengthtime,
+      note: typeof appointment.note === "string" ? appointment.note : undefined,
     });
 
     const appointmentPayload = await postBookingResource(
@@ -166,6 +168,9 @@ export async function POST(request: Request) {
       appointmentId: appointmentId ?? undefined,
     });
   } catch (error) {
+    if (error instanceof BookingValidationError) {
+      return NextResponse.json({ ok: false, code: error.code }, { status: 400 });
+    }
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
     return NextResponse.json({ ok: false, message }, { status: 502 });
   }

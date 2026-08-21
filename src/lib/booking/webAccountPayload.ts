@@ -1,4 +1,8 @@
-import { formatPatientNumberForLookup } from "@/lib/booking/personalNumber";
+import {
+  extractBirthdateIsoFromPersonnummer,
+  formatPatientNumberForLookup,
+} from "@/lib/booking/personalNumber";
+import { assertValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
 import { normalizeNorwegianMobileForMetodika } from "@/lib/booking/phoneMobile";
 
 export type WebAccountCustomerInput = {
@@ -18,10 +22,9 @@ export type WebAccountCustomerInput = {
 export function buildWebAccountCreateBody(
   customer: WebAccountCustomerInput,
 ): Record<string, unknown> {
-  const patientnumber = formatPatientNumberForLookup(customer.personalnumber);
-  if (!patientnumber) {
-    throw new Error("Invalid personalnumber: expected 11-digit fødselsnummer.");
-  }
+  assertValidPersonalnumberForWebAccount(customer.personalnumber);
+  const patientnumber = formatPatientNumberForLookup(customer.personalnumber)!;
+  const birthdate = extractBirthdateIsoFromPersonnummer(customer.personalnumber)!;
 
   const phonemobile = normalizeNorwegianMobileForMetodika(customer.mobile);
 
@@ -30,6 +33,7 @@ export function buildWebAccountCreateBody(
     firstname: customer.firstname,
     lastname: customer.lastname,
     patientnumber,
+    birthdate,
     email: customer.email,
     phonemobile,
     smsallowed: true,

@@ -235,6 +235,8 @@ export default {
     i18n('formEmailLabel', 'Email – label', 'form'),
     i18n('formEmailPlaceholder', 'Email – placeholder', 'form'),
     i18n('formEmailHelp', 'Email – help text', 'form', undefined, 'internationalizedArrayText'),
+    i18n('formNoteLabel', 'Message to clinic – label', 'form'),
+    i18n('formNotePlaceholder', 'Message to clinic – placeholder', 'form'),
     i18n('formCancellationRules', 'Cancellation rules', 'form', undefined, 'internationalizedArrayText'),
     i18n('formTermsPageTeaser', 'Terms paragraph', 'form', 'Use {{termsLink}} for link text'),
     i18n('formTermsLinkText', 'Terms link text (infobox)', 'form'),
@@ -258,6 +260,7 @@ export default {
     i18n('errorActivityType', 'Activity type', 'errors', undefined, 'internationalizedArrayText'),
     i18n('errorSubmit', 'Submission failed', 'errors', undefined, 'internationalizedArrayText'),
     i18n('errorSubmitNetwork', 'Network error', 'errors', undefined, 'internationalizedArrayText'),
+    i18n('errorInvalidBirthNumber', 'Invalid national ID', 'errors', undefined, 'internationalizedArrayText'),
 
     {
       name: 'seo',

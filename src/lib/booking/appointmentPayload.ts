@@ -11,6 +11,8 @@ export type AppointmentCreateInput = {
   starttime: string;
   lengthtime: string;
   appointmentCategoryId?: number;
+  /** Optional patient message — Metodika `note` on POST /appointments/. */
+  note?: string | null;
 };
 
 export function buildAppointmentCreateBody(
@@ -19,7 +21,7 @@ export function buildAppointmentCreateBody(
   const categoryId =
     input.appointmentCategoryId ?? METODIKA_APPOINTMENT_CATEGORY_PRIVAT;
 
-  return {
+  const body: Record<string, unknown> = {
     "webaccount-id": input.webAccountId,
     "wbactivity-id": input.wbactivityId,
     patient: {
@@ -46,4 +48,9 @@ export function buildAppointmentCreateBody(
     emailconfirmation: true,
     createifnotexists: true,
   };
+
+  const note = input.note?.trim();
+  if (note) body.note = note;
+
+  return body;
 }

@@ -1189,6 +1189,8 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "formPhonePlaceholder",
   "formEmailLabel",
   "formEmailPlaceholder",
+  "formNoteLabel",
+  "formNotePlaceholder",
   "formTermsPageTeaser",
   "formTermsLinkText",
   "formTermsInlineLinkText",
@@ -1225,6 +1227,7 @@ const BOOKING_PAGE_I18N_TEXT_FIELDS = [
   "errorActivityType",
   "errorSubmit",
   "errorSubmitNetwork",
+  "errorInvalidBirthNumber",
 ].map((field) => i18nText(field));
 
 export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}][0]{

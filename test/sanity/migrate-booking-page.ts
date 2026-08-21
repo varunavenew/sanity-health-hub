@@ -147,6 +147,11 @@ async function run() {
       'Valgfritt. Bekreftelse sendes også til e-post om oppgitt.',
       'Optional. Confirmation is also sent by email if provided.',
     ),
+    formNoteLabel: S('Melding til klinikken', 'Message to the clinic'),
+    formNotePlaceholder: S(
+      'Valgfritt — f.eks. spørsmål eller info vi bør vite',
+      'Optional — e.g. questions or information we should know',
+    ),
     formCancellationRules: T(
       'Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.',
       'Rescheduling or cancellation must happen at least 24 hours before the appointment. No-shows or late cancellations incur a fee.',
@@ -194,6 +199,10 @@ async function run() {
     errorSubmitNetwork: T(
       'Bestillingen kunne ikke fullføres. Sjekk nettverket og prøv igjen, eller ring oss på 22 60 00 50.',
       'The booking could not be completed. Check your network and try again, or call us at 22 60 00 50.',
+    ),
+    errorInvalidBirthNumber: T(
+      'Ugyldig fødselsnummer. Kontroller at du har skrevet 11 siffer med gyldig fødselsdato.',
+      'Invalid national ID. Please check that you have entered 11 digits with a valid date of birth.',
     ),
     seo: {
       _type: 'seo',
