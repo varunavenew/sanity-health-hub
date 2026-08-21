@@ -2,7 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useSearchParams } from "@/lib/router";
+import { useNavigate, useSearchParams, Link } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -143,13 +143,16 @@ function LinkedTemplateText({
   return (
     <>
       {before}
-      <a href={href} className={linkClassName}>
+      <Link to={href} className={linkClassName}>
         {linkText}
-      </a>
+      </Link>
       {after}
     </>
   );
 }
+
+/** Terms links on step 5 open the same page as the privacy-policy link. */
+const BOOKING_LEGAL_POLICY_PATH = "/personvern";
 
 type BookingServiceItem = {
   name: string;
@@ -2718,7 +2721,7 @@ const BookingDemo = () => {
                       <LinkedTemplateText
                         template={copy.formTermsPageTeaser}
                         token="{{termsLink}}"
-                        href="/vilkar"
+                        href={BOOKING_LEGAL_POLICY_PATH}
                         linkText={copy.formTermsLinkText}
                       />
                     </p>
@@ -2735,7 +2738,7 @@ const BookingDemo = () => {
                         <LinkedTemplateText
                           template={copy.formTermsCheckbox}
                           token="{{termsLink}}"
-                          href="/vilkar"
+                          href={BOOKING_LEGAL_POLICY_PATH}
                           linkText={copy.formTermsInlineLinkText}
                         />
                       </label>
@@ -2751,7 +2754,7 @@ const BookingDemo = () => {
                         <LinkedTemplateText
                           template={copy.formPrivacyCheckbox}
                           token="{{privacyLink}}"
-                          href="/personvern"
+                          href={BOOKING_LEGAL_POLICY_PATH}
                           linkText={copy.formPrivacyLinkText}
                         />
                       </label>
