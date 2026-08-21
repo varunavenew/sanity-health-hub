@@ -4,6 +4,7 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { ReviewPixelScript } from "@/components/ReviewPixel/ReviewPixelScript";
 import { setupGoldStarsBadgeCustomization } from "@/components/ReviewPixel/apply-gold-stars-badge-customization";
 import { DEFAULT_GOLD_STARS_BADGE_WIDGET_ID } from "@/components/ReviewPixel/gold-stars-badge-config";
+import { cn } from "@/lib/utils";
 
 interface GoldStarsReviewBadgeProps {
   widgetId?: string;
@@ -11,6 +12,12 @@ interface GoldStarsReviewBadgeProps {
   /** Hero = white text on dark/photo backgrounds; light = warm-dark text. */
   variant?: "hero" | "light";
 }
+
+const variantClassName: Record<NonNullable<GoldStarsReviewBadgeProps["variant"]>, string> = {
+  hero: "",
+  light:
+    "inline-flex rounded-sm border border-brand-dark/10 bg-white px-4 py-3.5 sm:px-5 sm:py-4 [&_emr-simple-badge]:bg-transparent",
+};
 
 const variantStyle: Record<NonNullable<GoldStarsReviewBadgeProps["variant"]>, CSSProperties> = {
   hero: {},
@@ -38,7 +45,7 @@ export function GoldStarsReviewBadge({
       <ReviewPixelScript />
       <div
         ref={containerRef}
-        className={className}
+        className={cn(variantClassName[variant], className)}
         style={variantStyle[variant]}
         aria-label="Patient rating"
       >
