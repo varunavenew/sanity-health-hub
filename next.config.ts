@@ -201,8 +201,43 @@ const nextConfig: NextConfig = {
       },
 
       // "sleeve-gastrektomi" recreated under flere-fagomrader/ovrige — "bariatrisk-kirurgi" was never a real category.
+      { source: "/no/bariatrisk-kirurgi", destination: "/no/ovrige/overvektskirurgi", permanent: true },
       { source: "/no/bariatrisk-kirurgi/sleeve-gastrektomi", destination: "/no/ovrige/sleeve-gastrektomi", permanent: true },
       { source: "/no/bariatrisk-kirurgi/:path*", destination: "/no/ovrige/:path*", permanent: true },
+
+      // Legacy top-level paths → current CMS routes (SEO 301s).
+      { source: "/no/fertilitetsteamet", destination: "/no/fertilitet/teamet", permanent: true },
+      { source: "/:locale(nb|no)/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },
+      { source: "/:locale(nb|no)/gynekologi/fodselsskader", destination: "/:locale/graviditet/fodselsskader", permanent: true },
+      { source: "/:locale(nb|no)/gynekologi/fostermedisin", destination: "/:locale/graviditet/fostermedisin", permanent: true },
+      { source: "/:locale(nb|no)/gynekologi/nipt", destination: "/:locale/graviditet/nipt", permanent: true },
+      { source: "/:locale(nb|no)/gynekologi/spontanabort", destination: "/:locale/graviditet/spontanabort", permanent: true },
+      { source: "/no/hudhelse", destination: "/no/ovrige/hudhelse", permanent: true },
+      { source: "/no/hudhelse/behandlingsutstyr", destination: "/no/ovrige/behandlingsutstyr", permanent: true },
+      { source: "/no/hudhelse/hudbehandlinger", destination: "/no/ovrige/hudbehandlinger", permanent: true },
+      { source: "/no/hudhelse/hudpleieprodukter", destination: "/no/ovrige/hudpleieprodukter", permanent: true },
+      { source: "/no/prisliste-for-privatbetalende", destination: "/no/nyheter-og-artikler/prisliste-for-privatbetalende", permanent: true },
+      { source: "/no/fertilitet/prisliste-fertiliet", destination: "/no/nyheter-og-artikler/prisliste-for-fertilitet", permanent: true },
+      { source: "/en/skin-health", destination: "/en/other/skin-health", permanent: true },
+
+      // Dropped / legacy URLs (batch 2 — destinations verified live).
+      { source: "/no/fertilitet/fertilitetsutredning-i-juli", destination: "/no/fertilitet/fertilitetsutredning", permanent: true },
+      { source: "/no/livio-oslo", destination: "/no/om-oss", permanent: true },
+      { source: "/en/fertility/insemination", destination: "/en/fertility/singel-mann", permanent: true },
+      { source: "/en/fertility/ovulation-stimulation", destination: "/en/fertility/donor-treatment", permanent: true },
+      { source: "/en/fertility/sperm-freezing", destination: "/en/fertility/egg-freezing", permanent: true },
+      { source: "/en/fertility/prices-fertility", destination: "/en/prices", permanent: true },
+      { source: "/en/gynecology/abortion", destination: "/en/gynecology/poi", permanent: true },
+      { source: "/en/gynecology/contraception-consultation", destination: "/en/gynecology/new-treatment", permanent: true },
+      { source: "/en/gynecology/test-for-chlamydia-gonorrhea", destination: "/en/gynecology/celleforandringer", permanent: true },
+      { source: "/en/gynecology/childbirth-injuries", destination: "/en/pregnancy/fodselsskader", permanent: true },
+      { source: "/en/gynecology/nipt-en", destination: "/en/pregnancy/nipt", permanent: true },
+      { source: "/en/gynecology/pregnancy", destination: "/en/pregnancy", permanent: true },
+      { source: "/en/urology/kidney-stones", destination: "/en/urology/nyrer", permanent: true },
+      { source: "/en/urology/operation", destination: "/en/urology/sterilization", permanent: true },
+      { source: "/en/livio-oslo", destination: "/en/clinics", permanent: true },
+      { source: "/en/bariatric-surgery", destination: "/en/other/obesity-surgery", permanent: true },
+      { source: "/en/gynecology/gynecological-ultrasound", destination: "/en/gynecology/ultrasound", permanent: true },
 
       // "flere-fagomrader" was a duplicate of the real category slug "ovrige" — sitemap/static
       // generation no longer emits it (see resolve-route.ts), redirect any existing links/bookmarks.
@@ -210,9 +245,8 @@ const nextConfig: NextConfig = {
       { source: "/no/flere-fagomrader/:path*", destination: "/no/ovrige/:path*", permanent: true },
 
       // Pregnancy overview lives under Graviditet (not Gynekologi nav) — match demo routing.
-      { source: "/:locale(nb|no)/gynekologi/graviditet", destination: "/:locale/graviditet/graviditet", permanent: true },
-      { source: "/:locale(en)/gynecology/graviditet", destination: "/:locale/pregnancy/graviditet", permanent: true },
-      { source: "/:locale(nb|no)/behandlinger/gynekologi/graviditet", destination: "/:locale/graviditet/graviditet", permanent: true },
+      { source: "/:locale(en)/gynecology/graviditet", destination: "/:locale/pregnancy", permanent: true },
+      { source: "/:locale(nb|no)/behandlinger/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },
     ];
   },
 };
