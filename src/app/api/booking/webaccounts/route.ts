@@ -8,6 +8,7 @@ import {
   patientNumberLookupCandidates,
 } from "@/lib/booking/personalNumber";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
+import { BookingValidationError } from "@/lib/booking/booking-validation";
 import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 
 export interface CreateWebAccountBody {
@@ -165,6 +166,9 @@ export async function POST(request: Request) {
       created: true,
     });
   } catch (error) {
+    if (error instanceof BookingValidationError) {
+      return NextResponse.json({ ok: false, code: error.code }, { status: 400 });
+    }
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
     return NextResponse.json({ ok: false, message }, { status: 502 });
   }

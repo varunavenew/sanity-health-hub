@@ -1,100 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { ArrowRight, User, ShieldCheck, FileX, Clock } from "lucide-react";
-import { PartialStars } from "@/components/ui/partial-stars";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { ArrowRight, ShieldCheck, FileX, Clock } from "lucide-react";
 import { Link } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
-import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useTranslation } from "react-i18next";
-import type { HomepageReview } from "@/lib/sanity/homepage-data";
-import {
-  GoogleReviewMark,
-  LegelistenReviewMark,
-  ReviewSourceBadge,
-} from "@/components/reviews/ReviewPlatformMarks";
-
-const getSource = (review: HomepageReview): "google" | "legelisten" =>
-  (review as { source?: "google" | "legelisten" }).source === "legelisten"
-    ? "legelisten"
-    : "google";
-
-function toGoogleReview(review: HomepageReview, index: number) {
-  return {
-    id: Number.parseInt(review.id, 10) || index,
-    name: review.name,
-    rating: review.rating,
-    text: review.text,
-    date: review.date,
-    source: getSource(review),
-  };
-}
-
-const ReviewCard = ({ review }: { review: ReturnType<typeof toGoogleReview> }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { t } = useTranslation();
-  const maxLength = 120;
-  const isLongText = review.text.length > maxLength;
-  const displayText = isExpanded ? review.text : review.text.slice(0, maxLength);
-  const isAnonymous = review.name === "Anonym";
-
-  return (
-    <div className="group relative flex-shrink-0 w-[380px] p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300">
-      <div className="mb-4">
-        <PartialStars rating={review.rating || 5} />
-      </div>
-      <p className="text-brand-dark font-light leading-relaxed mb-2 text-base">
-        "{displayText}{isLongText && !isExpanded && "..."}"
-      </p>
-      {isLongText ? (
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="text-sm text-brand-dark/60 hover:text-brand-dark underline mb-4"
-        >
-          {isExpanded ? t("reviews.readLess") : t("reviews.readMore")}
-        </button>
-      ) : (
-        <div className="mb-4" />
-      )}
-      <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
-        <div>
-          <p
-            className={`text-brand-dark ${isAnonymous ? "italic text-brand-dark/60 font-light" : "font-normal"} flex items-center gap-2`}
-          >
-            {isAnonymous && <User className="w-3.5 h-3.5" />}
-            {review.name}
-          </p>
-          <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
-        </div>
-        <ReviewSourceBadge source={review.source} />
-      </div>
-    </div>
-  );
-};
+import { GoldStarsReviewSlider } from "@/components/ReviewPixel/GoldStarsReviewSlider";
+import { GoldStarsReviewBadge } from "@/components/ReviewPixel/GoldStarsReviewBadge";
 
 interface GoogleReviewsSectionProps {
   showTrustSection?: boolean;
 }
 
 export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsSectionProps) => {
-  const mobileScrollRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const { data: homepage } = useHomepage();
   const section = homepage?.reviewsSection;
 
-  const googleReviewsList = section?.reviews.map(toGoogleReview) ?? [];
-
-  const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
-  const mobileLoop = googleReviewsList.length > 1;
-  const mobileList = mobileLoop ? duplicatedReviews : googleReviewsList;
-
-  useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
-
-  if (googleReviewsList.length === 0) return null;
-
-  const averageRating = section?.googleAverageRating ?? 4.6;
-  const legelistenRating = section?.legelistenAverageRating ?? 4.8;
   const heading = section?.heading || t("reviews.heading");
   const ctaTitle = section?.ctaTitle || t("reviews.ctaTitle");
 
@@ -103,98 +24,24 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
     "Pasientbesøk i året.";
 
   return (
-    <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">
-      <div className="container mx-auto px-6 md:px-16 relative">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
-          <div className="max-w-xl">
-            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{heading}</h2>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-4 w-full sm:w-auto">
-            <div className="flex items-center gap-2.5 sm:gap-4 p-3.5 sm:p-5 rounded-sm bg-white border border-brand-dark/10 min-w-0">
-              <GoogleReviewMark className="w-5 h-5 shrink-0" />
-              <div>
-                <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xl sm:text-2xl font-normal text-brand-dark">{averageRating}</span>
-                  <div className="flex">
-                    <PartialStars rating={averageRating} />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5 sm:gap-4 p-3.5 sm:p-5 rounded-sm bg-white border border-brand-dark/10 min-w-0">
-              <LegelistenReviewMark className="w-5 h-5 shrink-0" />
-              <div>
-                <p className="text-xs text-brand-dark/60 font-light">{t("reviews.legelistenLabel")}</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xl sm:text-2xl font-normal text-brand-dark">{legelistenRating}</span>
-                  <div className="flex">
-                    <PartialStars rating={legelistenRating} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <section className="relative overflow-hidden bg-brand-warm py-10 md:py-14">
+      <div className="container relative mx-auto px-6 md:px-16">
+        <div className="max-w-xl">
+          <h2 className="text-2xl font-light leading-tight text-brand-dark md:text-3xl">{heading}</h2>
         </div>
       </div>
 
-      {/* Desktop: infinite marquee */}
-      <div className="relative mt-8 hidden md:block">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
-        <div className="flex gap-6 animate-scroll-left hover:[animation-play-state:paused]">
-          {duplicatedReviews.map((review, index) => (
-            <ReviewCard key={`${review.id}-${index}`} review={review} />
-          ))}
+      <div className="relative mt-6 md:mt-8">
+        <div className="container mx-auto mb-3 px-6 md:mb-4 md:px-16">
+          <div className="flex w-full items-end justify-end">
+            <GoldStarsReviewBadge variant="light" />
+          </div>
         </div>
-      </div>
-
-      {/* Mobile: seamless auto-scroll marquee, still manually swipeable */}
-      <div className="md:hidden mt-4">
-        <div
-          ref={mobileScrollRef}
-          className={`flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-2 ${mobileLoop ? "" : "snap-x snap-proximity"}`}
-          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
-        >
-          {mobileList.map((review, idx) => {
-            const isAnonymous = review.name === "Anonym";
-            return (
-              <div
-                key={`${review.id}-${idx}`}
-                className={`flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 ${mobileLoop ? "" : "snap-center"}`}
-              >
-                <div className="mb-3">
-                  <PartialStars rating={review.rating || 5} />
-                </div>
-                <p className="text-brand-dark font-light leading-relaxed text-sm mb-3">
-                  "{review.text.length > 140 ? `${review.text.slice(0, 140)}...` : review.text}"
-                </p>
-                <div className="pt-3 border-t border-brand-dark/10 flex items-center justify-between">
-                  <div>
-                    <p
-                      className={`text-sm text-brand-dark ${isAnonymous ? "italic text-brand-dark/60 font-light" : "font-normal"} flex items-center gap-2`}
-                    >
-                      {isAnonymous && <User className="w-3.5 h-3.5" />}
-                      {review.name}
-                    </p>
-                    <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
-                  </div>
-                  <ReviewSourceBadge source={review.source} />
-                </div>
-              </div>
-            );
-          })}
+        <div className="relative">
+          <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 hidden w-24 bg-gradient-to-r from-brand-warm to-transparent md:block" />
+          <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 hidden w-24 bg-gradient-to-l from-brand-warm to-transparent md:block" />
+          <GoldStarsReviewSlider />
         </div>
-        <ScrollArrows
-          scrollRef={mobileScrollRef}
-          slideCount={googleReviewsList.length}
-          className="px-6 md:px-16 mt-4"
-          progressLabel={t("reviews.progressLabel")}
-          prevLabel={t("reviews.scrollLeft")}
-          nextLabel={t("reviews.scrollRight")}
-        />
       </div>
 
       {showTrustSection ? (

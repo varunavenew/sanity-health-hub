@@ -1,3 +1,5 @@
+import { resolveConsentHeadScript } from "@/lib/analytics/consent-script";
+
 export const DEFAULT_GTM_CONTAINER_ID = "GTM-PNNR898W";
 
 /** Inner JavaScript for consent defaults — must load before GTM in `<head>`. */
@@ -73,7 +75,7 @@ export function resolveGoogleAnalyticsSettings(
   lang: AnalyticsLang = "no",
 ): GoogleAnalyticsSettingsResolved {
   const gtmContainerId = pickLang(raw?.gtmContainerId, lang) || DEFAULT_GTM_CONTAINER_ID;
-  const consentHeadScript = pickLang(raw?.consentHeadScript, lang) || DEFAULT_CONSENT_HEAD_SCRIPT;
+  const consentHeadScript = resolveConsentHeadScript(pickLang(raw?.consentHeadScript, lang));
   const gtmHeadScript = pickLang(raw?.gtmHeadScript, lang) || buildGtmHeadScript(gtmContainerId);
   const gtmBodyNoscriptHtml =
     pickLang(raw?.gtmBodyNoscript, lang) || buildGtmBodyNoscriptHtml(gtmContainerId);

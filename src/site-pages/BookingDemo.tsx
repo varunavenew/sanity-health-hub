@@ -2,7 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useSearchParams } from "@/lib/router";
+import { useNavigate, useSearchParams, Link } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -16,6 +16,7 @@ import {
 } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -78,11 +79,18 @@ import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { BookingPageAnalytics } from "@/components/analytics/BookingPageAnalytics";
 import {
   bookingMethodForClinic,
+  metodikaBookingCompletedFromState,
+  trackBookingBack,
+  trackBookingClose,
   trackBookingCompleted,
+  trackBookingFailed,
   trackBookingInit,
+  trackBookingSelectCategory,
   trackBookingSelectClinic,
   trackBookingStep,
+  trackBookingSubmitted,
 } from "@/lib/tracking/booking-analytics";
+import { trackBookingMenuStart, trackBookingStart } from "@/lib/tracking/seo-events";
 import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
@@ -94,6 +102,7 @@ import {
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
 import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
+import { isValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
 
 export type BookingServiceCategory = {
   id: string;
@@ -139,13 +148,16 @@ function LinkedTemplateText({
   return (
     <>
       {before}
-      <a href={href} className={linkClassName}>
+      <Link to={href} className={linkClassName}>
         {linkText}
-      </a>
+      </Link>
       {after}
     </>
   );
 }
+
+/** Terms links on step 5 open the same page as the privacy-policy link. */
+const BOOKING_LEGAL_POLICY_PATH = "/personvern";
 
 type BookingServiceItem = {
   name: string;
@@ -210,6 +222,8 @@ interface BookingData {
   service?: BookingServiceItem;
   clinic?: BookingClinic;
   specialistChosen?: boolean; // true once user has passed the specialist step
+  /** Step 3 "Første ledige" — persists through slot pick so back from step 5 restores all specialists. */
+  firstAvailableFlow?: boolean;
   date?: Date;
   time?: string;
   specialist?: Specialist | BookingCaregiver;
@@ -225,6 +239,7 @@ interface FormData {
   phone: string;
   email: string;
   birthNumber: string;
+  note: string;
   acceptTerms: boolean;
   acceptMarketing: boolean;
   acceptDataProcessing: boolean;
@@ -328,6 +343,7 @@ const BookingDemo = () => {
     phone: "",
     email: "",
     birthNumber: "",
+    note: "",
     acceptTerms: true,
     acceptMarketing: false,
     acceptDataProcessing: true,
@@ -335,6 +351,7 @@ const BookingDemo = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [birthNumberError, setBirthNumberError] = useState<string | null>(null);
   const [apiFreeTimeSlots, setApiFreeTimeSlots] = useState<ApiFreeTimeSlot[]>([]);
   const [apiBookingClinics, setApiBookingClinics] = useState<BookingMetodikaClinic[]>([]);
   const [availabilityFromApi, setAvailabilityFromApi] = useState(false);
@@ -351,6 +368,11 @@ const BookingDemo = () => {
   const [calendarHintsLoading, setCalendarHintsLoading] = useState(false);
   const [calendarHintsReady, setCalendarHintsReady] = useState(false);
   const slotsByDayRef = useRef<Record<string, ApiFreeTimeSlot[]>>({});
+  /** Tracks step-4 calendar init per clinic/specialist so date clicks are not overwritten. */
+  const step4CalendarInitKeyRef = useRef<string | null>(null);
+  const daySlotsFetchGenRef = useRef(0);
+  /** Prevents duplicate booking_completed if submit succeeds twice in the same session. */
+  const bookingCompletedTrackedRef = useRef(false);
   /** Duration per activity from wbfreetimes only (no static fallback). */
   const [durationByActivityId, setDurationByActivityId] = useState<
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
@@ -447,8 +469,7 @@ const BookingDemo = () => {
     isPasientskyBooking,
   ]);
 
-  const isFirstAvailableFlow =
-    Boolean(bookingData.specialistChosen) && !bookingData.specialist;
+  const isFirstAvailableFlow = Boolean(bookingData.firstAvailableFlow);
 
   const progressAriaLabels = useMemo(() => {
     if (isPasientskyBooking) {
@@ -471,12 +492,37 @@ const BookingDemo = () => {
 
   const trackedStepRef = useRef<number | null>(null);
   const bookingInitTracked = useRef(false);
+  const deepLinkMenuStartTracked = useRef(false);
 
   useEffect(() => {
     if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
     bookingInitTracked.current = true;
     trackBookingInit("metodika");
   }, [isPasientskyBooking, isExternalBooking]);
+
+  useEffect(() => {
+    if (deepLinkMenuStartTracked.current) return;
+    const hasDeepLinkParam = [
+      "kategori",
+      "kategoriId",
+      "tjeneste",
+      "tjenesteValg",
+      "aktivitetId",
+      "spesialist",
+      "klinikk",
+    ].some((key) => searchParams.get(key));
+    if (!hasDeepLinkParam) return;
+
+    deepLinkMenuStartTracked.current = true;
+    trackBookingMenuStart({
+      entry_point: "deep_link",
+      category: searchParams.get("kategori"),
+      service_name: searchParams.get("tjeneste"),
+      clinic: searchParams.get("klinikk"),
+      practitioner: null,
+      specialty: null,
+    });
+  }, [searchParams]);
 
   useEffect(() => {
     if (trackedStepRef.current === currentStep) return;
@@ -486,8 +532,13 @@ const BookingDemo = () => {
       currentStep,
       stepName,
       bookingMethodForClinic(bookingData.clinic),
+      {
+        service_name: bookingData.service?.name ?? null,
+        category: bookingData.category ?? null,
+        clinic: bookingData.clinic?.label ?? null,
+      },
     );
-  }, [currentStep, progressAriaLabels, bookingData.clinic]);
+  }, [currentStep, progressAriaLabels, bookingData.clinic, bookingData.service, bookingData.category]);
 
   // Prefill from URL params: ?kategori=gynekologi&kategoriId=1&tjeneste=endometriose&spesialist=slug&klinikk=majorstuen
   // Jumps to the first unfilled step so users coming from a specific
@@ -622,6 +673,7 @@ const BookingDemo = () => {
         if (resolvedSpecialist) {
           next.specialist = resolvedSpecialist;
           next.specialistChosen = true;
+          next.firstAvailableFlow = false;
         }
         return next;
       });
@@ -640,6 +692,7 @@ const BookingDemo = () => {
       ...prev,
       specialist: match,
       specialistChosen: true,
+      firstAvailableFlow: false,
     }));
   }, [searchParams, specialists, bookingData.specialist]);
 
@@ -815,6 +868,9 @@ const BookingDemo = () => {
     setSlotsByDayKey({});
     setCalendarHintSlots([]);
     setCalendarHintsReady(false);
+    setCalendarHintsLoading(false);
+    step4CalendarInitKeyRef.current = null;
+    setSelectedDate(undefined);
   }, [slotsFetchContextKey]);
 
   // Step 4: discovery hints filtered by clinic + specialist (correct days per caregiver)
@@ -834,7 +890,6 @@ const BookingDemo = () => {
 
     let cancelled = false;
     setCalendarHintsLoading(true);
-    setCalendarHintsReady(false);
 
     async function loadCalendarHints() {
       try {
@@ -910,6 +965,7 @@ const BookingDemo = () => {
     const searchFromTime = metodikaSearchTime(selectedDate, false);
     const searchToTime = metodikaSearchTime(selectedDate, true);
 
+    const fetchGen = ++daySlotsFetchGenRef.current;
     let cancelled = false;
     setTimesLoading(true);
 
@@ -930,18 +986,20 @@ const BookingDemo = () => {
           ok?: boolean;
           slots?: ApiFreeTimeSlot[];
         };
-        if (cancelled) return;
+        if (cancelled || fetchGen !== daySlotsFetchGenRef.current) return;
 
         const slots = res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [];
         slotsByDayRef.current[key] = slots;
         setSlotsByDayKey((prev) => ({ ...prev, [key]: slots }));
       } catch {
-        if (!cancelled) {
+        if (!cancelled && fetchGen === daySlotsFetchGenRef.current) {
           slotsByDayRef.current[key] = [];
           setSlotsByDayKey((prev) => ({ ...prev, [key]: [] }));
         }
       } finally {
-        if (!cancelled) setTimesLoading(false);
+        if (!cancelled && fetchGen === daySlotsFetchGenRef.current) {
+          setTimesLoading(false);
+        }
       }
     }
 
@@ -1165,10 +1223,6 @@ const BookingDemo = () => {
       keys.add(day.toISOString());
     }
 
-    for (const [key, slots] of Object.entries(slotsByDayKey)) {
-      if (slots.length > 0) keys.add(key);
-    }
-
     return keys;
   }, [
     currentStep,
@@ -1177,7 +1231,6 @@ const BookingDemo = () => {
     apiFreeTimeSlots,
     bookingData.clinic,
     selectedCaregiverUserId,
-    slotsByDayKey,
   ]);
 
   const currentWeekStart = useMemo(
@@ -1215,17 +1268,25 @@ const BookingDemo = () => {
       bookingData.clinic && "apiLocationId" in bookingData.clinic
         ? bookingData.clinic.apiLocationId
         : undefined;
-    if (selectedLocationId != null && calendarHintsLoading) return;
+    if (selectedLocationId != null && (!calendarHintsReady || calendarHintsLoading)) return;
 
-    const selectedHasSlots =
-      selectedDate != null && datesWithApiSlots.has(dayKey(selectedDate));
-    if (selectedDate && selectedDate >= today && selectedHasSlots) return;
+    const initKey = slotsFetchContextKey;
+    if (
+      step4CalendarInitKeyRef.current === initKey &&
+      selectedDate != null &&
+      selectedDate >= today &&
+      datesWithApiSlots.has(dayKey(selectedDate))
+    ) {
+      return;
+    }
 
     const firstDay = bookableDates[0];
     if (!firstDay) {
+      step4CalendarInitKeyRef.current = initKey;
       setSelectedDate(undefined);
       return;
     }
+    step4CalendarInitKeyRef.current = initKey;
     setSelectedDate(firstDay);
     setWeekOffset(Math.max(0, Math.min(MAX_CALENDAR_WEEKS, weekOffsetForDate(firstDay, today))));
   }, [
@@ -1238,6 +1299,7 @@ const BookingDemo = () => {
     today,
     bookingData.clinic,
     datesWithApiSlots,
+    slotsFetchContextKey,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
@@ -1306,7 +1368,10 @@ const BookingDemo = () => {
     return formatDurationMinutes(mins, locale);
   }, [selectedDate, selectedDaySlots, locale]);
 
-  const handleClose = () => navigate("/");
+  const handleClose = () => {
+    trackBookingClose();
+    navigate("/");
+  };
 
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */
   const autoSelectedClinicActivityRef = useRef<number | null>(null);
@@ -1317,6 +1382,12 @@ const BookingDemo = () => {
     service: BookingServiceItem,
     categoryApiSlug?: string,
   ) => {
+    trackBookingStart("metodika");
+    trackBookingSelectCategory({
+      category: categoryLabel,
+      service_name: service.name,
+      booking_method: "metodika",
+    });
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
 
@@ -1327,6 +1398,7 @@ const BookingDemo = () => {
       service,
       clinic: undefined,
       specialistChosen: false,
+      firstAvailableFlow: undefined,
       date: undefined,
       time: undefined,
       specialist: undefined,
@@ -1411,7 +1483,8 @@ const BookingDemo = () => {
     setBookingData({
       ...bookingData,
       clinic,
-      specialistChosen: keepSpecialist,
+      specialistChosen: keepSpecialist || Boolean(bookingData.firstAvailableFlow),
+      firstAvailableFlow: keepSpecialist ? false : bookingData.firstAvailableFlow,
       date: undefined,
       time: undefined,
       specialist: keepSpecialist ? bookingData.specialist : undefined,
@@ -1489,8 +1562,28 @@ const BookingDemo = () => {
       return;
     }
 
+    if (!isValidPersonalnumberForWebAccount(formData.birthNumber)) {
+      setBirthNumberError(copy.errorInvalidBirthNumber);
+      return;
+    }
+
     setSubmitLoading(true);
     setSubmitError(null);
+    setBirthNumberError(null);
+
+    const completedTracking = metodikaBookingCompletedFromState({
+      clinic: bookingData.clinic,
+      service: bookingData.service,
+      category: bookingData.category,
+      specialist: bookingData.specialist,
+      slot: bookingData.selectedSlot,
+    });
+
+    trackBookingSubmitted({
+      booking_method: "metodika",
+      clinic: bookingData.clinic?.label ?? null,
+      service_name: bookingData.service?.name ?? null,
+    });
 
     try {
       const res = await fetch("/api/booking/complete", {
@@ -1512,6 +1605,7 @@ const BookingDemo = () => {
             roomId: slot.roomId,
             starttime: slot.startDateTime,
             lengthtime: slot.lengthTime,
+            note: formData.note.trim() || undefined,
             smsreminder: true,
             smsconfirmation: true,
             emailconfirmation: true,
@@ -1523,10 +1617,23 @@ const BookingDemo = () => {
       const json = (await res.json()) as {
         ok?: boolean;
         message?: string;
+        code?: string;
         appointmentId?: string | number;
       };
 
       if (!res.ok || !json.ok) {
+        if (json.code === "INVALID_PERSONALNUMBER") {
+          setBirthNumberError(copy.errorInvalidBirthNumber);
+          trackBookingFailed({
+            error_type: "invalid_personalnumber",
+            booking_method: "metodika",
+          });
+          return;
+        }
+        trackBookingFailed({
+          error_type: json.code ?? "api_error",
+          booking_method: "metodika",
+        });
         setSubmitError(
           json.message ??
             copy.errorSubmit,
@@ -1534,13 +1641,21 @@ const BookingDemo = () => {
         return;
       }
 
-      trackBookingCompleted({
-        booking_method: "metodika",
-        transaction_id: json.appointmentId,
-      });
+      if (json.appointmentId != null && String(json.appointmentId).trim()) {
+        trackBookingCompleted({
+          booking_method: "metodika",
+          transaction_id: json.appointmentId,
+          ...completedTracking,
+        });
+        bookingCompletedTrackedRef.current = true;
+      }
 
       setIsSubmitted(true);
     } catch {
+      trackBookingFailed({
+        error_type: "network",
+        booking_method: "metodika",
+      });
       setSubmitError(
         copy.errorSubmitNetwork,
       );
@@ -1549,7 +1664,32 @@ const BookingDemo = () => {
     }
   };
 
+  const stepNumberForResetTarget = (
+    step: "category" | "clinic" | "specialist" | "time",
+  ): number => {
+    switch (step) {
+      case "category":
+        return 1;
+      case "clinic":
+        return 2;
+      case "specialist":
+        return 3;
+      case "time":
+        return 4;
+      default:
+        return 1;
+    }
+  };
+
   const resetStep = (step: 'category' | 'clinic' | 'specialist' | 'time') => {
+    const toStep = stepNumberForResetTarget(step);
+    if (currentStep > toStep) {
+      trackBookingBack({
+        from_step: currentStep,
+        to_step: toStep,
+        booking_method: bookingMethodForClinic(bookingData.clinic),
+      });
+    }
     if (step === 'category') {
       autoSelectedClinicActivityRef.current = null;
       setBookingData({});
@@ -1559,6 +1699,7 @@ const BookingDemo = () => {
         ...bookingData,
         clinic: undefined,
         specialistChosen: false,
+        firstAvailableFlow: undefined,
         date: undefined,
         time: undefined,
         specialist: undefined,
@@ -1569,6 +1710,7 @@ const BookingDemo = () => {
       setBookingData({
         ...bookingData,
         specialistChosen: false,
+        firstAvailableFlow: undefined,
         specialist: undefined,
         date: undefined,
         time: undefined,
@@ -1580,7 +1722,7 @@ const BookingDemo = () => {
         ...bookingData,
         date: undefined,
         time: undefined,
-        specialist: bookingData.specialist,
+        specialist: bookingData.firstAvailableFlow ? undefined : bookingData.specialist,
         slotDurationMinutes: undefined,
         selectedSlot: undefined,
       });
@@ -1934,6 +2076,7 @@ const BookingDemo = () => {
                                     <button
                                       key={service.apiActivityId ?? service.name}
                                       type="button"
+                                      data-service={service.name}
                                       onClick={() =>
                                         handleSelectService(
                                           clinicIdForCategory(category),
@@ -2076,6 +2219,7 @@ const BookingDemo = () => {
                     setBookingData({
                       ...bookingData,
                       specialistChosen: true,
+                      firstAvailableFlow: true,
                       specialist: undefined,
                       date: undefined,
                       time: undefined,
@@ -2132,6 +2276,7 @@ const BookingDemo = () => {
                           setBookingData({
                             ...bookingData,
                             specialistChosen: true,
+                            firstAvailableFlow: false,
                             specialist: spec,
                             date: undefined,
                             time: undefined,
@@ -2266,6 +2411,11 @@ const BookingDemo = () => {
                 </div>
 
                 <div className="overflow-hidden min-h-24">
+                  {calendarHintsLoading && !calendarHintsReady && (
+                    <p className="text-xs text-brand-dark/50 font-light mb-3">
+                      {copy.step4LoadingTimes}
+                    </p>
+                  )}
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
                       key={weekOffset}
@@ -2284,17 +2434,13 @@ const BookingDemo = () => {
                           bookingData.clinic && "apiLocationId" in bookingData.clinic
                             ? bookingData.clinic.apiLocationId
                             : undefined;
-                        const hasDiscoveryData =
+                        const calendarDatesReady =
                           currentStep >= 4 && selectedLocationId != null
-                            ? calendarHintsReady
+                            ? calendarHintsReady && !calendarHintsLoading
                             : apiFreeTimeSlots.length > 0;
                         const isDisabled =
                           isPast ||
-                          (hasApiActivity &&
-                            !timesLoading &&
-                            !calendarHintsLoading &&
-                            hasDiscoveryData &&
-                            !hasSlots);
+                          (hasApiActivity && (!calendarDatesReady || !hasSlots));
 
                         return (
                           <button
@@ -2382,7 +2528,7 @@ const BookingDemo = () => {
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
                     />
-                  ) : timesLoading ? (
+                  ) : timesLoading && availableSlots.length === 0 ? (
                     <p className="text-sm text-brand-dark/60 font-light">{copy.step4LoadingTimes}</p>
                   ) : availableSlots.length > 0 ? (
                     isFirstAvailableFlow ? (
@@ -2561,15 +2707,27 @@ const BookingDemo = () => {
                       onChange={(e) => {
                         const val = e.target.value.replace(/\D/g, '').slice(0, 11);
                         setFormData({ ...formData, birthNumber: val });
+                        if (birthNumberError) setBirthNumberError(null);
                       }}
                       placeholder={copy.formBirthNumberPlaceholder}
                       maxLength={11}
                       inputMode="numeric"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
+                      aria-invalid={birthNumberError ? true : undefined}
+                      aria-describedby={birthNumberError ? "birthNumber-error" : "birthNumber-help"}
+                      className={cn(
+                        "mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60",
+                        birthNumberError && "border-destructive focus-visible:ring-destructive",
+                      )}
                     />
-                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
-                      {copy.formBirthNumberHelp}
-                    </p>
+                    {birthNumberError ? (
+                      <p id="birthNumber-error" className="text-xs text-destructive mt-1.5 leading-relaxed font-light" role="alert">
+                        {birthNumberError}
+                      </p>
+                    ) : (
+                      <p id="birthNumber-help" className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
+                        {copy.formBirthNumberHelp}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="phone" className="text-sm text-brand-dark/70">{copy.formPhoneLabel}</label>
@@ -2604,13 +2762,25 @@ const BookingDemo = () => {
                       {copy.formEmailHelp}
                     </p>
                   </div>
+                  <div>
+                    <label htmlFor="note" className="text-sm text-brand-dark/70">{copy.formNoteLabel}</label>
+                    <Textarea
+                      id="note"
+                      name="note"
+                      value={formData.note}
+                      onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                      placeholder={copy.formNotePlaceholder}
+                      rows={3}
+                      className="mt-1.5 min-h-[96px] rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60 resize-y"
+                    />
+                  </div>
                   <div className="bg-brand-beige rounded-lg p-4 text-xs text-brand-dark/70 leading-relaxed space-y-2 font-light">
-                    <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> {copy.formCancellationRules}</p>
+                    <p><strong className="text-brand-dark font-normal">{copy.formCancellationRulesHeading}:</strong> {copy.formCancellationRules}</p>
                     <p>
                       <LinkedTemplateText
                         template={copy.formTermsPageTeaser}
                         token="{{termsLink}}"
-                        href="/vilkar"
+                        href={BOOKING_LEGAL_POLICY_PATH}
                         linkText={copy.formTermsLinkText}
                       />
                     </p>
@@ -2627,7 +2797,7 @@ const BookingDemo = () => {
                         <LinkedTemplateText
                           template={copy.formTermsCheckbox}
                           token="{{termsLink}}"
-                          href="/vilkar"
+                          href={BOOKING_LEGAL_POLICY_PATH}
                           linkText={copy.formTermsInlineLinkText}
                         />
                       </label>
@@ -2643,7 +2813,7 @@ const BookingDemo = () => {
                         <LinkedTemplateText
                           template={copy.formPrivacyCheckbox}
                           token="{{privacyLink}}"
-                          href="/personvern"
+                          href={BOOKING_LEGAL_POLICY_PATH}
                           linkText={copy.formPrivacyLinkText}
                         />
                       </label>

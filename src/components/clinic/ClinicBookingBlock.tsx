@@ -2,6 +2,7 @@ import { Lock, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
 export interface ClinicBookingData {
   method?: "info" | "pasientsky" | "metodika" | "closed";
@@ -41,11 +42,14 @@ export const ClinicBookingBlock = ({
       window.location.href = externalBookingUrl;
       return;
     }
-    navigate(
-      clinicSlug
-        ? buildBookingUrl({ klinikk: clinicSlug })
-        : buildBookingUrl(),
-    );
+    const path = clinicSlug
+      ? buildBookingUrl({ klinikk: clinicSlug })
+      : buildBookingUrl();
+    trackBookingMenuStart({
+      entry_point: "clinic_page",
+      clinic: clinicLabel,
+    });
+    navigate(path);
   };
 
   if (method === "closed") {
@@ -70,6 +74,8 @@ export const ClinicBookingBlock = ({
               {phone ? (
                 <a
                   href={`tel:+47${phone.replace(/\s/g, "")}`}
+                  data-phone-location="clinic_page"
+                  data-phone-clinic={clinicLabel}
                   className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white text-sm font-light rounded-2xl hover:bg-white/10 transition-colors"
                 >
                   <Phone className="w-4 h-4" aria-hidden="true" />
@@ -121,7 +127,7 @@ export const ClinicBookingBlock = ({
 
             {phone ? (
               <Button variant="cta-outline-dark" size="lg" asChild>
-                <a href={`tel:+47${phone.replace(/\s/g, "")}`}>
+                <a href={`tel:+47${phone.replace(/\s/g, "")}`} data-phone-location="clinic_page" data-phone-clinic={clinicLabel}>
                   <Phone className="mr-2 w-5 h-5" aria-hidden="true" />
                   {phone}
                 </a>

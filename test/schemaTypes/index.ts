@@ -20,6 +20,8 @@ import homepageSpecialistsSectionType from './homepageSpecialistsSection'
 import seo from './seo'
 import siteSettings from './siteSettings'
 import googleAnalyticsSettings from './googleAnalyticsSettings'
+import trackingEventsReference from './trackingEventsReference'
+import trackingEventReferenceItem from './trackingEventReferenceItem'
 import clinicPage from './clinicPage'
 import clinicsPage from './clinicsPage'
 import careersPage from './careersPage'
@@ -106,5 +108,7 @@ export const schemaTypes = [
   seo,
   siteSettings,
   googleAnalyticsSettings,
+  trackingEventsReference,
+  trackingEventReferenceItem,
   ...clinicianGuideObjectTypes,
 ]

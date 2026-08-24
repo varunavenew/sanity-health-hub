@@ -31,13 +31,31 @@ function splitFodselsnummer(raw: string): {
   const digits = personalNumberDigits(raw);
   if (digits.length !== 11) return null;
 
-  const dd = digits.slice(0, 2);
+  let day = Number(digits.slice(0, 2));
   const mm = digits.slice(2, 4);
   const yy = Number(digits.slice(4, 6));
   const individnummer = Number(digits.slice(6, 9));
   const rest = digits.slice(6);
+  // D-number (foreign nationals): day offset +40.
+  if (day > 40) day -= 40;
+  const dd = String(day).padStart(2, "0");
   const yyyy = norwegianBirthYear(yy, individnummer);
   return { digits, dd, mm, yyyy, rest };
+}
+
+/**
+ * Metodika webaccount `birthdate` — ISO `YYYY-MM-DD` derived from fødselsnummer.
+ * Required so patient card Fødselsdato is not 00.00.0000 (Convene payment chain).
+ */
+export function extractBirthdateIsoFromPersonnummer(raw: string): string | null {
+  const parts = splitFodselsnummer(raw);
+  if (!parts) return null;
+
+  const month = Number(parts.mm);
+  const day = Number(parts.dd);
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+
+  return `${parts.yyyy}-${parts.mm}-${parts.dd}`;
 }
 
 /**

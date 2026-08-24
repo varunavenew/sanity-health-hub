@@ -15,6 +15,8 @@ export interface CreateAppointmentBody {
   smsreminder?: boolean;
   smsconfirmation?: boolean;
   emailconfirmation?: boolean;
+  /** Patient message to clinic — Metodika appointment `note`. */
+  note?: string;
 }
 
 export async function POST(request: Request) {
@@ -42,6 +44,7 @@ export async function POST(request: Request) {
     roomId,
     starttime,
     lengthtime,
+    note,
   } = body;
 
   if (
@@ -73,6 +76,7 @@ export async function POST(request: Request) {
         roomId,
         starttime,
         lengthtime,
+        note,
       }),
     );
 

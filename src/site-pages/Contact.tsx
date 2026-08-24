@@ -14,6 +14,9 @@ import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
+import { trackContactMessage, trackFormSubmit } from "@/lib/tracking/form-events";
+import { useFormTracking } from "@/lib/tracking/use-form-tracking";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useParams } from "@/lib/router";
@@ -43,6 +46,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { onFieldInteraction: onContactFormStart } = useFormTracking(
+    "contact_message",
+    "contact_page",
+  );
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -94,6 +101,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         title: pick(formCopy?.successTitle, t("contact.toast.title")),
         description: pick(formCopy?.successDescription, t("contact.toast.description")),
       });
+      trackFormSubmit({ form_name: "contact_message", form_location: "contact_page" });
+      trackContactMessage({ form_location: "contact_page" });
       setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
     } catch {
       toast({
@@ -117,7 +126,11 @@ const Contact = ({ isChatOpen }: ContactProps) => {
           description={heroDescription || undefined}
           image={heroImage}
           imageAlt={t("contact.heroImageAlt")}
-          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+          primaryCta={{
+            label: t("nav.bookAppointment"),
+            to: "/booking",
+            bookingEntryPoint: "contact_page",
+          }}
           secondaryCta={{
             label: t("contact.viewClinics"),
             to: "/klinikker",
@@ -130,7 +143,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
             <Button
               variant="cta"
               size="lg"
-              onClick={() => navigate("/booking")}
+              onClick={() => {
+                trackBookingMenuStartForPath("/booking", "contact_page");
+                navigate("/booking");
+              }}
             >
               {t("nav.bookAppointment")}
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -231,6 +247,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                   <Input
                     id="contact-name"
                     value={formData.name}
+                    onFocus={onContactFormStart}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder={pick(formCopy?.namePlaceholder, t("contact.form.namePlaceholder"))}
                     required

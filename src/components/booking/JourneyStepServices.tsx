@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { buildBookingUrl, slugifyNo } from "@/lib/bookingLinks";
 import { useBookingCategoryServices } from "@/hooks/useBookingCategoryServices";
 import { formatBookingServicePrice } from "@/lib/booking/specialist-booking";
+import { parsePriceFromLabel, trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
 type JourneyStepServicesProps = {
   /** Clinic service id from booking API mapping (e.g. gynekolog). */
@@ -36,6 +37,14 @@ export function JourneyStepServices({
               kategori: categoryPageId,
               tjeneste: slugifyNo(service.name),
             })}
+            onClick={() =>
+              trackBookingMenuStart({
+                entry_point: "service_page_cta",
+                category: categoryPageId,
+                service_name: service.name,
+                price_from: parsePriceFromLabel(service.price),
+              })
+            }
             className="group flex items-center justify-between gap-3 text-sm font-light text-foreground hover:text-foreground/80 transition-colors"
           >
             <div className="min-w-0">

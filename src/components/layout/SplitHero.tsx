@@ -5,6 +5,8 @@ import { MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
 import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
+import type { BookingMenuEntryPoint, BookingMenuStartParams } from "@/lib/tracking/seo-events";
 import { assetSrc, type ImageRef } from "@/lib/media";
 import type { MediaFocalPoint, SanityHotspot } from "@/lib/media/focal-point";
 
@@ -12,6 +14,8 @@ type HeroCta = {
   label: string;
   to: string;
   variant?: "cta" | "contact";
+  bookingEntryPoint?: BookingMenuEntryPoint;
+  bookingContext?: Omit<BookingMenuStartParams, "entry_point">;
 };
 
 type SecondaryHeroCta = {
@@ -55,6 +59,13 @@ export const SplitHero = ({
   bottomNote,
 }: SplitHeroProps) => {
   const navigate = useNavigate();
+
+  const navigatePrimaryCta = (cta: HeroCta) => {
+    if (cta.bookingEntryPoint) {
+      trackBookingMenuStartForPath(cta.to, cta.bookingEntryPoint, cta.bookingContext);
+    }
+    navigate(cta.to);
+  };
 
   const note = bottomNote?.trim() || footnote?.trim() || "";
   const imageSrc = image ? assetSrc(image) : "";
@@ -100,13 +111,13 @@ export const SplitHero = ({
                   <Button
                     variant="contact-outline"
                     size="lg"
-                    onClick={() => navigate(primaryCta.to)}
+                    onClick={() => navigatePrimaryCta(primaryCta)}
                   >
                     <Phone strokeWidth={1.5} aria-hidden="true" />
                     {primaryCta.label}
                   </Button>
                 ) : (
-                  <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
+                  <Button variant="cta" size="lg" onClick={() => navigatePrimaryCta(primaryCta)}>
                     {primaryCta.label}
                   </Button>
                 )

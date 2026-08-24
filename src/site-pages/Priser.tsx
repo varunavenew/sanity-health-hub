@@ -19,6 +19,11 @@ import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import { bookingUrlForPricingItem, slugifyNo } from "@/lib/bookingLinks";
 import {
+  parsePriceFromLabel,
+  trackBookingMenuStart,
+  trackBookingMenuStartForPath,
+} from "@/lib/tracking/seo-events";
+import {
   isUsableBookingCtaBody,
   resolveBookingCtaFromCollection,
 } from "@/lib/sanity/cta-dual-read";
@@ -718,7 +723,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
         imageAlt={pageTitle}
         primaryCta={
           showHeroBookingCta
-            ? { label: t("nav.bookAppointment"), to: "/booking" }
+            ? {
+                label: t("nav.bookAppointment"),
+                to: "/booking",
+                bookingEntryPoint: "price_page",
+              }
             : undefined
         }
         secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
@@ -880,6 +889,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         {bookingUrl ? (
                                           <Link
                                             to={bookingUrl}
+                                            onClick={() =>
+                                              trackBookingMenuStart({
+                                                entry_point: "price_page",
+                                                category: category.label,
+                                                service_name: item.name,
+                                                price_from: parsePriceFromLabel(item.price),
+                                              })
+                                            }
                                             className="inline-flex items-center px-4 py-2 rounded-[var(--radius)] text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
                                           >
                                             {t("nav.bookAppointment")}
@@ -924,7 +941,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 <div className="mt-20 md:mt-24 text-center">
                   <button
                     type="button"
-                    onClick={() => navigate("/booking")}
+                    onClick={() => {
+                      trackBookingMenuStartForPath("/booking", "price_page");
+                      navigate("/booking");
+                    }}
                     className="chip-filter chip-filter-light"
                   >
                     {t("nav.bookAppointment")}

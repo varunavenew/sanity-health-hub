@@ -11,6 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useClinics, useContactRequestDialogCopy } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import type { ContactRequestDialogCopy } from "@/lib/sanity/contact-request-dialog-copy";
+import { trackCallbackRequest, trackFormSubmit } from "@/lib/tracking/form-events";
+import { useFormTracking } from "@/lib/tracking/use-form-tracking";
 import { useTranslation } from "react-i18next";
 
 interface ContactRequestDialogProps {
@@ -38,6 +40,10 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isSending, setIsSending] = useState(false);
+  const { onFieldInteraction: onCallbackFormStart } = useFormTracking(
+    "callback_request",
+    "contact_page",
+  );
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -122,6 +128,8 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
         title: copy.toastSuccessTitle,
         description: copy.toastSuccessDescription,
       });
+      trackFormSubmit({ form_name: "callback_request", form_location: "contact_page" });
+      trackCallbackRequest({ form_location: "contact_page" });
       reset();
       onOpenChange(false);
     } catch {
@@ -158,6 +166,7 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
                   <Input
                     id="cr-name"
                     value={form.name}
+                    onFocus={onCallbackFormStart}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder={copy.namePlaceholder}
                     required

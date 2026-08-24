@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -24,6 +25,9 @@ import { siteUrl } from "@/lib/env";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
+import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
+import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
+import { trackSpecialistView } from "@/lib/tracking/form-events";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
@@ -104,7 +108,28 @@ function SpecialistProfileBody({
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
   const profilePath = `${specialistsPath}/${specialist.slug}`;
 
-  const goToBooking = () => navigate("/booking");
+  useEffect(() => {
+    const clinicLabel =
+      specialist.clinicRefs?.[0]?.label ??
+      specialist.clinics?.[0] ??
+      null;
+    trackSpecialistView({
+      specialist_name: specialist.name,
+      specialty: specialist.title || specialist.expertise?.[0] || null,
+      clinic: clinicLabel,
+    });
+  }, [specialist.slug, specialist.name, specialist.title, specialist.expertise, specialist.clinicRefs, specialist.clinics]);
+
+  const goToBooking = () => {
+    const bookingPath = bookingUrlForSpecialist(specialist);
+    trackBookingMenuStart({
+      entry_point: "specialist_page",
+      practitioner: specialist.name,
+      specialty: specialist.title || specialist.expertise?.[0] || null,
+      category: specialist.category || null,
+    });
+    navigate(bookingPath);
+  };
 
   const physicianJsonLd = {
     "@context": "https://schema.org",

@@ -176,6 +176,7 @@ export const Footer = () => {
               {phone ? (
                 <a
                   href={`tel:${phone.replace(/\s/g, "")}`}
+                  data-phone-location="footer"
                   className={`flex items-center gap-2.5 ${linkClass}`}
                 >
                   <Phone className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
@@ -217,6 +218,17 @@ export const Footer = () => {
             <span className="text-sm font-light text-white">CMedical</span>
             <p className="text-sm font-light text-white/50">
               © {new Date().getFullYear()} CMedical. {t("footer.rights")}
+            </p>
+            <p className="text-sm font-light text-white/50">
+              Nettsiden er designet og utviklet av{" "}
+              <a
+                href="https://www.avenew.no/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white/80 transition-colors"
+              >
+                Avenew
+              </a>
             </p>
           </div>
           <Link

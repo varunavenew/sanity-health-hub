@@ -1,6 +1,6 @@
 "use client";
 
-import { trackBookingInit } from "@/lib/tracking/booking-analytics";
+import { trackBookingInit, trackBookingUnavailable } from "@/lib/tracking/booking-analytics";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MapPin, Phone } from "lucide-react";
 import { FC, useEffect } from "react";
@@ -33,7 +33,11 @@ export const ExternalBookingHandoff: FC<Props> = ({
 }) => {
   useEffect(() => {
     trackBookingInit("external");
-  }, []);
+    trackBookingUnavailable({
+      clinic: clinicLabel,
+      booking_method: "external",
+    });
+  }, [clinicLabel]);
 
   const phoneHref = formatPhoneHref(phone);
   const phoneLabel = displayPhone(phone);

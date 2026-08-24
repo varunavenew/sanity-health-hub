@@ -10,6 +10,8 @@
     "build": "npx sanity build",
     "deploy": "npx sanity deploy",
     "deploy:production": "node scripts/deploy-studio-production.cjs",
+    "migrate:tracking-events-reference": "tsx sanity/migrate-tracking-events-reference.ts",
+    "migrate:tracking-events-reference:production": "cross-env SANITY_DATASET=production SANITY_STUDIO_DATASET=production ALLOW_PRODUCTION_MIGRATION=true tsx sanity/migrate-tracking-events-reference.ts",
     "deploy-graphql": "sanity graphql deploy",
     "backfill:en": "tsx sanity/backfill-english-i18n.ts",
     "backfill:en:dry": "DRY_RUN=1 tsx sanity/backfill-english-i18n.ts",

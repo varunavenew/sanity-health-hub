@@ -17,6 +17,7 @@ import {
   HomeIcon,
   InsuranceIcon,
   JobIcon,
+  ListIcon,
   PricingIcon,
   ReviewIcon,
   SettingsIcon,
@@ -423,6 +424,12 @@ function settingsSection(S: StructureBuilder) {
             schemaType: 'googleAnalyticsSettings',
             documentId: 'googleAnalyticsSettings',
             icon: AnalyticsIcon,
+          }),
+          singletonListItem(S, {
+            title: 'Tracking events (reference)',
+            schemaType: 'trackingEventsReference',
+            documentId: 'trackingEventsReference',
+            icon: ListIcon,
           }),
           singletonListItem(S, {
             title: 'Booking',

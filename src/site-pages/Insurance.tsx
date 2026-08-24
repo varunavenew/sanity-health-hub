@@ -9,6 +9,8 @@ import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRen
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
+import { trackInsuranceProviderClick } from "@/lib/tracking/form-events";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -73,7 +75,14 @@ const Insurance = ({ isChatOpen }: PageProps) => {
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {companies.map((company: { name: string }) => (
-                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
+                <button
+                  key={company.name}
+                  type="button"
+                  onClick={() => trackInsuranceProviderClick({ provider_name: company.name })}
+                  className="px-5 py-3 bg-muted/30 rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors"
+                >
+                  {company.name}
+                </button>
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-muted-foreground font-light">
@@ -157,7 +166,12 @@ const Insurance = ({ isChatOpen }: PageProps) => {
                 <Link to="/kontakt">{t("cta.contactUs")}</Link>
               </Button>
               <Button variant="cta" size="lg" className="rounded-2xl w-full" asChild>
-                <Link to="/booking">{t("nav.bookAppointment")}</Link>
+                <Link
+                  to="/booking"
+                  onClick={() => trackBookingMenuStartForPath("/booking", "insurance_page")}
+                >
+                  {t("nav.bookAppointment")}
+                </Link>
               </Button>
             </div>
           </div>

@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/accordion";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { buildBookingUrl, type BookingLinkParams } from "@/lib/bookingLinks";
+import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 import { Link } from "@/lib/router";
 import type { PageSection } from "@/lib/sanity/page-sections";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -597,6 +598,11 @@ export const SubTreatmentLayout = ({
                   primaryLabel={c.primaryCtaLabel}
                   callLabel={c.callCtaLabel}
                   onPrimary={() => {
+                    trackBookingMenuStart({
+                      entry_point: "service_page_cta",
+                      category: c.booking.kategori ?? null,
+                      service_name: c.booking.tjeneste ?? null,
+                    });
                     window.location.href = buildBookingUrl(c.booking);
                   }}
                 />
@@ -965,6 +971,11 @@ export const SubTreatmentLayout = ({
                   : c.midCtaCallLabel || c.callCtaLabel
               }
               onPrimary={() => {
+                trackBookingMenuStart({
+                  entry_point: "service_page_cta",
+                  category: c.booking.kategori ?? null,
+                  service_name: c.booking.tjeneste ?? null,
+                });
                 window.location.href = buildBookingUrl(c.booking);
               }}
               className="w-full md:w-auto"

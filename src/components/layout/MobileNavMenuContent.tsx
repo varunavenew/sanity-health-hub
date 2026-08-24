@@ -205,6 +205,7 @@ export function MobileNavMenuContent({
         <div className="space-y-3">
           <a
             href={telHref}
+            data-phone-location="header"
             className="flex items-center gap-3 text-base text-foreground/70 transition-colors hover:text-foreground"
           >
             <Phone className="h-5 w-5" aria-hidden="true" />
