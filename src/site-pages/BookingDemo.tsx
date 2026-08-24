@@ -80,10 +80,15 @@ import { BookingPageAnalytics } from "@/components/analytics/BookingPageAnalytic
 import {
   bookingMethodForClinic,
   metodikaBookingCompletedFromState,
+  trackBookingBack,
+  trackBookingClose,
   trackBookingCompleted,
+  trackBookingFailed,
   trackBookingInit,
+  trackBookingSelectCategory,
   trackBookingSelectClinic,
   trackBookingStep,
+  trackBookingSubmitted,
 } from "@/lib/tracking/booking-analytics";
 import { trackBookingMenuStart, trackBookingStart } from "@/lib/tracking/seo-events";
 import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
@@ -527,8 +532,13 @@ const BookingDemo = () => {
       currentStep,
       stepName,
       bookingMethodForClinic(bookingData.clinic),
+      {
+        service_name: bookingData.service?.name ?? null,
+        category: bookingData.category ?? null,
+        clinic: bookingData.clinic?.label ?? null,
+      },
     );
-  }, [currentStep, progressAriaLabels, bookingData.clinic]);
+  }, [currentStep, progressAriaLabels, bookingData.clinic, bookingData.service, bookingData.category]);
 
   // Prefill from URL params: ?kategori=gynekologi&kategoriId=1&tjeneste=endometriose&spesialist=slug&klinikk=majorstuen
   // Jumps to the first unfilled step so users coming from a specific
@@ -1358,7 +1368,10 @@ const BookingDemo = () => {
     return formatDurationMinutes(mins, locale);
   }, [selectedDate, selectedDaySlots, locale]);
 
-  const handleClose = () => navigate("/");
+  const handleClose = () => {
+    trackBookingClose();
+    navigate("/");
+  };
 
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */
   const autoSelectedClinicActivityRef = useRef<number | null>(null);
@@ -1370,6 +1383,11 @@ const BookingDemo = () => {
     categoryApiSlug?: string,
   ) => {
     trackBookingStart("metodika");
+    trackBookingSelectCategory({
+      category: categoryLabel,
+      service_name: service.name,
+      booking_method: "metodika",
+    });
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
 
@@ -1558,6 +1576,13 @@ const BookingDemo = () => {
       service: bookingData.service,
       category: bookingData.category,
       specialist: bookingData.specialist,
+      slot: bookingData.selectedSlot,
+    });
+
+    trackBookingSubmitted({
+      booking_method: "metodika",
+      clinic: bookingData.clinic?.label ?? null,
+      service_name: bookingData.service?.name ?? null,
     });
 
     try {
@@ -1599,8 +1624,16 @@ const BookingDemo = () => {
       if (!res.ok || !json.ok) {
         if (json.code === "INVALID_PERSONALNUMBER") {
           setBirthNumberError(copy.errorInvalidBirthNumber);
+          trackBookingFailed({
+            error_type: "invalid_personalnumber",
+            booking_method: "metodika",
+          });
           return;
         }
+        trackBookingFailed({
+          error_type: json.code ?? "api_error",
+          booking_method: "metodika",
+        });
         setSubmitError(
           json.message ??
             copy.errorSubmit,
@@ -1608,21 +1641,21 @@ const BookingDemo = () => {
         return;
       }
 
-      if (
-        json.appointmentId != null &&
-        String(json.appointmentId).trim() &&
-        !bookingCompletedTrackedRef.current
-      ) {
-        bookingCompletedTrackedRef.current = true;
+      if (json.appointmentId != null && String(json.appointmentId).trim()) {
         trackBookingCompleted({
           booking_method: "metodika",
           transaction_id: json.appointmentId,
           ...completedTracking,
         });
+        bookingCompletedTrackedRef.current = true;
       }
 
       setIsSubmitted(true);
     } catch {
+      trackBookingFailed({
+        error_type: "network",
+        booking_method: "metodika",
+      });
       setSubmitError(
         copy.errorSubmitNetwork,
       );
@@ -1631,7 +1664,32 @@ const BookingDemo = () => {
     }
   };
 
+  const stepNumberForResetTarget = (
+    step: "category" | "clinic" | "specialist" | "time",
+  ): number => {
+    switch (step) {
+      case "category":
+        return 1;
+      case "clinic":
+        return 2;
+      case "specialist":
+        return 3;
+      case "time":
+        return 4;
+      default:
+        return 1;
+    }
+  };
+
   const resetStep = (step: 'category' | 'clinic' | 'specialist' | 'time') => {
+    const toStep = stepNumberForResetTarget(step);
+    if (currentStep > toStep) {
+      trackBookingBack({
+        from_step: currentStep,
+        to_step: toStep,
+        booking_method: bookingMethodForClinic(bookingData.clinic),
+      });
+    }
     if (step === 'category') {
       autoSelectedClinicActivityRef.current = null;
       setBookingData({});
@@ -2018,6 +2076,7 @@ const BookingDemo = () => {
                                     <button
                                       key={service.apiActivityId ?? service.name}
                                       type="button"
+                                      data-service={service.name}
                                       onClick={() =>
                                         handleSelectService(
                                           clinicIdForCategory(category),

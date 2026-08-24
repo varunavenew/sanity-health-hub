@@ -15,6 +15,8 @@ import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRen
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
+import { trackContactMessage, trackFormSubmit } from "@/lib/tracking/form-events";
+import { useFormTracking } from "@/lib/tracking/use-form-tracking";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useParams } from "@/lib/router";
@@ -44,6 +46,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { onFieldInteraction: onContactFormStart } = useFormTracking(
+    "contact_message",
+    "contact_page",
+  );
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -95,6 +101,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         title: pick(formCopy?.successTitle, t("contact.toast.title")),
         description: pick(formCopy?.successDescription, t("contact.toast.description")),
       });
+      trackFormSubmit({ form_name: "contact_message", form_location: "contact_page" });
+      trackContactMessage({ form_location: "contact_page" });
       setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
     } catch {
       toast({
@@ -239,6 +247,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                   <Input
                     id="contact-name"
                     value={formData.name}
+                    onFocus={onContactFormStart}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder={pick(formCopy?.namePlaceholder, t("contact.form.namePlaceholder"))}
                     required
