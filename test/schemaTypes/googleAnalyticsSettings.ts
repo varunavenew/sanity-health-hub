@@ -73,7 +73,7 @@ export default defineType({
       group: 'consent',
       initialValue: i18nDefault(DEFAULT_CONSENT_HEAD_SCRIPT, DEFAULT_CONSENT_HEAD_SCRIPT),
       description:
-        'JavaScript placed in the first <script> in <head>, before GTM, per language. Cookiebot updates these states after the user chooses. Required for GA4/Google Ads in the EEA.',
+        'JavaScript in the first <script> in <head>, before GTM, per language. The live site uses this value from Sanity (granted or denied). Cookiebot may update consent after the user chooses. Code defaults apply only if this field is empty.',
     }),
     defineField({
       name: 'gtmHeadScript',
@@ -82,7 +82,7 @@ export default defineType({
       group: 'gtmHead',
       initialValue: i18nDefault(DEFAULT_GTM_HEAD_SCRIPT, DEFAULT_GTM_HEAD_SCRIPT),
       description:
-        'GTM bootstrap script for <head>, per language. Leave a language empty to auto-generate from that language\'s Container ID on the frontend.',
+        'GTM bootstrap script for <head>, per language. Do not include consent defaults here — use Consent defaults (head) instead. Leave empty to auto-generate from Container ID.',
     }),
     defineField({
       name: 'gtmBodyNoscript',

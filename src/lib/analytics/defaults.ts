@@ -1,23 +1,12 @@
-import { resolveConsentHeadScript } from "@/lib/analytics/consent-script";
+import {
+  DEFAULT_CONSENT_HEAD_SCRIPT,
+  resolveConsentHeadScript,
+  stripDuplicateConsentFromGtmScript,
+} from "@/lib/analytics/consent-script";
+
+export { DEFAULT_CONSENT_HEAD_SCRIPT } from "@/lib/analytics/consent-script";
 
 export const DEFAULT_GTM_CONTAINER_ID = "GTM-PNNR898W";
-
-/** Inner JavaScript for consent defaults — must load before GTM in `<head>`. */
-export const DEFAULT_CONSENT_HEAD_SCRIPT = `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('consent', 'default', {
-  'ad_storage': 'denied',
-  'ad_user_data': 'denied',
-  'ad_personalization': 'denied',
-  'analytics_storage': 'denied',
-  'functionality_storage': 'denied',
-  'personalization_storage': 'denied',
-  'security_storage': 'granted',
-  'wait_for_update': 500
-});
-gtag('set', 'ads_data_redaction', true);
-gtag('set', 'url_passthrough', true);`;
-
 export function buildGtmHeadScript(containerId: string): string {
   const id = containerId.trim() || DEFAULT_GTM_CONTAINER_ID;
   return `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -76,7 +65,10 @@ export function resolveGoogleAnalyticsSettings(
 ): GoogleAnalyticsSettingsResolved {
   const gtmContainerId = pickLang(raw?.gtmContainerId, lang) || DEFAULT_GTM_CONTAINER_ID;
   const consentHeadScript = resolveConsentHeadScript(pickLang(raw?.consentHeadScript, lang));
-  const gtmHeadScript = pickLang(raw?.gtmHeadScript, lang) || buildGtmHeadScript(gtmContainerId);
+  const rawGtmHead = pickLang(raw?.gtmHeadScript, lang);
+  const gtmHeadScript = rawGtmHead
+    ? stripDuplicateConsentFromGtmScript(rawGtmHead) || buildGtmHeadScript(gtmContainerId)
+    : buildGtmHeadScript(gtmContainerId);
   const gtmBodyNoscriptHtml =
     pickLang(raw?.gtmBodyNoscript, lang) || buildGtmBodyNoscriptHtml(gtmContainerId);
   const cookiebotHeadScript = pickLang(raw?.cookiebotHeadScript, lang) || undefined;
