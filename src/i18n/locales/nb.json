@@ -350,7 +350,8 @@
     "title": "Aktuelt",
     "backToAktuelt": "Tilbake til Aktuelt",
     "relatedArticles": "Relaterte artikler",
-    "articleNotFound": "Artikkelen ble ikke funnet"
+    "articleNotFound": "Artikkelen ble ikke funnet",
+    "swipeDownToRead": "Sveip ned for å lese"
   },
   "clinicGrid": {
     "title": "Våre klinikker"

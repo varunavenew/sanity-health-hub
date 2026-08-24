@@ -66,7 +66,7 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
           aria-hidden="true"
         />
 
-        <div className="absolute inset-x-0 bottom-[22%] z-20 px-6">
+        <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-4">
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
