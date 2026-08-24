@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { SplitMediaParallax } from "@/components/layout/SplitMediaParallax";
 import { DEFAULT_MAIN_NAVIGATION, withRequiredMainNavigation } from "@/lib/navigation/default-main-navigation";
 import { trackBookingMenuStartForPath } from "@/lib/tracking/seo-events";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
@@ -180,6 +181,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           }}
         >
           <main id="main-content">{children}</main>
+          <SplitMediaParallax />
           <Footer />
         </div>
       </div>
