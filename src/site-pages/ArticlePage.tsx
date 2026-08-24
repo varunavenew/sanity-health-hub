@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useParams, Link, useRouteSlug } from "@/lib/router";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
 import { AssetImg } from "@/components/AssetImg";
@@ -22,6 +22,132 @@ import { useTranslation } from "react-i18next";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
+}
+
+function ArticleMobileHero({
+  image,
+  imageAlt,
+  title,
+  newsPath,
+  backLabel,
+  categoryLabel,
+  date,
+  dateLocale,
+  swipeDownLabel,
+}: {
+  image?: string;
+  imageAlt: string;
+  title: string;
+  newsPath: string;
+  backLabel: string;
+  categoryLabel: string;
+  date?: string;
+  dateLocale: string;
+  swipeDownLabel: string;
+}) {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const imageEl = imageRef.current;
+    const overlay = overlayRef.current;
+    if (!hero || !overlay) return;
+
+    let frame = 0;
+    const update = () => {
+      const rect = hero.getBoundingClientRect();
+      const progress = Math.min(
+        1,
+        Math.max(0, -rect.top / Math.max(rect.height, 1)),
+      );
+      overlay.style.transform = `translate3d(0px, ${progress * 56}px, 0px)`;
+      if (imageEl) {
+        imageEl.style.transform = `translate3d(0px, ${progress * 36}px, 0px) scale(${1 + progress * 0.06})`;
+      }
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  return (
+    <div ref={heroRef} className="relative min-h-[100svh] overflow-hidden lg:hidden">
+      {image ? (
+        <div
+          ref={imageRef}
+          className="absolute inset-0 z-0 will-change-transform"
+          style={{ transform: "translate3d(0px, 0px, 0px)", transformOrigin: "center center" }}
+        >
+          <AssetImg
+            src={image}
+            alt={imageAlt}
+            preset="hero"
+            imageWidth={1200}
+            loading="eager"
+            width={1200}
+            height={1800}
+            className="h-[115%] w-full object-cover"
+          />
+        </div>
+      ) : null}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(24, 4, 4, 0.94) 0%, rgba(40, 22, 16, 0.82) 22%, rgba(50, 32, 24, 0.58) 48%, rgba(50, 32, 24, 0.32) 72%, rgba(20, 10, 8, 0.16) 100%)",
+        }}
+        aria-hidden="true"
+      />
+      <div
+        ref={overlayRef}
+        className="absolute inset-x-0 bottom-0 z-10 px-6 pb-16 will-change-transform"
+        style={{ transform: "translate3d(0px, 0px, 0px)" }}
+      >
+        <Link
+          to={newsPath}
+          className="mb-5 inline-flex items-center gap-2 text-sm font-light text-brand-warm/80 transition-colors hover:text-brand-warm"
+        >
+          <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {backLabel}
+        </Link>
+        <div className="mb-3 flex items-center gap-3">
+          {categoryLabel ? (
+            <span className="text-xs text-brand-warm">{categoryLabel}</span>
+          ) : null}
+          {date ? (
+            <span className="flex items-center gap-1.5 text-xs text-brand-warm/90">
+              <Calendar className="h-3 w-3" aria-hidden="true" />
+              <time dateTime={date}>
+                {new Date(date).toLocaleDateString(dateLocale, {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </time>
+            </span>
+          ) : null}
+        </div>
+        <h1 className="text-2xl font-light leading-tight text-brand-warm">{title}</h1>
+      </div>
+      <p className="absolute inset-x-0 bottom-5 z-10 flex flex-col items-center gap-1 text-center text-xs font-light text-brand-warm/80">
+        <span>{swipeDownLabel}</span>
+        <ChevronDown className="h-4 w-4" aria-hidden="true" />
+      </p>
+    </div>
+  );
 }
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
@@ -105,6 +231,9 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
   const notFoundTitle = t("news.articleNotFound", {
     defaultValue: routeLocale === "en" ? "Article not found" : "Artikkelen ble ikke funnet",
   });
+  const swipeDownLabel = t("news.swipeDownToRead", {
+    defaultValue: routeLocale === "en" ? "Swipe down to read" : "Sveip ned for å lese",
+  });
 
   if (isLoading) {
     return (
@@ -131,6 +260,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     );
   }
 
+  const categoryLabel = getCategoryLabel(article.category);
   const articlePath = `${newsPath}/${article.slug}`;
   const summaryText = article.geoSummary?.trim() || article.excerpt || "";
   const geoJsonLd = combineGeoJsonLd(
@@ -169,40 +299,72 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       />
 
       <header className="bg-brand-dark">
-        <div className="px-6 pb-12 pt-28 md:px-16 md:pb-16 md:pt-32 lg:px-20">
-          <div className="mx-auto max-w-3xl">
-            <Link
-              to={newsPath}
-              className="mb-8 inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white/80"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {backLabel}
-            </Link>
-            <h1 className="mb-6 text-3xl font-light leading-[1.15] text-white md:text-4xl lg:text-5xl">
-              {article.title}
-            </h1>
-            {article.excerpt ? (
-              <p className="max-w-2xl text-base font-light leading-relaxed text-white/75 md:text-lg">
-                {article.excerpt}
-              </p>
-            ) : null}
-          </div>
-        </div>
+        <ArticleMobileHero
+          image={article.image}
+          imageAlt={sanityArticle?.imageAlt || article.title}
+          title={article.title}
+          newsPath={newsPath}
+          backLabel={backLabel}
+          categoryLabel={categoryLabel}
+          date={article.date}
+          dateLocale={dateLocale}
+          swipeDownLabel={swipeDownLabel}
+        />
 
-        {article.image ? (
-          <div className="w-full">
-            <AssetImg
-              src={article.image}
-              alt={sanityArticle?.imageAlt || article.title}
-              preset="hero"
-              imageWidth={1920}
-              loading="eager"
-              width={1920}
-              height={1080}
-              className="aspect-[16/10] w-full object-cover md:aspect-[21/9]"
-            />
+        <div className="hidden lg:grid lg:grid-cols-2 split-hero">
+          <div className="flex items-center px-16 lg:px-20 pt-32 pb-20">
+            <div className="w-full max-w-xl">
+              <Link
+                to={newsPath}
+                className="mb-8 inline-flex items-center gap-2 text-sm font-light text-white/70 transition-colors hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+                {backLabel}
+              </Link>
+              <div className="mb-4 flex items-center gap-3">
+                {categoryLabel ? (
+                  <span className="text-xs text-white/80">{categoryLabel}</span>
+                ) : null}
+                {article.date ? (
+                  <span className="flex items-center gap-1.5 text-xs text-white/80">
+                    <Calendar className="h-3 w-3" aria-hidden="true" />
+                    <time dateTime={article.date}>
+                      {new Date(article.date).toLocaleDateString(dateLocale, {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </time>
+                  </span>
+                ) : null}
+              </div>
+              <p className="mb-6 text-4xl font-light leading-tight text-white lg:text-5xl">
+                {article.title}
+              </p>
+              {article.excerpt ? (
+                <p className="text-base font-light leading-relaxed text-white/75 lg:text-lg">
+                  {article.excerpt}
+                </p>
+              ) : null}
+            </div>
           </div>
-        ) : null}
+          {article.image ? (
+            <div className="split-media bg-secondary/40">
+              <AssetImg
+                src={article.image}
+                alt={sanityArticle?.imageAlt || article.title}
+                preset="hero"
+                imageWidth={1600}
+                loading="eager"
+                width={1600}
+                height={1800}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="split-media bg-brand-dark" />
+          )}
+        </div>
       </header>
 
       <article className="bg-background">
