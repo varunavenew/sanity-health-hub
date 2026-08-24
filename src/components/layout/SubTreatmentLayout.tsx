@@ -12,12 +12,6 @@ import { resolveTreatmentInsurance } from "@/lib/sanity/insurance-dual-read";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { Link } from "@/lib/router";
@@ -175,23 +169,17 @@ function ReasonsEditorial({
   lead,
   lead2,
   items,
-  layout = "accordion",
 }: {
   title: string;
   lead?: string;
   lead2?: string;
   items: { n: string; title: string; desc: string | ReactNode }[];
-  layout?: "prose" | "accordion" | "auto";
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
   const hasLead = Boolean(lead?.trim() || lead2?.trim());
 
   // Demo pages can show title + lead with no right-column items yet.
   if (cleanItems.length === 0 && !hasLead) return null;
-
-  // Default / auto: collapsed accordion (demo Om section).
-  const effectiveLayout: "prose" | "accordion" =
-    layout === "prose" ? "prose" : "accordion";
 
   return (
     <section className="pt-14 md:pt-20 pb-10 bg-background">
@@ -209,47 +197,20 @@ function ReasonsEditorial({
           </div>
 
           <div className="lg:col-span-7">
-            {effectiveLayout === "accordion" ? (
-              <Accordion
-                type="single"
-                collapsible
-                className="border-t border-border/60"
-              >
-                {cleanItems.map((item, index) => (
-                  <AccordionItem
-                    key={`${item.n}-${item.title}`}
-                    value={`reason-${index}`}
-                    className="border-b border-border/60"
-                  >
-                    <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
-                      {item.title}
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-8">
-                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-                        {typeof item.desc === "string"
-                          ? renderLightMarkdown(item.desc)
-                          : item.desc}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            ) : (
-              <article className="space-y-10">
-                {cleanItems.map((item) => (
-                  <div key={`${item.n}-${item.title}`}>
-                    <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
-                      {item.title}
-                    </h3>
-                    <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-                      {typeof item.desc === "string"
-                        ? renderLightMarkdown(item.desc)
-                        : item.desc}
-                    </div>
+            <article className="space-y-10">
+              {cleanItems.map((item) => (
+                <div key={`${item.n}-${item.title}`}>
+                  <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
+                    {item.title}
+                  </h3>
+                  <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                    {typeof item.desc === "string"
+                      ? renderLightMarkdown(item.desc)
+                      : item.desc}
                   </div>
-                ))}
-              </article>
-            )}
+                </div>
+              ))}
+            </article>
           </div>
         </div>
       </div>
@@ -680,7 +641,6 @@ export const SubTreatmentLayout = ({
           lead={c.reasonsLead}
           lead2={c.reasonsLead2}
           items={c.reasons}
-          layout={c.reasonsLayout}
         />
       ) : null}
 
