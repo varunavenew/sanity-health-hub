@@ -140,7 +140,7 @@ export function mapTreatmentToSubTreatmentContent(
     reasonsLead: treatment.reasonsLead,
     reasonsLead2: treatment.reasonsLead2,
     reasons,
-    reasonsLayout: "prose",
+    reasonsLayout: "accordion",
     promises: promises.map((p) => ({
       title: p.title,
       desc: p.desc,
