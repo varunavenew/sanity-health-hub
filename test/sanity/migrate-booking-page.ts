@@ -136,7 +136,7 @@ async function run() {
       '* National ID is required for secure identification and medical records under healthcare regulations. Information is handled confidentially and not shared with third parties.',
     ),
     formPhoneLabel: S('Mobilnummer *', 'Mobile number *'),
-    formPhonePlaceholder: S('+47 XXX XX XXX', '+47 XXX XX XXX'),
+    formPhonePlaceholder: S('XXX XX XXX', 'XXX XX XXX'),
     formPhoneHelp: T(
       'Bekreftelse og påminnelse sendes på SMS til dette nummeret.',
       'Confirmation and reminders are sent by SMS to this number.',

@@ -102,6 +102,11 @@ import {
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
 import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
+import {
+  isValidNorwegianMobileFieldInput,
+  normalizeNorwegianMobileForMetodika,
+  stripNorwegianMobileInputForField,
+} from "@/lib/booking/phoneMobile";
 import { isValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
 
 export type BookingServiceCategory = {
@@ -1544,6 +1549,7 @@ const BookingDemo = () => {
       !formData.firstName ||
       !formData.lastName ||
       !formData.phone ||
+      !isValidNorwegianMobileFieldInput(formData.phone) ||
       !formData.birthNumber
     ) {
       return;
@@ -1594,7 +1600,7 @@ const BookingDemo = () => {
             firstname: formData.firstName.trim(),
             lastname: formData.lastName.trim(),
             email: formData.email.trim(),
-            mobile: formData.phone.trim(),
+            mobile: normalizeNorwegianMobileForMetodika(formData.phone),
             personalnumber: formData.birthNumber,
             newsletter: formData.acceptMarketing,
           },
@@ -2731,17 +2737,28 @@ const BookingDemo = () => {
                   </div>
                   <div>
                     <label htmlFor="phone" className="text-sm text-brand-dark/70">{copy.formPhoneLabel}</label>
-                    <Input
-                      id="phone"
-                      name="tel"
-                      autoComplete="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder={copy.formPhonePlaceholder}
-                      type="tel"
-                      inputMode="tel"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
-                    />
+                    <div className="mt-1.5 flex h-12 overflow-hidden rounded-lg border border-brand-dark/30 bg-white focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                      <span className="flex shrink-0 items-center border-r border-brand-dark/20 bg-brand-dark/[0.03] px-3 text-sm text-brand-dark/70 select-none">
+                        +47
+                      </span>
+                      <Input
+                        id="phone"
+                        name="tel"
+                        autoComplete="tel-national"
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            phone: stripNorwegianMobileInputForField(e.target.value),
+                          })
+                        }
+                        placeholder={copy.formPhonePlaceholder.replace(/^\+47\s*/i, "") || "XXX XX XXX"}
+                        type="tel"
+                        inputMode="numeric"
+                        maxLength={8}
+                        className="h-full min-h-0 flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-brand-dark placeholder:text-brand-dark/60"
+                      />
+                    </div>
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       {copy.formPhoneHelp}
                     </p>
@@ -2848,6 +2865,7 @@ const BookingDemo = () => {
                   !formData.firstName ||
                   !formData.lastName ||
                   !formData.phone ||
+                  !isValidNorwegianMobileFieldInput(formData.phone) ||
                   !formData.birthNumber ||
                   formData.birthNumber.length !== 11 ||
                   !bookingData.service?.apiActivityId ||

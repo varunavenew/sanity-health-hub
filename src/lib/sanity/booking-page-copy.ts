@@ -186,7 +186,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   formBirthNumberHelp:
     "* Fødselsnummeret er påkrevd for sikker identifisering og journalføring i henhold til helsepersonelloven. Opplysningene behandles konfidensielt og deles ikke med tredjepart.",
   formPhoneLabel: "Mobilnummer *",
-  formPhonePlaceholder: "+47 XXX XX XXX",
+  formPhonePlaceholder: "XXX XX XXX",
   formPhoneHelp: "Bekreftelse og påminnelse sendes på SMS til dette nummeret.",
   formEmailLabel: "E-postadresse",
   formEmailPlaceholder: "din@epost.no",
