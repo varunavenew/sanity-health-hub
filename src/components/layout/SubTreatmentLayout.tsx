@@ -32,6 +32,12 @@ import {
   filterMeaningfulPageSections,
 } from "@/lib/sanity/section-visibility";
 import { renderLightMarkdown } from "@/lib/light-markdown";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { type ReactNode, useEffect, useMemo, useRef } from "react";
 
@@ -198,20 +204,34 @@ function ReasonsEditorial({
           </div>
 
           <div className="lg:col-span-7">
-            <article className="space-y-10">
-              {cleanItems.map((item) => (
-                <div key={`${item.n}-${item.title}`}>
-                  <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
-                    {item.title}
-                  </h3>
-                  <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-                    {typeof item.desc === "string"
-                      ? renderLightMarkdown(item.desc)
-                      : item.desc}
-                  </div>
-                </div>
-              ))}
-            </article>
+            {cleanItems.length > 0 ? (
+              <Accordion
+                key={`${title}-${cleanItems[0]?.n}-${cleanItems[0]?.title}`}
+                type="single"
+                collapsible
+                defaultValue="reason-0"
+                className="w-full"
+              >
+                {cleanItems.map((item, index) => (
+                  <AccordionItem
+                    key={`${item.n}-${item.title}-${index}`}
+                    value={`reason-${index}`}
+                    className="border-b border-border/40"
+                  >
+                    <AccordionTrigger className="text-left text-lg md:text-xl font-normal text-foreground py-5 hover:no-underline leading-snug [&[data-state=open]>svg]:rotate-180">
+                      <span className="pr-4">{item.title}</span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                        {typeof item.desc === "string"
+                          ? renderLightMarkdown(item.desc)
+                          : item.desc}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            ) : null}
           </div>
         </div>
       </div>
