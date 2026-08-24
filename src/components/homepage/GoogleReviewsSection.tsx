@@ -64,16 +64,18 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
   return (
     <section className="relative overflow-hidden bg-brand-warm py-10 md:py-14">
       <div className="container relative mx-auto px-6 md:px-16">
-        <div className="max-w-xl">
-          <h2 className="text-2xl font-light leading-tight text-brand-dark md:text-3xl">{heading}</h2>
+        <div className="flex flex-col items-start">
+          <div className="order-1 mb-4 flex w-full items-end justify-start md:order-2 md:mb-4 md:mt-8 md:justify-end md:gap-4">
+            <GoldStarsReviewBadge variant="light" className="w-fit" />
+            <div className="hidden md:block">{ratingSummary}</div>
+          </div>
+          <h2 className="order-2 max-w-xl text-2xl font-light leading-tight text-brand-dark md:order-1 md:text-3xl">
+            {heading}
+          </h2>
         </div>
       </div>
 
-      <div className="relative mt-6 md:mt-8">
-        <div className="container mx-auto mb-3 flex flex-wrap items-end justify-end gap-4 px-6 md:mb-4 md:gap-6 md:px-16">
-          <GoldStarsReviewBadge variant="light" />
-          {ratingSummary}
-        </div>
+      <div className="relative mt-6 md:mt-0">
         <div className="relative">
           <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 hidden w-24 bg-gradient-to-r from-brand-warm to-transparent md:block" />
           <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 hidden w-24 bg-gradient-to-l from-brand-warm to-transparent md:block" />
