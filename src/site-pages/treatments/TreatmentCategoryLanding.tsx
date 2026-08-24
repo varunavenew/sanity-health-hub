@@ -1670,7 +1670,7 @@ const TreatmentCategoryLanding = ({
       {isFullWidthHero ? (
         <header className="relative">
           <div className="relative split-hero overflow-hidden flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
-            <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40">
+            <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40" data-split-parallax>
               {heroMedia ? (
                 <CategoryHeroMedia
                   media={heroMedia}
