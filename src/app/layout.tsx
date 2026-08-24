@@ -59,8 +59,10 @@ export default async function RootLayout({
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
-      <GoogleConsentDefault />
-      <GoogleTagManagerHead />
+      <head>
+        <GoogleConsentDefault />
+        <GoogleTagManagerHead />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         <GoogleTagManagerNoscript />
         {children}

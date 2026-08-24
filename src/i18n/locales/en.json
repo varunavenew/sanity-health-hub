@@ -348,7 +348,8 @@
     "title": "Current Affairs",
     "backToAktuelt": "Back to Current Affairs",
     "relatedArticles": "Related articles",
-    "articleNotFound": "Article not found"
+    "articleNotFound": "Article not found",
+    "swipeDownToRead": "Swipe down to read"
   },
   "clinicGrid": {
     "title": "Our clinics"

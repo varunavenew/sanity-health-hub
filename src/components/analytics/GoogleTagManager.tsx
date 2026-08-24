@@ -1,29 +1,36 @@
-import Script from "next/script";
-
 /** GTM container — override via NEXT_PUBLIC_GTM_ID if needed. */
 export const GTM_CONTAINER_ID = process.env.NEXT_PUBLIC_GTM_ID?.trim() || "GTM-PNNR898W";
+
+const CONSENT_HEAD_SCRIPT = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied',
+  'analytics_storage': 'denied',
+  'functionality_storage': 'denied',
+  'personalization_storage': 'denied',
+  'security_storage': 'granted',
+  'wait_for_update': 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('set', 'url_passthrough', true);`;
+
+function gtmHeadScript(containerId: string): string {
+  return `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${containerId}');`;
+}
 
 /** 1. Consent defaults — must load before GTM (Cookiebot updates these after user choice). */
 export function GoogleConsentDefault() {
   return (
-    <Script id="google-consent-default" strategy="beforeInteractive">
-      {`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-          'ad_storage': 'denied',
-          'ad_user_data': 'denied',
-          'ad_personalization': 'denied',
-          'analytics_storage': 'denied',
-          'functionality_storage': 'denied',
-          'personalization_storage': 'denied',
-          'security_storage': 'granted',
-          'wait_for_update': 500
-        });
-        gtag('set', 'ads_data_redaction', true);
-        gtag('set', 'url_passthrough', true);
-      `}
-    </Script>
+    <script
+      id="google-consent-default"
+      dangerouslySetInnerHTML={{ __html: CONSENT_HEAD_SCRIPT }}
+    />
   );
 }
 
@@ -32,13 +39,10 @@ export function GoogleTagManagerHead() {
   return (
     <>
       {/* Google Tag Manager */}
-      <Script id="google-tag-manager" strategy="beforeInteractive">
-        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`}
-      </Script>
+      <script
+        id="google-tag-manager"
+        dangerouslySetInnerHTML={{ __html: gtmHeadScript(GTM_CONTAINER_ID) }}
+      />
       {/* End Google Tag Manager */}
     </>
   );
