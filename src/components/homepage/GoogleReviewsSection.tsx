@@ -1,15 +1,9 @@
 "use client";
 
 import { ArrowRight, ShieldCheck, FileX, Clock } from "lucide-react";
-import { PartialStars } from "@/components/ui/partial-stars";
 import { Link } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-import { googleRatingData } from "@/data/googleReviews";
-import {
-  GoogleReviewMark,
-  LegelistenReviewMark,
-} from "@/components/reviews/ReviewPlatformMarks";
 import { GoldStarsReviewSlider } from "@/components/ReviewPixel/GoldStarsReviewSlider";
 import { GoldStarsReviewBadge } from "@/components/ReviewPixel/GoldStarsReviewBadge";
 
@@ -22,8 +16,6 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
   const { data: homepage } = useHomepage();
   const section = homepage?.reviewsSection;
 
-  const averageRating = section?.googleAverageRating ?? googleRatingData.averageRating;
-  const legelistenRating = section?.legelistenAverageRating ?? 4.8;
   const heading = section?.heading || t("reviews.heading");
   const ctaTitle = section?.ctaTitle || t("reviews.ctaTitle");
 
@@ -31,43 +23,12 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
     ctaTitle.replace(/Over\s*(150|60)\s*000\+?\s*/i, "").replace(/^[a-zæøå]/, (c) => c.toUpperCase()) ||
     "Pasientbesøk i året.";
 
-  const ratingSummary = (
-    <div className="grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:items-center sm:gap-4">
-      <div className="flex min-w-0 items-center gap-2.5 rounded-sm border border-brand-dark/10 bg-white p-3.5 sm:gap-4 sm:p-5">
-        <GoogleReviewMark className="h-5 w-5 shrink-0" />
-        <div>
-          <p className="text-xs font-light text-brand-dark/60">Google Reviews</p>
-          <div className="mt-0.5 flex items-center gap-2">
-            <span className="text-xl font-normal text-brand-dark sm:text-2xl">{averageRating}</span>
-            <div className="flex">
-              <PartialStars rating={averageRating} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex min-w-0 items-center gap-2.5 rounded-sm border border-brand-dark/10 bg-white p-3.5 sm:gap-4 sm:p-5">
-        <LegelistenReviewMark className="h-5 w-5 shrink-0" />
-        <div>
-          <p className="text-xs font-light text-brand-dark/60">{t("reviews.legelistenLabel")}</p>
-          <div className="mt-0.5 flex items-center gap-2">
-            <span className="text-xl font-normal text-brand-dark sm:text-2xl">{legelistenRating}</span>
-            <div className="flex">
-              <PartialStars rating={legelistenRating} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <section className="relative overflow-hidden bg-brand-warm py-10 md:py-14">
       <div className="container relative mx-auto px-6 md:px-16">
         <div className="flex flex-col items-start">
-          <div className="order-1 mb-4 flex w-full items-end justify-start md:order-2 md:mb-4 md:mt-8 md:justify-end md:gap-4">
+          <div className="order-1 mb-4 flex w-full items-end justify-start md:order-2 md:mb-4 md:mt-8 md:justify-end">
             <GoldStarsReviewBadge variant="light" className="w-fit" />
-            <div className="hidden md:block">{ratingSummary}</div>
           </div>
           <h2 className="order-2 max-w-xl text-2xl font-light leading-tight text-brand-dark md:order-1 md:text-3xl">
             {heading}
