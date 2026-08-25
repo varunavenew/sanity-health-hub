@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "@/lib/router";
 import { MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ResponsiveHeroMedia } from "@/components/media/ResponsiveHeroMedia";
-import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { SpecialistCtaButtons } from "@/components/specialist/SpecialistCtaButtons";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
+import { specialistHasHeroCtas } from "@/lib/sanity/specialist-cta";
 import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-types";
 
 interface SpecialistHeroProps {
@@ -122,20 +122,21 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
             </motion.div>
           ) : null}
 
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            <Button
-              variant="cta"
-              size="lg"
-              className="w-full h-12 rounded-full font-normal"
-              onClick={onBookingClick}
+          {specialistHasHeroCtas(specialist) ? (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
             >
-              {ui.bookingCtaLabel}
-            </Button>
-          </motion.div>
+              <SpecialistCtaButtons
+                specialist={specialist}
+                onBookingClick={onBookingClick}
+                bookingLabel={ui.bookingCtaLabel}
+                callLabel={ui.heroCallUsLabel}
+                surface="mobile"
+              />
+            </motion.div>
+          ) : null}
         </div>
       </div>
 
@@ -198,26 +199,21 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
               </motion.div>
             ) : null}
 
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-3 sm:items-center"
-            >
-              <Button
-                variant="cta"
-                size="lg"
-                className="px-7 w-full sm:w-auto"
-                onClick={onBookingClick}
+            {specialistHasHeroCtas(specialist) ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
               >
-                {ui.bookingCtaLabel}
-              </Button>
-              <CallUsClinicPicker
-                variant="lightSolid"
-                label={ui.heroCallUsLabel}
-                className="w-full sm:w-auto border-transparent bg-white text-foreground hover:bg-foreground hover:text-background hover:border-transparent"
-              />
-            </motion.div>
+                <SpecialistCtaButtons
+                  specialist={specialist}
+                  onBookingClick={onBookingClick}
+                  bookingLabel={ui.bookingCtaLabel}
+                  callLabel={ui.heroCallUsLabel}
+                  surface="desktop"
+                />
+              </motion.div>
+            ) : null}
           </div>
         </div>
 
