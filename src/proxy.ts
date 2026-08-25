@@ -11,6 +11,29 @@ import {
 
 const LOCALE_PREFIX = new Set(locales);
 
+/** Retired slug `hudlege` → canonical `hudhelse` (301, no alias/duplicate page). */
+const HUDLEGE_REDIRECTS: Array<[RegExp, string]> = [
+  [/^\/(no|nb)\/ovrige\/hudlege(?=\/|$)/, "/$1/ovrige/hudhelse"],
+  [/^\/(no|nb)\/flere-fagomrader\/hudlege(?=\/|$)/, "/$1/ovrige/hudhelse"],
+  [/^\/(no|nb)\/behandlinger\/(?:ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/$1/ovrige/hudhelse"],
+  [/^\/en\/(?:other|more-specialties|ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/en/other/hudhelse"],
+  [/^\/en\/behandlinger\/(?:other|more-specialties|ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/en/other/hudhelse"],
+  [/^\/ovrige\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
+  [/^\/flere-fagomrader\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
+  [/^\/behandlinger\/(?:ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
+];
+
+function hudlegeMigrationRedirect(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl;
+  for (const [pattern, replacement] of HUDLEGE_REDIRECTS) {
+    if (!pattern.test(pathname)) continue;
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(pattern, replacement);
+    return NextResponse.redirect(url, 301);
+  }
+  return null;
+}
+
 /** Only what's needed to render the 401 challenge itself — everything else is gated. */
 const GATE_BYPASS_RE = /^\/(_next\/|favicon\.ico$)/;
 
@@ -66,6 +89,9 @@ export async function proxy(request: NextRequest) {
   if (readLegacySeOrigin() && isLegacySeProxyPath(pathname)) {
     return proxyLegacySeRequest(request);
   }
+
+  const hudlegeRedirect = hudlegeMigrationRedirect(request);
+  if (hudlegeRedirect) return hudlegeRedirect;
 
   if (
     pathname.startsWith("/_next") ||
