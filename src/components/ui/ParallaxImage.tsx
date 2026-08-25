@@ -2,66 +2,100 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { AssetImg } from "@/components/AssetImg";
+import { cn } from "@/lib/utils";
 
-type ParallaxImageProps = {
-  src: string;
-  alt: string;
-  className?: string;
-  speed?: number;
-  objectPosition?: string;
-  loading?: "lazy" | "eager";
-  children?: ReactNode;
-};
+export function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return reduced;
+}
 
-/** Image band with subtle scroll parallax — used on clinic hero and gallery rows. */
-export function ParallaxImage({
-  src,
-  alt,
-  className = "",
-  speed = 0.12,
-  objectPosition = "50% 50%",
-  loading = "lazy",
-  children,
-}: ParallaxImageProps) {
+/** Scroll offset for Ken Burns / split-hero media. */
+export function useParallaxOffset(speed: number) {
   const ref = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
+    if (reduced || !speed) {
+      setOffset(0);
+      return;
+    }
+    let frame = 0;
     const update = () => {
+      frame = 0;
+      const el = ref.current;
+      if (!el) return;
       const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      if (rect.bottom < 0 || rect.top > vh) return;
-      setOffset((rect.top / vh) * speed * 120);
+      const viewport = window.innerHeight || 1;
+      if (rect.bottom < -200 || rect.top > viewport + 200) return;
+      const delta = rect.top + rect.height / 2 - viewport / 2;
+      setOffset(-delta * speed);
     };
-
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [speed]);
+  }, [speed, reduced]);
+
+  return { ref, offset, reduced };
+}
+
+interface ParallaxImageProps {
+  src: string;
+  alt: string;
+  speed?: number;
+  className?: string;
+  imgClassName?: string;
+  loading?: "lazy" | "eager";
+  objectPosition?: string;
+  children?: ReactNode;
+}
+
+export const ParallaxImage = ({
+  src,
+  alt,
+  speed = 0.18,
+  className,
+  imgClassName,
+  loading = "lazy",
+  objectPosition,
+  children,
+}: ParallaxImageProps) => {
+  const { ref, offset, reduced } = useParallaxOffset(speed);
 
   const imageStyle: CSSProperties = {
-    transform: `translate3d(0, ${offset}px, 0)`,
     objectPosition,
+    transform: reduced ? undefined : `translate3d(0, ${offset}px, 0) scale(1.16)`,
   };
 
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
+    <div ref={ref} className={cn("relative overflow-hidden", className)}>
       <AssetImg
         src={src}
         alt={alt}
         preset="hero"
         loading={loading}
-        className="absolute inset-0 h-[115%] w-full object-cover will-change-transform"
+        className={cn(
+          "absolute inset-0 h-full w-full object-cover will-change-transform",
+          imgClassName,
+        )}
         style={imageStyle}
       />
       {children}
     </div>
   );
-}
+};

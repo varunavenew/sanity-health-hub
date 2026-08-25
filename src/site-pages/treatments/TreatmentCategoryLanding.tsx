@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { CmsMedia } from "@/components/media/CmsMedia";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
@@ -12,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { FaqSection } from "@/components/layout/FaqSection";
@@ -75,30 +75,6 @@ function resolveCategoryHeroMedia(
     imageUrl: heroImage,
     videoUrl: heroVideo,
   });
-}
-
-function CategoryHeroMedia({
-  media,
-  alt,
-  className,
-  variant = "hero",
-}: {
-  media: ResolvedCmsMedia;
-  alt: string;
-  className: string;
-  variant?: "hero" | "profile" | "background";
-}) {
-  return (
-    <CmsMedia
-      media={media}
-      alt={alt}
-      variant={variant}
-      className={className}
-      loading="eager"
-      autoPlay
-      interactive={false}
-    />
-  );
 }
 
 const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -1670,12 +1646,13 @@ const TreatmentCategoryLanding = ({
       {isFullWidthHero ? (
         <header className="relative">
           <div className="relative split-hero overflow-hidden flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
-            <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40" data-split-parallax>
+            <div className="absolute inset-0 z-0 overflow-hidden bg-secondary/40">
               {heroMedia ? (
-                <CategoryHeroMedia
+                <SplitHeroMedia
+                  className="absolute inset-0"
                   media={heroMedia}
                   alt={hero.heroImageAlt}
-                  className="absolute inset-0 w-full h-full"
+                  loading="eager"
                 />
               ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
@@ -1831,13 +1808,12 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <div className="split-media bg-secondary/40 order-1 lg:order-none">
-                <CategoryHeroMedia
-                  media={heroMedia}
-                  alt={hero.heroImageAlt}
-                  className="absolute inset-0 w-full h-full"
-                />
-              </div>
+              <SplitHeroMedia
+                className="split-media bg-secondary/40 order-1 lg:order-none"
+                media={heroMedia}
+                alt={hero.heroImageAlt}
+                loading="eager"
+              />
             ) : null}
           </div>
           <div className="h-px w-full bg-foreground/5" aria-hidden="true" />

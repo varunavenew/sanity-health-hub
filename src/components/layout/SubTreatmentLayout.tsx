@@ -1,7 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { CmsMedia } from "@/components/media/CmsMedia";
+import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { TreatmentCtaButtons } from "@/components/treatments/TreatmentCtaButtons";
 import { FaqSection } from "@/components/layout/FaqSection";
@@ -613,35 +613,20 @@ export const SubTreatmentLayout = ({
             </div>
           </div>
 
-          <div className="split-media bg-secondary/40">
-            {resolvedHero ? (
-              <CmsMedia
-                media={resolvedHero}
-                alt={c.heroImageAlt || ""}
-                variant="hero"
-                className="absolute inset-0 w-full h-full"
-              />
-            ) : c.heroVideo ? (
-              <video
-                src={c.heroVideo}
-                poster={heroMediaUrl}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="cm-media cm-media--hero absolute inset-0 w-full h-full"
-              />
-            ) : heroMediaUrl ? (
-              <AssetImg
-                src={heroMediaUrl}
-                alt={c.heroImageAlt}
-                className="cm-media cm-media--hero absolute inset-0 w-full h-full"
-              />
-            ) : (
+          {resolvedHero || c.heroVideo || heroMediaUrl ? (
+            <SplitHeroMedia
+              className="split-media bg-secondary/40"
+              media={resolvedHero}
+              video={!resolvedHero ? c.heroVideo : undefined}
+              src={!resolvedHero ? heroMediaUrl : undefined}
+              alt={c.heroImageAlt || ""}
+              loading="eager"
+            />
+          ) : (
+            <div className="split-media bg-secondary/40">
               <div className="absolute inset-0 bg-secondary" />
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>

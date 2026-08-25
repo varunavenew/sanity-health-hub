@@ -39,7 +39,9 @@ export function SplitMediaParallax() {
     let frame = 0;
 
     const boxes = () =>
-      document.querySelectorAll<HTMLElement>(".split-media, [data-split-parallax]");
+      [...document.querySelectorAll<HTMLElement>(".split-media, [data-split-parallax]")].filter(
+        (box) => !box.hasAttribute("data-hero-parallax"),
+      );
 
     const update = () => {
       const reduced = motion.matches;
