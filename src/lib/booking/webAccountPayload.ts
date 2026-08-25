@@ -17,7 +17,7 @@ export type WebAccountCustomerInput = {
 /**
  * Body for POST /webaccounts per Metodika / Henrik schema.
  * Links webaccount to patient via accounttype SSN + `DDMMYY-XXXXX` patientnumber.
- * Username and phonemobile use normalized Norwegian mobile (`4740617409`).
+ * Username and phonemobile use 8-digit local mobile only (`40617409`, no country code).
  */
 export function buildWebAccountCreateBody(
   customer: WebAccountCustomerInput,

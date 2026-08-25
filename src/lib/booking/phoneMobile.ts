@@ -1,6 +1,6 @@
 /**
- * Metodika webaccount `username` / `phonemobile`: digits only with country code.
- * Example: `+47 406 17 409` → `4740617409`
+ * Metodika webaccount `username` / `phonemobile`: 8-digit local number only (no country code).
+ * Example: `+47 406 17 409` → `40617409`
  */
 
 function digitsOnly(raw: string): string {
@@ -28,23 +28,15 @@ export function isValidNorwegianMobileFieldInput(raw: string): boolean {
 }
 
 /**
- * Normalize any user-entered Norwegian mobile to Metodika format (`4740617409`).
- * Handles +47 / 0047 / spaces and duplicated country codes (e.g. +4747…).
+ * Normalize any user-entered Norwegian mobile to Metodika format (`40617409`).
+ * Strips +47 / 0047 / spaces and duplicated country codes (e.g. +4747…).
  */
 export function normalizeNorwegianMobileForMetodika(raw: string): string {
-  let digits = digitsOnly(raw);
+  const local = stripNorwegianMobileInputForField(raw);
 
-  while (digits.length > 10 && digits.startsWith("47")) {
-    digits = digits.slice(2);
+  if (local.length !== 8) {
+    throw new Error("Invalid mobile: expected 8-digit Norwegian mobile number.");
   }
 
-  if (digits.length === 8) {
-    digits = `47${digits}`;
-  }
-
-  if (digits.length !== 10 || !digits.startsWith("47")) {
-    throw new Error("Invalid mobile: expected Norwegian mobile number.");
-  }
-
-  return digits;
+  return local;
 }
