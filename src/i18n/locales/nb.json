@@ -239,6 +239,7 @@
     "readAboutInsurance": "Les om forsikring",
     "sendMessage": "Send oss en melding",
     "responseTime": "Vi svarer på alle henvendelser innen 24 timer",
+    "confirmationTitle": "Melding sendt",
     "form": {
       "name": "Navn",
       "namePlaceholder": "Ditt navn",

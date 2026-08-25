@@ -239,6 +239,7 @@
     "readAboutInsurance": "Read about insurance",
     "sendMessage": "Send us a message",
     "responseTime": "We respond to all inquiries within 24 hours",
+    "confirmationTitle": "Message sent",
     "form": {
       "name": "Name",
       "namePlaceholder": "Your name",
