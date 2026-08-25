@@ -170,6 +170,8 @@ export const useHomepage = () => {
 export type SanitySpecialist = Specialist & {
   _id?: string;
   bookingEnabled?: boolean;
+  showBookingButton?: boolean;
+  showCallButton?: boolean;
   experience?: string;
 };
 

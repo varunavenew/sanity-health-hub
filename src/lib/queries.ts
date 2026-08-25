@@ -35,6 +35,9 @@ const i18nNestedString = (parent: string, field: string) =>
 const i18nNestedText = (parent: string, field: string) =>
   `"${field}": coalesce(${parent}.${field}[language == $lang][0].value, ${parent}.${field}[_key == $lang][0].value, ${parent}.${field}[language == "no"][0].value, ${parent}.${field}[_key == "no"][0].value, ${parent}.${field})`;
 
+/** Unset toggles default to on so existing specialists keep current CTAs. */
+const specialistCtaTogglesGroq = `"showBookingButton": coalesce(showBookingButton, true), "showCallButton": coalesce(showCallButton, true)`;
+
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
     ${i18nNestedString("profileUi", "notFoundTitle")},
@@ -239,6 +242,7 @@ export const PAGE_SECTIONS_GROQ = `
     "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
     "specialists": specialists[]->{
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      ${specialistCtaTogglesGroq},
       "clinics": clinics[]->title,
       ${localizedSlug},
       "image": photo.asset->url,
@@ -397,6 +401,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
   _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  ${specialistCtaTogglesGroq},
   metodikaUserId, bookingCategoryIds, sortOrder,
   "clinics": clinics[]->title,
   ${localizedSlug},
@@ -410,6 +415,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")) && ${slugMatchesParam("slug")}][0]{
   _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  ${specialistCtaTogglesGroq},
   metodikaUserId, bookingCategoryIds, sortOrder,
   "clinicRefs": clinics[]->{
     "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -445,6 +451,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
     ctaPath,
     "specialists": specialists[]->{
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      ${specialistCtaTogglesGroq},
       metodikaUserId, bookingCategoryIds, sortOrder,
       "clinicRefs": clinics[]->{
         "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),

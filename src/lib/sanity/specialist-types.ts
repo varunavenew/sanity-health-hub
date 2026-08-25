@@ -76,6 +76,9 @@ export interface Specialist {
   clinicRefs?: SpecialistClinicRef[];
   /** Categories linked in Sanity Studio — drives inline booking section. */
   sanityCategories?: SpecialistSanityCategory[];
+  /** CMS toggles. Unset on existing documents — treat as true until Aina turns them off. */
+  showBookingButton?: boolean;
+  showCallButton?: boolean;
   /** Metodika caregiver / user id — used to attach this photo in the booking wizard. */
   metodikaUserId?: number;
   /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */

@@ -11,6 +11,7 @@ import {
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
+import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import { buildBookingUrl, categoryNumericIdToPageId } from "@/lib/bookingLinks";
 
 interface InlineBookingSectionProps {
@@ -26,6 +27,10 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
   );
   const { categories, loading } = useSpecialistMetodikaBooking(bookingCategoryIds);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+
+  if (!specialistShowsBookingButton(specialist)) {
+    return null;
+  }
 
   if (bookingCategoryIds.length === 0) {
     return null;

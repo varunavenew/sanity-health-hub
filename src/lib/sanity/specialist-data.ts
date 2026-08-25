@@ -70,6 +70,8 @@ export type RawSanitySpecialist = {
   languages?: string[];
   clinics?: string[];
   clinicRefs?: Array<{ label?: string; slug?: string }>;
+  showBookingButton?: boolean;
+  showCallButton?: boolean;
   bio?: unknown;
   categories?: Array<{
     categoryId?: string;
@@ -361,6 +363,8 @@ export function mapSanitySpecialistRow(
     clinicRefs: mapClinicRefs(raw.clinicRefs),
     category: resolveSpecialistPrimaryCategory(raw.categories) as Specialist["category"],
     sanityCategories: mapSanitySpecialistCategories(raw.categories, lang),
+    showBookingButton: raw.showBookingButton !== false,
+    showCallButton: raw.showCallButton !== false,
     metodikaUserId:
       typeof raw.metodikaUserId === "number" && raw.metodikaUserId > 0
         ? raw.metodikaUserId
