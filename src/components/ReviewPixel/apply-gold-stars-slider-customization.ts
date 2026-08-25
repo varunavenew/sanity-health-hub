@@ -244,7 +244,7 @@ function apply(root: ShadowRoot): boolean {
 export function setupGoldStarsSliderCustomization(el: HTMLElement): () => void {
   let tries = 0;
   let observer: MutationObserver | null = null;
-  let pendingTimeout: ReturnType<typeof window.setTimeout> | null = null;
+  let pendingTimeout: number | null = null;
 
   const intervalId = window.setInterval(() => {
     tries += 1;
