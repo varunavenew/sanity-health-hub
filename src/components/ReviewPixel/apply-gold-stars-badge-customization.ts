@@ -42,7 +42,7 @@ function apply(root: ShadowRoot): boolean {
 export function setupGoldStarsBadgeCustomization(el: HTMLElement): () => void {
   let tries = 0;
   let observer: MutationObserver | null = null;
-  let pendingTimeout: ReturnType<typeof setTimeout> | null = null;
+  let pendingTimeout: ReturnType<typeof window.setTimeout> | null = null;
 
   const intervalId = window.setInterval(() => {
     tries += 1;
