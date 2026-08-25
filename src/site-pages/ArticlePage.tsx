@@ -113,39 +113,43 @@ function ArticleMobileHero({
       />
       <div
         ref={overlayRef}
-        className="absolute inset-x-0 bottom-0 z-10 px-6 pb-16 will-change-transform"
+        className="absolute inset-0 z-10 flex flex-col px-6 pt-24 pb-10 will-change-transform"
         style={{ transform: "translate3d(0px, 0px, 0px)" }}
       >
-        <Link
-          to={newsPath}
-          className="mb-5 inline-flex items-center gap-2 text-sm font-light text-brand-warm/80 transition-colors hover:text-brand-warm"
-        >
-          <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
-          {backLabel}
-        </Link>
-        <div className="mb-3 flex items-center gap-3">
-          {categoryLabel ? (
-            <span className="text-xs text-brand-warm">{categoryLabel}</span>
-          ) : null}
-          {date ? (
-            <span className="flex items-center gap-1.5 text-xs text-brand-warm/90">
-              <Calendar className="h-3 w-3" aria-hidden="true" />
-              <time dateTime={date}>
-                {new Date(date).toLocaleDateString(dateLocale, {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </time>
-            </span>
-          ) : null}
+        <div>
+          <Link
+            to={newsPath}
+            className="mb-4 inline-flex items-center gap-2 text-sm font-light text-brand-warm/80 transition-colors hover:text-brand-warm"
+          >
+            <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {backLabel}
+          </Link>
+          <div className="flex items-center gap-3">
+            {categoryLabel ? (
+              <span className="text-xs text-brand-warm">{categoryLabel}</span>
+            ) : null}
+            {date ? (
+              <span className="flex items-center gap-1.5 text-xs text-brand-warm/90">
+                <Calendar className="h-3 w-3" aria-hidden="true" />
+                <time dateTime={date}>
+                  {new Date(date).toLocaleDateString(dateLocale, {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </time>
+              </span>
+            ) : null}
+          </div>
         </div>
-        <h1 className="text-2xl font-light leading-tight text-brand-warm">{title}</h1>
+        <div className="flex flex-1 items-center py-12">
+          <h1 className="text-2xl font-light leading-tight text-brand-warm">{title}</h1>
+        </div>
+        <p className="flex flex-col items-center gap-1 text-center text-xs font-light text-brand-warm/80">
+          <span>{swipeDownLabel}</span>
+          <ChevronDown className="h-4 w-4" aria-hidden="true" />
+        </p>
       </div>
-      <p className="absolute inset-x-0 bottom-5 z-10 flex flex-col items-center gap-1 text-center text-xs font-light text-brand-warm/80">
-        <span>{swipeDownLabel}</span>
-        <ChevronDown className="h-4 w-4" aria-hidden="true" />
-      </p>
     </div>
   );
 }

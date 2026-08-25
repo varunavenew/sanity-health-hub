@@ -203,9 +203,12 @@ export const specialistCategoryToBookingId: Record<string, string> = {
   annet: "", // no auto-mapping
 };
 
+import { withBookingReturnContext } from "@/lib/booking/return-to";
+
 /**
  * Build a booking URL from structured params.
  * Empty/undefined values are dropped.
+ * In the browser, remembers the current page and appends `fra` for close-to-origin.
  */
 export function buildBookingUrl(params: BookingLinkParams = {}): string {
   const sp = new URLSearchParams();
@@ -222,7 +225,8 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   if (params.spesialist) sp.set("spesialist", params.spesialist);
   if (params.klinikk) sp.set("klinikk", params.klinikk);
   const qs = sp.toString();
-  return qs ? `/booking?${qs}` : "/booking";
+  const base = qs ? `/booking?${qs}` : "/booking";
+  return withBookingReturnContext(base);
 }
 
 /** Parse ?tjenesteValg=slug-a,slug-b from booking URL search params. */
@@ -263,7 +267,7 @@ export function bookingUrlForSpecialist(specialist: {
   clinicRefs?: Array<{ slug?: string; label?: string }>;
   clinics?: string[];
 }): string {
-  if (!specialist?.slug) return "/booking";
+  if (!specialist?.slug) return withBookingReturnContext("/booking");
   const bookingCategoryId = specialist.category
     ? specialistCategoryToBookingId[specialist.category]
     : undefined;
