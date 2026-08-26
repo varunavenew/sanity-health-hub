@@ -17,6 +17,7 @@ import {
 } from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySortOrder, textForSort } from "@/lib/sortAlphabetical";
 import {
+  mapClinicListRows,
   normalizeClinicRow,
   type SanityClinicBooking,
   type SanityClinicListRow,
@@ -874,22 +875,7 @@ export const useServicesPage = () => {
 
 // ─── Clinics ─────────────────────────────────────────────────────────
 export type { SanityClinicBooking, SanityClinicListRow };
-
-export function mapClinicListRows(
-  rows: unknown[] | null | undefined,
-  lang: "no" | "en",
-  options?: { preserveOrder?: boolean },
-): SanityClinicListRow[] {
-  const published = filterPublishedDocuments(rows || [])
-    .map((c) => normalizeClinicRow(c as Record<string, unknown>))
-    .filter((c) => c.label && c.address);
-  const deduped = dedupeBySlug(published);
-  if (options?.preserveOrder) {
-    // Keep Sanity reference-array order (Contact curated list / drag-and-drop).
-    return deduped;
-  }
-  return sortBySortOrder(deduped, (c) => c.sortOrder, (c) => c.label, lang);
-}
+export { mapClinicListRows };
 
 export const useClinics = () => {
   const lang = useSanityLang();
@@ -1350,7 +1336,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v6"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v7"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1410,8 +1396,12 @@ export const useServiceCategoriesFromSanity = () => {
           const categoryTreatmentsOrder = (cat.treatments || []).filter(
             isPublishedTreatment,
           );
+          const byId = new Map<string, (typeof referencedTreatments)[number]>();
+          for (const row of [...referencedTreatments, ...categoryTreatmentsOrder]) {
+            if (row?._id && !byId.has(row._id)) byId.set(row._id, row);
+          }
           const linkedTreatments = mergeCategoryNavTreatments(
-            referencedTreatments,
+            [...byId.values()],
             categoryTreatmentsOrder,
           );
           const treatmentsSort = sortSettings?.treatmentsSort;
