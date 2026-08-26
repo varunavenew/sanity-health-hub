@@ -93,14 +93,11 @@ import {
 import { coercePath } from "@/lib/navigation/coerce-path";
 import {
   behandlingerCategorySegment,
+  categoryLandingPath,
   normalizeCategoryRouteKey,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
-import {
-  orderTjenesterCategories,
-  orderTjenesterSubcategories,
-  isTjenesterNavTreatmentSlug,
-} from "@/lib/navigation/tjenester-nav-order";
+import { mergeCategoryNavTreatments } from "@/lib/navigation/tjenester-nav-order";
 import {
   englishCategoryNavLabel,
   englishTreatmentNavLabel,
@@ -1353,7 +1350,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v5"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v6"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1403,48 +1400,34 @@ export const useServiceCategoriesFromSanity = () => {
             return null;
           }
 
-          // Drop null join slots + draft treatments before sort/map (never crash).
-          const explicitTreatments = (cat.treatments || []).filter(
-            (t: any) =>
-              Boolean(t) &&
-              typeof t._id === "string" &&
-              !t._id.startsWith("drafts."),
+          const isPublishedTreatment = (t: any) =>
+            Boolean(t) &&
+            typeof t._id === "string" &&
+            !t._id.startsWith("drafts.");
+          const referencedTreatments = (cat.referencedTreatments || []).filter(
+            isPublishedTreatment,
           );
-          const linkedFallback = (cat.linkedTreatmentsFallback || []).filter(
-            (t: any) =>
-              Boolean(t) &&
-              typeof t._id === "string" &&
-              !t._id.startsWith("drafts."),
+          const categoryTreatmentsOrder = (cat.treatments || []).filter(
+            isPublishedTreatment,
           );
-          const categoryTeamTreatments = (cat.categoryTeamTreatments || []).filter(
-            (t: any) =>
-              Boolean(t) &&
-              typeof t._id === "string" &&
-              !t._id.startsWith("drafts."),
+          const linkedTreatments = mergeCategoryNavTreatments(
+            referencedTreatments,
+            categoryTreatmentsOrder,
           );
-          const seenTreatmentIds = new Set(
-            explicitTreatments.map((t: { _id: string }) => t._id),
-          );
-          const treatments = [
-            ...explicitTreatments,
-            ...linkedFallback.filter(
-              (t: { _id: string }) => !seenTreatmentIds.has(t._id),
-            ),
-            ...categoryTeamTreatments.filter((t: { _id: string }) => {
-              if (seenTreatmentIds.has(t._id)) return false;
-              seenTreatmentIds.add(t._id);
-              return true;
-            }),
-          ];
+          const treatmentsSort = sortSettings?.treatmentsSort;
+          const treatments =
+            !treatmentsSort || treatmentsSort === "manual"
+              ? linkedTreatments
+              : applyListingSort(
+                  linkedTreatments,
+                  treatmentsSort,
+                  lang,
+                  (t: any) => t.title || t.slug,
+                  (t: any) => t.sortOrder,
+                  (t: any) => t._createdAt,
+                );
 
-          const mapped = applyListingSort(
-            treatments,
-            sortSettings?.treatmentsSort,
-            lang,
-            (t: any) => t.title || t.slug,
-            (t: any) => t.sortOrder,
-            (t: any) => t._createdAt
-          )
+          const mapped = treatments
             .map((t: any) => {
               const slugLocalized =
                 typeof t.slug === "string" ? t.slug.trim() : "";
@@ -1459,12 +1442,7 @@ export const useServiceCategoriesFromSanity = () => {
                   ? englishTreatmentNavLabel(categoryId, navId, cmsTreatmentLabel)
                   : cmsTreatmentLabel;
               if (!navId || !pathSlug || !treatmentLabel) return null;
-              if (
-                t.pageRole === "team" &&
-                !isTjenesterNavTreatmentSlug(categoryId, navId)
-              ) {
-                return null;
-              }
+              if (t.pageRole === "team") return null;
               if (slugLocalized === "new-treatment" || slugNo === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
                 return null;
               }
@@ -1481,25 +1459,23 @@ export const useServiceCategoriesFromSanity = () => {
                       ? coercePath(item.path, lang) || undefined
                       : undefined,
                   }))
-                  .filter((item) => item.label.length > 0),
+                  .filter((item: { label: string }) => item.label.length > 0),
               };
             })
             .filter(
               (sub): sub is NonNullable<typeof sub> => sub !== null,
             );
 
-          const subcategories = orderTjenesterSubcategories(categoryId, mapped);
-
           return {
             id: categoryId,
             label,
-            path: `/${categorySlug}`,
-            subcategories,
+            path: categoryLandingPath(categoryId, lang),
+            subcategories: mapped,
           };
         })
         .filter((cat): cat is NonNullable<typeof cat> => cat !== null);
 
-      return orderTjenesterCategories(mappedCategories);
+      return mappedCategories;
     },
     staleTime: 5 * 60 * 1000,
   });
