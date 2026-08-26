@@ -17,6 +17,7 @@ import {
 } from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySortOrder, textForSort } from "@/lib/sortAlphabetical";
 import {
+  mapClinicListRows,
   normalizeClinicRow,
   type SanityClinicBooking,
   type SanityClinicListRow,
@@ -878,22 +879,7 @@ export const useServicesPage = () => {
 
 // ─── Clinics ─────────────────────────────────────────────────────────
 export type { SanityClinicBooking, SanityClinicListRow };
-
-export function mapClinicListRows(
-  rows: unknown[] | null | undefined,
-  lang: "no" | "en",
-  options?: { preserveOrder?: boolean },
-): SanityClinicListRow[] {
-  const published = filterPublishedDocuments(rows || [])
-    .map((c) => normalizeClinicRow(c as Record<string, unknown>))
-    .filter((c) => c.label && c.address);
-  const deduped = dedupeBySlug(published);
-  if (options?.preserveOrder) {
-    // Keep Sanity reference-array order (Contact curated list / drag-and-drop).
-    return deduped;
-  }
-  return sortBySortOrder(deduped, (c) => c.sortOrder, (c) => c.label, lang);
-}
+export { mapClinicListRows };
 
 export const useClinics = () => {
   const lang = useSanityLang();
