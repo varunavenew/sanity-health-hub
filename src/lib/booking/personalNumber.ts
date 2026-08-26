@@ -17,7 +17,10 @@ export function norwegianBirthYear(yy: number, individnummer: number): number {
   if (individnummer >= 750 && individnummer <= 899) {
     return 2000 + yy;
   }
-  // 900–999 → 1940–1999
+  // 900–999: yy 00–39 → 2000–2039; yy 40–99 → 1940–1999 (Henrik century rules)
+  if (yy <= 39) {
+    return 2000 + yy;
+  }
   return 1900 + yy;
 }
 
