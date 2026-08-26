@@ -1,6 +1,10 @@
 import type { ClinicLocation } from "@/lib/maps/clinic-location";
 import { clinicMapsUrl } from "@/lib/maps/clinic-location";
-import { parseSortOrder } from "@/lib/sortAlphabetical";
+import {
+  dedupeBySlug,
+  filterPublishedDocuments,
+} from "@/lib/sanity/published-docs";
+import { parseSortOrder, sortBySortOrder } from "@/lib/sortAlphabetical";
 
 export type SanityClinicBooking = {
   method?: "info" | "pasientsky" | "metodika" | "closed";
@@ -100,4 +104,20 @@ export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicList
     services,
     booking,
   };
+}
+
+export function mapClinicListRows(
+  rows: unknown[] | null | undefined,
+  lang: "no" | "en",
+  options?: { preserveOrder?: boolean },
+): SanityClinicListRow[] {
+  const published = filterPublishedDocuments(rows || [])
+    .map((c) => normalizeClinicRow(c as Record<string, unknown>))
+    .filter((c) => c.label && c.address);
+  const deduped = dedupeBySlug(published);
+  if (options?.preserveOrder) {
+    // Keep Sanity reference-array order (Contact curated list / drag-and-drop).
+    return deduped;
+  }
+  return sortBySortOrder(deduped, (c) => c.sortOrder, (c) => c.label, lang);
 }
