@@ -95,10 +95,7 @@ import {
   categoryLandingPath,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
-import {
-  orderTjenesterCategories,
-  orderTjenesterSubcategories,
-} from "@/lib/navigation/tjenester-nav-order";
+import { mergeCategoryNavTreatments } from "@/lib/navigation/tjenester-nav-order";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -1286,7 +1283,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v3"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v6"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1321,48 +1318,34 @@ export const useServiceCategoriesFromSanity = () => {
             textForSort(cat.title, lang) || categoryId || cat.slug || "";
           if (!categoryId || !label) return null;
 
-          // Drop null join slots + draft treatments before sort/map (never crash).
-          const explicitTreatments = (cat.treatments || []).filter(
-            (t: any) =>
-              Boolean(t) &&
-              typeof t._id === "string" &&
-              !t._id.startsWith("drafts."),
+          const isPublishedTreatment = (t: any) =>
+            Boolean(t) &&
+            typeof t._id === "string" &&
+            !t._id.startsWith("drafts.");
+          const referencedTreatments = (cat.referencedTreatments || []).filter(
+            isPublishedTreatment,
           );
-          const linkedFallback = (cat.linkedTreatmentsFallback || []).filter(
-            (t: any) =>
-              Boolean(t) &&
-              typeof t._id === "string" &&
-              !t._id.startsWith("drafts."),
+          const categoryTreatmentsOrder = (cat.treatments || []).filter(
+            isPublishedTreatment,
           );
-          const categoryTeamTreatments = (cat.categoryTeamTreatments || []).filter(
-            (t: any) =>
-              Boolean(t) &&
-              typeof t._id === "string" &&
-              !t._id.startsWith("drafts."),
+          const linkedTreatments = mergeCategoryNavTreatments(
+            referencedTreatments,
+            categoryTreatmentsOrder,
           );
-          const seenTreatmentIds = new Set(
-            explicitTreatments.map((t: { _id: string }) => t._id),
-          );
-          const treatments = [
-            ...explicitTreatments,
-            ...linkedFallback.filter(
-              (t: { _id: string }) => !seenTreatmentIds.has(t._id),
-            ),
-            ...categoryTeamTreatments.filter((t: { _id: string }) => {
-              if (seenTreatmentIds.has(t._id)) return false;
-              seenTreatmentIds.add(t._id);
-              return true;
-            }),
-          ];
+          const treatmentsSort = sortSettings?.treatmentsSort;
+          const treatments =
+            !treatmentsSort || treatmentsSort === "manual"
+              ? linkedTreatments
+              : applyListingSort(
+                  linkedTreatments,
+                  treatmentsSort,
+                  lang,
+                  (t: any) => t.title || t.slug,
+                  (t: any) => t.sortOrder,
+                  (t: any) => t._createdAt,
+                );
 
-          const mapped = applyListingSort(
-            treatments,
-            sortSettings?.treatmentsSort,
-            lang,
-            (t: any) => t.title || t.slug,
-            (t: any) => t.sortOrder,
-            (t: any) => t._createdAt
-          )
+          const mapped = treatments
             .map((t: any) => {
               const slug = typeof t.slug === "string" ? t.slug.trim() : "";
               const treatmentLabel =
@@ -1386,25 +1369,23 @@ export const useServiceCategoriesFromSanity = () => {
                     anchor: item.anchor || undefined,
                     path: item.path || undefined,
                   }))
-                  .filter((item) => item.label.length > 0),
+                  .filter((item: { label: string }) => item.label.length > 0),
               };
             })
             .filter(
               (sub): sub is NonNullable<typeof sub> => sub !== null,
             );
 
-          const subcategories = orderTjenesterSubcategories(categoryId, mapped);
-
           return {
             id: categoryId,
             label,
             path: categoryLandingPath(categoryId, lang),
-            subcategories,
+            subcategories: mapped,
           };
         })
         .filter((cat): cat is NonNullable<typeof cat> => cat !== null);
 
-      return orderTjenesterCategories(mappedCategories);
+      return mappedCategories;
     },
     staleTime: 5 * 60 * 1000,
   });

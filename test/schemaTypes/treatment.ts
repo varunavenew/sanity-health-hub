@@ -223,7 +223,7 @@ export default {
       of: [{type: 'reference', to: [{type: 'treatmentCategory'}]}],
       options: {sortable: true},
       description:
-        'Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). Drag to reorder.',
+        'Assign one or more Treatment Categories. First category is primary (breadcrumbs, booking, canonical path). The treatment appears in the Tjenester megamenu under each selected category.',
       validation: (Rule: any) =>
         Rule.required()
           .min(1)

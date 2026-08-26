@@ -1747,8 +1747,13 @@ const SERVICE_DROPDOWN_TREATMENT_ROW = `
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
-  "linkedTreatmentsFallback": *[_type == "treatment" && ${publishedOnly} && _id in ^.treatments[]._ref]{${SERVICE_DROPDOWN_TREATMENT_ROW}},
-  "categoryTeamTreatments": *[_type == "treatment" && ${publishedOnly} && pageRole == "team" && references(^._id)]{${SERVICE_DROPDOWN_TREATMENT_ROW}}
+  "referencedTreatments": *[_type == "treatment" && ${publishedOnly} && (
+    count(categories[_ref == ^._id]) > 0
+    || (
+      (!defined(categories) || count(categories) == 0)
+      && category._ref == ^._id
+    )
+  )]{${SERVICE_DROPDOWN_TREATMENT_ROW}}
 }`;
 
 export const CAREERS_PAGE_QUERY = `*[_type == "careersPage" && ${publishedOnly}][0]{

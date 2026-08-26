@@ -181,7 +181,7 @@ export default {
       title: 'Linked treatments',
       group: 'general',
       description:
-        'Used for the category overview page. Does NOT create the Services section below.',
+        'Used for the category overview page and for megamenu order when Listing Sort is Manual. Membership in the Tjenester megamenu is controlled on each treatment (Categories). Does NOT create the Services section below.',
       type: 'array',
       of: [
         {
