@@ -29,6 +29,7 @@ import {
   findBookingCategoryForPage,
   parseTjenesteValg,
 } from "@/lib/bookingLinks";
+import { resolveBookingReturnPath, peekBookingReturnPath, rememberBookingReturnPath } from "@/lib/booking/return-to";
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
 import {
   filterServicesByOptions,
@@ -305,6 +306,22 @@ const BookingDemo = () => {
       cancelled = true;
     };
   }, []);
+
+  // Full-page jumps (window.location.href = "/booking") may skip navigate/Link hooks.
+  // Capture same-origin referrer once when no return path was stored yet.
+  useEffect(() => {
+    if (searchParams.get("fra")) return;
+    if (peekBookingReturnPath()) return;
+    try {
+      const ref = document.referrer;
+      if (!ref) return;
+      const url = new URL(ref);
+      if (url.origin !== window.location.origin) return;
+      rememberBookingReturnPath(`${url.pathname}${url.search}`);
+    } catch {
+      /* ignore */
+    }
+  }, [searchParams]);
 
   const step1ClinicTagsByCategoryId = useMemo(() => {
     const result: Record<string, ReturnType<typeof step1ClinicDisplayTagsForCategory>> = {};
@@ -1375,7 +1392,8 @@ const BookingDemo = () => {
 
   const handleClose = () => {
     trackBookingClose();
-    navigate("/");
+    const returnTo = resolveBookingReturnPath(searchParams, "/");
+    navigate(returnTo);
   };
 
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */

@@ -274,6 +274,24 @@ export default {
       validation: (Rule: any) =>
         Rule.required().min(1).error('Select at least one clinic'),
     },
+    {
+      name: 'showBookingButton',
+      title: 'Show booking button',
+      type: 'boolean',
+      group: 'general',
+      initialValue: true,
+      description:
+        'Show the booking button on this specialist’s profile. Leave on unless this specialist should not be bookable from the website.',
+    },
+    {
+      name: 'showCallButton',
+      title: 'Show call button',
+      type: 'boolean',
+      group: 'general',
+      initialValue: true,
+      description:
+        'Show the call button on this specialist’s profile. Leave on unless this specialist should not show a call action.',
+    },
 
     // ── Page Content ────────────────────────────────────────────────────────
     {

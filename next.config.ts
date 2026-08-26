@@ -205,6 +205,32 @@ const nextConfig: NextConfig = {
       { source: "/no/bariatrisk-kirurgi/sleeve-gastrektomi", destination: "/no/ovrige/sleeve-gastrektomi", permanent: true },
       { source: "/no/bariatrisk-kirurgi/:path*", destination: "/no/ovrige/:path*", permanent: true },
 
+      // Hudlege renamed to Hudhelse (Erlend / migration). Must sit BEFORE
+      // /no/flere-fagomrader/:path* so we 301 directly to hudhelse, not via /ovrige/hudlege.
+      { source: "/:locale(no|nb)/ovrige/hudlege", destination: "/:locale/ovrige/hudhelse", statusCode: 301 },
+      { source: "/:locale(no|nb)/ovrige/hudlege/:path*", destination: "/:locale/ovrige/hudhelse/:path*", statusCode: 301 },
+      { source: "/:locale(no|nb)/flere-fagomrader/hudlege", destination: "/:locale/ovrige/hudhelse", statusCode: 301 },
+      { source: "/:locale(no|nb)/flere-fagomrader/hudlege/:path*", destination: "/:locale/ovrige/hudhelse/:path*", statusCode: 301 },
+      { source: "/:locale(no|nb)/behandlinger/ovrige/hudlege", destination: "/:locale/ovrige/hudhelse", statusCode: 301 },
+      { source: "/:locale(no|nb)/behandlinger/ovrige/hudlege/:path*", destination: "/:locale/ovrige/hudhelse/:path*", statusCode: 301 },
+      { source: "/:locale(no|nb)/behandlinger/flere-fagomrader/hudlege", destination: "/:locale/ovrige/hudhelse", statusCode: 301 },
+      { source: "/:locale(no|nb)/behandlinger/flere-fagomrader/hudlege/:path*", destination: "/:locale/ovrige/hudhelse/:path*", statusCode: 301 },
+      { source: "/en/other/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/en/other/hudlege/:path*", destination: "/en/other/hudhelse/:path*", statusCode: 301 },
+      { source: "/en/more-specialties/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/en/more-specialties/hudlege/:path*", destination: "/en/other/hudhelse/:path*", statusCode: 301 },
+      { source: "/en/ovrige/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/en/flere-fagomrader/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/en/behandlinger/other/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/en/behandlinger/flere-fagomrader/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/en/behandlinger/more-specialties/hudlege", destination: "/en/other/hudhelse", statusCode: 301 },
+      { source: "/ovrige/hudlege", destination: "/no/ovrige/hudhelse", statusCode: 301 },
+      { source: "/ovrige/hudlege/:path*", destination: "/no/ovrige/hudhelse/:path*", statusCode: 301 },
+      { source: "/flere-fagomrader/hudlege", destination: "/no/ovrige/hudhelse", statusCode: 301 },
+      { source: "/flere-fagomrader/hudlege/:path*", destination: "/no/ovrige/hudhelse/:path*", statusCode: 301 },
+      { source: "/behandlinger/flere-fagomrader/hudlege", destination: "/no/ovrige/hudhelse", statusCode: 301 },
+      { source: "/behandlinger/flere-fagomrader/hudlege/:path*", destination: "/no/ovrige/hudhelse/:path*", statusCode: 301 },
+
       // Legacy top-level paths → current CMS routes (SEO 301s).
       { source: "/no/fertilitetsteamet", destination: "/no/fertilitet/teamet", permanent: true },
       { source: "/:locale(nb|no)/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },

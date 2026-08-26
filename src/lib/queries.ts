@@ -41,6 +41,9 @@ const i18nNestedString = (parent: string, field: string) =>
 const i18nNestedText = (parent: string, field: string) =>
   `"${field}": coalesce(${parent}.${field}[language == $lang][0].value, ${parent}.${field}[_key == $lang][0].value, ${parent}.${field}[language == "no"][0].value, ${parent}.${field}[_key == "no"][0].value, ${parent}.${field})`;
 
+/** Unset toggles default to on so existing specialists keep current CTAs. */
+const specialistCtaTogglesGroq = `"showBookingButton": coalesce(showBookingButton, true), "showCallButton": coalesce(showCallButton, true)`;
+
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
     ${i18nNestedString("profileUi", "notFoundTitle")},
@@ -245,6 +248,7 @@ export const PAGE_SECTIONS_GROQ = `
     "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
     "specialists": specialists[]->{
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      ${specialistCtaTogglesGroq},
       "clinics": clinics[]->title,
       ${localizedSlug},
       "image": photo.asset->url,
@@ -407,6 +411,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
   _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
   "clinics": clinics[]->title,
   ${localizedSlug},
@@ -420,6 +425,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")) && ${slugMatchesParam("slug")}][0]{
   _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
   "clinicRefs": clinics[]->{
     "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -455,6 +461,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
     ctaPath,
     "specialists": specialists[]->{
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      ${specialistCtaTogglesGroq},
       metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
       "clinicRefs": clinics[]->{
         "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -1835,8 +1842,13 @@ const SERVICE_DROPDOWN_TREATMENT_ROW = `
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
-  "linkedTreatmentsFallback": *[_type == "treatment" && ${publishedOnly} && _id in ^.treatments[]._ref]{${SERVICE_DROPDOWN_TREATMENT_ROW}},
-  "categoryTeamTreatments": *[_type == "treatment" && ${publishedOnly} && pageRole == "team" && references(^._id)]{${SERVICE_DROPDOWN_TREATMENT_ROW}}
+  "referencedTreatments": *[_type == "treatment" && ${publishedOnly} && (
+    count(categories[_ref == ^._id]) > 0
+    || (
+      (!defined(categories) || count(categories) == 0)
+      && category._ref == ^._id
+    )
+  )]{${SERVICE_DROPDOWN_TREATMENT_ROW}}
 }`;
 
 export const CAREERS_PAGE_QUERY = `*[_type == "careersPage" && ${publishedOnly}][0]{

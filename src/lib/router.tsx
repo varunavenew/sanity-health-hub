@@ -21,6 +21,10 @@ import {
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
+import {
+  isBookingPath,
+  rememberBookingReturnPath,
+} from "@/lib/booking/return-to";
 
 export function useLocaleParam(): AppLocale {
   const params = useParams<{ locale?: string }>();
@@ -39,6 +43,9 @@ export function useNavigate() {
         return;
       }
       const href = withLocalePath(locale, coercePath(to, locale), localeMap);
+      if (isBookingPath(href) || isBookingPath(to)) {
+        rememberBookingReturnPath();
+      }
       if (options?.replace) router.replace(href);
       else router.push(href);
     },
@@ -134,9 +141,12 @@ export function Link({ to, replace, children, onClick, ...rest }: LinkProps) {
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
+      if (isBookingPath(href) || isBookingPath(to)) {
+        rememberBookingReturnPath();
+      }
       onClick?.(e);
     },
-    [onClick],
+    [onClick, href, to],
   );
 
   return (

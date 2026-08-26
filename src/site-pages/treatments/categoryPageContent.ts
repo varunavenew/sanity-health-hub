@@ -423,7 +423,7 @@ const flereFagomrader: CategoryNewContent = {
   serviceLinks: {
     "Endokrinologi": "/behandlinger/flere-fagomrader/endokrinologi",
     "Ernæringsfysiolog": "/behandlinger/flere-fagomrader/ernaringsfysiolog",
-    "Hudlege": "/behandlinger/flere-fagomrader/hudlege",
+    "Hudlege": "/behandlinger/flere-fagomrader/hudhelse",
     "Hudhelse": "/behandlinger/flere-fagomrader/hudhelse",
     "Gastrokirurgi": "/behandlinger/flere-fagomrader/gastrokirurgi",
     "Overvektskirurgi": "/behandlinger/flere-fagomrader/overvektskirurgi",
