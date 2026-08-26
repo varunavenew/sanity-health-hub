@@ -126,7 +126,7 @@ export function orderTjenesterSubcategories(
     nested ? Object.values(nested).flatMap((slugs) => [...slugs]) : [],
   );
 
-  return order
+  const ordered = order
     .map((slug) => {
       const item = findNavItem(items, categoryId, slug);
       if (!item) return null;
@@ -148,6 +148,47 @@ export function orderTjenesterSubcategories(
         nestedSlugs.has(slug),
       );
     });
+
+  const seen = new Set(
+    ordered.flatMap((item) => slugCandidates(categoryId, item.id)),
+  );
+  const rest = items.filter((item) => {
+    const candidates = slugCandidates(categoryId, item.id);
+    if (candidates.some((slug) => seen.has(slug) || nestedSlugs.has(slug))) {
+      return false;
+    }
+    candidates.forEach((slug) => seen.add(slug));
+    return true;
+  });
+
+  return [...ordered, ...rest];
+}
+
+/** Keep category `treatments[]` drag order, then append other linked treatments. */
+export function mergeCategoryNavTreatments<T extends { _id: string }>(
+  referenced: T[],
+  categoryTreatmentsOrder: Array<T | null | undefined>,
+): T[] {
+  const byId = new Map(referenced.map((row) => [row._id, row]));
+  const seen = new Set<string>();
+  const ordered: T[] = [];
+
+  for (const row of categoryTreatmentsOrder) {
+    const id = row?._id;
+    if (!id) continue;
+    const match = byId.get(id);
+    if (!match || seen.has(id)) continue;
+    seen.add(id);
+    ordered.push(match);
+  }
+
+  for (const row of referenced) {
+    if (seen.has(row._id)) continue;
+    seen.add(row._id);
+    ordered.push(row);
+  }
+
+  return ordered;
 }
 
 export function orderTjenesterCategories<T extends { id: string }>(
