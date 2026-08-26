@@ -242,8 +242,40 @@ const nextConfig: NextConfig = {
       { source: "/no/hudhelse/behandlingsutstyr", destination: "/no/ovrige/behandlingsutstyr", permanent: true },
       { source: "/no/hudhelse/hudbehandlinger", destination: "/no/ovrige/hudbehandlinger", permanent: true },
       { source: "/no/hudhelse/hudpleieprodukter", destination: "/no/ovrige/hudpleieprodukter", permanent: true },
-      { source: "/no/prisliste-for-privatbetalende", destination: "/no/nyheter-og-artikler/prisliste-for-privatbetalende", permanent: true },
-      { source: "/no/fertilitet/prisliste-fertiliet", destination: "/no/nyheter-og-artikler/prisliste-for-fertilitet", permanent: true },
+      // Martin SEO (Aug 2026): legacy news prefix → aktuelt (newsPage CMS slug).
+      // Article slug alias first (before :path* wildcard).
+      {
+        source: "/no/nyheter-og-artikler/18-maneder-etter-hofteoperasjon-hos-cmedical-sto-hun-pa-sydpolen",
+        destination: "/no/aktuelt/18-maneder-etter-hofteoperasjon-hos-cmedical",
+        permanent: true,
+      },
+      {
+        source: "/nb/nyheter-og-artikler/18-maneder-etter-hofteoperasjon-hos-cmedical-sto-hun-pa-sydpolen",
+        destination: "/nb/aktuelt/18-maneder-etter-hofteoperasjon-hos-cmedical",
+        permanent: true,
+      },
+      { source: "/no/nyheter-og-artikler", destination: "/no/aktuelt", permanent: true },
+      { source: "/no/nyheter-og-artikler/:path*", destination: "/no/aktuelt/:path*", permanent: true },
+      { source: "/nb/nyheter-og-artikler", destination: "/nb/aktuelt", permanent: true },
+      { source: "/nb/nyheter-og-artikler/:path*", destination: "/nb/aktuelt/:path*", permanent: true },
+      // Legacy pricing list URLs → /priser (not the old article embed).
+      { source: "/no/prisliste-for-privatbetalende", destination: "/no/priser", permanent: true },
+      {
+        source: "/no/nyheter-og-artikler/prisliste-for-privatbetalende",
+        destination: "/no/priser",
+        permanent: true,
+      },
+      { source: "/no/fertilitet/prisliste-fertiliet", destination: "/no/priser", permanent: true },
+      {
+        source: "/no/nyheter-og-artikler/prisliste-for-fertilitet",
+        destination: "/no/priser",
+        permanent: true,
+      },
+      // Legacy privacy + transparency URLs (Martin SEO Aug 2026).
+      { source: "/no/privacy-policy", destination: "/no/personvern", permanent: true },
+      { source: "/nb/privacy-policy", destination: "/nb/personvern", permanent: true },
+      { source: "/no/aktsomhetsvurdering", destination: "/no/aapenhetsloven-2025", permanent: true },
+      { source: "/nb/aktsomhetsvurdering", destination: "/nb/aapenhetsloven-2025", permanent: true },
       { source: "/en/skin-health", destination: "/en/other/skin-health", permanent: true },
 
       // Dropped / legacy URLs (batch 2 — destinations verified live).
