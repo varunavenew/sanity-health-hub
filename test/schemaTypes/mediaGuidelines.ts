@@ -416,6 +416,15 @@ export function mediaDescription(
     ].join('\n')
   }
 
+  if (kind === 'specialist') {
+    return [
+      `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
+      `Aspect Ratio: ${g.aspectLabel}`,
+      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
+      'Set the hotspot on the face — the website keeps it in frame.',
+    ].join('\n')
+  }
+
   return [
     `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
     `Aspect Ratio: ${g.aspectLabel}`,

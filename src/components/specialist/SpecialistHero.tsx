@@ -37,8 +37,8 @@ function SpecialistHeroMedia({
       variant={variant}
       media={specialist.heroMedia}
       src={specialist.image}
-      hotspot={specialist.imageHotspot}
-      objectPosition="52% 21%"
+      hotspot={specialist.heroMedia?.hotspot ?? specialist.imageHotspot}
+      crop={specialist.heroMedia?.crop ?? specialist.imageCrop}
       alt={specialist.name}
       className={className}
       loading="eager"

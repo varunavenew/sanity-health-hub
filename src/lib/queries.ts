@@ -3,7 +3,7 @@ import {
   localizedSeoObject,
   localizedSeoObjectLocale,
 } from "@/lib/sanity/seo-groq";
-import { MEDIA_OBJECT_PROJECTION } from "@/lib/sanity/media-dual-read";
+import { MEDIA_OBJECT_PROJECTION, SPECIALIST_PHOTO_PROJECTION } from "@/lib/sanity/media-dual-read";
 import {
   localizedPrimaryCategorySlugField,
   localizedRefSlugField,
@@ -256,8 +256,7 @@ export const PAGE_SECTIONS_GROQ = `
       ${specialistCtaTogglesGroq},
       "clinics": clinics[]->title,
       ${localizedSlug},
-      "image": photo.asset->url,
-      "imageHotspot": photo.hotspot,
+      ${SPECIALIST_PHOTO_PROJECTION},
       "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
     },
     "articles": articles[]->{
@@ -421,8 +420,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
   ${specialistClinicRefsGroq},
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "image": photo.asset->url,
-  "imageHotspot": photo.hotspot,
+  ${SPECIALIST_PHOTO_PROJECTION},
   "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -435,8 +433,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   ${specialistClinicRefsGroq},
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "image": photo.asset->url,
-  "imageHotspot": photo.hotspot,
+  ${SPECIALIST_PHOTO_PROJECTION},
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
   ${i18nStringLocale("faqSectionTitle")},
@@ -467,8 +464,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
       metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
       ${specialistClinicRefsGroq},
       ${localizedSlug},
-      "image": photo.asset->url,
-      "imageHotspot": photo.hotspot,
+      ${SPECIALIST_PHOTO_PROJECTION},
       "categories": categories[]->{ ${specialistCategoryProjection} },
       ${localizedSeoObject}
     }
@@ -792,8 +788,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   },
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
-    "image": photo.asset->url,
-    "imageHotspot": photo.hotspot,
+    ${SPECIALIST_PHOTO_PROJECTION},
     specialties
   },
   ${i18nStringLocale('homeBreadcrumbLabel')},
