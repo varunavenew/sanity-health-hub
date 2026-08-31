@@ -8,7 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
-import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
+// import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
 import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
@@ -20,7 +20,7 @@ import {
   SpecialistProfileUiProvider,
   useSpecialistProfileUi,
 } from "@/components/specialist/SpecialistProfileUiContext";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { siteUrl } from "@/lib/env";
@@ -161,6 +161,7 @@ function SpecialistProfileBody({
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
 
+      {/* Inline booking CTA band — temporarily hidden
       <section className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
@@ -191,6 +192,7 @@ function SpecialistProfileBody({
           </div>
         </div>
       </section>
+      */}
 
       <RelatedSpecialists
         specialists={relatedSpecialists}
