@@ -822,6 +822,8 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   ${i18nStringLocale('primaryCtaLabel')},
   bookingService,
   bookingServiceOptions,
+  bookingCategoryId,
+  bookingActivityId,
   ${i18nStringLocale('flowEyebrow')},
   ${i18nStringLocale('flowTitle')},
   "flowImage": flowImage.asset->url,

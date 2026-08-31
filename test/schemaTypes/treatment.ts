@@ -22,6 +22,10 @@ import {
   mediaImageOptions,
   softImageRules,
 } from './mediaGuidelines'
+import {
+  BOOKING_ACTIVITY_GROUP_IDS,
+  bookingActivityGroupList,
+} from './bookingActivityGroups'
 
 const reqI18n = requiredNoEnI18n
 
@@ -935,6 +939,36 @@ export default {
       of: [{ type: 'string' }],
       description:
         'When 2+ entries: booking shows only these Metodika services and the customer chooses (no auto-preselect). Use slug fragments matching activity names, e.g. fertilitetsutredning-for-eggfrys. When 1 entry: same as Booking service ID. Leave empty to use Booking service ID only.',
+    },
+    {
+      name: 'bookingCategoryId',
+      title: 'Booking activity group ID',
+      type: 'number',
+      group: 'advanced',
+      fieldset: 'advancedOverrides',
+      options: {
+        list: bookingActivityGroupList,
+        layout: 'dropdown',
+      },
+      description:
+        'Metodika wbactivitygroup id for the booking CTA. Use when this treatment books under a different group than the page category (e.g. Overvektskirurgi → Slankeoperasjon #37). Leave empty to use the category default.',
+      validation: (Rule: any) =>
+        Rule.custom((id: number | undefined) => {
+          if (id == null) return true
+          if ((BOOKING_ACTIVITY_GROUP_IDS as readonly number[]).includes(id)) {
+            return true
+          }
+          return `Invalid ID. Allowed: ${BOOKING_ACTIVITY_GROUP_IDS.join(', ')}`
+        }),
+    },
+    {
+      name: 'bookingActivityId',
+      title: 'Booking activity ID',
+      type: 'number',
+      group: 'advanced',
+      fieldset: 'advancedOverrides',
+      description:
+        'Optional Metodika wbactivity id to preselect a specific service in booking (e.g. digital consultation). When set, Step 2 opens directly if the activity resolves.',
     },
     {
       name: 'subItems',

@@ -45,6 +45,8 @@ function buildTreatmentBookingParams(
   treatmentSlug: string,
 ): BookingLinkParams {
   const kategori = normalizeCategoryFilterKey(categoryId);
+  const bookingCategoryId = treatment.bookingCategoryId;
+  const bookingActivityId = treatment.bookingActivityId;
   const cmsOptions = (treatment.bookingServiceOptions ?? [])
     .map((value) => value.trim())
     .filter(Boolean);
@@ -55,6 +57,21 @@ function buildTreatmentBookingParams(
         ? [...FERTILITETSUTREDNING_BOOKING_OPTIONS]
         : [];
 
+  if (
+    typeof bookingCategoryId === "number" &&
+    bookingCategoryId > 0
+  ) {
+    const params: BookingLinkParams = { kategori, kategoriId: bookingCategoryId };
+    if (typeof bookingActivityId === "number" && bookingActivityId > 0) {
+      params.aktivitetId = bookingActivityId;
+    } else if (options.length > 1) {
+      params.tjenesteValg = options;
+    } else if (options.length === 1) {
+      params.tjeneste = options[0];
+    }
+    return params;
+  }
+
   if (options.length > 1) {
     return { kategori, tjenesteValg: options };
   }
@@ -64,6 +81,9 @@ function buildTreatmentBookingParams(
   const single = treatment.bookingService?.trim();
   if (single) {
     return { kategori, tjeneste: single };
+  }
+  if (typeof bookingActivityId === "number" && bookingActivityId > 0) {
+    return { kategori, aktivitetId: bookingActivityId };
   }
   return { kategori };
 }

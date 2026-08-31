@@ -135,6 +135,10 @@ export type TreatmentData = {
   primaryCtaLabel?: string;
   bookingService?: string;
   bookingServiceOptions?: string[];
+  /** Metodika wbactivitygroup id — overrides page category in booking CTA. */
+  bookingCategoryId?: number;
+  /** Metodika wbactivity id — optional service preselect in booking CTA. */
+  bookingActivityId?: number;
   flowEyebrow?: string;
   flowTitle?: string;
   flowImage?: string;
@@ -311,6 +315,14 @@ export function mapTreatmentDocument(
         .filter(Boolean);
       return values.length > 0 ? values : undefined;
     })(),
+    bookingCategoryId:
+      typeof data.bookingCategoryId === "number" && data.bookingCategoryId > 0
+        ? data.bookingCategoryId
+        : undefined,
+    bookingActivityId:
+      typeof data.bookingActivityId === "number" && data.bookingActivityId > 0
+        ? data.bookingActivityId
+        : undefined,
     flowEyebrow: row("flowEyebrow"),
     flowTitle: row("flowTitle"),
     flowImage: row("flowImage"),

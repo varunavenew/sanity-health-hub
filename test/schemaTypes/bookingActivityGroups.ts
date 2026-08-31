@@ -17,6 +17,7 @@ export const BOOKING_ACTIVITY_GROUP_OPTIONS = [
   { id: 33, name: 'Endokrinolog' },
   { id: 35, name: 'Sprengte blodkar' },
   { id: 36, name: 'Hand therapist' },
+  { id: 37, name: 'Slankeoperasjon' },
 ] as const
 
 export const BOOKING_ACTIVITY_GROUP_IDS = BOOKING_ACTIVITY_GROUP_OPTIONS.map((o) => o.id)
