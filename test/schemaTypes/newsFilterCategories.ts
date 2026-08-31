@@ -22,24 +22,23 @@ export type NewsFilterBusinessCategory = {
 export const NEWS_FILTER_BUSINESS_CATEGORIES: readonly NewsFilterBusinessCategory[] = [
   {
     id: 'patientStories',
-    title: 'Patient Stories',
+    title: 'Pasienthistorier',
     matchValues: ['Pasienthistorier'],
   },
   {
     id: 'media',
-    title: 'Media',
+    title: 'Oss i media',
     matchValues: ['Oss i media'],
   },
   {
     id: 'professional',
-    title: 'Professional Articles',
-    // Schema enum + Norwegian label + typo variant found in content
+    title: 'Fagartikler',
+    // Canonical field value + legacy schema / spelling aliases
     matchValues: ['Fagartikler', 'fagartikkel', 'Fagartiklar'],
   },
   {
     id: 'newsFromUs',
-    title: 'News from us',
-    // Schema `news` + legacy spellings; frontend also maps "Nyheter" → "Nytt fra oss"
+    title: 'Nytt fra oss',
     matchValues: ['Nytt fra oss', 'Nyheter', 'nyheter', 'news'],
   },
 ]

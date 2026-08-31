@@ -59,7 +59,7 @@ function buildFallbackItems(source: Article[]): NewsSplitItem[] {
         source.find((a) => a.slug.includes("robotassistert"))?.title ??
         "Robotassistert overvektskirurgi – presisjon, trygghet og varige resultater",
       image: FALLBACK_IMAGES[0],
-      eyebrow: "Fagartikkel",
+      eyebrow: "Fagartikler",
     },
     {
       id: "fallback-1",
@@ -75,7 +75,7 @@ function buildFallbackItems(source: Article[]): NewsSplitItem[] {
       slug: source[2]?.slug ?? "#",
       title: source[2]?.title ?? "Tverrfaglig oppfølging etter operasjon",
       image: source[2]?.image ?? FALLBACK_IMAGES[0],
-      eyebrow: source[2] ? normalizeCategory(source[2].category) : "Fagartikkel",
+      eyebrow: source[2] ? normalizeCategory(source[2].category) : "Fagartikler",
     },
     {
       id: "fallback-3",

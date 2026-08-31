@@ -4,6 +4,7 @@ import { ARTICLE_BY_SLUG_QUERY } from "@/lib/queries";
 import { fetchSanityGroqServer } from "@/lib/sanity/fetch-groq-server";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
+import { normalizeArticleCategory } from "@/lib/news/article-categories";
 
 /** Server-side article payload for RSC + hydration (mirrors `useArticle`). */
 export async function fetchArticleDetailData(
@@ -27,7 +28,9 @@ export async function fetchArticleDetailData(
     image: data.image || "",
     imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
     date: data.date || "",
-    category: data.category || "Nytt fra oss",
+    category: normalizeArticleCategory(
+      typeof data.category === "string" ? data.category : "Nytt fra oss",
+    ),
     body: Array.isArray(data.body) ? data.body : [],
     pageSections: normalizePageSections(data.pageSections),
   };

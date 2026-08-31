@@ -25,6 +25,7 @@ import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { applyListingSort } from "@/lib/sanity/sort-utils";
 import { LISTING_SORT_SETTINGS_QUERY } from "@/lib/queries";
 import { mapHomepageDocument, mapHomepageSpecialistsSection } from "@/lib/sanity/homepage-data";
+import { normalizeArticleCategory } from "@/lib/news/article-categories";
 import {
   resolveBookingPageCopy,
   type BookingPageCopy,
@@ -1004,7 +1005,7 @@ export const useArticles = () => {
         excerpt: typeof a.excerpt === "string" ? a.excerpt : "",
         image: a.image || "",
         date: a.date || "",
-        category: a.category || "Nytt fra oss",
+        category: normalizeArticleCategory(a.category || "Nytt fra oss"),
       })) as SanityArticle[];
     },
     staleTime: 5 * 60 * 1000,
@@ -1031,7 +1032,7 @@ export const useArticle = (slug: string) => {
         image: data.image || "",
         imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",
-        category: data.category || "Nytt fra oss",
+        category: normalizeArticleCategory(data.category || "Nytt fra oss"),
         body: Array.isArray(data.body) ? data.body : [],
         pageSections: normalizePageSections(data.pageSections),
       } as SanityArticle;

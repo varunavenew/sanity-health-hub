@@ -13,6 +13,7 @@ import {
   insuranceContentFields,
 } from './bookingCtaFields'
 import {PageSectionsArrayInput} from '../sanity/page-editor/components/PageSectionsArrayInput'
+import {ARTICLE_CATEGORY_OPTIONS} from './articleCategories'
 
 const appearanceCollapsed = { collapsible: true, collapsed: true } as const
 
@@ -203,15 +204,9 @@ export const pageSectionArticles = {
       name: 'articleCategory',
       title: 'Article category',
       type: 'string',
-      description: 'Must match the category stored on articles (e.g. news / nyheter).',
+      description: 'Must match the Category field stored on articles.',
       options: {
-        list: [
-          { title: 'Professional article', value: 'fagartikkel' },
-          { title: 'News from us (schema)', value: 'news' },
-          { title: 'News from us (legacy)', value: 'nyheter' },
-          { title: 'Price list', value: 'prisliste' },
-          { title: 'Job posting', value: 'stillingsutlysning' },
-        ],
+        list: [...ARTICLE_CATEGORY_OPTIONS],
       },
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
         parent?.displayMode !== 'category',

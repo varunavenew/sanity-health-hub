@@ -14,8 +14,8 @@ import { createArticlePortableTextComponents } from "@/components/news/article-p
 import { ArticleRelatedSection } from "@/components/news/ArticleRelatedSection";
 import { normalizeCategory, type Article } from "@/data/articles";
 import {
-  parseNewsFilters,
   resolveArticleCategoryLabel,
+  resolveNewsFilterOptions,
 } from "@/lib/news/category-labels";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { useTranslation } from "react-i18next";
@@ -165,8 +165,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
   const { data: newsPage } = useNewsPage();
 
   const filterOptions = useMemo(
-    () => parseNewsFilters(newsPage?.filters),
-    [newsPage?.filters],
+    () => resolveNewsFilterOptions(newsPage?.filters, routeLocale),
+    [newsPage?.filters, routeLocale],
   );
 
   const newsPath = newsPage?.slug
@@ -174,7 +174,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     : withLocalePath(routeLocale, "/aktuelt");
 
   const getCategoryLabel = (category: string) =>
-    resolveArticleCategoryLabel(category, filterOptions);
+    resolveArticleCategoryLabel(category, filterOptions, routeLocale);
 
   const article = sanityArticle
     ? { ...sanityArticle, image: sanityArticle.image || "" }
