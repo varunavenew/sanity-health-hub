@@ -6,7 +6,7 @@ import {
   ResponsiveVideoPoster,
 } from "@/components/media/ResponsiveVideo";
 import type { ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
-import type { MediaFocalPoint, SanityHotspot } from "@/lib/media/focal-point";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 import type { MediaVariant } from "@/lib/media/variants";
 import {
   INTERACTIVE_EMBED,
@@ -24,11 +24,13 @@ type CmsMediaProps = {
   loading?: "eager" | "lazy";
   /**
    * Framing strategy. Default `hero`.
-   * Use `profile` for specialist / portrait heroes (protects faces on ultrawide).
+   * Hotspot (when set) drives object-position; variant fallback is used otherwise.
    */
   variant?: MediaVariant;
   /** Extra hotspot when media.hotspot is missing (legacy fields). */
   hotspot?: SanityHotspot | MediaFocalPoint | null;
+  /** Extra crop when media.crop is missing (legacy fields). */
+  crop?: SanityCrop | null;
   /** Explicit CSS object-position overrides hotspot. */
   objectPosition?: string;
   /**
@@ -58,11 +60,13 @@ export function CmsMedia({
   loading = "lazy",
   variant = "hero",
   hotspot,
+  crop,
   objectPosition,
   autoPlay = true,
   interactive = false,
 }: CmsMediaProps) {
-  const focal = hotspot ?? media.hotspot ?? null;
+  const focal = media.hotspot ?? hotspot ?? null;
+  const frameCrop = media.crop ?? crop ?? null;
 
   if (media.kind === "image" && media.src) {
     return (
@@ -71,7 +75,7 @@ export function CmsMedia({
         alt={alt}
         variant={variant}
         hotspot={focal}
-        crop={media.crop}
+        crop={frameCrop}
         objectPosition={objectPosition}
         className={className}
         style={style}

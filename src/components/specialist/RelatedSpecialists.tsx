@@ -120,7 +120,7 @@ function RelatedSpecialistCard({
           alt={specialist.name}
           variant="card"
           hotspot={specialist.imageHotspot}
-          objectPosition="50% 20%"
+          crop={specialist.imageCrop}
           className="w-full h-full scale-[1.12] transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-100 group-focus-visible:scale-100"
           loading="lazy"
         />

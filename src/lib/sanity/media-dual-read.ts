@@ -33,7 +33,7 @@ export type ResolvedCmsMedia = {
   /** Optional poster / still. */
   poster?: string;
   /** Sanity focal point (0–1), when editors set a hotspot. */
-  hotspot?: MediaFocalPoint | null;
+  hotspot?: SanityHotspot | MediaFocalPoint | null;
   /** Optional Sanity crop rectangle (reserved for CDN transforms). */
   crop?: SanityCrop | null;
   /** Echo of CMS videoSource when kind is video (shared media path). */
@@ -44,6 +44,7 @@ export type CmsMediaProjection = {
   mediaType?: string | null;
   videoSource?: string | null;
   imageUrl?: string | null;
+  imageAssetRef?: string | null;
   videoFileUrl?: string | null;
   videoUrl?: string | null;
   hotspot?: SanityHotspot | null;
@@ -58,6 +59,7 @@ export const MEDIA_OBJECT_PROJECTION = `{
   mediaType,
   videoSource,
   "imageUrl": image.asset->url,
+  "imageAssetRef": image.asset._ref,
   "videoFileUrl": videoFile.asset->url,
   videoUrl,
   "hotspot": image.hotspot,
@@ -70,9 +72,20 @@ export const MEDIA_OBJECT_PROJECTION = `{
  */
 export const IMAGE_WITH_FOCAL_PROJECTION = `{
   "url": asset->url,
+  "asset": { "_ref": asset._ref },
   hotspot,
   crop
 }`;
+
+/**
+ * Specialist portrait: display URL plus crop/hotspot/asset for the image URL builder.
+ */
+export const SPECIALIST_PHOTO_PROJECTION = `
+  "image": photo.asset->url,
+  "imageHotspot": photo.hotspot,
+  "imageCrop": photo.crop,
+  "imageAssetRef": photo.asset._ref
+`;
 
 function asUrl(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
@@ -112,7 +125,7 @@ function attachFocal(
   const focal = normalizeFocalPoint(hotspot);
   return {
     ...base,
-    hotspot: focal,
+    hotspot: hotspot && focal ? { ...hotspot, ...focal } : focal,
     crop: crop || null,
   };
 }
