@@ -39,7 +39,7 @@ function SpecialistHeroMedia({
       media={specialist.heroMedia}
       src={specialist.image}
       hotspot={specialist.imageHotspot}
-      objectPosition="50% 20%"
+      objectPosition="52% 21%"
       alt={specialist.name}
       className={className}
       loading="eager"
@@ -217,7 +217,10 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
           </div>
         </div>
 
-        <div className="split-media relative w-full min-h-0 bg-secondary/40">
+        <div
+          data-hero-parallax=""
+          className="split-media relative w-full min-h-0 bg-secondary/40"
+        >
           <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
         </div>
       </div>

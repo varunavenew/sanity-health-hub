@@ -29,7 +29,8 @@ function applyLayer(box: HTMLElement, reduced: boolean) {
 
 /**
  * Subtle Ken Burns / parallax on split-hero (and marked) media columns.
- * Targets `.split-media` used by treatment, category, specialist, and SplitHero pages.
+ * Targets `.split-media` used by treatment, category, and SplitHero pages.
+ * Specialist hero opts out with `data-hero-parallax`.
  */
 export function SplitMediaParallax() {
   const location = useLocation();
