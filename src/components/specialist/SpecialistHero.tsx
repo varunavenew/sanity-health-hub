@@ -10,7 +10,6 @@ import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-ty
 
 interface SpecialistHeroProps {
   specialist: Specialist;
-  onBookingClick: () => void;
 }
 
 const expertiseChipClass =
@@ -47,7 +46,7 @@ function SpecialistHeroMedia({
   );
 }
 
-export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroProps) => {
+export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
   const ui = useSpecialistProfileUi();
   const clinicsPath = useNavCmsPath("clinics");
   const clinics = clinicLinks(specialist);
@@ -130,7 +129,6 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
             >
               <SpecialistCtaButtons
                 specialist={specialist}
-                onBookingClick={onBookingClick}
                 bookingLabel={ui.bookingCtaLabel}
                 callLabel={ui.heroCallUsLabel}
                 surface="mobile"
@@ -207,7 +205,6 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
               >
                 <SpecialistCtaButtons
                   specialist={specialist}
-                  onBookingClick={onBookingClick}
                   bookingLabel={ui.bookingCtaLabel}
                   callLabel={ui.heroCallUsLabel}
                   surface="desktop"

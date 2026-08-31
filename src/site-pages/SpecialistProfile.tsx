@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
+import { useParams, useNavigate, useRouteSlug, Link } from "@/lib/router";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
@@ -14,6 +15,7 @@ import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFea
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
+import { useBookAppointmentPath } from "@/components/specialist/SpecialistCtaButtons";
 import {
   SpecialistProfileUiProvider,
   useSpecialistProfileUi,
@@ -25,8 +27,7 @@ import { siteUrl } from "@/lib/env";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
-import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
-import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
+import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 
 interface SpecialistProfileProps {
@@ -95,10 +96,10 @@ function SpecialistProfileBody({
   specialist: Specialist;
   profileUi: SpecialistProfileUi;
 }) {
-  const navigate = useNavigate();
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "nb";
   const specialistsPath = useNavCmsPath("specialists");
+  const bookingPath = useBookAppointmentPath();
   const ui = useSpecialistProfileUi();
 
   const relatedSection = specialist.relatedSpecialistsSection;
@@ -119,17 +120,6 @@ function SpecialistProfileBody({
       clinic: clinicLabel,
     });
   }, [specialist.slug, specialist.name, specialist.title, specialist.expertise, specialist.clinicRefs, specialist.clinics]);
-
-  const goToBooking = () => {
-    const bookingPath = bookingUrlForSpecialist(specialist);
-    trackBookingMenuStart({
-      entry_point: "specialist_page",
-      practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
-      category: specialist.category || null,
-    });
-    navigate(bookingPath);
-  };
 
   const physicianJsonLd = {
     "@context": "https://schema.org",
@@ -166,12 +156,12 @@ function SpecialistProfileBody({
         ]}
         jsonLd={profileJsonLd}
       />
-      <SpecialistHero specialist={specialist} onBookingClick={goToBooking} />
+      <SpecialistHero specialist={specialist} />
       <SpecialistBio specialist={specialist} />
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
 
-      {/* <section ref={bookingRef} className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
+      <section className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
             <motion.div
@@ -200,7 +190,7 @@ function SpecialistProfileBody({
             </motion.div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       <RelatedSpecialists
         specialists={relatedSpecialists}
@@ -211,6 +201,20 @@ function SpecialistProfileBody({
         ctaPath={relatedSection?.ctaPath}
       />
       <SpecialistFAQBlock faqs={specialist.faqs} title={specialist.faqSectionTitle} />
+
+      {specialistShowsBookingButton(specialist) ? (
+        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+          <Button
+            asChild
+            className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
+          >
+            <Link to={bookingPath}>
+              <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
+              {ui.bookingCtaLabel}
+            </Link>
+          </Button>
+        </div>
+      ) : null}
     </PageLayout>
   );
 }
