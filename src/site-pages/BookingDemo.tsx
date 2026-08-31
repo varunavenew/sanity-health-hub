@@ -2293,7 +2293,7 @@ const BookingDemo = () => {
                     formData.birthNumber.length === 11 &&
                     bookingData.service?.apiActivityId &&
                     bookingData.selectedSlot
-                    ? "bg-brand-dark text-brand-warm hover:bg-brand-dark/90 shadow-sm"
+                    ? "bg-brand-dark text-brand-warm hover:bg-brand-dark/90 hover:text-brand-warm focus:text-brand-warm focus-visible:text-brand-warm active:bg-brand-dark/90 active:text-brand-warm shadow-sm"
                     : "bg-brand-beige text-brand-dark/40 cursor-not-allowed"
                 )}
               >
