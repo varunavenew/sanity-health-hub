@@ -9,6 +9,7 @@ import {
   mediaImageOptions,
   softImageRules,
 } from './mediaGuidelines'
+import {ARTICLE_CATEGORY_OPTIONS} from './articleCategories'
 
 export default defineType({
   name: 'article',
@@ -52,13 +53,11 @@ export default defineType({
       name: 'category',
       title: 'Category',
       type: 'string',
+      description:
+        'Shown on the article page and used for News page filters. Values match the four Aktuelt chips.',
       options: {
-        list: [
-          {title: 'Professional article', value: 'fagartikkel'},
-          {title: 'News from us', value: 'news'},
-          {title: 'Price list', value: 'prisliste'},
-          {title: 'Job posting', value: 'stillingsutlysning'},
-        ],
+        list: [...ARTICLE_CATEGORY_OPTIONS],
+        layout: 'radio',
       },
       validation: (Rule) => Rule.required(),
     }),
@@ -100,9 +99,15 @@ export default defineType({
     },
     prepare({title, media, category, publishedAt}) {
       const categoryLabels: Record<string, string> = {
-        fagartikkel: 'Professional article',
-        news: 'News from us',
-        nyheter: 'News from us',
+        Pasienthistorier: 'Pasienthistorier',
+        'Oss i media': 'Oss i media',
+        Fagartikler: 'Fagartikler',
+        'Nytt fra oss': 'Nytt fra oss',
+        fagartikkel: 'Fagartikler',
+        Fagartiklar: 'Fagartikler',
+        news: 'Nytt fra oss',
+        nyheter: 'Nytt fra oss',
+        Nyheter: 'Nytt fra oss',
         prisliste: 'Price list',
         stillingsutlysning: 'Job posting',
       }

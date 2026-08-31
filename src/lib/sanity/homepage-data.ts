@@ -12,6 +12,7 @@ import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import type { Article } from "@/data/articles";
+import { normalizeArticleCategory } from "@/lib/news/article-categories";
 import type { HomepageSpecialistsSectionConfig, HomepageSpecialistsCategoryRef } from "@/lib/sanity/homepage-specialists";
 import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
 
@@ -582,7 +583,7 @@ export function mapHomepageDocument(
           excerpt: asPlainString(a.excerpt),
           image: asPlainString(a.image),
           date: asPlainString(a.date),
-          category: asPlainString(a.category),
+          category: normalizeArticleCategory(asPlainString(a.category)),
           externalUrl: asPlainString(a.externalUrl) || undefined,
         }))
       : undefined,

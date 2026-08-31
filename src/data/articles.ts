@@ -1,3 +1,8 @@
+import {
+  ARTICLE_CATEGORIES,
+  normalizeArticleCategory,
+} from "@/lib/news/article-categories";
+
 export interface Article {
   slug: string;
   title: string;
@@ -8,17 +13,10 @@ export interface Article {
   externalUrl?: string;
 }
 
-export const filterCategories = [
-  "Alle",
-  "Pasienthistorier",
-  "Oss i media",
-  "Fagartikler",
-  "Nytt fra oss",
-];
+export const filterCategories = ["Alle", ...ARTICLE_CATEGORIES];
 
-// Map legacy "Nyheter" category from existing data/Sanity to "Nytt fra oss"
-export const normalizeCategory = (cat: string) =>
-  cat === "Nyheter" ? "Nytt fra oss" : cat;
+/** Map legacy / schema aliases to the article.category field values. */
+export const normalizeCategory = normalizeArticleCategory;
 
 export const articles: Article[] = [
   {
