@@ -10,7 +10,8 @@ export default defineType({
     defineField({
       name: 'specialistsSort',
       title: 'Specialists Sort Order',
-      description: 'Select how lists of specialists should be ordered across the website.',
+      description:
+        'Homepage slider and other specialist carousels. Does not apply to /spesialister, which is ordered by clinic (Majorstuen → Bekkestua → Moelv → Moss, multi-clinic last).',
       type: 'string',
       options: {
         list: [

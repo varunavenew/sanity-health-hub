@@ -23,6 +23,7 @@ export const useSpecialistsData = () => {
 
   return {
     specialists,
+    /** Homepage slider and other carousels (`sortOrder` / listing sort settings). `/spesialister` re-sorts by clinic. */
     sorted: specialists,
     byCategory,
     allClinics,

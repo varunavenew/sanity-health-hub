@@ -11,6 +11,10 @@ import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
+import {
+  sortSpecialistsForListingPage,
+  specialistListingClinicFilterLabels,
+} from "@/lib/sanity/specialist-listing-sort";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -29,8 +33,12 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const { data: page } = useSpecialistsListingPage();
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
-  const { sorted: specialists, allClinics } = useSpecialistsData();
-  const clinicNames = allClinics();
+  const { sorted: specialists } = useSpecialistsData();
+  const sortLocale = locale === "en" ? "en" : "no";
+  const clinicNames = useMemo(
+    () => specialistListingClinicFilterLabels(specialists, sortLocale),
+    [specialists, sortLocale],
+  );
   const [navTop, setNavTop] = useState(0);
 
   const categoryLabels = useMemo(
@@ -67,7 +75,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
     const wantCategory = norm(activeFilter);
     const wantClinic = norm(activeClinic);
 
-    return specialists.filter((s) => {
+    const matches = specialists.filter((s) => {
       const categoryMatch =
         wantCategory === "alle" || norm(s.category) === wantCategory;
       if (!categoryMatch) return false;
@@ -76,7 +84,9 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
       const clinics = Array.isArray(s.clinics) ? s.clinics : [];
       return clinics.some((c) => norm(c) === wantClinic);
     });
-  }, [specialists, activeFilter, activeClinic]);
+
+    return sortSpecialistsForListingPage(matches, sortLocale);
+  }, [specialists, activeFilter, activeClinic, sortLocale]);
 
   const heroTitle = page?.heroTitle?.trim() || t("specialists.title");
   const heroDescription =
