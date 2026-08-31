@@ -107,7 +107,7 @@ export default {
     {
       name: 'advancedList',
       title: 'List order',
-      description: 'Order on specialist lists. Rarely edited after setup.',
+      description: 'Homepage slider / carousel order. Rarely edited after setup. /spesialister uses clinic order instead.',
       options: sectionCollapsed,
       group: 'advanced',
     },
@@ -558,7 +558,8 @@ export default {
       type: 'number',
       group: 'advanced',
       fieldset: 'advancedList',
-      description: 'Lower numbers appear first on specialist lists. Leave blank for alphabetical.',
+      description:
+        'Lower numbers appear first on the homepage specialists slider and other carousels. Leave blank to sort those lists alphabetically. The /spesialister listing is ordered by clinic, not this field.',
     },
   ],
   validation: (Rule: any) =>

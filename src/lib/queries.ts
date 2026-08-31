@@ -38,6 +38,11 @@ const i18nNestedText = (parent: string, field: string) =>
 /** Unset toggles default to on so existing specialists keep current CTAs. */
 const specialistCtaTogglesGroq = `"showBookingButton": coalesce(showBookingButton, true), "showCallButton": coalesce(showCallButton, true)`;
 
+const specialistClinicRefsGroq = `"clinicRefs": clinics[]->{
+  "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  ${localizedSlug}
+}`;
+
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
     ${i18nNestedString("profileUi", "notFoundTitle")},
@@ -403,7 +408,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
   _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, bookingCategoryIds, sortOrder,
-  "clinics": clinics[]->title,
+  ${specialistClinicRefsGroq},
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "image": photo.asset->url,
@@ -417,10 +422,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, bookingCategoryIds, sortOrder,
-  "clinicRefs": clinics[]->{
-    "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
-    ${localizedSlug}
-  },
+  ${specialistClinicRefsGroq},
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "image": photo.asset->url,
@@ -453,10 +455,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
       ${specialistCtaTogglesGroq},
       metodikaUserId, bookingCategoryIds, sortOrder,
-      "clinicRefs": clinics[]->{
-        "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
-        ${localizedSlug}
-      },
+      ${specialistClinicRefsGroq},
       ${localizedSlug},
       "image": photo.asset->url,
       "imageHotspot": photo.hotspot,
