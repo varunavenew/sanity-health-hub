@@ -10,7 +10,7 @@ import {
 } from "@/lib/booking/personalNumber";
 import { buildAppointmentCreateBody } from "@/lib/booking/appointmentPayload";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
-import { BookingValidationError } from "@/lib/booking/booking-validation";
+import { BookingValidationError, assertValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
 import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
 import type { CreateAppointmentBody } from "@/app/api/booking/appointments/route";
 import type { CreateWebAccountBody } from "@/app/api/booking/webaccounts/route";
@@ -115,6 +115,15 @@ export async function POST(request: Request) {
       { ok: false, message: "Customer firstname, lastname, mobile and personalnumber are required." },
       { status: 400 },
     );
+  }
+
+  try {
+    assertValidPersonalnumberForWebAccount(personalnumberRaw);
+  } catch (error) {
+    if (error instanceof BookingValidationError) {
+      return NextResponse.json({ ok: false, code: error.code }, { status: 400 });
+    }
+    throw error;
   }
 
   if (

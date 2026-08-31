@@ -222,7 +222,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   errorSubmitNetwork:
     "Bestillingen kunne ikke fullføres. Sjekk nettverket og prøv igjen, eller ring oss på 22 60 00 50.",
   errorInvalidBirthNumber:
-    "Ugyldig fødselsnummer. Kontroller at du har skrevet 11 siffer med gyldig fødselsdato.",
+    "Ugyldig fødselsnummer — sjekk at du har tastet riktig.",
 };
 
 /** English fallbacks when CMS has no `en` value yet (e.g. newly added fields). */
@@ -231,7 +231,7 @@ const BOOKING_PAGE_EN_FALLBACKS: Partial<BookingPageCopy> = {
   formNotePlaceholder: "Optional — e.g. questions or information we should know",
   formCancellationRulesHeading: "Cancellation rules",
   errorInvalidBirthNumber:
-    "Invalid national ID. Please check that you have entered 11 digits with a valid date of birth.",
+    "Invalid national ID — please check that you entered it correctly.",
 };
 
 export function defaultBookingPageCopyForLang(lang: "no" | "en"): BookingPageCopy {

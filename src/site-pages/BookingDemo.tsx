@@ -108,7 +108,11 @@ import {
   normalizeNorwegianMobileForMetodika,
   stripNorwegianMobileInputForField,
 } from "@/lib/booking/phoneMobile";
-import { isValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
+import {
+  fodselsnummerFieldError,
+  isFodselsnummerReadyForSubmit,
+} from "@/lib/booking/booking-validation";
+import { normalizeFodselsnummerInput } from "@/lib/booking/personalNumber";
 
 export type BookingServiceCategory = {
   id: string;
@@ -1586,8 +1590,12 @@ const BookingDemo = () => {
       return;
     }
 
-    if (!isValidPersonalnumberForWebAccount(formData.birthNumber)) {
-      setBirthNumberError(copy.errorInvalidBirthNumber);
+    if (!isFodselsnummerReadyForSubmit(formData.birthNumber)) {
+      setBirthNumberError(
+        fodselsnummerFieldError(formData.birthNumber, copy.errorInvalidBirthNumber, {
+          markIncomplete: true,
+        }),
+      );
       return;
     }
 
@@ -2727,15 +2735,27 @@ const BookingDemo = () => {
                     <Input
                       id="birthNumber"
                       name="birthNumber"
+                      type="text"
+                      autoComplete="off"
                       value={formData.birthNumber}
                       onChange={(e) => {
-                        const val = e.target.value.replace(/\D/g, '').slice(0, 11);
+                        const val = normalizeFodselsnummerInput(e.target.value);
                         setFormData({ ...formData, birthNumber: val });
-                        if (birthNumberError) setBirthNumberError(null);
+                        setBirthNumberError(
+                          fodselsnummerFieldError(val, copy.errorInvalidBirthNumber),
+                        );
+                      }}
+                      onBlur={() => {
+                        setBirthNumberError(
+                          fodselsnummerFieldError(formData.birthNumber, copy.errorInvalidBirthNumber, {
+                            markIncomplete: true,
+                          }),
+                        );
                       }}
                       placeholder={copy.formBirthNumberPlaceholder}
-                      maxLength={11}
                       inputMode="numeric"
+                      data-1p-ignore
+                      data-lpignore="true"
                       aria-invalid={birthNumberError ? true : undefined}
                       aria-describedby={birthNumberError ? "birthNumber-error" : "birthNumber-help"}
                       className={cn(
@@ -2884,8 +2904,7 @@ const BookingDemo = () => {
                   !formData.lastName ||
                   !formData.phone ||
                   !isValidNorwegianMobileFieldInput(formData.phone) ||
-                  !formData.birthNumber ||
-                  formData.birthNumber.length !== 11 ||
+                  !isFodselsnummerReadyForSubmit(formData.birthNumber) ||
                   !bookingData.service?.apiActivityId ||
                   !bookingData.selectedSlot
                 }
@@ -2897,8 +2916,7 @@ const BookingDemo = () => {
                     formData.firstName &&
                     formData.lastName &&
                     formData.phone &&
-                    formData.birthNumber &&
-                    formData.birthNumber.length === 11 &&
+                    isFodselsnummerReadyForSubmit(formData.birthNumber) &&
                     bookingData.service?.apiActivityId &&
                     bookingData.selectedSlot
                     ? "bg-brand-dark text-brand-warm hover:bg-brand-dark/90 shadow-sm"
