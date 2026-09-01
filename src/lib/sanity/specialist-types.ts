@@ -30,6 +30,7 @@ export interface SpecialistPatientReview {
   text: string;
   rating: number;
   date?: string;
+  source?: "google" | "legelisten";
 }
 
 export interface SpecialistRelatedSection {
