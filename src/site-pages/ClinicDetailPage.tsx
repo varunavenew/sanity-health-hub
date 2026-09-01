@@ -22,7 +22,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
-import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
+import { buildClinicServiceLinks, resolveClinicServiceRows } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { formatOpeningHoursLines } from "@/lib/format-opening-hours";
 import { useTranslation } from "react-i18next";
@@ -188,31 +188,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     return mergeSanityClinic(sanityClinic as Record<string, unknown>, slug, sanityLang);
   }, [sanityClinic, slug, sanityLang]);
 
-  const servicesSection = useMemo((): ClinicServicesSection | undefined => {
-    if (!clinic) return undefined;
-    if (clinic.servicesSection?.items?.length) return clinic.servicesSection;
-
-    // Fallback: Advanced → Service IDs only (labels/paths from treatment categories)
-    const ids = clinic.services || [];
-    if (!ids.length) return undefined;
-    const items = ids.map((id) => {
-      const link = serviceLinks[id];
-      return {
-        serviceId: id,
-        label: link?.label || id,
-        ...(link?.path ? { href: link.path } : {}),
-      };
-    });
-    const allLinked = items.every((item) => Boolean(item.href));
-    return {
-      title: "Tjenester ved denne klinikken",
-      description: `CMedical ${clinic.label} tilbyr ${ids.length} ulike tjenester.${
-        allLinked ? " Klikk på tjenestene med pil for å lese mer." : ""
-      }`,
-      items,
-    };
-  }, [clinic, serviceLinks]);
-
   const sanityGalleryImages = useMemo(() => {
     const raw = sanityClinic as Record<string, unknown> | null | undefined;
     const label = raw
@@ -262,9 +237,24 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     clinic.mapsUrl ||
     (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
-  const serviceItems = servicesSection?.items || [];
-  const servicesTitle = servicesSection?.title || "Tjenester ved denne klinikken";
-  const servicesDescription = servicesSection?.description || "";
+  const serviceRows = resolveClinicServiceRows(
+    clinic.servicesSection,
+    clinic.services,
+    serviceLinks,
+  );
+  const allServicesLinked =
+    serviceRows.length > 0 && serviceRows.every((row) => Boolean(row.path));
+  const servicesTitle =
+    clinic.servicesSection?.title || "Tjenester ved denne klinikken";
+  const servicesDescription =
+    clinic.servicesSection?.description ||
+    (serviceRows.length > 0
+      ? `CMedical ${clinic.label} tilbyr ${serviceRows.length} ulike tjenester. ${
+          allServicesLinked
+            ? "Klikk for å lese mer."
+            : "Klikk på tjenestene med pil for å lese mer."
+        }`
+      : "");
   const openingHoursLines = formatOpeningHoursLines(clinic.hours);
 
   return (
@@ -457,7 +447,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </div>
       </section>
 
-      {serviceItems.length > 0 ? (
+      {serviceRows.length > 0 ? (
         <section className="bg-brand-warm/40 py-10 md:py-14">
           <div className="container mx-auto px-6 md:px-16">
             <div className="mx-auto max-w-3xl">
@@ -469,13 +459,13 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               ) : null}
 
               <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
-                {serviceItems.map((item) => {
+                {serviceRows.map((svc) => {
                   const content = (
                     <span
-                      className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${item.href ? " group-hover:text-brand-dark" : ""}`}
+                      className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${svc.path ? " group-hover:text-brand-dark" : ""}`}
                     >
-                      <span>{item.label}</span>
-                      {item.href ? (
+                      <span>{svc.label}</span>
+                      {svc.path ? (
                         <ArrowRight
                           className="h-3.5 w-3.5 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
                           strokeWidth={1.5}
@@ -485,9 +475,9 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </span>
                   );
                   return (
-                    <li key={item.serviceId} className={item.href ? "group" : ""}>
-                      {item.href ? (
-                        <Link to={item.href} aria-label={`Les mer om ${item.label}`}>
+                    <li key={svc.id} className={svc.path ? "group" : ""}>
+                      {svc.path ? (
+                        <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
                           {content}
                         </Link>
                       ) : (

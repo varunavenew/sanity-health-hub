@@ -13,6 +13,42 @@ type CategoryRow = {
 
 export type ClinicServiceLink = { label: string; path?: string };
 
+export type ClinicServiceRow = { id: string; label: string; path?: string };
+
+type ClinicServicesSection = {
+  items?: Array<{ serviceId?: string; label?: string; href?: string }>;
+};
+
+/**
+ * Prefer CMS `servicesSection.items` (label + href, including external URLs).
+ * Fall back to Advanced `services[]` IDs looked up in the category catalogue.
+ */
+export function resolveClinicServiceRows(
+  servicesSection: ClinicServicesSection | undefined,
+  serviceIds: string[] | undefined,
+  catalogue: Record<string, ClinicServiceLink>,
+): ClinicServiceRow[] {
+  const items = servicesSection?.items;
+  if (Array.isArray(items) && items.length > 0) {
+    return items.map((item, index) => {
+      const id = (item.serviceId || "").trim() || `service-${index}`;
+      const fromCatalogue = catalogue[id];
+      const href = (item.href || "").trim() || fromCatalogue?.path;
+      const label = (item.label || "").trim() || fromCatalogue?.label || id;
+      return { id, label, ...(href ? { path: href } : {}) };
+    });
+  }
+
+  return (serviceIds ?? []).map((id) => {
+    const fromCatalogue = catalogue[id];
+    return {
+      id,
+      label: fromCatalogue?.label || id,
+      ...(fromCatalogue?.path ? { path: fromCatalogue.path } : {}),
+    };
+  });
+}
+
 /** Metodika clinic `services` IDs → CMS categoryId or treatment slug. */
 const SERVICE_ID_ALIASES: Record<string, string> = {
   gynekolog: "gynekologi",
