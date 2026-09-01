@@ -18,7 +18,11 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
-import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import {
+  isOffsiteHttpUrl,
+  withLocalePath,
+  type AppLocale,
+} from "@/lib/i18n/routing";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import {
@@ -43,6 +47,13 @@ export function useNavigate() {
         return;
       }
       const href = withLocalePath(locale, coercePath(to, locale), localeMap);
+      if (isOffsiteHttpUrl(href) || isOffsiteHttpUrl(to)) {
+        const external = isOffsiteHttpUrl(href) ? href : to;
+        if (typeof window !== "undefined") {
+          window.open(external, "_blank", "noopener,noreferrer");
+        }
+        return;
+      }
       if (isBookingPath(href) || isBookingPath(to)) {
         rememberBookingReturnPath();
       }
@@ -134,7 +145,7 @@ type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
   children?: ReactNode;
 };
 
-export function Link({ to, replace, children, onClick, ...rest }: LinkProps) {
+export function Link({ to, replace, children, onClick, prefetch, scroll, ...rest }: LinkProps) {
   const locale = useLocaleParam();
   const { localeMap } = useCmsRouteContext();
   const href = withLocalePath(locale, coercePath(to, locale), localeMap);
@@ -149,8 +160,23 @@ export function Link({ to, replace, children, onClick, ...rest }: LinkProps) {
     [onClick, href, to],
   );
 
+  if (isOffsiteHttpUrl(href) || isOffsiteHttpUrl(to)) {
+    const external = isOffsiteHttpUrl(href) ? href : coercePath(to, locale);
+    return (
+      <a
+        href={external}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+        {...rest}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <NextLink href={href} replace={replace} onClick={handleClick} {...rest}>
+    <NextLink href={href} replace={replace} prefetch={prefetch} scroll={scroll} onClick={handleClick} {...rest}>
       {children}
     </NextLink>
   );

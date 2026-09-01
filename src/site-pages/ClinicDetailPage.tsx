@@ -29,7 +29,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
-import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
+import { buildClinicServiceLinks, resolveClinicServiceRows } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
 
@@ -55,6 +55,7 @@ type MergedClinic = {
   primaryImage?: string;
   email?: string;
   treatments?: Array<{ slug: string; title?: string; categorySlug?: string }>;
+  serviceItems?: Array<{ serviceId?: string; label?: string; href?: string }>;
 };
 
 interface ClinicDetailPageProps {
@@ -144,6 +145,13 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     email: typeof raw.email === "string" ? raw.email : undefined,
     treatments: Array.isArray(raw.treatments)
       ? (raw.treatments as MergedClinic["treatments"])
+      : undefined,
+    serviceItems: Array.isArray((raw.servicesSection as { items?: unknown[] } | undefined)?.items)
+      ? ((raw.servicesSection as { items: Array<Record<string, unknown>> }).items).map((item) => ({
+          serviceId: typeof item.serviceId === "string" ? item.serviceId : undefined,
+          label: typeof item.label === "string" ? item.label : undefined,
+          href: typeof item.href === "string" ? item.href : undefined,
+        }))
       : undefined,
   });
 }
@@ -238,8 +246,13 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     clinic.mapsUrl ||
     (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
+  const serviceRows = resolveClinicServiceRows(
+    { items: clinic.serviceItems },
+    clinic.services,
+    serviceLinks,
+  );
   const allServicesLinked =
-    clinic.services?.every((id) => Boolean(serviceLinks[id]?.path)) ?? false;
+    serviceRows.length > 0 && serviceRows.every((row) => Boolean(row.path));
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -423,21 +436,20 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </div>
       </section>
 
-      {clinic.services && clinic.services.length > 0 ? (
+      {serviceRows.length > 0 ? (
         <section className="bg-brand-warm/40 py-10 md:py-14">
           <div className="container mx-auto px-6 md:px-16">
             <div className="mx-auto max-w-3xl">
               <h2 className="mb-2 text-lg font-normal text-foreground">Tjenester ved denne klinikken</h2>
               <p className="mb-6 text-sm font-light text-muted-foreground">
-                CMedical {clinic.label} tilbyr {clinic.services.length} ulike tjenester.{" "}
+                CMedical {clinic.label} tilbyr {serviceRows.length} ulike tjenester.{" "}
                 {allServicesLinked
                   ? "Klikk for å lese mer."
                   : "Klikk på tjenestene med pil for å lese mer."}
               </p>
 
               <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
-                {clinic.services.map((id) => {
-                  const svc = serviceLinks[id] || { label: id };
+                {serviceRows.map((svc) => {
                   const content = (
                     <span
                       className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${svc.path ? " group-hover:text-brand-dark" : ""}`}
@@ -453,7 +465,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </span>
                   );
                   return (
-                    <li key={id} className={svc.path ? "group" : ""}>
+                    <li key={svc.id} className={svc.path ? "group" : ""}>
                       {svc.path ? (
                         <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
                           {content}
