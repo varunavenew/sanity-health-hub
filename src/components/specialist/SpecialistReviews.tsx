@@ -1,5 +1,6 @@
 import { User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
+import { ReviewSourceBadge } from "@/components/reviews/ReviewPlatformMarks";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import { googleReviews } from "@/data/googleReviews";
 import { patientReviewsForSpecialist } from "@/lib/sanity/specialist-review-match";
@@ -54,21 +55,22 @@ export const SpecialistReviews = ({ specialist }: SpecialistReviewsProps) => {
                   &ldquo;{text}&rdquo;
                 </p>
                 <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
-                  <p
-                    className={`text-brand-dark text-sm ${
-                      isAnonymous
-                        ? "italic text-brand-dark/60 font-light"
-                        : "font-normal"
-                    } flex items-center gap-2`}
-                  >
-                    {isAnonymous && <User className="w-3.5 h-3.5" aria-hidden="true" />}
-                    {displayName}
-                  </p>
-                  {review.date ? (
-                    <span className="text-xs text-brand-dark/60 font-light">
-                      {review.date}
-                    </span>
-                  ) : null}
+                  <div>
+                    <p
+                      className={`text-brand-dark text-sm ${
+                        isAnonymous
+                          ? "italic text-brand-dark/60 font-light"
+                          : "font-normal"
+                      } flex items-center gap-2`}
+                    >
+                      {isAnonymous && <User className="w-3.5 h-3.5" aria-hidden="true" />}
+                      {displayName}
+                    </p>
+                    {review.date ? (
+                      <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
+                    ) : null}
+                  </div>
+                  <ReviewSourceBadge source={review.source} />
                 </div>
               </article>
             );

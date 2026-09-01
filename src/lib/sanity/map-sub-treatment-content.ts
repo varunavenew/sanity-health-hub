@@ -1,5 +1,5 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import type { TreatmentData } from "@/lib/sanity/treatment-data";
+import type { TreatmentData, TreatmentSection } from "@/lib/sanity/treatment-data";
 import {
   categoryLandingPath,
   normalizeCategoryFilterKey,
@@ -100,6 +100,42 @@ function seoText(treatment: TreatmentData): { title: string; description: string
   };
 }
 
+/** Legacy `sections[]` (heading/content) → reasons accordion items. */
+function reasonsFromLegacySections(
+  sections: TreatmentSection[] | undefined,
+): { n: string; title: string; desc: string }[] {
+  return (sections ?? [])
+    .map((section, index) => ({
+      n: String(index + 1).padStart(2, "0"),
+      title: section.heading.trim(),
+      desc: section.content.trim(),
+    }))
+    .filter((item) => item.title || item.desc);
+}
+
+/** Keep CMS reasons; append leftover legacy sections that are not already titles. */
+function mergeReasonsWithLegacySections(
+  reasons: { n: string; title: string; desc: string }[],
+  sections: TreatmentSection[] | undefined,
+): { n: string; title: string; desc: string }[] {
+  const fromSections = reasonsFromLegacySections(sections);
+  if (fromSections.length === 0) return reasons;
+  if (reasons.length === 0) return fromSections;
+
+  const existingTitles = new Set(
+    reasons.map((item) => item.title.trim().toLowerCase()).filter(Boolean),
+  );
+  const extra = fromSections.filter(
+    (item) => item.title && !existingTitles.has(item.title.trim().toLowerCase()),
+  );
+  if (extra.length === 0) return reasons;
+
+  return [...reasons, ...extra].map((item, index) => ({
+    ...item,
+    n: String(index + 1).padStart(2, "0"),
+  }));
+}
+
 /** Map Sanity treatment (flat layout fields at root) to SubTreatmentLayout content. */
 export function mapTreatmentToSubTreatmentContent(
   treatment: TreatmentData,
@@ -124,7 +160,11 @@ export function mapTreatmentToSubTreatmentContent(
 
   const heroPoints = (treatment.heroPoints ?? []).filter((p) => p.title || p.desc);
   const flow = (treatment.flow ?? []).filter((s) => s.title || s.desc);
-  const reasons = (treatment.reasons ?? []).filter((r) => r.title || r.desc);
+  const mappedReasons = (treatment.reasons ?? []).filter((r) => r.title || r.desc);
+  const reasons = mergeReasonsWithLegacySections(
+    mappedReasons,
+    treatment.sections,
+  );
   const promises = (treatment.promises ?? []).filter((p) => p.title);
 
   const related = (treatment.related ?? []).map((r) => ({

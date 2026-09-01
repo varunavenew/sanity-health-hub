@@ -109,6 +109,7 @@ export type RawSanitySpecialist = {
     rating?: number;
     text?: unknown;
     date?: string;
+    source?: "google" | "legelisten";
   }>;
   relatedSpecialistsSection?: {
     eyebrow?: string;
@@ -222,6 +223,7 @@ function mapPatientReviews(
           typeof review.rating === "number" && review.rating >= 1 && review.rating <= 5
             ? review.rating
             : 5,
+        source: review.source === "legelisten" ? "legelisten" : "google",
         ...(formattedDate ? { date: formattedDate } : {}),
       };
     })
