@@ -4,6 +4,7 @@ type PatientReview = {
   text: string;
   rating: number;
   date?: string;
+  source?: "google" | "legelisten";
 };
 
 /** Keywords for auto-matching Google reviews to specialist category (Norwegian text). */
@@ -66,6 +67,7 @@ type SeedReview = {
   rating: number;
   text: string;
   date: string;
+  source?: "google" | "legelisten";
 };
 
 /** CMS refs first; otherwise auto-match Lovable/static seed reviews (at least 3). */
@@ -94,6 +96,7 @@ export function patientReviewsForSpecialist(
         text: review.text,
         rating: review.rating,
         date: review.date,
+        source: review.source === "legelisten" ? "legelisten" : "google",
       },
     ];
   });

@@ -101,11 +101,11 @@ export default defineType({
               type: 'internationalizedArrayString',
               validation: requiredNoEnI18n('Filter name'),
             },
-            {
-              name: 'acceptedArticleCategories',
+    {
+      name: 'acceptedArticleCategories',
               title: 'Allowed article categories',
               description:
-                'Leave empty only for All. Pick business categories only — legacy article.category aliases are stored automatically.',
+                'Leave empty only for All. Pick the same categories as the article Category field (Pasienthistorier, Oss i media, Fagartikler, Nytt fra oss).',
               type: 'array',
               of: [{type: 'string'}],
               components: {

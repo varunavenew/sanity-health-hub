@@ -1,7 +1,6 @@
 import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
-import { normalizeFocalPoint } from "@/lib/media/focal-point";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
@@ -61,6 +60,8 @@ export type RawSanitySpecialist = {
   slug?: string;
   image?: string;
   imageHotspot?: { x?: number; y?: number; height?: number; width?: number } | null;
+  imageCrop?: { top?: number; bottom?: number; left?: number; right?: number } | null;
+  imageAssetRef?: string | null;
   heroMedia?: unknown;
   role?: unknown;
   subtitle?: unknown;
@@ -68,7 +69,7 @@ export type RawSanitySpecialist = {
   shortBio?: unknown;
   education?: unknown;
   languages?: string[];
-  clinics?: string[];
+  clinics?: unknown;
   clinicRefs?: Array<{ label?: string; slug?: string }>;
   showBookingButton?: boolean;
   showCallButton?: boolean;
@@ -108,6 +109,7 @@ export type RawSanitySpecialist = {
     rating?: number;
     text?: unknown;
     date?: string;
+    source?: "google" | "legelisten";
   }>;
   relatedSpecialistsSection?: {
     eyebrow?: string;
@@ -221,6 +223,7 @@ function mapPatientReviews(
           typeof review.rating === "number" && review.rating >= 1 && review.rating <= 5
             ? review.rating
             : 5,
+        source: review.source === "legelisten" ? "legelisten" : "google",
         ...(formattedDate ? { date: formattedDate } : {}),
       };
     })
@@ -237,6 +240,18 @@ function mapSpecialistFaqs(
   return resolved.map(({ question, answer }) => ({ question, answer }));
 }
 
+function readClinicLabel(value: unknown, lang: SanityLang): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  const entries = value as I18nValueItem[];
+  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
+  if (typeof matchLang === "string" && matchLang.trim()) return matchLang.trim();
+  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
+  if (typeof matchNo === "string" && matchNo.trim()) return matchNo.trim();
+  const first = entries[0]?.value;
+  return typeof first === "string" ? first.trim() : "";
+}
+
 function mapClinicRefs(
   refs: RawSanitySpecialist["clinicRefs"],
 ): SpecialistClinicRef[] | undefined {
@@ -246,8 +261,21 @@ function mapClinicRefs(
       label: typeof ref?.label === "string" ? ref.label.trim() : "",
       slug: typeof ref?.slug === "string" ? ref.slug.trim() : "",
     }))
-    .filter((ref) => ref.label && ref.slug);
+    .filter((ref) => ref.label);
   return mapped.length > 0 ? mapped : undefined;
+}
+
+function mapClinicLabels(
+  clinicRefs: SpecialistClinicRef[] | undefined,
+  rawClinics: unknown,
+  lang: SanityLang,
+): string[] | undefined {
+  if (clinicRefs?.length) return clinicRefs.map((clinic) => clinic.label);
+  if (!Array.isArray(rawClinics)) return undefined;
+  const labels = rawClinics
+    .map((clinic) => readClinicLabel(clinic, lang))
+    .filter(Boolean);
+  return labels.length > 0 ? labels : undefined;
 }
 
 function mapBioBody(value: unknown): unknown[] | undefined {
@@ -337,21 +365,25 @@ export function mapSanitySpecialistRow(
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
 
-  const imageHotspot = normalizeFocalPoint(raw.imageHotspot);
+  const imageHotspot = raw.imageHotspot || null;
+  const imageCrop = raw.imageCrop ?? null;
   const media = resolveCmsMedia(raw.heroMedia, {
     mediaType: "image",
     imageUrl: raw.image?.trim(),
     hotspot: raw.imageHotspot,
+    crop: imageCrop,
   });
   const image =
     (media?.kind === "image" ? media.src : media?.poster) || raw.image!.trim();
+  const clinicRefs = mapClinicRefs(raw.clinicRefs);
 
   return {
     _createdAt: raw._createdAt,
     name: raw.name!.trim(),
     slug: raw.slug!.trim(),
     image,
-    imageHotspot,
+    imageHotspot: imageHotspot || null,
+    imageCrop,
     heroMedia: media || undefined,
     title,
     subtitle: readLocalizedString(raw.subtitle, lang) || undefined,
@@ -360,8 +392,8 @@ export function mapSanitySpecialistRow(
     bioBody: mapBioBody(raw.bio),
     education: readEducation(raw.education, lang),
     languages: raw.languages?.filter(Boolean),
-    clinics: mapClinicRefs(raw.clinicRefs)?.map((c) => c.label) ?? raw.clinics?.filter(Boolean),
-    clinicRefs: mapClinicRefs(raw.clinicRefs),
+    clinics: mapClinicLabels(clinicRefs, raw.clinics, lang),
+    clinicRefs,
     category: resolveSpecialistPrimaryCategory(raw.categories) as Specialist["category"],
     sanityCategories: mapSanitySpecialistCategories(raw.categories, lang),
     showBookingButton: raw.showBookingButton !== false,

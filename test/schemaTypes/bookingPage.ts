@@ -65,6 +65,13 @@ export default {
       description: 'Displayed in \'call us\' buttons when data is missing',
     },
     i18n('supportPhoneLabel', 'Phone button label', 'general'),
+    i18n(
+      'supportFooterText',
+      'Help footer (every step)',
+      'general',
+      'Shown under every booking step. Use {{phone}} for the clickable number.',
+      'internationalizedArrayText',
+    ),
 
     i18n('step1Heading', 'Heading', 'step1'),
     i18n(

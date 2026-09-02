@@ -13,7 +13,7 @@ import {
   DEFAULT_CONTENT_WIDTH,
   type ImageDeliveryPreset,
 } from "@/lib/media/delivery";
-import type { SanityCrop } from "@/lib/media/focal-point";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 
 export type AssetImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src"> & {
   src: ImageRef;
@@ -23,6 +23,7 @@ export type AssetImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src
   imageWidth?: number;
   quality?: number;
   crop?: SanityCrop | null;
+  hotspot?: SanityHotspot | MediaFocalPoint | null;
   /** When false, skip CDN optimization (rare). Default true. */
   optimize?: boolean;
 };
@@ -41,6 +42,7 @@ export function AssetImg({
   imageWidth,
   quality,
   crop,
+  hotspot,
   optimize = true,
   loading,
   decoding,
@@ -51,7 +53,7 @@ export function AssetImg({
   const resolved = assetSrc(src);
   if (!resolved) return null;
 
-  const opts: OptimizeImageOptions = { quality, crop };
+  const opts: OptimizeImageOptions = { quality, crop, hotspot };
   const isSanity = isSanityCdnUrl(resolved) || resolved.startsWith("image-");
 
   // Sanity images without an explicit delivery intent get content defaults.

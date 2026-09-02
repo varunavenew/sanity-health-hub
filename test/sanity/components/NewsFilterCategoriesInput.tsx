@@ -8,7 +8,7 @@ import {
 } from '../../schemaTypes/newsFilterCategories'
 
 /**
- * Shows only the four business categories. Writes expanded legacy aliases
+ * Shows only the four article categories. Writes expanded legacy aliases
  * into `acceptedArticleCategories` so Aktuelt filtering stays unchanged.
  */
 export function NewsFilterCategoriesInput(props: ArrayOfPrimitivesInputProps) {
@@ -25,7 +25,7 @@ export function NewsFilterCategoriesInput(props: ArrayOfPrimitivesInputProps) {
   return (
     <Stack space={3}>
       <Text size={1} muted>
-        Choose one or more business categories. Leave empty only for the All filter.
+        Choose one or more of the four article categories. Leave empty only for the All filter.
       </Text>
       <Stack space={2}>
         {NEWS_FILTER_BUSINESS_CATEGORIES.map((cat) => {

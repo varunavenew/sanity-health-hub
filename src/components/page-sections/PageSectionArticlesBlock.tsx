@@ -9,13 +9,7 @@ import { normalizeCategory, type Article } from "@/data/articles";
 import type { PageSectionArticlesConfig } from "@/lib/sanity/page-sections";
 import { resolveArticlesDisplayMode } from "@/lib/sanity/specialists-display-mode";
 import { AssetImg } from "@/components/AssetImg";
-
-const CATEGORY_LABELS: Record<string, string> = {
-  fagartikkel: "Fagartikler",
-  nyheter: "Nytt fra oss",
-  prisliste: "Prisliste",
-  stillingsutlysning: "Stillingsutlysning",
-};
+import { resolveArticleCategoryLabel } from "@/lib/news/category-labels";
 
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
@@ -24,7 +18,7 @@ function formatDate(dateStr: string) {
 }
 
 function displayCategory(cat: string) {
-  return CATEGORY_LABELS[cat] || normalizeCategory(cat);
+  return resolveArticleCategoryLabel(cat);
 }
 
 function articleLinkTo(article: { slug: string; externalUrl?: string }) {
@@ -92,7 +86,11 @@ function resolveArticles(config: PageSectionArticlesConfig, all: Article[]): Art
   if (mode === "category") {
     if (!config.articleCategory) return [];
     return all
-      .filter((a) => a.category === config.articleCategory)
+      .filter(
+        (a) =>
+          normalizeCategory(a.category) ===
+          normalizeCategory(config.articleCategory),
+      )
       .slice(0, limit);
   }
 

@@ -3,7 +3,7 @@ import {
   localizedSeoObject,
   localizedSeoObjectLocale,
 } from "@/lib/sanity/seo-groq";
-import { MEDIA_OBJECT_PROJECTION } from "@/lib/sanity/media-dual-read";
+import { MEDIA_OBJECT_PROJECTION, SPECIALIST_PHOTO_PROJECTION } from "@/lib/sanity/media-dual-read";
 import {
   localizedPrimaryCategorySlugField,
   localizedRefSlugField,
@@ -43,6 +43,11 @@ const i18nNestedText = (parent: string, field: string) =>
 
 /** Unset toggles default to on so existing specialists keep current CTAs. */
 const specialistCtaTogglesGroq = `"showBookingButton": coalesce(showBookingButton, true), "showCallButton": coalesce(showCallButton, true)`;
+
+const specialistClinicRefsGroq = `"clinicRefs": clinics[]->{
+  "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  ${localizedSlug}
+}`;
 
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
@@ -251,8 +256,7 @@ export const PAGE_SECTIONS_GROQ = `
       ${specialistCtaTogglesGroq},
       "clinics": clinics[]->title,
       ${localizedSlug},
-      "image": photo.asset->url,
-      "imageHotspot": photo.hotspot,
+      ${SPECIALIST_PHOTO_PROJECTION},
       "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
     },
     "articles": articles[]->{
@@ -413,11 +417,10 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
   _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
-  "clinics": clinics[]->title,
+  ${specialistClinicRefsGroq},
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "image": photo.asset->url,
-  "imageHotspot": photo.hotspot,
+  ${SPECIALIST_PHOTO_PROJECTION},
   "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -427,14 +430,10 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
-  "clinicRefs": clinics[]->{
-    "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
-    ${localizedSlug}
-  },
+  ${specialistClinicRefsGroq},
   ${localizedSlug},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "image": photo.asset->url,
-  "imageHotspot": photo.hotspot,
+  ${SPECIALIST_PHOTO_PROJECTION},
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
   ${i18nStringLocale("faqSectionTitle")},
@@ -463,13 +462,9 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
       ${specialistCtaTogglesGroq},
       metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
-      "clinicRefs": clinics[]->{
-        "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
-        ${localizedSlug}
-      },
+      ${specialistClinicRefsGroq},
       ${localizedSlug},
-      "image": photo.asset->url,
-      "imageHotspot": photo.hotspot,
+      ${SPECIALIST_PHOTO_PROJECTION},
       "categories": categories[]->{ ${specialistCategoryProjection} },
       ${localizedSeoObject}
     }
@@ -793,8 +788,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   },
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
-    "image": photo.asset->url,
-    "imageHotspot": photo.hotspot,
+    ${SPECIALIST_PHOTO_PROJECTION},
     specialties
   },
   ${i18nStringLocale('homeBreadcrumbLabel')},
@@ -883,6 +877,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   heroPoints[]{ ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   flow[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   reasons[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
+  sections[]{ id, ${i18nStringLocale('heading')}, ${i18nTextLocale('content')} },
   promises[]{
     ${i18nStringLocale('eyebrow')},
     ${i18nStringLocale('title')},
@@ -1226,6 +1221,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
 ].map((field) => bookingI18nString(field));
 
 const BOOKING_PAGE_I18N_TEXT_FIELDS = [
+  "supportFooterText",
   "step1EmptyMessage",
   "step2EmptyMessage",
   "step3Subtitle",

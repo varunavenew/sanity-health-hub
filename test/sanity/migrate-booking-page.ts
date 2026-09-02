@@ -35,6 +35,10 @@ async function run() {
     summarySpecialistLabel: S('Behandler:', 'Practitioner:'),
     supportPhone: '22 60 00 50',
     supportPhoneLabel: S('Ring oss så hjelper vi deg', 'Call us and we will help'),
+    supportFooterText: T(
+      'Hvis du opplever utfordringer med nettbestilling, er du velkommen til å ringe oss på {{phone}}.\nVi er tilgjengelige fra 08:00 – 20:00 alle hverdager.',
+      'If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.',
+    ),
     step1Heading: S('Velg tjeneste', 'Choose a service'),
     step1HeadingFiltered: S(
       'Velg tjeneste innen {{category}}',

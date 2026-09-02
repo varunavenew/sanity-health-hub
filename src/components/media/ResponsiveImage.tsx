@@ -63,6 +63,7 @@ export function ResponsiveImage({
       alt={alt}
       preset={preset}
       crop={crop}
+      hotspot={hotspot}
       loading={loading}
       className={mergeMediaClassName(variant, className)}
       style={{

@@ -395,7 +395,8 @@ const CategorySpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        objectPosition="50% 20%"
+        hotspot={sp.imageHotspot}
+        crop={sp.imageCrop}
         loading="lazy"
         className="w-full h-full transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.05]"
       />
@@ -453,7 +454,8 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
             src={sp.image}
             alt={sp.name}
             variant="card"
-            objectPosition="50% 20%"
+            hotspot={sp.imageHotspot}
+            crop={sp.imageCrop}
             className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         </div>
@@ -527,7 +529,8 @@ const SpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        objectPosition="50% 20%"
+        hotspot={sp.imageHotspot}
+        crop={sp.imageCrop}
         loading="lazy"
         className="w-full h-full saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
       />

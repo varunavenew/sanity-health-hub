@@ -7,6 +7,7 @@ import {
   resolveArticlesDisplayMode,
   resolveSpecialistsDisplayMode,
 } from "@/lib/sanity/specialists-display-mode";
+import { normalizeArticleCategory } from "@/lib/news/article-categories";
 
 export type PageSectionSpecialistsConfig = {
   _type: "pageSectionSpecialists";
@@ -166,7 +167,9 @@ export function normalizePageSections(raw: unknown): PageSection[] {
                 excerpt: str(row.excerpt),
                 image: str(row.image),
                 date: str(row.date),
-                category: str(row.category) || "nyheter",
+                category: normalizeArticleCategory(
+                  str(row.category) || "Nytt fra oss",
+                ),
                 externalUrl: str(row.externalUrl) || undefined,
               };
             })
@@ -180,7 +183,9 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           description: str(block.description),
           displayMode: resolveArticlesDisplayMode(block.displayMode),
           articles: articles.filter((x): x is PageSectionArticleCard => x != null),
-          articleCategory: str(block.articleCategory) || undefined,
+          articleCategory: block.articleCategory
+            ? normalizeArticleCategory(str(block.articleCategory))
+            : undefined,
           limit: typeof block.limit === "number" ? block.limit : undefined,
           variant: (block.variant as PageSectionArticlesConfig["variant"]) || undefined,
           ctaLabel: str(block.ctaLabel) || undefined,

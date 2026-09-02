@@ -14,7 +14,7 @@ import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { NewsSocialPlatformSection } from "@/components/news/NewsSocialPlatformSection";
 import { NewsInstagramSection } from "@/components/news/NewsInstagramSection";
-import { resolveArticleCategoryLabel } from "@/lib/news/category-labels";
+import { resolveArticleCategoryLabel, resolveNewsFilterOptions } from "@/lib/news/category-labels";
 import {
   ArticleCard,
   FeaturedCard,
@@ -24,12 +24,6 @@ import {
 interface AktueltProps {
   isChatOpen: boolean;
 }
-
-type RawNewsFilter = {
-  key?: unknown;
-  label?: unknown;
-  acceptedArticleCategories?: unknown;
-};
 
 type RawArticle = {
   slug?: string;
@@ -74,25 +68,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     label: string;
     acceptedArticleCategories: string[];
   }>>(
-    () =>
-      Array.isArray(newsPage?.filters)
-        ? (newsPage.filters as RawNewsFilter[])
-            .filter(
-              (filter) =>
-                typeof filter?.key === "string" &&
-                typeof filter?.label === "string",
-            )
-            .map((filter) => ({
-              key: filter.key as string,
-              label: filter.label as string,
-              acceptedArticleCategories: Array.isArray(filter.acceptedArticleCategories)
-                ? filter.acceptedArticleCategories.filter(
-                    (category): category is string => typeof category === "string",
-                  )
-                : [],
-            }))
-        : [],
-    [newsPage?.filters],
+    () => resolveNewsFilterOptions(newsPage?.filters, routeLocale),
+    [newsPage?.filters, routeLocale],
   );
 
   const listableCategories = useMemo(() => {
@@ -265,7 +242,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   }, [newsPage?.socialPosts, showInstagramPosts, socialPostLimit]);
 
   const getCategoryLabel = (category: string) =>
-    resolveArticleCategoryLabel(category, filterOptions);
+    resolveArticleCategoryLabel(category, filterOptions, routeLocale);
 
   const articleLink = (article: Article) =>
     article.externalUrl || `${newsPath}/${article.slug}`;

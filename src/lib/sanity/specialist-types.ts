@@ -30,6 +30,7 @@ export interface SpecialistPatientReview {
   text: string;
   rating: number;
   date?: string;
+  source?: "google" | "legelisten";
 }
 
 export interface SpecialistRelatedSection {
@@ -60,7 +61,9 @@ export interface Specialist {
   expertise: string[];
   image: ImageRef;
   /** Sanity photo hotspot (0–1) when editors set a focal point. */
-  imageHotspot?: import("@/lib/media/focal-point").MediaFocalPoint | null;
+  imageHotspot?: import("@/lib/media/focal-point").SanityHotspot | import("@/lib/media/focal-point").MediaFocalPoint | null;
+  /** Sanity photo crop (0–1 edges) when editors crop the asset. */
+  imageCrop?: import("@/lib/media/focal-point").SanityCrop | null;
   /** Resolved hero media (Image / Video) when present. */
   heroMedia?: import("@/lib/sanity/media-dual-read").ResolvedCmsMedia;
   category: SpecialistCategory;

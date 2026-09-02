@@ -17,6 +17,7 @@ export type ResponsiveHeroMediaProps = {
   variant?: MediaVariant;
   /** Explicit hotspot when media doesn't carry one (legacy URL fields). */
   hotspot?: SanityHotspot | MediaFocalPoint | null;
+  crop?: import("@/lib/media/focal-point").SanityCrop | null;
   objectPosition?: string;
   className?: string;
   style?: CSSProperties;
@@ -37,6 +38,7 @@ export function ResponsiveHeroMedia({
   alt,
   variant = "hero",
   hotspot,
+  crop,
   objectPosition,
   className = "absolute inset-0 w-full h-full",
   style,
@@ -51,6 +53,7 @@ export function ResponsiveHeroMedia({
         alt={alt}
         variant={variant}
         hotspot={hotspot}
+        crop={crop}
         objectPosition={objectPosition}
         className={className}
         style={style}
@@ -68,6 +71,7 @@ export function ResponsiveHeroMedia({
         alt={alt}
         variant={variant}
         hotspot={hotspot ?? undefined}
+        crop={crop}
         objectPosition={objectPosition}
         className={className}
         style={style}

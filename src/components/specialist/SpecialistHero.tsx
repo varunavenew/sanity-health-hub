@@ -10,7 +10,6 @@ import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-ty
 
 interface SpecialistHeroProps {
   specialist: Specialist;
-  onBookingClick: () => void;
 }
 
 const expertiseChipClass =
@@ -38,8 +37,8 @@ function SpecialistHeroMedia({
       variant={variant}
       media={specialist.heroMedia}
       src={specialist.image}
-      hotspot={specialist.imageHotspot}
-      objectPosition="50% 20%"
+      hotspot={specialist.heroMedia?.hotspot ?? specialist.imageHotspot}
+      crop={specialist.heroMedia?.crop ?? specialist.imageCrop}
       alt={specialist.name}
       className={className}
       loading="eager"
@@ -47,7 +46,7 @@ function SpecialistHeroMedia({
   );
 }
 
-export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroProps) => {
+export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
   const ui = useSpecialistProfileUi();
   const clinicsPath = useNavCmsPath("clinics");
   const clinics = clinicLinks(specialist);
@@ -130,7 +129,6 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
             >
               <SpecialistCtaButtons
                 specialist={specialist}
-                onBookingClick={onBookingClick}
                 bookingLabel={ui.bookingCtaLabel}
                 callLabel={ui.heroCallUsLabel}
                 surface="mobile"
@@ -207,7 +205,6 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
               >
                 <SpecialistCtaButtons
                   specialist={specialist}
-                  onBookingClick={onBookingClick}
                   bookingLabel={ui.bookingCtaLabel}
                   callLabel={ui.heroCallUsLabel}
                   surface="desktop"
@@ -217,7 +214,10 @@ export const SpecialistHero = ({ specialist, onBookingClick }: SpecialistHeroPro
           </div>
         </div>
 
-        <div className="split-media relative w-full min-h-0 bg-secondary/40">
+        <div
+          data-hero-parallax=""
+          className="split-media relative w-full min-h-0 bg-secondary/40"
+        >
           <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
         </div>
       </div>
