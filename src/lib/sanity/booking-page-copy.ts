@@ -16,6 +16,8 @@ export type BookingPageCopy = {
   summarySpecialistLabel: string;
   supportPhone: string;
   supportPhoneLabel: string;
+  /** Footer under every booking step. Use `{{phone}}` for the clickable number. */
+  supportFooterText: string;
   step1Heading: string;
   step1HeadingFiltered: string;
   step1ShowAllServices: string;
@@ -117,6 +119,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   summarySpecialistLabel: "Behandler:",
   supportPhone: "22 60 00 50",
   supportPhoneLabel: "Ring oss så hjelper vi deg",
+  supportFooterText:
+    "Hvis du opplever utfordringer med nettbestilling, er du velkommen til å ringe oss på {{phone}}.\nVi er tilgjengelige fra 08:00 – 20:00 alle hverdager.",
   step1Heading: "Velg tjeneste",
   step1HeadingFiltered: "Velg tjeneste innen {{category}}",
   step1ShowAllServices: "Vis alle tjenester",
@@ -216,12 +220,46 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
     "Bestillingen kunne ikke fullføres. Sjekk nettverket og prøv igjen, eller ring oss på 22 60 00 50.",
 };
 
+/** English fallbacks when CMS has no `en` value yet (e.g. newly added fields). */
+const BOOKING_PAGE_EN_FALLBACKS: Partial<BookingPageCopy> = {
+  supportFooterText:
+    "If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.",
+};
+
+export function defaultBookingPageCopyForLang(lang: "no" | "en"): BookingPageCopy {
+  if (lang === "en") {
+    return { ...DEFAULT_BOOKING_PAGE_COPY, ...BOOKING_PAGE_EN_FALLBACKS };
+  }
+  return DEFAULT_BOOKING_PAGE_COPY;
+}
+
 export function splitTemplateLink(
   template: string,
   token: string,
 ): [string, string] {
   const parts = template.split(token);
   return [parts[0] ?? "", parts.slice(1).join(token)];
+}
+
+/** `tel:` href for the booking support number (e.g. tel:+4722600050). */
+export function bookingSupportTelHref(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  if (!digits) return "tel:+4722600050";
+  const withCountry =
+    digits.startsWith("47") && digits.length >= 10 ? digits : `47${digits}`;
+  return `tel:+${withCountry}`;
+}
+
+/** Display form matching the demo: +47 22 60 00 50. */
+export function bookingSupportPhoneDisplay(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  const national =
+    digits.startsWith("47") && digits.length >= 10 ? digits.slice(2) : digits;
+  if (national.length === 8) {
+    return `+47 ${national.slice(0, 2)} ${national.slice(2, 4)} ${national.slice(4, 6)} ${national.slice(6, 8)}`;
+  }
+  const rest = phone.replace(/^\s*\+?47\s*/, "").trim() || phone.trim();
+  return `+47 ${rest}`;
 }
 
 export function fillBookingTemplate(

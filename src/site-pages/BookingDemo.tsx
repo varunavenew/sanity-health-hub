@@ -54,6 +54,7 @@ import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
+import { BookingSupportFooter } from "@/components/booking/BookingSupportFooter";
 import { BookingPageAnalytics } from "@/components/analytics/BookingPageAnalytics";
 import {
   bookingMethodForClinic,
@@ -68,7 +69,7 @@ import { useBookingPage, useClinics } from "@/hooks/useSanity";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { useParams } from "@/lib/router";
 import {
-  DEFAULT_BOOKING_PAGE_COPY,
+  defaultBookingPageCopyForLang,
   fillBookingTemplate,
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
@@ -205,7 +206,7 @@ const BookingDemo = () => {
   const locale = params?.locale === "en" ? "en" : "no";
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
-  const { data: bookingPageData = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
+  const { data: bookingPageData = defaultBookingPageCopyForLang(locale) } = useBookingPage();
   const copy = bookingPageData;
   const bookingGeoSummary = bookingPageData.geoSummary;
   const { data: sanityClinics = [] } = useClinics();
@@ -1286,6 +1287,8 @@ const BookingDemo = () => {
           >
             {copy.successBackHome}
           </Button>
+
+          <BookingSupportFooter text={copy.supportFooterText} phone={copy.supportPhone} />
         </div>
       </div>
     );
@@ -2303,6 +2306,8 @@ const BookingDemo = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        <BookingSupportFooter text={copy.supportFooterText} phone={copy.supportPhone} />
       </main>
 
       {/* Specialist Info Dialog */}
