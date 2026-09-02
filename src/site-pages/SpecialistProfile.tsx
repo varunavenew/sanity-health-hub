@@ -21,7 +21,9 @@ import {
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
+import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
 import { siteUrl } from "@/lib/env";
+import { assetSrc } from "@/lib/media";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
@@ -107,6 +109,11 @@ function SpecialistProfileBody({
   const seoTitle = specialist.seo?.metaTitle ?? specialist.name;
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
   const profilePath = `${specialistsPath}/${specialist.slug}`;
+  const shareImageUrl = resolveSeoShareImageUrl({
+    seo: specialist.seo,
+    portraitImageUrl: assetSrc(specialist.image),
+    heroMedia: specialist.heroMedia,
+  });
 
   useEffect(() => {
     const clinicLabel =
@@ -137,6 +144,7 @@ function SpecialistProfileBody({
     name: specialist.name,
     jobTitle: specialist.title,
     medicalSpecialty: specialist.expertise || [],
+    ...(shareImageUrl ? { image: shareImageUrl } : {}),
     worksFor: {
       "@type": "MedicalClinic",
       name: "CMedical",
@@ -158,6 +166,7 @@ function SpecialistProfileBody({
         title={seoTitle}
         description={seoDescription}
         canonical={profilePath}
+        ogImage={shareImageUrl}
         type="profile"
         breadcrumbs={[
           { name: profileUi.breadcrumbHomeLabel, path: "/" },

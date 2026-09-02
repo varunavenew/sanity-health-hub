@@ -232,6 +232,8 @@ export async function fetchSpecialistSeo(
       role?: string;
       shortBio?: string;
       expertise?: string[];
+      image?: string;
+      heroMedia?: unknown;
     })
   | null
 > {
@@ -265,6 +267,8 @@ export async function fetchSpecialistSeo(
     role: typeof doc.role === "string" ? doc.role : undefined,
     shortBio: typeof doc.shortBio === "string" ? doc.shortBio : undefined,
     expertise,
+    image: typeof doc.image === "string" ? doc.image : undefined,
+    heroMedia: doc.heroMedia,
     seo: doc.seo as DocWithSeo["seo"],
   };
 }

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { getImageUrl } from "@/lib/sanity/image-url";
 import {
   appLocaleFromParam,
   buildPageMetadata,
   type LocalizedPaths,
 } from "@/lib/seo/metadata-builders";
+import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
 import { resolveMetaStrings, type SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 import {
@@ -29,11 +29,22 @@ function metadataFromSeo(
     nb: { title: string; description: string };
     en: { title: string; description: string };
   },
-  opts?: { type?: "website" | "article"; publishedTime?: string },
+  opts?: {
+    type?: "website" | "article";
+    publishedTime?: string;
+    heroImageUrl?: string | null;
+    heroMedia?: unknown;
+    portraitImageUrl?: string | null;
+  },
 ): Metadata {
   const lang = appLocaleFromParam(locale);
   const { title, description } = resolveMetaStrings(seo, lang, fallbacks);
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
+  const ogImage = resolveSeoShareImageUrl({
+    seo,
+    heroImageUrl: opts?.heroImageUrl,
+    heroMedia: opts?.heroMedia,
+    portraitImageUrl: opts?.portraitImageUrl,
+  });
 
   return buildPageMetadata({
     locale,
@@ -112,6 +123,10 @@ export async function buildTreatmentCategoryMetadata(
         description: `Treatments in ${title} at CMedical.`,
       },
     },
+    {
+      heroImageUrl: doc?.heroImage,
+      heroMedia: doc?.heroMedia,
+    },
   );
 }
 
@@ -144,6 +159,10 @@ export async function buildTreatmentMetadata(
             doc?.description?.slice(0, 160) ||
             `Learn about ${title} at CMedical.`,
         },
+      },
+      {
+        heroImageUrl: doc?.heroImage,
+        heroMedia: doc?.heroMedia,
       },
     );
   } catch {
@@ -246,7 +265,10 @@ export async function buildSpecialistMetadata(
     },
   };
 
-  return metadataFromSeo(locale, paths, doc.seo, cmsSeo);
+  return metadataFromSeo(locale, paths, doc.seo, cmsSeo, {
+    portraitImageUrl: doc.image,
+    heroMedia: doc.heroMedia,
+  });
 }
 
 export async function buildClinicMetadata(

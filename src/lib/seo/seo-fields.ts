@@ -4,6 +4,7 @@ export type SanitySeoFields = {
   metaTitle?: string | null;
   metaDescription?: string | null;
   ogImage?: unknown;
+  useCustomOgImage?: boolean | null;
   noIndex?: boolean;
 } | null;
 

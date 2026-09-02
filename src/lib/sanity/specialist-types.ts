@@ -98,6 +98,7 @@ export interface Specialist {
     metaTitle?: string;
     metaDescription?: string;
     ogImage?: unknown;
+    useCustomOgImage?: boolean;
     noIndex?: boolean;
   };
   geoSummary?: string;

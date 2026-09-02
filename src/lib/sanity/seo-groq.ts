@@ -20,6 +20,7 @@ export const localizedSeoObject = `
       seo.metaDescription
     ),
     "ogImage": seo.ogImage,
+    "useCustomOgImage": seo.useCustomOgImage,
     "noIndex": seo.noIndex
   }
 `;
@@ -38,6 +39,7 @@ export const localizedSeoObjectLocale = `
       seo.metaDescription[_key == $lang][0].value
     ),
     "ogImage": seo.ogImage,
+    "useCustomOgImage": seo.useCustomOgImage,
     "noIndex": seo.noIndex
   }
 `;
