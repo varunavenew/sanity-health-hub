@@ -64,7 +64,9 @@ export function JourneyStepMultiCategoryServices() {
         const pageId = bookingCategoryPageIdForClinicService(category.clinicServiceId);
         return (
           <div key={category.id}>
-            <p className="text-xs font-light text-muted-foreground mb-2">{category.label}</p>
+            <p className="methodika-sentence-case text-xs font-light text-muted-foreground mb-2">
+              {category.label}
+            </p>
             <ul className="space-y-2">
               {category.services.map((service) => (
                 <li key={service.apiActivityId ?? service.name}>
@@ -76,7 +78,7 @@ export function JourneyStepMultiCategoryServices() {
                     className="group flex items-center justify-between gap-3 text-sm font-light text-foreground hover:text-foreground/80 transition-colors"
                   >
                     <div className="min-w-0">
-                      <span className="block">{service.name}</span>
+                      <span className="methodika-sentence-case">{service.name}</span>
                       <span className="text-xs text-muted-foreground">
                         {formatBookingServicePrice(service.price)}
                       </span>

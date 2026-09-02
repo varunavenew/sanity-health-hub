@@ -677,3 +677,35 @@ body.cm-edit-mode [data-editable-scope] {
   height: 100%;
   object-fit: cover;
 }
+
+/* Stacked split heroes (Contact, Priser, Insurance, …) — image on top on mobile */
+@media (max-width: 1023px) {
+  .split-hero-image-first {
+    min-height: 0;
+  }
+
+  .split-hero-image-first > .split-media {
+    order: 1;
+    min-height: 40vh;
+    max-height: 44vh;
+    height: 44vh;
+  }
+
+  .split-hero-image-first > .order-2 {
+    order: 2;
+  }
+}
+
+/*
+ * Metodika activity-group / activity names arrive in Title Case
+ * (e.g. «Klinisk Ernæringsfysiolog»). Sentence-case for display only.
+ * Do not use Tailwind `capitalize` — it title-cases every word.
+ */
+.methodika-sentence-case {
+  display: inline-block;
+  max-width: 100%;
+  text-transform: lowercase;
+}
+.methodika-sentence-case::first-letter {
+  text-transform: uppercase;
+}
