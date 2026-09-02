@@ -1221,6 +1221,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
 ].map((field) => bookingI18nString(field));
 
 const BOOKING_PAGE_I18N_TEXT_FIELDS = [
+  "supportFooterText",
   "step1EmptyMessage",
   "step2EmptyMessage",
   "step3Subtitle",

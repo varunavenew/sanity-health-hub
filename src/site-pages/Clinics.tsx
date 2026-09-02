@@ -1,7 +1,7 @@
 "use client";
 
-import { AssetImg } from "@/components/AssetImg";
 import { CmsMedia } from "@/components/media/CmsMedia";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { Link, useNavigate } from "@/lib/router";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -14,8 +14,8 @@ import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { Button } from "@/components/ui/button";
-import type { ImageRef } from "@/lib/media";
-import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { assetSrc, type ImageRef } from "@/lib/media";
+import { resolveCmsMedia, type ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
 
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
 import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
@@ -28,6 +28,37 @@ const clinicImages: Record<string, ImageRef> = {
   moss: imgMoss,
   moelv: imgMoelv,
 };
+
+/** Split listing photos fill ~50vw × 100vh — skip 480px CMS thumbs. */
+const MIN_SPLIT_IMAGE_WIDTH = 960;
+
+function sanityCdnWidth(url: string): number | null {
+  try {
+    const match = new URL(url).pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i);
+    return match ? Number(match[1]) : null;
+  } catch {
+    return null;
+  }
+}
+
+function isSharpEnoughListingImage(url: string): boolean {
+  const width = sanityCdnWidth(url);
+  return width == null || width >= MIN_SPLIT_IMAGE_WIDTH;
+}
+
+function clinicListingImageSrc(
+  resolved: ResolvedCmsMedia | null,
+  primaryImage: string | undefined,
+  slug: string,
+): string | undefined {
+  const cms =
+    (resolved?.kind === "image" ? resolved.src : undefined) ||
+    (resolved?.kind === "video" ? resolved.poster : undefined) ||
+    primaryImage;
+  const local = clinicImages[slug] ? assetSrc(clinicImages[slug]) : undefined;
+  if (cms && isSharpEnoughListingImage(cms)) return cms;
+  return local || cms;
+}
 
 /** Closed Ski clinic must never appear even if stale cache / leftover docs exist. */
 const EXCLUDED_CLINIC_SLUGS = new Set(["ski"]);
@@ -154,17 +185,21 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         {list.map((clinic: (typeof list)[number], idx: number) => {
           const detailHref = `/klinikker/${clinic.slug}`;
           const serviceCount = clinic.services?.length || 0;
-          const resolved = resolveCmsMedia(
-            (clinic as { heroMedia?: unknown }).heroMedia,
-            { mediaType: "image", imageUrl: clinic.primaryImage },
+          const resolved = resolveCmsMedia(clinic.heroMedia, {
+            mediaType: "image",
+            imageUrl: clinic.primaryImage,
+          });
+          const listingImage = clinicListingImageSrc(
+            resolved,
+            clinic.primaryImage,
+            clinic.slug,
           );
-          const fallbackImage =
-            (resolved?.kind === "image" ? resolved.src : resolved?.poster) ||
-            clinic.primaryImage ||
-            clinicImages[clinic.slug];
           const reverse = idx % 2 === 1;
           const description =
             (typeof clinic.description === "string" && clinic.description) || "";
+          const imageLoading = idx === 0 ? "eager" : "lazy";
+          const mediaClassName =
+            "absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]";
 
           return (
             <div
@@ -182,19 +217,23 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                   <CmsMedia
                     media={resolved}
                     alt={`CMedical ${clinic.label}`}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    className={mediaClassName}
+                    variant="gallery"
+                    loading={imageLoading}
                     interactive={false}
                   />
-                ) : fallbackImage ? (
-                  <AssetImg
-                    src={fallbackImage}
+                ) : listingImage ? (
+                  <ResponsiveImage
+                    src={listingImage}
                     alt={`CMedical ${clinic.label}`}
-                    preset="card"
-                    imageWidth={1280}
-                    loading="lazy"
-                    width={1280}
-                    height={1280}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    variant="gallery"
+                    hotspot={resolved?.hotspot}
+                    crop={resolved?.crop}
+                    imageWidth={1920}
+                    loading={imageLoading}
+                    fetchPriority={idx === 0 ? "high" : undefined}
+                    sizes="(max-width: 1023px) 100vw, 50vw"
+                    className={mediaClassName}
                   />
                 ) : (
                   <div className="absolute inset-0 bg-brand-mid/20" />
