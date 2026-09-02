@@ -12,16 +12,62 @@ import {
   useFormValue,
 } from 'sanity'
 
-const HERO_PAGE_TYPES = new Set(['specialist', 'treatment', 'treatmentCategory'])
+/** Singleton + content pages that may have a hero image for SEO fallback. */
+const AUTO_HERO_PAGE_TYPES = new Set([
+  'homepage',
+  'aboutPage',
+  'servicesPage',
+  'insurancePage',
+  'pricingPage',
+  'clinicsPage',
+  'contactPage',
+  'guidePage',
+  'privacyPolicyPage',
+  'specialist',
+  'treatment',
+  'treatmentCategory',
+])
+
+const NO_HERO_PAGE_TYPES = new Set([
+  'newsPage',
+  'careersPage',
+  'opennessActPage',
+  'specialistsListingPage',
+  'specialistsPage',
+  'bookingPage',
+])
+
+function pickHomepageSlideImage(heroBanner: unknown): SanityImageSource | undefined {
+  const slides = (heroBanner as {slides?: unknown[]} | undefined)?.slides
+  if (!Array.isArray(slides) || slides.length === 0) return undefined
+  const slide = slides[0] as Record<string, unknown>
+  if (slide.desktopMediaType === 'video') {
+    const mobile = slide.mobileImage
+    if (mobile && typeof mobile === 'object') return mobile as SanityImageSource
+    return undefined
+  }
+  const media = slide.media as {image?: SanityImageSource; mediaType?: string} | undefined
+  if (media?.image) return media.image
+  if (slide.image && typeof slide.image === 'object') return slide.image as SanityImageSource
+  if (slide.mobileImage && typeof slide.mobileImage === 'object') {
+    return slide.mobileImage as SanityImageSource
+  }
+  return undefined
+}
 
 function pickImageSource(
   docType: string | undefined,
   photo: unknown,
   heroImage: unknown,
   heroMedia: unknown,
+  heroBanner: unknown,
 ): SanityImageSource | undefined {
   const media = heroMedia as {mediaType?: string; image?: SanityImageSource} | undefined
   const mediaImage = media?.image
+
+  if (docType === 'homepage') {
+    return pickHomepageSlideImage(heroBanner)
+  }
 
   if (docType === 'specialist') {
     if (photo && typeof photo === 'object') return photo as SanityImageSource
@@ -29,9 +75,27 @@ function pickImageSource(
     return undefined
   }
 
-  if (docType === 'treatment' || docType === 'treatmentCategory') {
+  if (
+    docType === 'treatment' ||
+    docType === 'treatmentCategory' ||
+    docType === 'aboutPage' ||
+    docType === 'servicesPage' ||
+    docType === 'insurancePage' ||
+    docType === 'pricingPage' ||
+    docType === 'clinicsPage' ||
+    docType === 'contactPage'
+  ) {
     if (heroImage && typeof heroImage === 'object') return heroImage as SanityImageSource
+    if (typeof heroImage === 'string' && heroImage.startsWith('http')) return undefined
     if (mediaImage) return mediaImage
+    return undefined
+  }
+
+  if (docType === 'guidePage' || docType === 'privacyPolicyPage') {
+    if (mediaImage) return mediaImage
+    if (heroMedia && typeof heroMedia === 'object' && !mediaImage) {
+      return heroMedia as SanityImageSource
+    }
     return undefined
   }
 
@@ -40,8 +104,9 @@ function pickImageSource(
 
 function heroLabel(docType: string | undefined): string {
   if (docType === 'specialist') return 'profile / hero image'
+  if (docType === 'homepage') return 'hero banner image'
   if (docType === 'treatment' || docType === 'treatmentCategory') return 'hero image'
-  return 'page image'
+  return 'hero image'
 }
 
 function SeoAutoHeroPreviewBanner() {
@@ -50,10 +115,11 @@ function SeoAutoHeroPreviewBanner() {
   const photo = useFormValue(['photo'])
   const heroImage = useFormValue(['heroImage'])
   const heroMedia = useFormValue(['heroMedia'])
+  const heroBanner = useFormValue(['heroBanner'])
 
   const imageSource = useMemo(
-    () => pickImageSource(docType, photo, heroImage, heroMedia),
-    [docType, photo, heroImage, heroMedia],
+    () => pickImageSource(docType, photo, heroImage, heroMedia, heroBanner),
+    [docType, photo, heroImage, heroMedia, heroBanner],
   )
 
   const previewUrl = useMemo(() => {
@@ -71,7 +137,18 @@ function SeoAutoHeroPreviewBanner() {
     }
   }, [client, imageSource])
 
-  if (!HERO_PAGE_TYPES.has(docType ?? '')) return null
+  if (NO_HERO_PAGE_TYPES.has(docType ?? '')) {
+    return (
+      <Card padding={3} radius={2} tone="transparent" border>
+        <Text size={1} muted>
+          This page has no hero image. Turn on &ldquo;Use a different sharing image&rdquo;
+          below to upload one, or the site logo is used when nothing is set.
+        </Text>
+      </Card>
+    )
+  }
+
+  if (!AUTO_HERO_PAGE_TYPES.has(docType ?? '')) return null
 
   return (
     <Card padding={3} radius={2} tone="primary" border>

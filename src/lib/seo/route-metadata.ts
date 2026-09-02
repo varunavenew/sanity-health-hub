@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { getImageUrl } from "@/lib/sanity/image-url";
 import { appLocaleFromParam, buildPageMetadata } from "@/lib/seo/metadata-builders";
+import { plainMetaString, resolveMetaStrings } from "@/lib/seo/seo-fields";
+import {
+  resolveSeoShareImageFromPage,
+  type SeoShareImageFields,
+} from "@/lib/seo/resolve-seo-share-image";
 import {
   fetchAboutPageDocument,
   fetchClinicsPageDocument,
@@ -17,10 +21,21 @@ import {
   fetchGuidePageDocument,
   fetchCareersPageDocument,
 } from "@/lib/seo/fetch-sanity-seo";
-import type { LocalizedPaths } from "@/lib/seo/metadata-builders";
-import { plainMetaString, resolveMetaStrings } from "@/lib/seo/seo-fields";
 import { fetchSingletonLocalizedPaths } from "@/lib/routing/singleton-slug-paths";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
+
+type PageHeroFields = {
+  heroImage?: string;
+  heroMedia?: unknown;
+  heroBanner?: unknown;
+};
+
+function pageOgImage(
+  seo: SeoShareImageFields | null | undefined,
+  page?: PageHeroFields,
+): string | undefined {
+  return resolveSeoShareImageFromPage(seo, page);
+}
 
 const HOME_DEFAULTS = {
   nb: {
@@ -65,7 +80,9 @@ export async function buildHomeMetadata(locale: string): Promise<Metadata> {
   const data = await fetchHomepageDocument(sanityLang);
   const seo = data?.seo;
   const { title, description } = resolveMetaStrings(seo, lang, HOME_DEFAULTS);
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
+  const ogImage = pageOgImage(seo, {
+    heroBanner: (data as PageHeroFields | null)?.heroBanner,
+  });
 
   return buildPageMetadata({
     locale,
@@ -90,10 +107,7 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
     paths: await fetchSingletonLocalizedPaths("contactPage"),
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -140,7 +154,7 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
       description: PRIVACY_FALLBACK.en.description,
     },
   });
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
+  const ogImage = pageOgImage(seo, data as PageHeroFields | undefined);
 
   return buildPageMetadata({
     locale,
@@ -168,7 +182,7 @@ export async function buildOpennessActMetadata(locale: string): Promise<Metadata
       description: data?.subtitle?.trim() || OPENNESS_ACT_FALLBACK.en.description,
     },
   });
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined;
+  const ogImage = pageOgImage(seo);
 
   return buildPageMetadata({
     locale,
@@ -193,10 +207,7 @@ export async function buildAboutMetadata(locale: string): Promise<Metadata> {
     paths: await fetchSingletonLocalizedPaths("aboutPage"),
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -227,10 +238,7 @@ export async function buildInsuranceMetadata(locale: string): Promise<Metadata> 
     paths: await fetchSingletonLocalizedPaths("insurancePage"),
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -248,10 +256,7 @@ export async function buildNewsMetadata(locale: string): Promise<Metadata> {
     paths: await fetchSingletonLocalizedPaths("newsPage"),
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -269,10 +274,7 @@ export async function buildSpecialistsAboutMetadata(locale: string): Promise<Met
     paths: await fetchSingletonLocalizedPaths("specialistsPage"),
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -291,10 +293,7 @@ export async function buildServicesMetadata(locale: string): Promise<Metadata> {
     paths,
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -321,10 +320,7 @@ export async function buildPricingMetadata(locale: string): Promise<Metadata> {
     paths: await fetchSingletonLocalizedPaths("pricingPage"),
     title: resolvedTitle,
     description: resolvedDescription,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -361,10 +357,7 @@ export async function buildSpecialistsListingMetadata(
     paths: await fetchSingletonLocalizedPaths("specialistsListingPage"),
     title,
     description,
-    ogImage: (() => {
-      const u = seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "";
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -401,10 +394,7 @@ export async function buildClinicsListingMetadata(
     paths: await fetchSingletonLocalizedPaths("clinicsPage"),
     title,
     description,
-    ogImage: (() => {
-      const u = data?.heroImage || (seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : "");
-      return u || undefined;
-    })(),
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -456,7 +446,7 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
     paths,
     title: resolvedTitle,
     description: resolvedDescription,
-    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined,
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -490,7 +480,7 @@ export async function buildKarriereListingMetadata(
     paths,
     title,
     description,
-    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage, { width: 1200 }) : undefined,
+    ogImage: pageOgImage(seo),
     noIndex: !!seo?.noIndex,
     type: "website",
   });

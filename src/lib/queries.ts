@@ -929,6 +929,7 @@ export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage" && ${pu
   ${i18nBlockContent('body')},
   ${i18nText('emptyMessage')},
   cookiebotKey,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -1392,6 +1393,7 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
   ${i18nString("title")},
   ${i18nString("eyebrow")},
   ${i18nText("introText")},
+  "heroImage": heroImage.asset->url,
   ${i18nString("searchPlaceholder")},
   ${i18nString("featuredSectionTitle")},
   ${i18nString("faqSectionTitle")},

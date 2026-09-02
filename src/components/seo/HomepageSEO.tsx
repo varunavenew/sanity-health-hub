@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { useClientDocumentHead } from "@/hooks/use-client-document-head";
-import { getImageUrl } from "@/lib/sanity/image-url";
+import { resolveSeoShareImageFromPage } from "@/lib/seo/resolve-seo-share-image";
 
 const DEFAULTS = {
   nb: {
@@ -85,18 +85,21 @@ interface HomepageSEOProps {
     metaTitle?: string;
     metaDescription?: string;
     ogImage?: unknown;
+    useCustomOgImage?: boolean;
     noIndex?: boolean;
   } | null;
+  /** First hero slide image URL when custom sharing image is off. */
+  heroImageUrl?: string;
 }
 
-export const HomepageSEO = ({ seo }: HomepageSEOProps) => {
+export const HomepageSEO = ({ seo, heroImageUrl }: HomepageSEOProps) => {
   const { i18n } = useTranslation();
   const lang: "nb" | "en" = (i18n.language || "nb").startsWith("en") ? "en" : "nb";
   const ogLocale = lang === "en" ? "en_US" : "nb_NO";
 
   const title = seo?.metaTitle || DEFAULTS[lang].title;
   const description = seo?.metaDescription || DEFAULTS[lang].description;
-  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
+  const ogImage = resolveSeoShareImageFromPage(seo, { heroImage: heroImageUrl });
 
   const headSpec = useMemo(
     () => ({

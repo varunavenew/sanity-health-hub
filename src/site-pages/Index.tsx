@@ -35,7 +35,10 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <HomepageSEO seo={homepage?.seo} />
+      <HomepageSEO
+        seo={homepage?.seo}
+        heroImageUrl={homepage?.heroSlides?.[0]?.image}
+      />
 
       <h1 className="sr-only">{t("h1")}</h1>
 
