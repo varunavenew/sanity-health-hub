@@ -20,31 +20,33 @@ export function BookingSupportFooter({ text, phone }: BookingSupportFooterProps)
   const [before, after] = splitTemplateLink(text, "{{phone}}");
 
   return (
-    <p className="mt-10 mx-auto max-w-md text-center text-sm font-light leading-relaxed text-brand-dark/55 whitespace-pre-line">
-      {hasToken ? (
-        <>
-          {before}
-          <a
-            href={href}
-            data-phone-location="booking_flow"
-            className="whitespace-nowrap text-brand-dark underline underline-offset-4 hover:text-brand-dark/70"
-          >
-            {display}
-          </a>
-          {after}
-        </>
-      ) : (
-        <>
-          {text}{" "}
-          <a
-            href={href}
-            data-phone-location="booking_flow"
-            className="whitespace-nowrap text-brand-dark underline underline-offset-4 hover:text-brand-dark/70"
-          >
-            {display}
-          </a>
-        </>
-      )}
-    </p>
+    <div className="mt-10 border-t border-brand-dark/10 pt-10">
+      <p className="mx-auto max-w-md text-center text-sm font-light leading-relaxed text-brand-dark/55 whitespace-pre-line">
+        {hasToken ? (
+          <>
+            {before}
+            <a
+              href={href}
+              data-phone-location="booking_flow"
+              className="whitespace-nowrap text-brand-dark underline underline-offset-4 hover:text-brand-dark/70"
+            >
+              {display}
+            </a>
+            {after}
+          </>
+        ) : (
+          <>
+            {text}{" "}
+            <a
+              href={href}
+              data-phone-location="booking_flow"
+              className="whitespace-nowrap text-brand-dark underline underline-offset-4 hover:text-brand-dark/70"
+            >
+              {display}
+            </a>
+          </>
+        )}
+      </p>
+    </div>
   );
 }
