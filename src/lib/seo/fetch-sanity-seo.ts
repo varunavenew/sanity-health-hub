@@ -344,6 +344,8 @@ export async function fetchTreatmentCategorySeo(
   | (DocWithSeo & {
       title?: string;
       description?: string;
+      heroImage?: string;
+      heroMedia?: unknown;
     })
   | null
 > {
@@ -362,6 +364,8 @@ export async function fetchTreatmentCategorySeo(
   return normalizeI18n(raw, lang) as DocWithSeo & {
     title?: string;
     description?: string;
+    heroImage?: string;
+    heroMedia?: unknown;
   };
 }
 
@@ -374,6 +378,8 @@ export async function fetchTreatmentSeo(
       title?: string;
       description?: string;
       parentCategory?: string;
+      heroImage?: string;
+      heroMedia?: unknown;
     })
   | null
 > {
@@ -400,6 +406,8 @@ export async function fetchTreatmentSeo(
     title?: string;
     description?: string;
     parentCategory?: string;
+    heroImage?: string;
+    heroMedia?: unknown;
   };
 }
 
