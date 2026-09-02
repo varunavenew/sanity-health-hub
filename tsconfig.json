@@ -41,7 +41,9 @@
     ".next-work/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     ".next-build/types/**/*.ts",
-    ".next-build/dev/types/**/*.ts"
+    ".next-build/dev/types/**/*.ts",
+    "/tmp/next-verify-dist/types/**/*.ts",
+    "/tmp/next-verify-dist/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

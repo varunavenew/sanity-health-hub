@@ -1783,7 +1783,7 @@ const BookingDemo = () => {
             <div className="space-y-4 text-sm">
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelTreatment}</span>
-                <span className="font-medium">{bookingData.service?.name}</span>
+                <span className="methodika-sentence-case font-medium">{bookingData.service?.name}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelClinic}</span>
@@ -1915,7 +1915,9 @@ const BookingDemo = () => {
               {bookingData.service && (
                 <div>
                   <span className="text-brand-dark/60 text-xs">{copy.summaryServiceLabel} </span>
-                  <span className="font-normal text-brand-dark">{bookingData.service.name}</span>
+                  <span className="methodika-sentence-case font-normal text-brand-dark">
+                    {bookingData.service.name}
+                  </span>
                 </div>
               )}
               {bookingData.clinic && (
@@ -2058,7 +2060,9 @@ const BookingDemo = () => {
                             isExpanded && "bg-brand-beige/60",
                           )}
                         >
-                          <span className="font-normal text-brand-dark min-w-0">{category.label}</span>
+                          <span className="methodika-sentence-case font-normal text-brand-dark min-w-0">
+                            {category.label}
+                          </span>
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
                               {!isExpanded &&
@@ -2128,7 +2132,7 @@ const BookingDemo = () => {
                                       )}
                                     >
                                       <div className="flex-1 pr-4 min-w-0">
-                                        <span className="text-brand-dark block font-normal">
+                                        <span className="methodika-sentence-case text-brand-dark font-normal">
                                           {service.name}
                                         </span>
                                         <div className="flex items-center gap-3 mt-1 flex-wrap">
@@ -2648,7 +2652,9 @@ const BookingDemo = () => {
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                   <div>
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelService}</span>
-                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.name}</p>
+                    <p className="methodika-sentence-case font-normal mt-1 text-brand-dark">
+                      {bookingData.service?.name}
+                    </p>
                   </div>
                   <div>
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelPrice}</span>
