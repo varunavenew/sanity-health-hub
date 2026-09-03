@@ -258,8 +258,12 @@ const nextConfig: NextConfig = {
       { source: "/no/nyheter-og-artikler/:path*", destination: "/no/aktuelt/:path*", permanent: true },
       { source: "/nb/nyheter-og-artikler", destination: "/nb/aktuelt", permanent: true },
       { source: "/nb/nyheter-og-artikler/:path*", destination: "/nb/aktuelt/:path*", permanent: true },
-      // Legacy pricing list URLs → /priser (not the old article embed).
+      // Legacy pricing list URLs → /priser (Martin SEO Aug/Sep 2026).
       { source: "/no/prisliste-for-privatbetalende", destination: "/no/priser", permanent: true },
+      { source: "/nb/prisliste-for-privatbetalende", destination: "/nb/priser", permanent: true },
+      { source: "/no/prisliste-for-karkirurgi", destination: "/no/priser", permanent: true },
+      { source: "/nb/prisliste-for-karkirurgi", destination: "/nb/priser", permanent: true },
+      { source: "/:locale(nb|no)/prisliste-for/:slug*", destination: "/:locale/priser", permanent: true },
       {
         source: "/no/nyheter-og-artikler/prisliste-for-privatbetalende",
         destination: "/no/priser",
@@ -304,7 +308,17 @@ const nextConfig: NextConfig = {
       { source: "/en/urology/kidney-stones", destination: "/en/urology/nyrer", permanent: true },
       { source: "/en/urology/operation", destination: "/en/urology/sterilization", permanent: true },
       { source: "/en/livio-oslo", destination: "/en/clinics", permanent: true },
-      { source: "/en/klinikk/:path*", destination: "/en/clinics/:path*", permanent: true },
+
+      // Legacy clinic URLs (singular /klinikk/, compound slugs — launch audit Sep 2026).
+      { source: "/no/klinikk/bekkestua-gynekologi-hud", destination: "/no/klinikker/bekkestua", permanent: true },
+      { source: "/nb/klinikk/bekkestua-gynekologi-hud", destination: "/nb/klinikker/bekkestua", permanent: true },
+      { source: "/:locale(nb|no)/klinikk/majorstuen", destination: "/:locale/klinikker/majorstuen", permanent: true },
+      { source: "/:locale(nb|no)/klinikk/bekkestua", destination: "/:locale/klinikker/bekkestua", permanent: true },
+      { source: "/:locale(nb|no)/klinikk/moss", destination: "/:locale/klinikker/moss", permanent: true },
+      { source: "/:locale(nb|no)/klinikk/moelv", destination: "/:locale/klinikker/moelv", permanent: true },
+      { source: "/en/klinikk/moelv", destination: "/en/clinics/moelv", permanent: true },
+      { source: "/en/klinikk/moss", destination: "/en/clinics/moss", permanent: true },
+      { source: "/en/klinikk/:slug*", destination: "/en/clinics/:slug*", permanent: true },
       { source: "/en/bariatric-surgery", destination: "/en/other/obesity-surgery", permanent: true },
       { source: "/en/gynecology/gynecological-ultrasound", destination: "/en/gynecology/ultrasound", permanent: true },
 
