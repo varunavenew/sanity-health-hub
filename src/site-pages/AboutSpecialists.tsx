@@ -21,7 +21,7 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
   const locale = params?.locale === "en" ? "en" : "nb";
   const { data: pageData } = useSpecialistsPage();
 
-  const title = pageData?.title?.trim();
+  const title = pageData?.title?.trim() || (locale === "en" ? "Our specialists" : "Om våre spesialister");
   const subtitle = pageData?.subtitle?.trim();
   const heroEyebrow = pageData?.heroEyebrow?.trim();
   const localizedSlug =
@@ -64,7 +64,9 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-4">
                 {title}
               </h1>
-            ) : null}
+            ) : (
+              <h1 className="sr-only">{locale === "en" ? "Our specialists" : "Om våre spesialister"}</h1>
+            )}
             {subtitle ? (
               <p className="text-white/70 font-light text-base md:text-lg leading-relaxed">
                 {subtitle}

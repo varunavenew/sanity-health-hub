@@ -1,6 +1,7 @@
 import {
   ABOUT_PAGE_QUERY,
   ARTICLE_BY_SLUG_QUERY,
+  BOOKING_PAGE_SEO_QUERY,
   CONTACT_PAGE_QUERY,
   PRIVACY_POLICY_PAGE_QUERY,
   OPENNESS_ACT_PAGE_QUERY,
@@ -43,6 +44,20 @@ export async function fetchHomepageDocument(
     tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.homepage, SANITY_CACHE_TAGS.type("homepage")],
     revalidate: SANITY_DATA_REVALIDATE_SEC.homepage,
   });
+}
+
+export async function fetchBookingPageDocument(
+  lang: "no" | "en",
+): Promise<(DocWithSeo & { pageTitle?: string; geoSummary?: string }) | null> {
+  const raw = await sanityFetchCached({
+    query: BOOKING_PAGE_SEO_QUERY,
+    params: { lang },
+    key: ["sanity", "bookingPageSeo", lang, BOOKING_PAGE_SEO_QUERY],
+    tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.type("bookingPage")],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+  if (raw == null) return null;
+  return normalizeI18n(raw, lang) as DocWithSeo & { pageTitle?: string; geoSummary?: string };
 }
 
 export async function fetchContactPageDocument(

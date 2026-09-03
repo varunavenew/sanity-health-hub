@@ -467,10 +467,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, [sanityPricing?.pricingCta]);
   const preferPricingCta = isUsableBookingCtaBody(pricingCtaConfig ?? {});
 
-  useEffect(() => {
-    if (seoTitle) document.title = `${seoTitle} | CMedical`;
-  }, [seoTitle]);
-
   // Preserve Sanity/CMS order (matches curated reference). Do not re-sort alphabetically.
   const sortedCategories = categoriesFromCms;
 

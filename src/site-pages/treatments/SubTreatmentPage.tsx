@@ -53,9 +53,28 @@ const SubTreatmentPage = ({
     );
   }
 
+  if (!resolved) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
+          <h1 className="sr-only">
+            {t("common.notFound", {
+              defaultValue: lang === "en" ? "Page not found" : "Siden ble ikke funnet",
+            })}
+          </h1>
+          <p className="text-muted-foreground font-light">
+            {t("common.notFound", {
+              defaultValue: lang === "en" ? "Page not found" : "Siden ble ikke funnet",
+            })}
+          </p>
+        </div>
+      </PageLayout>
+    );
+  }
+
   const content = mapTreatmentToSubTreatmentContent(resolved, {
     categoryId,
-    treatmentSlug: treatmentSlug || resolved?.canonicalSlug || "",
+    treatmentSlug: treatmentSlug || resolved.canonicalSlug || "",
     lang,
   });
 
@@ -64,9 +83,9 @@ const SubTreatmentPage = ({
       isChatOpen={isChatOpen}
       content={content}
       locale={lang}
-      pageSections={resolved?.pageSections}
-      faqSectionTitle={resolved?.faqSectionTitle}
-      faqs={resolved?.faqs}
+      pageSections={resolved.pageSections}
+      faqSectionTitle={resolved.faqSectionTitle}
+      faqs={resolved.faqs}
     />
   );
 };

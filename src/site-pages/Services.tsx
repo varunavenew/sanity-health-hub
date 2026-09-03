@@ -186,6 +186,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">
+          <h1 className="sr-only">{t("nav.services")}</h1>
           <p className="text-muted-foreground font-light">{loadingLabel}</p>
         </div>
       </PageLayout>
@@ -196,6 +197,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
+          <h1 className="sr-only">{t("nav.services")}</h1>
           <p className="text-muted-foreground font-light max-w-md">{pageErrorMessage}</p>
         </div>
       </PageLayout>
@@ -257,12 +259,16 @@ const Services = ({ isChatOpen }: PageProps) => {
           </div>
 
           <div ref={searchRef} className="relative max-w-lg mx-auto">
+            <label htmlFor="services-search" className="block text-sm font-light text-foreground mb-2">
+              {searchPlaceholder}
+            </label>
             <div className="relative">
               <Search
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-foreground/60"
                 aria-hidden="true"
               />
               <input
+                id="services-search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
@@ -273,7 +279,6 @@ const Services = ({ isChatOpen }: PageProps) => {
                   setShowResults(true)
                 }
                 placeholder={searchPlaceholder}
-                aria-label={searchPlaceholder}
                 className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/30 bg-transparent text-[15px] font-light text-foreground placeholder:text-foreground/60 focus:outline-none focus:border-foreground transition-all"
               />
             </div>

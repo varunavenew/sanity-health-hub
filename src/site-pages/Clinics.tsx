@@ -91,7 +91,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const heroEyebrow = page?.heroEyebrow?.trim()
     ? formatEyebrow(page.heroEyebrow, clinicCount)
     : "";
-  const heroTitle = page?.heroTitle?.trim() || "";
+  const heroTitle = page?.heroTitle?.trim() || t("nav.clinics");
   const cmsHeroDescription = page?.heroDescription?.trim() || "";
   const heroDescription =
     cmsHeroDescription && !LEGACY_CLINICS_HERO_DESCRIPTIONS.has(cmsHeroDescription)

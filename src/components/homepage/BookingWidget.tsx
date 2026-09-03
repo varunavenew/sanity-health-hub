@@ -79,12 +79,20 @@ export const BookingWidget = () => {
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               {/* Clinic Select */}
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
+                <label
+                  htmlFor="booking-widget-clinic"
+                  id="booking-widget-clinic-label"
+                  className="flex items-center gap-2 text-sm font-medium text-foreground mb-3"
+                >
                   <MapPin className="w-4 h-4 text-muted-foreground" />
                   1. Velg klinikk
                 </label>
                 <Select value={selectedClinic} onValueChange={setSelectedClinic}>
-                  <SelectTrigger className="w-full h-12 bg-muted/50 border-border">
+                  <SelectTrigger
+                    id="booking-widget-clinic"
+                    aria-labelledby="booking-widget-clinic-label"
+                    className="w-full h-12 bg-muted/50 border-border"
+                  >
                     <SelectValue placeholder="Velg klinikk" />
                   </SelectTrigger>
                   <SelectContent>
@@ -99,7 +107,11 @@ export const BookingWidget = () => {
 
               {/* Specialty Select */}
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
+                <label
+                  htmlFor="booking-widget-specialty"
+                  id="booking-widget-specialty-label"
+                  className="flex items-center gap-2 text-sm font-medium text-foreground mb-3"
+                >
                   <Stethoscope className="w-4 h-4 text-muted-foreground" />
                   2. Velg fagområde
                 </label>
@@ -110,7 +122,11 @@ export const BookingWidget = () => {
                     setSelectedTreatment("");
                   }}
                 >
-                  <SelectTrigger className="w-full h-12 bg-muted/50 border-border">
+                  <SelectTrigger
+                    id="booking-widget-specialty"
+                    aria-labelledby="booking-widget-specialty-label"
+                    className="w-full h-12 bg-muted/50 border-border"
+                  >
                     <SelectValue placeholder="Velg fagområde" />
                   </SelectTrigger>
                   <SelectContent>
@@ -125,7 +141,11 @@ export const BookingWidget = () => {
 
               {/* Treatment Select */}
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
+                <label
+                  htmlFor="booking-widget-treatment"
+                  id="booking-widget-treatment-label"
+                  className="flex items-center gap-2 text-sm font-medium text-foreground mb-3"
+                >
                   <Clipboard className="w-4 h-4 text-muted-foreground" />
                   3. Velg behandling
                 </label>
@@ -134,7 +154,11 @@ export const BookingWidget = () => {
                   onValueChange={setSelectedTreatment}
                   disabled={!selectedSpecialty}
                 >
-                  <SelectTrigger className="w-full h-12 bg-muted/50 border-border">
+                  <SelectTrigger
+                    id="booking-widget-treatment"
+                    aria-labelledby="booking-widget-treatment-label"
+                    className="w-full h-12 bg-muted/50 border-border"
+                  >
                     <SelectValue placeholder="Velg behandling" />
                   </SelectTrigger>
                   <SelectContent>

@@ -312,6 +312,9 @@ export async function buildJobListingMetadata(
 
   const suffix = careersPage?.jobSeoTitleSuffix?.trim() || "";
   const description = doc?.excerpt?.trim() || "";
+  const title = suffix
+    ? `${jobTitle} ${suffix.replace(/^[–\-\s]+/, "– ")}`
+    : jobTitle;
 
   let paths: { nbPath: string; enPath: string };
   try {
@@ -323,7 +326,7 @@ export async function buildJobListingMetadata(
   return buildPageMetadata({
     locale,
     paths,
-    title: `${jobTitle}${suffix}`,
+    title,
     description,
     type: "website",
   });

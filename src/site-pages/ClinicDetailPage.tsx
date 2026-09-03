@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -196,12 +196,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     return resolveSanityGalleryImages(raw, `CMedical ${label}`);
   }, [sanityClinic, sanityLang]);
 
-  useEffect(() => {
-    if (clinic) {
-      document.title = `CMedical ${clinic.label} | Klinikk`;
-    }
-  }, [clinic]);
-
   if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
@@ -307,9 +301,9 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               <BackLink to={clinicsPath} tone="onImage" className="mb-4">
                 Alle klinikker
               </BackLink>
-              <h1 className="text-2xl font-light leading-tight text-brand-warm">
+              <p aria-hidden="true" className="text-2xl font-light leading-tight text-brand-warm">
                 CMedical {clinic.label}
-              </h1>
+              </p>
             </div>
           </ParallaxImage>
 
@@ -334,12 +328,16 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               </BackLink>
             ) : null}
 
+            <h1 className="sr-only">CMedical {clinic.label}</h1>
             <header
               className={`mb-8 border-b border-brand-dark/10 pb-6 ${heroImage ? "hidden md:block" : ""}`}
             >
-              <h1 className="text-3xl font-light text-brand-dark md:text-4xl">
+              <p
+                aria-hidden="true"
+                className="text-3xl font-light text-brand-dark md:text-4xl"
+              >
                 CMedical {clinic.label}
-              </h1>
+              </p>
             </header>
 
             {clinic.description ? (

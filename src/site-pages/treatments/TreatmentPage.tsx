@@ -45,12 +45,6 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       : "";
 
   useEffect(() => {
-    if (treatment?.title) {
-      document.title = `${treatment.title} | CMedical`;
-    }
-  }, [treatment?.title]);
-
-  useEffect(() => {
     if (location.hash) {
       const el = document.getElementById(location.hash.slice(1));
       if (el) {

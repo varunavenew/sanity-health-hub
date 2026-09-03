@@ -39,7 +39,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { type ReactNode, useEffect, useMemo, useRef } from "react";
+import { type ReactNode, useMemo, useRef } from "react";
 
 export interface SubTreatmentContent {
   seoTitle: string;
@@ -436,10 +436,6 @@ export const SubTreatmentLayout = ({
   const expertAreasRef = useRef<HTMLDivElement>(null);
   const promisesRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    document.title = `${c.title} | CMedical`;
-  }, [c.title]);
-
   const heroMediaUrl = c.heroImage;
   const resolvedHero = resolveCmsMedia(c.heroMedia, {
     mediaType: c.heroVideo || (c.heroMedia as { mediaType?: string } | undefined)?.mediaType === "video"
@@ -478,6 +474,7 @@ export const SubTreatmentLayout = ({
         ]}
       />
       <header className="bg-brand-light pt-24 lg:pt-0">
+        <h1 className="sr-only">{heroTitle}</h1>
         <div className="lg:hidden px-6 md:px-16 pb-4">
           <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
             <Link to="/" className="hover:text-foreground">
@@ -498,9 +495,12 @@ export const SubTreatmentLayout = ({
             <span>›</span>
             <span className="text-foreground/80">{c.title}</span>
           </nav>
-          <h1 className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+          <p
+            aria-hidden="true"
+            className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+          >
             {heroTitle}
-          </h1>
+          </p>
         </div>
 
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
@@ -525,9 +525,12 @@ export const SubTreatmentLayout = ({
               <span>›</span>
               <span className="text-foreground/80">{c.title}</span>
             </nav>
-              <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+              <p
+                aria-hidden="true"
+                className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+              >
                 {heroTitle}
-              </h1>
+              </p>
               {c.heroDescription ? (
                 <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-muted-foreground">
                   {c.heroDescription}

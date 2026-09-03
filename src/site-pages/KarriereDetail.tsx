@@ -54,6 +54,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 max-w-3xl">
+          <h1 className="sr-only">{page?.title?.trim() || (i18n.language === "en" ? "Career" : "Karriere")}</h1>
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-2/3" />
             <div className="h-4 bg-muted rounded w-1/3" />
@@ -68,9 +69,9 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 text-center">
-          {page?.notFoundTitle?.trim() ? (
-            <h1 className="text-2xl font-bold text-foreground mb-4">{page.notFoundTitle}</h1>
-          ) : null}
+          <h1 className="text-2xl font-bold text-foreground mb-4">
+            {page?.notFoundTitle?.trim() || (i18n.language === "en" ? "Position not found" : "Stillingen ble ikke funnet")}
+          </h1>
           {page?.notFoundDescription?.trim() ? (
             <p className="text-muted-foreground mb-6">{page.notFoundDescription}</p>
           ) : null}

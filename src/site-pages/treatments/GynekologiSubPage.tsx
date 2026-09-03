@@ -36,6 +36,11 @@ const GynekologiSubPage = ({
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
+          <h1 className="sr-only">
+            {t("common.notFound", {
+              defaultValue: lang === "en" ? "Page not found" : "Siden ble ikke funnet",
+            })}
+          </h1>
           <p className="text-muted-foreground font-light" aria-live="polite">
             {t("common.notFound", {
               defaultValue: lang === "en" ? "Page not found" : "Siden ble ikke funnet",

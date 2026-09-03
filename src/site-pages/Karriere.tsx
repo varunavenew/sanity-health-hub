@@ -56,7 +56,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
   });
 
   const dateLocale = i18n.language === "en" ? "en-GB" : "nb-NO";
-  const heroTitle = page?.title?.trim() || "";
+  const heroTitle = page?.title?.trim() || (locale === "en" ? "Careers" : "Karriere");
   const heroSubtitle = page?.heroSubtitle?.trim() || "";
   const hasHero = Boolean(heroTitle || heroSubtitle);
 
@@ -93,13 +93,19 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
             {page?.searchPlaceholder?.trim() ? (
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <label htmlFor="careers-search" className="block text-sm font-light text-foreground mb-2">
+                  {page.searchPlaceholder}
+                </label>
+                <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 <Input
+                  id="careers-search"
                   placeholder={page.searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
                 />
+                </div>
               </div>
             ) : null}
             {(page?.filterAllLabel?.trim() || departments.length > 0) && (

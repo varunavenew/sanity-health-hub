@@ -231,6 +231,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
 
 /** English fallbacks when CMS has no `en` value yet (e.g. newly added fields). */
 const BOOKING_PAGE_EN_FALLBACKS: Partial<BookingPageCopy> = {
+  pageTitle: "Book an appointment",
   formNoteLabel: "Message to the clinic",
   formNotePlaceholder: "Optional — e.g. questions or information we should know",
   formCancellationRulesHeading: "Cancellation rules",

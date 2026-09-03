@@ -2,7 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useSearchParams, Link } from "@/lib/router";
+import { useNavigate, useSearchParams, Link, useLocaleParam } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -14,7 +14,13 @@ import {
   parseISO,
   startOfWeek,
 } from "date-fns";
-import { nb } from "date-fns/locale";
+import { formatDurationMinutes, localizeDurationLabel, minutesToLengthTime } from "@/lib/booking/duration";
+import {
+  bookingDateFnsLocale,
+  formatBookingLongDate,
+  formatBookingMonthShort,
+  formatBookingShortDate,
+} from "@/lib/booking/format-booking-date";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -30,7 +36,6 @@ import {
   parseTjenesteValg,
 } from "@/lib/bookingLinks";
 import { resolveBookingReturnPath, peekBookingReturnPath, rememberBookingReturnPath } from "@/lib/booking/return-to";
-import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
 import {
   filterServicesByOptions,
   resolvePreselectedService,
@@ -97,7 +102,6 @@ import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholde
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
-import { useParams } from "@/lib/router";
 import {
   defaultBookingPageCopyForLang,
   fillBookingTemplate,
@@ -258,8 +262,7 @@ interface FormData {
 
 const BookingDemo = () => {
   const navigate = useNavigate();
-  const params = useParams<{ locale?: string }>();
-  const locale = params?.locale === "en" ? "en" : "no";
+  const locale = useLocaleParam();
   const [searchParams] = useSearchParams();
   const serviceChoiceSlugs = useMemo(
     () => parseTjenesteValg(searchParams.get("tjenesteValg")),
@@ -774,7 +777,7 @@ const BookingDemo = () => {
           return {
             id,
             status: "ready" as const,
-            label: formatDurationMinutes(mins, locale),
+            label: localizeDurationLabel(formatDurationMinutes(mins, locale), locale),
           };
         });
 
@@ -1392,7 +1395,7 @@ const BookingDemo = () => {
     if (!selectedDate || selectedDaySlots.length === 0) return null;
     const mins = selectedDaySlots.find((slot) => slot.durationMinutes != null)?.durationMinutes;
     if (mins == null) return null;
-    return formatDurationMinutes(mins, locale);
+    return localizeDurationLabel(formatDurationMinutes(mins, locale), locale);
   }, [selectedDate, selectedDaySlots, locale]);
 
   const handleClose = () => {
@@ -1791,7 +1794,7 @@ const BookingDemo = () => {
               </div>
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
-                <span className="font-medium">{bookingData.date && format(bookingData.date, "d. MMM yyyy", { locale: nb })} kl. {bookingData.time}</span>
+                <span className="font-medium">{bookingData.date && formatBookingShortDate(bookingData.date, locale)} kl. {bookingData.time}</span>
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-muted-foreground">{copy.successLabelSpecialist}</span>
@@ -2376,15 +2379,16 @@ const BookingDemo = () => {
               {/* Horisontal 7-dagers stripe — hverdager, ledighet fra API */}
               <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
                 <div className="mb-5 flex items-end justify-between">
-                    <div>
-                      <p className="text-xs text-brand-dark/60 font-medium mb-1">
-                        {copy.step4SelectedDayLabel}
-                      </p>
-                    <h3 className="text-xl font-light text-brand-dark capitalize">
+                  <div>
+                    <p className="text-xs text-brand-dark/60 font-medium mb-1">
+                      {copy.step4SelectedDayLabel}
+                    </p>
+                    <h3 className="text-xl font-light text-brand-dark">
+
                       {selectedDate
-                        ? format(selectedDate, "EEEE d. MMMM", { locale: nb })
+                        ? formatBookingLongDate(selectedDate, locale)
                         : bookableDates.length > 0
-                          ? format(bookableDates[0], "EEEE d. MMMM", { locale: nb })
+                          ? formatBookingLongDate(bookableDates[0], locale)
                           : copy.step4NoDaysLabel}
                     </h3>
                   </div>
@@ -2489,7 +2493,7 @@ const BookingDemo = () => {
                               if (!isDisabled) setSelectedDate(date);
                             }}
                             disabled={isDisabled}
-                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                            aria-label={formatBookingLongDate(date, locale)}
                             aria-pressed={isSelected}
                             title={isDisabled ? "Ingen ledige timer denne dagen" : undefined}
                             className={cn(
@@ -2511,7 +2515,7 @@ const BookingDemo = () => {
                                     : "text-brand-dark/60",
                               )}
                             >
-                              {format(date, "EEE", { locale: nb })}
+                              {format(date, "EEE", { locale: bookingDateFnsLocale(locale) })}
                             </span>
                             <span
                               className={cn(
@@ -2519,7 +2523,7 @@ const BookingDemo = () => {
                                 isSelected ? "font-medium" : "font-light",
                               )}
                             >
-                              {format(date, "d", { locale: nb })}
+                              {format(date, "d", { locale: bookingDateFnsLocale(locale) })}
                             </span>
                             <span
                               className={cn(
@@ -2531,7 +2535,7 @@ const BookingDemo = () => {
                                     : "text-brand-dark/60",
                               )}
                             >
-                              {isToday ? copy.step4TodayLabel : format(date, "MMM", { locale: nb })}
+                              {isToday ? copy.step4TodayLabel : formatBookingMonthShort(date, locale)}
                             </span>
                           </button>
                         );
@@ -2549,8 +2553,8 @@ const BookingDemo = () => {
                       <p className="text-xs text-brand-dark/60 font-medium mb-1">
                         {copy.step4PickTimeLabel}
                       </p>
-                      <h3 className="text-xl font-light text-brand-dark capitalize">
-                        {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
+                      <h3 className="text-xl font-light text-brand-dark">
+                        {formatBookingLongDate(selectedDate, locale)}
                       </h3>
                     </div>
                     {selectedDayDurationLabel && (
@@ -2677,14 +2681,17 @@ const BookingDemo = () => {
                     <div>
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
                       <p className="font-normal mt-1 text-brand-dark">
-                        {formatDurationMinutes(bookingData.slotDurationMinutes, locale)}
+                        {localizeDurationLabel(
+                          formatDurationMinutes(bookingData.slotDurationMinutes, locale),
+                          locale,
+                        )}
                       </p>
                     </div>
                   )}
                   <div>
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDate}</span>
-                    <p className="font-normal mt-1 capitalize text-brand-dark">
-                      {bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}
+                    <p className="font-normal mt-1 text-brand-dark">
+                      {bookingData.date && formatBookingLongDate(bookingData.date, locale)}
                     </p>
                   </div>
                   <div>
