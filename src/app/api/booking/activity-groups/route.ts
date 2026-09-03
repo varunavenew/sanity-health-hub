@@ -5,6 +5,7 @@ import {
   resolveActivityPrice,
   stripPriceFromActivityName,
 } from "@/lib/booking/item-prices";
+import { displayBookingActivityName } from "@/lib/booking/activity-display-names";
 import {
   fetchBookingResourceCached,
   unwrapList,
@@ -185,14 +186,18 @@ export async function GET(request: Request) {
         const apiGroupId = group.id;
         if (!label || apiGroupId === undefined) return null;
 
-        const services = servicesByGroupId.get(apiGroupId) ?? [
+        const clinicServiceId = clinicServiceIdForGroup(label);
+        const services = (servicesByGroupId.get(apiGroupId) ?? [
           { name: label, price: "0" },
-        ];
+        ]).map((service) => ({
+          ...service,
+          name: displayBookingActivityName(service.name, clinicServiceId),
+        }));
         services.sort((a, b) => a.name.localeCompare(b.name, "nb"));
 
         return {
           id: uniqueCategoryId(label, apiGroupId),
-          clinicServiceId: clinicServiceIdForGroup(label),
+          clinicServiceId,
           label,
           apiGroupId,
           services,

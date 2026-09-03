@@ -56,7 +56,8 @@ const SUBCATEGORY_EN: Record<string, string> = {
 };
 
 const NAME_EN: Record<string, string> = {
-  "Generell undersøkelse": "General examination",
+  "Generell undersøkelse": "General gynecological examination",
+  "Generell gynekologisk undersøkelse": "General gynecological examination",
   "Kontroll / oppfølging": "Follow-up / check-up",
   "Kontroll etter fødsel": "Postpartum check-up",
   "Svangerskapsoppfølging": "Pregnancy follow-up",
