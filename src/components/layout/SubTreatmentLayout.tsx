@@ -6,6 +6,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { TreatmentCtaButtons } from "@/components/treatments/TreatmentCtaButtons";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { PageSectionInsuranceBlock } from "@/components/page-sections/PageSectionInsuranceBlock";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { resolveTreatmentInsurance } from "@/lib/sanity/insurance-dual-read";
@@ -484,6 +485,24 @@ export const SubTreatmentLayout = ({
     [pageSections, c.insuranceEyebrow, c.insuranceTitle, c.insurancePartners],
   );
 
+  const breadcrumbItems = useMemo(
+    () => [
+      { name: c.homeBreadcrumbLabel, path: "/" },
+      ...(c.grandparent
+        ? [{ name: c.grandparent.name, path: c.grandparent.path }]
+        : []),
+      { name: c.parent.name, path: c.parent.path },
+      { name: c.title },
+    ],
+    [
+      c.homeBreadcrumbLabel,
+      c.grandparent,
+      c.parent.name,
+      c.parent.path,
+      c.title,
+    ],
+  );
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <div className="bg-background">
@@ -501,25 +520,7 @@ export const SubTreatmentLayout = ({
       <header className="bg-brand-light pt-24 lg:pt-0">
         <h1 className="sr-only">{heroTitle}</h1>
         <div className="lg:hidden page-edge-text-left pb-4">
-          <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
-            <Link to="/" className="hover:text-foreground">
-              {c.homeBreadcrumbLabel}
-            </Link>
-            <span>›</span>
-            {c.grandparent ? (
-              <>
-                <Link to={c.grandparent.path} className="hover:text-foreground">
-                  {c.grandparent.name}
-                </Link>
-                <span>›</span>
-              </>
-            ) : null}
-            <Link to={c.parent.path} className="hover:text-foreground">
-              {c.parent.name}
-            </Link>
-            <span>›</span>
-            <span className="text-foreground/80">{c.title}</span>
-          </nav>
+          <PageBreadcrumb items={breadcrumbItems} className="mb-4" />
           <p
             aria-hidden="true"
             className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
@@ -531,25 +532,7 @@ export const SubTreatmentLayout = ({
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
           <div className="flex items-center page-edge-text-left py-10 lg:py-20">
             <div className="max-w-xl w-full">
-            <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
-              <Link to="/" className="hover:text-foreground">
-                {c.homeBreadcrumbLabel}
-              </Link>
-              <span>›</span>
-              {c.grandparent ? (
-                <>
-                  <Link to={c.grandparent.path} className="hover:text-foreground">
-                    {c.grandparent.name}
-                  </Link>
-                  <span>›</span>
-                </>
-              ) : null}
-              <Link to={c.parent.path} className="hover:text-foreground">
-                {c.parent.name}
-              </Link>
-              <span>›</span>
-              <span className="text-foreground/80">{c.title}</span>
-            </nav>
+            <PageBreadcrumb items={breadcrumbItems} className="hidden lg:flex mb-6" />
               <p
                 aria-hidden="true"
                 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"

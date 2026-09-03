@@ -3,6 +3,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 
@@ -144,13 +145,13 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
       ============================================================ */}
       <div className="bg-brand-light pt-24 lg:pt-28 pb-4">
         <div className="container mx-auto px-6 md:px-16">
-          <nav className="text-xs font-light text-foreground/60 flex items-center gap-2">
-            <Link to="/" className="hover:text-foreground">Hjem</Link>
-            <span>›</span>
-            <Link to="/gynekologi" className="hover:text-foreground">Gynekologi</Link>
-            <span>›</span>
-            <span className="text-foreground/80">Gynekologisk undersøkelse</span>
-          </nav>
+          <PageBreadcrumb
+            items={[
+              { name: "Hjem", path: "/" },
+              { name: "Gynekologi", path: "/gynekologi" },
+              { name: "Gynekologisk undersøkelse" },
+            ]}
+          />
         </div>
       </div>
 
