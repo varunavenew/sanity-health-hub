@@ -31,15 +31,21 @@ export const NewsletterSection = () => {
             Få eksklusive tilbud, hudpleietips fra Ida, og vær først til å høre om nye produkter
           </p>
           
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <Input
-              type="email"
-              placeholder="Din e-postadresse"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="flex-1"
-            />
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto items-stretch sm:items-end">
+            <div className="flex-1 text-left">
+              <label htmlFor="newsletter-email" className="block text-sm font-light mb-2">
+                Din e-postadresse
+              </label>
+              <Input
+                id="newsletter-email"
+                type="email"
+                placeholder="Din e-postadresse"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="flex-1"
+              />
+            </div>
             <Button type="submit" className="sm:w-auto">
               Meld deg på
             </Button>

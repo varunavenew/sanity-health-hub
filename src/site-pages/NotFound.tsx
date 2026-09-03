@@ -69,7 +69,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
             </p>
 
             <form onSubmit={handleSubmit} className="mt-8 md:mt-10 max-w-md" role="search">
-              <label htmlFor="nf-search" className="sr-only">
+              <label htmlFor="nf-search" className="block text-sm font-light text-foreground mb-2">
                 Hva leter du etter?
               </label>
               <div className="relative">

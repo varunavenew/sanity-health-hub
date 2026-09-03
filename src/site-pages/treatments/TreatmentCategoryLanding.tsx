@@ -118,7 +118,7 @@ function CategorySectionHead({
   titleAccent,
   description,
   className = "mb-8 md:mb-10",
-  titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
+  titleClassName = "text-3xl md:text-5xl font-light heading-display text-foreground",
   descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed max-w-2xl",
 }: {
   eyebrow?: string;
@@ -1718,7 +1718,7 @@ const TreatmentCategoryLanding = ({
         </header>
       ) : (
         <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
-          {seoTitle ? <h1 className="sr-only">{seoTitle}</h1> : null}
+          <h1 className="sr-only">{seoTitle || categoryTitle || hero.heading}</h1>
           <div className="lg:hidden page-edge-text-left pb-4">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
               <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>

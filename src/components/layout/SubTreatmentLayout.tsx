@@ -39,7 +39,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { type ReactNode, useEffect, useMemo, useRef } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 export interface SubTreatmentContent {
   seoTitle: string;
@@ -83,7 +83,7 @@ export interface SubTreatmentContent {
   reasonsTitle: string;
   reasonsLead?: string;
   reasonsLead2?: string;
-  reasons: { n: string; title: string; desc: string | ReactNode }[];
+  reasons: { n: string; title: string; desc: string | ReactNode; id?: string }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
   promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
   textSection?: {
@@ -135,7 +135,7 @@ function TreatmentSectionHead({
   title,
   description,
   description2,
-  titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
+  titleClassName = "text-3xl md:text-5xl font-light heading-display text-foreground",
   descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed",
   className = "",
 }: {
@@ -180,17 +180,40 @@ function ReasonsEditorial({
   title: string;
   lead?: string;
   lead2?: string;
-  items: { n: string; title: string; desc: string | ReactNode }[];
+  items: { n: string; title: string; desc: string | ReactNode; id?: string }[];
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
   const hasLead = Boolean(lead?.trim() || lead2?.trim());
+  const itemsWithIds = cleanItems.map((item, index) => ({
+    ...item,
+    id: item.id || `reason-${index}`,
+  }));
+
+  const [openItem, setOpenItem] = useState<string | undefined>(itemsWithIds[0]?.id);
+
+  const itemIdsKey = itemsWithIds.map((item) => item.id).join("|");
+
+  useEffect(() => {
+    const applyHash = () => {
+      const hashId = window.location.hash.replace(/^#/, "");
+      if (!hashId) return;
+      if (!itemIdsKey.split("|").includes(hashId)) return;
+      setOpenItem(hashId);
+      window.requestAnimationFrame(() => {
+        document.getElementById(hashId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, [itemIdsKey]);
 
   // Demo pages can show title + lead with no right-column items yet.
   if (cleanItems.length === 0 && !hasLead) return null;
 
   return (
     <section className="pt-14 md:pt-20 pb-10 bg-background">
-      <div className="container mx-auto px-6 md:px-16">
+      <div className="page-shell">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
@@ -204,19 +227,21 @@ function ReasonsEditorial({
           </div>
 
           <div className="lg:col-span-7">
-            {cleanItems.length > 0 ? (
+            {itemsWithIds.length > 0 ? (
               <Accordion
-                key={`${title}-${cleanItems[0]?.n}-${cleanItems[0]?.title}`}
+                key={`${title}-${itemsWithIds[0]?.n}-${itemsWithIds[0]?.title}`}
                 type="single"
                 collapsible
-                defaultValue="reason-0"
+                value={openItem}
+                onValueChange={setOpenItem}
                 className="w-full"
               >
-                {cleanItems.map((item, index) => (
+                {itemsWithIds.map((item, index) => (
                   <AccordionItem
                     key={`${item.n}-${item.title}-${index}`}
-                    value={`reason-${index}`}
-                    className="border-b border-border/40"
+                    id={item.id}
+                    value={item.id}
+                    className="scroll-mt-28 border-b border-border/40"
                   >
                     <AccordionTrigger className="text-left text-lg md:text-xl font-normal text-foreground py-5 hover:no-underline leading-snug [&[data-state=open]>svg]:rotate-180">
                       <span className="pr-4">{item.title}</span>
@@ -266,7 +291,7 @@ function RelatedServicesCarousel({
 
   return (
     <section className="bg-background pt-10 pb-20 overflow-hidden">
-      <div className="container mx-auto px-6 md:px-16">
+      <div className="page-shell">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
@@ -296,7 +321,7 @@ function RelatedServicesCarousel({
         </div>
       </div>
 
-      <div className="container mx-auto pl-6 md:pl-16 pr-0">
+      <div className="page-shell pr-0">
         <div
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pr-6 md:pr-16"
@@ -333,7 +358,7 @@ function RelatedServicesCarousel({
       </div>
 
       {seeAll ? (
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="mt-10 flex justify-center">
             <Link
               to={seeAll.href}
@@ -365,7 +390,7 @@ function RelatedBlock({
 
   return (
     <section className="bg-secondary/40 py-10">
-      <div className="container mx-auto px-6 md:px-16">
+      <div className="page-shell">
         <div className="max-w-6xl mx-auto">
           {lead ? (
             <TreatmentSectionHead
@@ -436,10 +461,6 @@ export const SubTreatmentLayout = ({
   const expertAreasRef = useRef<HTMLDivElement>(null);
   const promisesRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    document.title = `${c.title} | CMedical`;
-  }, [c.title]);
-
   const heroMediaUrl = c.heroImage;
   const resolvedHero = resolveCmsMedia(c.heroMedia, {
     mediaType: c.heroVideo || (c.heroMedia as { mediaType?: string } | undefined)?.mediaType === "video"
@@ -478,7 +499,8 @@ export const SubTreatmentLayout = ({
         ]}
       />
       <header className="bg-brand-light pt-24 lg:pt-0">
-        <div className="lg:hidden px-6 md:px-16 pb-4">
+        <h1 className="sr-only">{heroTitle}</h1>
+        <div className="lg:hidden page-edge-text-left pb-4">
           <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
             <Link to="/" className="hover:text-foreground">
               {c.homeBreadcrumbLabel}
@@ -498,13 +520,16 @@ export const SubTreatmentLayout = ({
             <span>›</span>
             <span className="text-foreground/80">{c.title}</span>
           </nav>
-          <h1 className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+          <p
+            aria-hidden="true"
+            className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+          >
             {heroTitle}
-          </h1>
+          </p>
         </div>
 
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
-          <div className="flex items-center px-6 md:px-16 py-10 lg:py-20">
+          <div className="flex items-center page-edge-text-left py-10 lg:py-20">
             <div className="max-w-xl w-full">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
               <Link to="/" className="hover:text-foreground">
@@ -525,9 +550,12 @@ export const SubTreatmentLayout = ({
               <span>›</span>
               <span className="text-foreground/80">{c.title}</span>
             </nav>
-              <h1 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]">
+              <p
+                aria-hidden="true"
+                className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-5 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+              >
                 {heroTitle}
-              </h1>
+              </p>
               {c.heroDescription ? (
                 <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-muted-foreground">
                   {c.heroDescription}
@@ -658,7 +686,7 @@ export const SubTreatmentLayout = ({
       {hasProcessSection(c) ? (
         c.flowImage ? (
           <section className="bg-brand-light text-foreground">
-            <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-16 pt-12 pb-4">
+            <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground page-edge-text-left pt-12 pb-4">
               {c.flowTitle}
             </h2>
             <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section">
@@ -702,7 +730,7 @@ export const SubTreatmentLayout = ({
           </section>
         ) : (
           <section className="bg-brand-light text-foreground py-10">
-            <div className="container mx-auto px-6 md:px-16">
+            <div className="page-shell">
               <div className="max-w-6xl mx-auto">
                 <div className="max-w-2xl mb-14">
                   <h2 className="text-3xl md:text-5xl font-light leading-tight">{c.flowTitle}</h2>
@@ -741,7 +769,7 @@ export const SubTreatmentLayout = ({
 
       {hasExpertAreasSection(c) ? (
         <section className="bg-secondary/40 py-10">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <TreatmentSectionHead
                 title={c.expertAreas?.title ?? ""}
@@ -805,7 +833,7 @@ export const SubTreatmentLayout = ({
 
       {hasBenefitsSection(c) ? (
       <section className="bg-secondary/40 py-14 md:py-20">
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="max-w-6xl mx-auto">
             <div
               ref={promisesRef}
@@ -841,7 +869,7 @@ export const SubTreatmentLayout = ({
 
       {hasTextSection(c) ? (
         <section className="pt-14 md:pt-20 pb-10 bg-background">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-28">
@@ -916,7 +944,7 @@ export const SubTreatmentLayout = ({
       {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
       <section className="bg-brand-light text-foreground py-10 border-t border-brand-dark/10">
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
               <TreatmentSectionHead

@@ -4,6 +4,7 @@ import { locales } from "@/lib/i18n/routing";
 import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
 import { staticParamsFromRouteIndex } from "@/lib/routing/resolve-route";
 import { NOINDEX_SEGMENTS } from "@/lib/seo/robots-paths";
+import { isRetiredIvfSlug } from "@/lib/sanity/ivf-canonical";
 
 /** Non-CMS App Router pages (booking, demos, etc.) — not driven by Sanity slugs. */
 const STATIC_APP_SEGMENTS = [
@@ -55,6 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const index = await fetchCmsRouteIndex();
     const params = staticParamsFromRouteIndex(index);
     for (const { locale, segments } of params) {
+      if (segments.some((seg) => isRetiredIvfSlug(seg))) continue;
       const url = `${base}/${locale}/${segments.join("/")}`;
       if (seen.has(url)) continue;
       seen.add(url);

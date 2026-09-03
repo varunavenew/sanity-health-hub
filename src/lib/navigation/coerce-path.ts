@@ -1,3 +1,5 @@
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
+
 /** Drop legacy `/behandlinger` prefix — public URLs use Sanity slugs only. */
 export function stripBehandlingerPrefix(path: string): string {
   const trimmed = path.trim();
@@ -31,7 +33,7 @@ export function stripBehandlingerPrefix(path: string): string {
 /** Normalize Sanity path values (string, i18n array, or unknown) to a route string. */
 export function coercePath(value: unknown, locale: "no" | "en" = "no"): string {
   const raw = extractPath(value, locale);
-  return raw ? stripBehandlingerPrefix(raw) : "";
+  return raw ? rewriteRetiredIvfPath(stripBehandlingerPrefix(raw)) : "";
 }
 
 function extractPath(value: unknown, locale: "no" | "en"): string {

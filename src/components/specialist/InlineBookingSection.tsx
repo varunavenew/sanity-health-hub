@@ -16,7 +16,10 @@ import {
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
-import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
+import {
+  specialistHasOnlineBookingConfig,
+  specialistShowsBookingButton,
+} from "@/lib/sanity/specialist-cta";
 import { buildBookingUrl, categoryNumericIdToPageId } from "@/lib/bookingLinks";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
@@ -81,6 +84,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     categorySlug: string,
     serviceName: string,
   ) => {
+    if (!specialistHasOnlineBookingConfig(specialist)) return;
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
@@ -125,7 +129,9 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                 categories.length > 1 ? "hover:bg-white/15 cursor-pointer" : "cursor-default"
               }`}
             >
-              <span className="text-sm font-medium text-white">{category.label}</span>
+              <span className="methodika-sentence-case text-sm font-medium text-white">
+                {category.label}
+              </span>
               {categories.length > 1 &&
                 (effectiveExpanded === category.apiGroupId ? (
                   <ChevronUp className="w-4 h-4 text-white/40" aria-hidden="true" />
@@ -158,7 +164,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                         className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/15 transition-colors border-b border-white/5 last:border-b-0 group"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-white font-light truncate pr-4">
+                          <p className="methodika-sentence-case text-sm text-white font-light truncate pr-4">
                             {service.name}
                           </p>
                           <span className="text-xs font-medium text-white/80 mt-1 inline-block">

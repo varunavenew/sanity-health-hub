@@ -36,7 +36,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const clinics = sanityClinics || [];
   const ctaCards = contactPage?.ctaCards ?? [];
   const pageSections = contactPage?.pageSections;
-  const heroTitle = contactPage?.title?.trim() || "";
+  const heroTitle = contactPage?.title?.trim() || t("contact.title");
   const heroDescription = contactPage?.introText?.trim() || "";
   const heroImage = contactPage?.heroImage;
   const hasHeroContent = Boolean(heroTitle || heroDescription || heroImage);
@@ -305,11 +305,19 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-2 block text-brand-dark">
+                <label
+                  htmlFor="contact-clinic"
+                  id="contact-clinic-label"
+                  className="text-sm font-medium mb-2 block text-brand-dark"
+                >
                   {pick(formCopy?.clinicLabel, t("contact.form.clinic"))}
                 </label>
                 <Select value={formData.clinic} onValueChange={(value) => setFormData({ ...formData, clinic: value })}>
-                  <SelectTrigger className="h-12 rounded-sm border-brand-dark/20 bg-white">
+                  <SelectTrigger
+                    id="contact-clinic"
+                    aria-labelledby="contact-clinic-label"
+                    className="h-12 rounded-sm border-brand-dark/20 bg-white"
+                  >
                     <SelectValue placeholder={pick(formCopy?.clinicPlaceholder, t("contact.form.clinicPlaceholder"))} />
                   </SelectTrigger>
                   <SelectContent>

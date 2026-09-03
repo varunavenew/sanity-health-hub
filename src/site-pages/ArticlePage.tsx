@@ -140,7 +140,9 @@ function ArticleMobileHero({
             </span>
           ) : null}
         </div>
-        <h1 className="text-2xl font-light leading-tight text-brand-warm">{title}</h1>
+        <p aria-hidden="true" className="text-2xl font-light leading-tight text-brand-warm">
+          {title}
+        </p>
       </div>
       <p className="absolute inset-x-0 bottom-5 z-10 flex flex-col items-center gap-1 text-center text-xs font-light text-brand-warm/80">
         <span>{swipeDownLabel}</span>
@@ -210,12 +212,6 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       )
       .slice(0, 3);
   }, [article, sanityArticles, filterOptions]);
-
-  useEffect(() => {
-    if (article) {
-      document.title = `${article.title} | CMedical`;
-    }
-  }, [article]);
 
   const listingTitle =
     newsPage?.title?.trim() ||
@@ -299,6 +295,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       />
 
       <header className="bg-brand-dark">
+        <h1 className="sr-only">{article.title}</h1>
         <ArticleMobileHero
           image={article.image}
           imageAlt={sanityArticle?.imageAlt || article.title}

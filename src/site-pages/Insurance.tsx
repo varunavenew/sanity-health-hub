@@ -23,7 +23,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
   const locale = params?.locale === "en" ? "en" : "nb";
   const { data: page } = useInsurancePage();
 
-  const title = page?.title?.trim() || "";
+  const title = page?.title?.trim() || t("insurance.title");
   const subtitle = page?.subtitle?.trim() || "";
   const heroImage = page?.heroImage;
   const companies = page?.companies || [];

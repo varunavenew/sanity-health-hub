@@ -109,7 +109,7 @@ const Guide = ({ isChatOpen }: GuideProps) => {
   const locale = params?.locale === "en" ? "en" : "nb";
   const { data: page, isLoading } = useGuidePage();
 
-  const heroTitle = page?.heroTitle?.trim() || "";
+  const heroTitle = page?.heroTitle?.trim() || (locale === "en" ? "Treatment guide" : "Behandlingsguide");
   const heroSubtitle = page?.heroSubtitle?.trim() || "";
   const breadcrumbHome = page?.breadcrumbHome?.trim() || "";
   const primaryCtaLabel = page?.primaryCtaLabel?.trim() || "";

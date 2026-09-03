@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Index from "@/site-pages/Index";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HomepageHydration } from "@/components/providers/HomepageHydration";
@@ -18,6 +18,11 @@ import {
   buildCmsRouteMetadata,
   renderCmsRoute,
 } from "@/lib/routing/render-cms-route";
+import {
+  ASSISTERT_BEFRUKTNING_SLUG,
+  IVF_SECTION_ID,
+  isRetiredIvfSlug,
+} from "@/lib/sanity/ivf-canonical";
 
 type Props = {
   params: Promise<{ locale: string; segments?: string[] }>;
@@ -31,6 +36,17 @@ export const dynamicParams = true;
 
 function rejectLegacySeLocale(locale: string) {
   if (locale === "se") notFound();
+}
+
+function redirectRetiredIvfPage(locale: string, segments: string[]) {
+  const rest = segments[0] === "behandlinger" ? segments.slice(1) : segments;
+  if (rest.length < 2) return;
+  const [categorySeg, slug] = rest;
+  if (!isRetiredIvfSlug(slug)) return;
+  if (!/^(fertilitet|fertility)$/i.test(categorySeg ?? "")) return;
+  permanentRedirect(
+    `/${locale}/${categorySeg}/${ASSISTERT_BEFRUKTNING_SLUG}#${IVF_SECTION_ID}`,
+  );
 }
 
 export async function generateStaticParams() {
@@ -47,6 +63,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, segments = [] } = await params;
   rejectLegacySeLocale(locale);
+  redirectRetiredIvfPage(locale, segments);
   if (segments.length === 0) return buildHomeMetadata(locale);
 
   const index = await fetchCmsRouteIndex();
@@ -101,6 +118,8 @@ export default async function CmsOptionalCatchAllPage({ params }: Props) {
   const { locale, segments = [] } = await params;
   rejectLegacySeLocale(locale);
   if (segments.length === 0) return renderHomepage(locale);
+
+  redirectRetiredIvfPage(locale, segments);
 
   const index = await fetchCmsRouteIndex();
   const route = resolveCmsRoute(segments, locale, index);

@@ -61,7 +61,7 @@ const About = ({ isChatOpen }: AboutProps) => {
   const { data: sanityData } = useAboutPage();
   const pageSections = sanityData?.pageSections;
 
-  const title = sanityData?.title?.trim() || "";
+  const title = sanityData?.title?.trim() || t("nav.about", { defaultValue: "Om oss" });
   const heroEyebrow = sanityData?.heroEyebrow?.trim() || "";
   const heroImage = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : "";
   const heroImageAlt = sanityData?.heroImageAlt?.trim() || "";

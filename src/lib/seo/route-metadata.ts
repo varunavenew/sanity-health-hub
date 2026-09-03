@@ -7,6 +7,7 @@ import {
 } from "@/lib/seo/resolve-seo-share-image";
 import {
   fetchAboutPageDocument,
+  fetchBookingPageDocument,
   fetchClinicsPageDocument,
   fetchContactPageDocument,
   fetchHomepageDocument,
@@ -447,6 +448,41 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
     title: resolvedTitle,
     description: resolvedDescription,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    noIndex: !!seo?.noIndex,
+    type: "website",
+  });
+}
+
+const BOOKING_FALLBACK = {
+  nb: {
+    title: "Bestill time",
+    description:
+      "Bestill time hos CMedical. Velg tjeneste, klinikk og ledig tid – kort ventetid og ingen henvisning nødvendig.",
+  },
+  en: {
+    title: "Book an appointment",
+    description:
+      "Book an appointment at CMedical. Choose a service, clinic and available time – short waiting times and no referral needed.",
+  },
+} as const;
+
+export async function buildBookingMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchBookingPageDocument(sanityLang);
+  const seo = data?.seo;
+  const { title, description } = resolveMetaStrings(seo, lang, BOOKING_FALLBACK);
+  const pageTitle =
+    (typeof data?.pageTitle === "string" && data.pageTitle.trim()) || title;
+  const geoDescription =
+    typeof data?.geoSummary === "string" ? data.geoSummary.trim() : "";
+
+  return buildPageMetadata({
+    locale,
+    paths: { nbPath: "/no/booking", enPath: "/en/booking" },
+    title: pageTitle,
+    description: description || geoDescription || BOOKING_FALLBACK[lang].description,
+    ogImage: pageOgImage(seo),
     noIndex: !!seo?.noIndex,
     type: "website",
   });

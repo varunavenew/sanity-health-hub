@@ -3,6 +3,7 @@ import {
   behandlingerCategorySegment,
   normalizeCategoryFilterKey,
 } from "@/lib/sanity/category-keys";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 type CategoryRow = {
   categoryId?: string;
@@ -102,7 +103,7 @@ function categorySegment(cat: CategoryRow, lang: "no" | "en"): string {
 }
 
 function treatmentPath(categorySegment: string, treatmentSlug: string): string {
-  return `/${categorySegment}/${treatmentSlug}`;
+  return rewriteRetiredIvfPath(`/${categorySegment}/${treatmentSlug}`);
 }
 
 function applyAlias(map: Record<string, ClinicServiceLink>, alias: string, target: string) {

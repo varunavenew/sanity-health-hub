@@ -151,7 +151,7 @@ export type TreatmentData = {
   reasonsLead?: string;
   reasonsLead2?: string;
   reasonsLayout?: "prose" | "accordion" | "auto";
-  reasons?: { n: string; title: string; desc: string }[];
+  reasons?: { n: string; title: string; desc: string; id?: string }[];
   /** Legacy about sections. Used as a reasons[] fallback when symptoms is empty. */
   sections?: TreatmentSection[];
   promises?: { eyebrow: string; title: string; desc: string; image?: string; imageAlt?: string }[];
@@ -354,10 +354,12 @@ export function mapTreatmentDocument(
       .filter(Boolean)
       .map((item) => {
         const r = item as Record<string, unknown>;
+        const title = asPlainString(r.title);
         return {
           n: asPlainString(r.n),
-          title: asPlainString(r.title),
+          title,
           desc: asPlainString(r.desc),
+          id: asPlainString(r.id) || undefined,
         };
       })
       .filter((r) => r.title || r.desc),

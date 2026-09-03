@@ -204,9 +204,11 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-light">{copy.clinicLabel}</Label>
+                  <Label htmlFor="cr-clinic" id="cr-clinic-label" className="text-sm font-light">{copy.clinicLabel}</Label>
                   <Select value={form.clinic} onValueChange={(v) => setForm({ ...form, clinic: v })}>
-                    <SelectTrigger><SelectValue placeholder={copy.clinicPlaceholder} /></SelectTrigger>
+                    <SelectTrigger id="cr-clinic" aria-labelledby="cr-clinic-label">
+                      <SelectValue placeholder={copy.clinicPlaceholder} />
+                    </SelectTrigger>
                     <SelectContent>
                       {clinics.map((c: { slug?: string; id?: string; label: string }) => (
                         <SelectItem key={c.id} value={c.id}>CMedical {c.label}</SelectItem>
@@ -215,9 +217,11 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-light">{copy.categoryLabel}</Label>
+                  <Label htmlFor="cr-category" id="cr-category-label" className="text-sm font-light">{copy.categoryLabel}</Label>
                   <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
-                    <SelectTrigger><SelectValue placeholder={copy.categoryPlaceholder} /></SelectTrigger>
+                    <SelectTrigger id="cr-category" aria-labelledby="cr-category-label">
+                      <SelectValue placeholder={copy.categoryPlaceholder} />
+                    </SelectTrigger>
                     <SelectContent>
                       {serviceCategories.map((cat: { id: string; label: string }) => (
                         <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>
@@ -229,10 +233,11 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-light">{copy.timingLabel}</Label>
+                <Label id="cr-timing-label" className="text-sm font-light">{copy.timingLabel}</Label>
                 <RadioGroup
                   value={form.timing}
                   onValueChange={(v) => setForm({ ...form, timing: v as "snarest" | "specific" })}
+                  aria-labelledby="cr-timing-label"
                   className="flex flex-col sm:flex-row gap-3"
                 >
                   <div className="flex items-center space-x-2 border border-border rounded-md px-3 py-2 flex-1">

@@ -56,6 +56,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
 
   return (
     <header className="bg-background lg:pt-0">
+      <h1 className="sr-only">{specialist.name}</h1>
       {/* Mobile — full-bleed image with bottom overlay content */}
       <div className="relative lg:hidden min-h-[100svh] overflow-hidden bg-brand-dark">
         <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
@@ -66,14 +67,15 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
         />
 
         <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-4">
-          <motion.h1
+          <motion.p
+            aria-hidden="true"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-[2rem] font-light text-white leading-[1.05] mb-3"
           >
             {specialist.name}
-          </motion.h1>
+          </motion.p>
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -142,14 +144,15 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
       <div className="hidden lg:grid lg:grid-cols-2 lg:min-h-[640px]">
         <div className="flex items-center page-edge-text-left py-12 lg:py-16">
           <div className="max-w-xl w-full">
-            <motion.h1
+            <motion.p
+              aria-hidden="true"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="text-4xl md:text-5xl lg:text-6xl font-medium text-foreground leading-[1.05] mb-4"
             >
               {specialist.name}
-            </motion.h1>
+            </motion.p>
 
             <motion.p
               initial={{ opacity: 0 }}

@@ -54,7 +54,7 @@ export const sitePages: SitePage[] = [
   // Fertilitet underbehandlinger
   { path: "/behandlinger/fertilitet/infertilitet", name: "Infertilitet", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/assistert-befruktning", name: "Assistert befruktning", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/ivf", name: "IVF", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/assistert-befruktning#ivf", name: "IVF", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/eggfrys", name: "Eggfrys", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/donorbehandling", name: "Donorbehandling", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/hysteroskopi", name: "Hysteroskopi (fert)", category: "Fertilitet – underbehandlinger" },

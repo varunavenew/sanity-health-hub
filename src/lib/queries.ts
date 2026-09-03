@@ -1268,6 +1268,13 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}]
   ${localizedSeoObject}
 }`;
 
+/** Lightweight booking singleton for `<title>` / Open Graph (not the full copy query). */
+export const BOOKING_PAGE_SEO_QUERY = `*[_type == "bookingPage" && ${publishedOnly}][0]{
+  ${bookingI18nString("pageTitle")},
+  ${GEO_SUMMARY},
+  ${localizedSeoObject}
+}`;
+
 export const PRICING_PAGE_QUERY = `*[_type == "pricingPage" && ${publishedOnly}][0]{
   ${i18nString("title")},
   ${i18nText("introText")},

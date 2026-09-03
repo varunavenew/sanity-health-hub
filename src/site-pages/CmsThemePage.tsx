@@ -59,6 +59,11 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      {!title ? (
+        <h1 className="sr-only">
+          {page?.seo?.metaTitle?.trim() || themeSlug.replace(/-/g, " ")}
+        </h1>
+      ) : null}
       {seoTitle || seoDescription ? (
         <PageSEO
           title={seoTitle}

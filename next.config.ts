@@ -281,6 +281,16 @@ const nextConfig: NextConfig = {
       // Dropped / legacy URLs (batch 2 — destinations verified live).
       { source: "/no/fertilitet/fertilitetsutredning-i-juli", destination: "/no/fertilitet/fertilitetsutredning", permanent: true },
       { source: "/no/livio-oslo", destination: "/no/om-oss", permanent: true },
+
+      // IVF is a section on Assistert befruktning — not a separate indexable page.
+      { source: "/fertilitet/ivf", destination: "/no/fertilitet/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/behandlinger/fertilitet/ivf", destination: "/no/fertilitet/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/:locale(nb|no)/fertilitet/ivf", destination: "/:locale/fertilitet/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/:locale(nb|no)/behandlinger/fertilitet/ivf", destination: "/:locale/fertilitet/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/en/fertilitet/ivf", destination: "/en/fertilitet/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/en/fertility/ivf", destination: "/en/fertility/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/en/behandlinger/fertilitet/ivf", destination: "/en/fertilitet/assistert-befruktning#ivf", statusCode: 301 },
+      { source: "/en/behandlinger/fertility/ivf", destination: "/en/fertility/assistert-befruktning#ivf", statusCode: 301 },
       { source: "/en/fertility/insemination", destination: "/en/fertility/singel-mann", permanent: true },
       { source: "/en/fertility/ovulation-stimulation", destination: "/en/fertility/donor-treatment", permanent: true },
       { source: "/en/fertility/sperm-freezing", destination: "/en/fertility/egg-freezing", permanent: true },

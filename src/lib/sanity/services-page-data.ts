@@ -3,6 +3,7 @@ import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -80,7 +81,7 @@ function mapCategoryTreatments(
         title: asPlainString(t.title),
         path:
           slug && categorySlug
-            ? `/${categorySlug}/${slug}`
+            ? rewriteRetiredIvfPath(`/${categorySlug}/${slug}`)
             : "",
       };
     })
