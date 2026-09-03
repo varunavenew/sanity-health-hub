@@ -234,6 +234,50 @@
     }
   }
 
+  /* Shared “you are here” breadcrumb — current section is larger/heavier. */
+  .page-breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.5rem;
+    row-gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .page-breadcrumb__item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .page-breadcrumb__sep {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.3;
+  }
+  .page-breadcrumb__trail,
+  .page-breadcrumb__current {
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .page-breadcrumb__section {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 768px) {
+    .page-breadcrumb__section {
+      font-size: 0.875rem;
+    }
+  }
 
   .section-flush {
     padding-top: 0 !important;

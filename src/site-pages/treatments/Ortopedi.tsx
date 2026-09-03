@@ -4,6 +4,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Star, Quote, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
@@ -168,11 +169,10 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
       ============================================================ */}
       <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="lg:hidden px-6 md:px-16 pb-4">
-          <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
-            <Link to="/" className="hover:text-foreground">Hjem</Link>
-            <span aria-hidden="true">›</span>
-            <span className="text-foreground/80">Ortopedi</span>
-          </nav>
+          <PageBreadcrumb
+            items={[{ name: "Hjem", path: "/" }, { name: "Ortopedi" }]}
+            className="mb-4"
+          />
           <h2 className="text-4xl font-light text-foreground leading-[1.05]">
             Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
           </h2>
@@ -180,11 +180,10 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16">
             <div className="max-w-xl w-full">
-              <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
-                <Link to="/" className="hover:text-foreground">Hjem</Link>
-                <span aria-hidden="true">›</span>
-                <span className="text-foreground/80">Ortopedi</span>
-              </nav>
+              <PageBreadcrumb
+                items={[{ name: "Hjem", path: "/" }, { name: "Ortopedi" }]}
+                className="hidden lg:flex mb-8 lg:mb-10"
+              />
               <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
               </h2>

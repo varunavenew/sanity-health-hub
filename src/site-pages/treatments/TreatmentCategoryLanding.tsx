@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SplitHeroMedia } from "@/components/layout/SplitHeroMedia";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { FaqSection } from "@/components/layout/FaqSection";
@@ -1037,6 +1038,10 @@ const TreatmentCategoryLanding = ({
   const locale = sanityLang === "en" ? "en" : "nb";
   const categoryPath = category?.slug ? `/${category.slug}` : "";
   const categoryTitle = category?.title || "";
+  const breadcrumbItems = [
+    { name: breadcrumbHomeLabel, path: "/" },
+    { name: categoryTitle },
+  ];
   /** Reference: SEO h1 (sr-only) + visible split-hero h2. */
   const seoTitle =
     landing.srOnlyTitle?.trim() ||
@@ -1658,11 +1663,11 @@ const TreatmentCategoryLanding = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
             </div>
             <div className="relative z-10 max-w-4xl w-full">
-              <nav aria-label="breadcrumb" className="text-xs font-light text-white/70 flex items-center gap-2 mb-6">
-                <Link to="/" className="hover:text-white transition-colors">{breadcrumbHomeLabel}</Link>
-                <span aria-hidden="true">›</span>
-                <span className="text-white/90">{categoryTitle}</span>
-              </nav>
+              <PageBreadcrumb
+                items={breadcrumbItems}
+                tone="onDark"
+                className="mb-6"
+              />
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
                 {hero.heading}
                 {hero.headingEmphasis ? (
@@ -1720,11 +1725,7 @@ const TreatmentCategoryLanding = ({
         <header className="bg-brand-light pt-[4.5rem] lg:pt-0">
           <h1 className="sr-only">{seoTitle || categoryTitle || hero.heading}</h1>
           <div className="lg:hidden page-edge-text-left pb-4">
-            <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
-              <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
-              <span aria-hidden="true">›</span>
-              <span className="text-foreground/80">{categoryTitle}</span>
-            </nav>
+            <PageBreadcrumb items={breadcrumbItems} className="mb-4" />
             {isFertility ? (
               <FertilityHeroHeading
                 heading={hero.heading}
@@ -1750,11 +1751,7 @@ const TreatmentCategoryLanding = ({
           >
             <div className="flex items-center page-edge-text-left py-16">
               <div className="w-full max-w-xl">
-                <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
-                  <Link to="/" className="hover:text-foreground">{breadcrumbHomeLabel}</Link>
-                  <span aria-hidden="true">›</span>
-                  <span className="text-foreground/80">{categoryTitle}</span>
-                </nav>
+                <PageBreadcrumb items={breadcrumbItems} className="hidden lg:flex mb-8 lg:mb-10" />
                 {isFertility ? (
                   <FertilityHeroHeading
                     heading={hero.heading}

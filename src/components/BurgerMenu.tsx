@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useNavigate, useLocaleParam } from "@/lib/router";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
@@ -14,13 +14,14 @@ import {
 } from '@/lib/navigation/default-main-navigation';
 import { trackBookingMenuStartForPath } from '@/lib/tracking/seo-events';
 
+const DESKTOP_NAV_MQ = "(min-width: 768px)";
+
 const BurgerMenu = () => {
   const { t } = useTranslation();
   const locale = useLocaleParam();
   const uiLang = locale === "en" ? "en" : "nb";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const menuRef = useRef<HTMLDivElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { data: siteSettings } = useSiteSettings();
@@ -47,20 +48,6 @@ const BurgerMenu = () => {
     }));
   }, [siteSettings?.mainNavigation, staticMenuItems, t, locale, uiLang, cmsRouteIndex, localeMap]);
 
-  const servicesPath = useMemo(
-    () => resolveNavPath({ navId: "services" }, locale, cmsRouteIndex),
-    [locale, cmsRouteIndex],
-  );
-
-  const burgerFlatItems = useMemo(
-    () =>
-      menuItems.map((item) => ({
-        ...item,
-        path: item.isServicesDropdown ? servicesPath : item.path,
-      })),
-    [menuItems, servicesPath],
-  );
-
   const moreMenuItems = useMemo(
     () => menuItems.filter((item) => !item.isServicesDropdown && item.navId !== "services"),
     [menuItems],
@@ -86,8 +73,18 @@ const BurgerMenu = () => {
   const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 
   useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_NAV_MQ);
+    const closeOnDesktop = () => {
+      if (mq.matches) setIsMenuOpen(false);
+    };
+    closeOnDesktop();
+    mq.addEventListener("change", closeOnDesktop);
+    return () => mq.removeEventListener("change", closeOnDesktop);
+  }, []);
+
+  useEffect(() => {
     if (!isMenuOpen) return;
-    if (window.matchMedia("(min-width: 768px)").matches) return;
+    if (window.matchMedia(DESKTOP_NAV_MQ).matches) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -106,8 +103,7 @@ const BurgerMenu = () => {
       const target = e.target as Node | null;
       if (!target) return;
 
-      const clickedInsideMenu =
-        !!mobileMenuRef.current?.contains(target) || !!menuRef.current?.contains(target);
+      const clickedInsideMenu = !!mobileMenuRef.current?.contains(target);
       const clickedOnButton = !!buttonRef.current?.contains(target);
       if (!clickedInsideMenu && !clickedOnButton) close();
     };
@@ -165,75 +161,11 @@ const BurgerMenu = () => {
     </motion.div>
   );
 
-  const desktopMenuPanel = (
-    <motion.div
-      ref={menuRef}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2 }}
-      className="absolute right-0 top-full z-50 mt-3 hidden min-w-[280px] overflow-hidden rounded-2xl bg-white shadow-2xl md:block"
-      role="dialog"
-      aria-modal="true"
-      aria-label={t("nav.navigationMenu")}
-    >
-      <div className="p-5">
-        <nav className="space-y-0.5">
-          {menuItems.map((item) => (
-            <button
-              key={item.path + item.label}
-              type="button"
-              onClick={() => handleNavigate(item.path)}
-              className="w-full rounded-lg px-3 py-2 text-left text-sm font-normal text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
-        <div className="mt-5 border-t border-border pt-5">
-          <div className="space-y-2">
-            <a
-              href={`tel:${phone.replace(/\s/g, "")}`}
-              data-phone-location="header"
-              className="flex items-center gap-2 text-sm text-foreground/70 transition-colors hover:text-foreground"
-            >
-              <Phone className="h-4 w-4" />
-              {phone}
-            </a>
-            <button
-              type="button"
-              onClick={() => handleNavigate("/kontakt")}
-              className="flex items-center gap-2 text-sm text-foreground/70 transition-colors hover:text-foreground"
-            >
-              <Mail className="h-4 w-4" />
-              {t("nav.contactForm")}
-            </button>
-            <div className="flex items-center gap-2 text-sm text-foreground/70">
-              <MapPin className="h-4 w-4" />
-              {address}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="px-5 pb-5">
-        <button
-          type="button"
-          onClick={() => handleNavigate(ctaButton.path)}
-          className="w-full rounded-2xl bg-accent py-3 text-sm font-normal text-accent-foreground transition-colors hover:bg-accent/90"
-        >
-          {ctaButton.label}
-        </button>
-      </div>
-    </motion.div>
-  );
-
   return (
-    <div className="relative">
+    <div className="relative md:hidden">
       <button
         ref={buttonRef}
-        className="inline-flex p-2.5 bg-white rounded-2xl md:rounded-full shadow-md hover:shadow-lg hover:bg-white/90 transition-all border border-border/30 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        className="inline-flex p-2.5 bg-white rounded-2xl shadow-md hover:shadow-lg hover:bg-white/90 transition-all border border-border/30 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label={isMenuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
         aria-expanded={isMenuOpen}
@@ -251,8 +183,6 @@ const BurgerMenu = () => {
           <AnimatePresence>{isMenuOpen ? mobileMenuPanel : null}</AnimatePresence>,
           document.body,
         )}
-
-      <AnimatePresence>{isMenuOpen ? desktopMenuPanel : null}</AnimatePresence>
     </div>
   );
 };
