@@ -304,6 +304,7 @@ const nextConfig: NextConfig = {
       { source: "/en/urology/kidney-stones", destination: "/en/urology/nyrer", permanent: true },
       { source: "/en/urology/operation", destination: "/en/urology/sterilization", permanent: true },
       { source: "/en/livio-oslo", destination: "/en/clinics", permanent: true },
+      { source: "/en/klinikk/:path*", destination: "/en/clinics/:path*", permanent: true },
       { source: "/en/bariatric-surgery", destination: "/en/other/obesity-surgery", permanent: true },
       { source: "/en/gynecology/gynecological-ultrasound", destination: "/en/gynecology/ultrasound", permanent: true },
 
