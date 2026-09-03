@@ -9,6 +9,7 @@ import {
   categorySlugForFetch,
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -272,7 +273,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       .map((row) => {
         const t = row as Record<string, unknown>;
         const label = asPlainString(t.label);
-        const href = asPlainString(t.href);
+        const href = rewriteRetiredIvfPath(asPlainString(t.href));
         if (!label || !href) return null;
         return { label, href };
       })
@@ -285,7 +286,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       tags: asStringArray(s.tags),
       tagLinks,
       cta: asPlainString(s.ctaLabel),
-      href: asPlainString(s.href),
+      href: rewriteRetiredIvfPath(asPlainString(s.href)),
     };
   });
 
@@ -305,7 +306,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
     return {
       title: asPlainString(a.title),
       desc: asPlainString(a.description),
-      href: asPlainString(a.href),
+      href: rewriteRetiredIvfPath(asPlainString(a.href)),
       ctaLabel: asPlainString(a.ctaLabel),
       icon: (validIcons.includes(icon as (typeof validIcons)[number])
         ? icon
@@ -320,7 +321,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       return {
         title: asPlainString(a.title),
         desc: asPlainString(a.description),
-        href: asPlainString(a.href),
+        href: rewriteRetiredIvfPath(asPlainString(a.href)),
         image: asPlainString(a.image) || undefined,
         imageAlt: asPlainString(a.imageAlt),
       };
@@ -337,7 +338,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       return {
         title: asPlainString(item.title),
         desc: asPlainString(item.description),
-        href: asPlainString(item.href),
+        href: rewriteRetiredIvfPath(asPlainString(item.href)),
       };
     });
     return {
@@ -374,7 +375,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
     return {
       symptom: asPlainString(s.symptom),
       service: asPlainString(s.service),
-      href: asPlainString(s.href),
+      href: rewriteRetiredIvfPath(asPlainString(s.href)),
       image: asPlainString(s.image) || undefined,
       imageAlt: asPlainString(s.imageAlt),
     };
@@ -531,7 +532,7 @@ export function mapTreatmentCategoryDocument(
         title: asPlainString(t.title),
         desc: asPlainString(t.description) || asPlainString(t.subtitle),
         slug,
-        href: slug ? `${categoryPath}/${slug}` : "",
+        href: slug ? rewriteRetiredIvfPath(`${categoryPath}/${slug}`) : "",
       };
     })
     .map(({ title, desc, href }) => ({ title, desc, href }));

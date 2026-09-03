@@ -39,7 +39,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { type ReactNode, useMemo, useRef } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 export interface SubTreatmentContent {
   seoTitle: string;
@@ -83,7 +83,7 @@ export interface SubTreatmentContent {
   reasonsTitle: string;
   reasonsLead?: string;
   reasonsLead2?: string;
-  reasons: { n: string; title: string; desc: string | ReactNode }[];
+  reasons: { n: string; title: string; desc: string | ReactNode; id?: string }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
   promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
   textSection?: {
@@ -180,10 +180,33 @@ function ReasonsEditorial({
   title: string;
   lead?: string;
   lead2?: string;
-  items: { n: string; title: string; desc: string | ReactNode }[];
+  items: { n: string; title: string; desc: string | ReactNode; id?: string }[];
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
   const hasLead = Boolean(lead?.trim() || lead2?.trim());
+  const itemsWithIds = cleanItems.map((item, index) => ({
+    ...item,
+    id: item.id || `reason-${index}`,
+  }));
+
+  const [openItem, setOpenItem] = useState<string | undefined>(itemsWithIds[0]?.id);
+
+  const itemIdsKey = itemsWithIds.map((item) => item.id).join("|");
+
+  useEffect(() => {
+    const applyHash = () => {
+      const hashId = window.location.hash.replace(/^#/, "");
+      if (!hashId) return;
+      if (!itemIdsKey.split("|").includes(hashId)) return;
+      setOpenItem(hashId);
+      window.requestAnimationFrame(() => {
+        document.getElementById(hashId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, [itemIdsKey]);
 
   // Demo pages can show title + lead with no right-column items yet.
   if (cleanItems.length === 0 && !hasLead) return null;
@@ -204,19 +227,21 @@ function ReasonsEditorial({
           </div>
 
           <div className="lg:col-span-7">
-            {cleanItems.length > 0 ? (
+            {itemsWithIds.length > 0 ? (
               <Accordion
-                key={`${title}-${cleanItems[0]?.n}-${cleanItems[0]?.title}`}
+                key={`${title}-${itemsWithIds[0]?.n}-${itemsWithIds[0]?.title}`}
                 type="single"
                 collapsible
-                defaultValue="reason-0"
+                value={openItem}
+                onValueChange={setOpenItem}
                 className="w-full"
               >
-                {cleanItems.map((item, index) => (
+                {itemsWithIds.map((item, index) => (
                   <AccordionItem
                     key={`${item.n}-${item.title}-${index}`}
-                    value={`reason-${index}`}
-                    className="border-b border-border/40"
+                    id={item.id}
+                    value={item.id}
+                    className="scroll-mt-28 border-b border-border/40"
                   >
                     <AccordionTrigger className="text-left text-lg md:text-xl font-normal text-foreground py-5 hover:no-underline leading-snug [&[data-state=open]>svg]:rotate-180">
                       <span className="pr-4">{item.title}</span>

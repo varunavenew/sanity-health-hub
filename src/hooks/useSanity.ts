@@ -100,6 +100,7 @@ import {
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
 import { mergeCategoryNavTreatments } from "@/lib/navigation/tjenester-nav-order";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 import {
   englishCategoryNavLabel,
   englishTreatmentNavLabel,
@@ -1440,7 +1441,7 @@ export const useServiceCategoriesFromSanity = () => {
               return {
                 id: navId,
                 label: treatmentLabel,
-                path: `/${categorySlug}/${pathSlug}`,
+                path: rewriteRetiredIvfPath(`/${categorySlug}/${pathSlug}`),
                 items: sortByLabel(t.subItems || [], (item: any) => item.label)
                   .map((item: any) => ({
                     label:

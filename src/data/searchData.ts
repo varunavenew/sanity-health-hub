@@ -49,6 +49,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Fagområde', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
   { label: 'Infertilitet', path: '/behandlinger/fertilitet/infertilitet', category: 'Fertilitet', keywords: ['barnløshet', 'ufruktbar'] },
   { label: 'Assistert befruktning', path: '/behandlinger/fertilitet/assistert-befruktning', category: 'Fertilitet', keywords: ['kunstig befruktning', 'ivf', 'icsi', 'inseminasjon'] },
+  { label: 'IVF', path: '/behandlinger/fertilitet/assistert-befruktning#ivf', category: 'Fertilitet', keywords: ['prøverør', 'in vitro', 'befruktning'] },
   { label: 'Assistert befruktning med donor', path: '/behandlinger/fertilitet/donorbehandling', category: 'Fertilitet', keywords: ['donor', 'sæddonor', 'eggdonor'] },
   { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys', category: 'Fertilitet', keywords: ['fryse egg', 'bevare fertilitet', 'nedfrysning'] },
   { label: 'Hormonforstyrrelser', path: '/behandlinger/fertilitet/hormonforstyrrelser', category: 'Fertilitet', keywords: ['hormon', 'pcos'] },

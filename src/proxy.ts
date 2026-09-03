@@ -8,6 +8,7 @@ import {
   proxyLegacySeRequest,
   readLegacySeOrigin,
 } from "@/lib/legacy-se-proxy";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 const LOCALE_PREFIX = new Set(locales);
 
@@ -22,6 +23,19 @@ const HUDLEGE_REDIRECTS: Array<[RegExp, string]> = [
   [/^\/flere-fagomrader\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
   [/^\/behandlinger\/(?:ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
 ];
+
+function ivfMigrationRedirect(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl;
+  const rewritten = rewriteRetiredIvfPath(pathname);
+  if (rewritten === pathname) return null;
+  const hashIdx = rewritten.indexOf("#");
+  const destPath = hashIdx >= 0 ? rewritten.slice(0, hashIdx) : rewritten;
+  const destHash = hashIdx >= 0 ? rewritten.slice(hashIdx + 1) : "";
+  const url = request.nextUrl.clone();
+  url.pathname = destPath;
+  if (destHash) url.hash = destHash;
+  return NextResponse.redirect(url, 301);
+}
 
 function hudlegeMigrationRedirect(request: NextRequest): NextResponse | null {
   const { pathname } = request.nextUrl;
@@ -89,6 +103,9 @@ export async function proxy(request: NextRequest) {
   if (readLegacySeOrigin() && isLegacySeProxyPath(pathname)) {
     return proxyLegacySeRequest(request);
   }
+
+  const ivfRedirect = ivfMigrationRedirect(request);
+  if (ivfRedirect) return ivfRedirect;
 
   const hudlegeRedirect = hudlegeMigrationRedirect(request);
   if (hudlegeRedirect) return hudlegeRedirect;

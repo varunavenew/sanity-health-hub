@@ -196,7 +196,7 @@ const fertilitet: CategoryLandingSeed = {
   serviceLinks: {
     "Infertilitet": "/behandlinger/fertilitet/infertilitet",
     "Assistert befruktning": "/behandlinger/fertilitet/assistert-befruktning",
-    "IVF": "/behandlinger/fertilitet/ivf",
+    "IVF": "/behandlinger/fertilitet/assistert-befruktning#ivf",
     "Assistert befruktning med donor": "/behandlinger/fertilitet/donorbehandling",
     "Eggfrys": "/behandlinger/fertilitet/eggfrys",
     "Sædanalyse": "/behandlinger/fertilitet/saedanalyse",

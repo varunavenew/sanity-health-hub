@@ -6,6 +6,7 @@ import {
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
+import { reasonAnchorId, rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { BookingLinkParams } from "@/lib/bookingLinks";
 import { FERTILITETSUTREDNING_BOOKING_OPTIONS } from "@/lib/booking/resolve-booking-service";
@@ -103,34 +104,39 @@ function seoText(treatment: TreatmentData): { title: string; description: string
 /** Legacy `sections[]` (heading/content) → reasons accordion items. */
 function reasonsFromLegacySections(
   sections: TreatmentSection[] | undefined,
-): { n: string; title: string; desc: string }[] {
+): { n: string; title: string; desc: string; id: string }[] {
   return (sections ?? [])
     .map((section, index) => ({
       n: String(index + 1).padStart(2, "0"),
       title: section.heading.trim(),
       desc: section.content.trim(),
+      id: reasonAnchorId(section.heading, section.id),
     }))
     .filter((item) => item.title || item.desc);
 }
 
 /** Keep CMS reasons; append leftover legacy sections that are not already titles. */
 function mergeReasonsWithLegacySections(
-  reasons: { n: string; title: string; desc: string }[],
+  reasons: { n: string; title: string; desc: string; id?: string }[],
   sections: TreatmentSection[] | undefined,
-): { n: string; title: string; desc: string }[] {
+): { n: string; title: string; desc: string; id: string }[] {
   const fromSections = reasonsFromLegacySections(sections);
-  if (fromSections.length === 0) return reasons;
-  if (reasons.length === 0) return fromSections;
+  const withIds = reasons.map((item) => ({
+    ...item,
+    id: reasonAnchorId(item.title, item.id),
+  }));
+  if (fromSections.length === 0) return withIds;
+  if (withIds.length === 0) return fromSections;
 
   const existingTitles = new Set(
-    reasons.map((item) => item.title.trim().toLowerCase()).filter(Boolean),
+    withIds.map((item) => item.title.trim().toLowerCase()).filter(Boolean),
   );
   const extra = fromSections.filter(
     (item) => item.title && !existingTitles.has(item.title.trim().toLowerCase()),
   );
-  if (extra.length === 0) return reasons;
+  if (extra.length === 0) return withIds;
 
-  return [...reasons, ...extra].map((item, index) => ({
+  return [...withIds, ...extra].map((item, index) => ({
     ...item,
     n: String(index + 1).padStart(2, "0"),
   }));
@@ -170,7 +176,7 @@ export function mapTreatmentToSubTreatmentContent(
   const related = (treatment.related ?? []).map((r) => ({
     title: r.title,
     desc: r.desc || "",
-    href: stripBehandlingerPrefix(r.path || ""),
+    href: rewriteRetiredIvfPath(stripBehandlingerPrefix(r.path || "")),
     image: r.image,
     imageAlt: r.imageAlt,
   }));
@@ -245,7 +251,7 @@ export function mapTreatmentToSubTreatmentContent(
           items: treatment.expertAreas.items.map((item) => ({
             title: item.title,
             desc: item.desc,
-            href: item.path,
+            href: rewriteRetiredIvfPath(stripBehandlingerPrefix(item.path || "")),
             image: item.image,
             imageAlt: item.imageAlt,
           })),

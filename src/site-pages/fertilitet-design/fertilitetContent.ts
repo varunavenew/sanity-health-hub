@@ -142,7 +142,7 @@ export interface FertilitetService {
 
 export const fertilitetServices: FertilitetService[] = [
   { name: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk", icon: HeartPulse },
-  { name: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf", icon: Microscope },
+  { name: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/assistert-befruktning#ivf", icon: Microscope },
   { name: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui", icon: Baby },
   { name: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon", icon: HeartHandshake },
   { name: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing", icon: Snowflake },
@@ -221,7 +221,7 @@ export const sjekkReasons = [
 ];
 
 export const sjekkRelated = [
-  { eyebrow: "Behandling", title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/ivf" },
+    { eyebrow: "Behandling", title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/assistert-befruktning#ivf" },
   { eyebrow: "Behandling", title: "IUI — inseminasjon", desc: "Et enklere første steg når årsaken er mild — eller når du ønsker donor.", href: "/behandlinger/fertilitet/iui" },
   { eyebrow: "Mulighet", title: "Nedfrysing av egg", desc: "Gir deg tid. Vi forklarer når det er riktig — og hva det innebærer.", href: "/behandlinger/fertilitet/nedfrysing" },
 ];

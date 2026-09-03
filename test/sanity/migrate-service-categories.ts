@@ -260,7 +260,7 @@ const serviceCategories: ServiceCategory[] = [
       { label: "Assistert befruktning", path: "/behandlinger/fertilitet/assistert-befruktning" },
       {
         label: "IVF",
-        path: "/behandlinger/fertilitet/ivf",
+        path: "/behandlinger/fertilitet/assistert-befruktning#ivf",
         items: [{ label: "Det første møtet" }, { label: "Fertilitetssjekk" }, { label: "Behandling" }],
       },
       { label: "Eggfrys", path: "/behandlinger/fertilitet/eggfrys" },
