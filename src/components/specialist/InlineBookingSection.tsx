@@ -16,7 +16,10 @@ import {
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
-import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
+import {
+  specialistHasOnlineBookingConfig,
+  specialistShowsBookingButton,
+} from "@/lib/sanity/specialist-cta";
 import { buildBookingUrl, categoryNumericIdToPageId } from "@/lib/bookingLinks";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 
@@ -81,6 +84,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     categorySlug: string,
     serviceName: string,
   ) => {
+    if (!specialistHasOnlineBookingConfig(specialist)) return;
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,

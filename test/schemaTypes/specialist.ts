@@ -8,7 +8,6 @@ import {
   pickForLang,
   pickNo,
   requiredNoEnI18n,
-  requiredNoEnSeo,
 } from './i18n'
 import {pickStudioEn} from './studioPreview'
 import { geoSummaryField } from './geoSummary'
@@ -281,7 +280,7 @@ export default {
       group: 'general',
       initialValue: true,
       description:
-        'Show the booking button on this specialist’s profile. Leave on unless this specialist should not be bookable from the website.',
+        'Show the booking button on this specialist’s profile. The button stays visible but does not open booking if Metodika user ID or booking activity groups is empty.',
     },
     {
       name: 'showCallButton',
@@ -475,7 +474,6 @@ export default {
       group: 'seo',
       fieldset: 'seoFields',
       description: 'Search title, description, and social previews.',
-      validation: requiredNoEnSeo,
     },
     {
       ...geoSummaryField,
@@ -541,9 +539,7 @@ export default {
         },
       ],
       description:
-        'Required. One or more Metodika wbactivitygroup IDs. Pick from the list (data shape unchanged).',
-      validation: (Rule: any) =>
-        Rule.required().min(1).error('Select at least one booking activity group'),
+        'Metodika wbactivitygroup IDs. Book now stays visible but does not open booking if this or Metodika user ID is empty.',
     },
     {
       name: 'sortOrder',
@@ -579,10 +575,6 @@ export default {
       if (!Array.isArray(clinics) || clinics.length === 0) {
         issues.push('At least one clinic must be selected')
       }
-      const bookingIds = document.bookingCategoryIds as unknown[] | undefined
-      if (!Array.isArray(bookingIds) || bookingIds.length === 0) {
-        issues.push('At least one booking activity group must be selected')
-      }
       const faqs = document.faqs as unknown[] | undefined
       const hasFaqs = Array.isArray(faqs) && faqs.length > 0
       const hasFaqCollection = Boolean(
@@ -593,17 +585,6 @@ export default {
       }
       if ((hasFaqs || hasFaqCollection) && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
         issues.push('FAQ heading (English) is missing')
-      }
-      const seo = document.seo as Record<string, unknown> | undefined
-      if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta title (Norwegian) is missing')
-      if (!pickForLang(seo?.metaTitle, 'en')?.trim()) {
-        issues.push('SEO meta title (English) is missing')
-      }
-      if (!pickNo(seo?.metaDescription)?.trim()) {
-        issues.push('SEO meta description (Norwegian) is missing')
-      }
-      if (!pickForLang(seo?.metaDescription, 'en')?.trim()) {
-        issues.push('SEO meta description (English) is missing')
       }
       return issues.length ? issues.join('. ') : true
     }),

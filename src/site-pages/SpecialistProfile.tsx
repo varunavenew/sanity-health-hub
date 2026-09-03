@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useParams, useNavigate, useRouteSlug, Link } from "@/lib/router";
+import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -15,7 +15,7 @@ import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFea
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
-import { useBookAppointmentPath } from "@/components/specialist/SpecialistCtaButtons";
+import { SpecialistBookNowButton } from "@/components/specialist/SpecialistCtaButtons";
 import {
   SpecialistProfileUiProvider,
   useSpecialistProfileUi,
@@ -101,7 +101,6 @@ function SpecialistProfileBody({
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "nb";
   const specialistsPath = useNavCmsPath("specialists");
-  const bookingPath = useBookAppointmentPath();
   const ui = useSpecialistProfileUi();
 
   const relatedSection = specialist.relatedSpecialistsSection;
@@ -215,15 +214,14 @@ function SpecialistProfileBody({
 
       {specialistShowsBookingButton(specialist) ? (
         <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <Button
-            asChild
+          <SpecialistBookNowButton
+            specialist={specialist}
+            variant="default"
             className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
           >
-            <Link to={bookingPath}>
-              <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-              {ui.bookingCtaLabel}
-            </Link>
-          </Button>
+            <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
+            {ui.bookingCtaLabel}
+          </SpecialistBookNowButton>
         </div>
       ) : null}
     </PageLayout>

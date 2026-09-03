@@ -318,10 +318,6 @@ export function isPublishableSanitySpecialist(raw: RawSanitySpecialist): boolean
     (Array.isArray(raw.clinicRefs) &&
       raw.clinicRefs.some((c) => typeof c?.label === "string" && c.label.trim()));
   if (!hasClinics) return false;
-  const bookingIds = normalizeBookingCategoryIds(raw.bookingCategoryIds);
-  if (bookingIds.length === 0) return false;
-  if (!pickNo(raw.seo?.metaTitle)) return false;
-  if (!pickNo(raw.seo?.metaDescription)) return false;
   return true;
 }
 
