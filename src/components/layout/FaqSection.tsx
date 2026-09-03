@@ -82,7 +82,7 @@ export const FaqSection = ({
     return (
       <section className={`${sectionClassName || "py-20 md:py-28"} ${background}`}>
         {withJsonLd && <JsonLd data={jsonLd} />}
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
             <div>
               <div className="lg:sticky lg:top-28">

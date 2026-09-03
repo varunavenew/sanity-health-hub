@@ -83,7 +83,7 @@ export const SplitHero = ({
         }
       >
         {/* Left: text */}
-        <div className="flex items-center px-6 md:px-16 lg:px-20 py-10 md:py-20 order-2 lg:order-1">
+        <div className="flex items-center page-edge-text-left py-10 md:py-20 order-2 lg:order-1">
           <div className="w-full max-w-xl">
           {eyebrow?.trim() ? (
             <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">{eyebrow}</p>

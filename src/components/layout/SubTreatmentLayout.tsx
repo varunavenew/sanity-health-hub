@@ -213,7 +213,7 @@ function ReasonsEditorial({
 
   return (
     <section className="pt-14 md:pt-20 pb-10 bg-background">
-      <div className="container mx-auto px-6 md:px-16">
+      <div className="page-shell">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
@@ -291,7 +291,7 @@ function RelatedServicesCarousel({
 
   return (
     <section className="bg-background pt-10 pb-20 overflow-hidden">
-      <div className="container mx-auto px-6 md:px-16">
+      <div className="page-shell">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
@@ -321,7 +321,7 @@ function RelatedServicesCarousel({
         </div>
       </div>
 
-      <div className="container mx-auto pl-6 md:pl-16 pr-0">
+      <div className="page-shell pr-0">
         <div
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pr-6 md:pr-16"
@@ -358,7 +358,7 @@ function RelatedServicesCarousel({
       </div>
 
       {seeAll ? (
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="mt-10 flex justify-center">
             <Link
               to={seeAll.href}
@@ -390,7 +390,7 @@ function RelatedBlock({
 
   return (
     <section className="bg-secondary/40 py-10">
-      <div className="container mx-auto px-6 md:px-16">
+      <div className="page-shell">
         <div className="max-w-6xl mx-auto">
           {lead ? (
             <TreatmentSectionHead
@@ -500,7 +500,7 @@ export const SubTreatmentLayout = ({
       />
       <header className="bg-brand-light pt-24 lg:pt-0">
         <h1 className="sr-only">{heroTitle}</h1>
-        <div className="lg:hidden px-6 md:px-16 pb-4">
+        <div className="lg:hidden page-edge-text-left pb-4">
           <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
             <Link to="/" className="hover:text-foreground">
               {c.homeBreadcrumbLabel}
@@ -529,7 +529,7 @@ export const SubTreatmentLayout = ({
         </div>
 
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
-          <div className="flex items-center px-6 md:px-16 py-10 lg:py-20">
+          <div className="flex items-center page-edge-text-left py-10 lg:py-20">
             <div className="max-w-xl w-full">
             <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-6">
               <Link to="/" className="hover:text-foreground">
@@ -686,7 +686,7 @@ export const SubTreatmentLayout = ({
       {hasProcessSection(c) ? (
         c.flowImage ? (
           <section className="bg-brand-light text-foreground">
-            <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-16 pt-12 pb-4">
+            <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground page-edge-text-left pt-12 pb-4">
               {c.flowTitle}
             </h2>
             <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section">
@@ -730,7 +730,7 @@ export const SubTreatmentLayout = ({
           </section>
         ) : (
           <section className="bg-brand-light text-foreground py-10">
-            <div className="container mx-auto px-6 md:px-16">
+            <div className="page-shell">
               <div className="max-w-6xl mx-auto">
                 <div className="max-w-2xl mb-14">
                   <h2 className="text-3xl md:text-5xl font-light leading-tight">{c.flowTitle}</h2>
@@ -769,7 +769,7 @@ export const SubTreatmentLayout = ({
 
       {hasExpertAreasSection(c) ? (
         <section className="bg-secondary/40 py-10">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <TreatmentSectionHead
                 title={c.expertAreas?.title ?? ""}
@@ -833,7 +833,7 @@ export const SubTreatmentLayout = ({
 
       {hasBenefitsSection(c) ? (
       <section className="bg-secondary/40 py-14 md:py-20">
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="max-w-6xl mx-auto">
             <div
               ref={promisesRef}
@@ -869,7 +869,7 @@ export const SubTreatmentLayout = ({
 
       {hasTextSection(c) ? (
         <section className="pt-14 md:pt-20 pb-10 bg-background">
-          <div className="container mx-auto px-6 md:px-16">
+          <div className="page-shell">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-28">
@@ -944,7 +944,7 @@ export const SubTreatmentLayout = ({
       {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
       <section className="bg-brand-light text-foreground py-10 border-t border-brand-dark/10">
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="page-shell">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
               <TreatmentSectionHead
