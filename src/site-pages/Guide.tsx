@@ -2,10 +2,11 @@
 
 import { PortableText } from "@portabletext/react";
 import type { ReactNode } from "react";
-import { Link, useNavigate } from "@/lib/router";
+import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { CmsMedia } from "@/components/media/CmsMedia";
@@ -149,15 +150,13 @@ const Guide = ({ isChatOpen }: GuideProps) => {
             <div className={`max-w-5xl mx-auto ${heroMedia ? "grid md:grid-cols-2 gap-16 items-center" : "max-w-3xl text-center"}`}>
               <div>
                 {breadcrumbHome ? (
-                  <nav aria-label="breadcrumb" className="text-xs font-light text-muted-foreground flex items-center gap-2 mb-6">
-                    <Link to="/" className="hover:text-foreground transition-colors">{breadcrumbHome}</Link>
-                    {heroTitle ? (
-                      <>
-                        <span aria-hidden="true">›</span>
-                        <span className="text-foreground/80">{heroTitle}</span>
-                      </>
-                    ) : null}
-                  </nav>
+                  <PageBreadcrumb
+                    items={[
+                      { name: breadcrumbHome, path: "/" },
+                      ...(heroTitle ? [{ name: heroTitle }] : []),
+                    ]}
+                    className="mb-6"
+                  />
                 ) : null}
                 {heroTitle ? (
                   <h1 className="text-5xl md:text-7xl font-light mb-6 text-foreground">{heroTitle}</h1>
