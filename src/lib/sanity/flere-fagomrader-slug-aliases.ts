@@ -12,6 +12,8 @@ export const FLERE_FAGOMRADER_SLUG_ALIASES: Record<string, string> = {
   "sleeve-gastrektomi": "overvektskirurgi",
   "bariatrisk-kirurgi": "overvektskirurgi",
   overvektsoperasjon: "overvektskirurgi",
+  /** Card/link typo (k-s-t-s-k) → canonical slug (k-t-s-k). */
+  overvekstskirurgi: "overvektskirurgi",
   /** Nested gastro path segments used as bare treatment slugs. */
   brokkbehandling: "brokkoperasjon",
   endetarmsplager: "hemorroider",

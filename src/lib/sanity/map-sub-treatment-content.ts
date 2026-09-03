@@ -2,9 +2,12 @@ import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout
 import type { TreatmentData, TreatmentSection } from "@/lib/sanity/treatment-data";
 import {
   categoryLandingPath,
+  FLERE_FAGOMRADER_CATEGORY_ID,
   normalizeCategoryFilterKey,
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
+import { normalizeFlereFagomraderTreatmentLayout } from "@/lib/sanity/flere-fagomrader-treatment-layout";
+import { resolveFlereLinkedServiceImage } from "@/lib/sanity/flere-linked-service-media";
 import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { BookingLinkParams } from "@/lib/bookingLinks";
@@ -181,6 +184,66 @@ export function mapTreatmentToSubTreatmentContent(
 
   const specialistSlugs = treatment.relatedSpecialistSlugs?.filter(Boolean) ?? [];
 
+  const mappedExpertAreas = treatment.expertAreas
+    ? {
+        title: treatment.expertAreas.title || "",
+        description: treatment.expertAreas.description,
+        items: treatment.expertAreas.items.map((item) => ({
+          title: item.title,
+          desc: item.desc,
+          href: item.path,
+          image: item.image,
+          imageAlt: item.imageAlt,
+        })),
+      }
+    : undefined;
+
+  const relatedSeeAll =
+    treatment.relatedSeeAllHref && treatment.relatedSeeAllLabel
+      ? {
+          href: treatment.relatedSeeAllHref,
+          label: treatment.relatedSeeAllLabel,
+        }
+      : undefined;
+
+  const flereLayout =
+    categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+      ? normalizeFlereFagomraderTreatmentLayout({
+          treatmentSlug,
+          canonicalSlug: treatment.canonicalSlug,
+          lang: options.lang,
+          reasons,
+          reasonsTitle: treatment.reasonsTitle || "",
+          reasonsLead: treatment.reasonsLead,
+          heroThemes: treatment.heroThemes,
+          expertAreas: mappedExpertAreas,
+          relatedSeeAll,
+        })
+      : null;
+
+  const resolvedReasons = flereLayout?.reasons ?? reasons;
+  const resolvedReasonsTitle = flereLayout?.reasonsTitle ?? treatment.reasonsTitle ?? "";
+  const resolvedReasonsLead = flereLayout?.reasonsLead ?? treatment.reasonsLead;
+  const resolvedExpertAreas = flereLayout?.expertAreas ?? mappedExpertAreas;
+  const resolvedRelatedSeeAll = flereLayout?.relatedSeeAll ?? relatedSeeAll;
+
+  const flereHeroPath =
+    categoryId === FLERE_FAGOMRADER_CATEGORY_ID && treatmentSlug
+      ? `${parentPath}/${treatmentSlug}`
+      : "";
+  const flereMappedHero = flereHeroPath
+    ? resolveFlereLinkedServiceImage(flereHeroPath)
+    : undefined;
+  const resolvedHeroImage =
+    flereHeroPath
+      ? resolveFlereLinkedServiceImage(flereHeroPath, treatment.heroImage) ??
+        treatment.heroImage
+      : treatment.heroImage;
+  const resolvedHeroMedia =
+    flereMappedHero && categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+      ? undefined
+      : treatment.heroMedia;
+
   return {
     seoTitle,
     seoDescription,
@@ -213,10 +276,10 @@ export function mapTreatmentToSubTreatmentContent(
     heroPrice: resolveHeroPrice(treatment.heroPrice, isEn),
     heroPriceLabel: resolveHeroPriceLabel(treatment, categoryId),
     hideSeePriser: treatment.hideSeePriser,
-    heroImage: treatment.heroImage,
+    heroImage: resolvedHeroImage,
     heroImageAlt: treatment.heroImageAlt,
     heroVideo: treatment.heroVideo,
-    heroMedia: treatment.heroMedia,
+    heroMedia: resolvedHeroMedia,
     rating: treatment.rating,
     booking: buildTreatmentBookingParams(treatment, categoryId, treatmentSlug),
     primaryCtaLabel: treatment.primaryCtaLabel,
@@ -226,10 +289,10 @@ export function mapTreatmentToSubTreatmentContent(
     flowImageAlt: treatment.flowImageAlt,
     flowLinkLabel: treatment.flowLinkLabel,
     flowLinkHref: treatment.flowLinkHref,
-    reasonsTitle: treatment.reasonsTitle || "",
-    reasonsLead: treatment.reasonsLead,
+    reasonsTitle: resolvedReasonsTitle,
+    reasonsLead: resolvedReasonsLead,
     reasonsLead2: treatment.reasonsLead2,
-    reasons,
+    reasons: resolvedReasons,
     reasonsLayout: "accordion",
     promises: promises.map((p) => ({
       title: p.title,
@@ -238,19 +301,7 @@ export function mapTreatmentToSubTreatmentContent(
       image: p.image,
       imageAlt: p.imageAlt,
     })),
-    expertAreas: treatment.expertAreas
-      ? {
-          title: treatment.expertAreas.title || "",
-          description: treatment.expertAreas.description,
-          items: treatment.expertAreas.items.map((item) => ({
-            title: item.title,
-            desc: item.desc,
-            href: item.path,
-            image: item.image,
-            imageAlt: item.imageAlt,
-          })),
-        }
-      : undefined,
+    expertAreas: resolvedExpertAreas,
     textSection: treatment.textSection
       ? {
           title: treatment.textSection.title || "",
@@ -264,13 +315,7 @@ export function mapTreatmentToSubTreatmentContent(
     relatedLead: treatment.relatedLead,
     relatedAsIntro: treatment.relatedAsIntro,
     relatedAsServices: treatment.relatedAsServices,
-    relatedSeeAll:
-      treatment.relatedSeeAllHref && treatment.relatedSeeAllLabel
-        ? {
-            href: treatment.relatedSeeAllHref,
-            label: treatment.relatedSeeAllLabel,
-          }
-        : undefined,
+    relatedSeeAll: resolvedRelatedSeeAll,
     related,
     ctaTitle: treatment.ctaTitle || "",
     ctaDescription: treatment.ctaDescription || "",

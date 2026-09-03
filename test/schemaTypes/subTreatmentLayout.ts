@@ -24,9 +24,13 @@ const validateRelativePath = (Rule: any) =>
   Rule.custom((value: any) => {
     if (!value) return true
     if (typeof value !== 'string') return true
-    return value.startsWith('/')
-      ? true
-      : 'The path must be a relative link starting with a slash (e.g. /prices)'
+    if (!value.startsWith('/')) {
+      return 'The path must be a relative link starting with a slash (e.g. /prices)'
+    }
+    if (value === '/behandlinger' || value.startsWith('/behandlinger/')) {
+      return 'Do not use the legacy /behandlinger prefix — use category slugs directly (e.g. /ovrige/hudbehandlinger, /gynekologi/urinlekkasje)'
+    }
+    return true
   })
 
 export const subTreatmentLayoutType = {

@@ -86,30 +86,14 @@ const DEFAULTS: Record<string, unknown> = {
     { _type: "reference", _ref: "category-ortopedi", _key: "fc4" },
   ],
   moreServicesSection: {
-    eyebrow: i18nString("Flere tjenester", "More services"),
-    title: i18nString("Vet du allerede hva du trenger?", "Already know what you need?"),
+    eyebrow: i18nString("", ""),
+    title: i18nString("Flere tjenester", "More services"),
     description: i18nText(
       "Klikk og book direkte, eller les mer om den enkelte tjenesten.",
       "Click to book directly, or read more about each service.",
     ),
   },
-  moreServicesCategories: [
-    {
-      _key: "msc1",
-      displayMode: "categoryLink",
-      category: { _type: "reference", _ref: "category-graviditet" },
-    },
-    {
-      _key: "msc2",
-      displayMode: "categoryLink",
-      category: { _type: "reference", _ref: "category-ortopedi" },
-    },
-    {
-      _key: "msc3",
-      displayMode: "treatmentsList",
-      category: { _type: "reference", _ref: "category-flere-fagomrader" },
-    },
-  ],
+  moreServicesCategories: [],
   faqSectionTitle: i18nString("Ofte stilte spørsmål", "Frequently asked questions"),
   faqs: servicesPageFaqs,
   loadingLabel: i18nString("Laster tjenester…", "Loading services…"),

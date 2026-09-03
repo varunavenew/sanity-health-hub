@@ -31,7 +31,9 @@ export const UROLOGI_SLUG_ALIASES: Record<string, string> = {
   "7-56-male-infertility-disorders": "infertilitet",
   "male-infertility": "infertilitet",
   refertilization: "refertilisering",
-  "robot-assisted-surgery": "robotkirurgi",
+  /** Demo / nav short path → published treatment slug. */
+  robotkirurgi: "robotassistert-kirurgi",
+  "robot-assisted-surgery": "robotassistert-kirurgi",
   sterilization: "sterilisering",
   sterilize: "sterilisering",
   "testicles-and-scrotum": "testikler",

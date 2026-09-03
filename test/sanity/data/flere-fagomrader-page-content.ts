@@ -265,12 +265,12 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
       "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege — medisinsk forankret og tilpasset deg.",
     heroLeadEn:
       "At CMedical Bekkestua, we offer a selection of skin treatments performed by a dermatologist — medically grounded and tailored to you.",
-    reasonsTitleNo: "Våre hudbehandlinger",
-    reasonsTitleEn: "Our skin treatments",
+    reasonsTitleNo: "Om hudbehandlinger",
+    reasonsTitleEn: "About skin treatments",
     reasonsLeadNo:
-      "Behandlingene utføres alltid etter en faglig vurdering hos hudlege, med hudhelse på kort og lang sikt som utgangspunkt.",
+      "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege — medisinsk forankret og tilpasset deg.",
     reasonsLeadEn:
-      "Treatments are always carried out after a professional assessment by a dermatologist, with both short- and long-term skin health in mind.",
+      "At CMedical Bekkestua, we offer a selection of skin treatments performed by a dermatologist — medically grounded and tailored to you.",
     midCtaNo: dermatologyCta.no,
     midCtaEn: dermatologyCta.en,
     promiseVariant: "standard",
@@ -284,52 +284,20 @@ export const FLERE_PAGE_CONTENT: Record<string, PageContent> = {
     ],
     reasons: [
       {
-        titleNo: "Pigmentforandringer og solskader",
-        titleEn: "Pigmentation changes and sun damage",
+        titleNo: "Om hudbehandlinger",
+        titleEn: "About skin treatments",
         descNo:
-          "Vurdering og behandling av pigmentflekker og solskadet hud — inkludert IPL.",
+          "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer.\n\nVåre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.\n\nVår tilnærming:\n\n- medisinsk vurdering før behandling\n- behandling utført av hudlege\n- naturlige og balanserte resultater\n- hudhelse på kort og lang sikt\n- trygg behandling basert på dokumenterte metoder",
         descEn:
-          "Assessment and treatment of pigmentation and sun-damaged skin, including IPL.",
+          "At CMedical Bekkestua, we offer a selection of skin treatments performed by a dermatologist. Treatments are medically grounded and tailored individually, with the aim of safeguarding skin health while improving skin quality and reducing visible changes.\n\nOur treatments are based on medical knowledge of the skin and are always carried out after a professional assessment by a dermatologist. You will meet a dermatologist with experience in both medical and cosmetic dermatology.\n\nIf you would like an assessment of skin changes or information about cosmetic treatments, you can book a consultation with a dermatologist. During the consultation, we assess the condition of your skin and advise on which treatments may be appropriate. Treatments are performed at our clinic in Bekkestua.\n\nOur approach:\n\n- medical assessment before treatment\n- treatment performed by a dermatologist\n- natural and balanced results\n- skin health in the short and long term\n- safe treatment based on documented methods",
       },
       {
-        titleNo: "Rødhet og synlige blodkar",
-        titleEn: "Redness and visible blood vessels",
+        titleNo: "Kosmetiske behandlinger",
+        titleEn: "Cosmetic treatments",
         descNo:
-          "Behandling av rosacea-relatert rødhet og sprengte blodkar i ansiktet.",
+          "Hos CMedical tilbyr vi kosmetiske hudbehandlinger utført av hudlege. Behandlingene tilpasses individuelt etter en medisinsk vurdering, og kan blant annet omfatte:\n\n- IPL-behandling av pigmentflekker og rødhet\n- microneedling og mesoterapi\n- rynkebehandling, Profhilo, Radiesse og Skin boosters\n- behandling av akne og aknearr\n- kjemisk peeling og skin boosters\n\nFør en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte. Dette skiller behandling hos hudlege fra rene estetiske klinikker.",
         descEn:
-          "Treatment of rosacea-related redness and broken facial capillaries.",
-      },
-      {
-        titleNo: "Forbedring av hudstruktur",
-        titleEn: "Improving skin texture",
-        descNo:
-          "Microneedling, mesoterapi og behandlinger som stimulerer hudens egen fornyelse.",
-        descEn:
-          "Microneedling, mesotherapy and treatments that stimulate the skin’s own renewal.",
-      },
-      {
-        titleNo: "Hudhelse og kosmetisk dermatologi",
-        titleEn: "Skin health and cosmetic dermatology",
-        descNo:
-          "Medisinske hudtilstander og kosmetisk dermatologi — vurdert av hudlege.",
-        descEn:
-          "Medical skin conditions and cosmetic dermatology assessed by a dermatologist.",
-      },
-      {
-        titleNo: "Elastisitet og volum",
-        titleEn: "Elasticity and volume",
-        descNo:
-          "Rynkebehandling, Profhilo, Radiesse og Skin boosters tilpasset deg.",
-        descEn:
-          "Wrinkle treatment, Profhilo, Radiesse and skin boosters tailored to you.",
-      },
-      {
-        titleNo: "Føflekksjekk",
-        titleEn: "Mole check",
-        descNo:
-          "Grundig dermatoskopisk vurdering av føflekker og hudforandringer.",
-        descEn:
-          "A thorough dermoscopic assessment of moles and skin changes.",
+          "At CMedical, we offer cosmetic skin treatments performed by a dermatologist. Treatments are individually tailored after a medical assessment and may include:\n\n- IPL treatment for pigmentation and redness\n- microneedling and mesotherapy\n- wrinkle treatment, Profhilo, Radiesse and skin boosters\n- treatment of acne and acne scarring\n- chemical peels and skin boosters\n\nBefore a cosmetic treatment is carried out, the dermatologist performs a medical assessment of the skin. In some cases, skin changes may be caused by an underlying skin condition that should be treated differently. This distinguishes treatment by a dermatologist from purely aesthetic clinics.",
       },
     ],
   },

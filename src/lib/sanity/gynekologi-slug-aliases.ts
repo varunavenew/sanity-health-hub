@@ -51,6 +51,8 @@ export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
   "gynaecological-surgery": "kirurgi",
   "gynecological-surgery": "kirurgi",
   labiaplasty: "labiaplastikk",
+  /** Demo / nav short path → published treatment slug. */
+  robotkirurgi: "robotassistert-kirurgi",
 };
 
 export function resolveGynekologiTreatmentSlug(urlSlug: string): string {

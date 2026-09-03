@@ -15,7 +15,7 @@ import { SpecialistCarousel } from "@/components/SpecialistCarousel";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { HeroCompact } from "@/components/homepage/HeroCompact";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
-import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
+import { resolveFlereTjenesterMoreServices } from "@/lib/sanity/services-more-services-items";
 import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 import { findHomepageBookingCta } from "@/lib/sanity/homepage-data";
 import { useParams } from "@/lib/router";
@@ -24,32 +24,6 @@ import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 
 interface PageProps {
   isChatOpen: boolean;
-}
-
-const PRIMARY_CATEGORY_IDS = [
-  "gynekologi",
-  "urologi",
-  "fertilitet",
-  "graviditet",
-  "ortopedi",
-];
-
-function buildAdditionalServicesFromStatic() {
-  const additionalServices: { label: string; path: string }[] = [];
-
-  staticServiceCategories.forEach((cat) => {
-    if (!PRIMARY_CATEGORY_IDS.includes(cat.id)) {
-      if (cat.id === "flere" || cat.id === "flere-fagomrader") {
-        cat.subcategories?.forEach((sub) => {
-          additionalServices.push({ label: sub.label, path: sub.path });
-        });
-      } else {
-        additionalServices.push({ label: cat.label, path: cat.path });
-      }
-    }
-  });
-
-  return additionalServices.sort((a, b) => a.label.localeCompare(b.label, "nb"));
 }
 
 const Services = ({ isChatOpen }: PageProps) => {
@@ -119,15 +93,10 @@ const Services = ({ isChatOpen }: PageProps) => {
     return staticFaqs;
   }, [page?.faqs, sanityFaqs, staticFaqs]);
 
-  const moreServicesItems = useMemo(() => {
-    if (page?.moreServicesItems?.length) {
-      return page.moreServicesItems.map((s) => ({
-        label: s.title,
-        path: s.path,
-      }));
-    }
-    return buildAdditionalServicesFromStatic();
-  }, [page?.moreServicesItems]);
+  const moreServicesItems = useMemo(
+    () => resolveFlereTjenesterMoreServices(routeLocale),
+    [routeLocale],
+  );
 
   const bookingCta = useMemo(
     () => findHomepageBookingCta(page?.pageSections ?? []),
@@ -207,8 +176,9 @@ const Services = ({ isChatOpen }: PageProps) => {
   const searchPlaceholder =
     page.searchPlaceholder?.trim() || t("services.searchPlaceholder");
   const moreSection = page.moreServicesSection;
-  const moreEyebrow = moreSection.eyebrow?.trim() || t("services.moreServices");
-  const moreTitle = moreSection.title?.trim() || t("services.moreSectionTitle");
+  const moreEyebrow = moreSection.eyebrow?.trim() || "";
+  const moreTitle =
+    moreSection.title?.trim() || t("services.moreServices");
   const moreDescription =
     moreSection.description?.trim() || t("services.moreSectionDescription");
 
@@ -322,8 +292,8 @@ const Services = ({ isChatOpen }: PageProps) => {
           eyebrow={moreEyebrow}
           title={moreTitle}
           description={moreDescription}
-          items={moreServicesItems.map((s) => ({ title: s.label, href: s.path }))}
-          bookingCta
+          items={moreServicesItems.map((s) => ({ title: s.title, href: s.path }))}
+          bookingCtaTile
         />
       ) : null}
 

@@ -74,7 +74,7 @@ export interface TreatmentData {
     themes?: string[];
 }
 
-// Key: "categoryId/subId" matching the route /behandlinger/:categoryId/:subId
+// Key: "categoryId/subId" matching public routes /{categorySlug}/{subSlug} (e.g. /ovrige/hudbehandlinger)
 export const treatmentContent: Record<string, TreatmentData> = {
     // ==========================================
     // GYNEKOLOGI
@@ -93,22 +93,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 label: "Osteopat",
                 description: "Manuell behandlingsform som komplementerer medisinsk utredning og behandling innenfor vulvasmerter, bekkenbunnsdysfunksjon og muskelskjelettplager.",
-                path: "/behandlinger/flere-fagomrader/osteopati",
+                path: "/ovrige/osteopati",
             },
             {
                 label: "Sexolog",
                 description: "Terapeutiske samtaler for støtte, veiledning og råd knyttet til seksuell helse, funksjon, lyst, selvbilde og intimitet.",
-                path: "/behandlinger/flere-fagomrader/sexologi",
+                path: "/ovrige/sexologi",
             },
             {
                 label: "Psykolog",
                 description: "Samtalepartner for å sortere tanker og følelser, håndtere smerter, og motta støtte gjennom utfordrende behandlingsforløp.",
-                path: "/behandlinger/flere-fagomrader/psykologi",
+                path: "/ovrige/psykologi",
             },
             {
                 label: "Ernæringsfysiolog",
                 description: "Individuelt tilpasset kostholdsrådgivning med betydning for hormoner, fertilitet, overgangsalder og generell helse.",
-                path: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
+                path: "/ovrige/ernaringsfysiolog",
             },
         ],
         faqs: [
@@ -224,22 +224,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 label: "Ernæringsfysiolog",
                 description: "Kostholdsrådgivning tilpasset hormonelle endringer og overgangsalder.",
-                path: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
+                path: "/ovrige/ernaringsfysiolog",
             },
             {
                 label: "Osteopat",
                 description: "Manuell behandling for smerter i ledd og muskler knyttet til hormonelle endringer.",
-                path: "/behandlinger/flere-fagomrader/osteopati",
+                path: "/ovrige/osteopati",
             },
             {
                 label: "Sexolog",
                 description: "Støtte og veiledning ved endringer i seksuell helse gjennom overgangsalderen.",
-                path: "/behandlinger/flere-fagomrader/sexologi",
+                path: "/ovrige/sexologi",
             },
             {
                 label: "Psykolog",
                 description: "Samtaleterapi for å håndtere emosjonelle utfordringer i overgangsalderen.",
-                path: "/behandlinger/flere-fagomrader/psykologi",
+                path: "/ovrige/psykologi",
             },
         ],
         faqs: [
@@ -1452,9 +1452,9 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Overvektskirurgi (slankeoperasjon)", description: "Varig vektreduksjon med robotassistert presisjon.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" },
-            { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" },
-            { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" },
+            { label: "Overvektskirurgi (slankeoperasjon)", description: "Varig vektreduksjon med robotassistert presisjon.", path: "/ovrige/overvektskirurgi" },
+            { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/ovrige/brokkoperasjon" },
+            { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/ovrige/hemorroider" },
         ],
         relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
         faqs: [
@@ -1617,19 +1617,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 label: "Gynekologisk robotkirurgi",
                 description: "Brukes blant annet ved muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), og enkelte krefttilfeller som kreft i livmor.",
-                path: "/behandlinger/gynekologi/robotkirurgi",
+                path: "/gynekologi/robotassistert-kirurgi",
                 image: gynekologiImg,
             },
             {
                 label: "Urologisk robotkirurgi",
                 description: "Brukes blant annet ved godartet forstørret prostata (RASP), prostatakreft (RALP), og nyrekirurgi (f.eks. nefrektomi).",
-                path: "/behandlinger/urologi/robotkirurgi",
+                path: "/urologi/robotassistert-kirurgi",
                 image: urologiImg,
             },
             {
                 label: "Gastrokirurgisk robotkirurgi",
                 description: "Brukes blant annet ved overvektskirurgi (slankeoperasjon med rSG og SASI) og brokkoperasjon (bl.a. lyskebrokk).",
-                path: "/behandlinger/flere-fagomrader/gastrokirurgi",
+                path: "/ovrige/gastrokirurgi",
                 image: gastrokirurgiCardImg.url,
             },
         ],
@@ -1814,9 +1814,9 @@ export const treatmentContent: Record<string, TreatmentData> = {
             "Tilbys på CMedical Bekkestua",
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Medisinsk forankrede hudbehandlinger utført av hudlege — pigment, rødhet, struktur, volum og føflekksjekk.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
-            { label: "Behandlingsutstyr", description: "IPL- og laserteknologi vi bruker — trygg behandling basert på dokumenterte metoder.", path: "/behandlinger/flere-fagomrader/behandlingsutstyr" },
-            { label: "Hudpleieprodukter", description: "SkinCeuticals og medisinsk hudpleie anbefalt av hudlege — for daglig stell og oppfølging hjemme.", path: "/behandlinger/flere-fagomrader/hudpleieprodukter" },
+            { label: "Hudbehandlinger", description: "Medisinsk forankrede hudbehandlinger utført av hudlege — pigment, rødhet, struktur, volum og føflekksjekk.", path: "/ovrige/hudbehandlinger" },
+            { label: "Behandlingsutstyr", description: "IPL- og laserteknologi vi bruker — trygg behandling basert på dokumenterte metoder.", path: "/ovrige/behandlingsutstyr" },
+            { label: "Hudpleieprodukter", description: "SkinCeuticals og medisinsk hudpleie anbefalt av hudlege — for daglig stell og oppfølging hjemme.", path: "/ovrige/hudpleieprodukter" },
         ],
         faqs: [
             { question: "Hvor tilbys hudhelse?", answer: "Hudhelse, rådgivning og ulike former for hudbehandling tilbys kun på CMedical Bekkestua." },
@@ -1858,10 +1858,10 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Mage- og tarmlidelser (Gastrokirurgi)", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
-            { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" },
-            { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" },
-            { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+            { label: "Mage- og tarmlidelser (Gastrokirurgi)", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/ovrige/gastrokirurgi" },
+            { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/ovrige/brokkoperasjon" },
+            { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/ovrige/hemorroider" },
+            { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/ovrige/ernaringsfysiolog" },
         ],
         relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
         faqs: [
@@ -1904,9 +1904,9 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
-            { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
-            { label: "Eggfrys", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/eggfrys" },
+            { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/fertilitet/fertilitetsutredning" },
+            { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/fertilitet/assistert-befruktning" },
+            { label: "Eggfrys", description: "Bevar muligheten for graviditet senere i livet.", path: "/fertilitet/eggfrys" },
         ],
         faqs: [
             { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
@@ -1930,16 +1930,21 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "om-hudbehandlinger",
                 heading: "Om hudbehandlinger",
-                content: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer.\n\nVåre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.\n\nVår tilnærming:\n\n- medisinsk vurdering før behandling\n- behandling utført av hudlege\n- naturlige og balanserte resultater\n- hudhelse på kort og lang sikt\n- trygg behandling basert på dokumenterte metoder\n\nFør en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte. Dette skiller behandling hos hudlege fra rene estetiske klinikker.",
+                content: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer.\n\nVåre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.\n\nVår tilnærming:\n\n- medisinsk vurdering før behandling\n- behandling utført av hudlege\n- naturlige og balanserte resultater\n- hudhelse på kort og lang sikt\n- trygg behandling basert på dokumenterte metoder",
+            },
+            {
+                id: "kosmetiske-behandlinger",
+                heading: "Kosmetiske behandlinger",
+                content: "Hos CMedical tilbyr vi kosmetiske hudbehandlinger utført av hudlege. Behandlingene tilpasses individuelt etter en medisinsk vurdering, og kan blant annet omfatte:\n\n- IPL-behandling av pigmentflekker og rødhet\n- microneedling og mesoterapi\n- rynkebehandling, Profhilo, Radiesse og Skin boosters\n- behandling av akne og aknearr\n- kjemisk peeling og skin boosters\n\nFør en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte. Dette skiller behandling hos hudlege fra rene estetiske klinikker.",
             },
         ],
         linkedServices: [
-            { label: "Pigmentforandringer og solskader", description: "Vurdering og behandling av pigmentflekker og solskadet hud — inkludert IPL.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/pigmentforandringer-og-solskader" },
-            { label: "Rødhet og synlige blodkar", description: "Behandling av rosacea-relatert rødhet og sprengte blodkar i ansiktet.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/rodhet-og-synlige-blodkar" },
-            { label: "Forbedring av hudstruktur", description: "Microneedling, mesoterapi og behandlinger som stimulerer hudens egen fornyelse.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/forbedring-av-hudstruktur" },
-            { label: "Hudhelse og kosmetisk dermatologi", description: "Medisinske hudtilstander og kosmetisk dermatologi — vurdert av hudlege.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/kosmetisk-dermatologi" },
-            { label: "Elastisitet og volum", description: "Rynkebehandling, Profhilo, Radiesse og Skin boosters tilpasset deg.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/elastisitet-og-volum" },
-            { label: "Føflekksjekk", description: "Grundig dermatoskopisk vurdering av føflekker og hudforandringer.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/foflekksjekk" },
+            { label: "Pigmentforandringer og solskader", description: "Vurdering og behandling av pigmentflekker og solskadet hud — inkludert IPL.", path: "/ovrige/pigmentforandringer-og-solskader" },
+            { label: "Rødhet og synlige blodkar", description: "Behandling av rosacea-relatert rødhet og sprengte blodkar i ansiktet.", path: "/ovrige/rodhet-og-synlige-blodkar" },
+            { label: "Forbedring av hudstruktur", description: "Microneedling, mesoterapi og behandlinger som stimulerer hudens egen fornyelse.", path: "/ovrige/forbedring-av-hudstruktur" },
+            { label: "Hudhelse og kosmetisk dermatologi", description: "Medisinske hudtilstander og kosmetisk dermatologi — vurdert av hudlege.", path: "/ovrige/kosmetisk-dermatologi" },
+            { label: "Elastisitet og volum", description: "Rynkebehandling, Profhilo, Radiesse og Skin boosters tilpasset deg.", path: "/ovrige/elastisitet-og-volum" },
+            { label: "Føflekksjekk", description: "Grundig dermatoskopisk vurdering av føflekker og hudforandringer.", path: "/ovrige/foflekksjekk" },
         ],
         faqs: [
             { question: "Hvor utføres behandlingene?", answer: "Alle hudbehandlinger utføres ved vår klinikk på Bekkestua." },
@@ -1964,7 +1969,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
         ],
         faqs: [
             { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
@@ -1986,7 +1991,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
         ],
         faqs: [
             { question: "Hvor utføres behandlingen?", answer: "På CMedical Bekkestua, av hudlege." },
@@ -2008,7 +2013,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
         ],
         faqs: [
             { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte." },
@@ -2030,7 +2035,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
         ],
         faqs: [
             { question: "Hvem behandler meg?", answer: "Du møter hudlege med erfaring innen både medisinsk og kosmetisk dermatologi." },
@@ -2052,7 +2057,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
         ],
         faqs: [
             { question: "Hvem utfører behandlingen?", answer: "Behandlingen utføres av hudlege ved vår klinikk på Bekkestua." },
@@ -2079,7 +2084,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+            { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
         ],
         faqs: [
             { question: "Er undersøkelsen invasiv?", answer: "Nei, føflekksjekken er ikke-invasiv og gjennomføres i løpet av konsultasjonen." },
@@ -2112,8 +2117,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Oversikt over alle våre hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudbehandlinger" },
-            { label: "Hudpleieprodukter", description: "SkinCeuticals — medisinsk hudpleie.", path: "/behandlinger/flere-fagomrader/hudpleieprodukter" },
+            { label: "Hudbehandlinger", description: "Oversikt over alle våre hudbehandlinger.", path: "/ovrige/hudbehandlinger" },
+            { label: "Hudpleieprodukter", description: "SkinCeuticals — medisinsk hudpleie.", path: "/ovrige/hudpleieprodukter" },
         ],
         faqs: [
             { question: "Hvor utføres IPL?", answer: "På CMedical Bekkestua, av hudlege." },
@@ -2138,8 +2143,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
         ],
         linkedServices: [
-            { label: "Hudbehandlinger", description: "Medisinsk forankrede behandlinger hos hudlege.", path: "/behandlinger/flere-fagomrader/hudbehandlinger" },
-            { label: "Behandlingsutstyr (IPL)", description: "IPL- og laserbehandling.", path: "/behandlinger/flere-fagomrader/behandlingsutstyr" },
+            { label: "Hudbehandlinger", description: "Medisinsk forankrede behandlinger hos hudlege.", path: "/ovrige/hudbehandlinger" },
+            { label: "Behandlingsutstyr (IPL)", description: "IPL- og laserbehandling.", path: "/ovrige/behandlingsutstyr" },
         ],
         faqs: [
             { question: "Hvor får jeg kjøpt produktene?", answer: "På vår klinikk på Bekkestua." },

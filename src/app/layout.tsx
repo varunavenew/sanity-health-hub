@@ -63,9 +63,11 @@ export default async function RootLayout({
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
-      <GoogleConsentDefault settings={analyticsSettings} />
-      <GoogleCookiebotHead settings={analyticsSettings} />
-      <GoogleTagManagerHead settings={analyticsSettings} />
+      <head>
+        <GoogleConsentDefault settings={analyticsSettings} />
+        <GoogleCookiebotHead settings={analyticsSettings} />
+        <GoogleTagManagerHead settings={analyticsSettings} />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         <GoogleTagManagerNoscript settings={analyticsSettings} />
         {children}
