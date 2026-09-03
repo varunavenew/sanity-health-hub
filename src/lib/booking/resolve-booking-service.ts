@@ -10,18 +10,29 @@ export function bookingServiceSlug(name: string): string {
   return slugifyNo(name);
 }
 
+/** Extra slugs that should still match after a display-name rename. */
+const SERVICE_SLUG_ALIASES: Record<string, readonly string[]> = {
+  "generell-gynekologisk-undersokelse": ["generell-undersokelse"],
+};
+
+function slugsForServiceName(serviceName: string): string[] {
+  const slug = bookingServiceSlug(serviceName);
+  const aliases = SERVICE_SLUG_ALIASES[slug] ?? [];
+  return [slug, ...aliases].filter(Boolean);
+}
+
 /** True when a service name matches a configured option slug (exact or unique fragment). */
 export function serviceMatchesOptionSlug(
   serviceName: string,
   optionSlug: string,
 ): boolean {
-  const nameSlug = bookingServiceSlug(serviceName);
   const target = slugifyNo(optionSlug);
   if (!target) return false;
-  return (
-    nameSlug === target ||
-    nameSlug.includes(target) ||
-    target.includes(nameSlug)
+  return slugsForServiceName(serviceName).some(
+    (nameSlug) =>
+      nameSlug === target ||
+      nameSlug.includes(target) ||
+      target.includes(nameSlug),
   );
 }
 
@@ -48,15 +59,16 @@ export function resolvePreselectedService<T extends BookingServiceLike>(
   const targetSlug = slugifyNo(tjeneste);
   if (!targetSlug) return undefined;
 
-  const exact = services.filter(
-    (s) => bookingServiceSlug(s.name) === targetSlug,
+  const exact = services.filter((s) =>
+    slugsForServiceName(s.name).includes(targetSlug),
   );
   if (exact.length === 1) return exact[0];
 
-  const fuzzy = services.filter((s) => {
-    const nameSlug = bookingServiceSlug(s.name);
-    return nameSlug.includes(targetSlug) || targetSlug.includes(nameSlug);
-  });
+  const fuzzy = services.filter((s) =>
+    slugsForServiceName(s.name).some(
+      (nameSlug) => nameSlug.includes(targetSlug) || targetSlug.includes(nameSlug),
+    ),
+  );
   if (fuzzy.length === 1) return fuzzy[0];
   return undefined;
 }
