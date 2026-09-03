@@ -146,8 +146,11 @@
        (px-6 mobil, md:px-16 desktop), slik at logo og innhold flukter. */
     --gutter: 1.5rem;
     --max-shell: 1400px;
+    /* Vertical space above section headings (Figma 1 Sep). */
     --section-gap: 3rem;
     --section-gap-tight: 1.5rem;
+    /* Display headings (Ginto Light, wrapping 2–3+ lines). */
+    --heading-display-leading: 1.3;
   }
 
   @media (min-width: 768px) {
@@ -280,6 +283,12 @@
     .section-head {
       margin-bottom: 3.5rem;
     }
+  }
+
+  /* Shared display-heading type — ABC Ginto Light at section / hero sizes. */
+  .heading-display {
+    font-weight: 300;
+    line-height: var(--heading-display-leading);
   }
   .section-head > *,
   .section-head-plain > * {
@@ -521,19 +530,24 @@
   50% { transform: translate(-50%, -50%) translateY(-8px); }
 }
 
-/* ===== Mobile spacing rhythm (8px scale) — applies below md breakpoint =====
-   Consistent, tighter vertical rhythm across all treatment/category pages.
-   All values snap to an 8px grid (0.5rem = 8px). */
+/* ===== Mobile spacing rhythm — applies below md breakpoint =====
+   Section padding uses --section-gap so headings keep Figma luft on small
+   screens. Heading→content (mb-*) stays on the 8px grid. */
 @media (max-width: 767px) {
-  /* Section vertical padding — one consistent rhythm, tighter than before */
-  .py-32 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
-  .py-28 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
-  .py-24 { padding-top: 2rem;   padding-bottom: 2rem; }
-  .py-20 { padding-top: 2rem;   padding-bottom: 2rem; }
-  .py-16 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-  .py-14 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-  .py-12 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
-  .py-10 { padding-top: 1rem;   padding-bottom: 1rem; }
+  .py-32,
+  .py-28,
+  .py-24,
+  .py-20 {
+    padding-top: var(--section-gap);
+    padding-bottom: var(--section-gap);
+  }
+  .py-16,
+  .py-14,
+  .py-12,
+  .py-10 {
+    padding-top: var(--section-gap);
+    padding-bottom: var(--section-gap-tight);
+  }
 
   /* Image bands between sections — even tighter, minimal chrome */
   .mobile-image-band { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
@@ -546,12 +560,6 @@
   .mb-10 { margin-bottom: 0.75rem; }
   .mb-8  { margin-bottom: 0.5rem; }
   .mb-6  { margin-bottom: 0.5rem; }
-
-  /* Top spacing (heading blocks) */
-  .mt-16 { margin-top: 1rem; }
-  .mt-12 { margin-top: 0.75rem; }
-  .mt-10 { margin-top: 0.75rem; }
-  .mt-8  { margin-top: 0.5rem; }
 
   /* Space-y stacks — tighten oversized gaps to 8px scale */
   .space-y-16 > * + * { margin-top: 1rem; }
@@ -580,6 +588,51 @@
   :is(h1, h2, h3):has(+ p) {
     margin-bottom: 0.75rem;
   }
+}
+
+/*
+ * Display heading line-height (Figma 1 Sep / Aina: «for lite linjeavstand»).
+ * Unlayered so this wins over Tailwind leading-[1.05] / leading-tight.
+ * Scoped to large display type — not card titles, stats (leading-none), or body.
+ */
+.leading-\[1\.05\],
+.leading-\[1\.08\],
+.leading-\[1\.1\],
+.leading-\[1\.15\] {
+  line-height: var(--heading-display-leading);
+}
+
+:is(h1, h2, h3, p).font-light:is(
+  .text-2xl,
+  .text-3xl,
+  .text-4xl,
+  .text-5xl,
+  .text-6xl,
+  .text-7xl
+):not(.leading-none):not(.leading-relaxed) {
+  line-height: var(--heading-display-leading);
+}
+
+/*
+ * Luft over section headings (Figma 1 Sep / Aina: «for lite luft over overskrift»).
+ * Wires the unused --section-gap token onto the padding utilities content
+ * sections already use. .section-flush and split-hero chrome are excluded.
+ * Padding-bottom is left to the original utility so we do not double-space
+ * the block below the heading.
+ */
+section.py-8,
+section.py-10,
+section.py-12,
+section.py-14,
+section.pt-8,
+section.pt-10,
+section.pt-12,
+section.pt-14,
+section > .container.py-8,
+section > .container.py-10,
+section > .container.py-12,
+section > .container.py-14 {
+  padding-top: var(--section-gap);
 }
 
 /* Hide native scrollbar for horizontal card carousels — dots handle indication */

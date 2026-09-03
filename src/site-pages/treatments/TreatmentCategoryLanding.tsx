@@ -118,7 +118,7 @@ function CategorySectionHead({
   titleAccent,
   description,
   className = "mb-8 md:mb-10",
-  titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
+  titleClassName = "text-3xl md:text-5xl font-light heading-display text-foreground",
   descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed max-w-2xl",
 }: {
   eyebrow?: string;

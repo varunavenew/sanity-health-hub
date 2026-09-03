@@ -135,7 +135,7 @@ function TreatmentSectionHead({
   title,
   description,
   description2,
-  titleClassName = "text-3xl md:text-5xl font-light leading-tight text-foreground",
+  titleClassName = "text-3xl md:text-5xl font-light heading-display text-foreground",
   descriptionClassName = "text-base font-light text-muted-foreground leading-relaxed",
   className = "",
 }: {
