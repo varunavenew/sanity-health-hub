@@ -174,7 +174,14 @@ export async function fetchClinicsPageDocument(
 export async function fetchClinicSeo(
   slug: string,
   lang: "no" | "en",
-): Promise<(DocWithSeo & { label?: string }) | null> {
+): Promise<
+  | (DocWithSeo & {
+      label?: string;
+      heroImage?: string;
+      heroMedia?: unknown;
+    })
+  | null
+> {
   const raw = await sanityFetchCached({
     query: CLINIC_SEO_BY_SLUG_QUERY,
     params: { slug, lang },
@@ -186,6 +193,8 @@ export async function fetchClinicSeo(
   const doc = normalizeI18n(raw, lang) as Record<string, unknown>;
   return {
     label: typeof doc.label === "string" ? doc.label : undefined,
+    heroImage: typeof doc.heroImage === "string" ? doc.heroImage : undefined,
+    heroMedia: doc.heroMedia,
     seo: doc.seo as DocWithSeo["seo"],
   };
 }
@@ -334,6 +343,7 @@ export async function fetchArticleSeo(
       title?: string;
       excerpt?: string;
       date?: string;
+      image?: string;
     })
   | null
 > {
@@ -349,10 +359,13 @@ export async function fetchArticleSeo(
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });
   if (raw == null) return null;
-  return normalizeI18nStrict(raw, lang) as DocWithSeo & {
-    title?: string;
-    excerpt?: string;
-    date?: string;
+  const doc = normalizeI18nStrict(raw, lang) as Record<string, unknown>;
+  return {
+    title: typeof doc.title === "string" ? doc.title : undefined,
+    excerpt: typeof doc.excerpt === "string" ? doc.excerpt : undefined,
+    date: typeof doc.date === "string" ? doc.date : undefined,
+    image: typeof doc.image === "string" ? doc.image : undefined,
+    seo: doc.seo as DocWithSeo["seo"],
   };
 }
 

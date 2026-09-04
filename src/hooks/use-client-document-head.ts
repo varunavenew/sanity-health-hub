@@ -63,7 +63,10 @@ export function useClientDocumentHead(spec: ClientDocumentHead | null) {
     upsertMeta("property", "og:locale", spec.ogLocale);
     upsertMeta("property", "og:locale:alternate", spec.ogLocaleAlternate);
     upsertMeta("property", "og:site_name", "CMedical");
-    if (spec.ogImage) upsertMeta("property", "og:image", spec.ogImage);
+    if (spec.ogImage) {
+      upsertMeta("property", "og:image", spec.ogImage);
+      upsertMeta("name", "twitter:image", spec.ogImage);
+    }
     if (spec.publishedAt) {
       upsertMeta("property", "article:published_time", spec.publishedAt);
     }

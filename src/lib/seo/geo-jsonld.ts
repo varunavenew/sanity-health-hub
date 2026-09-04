@@ -1,4 +1,5 @@
 import { siteUrl } from "@/lib/env";
+import { brandLogoUrl } from "@/lib/seo/defaults";
 
 export type GeoFaqItem = { question: string; answer: string };
 
@@ -25,7 +26,7 @@ const CMEDICAL_PROVIDER = {
   "@type": "MedicalOrganization" as const,
   name: "CMedical",
   url: siteUrl(),
-  logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/qmg4FOZcsPVySaA19fmuxrFmWZJ3/uploads/1762763982098-cmedical.png",
+  logo: brandLogoUrl(),
   telephone: "+47 22 95 75 00",
   address: {
     "@type": "PostalAddress" as const,

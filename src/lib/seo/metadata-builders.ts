@@ -93,14 +93,7 @@ export function buildPageMetadata(opts: {
       locale: ogLocale,
       alternateLocale: [ogLocaleAlt],
       siteName: "CMedical",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: "CMedical",
-        },
-      ],
+      images: [{ url: ogImage, alt: "CMedical" }],
       ...(opts.publishedTime ? { publishedTime: opts.publishedTime } : {}),
     },
     twitter: {

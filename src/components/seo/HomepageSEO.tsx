@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { useClientDocumentHead } from "@/hooks/use-client-document-head";
 import { resolveSeoShareImageFromPage } from "@/lib/seo/resolve-seo-share-image";
+import { brandLogoUrl } from "@/lib/seo/defaults";
 
 const DEFAULTS = {
   nb: {
@@ -25,7 +26,7 @@ const buildJsonLd = (lang: "nb" | "en") => ({
   "@type": "MedicalClinic",
   name: "CMedical",
   url: "https://cmedical.no",
-  logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/qmg4FOZcsPVySaA19fmuxrFmWZJ3/uploads/1762763982098-cmedical.png",
+  logo: brandLogoUrl(),
   description: DEFAULTS[lang].description,
   inLanguage: lang === "en" ? "en" : "nb-NO",
   telephone: "+47 22 95 75 00",

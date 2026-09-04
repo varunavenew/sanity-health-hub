@@ -84,7 +84,7 @@ export async function buildArticleMetadata(
             "Read the latest news and articles from CMedical on women's health, fertility and urology.",
         },
       },
-      { type: "article", publishedTime: doc?.date },
+      { type: "article", publishedTime: doc?.date, heroImageUrl: doc?.image },
     );
   } catch {
     const isEn = locale === "en";
@@ -294,6 +294,10 @@ export async function buildClinicMetadata(
         title: `CMedical ${label} – Clinic`,
         description: `Visit CMedical ${label}. Opening hours, services and contact information for our clinic.`,
       },
+    },
+    {
+      heroImageUrl: doc?.heroImage,
+      heroMedia: doc?.heroMedia,
     },
   );
 }

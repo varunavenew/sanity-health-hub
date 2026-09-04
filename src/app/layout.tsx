@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nb_NO",
     alternateLocale: ["en_US"],
-    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: "CMedical" }],
+    images: [{ url: DEFAULT_OG_IMAGE, alt: "CMedical" }],
   },
   twitter: {
     card: "summary_large_image",

@@ -9,6 +9,7 @@ import { AssetImg } from "@/components/AssetImg";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useArticle, useArticles, useNewsPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
 import { createArticlePortableTextComponents } from "@/components/news/article-portable-text";
 import { ArticleRelatedSection } from "@/components/news/ArticleRelatedSection";
@@ -258,6 +259,10 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
 
   const categoryLabel = getCategoryLabel(article.category);
   const articlePath = `${newsPath}/${article.slug}`;
+  const shareImageUrl = resolveSeoShareImageUrl({
+    seo: sanityArticle?.seo,
+    heroImageUrl: article.image || undefined,
+  });
   const summaryText = article.geoSummary?.trim() || article.excerpt || "";
   const geoJsonLd = combineGeoJsonLd(
     articleJsonLd({
@@ -283,6 +288,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         canonical={articlePath}
         type="article"
         publishedAt={article.date}
+        ogImage={shareImageUrl}
         breadcrumbs={[
           {
             name: newsPage?.breadcrumbHomeLabel || t("nav.home", { defaultValue: "Hjem" }),

@@ -24,6 +24,7 @@ import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { buildClinicServiceLinks, resolveClinicServiceRows } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
+import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
 import { formatOpeningHoursLines } from "@/lib/format-opening-hours";
 import { useTranslation } from "react-i18next";
 
@@ -57,7 +58,13 @@ type MergedClinic = {
   services?: string[];
   servicesSection?: ClinicServicesSection;
   booking?: Record<string, unknown>;
-  seo?: { metaTitle?: string; metaDescription?: string };
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    useCustomOgImage?: boolean;
+    ogImage?: unknown;
+  };
+  heroMedia?: unknown;
   heroImage?: string;
   primaryImage?: string;
   email?: string;
@@ -159,6 +166,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     booking: (raw.booking as Record<string, unknown>) || undefined,
     seo: raw.seo as MergedClinic["seo"],
     heroImage,
+    heroMedia: raw.heroMedia,
     primaryImage,
     email: typeof raw.email === "string" ? raw.email : undefined,
     treatments: Array.isArray(raw.treatments)
@@ -231,6 +239,11 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     clinic.mapsUrl ||
     (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
+  const shareImageUrl = resolveSeoShareImageUrl({
+    seo: clinic.seo,
+    heroImageUrl: clinic.heroImage,
+    heroMedia: clinic.heroMedia,
+  });
   const serviceRows = resolveClinicServiceRows(
     clinic.servicesSection,
     clinic.services,
@@ -260,6 +273,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           `Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`
         }
         canonical={clinicPath}
+        ogImage={shareImageUrl}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Om oss", path: aboutPath },
@@ -269,6 +283,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           "@context": "https://schema.org",
           "@type": "MedicalClinic",
           name: `CMedical ${clinic.label}`,
+          ...(shareImageUrl ? { image: shareImageUrl } : {}),
           address: {
             "@type": "PostalAddress",
             streetAddress: clinic.address,

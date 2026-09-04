@@ -981,6 +981,13 @@ export interface SanityArticle {
   externalUrl?: string;
   body?: any[];
   pageSections?: PageSection[];
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    useCustomOgImage?: boolean;
+    ogImage?: unknown;
+    noIndex?: boolean;
+  };
 }
 
 export const useArticles = () => {

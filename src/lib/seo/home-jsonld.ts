@@ -1,4 +1,5 @@
 import { siteUrl } from "@/lib/env";
+import { brandLogoUrl } from "@/lib/seo/defaults";
 
 const DEFAULT_DESCRIPTIONS = {
   nb: "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
@@ -14,7 +15,7 @@ export function medicalClinicJsonLd(lang: HomeJsonLang): Record<string, unknown>
     "@type": "MedicalClinic",
     name: "CMedical",
     url: siteUrl(),
-    logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/qmg4FOZcsPVySaA19fmuxrFmWZJ3/uploads/1762763982098-cmedical.png",
+    logo: brandLogoUrl(),
     description,
     inLanguage: lang === "en" ? "en" : "nb-NO",
     telephone: "+47 22 95 75 00",

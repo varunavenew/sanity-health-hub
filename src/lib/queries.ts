@@ -1721,6 +1721,8 @@ export const JOB_LISTINGS_QUERY = `*[_type == "jobListing" && active == true] | 
 
 export const CLINIC_SEO_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
   "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  "heroImage": primaryImage.asset->url,
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   ${localizedSeoObject}
 }`;
 
