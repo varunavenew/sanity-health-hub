@@ -23,7 +23,7 @@ import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { buildClinicServiceLinks, resolveClinicServiceRows } from "@/lib/sanity/clinic-service-links";
-import { plainMetaString } from "@/lib/seo/seo-fields";
+import { plainMetaString, resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
 import { formatOpeningHoursLines } from "@/lib/format-opening-hours";
 import { useTranslation } from "react-i18next";
@@ -63,6 +63,7 @@ type MergedClinic = {
     metaDescription?: string;
     useCustomOgImage?: boolean;
     ogImage?: unknown;
+    ogImageAlt?: string;
   };
   heroMedia?: unknown;
   heroImage?: string;
@@ -244,6 +245,12 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     heroImageUrl: clinic.primaryImage,
     heroMedia: clinic.heroMedia,
   });
+  const seoLang = sanityLang === "en" ? "en" : "nb";
+  const ogImageAlt = resolveOgImageAlt(
+    clinic.seo,
+    seoLang,
+    `CMedical ${clinic.label}`,
+  );
   const serviceRows = resolveClinicServiceRows(
     clinic.servicesSection,
     clinic.services,
@@ -274,6 +281,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         }
         canonical={clinicPath}
         ogImage={shareImageUrl}
+        ogImageAlt={ogImageAlt}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Om oss", path: aboutPath },

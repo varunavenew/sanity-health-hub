@@ -20,6 +20,13 @@ export const localizedSeoObject = `
       seo.metaDescription
     ),
     "ogImage": seo.ogImage,
+    "ogImageAlt": coalesce(
+      seo.ogImageAlt[language == $lang][0].value,
+      seo.ogImageAlt[_key == $lang][0].value,
+      seo.ogImageAlt[language == "no"][0].value,
+      seo.ogImageAlt[_key == "no"][0].value,
+      seo.ogImageAlt
+    ),
     "useCustomOgImage": seo.useCustomOgImage,
     "noIndex": seo.noIndex
   }
@@ -39,6 +46,13 @@ export const localizedSeoObjectLocale = `
       seo.metaDescription[_key == $lang][0].value
     ),
     "ogImage": seo.ogImage,
+    "ogImageAlt": coalesce(
+      seo.ogImageAlt[language == $lang][0].value,
+      seo.ogImageAlt[_key == $lang][0].value,
+      seo.ogImageAlt[language == "no"][0].value,
+      seo.ogImageAlt[_key == "no"][0].value,
+      seo.ogImageAlt
+    ),
     "useCustomOgImage": seo.useCustomOgImage,
     "noIndex": seo.noIndex
   }

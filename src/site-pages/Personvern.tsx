@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { useParams } from "@/lib/router";
 import { getImageUrl } from "@/lib/sanity/image-url";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 
 interface PersonvernProps {
   isChatOpen?: boolean;
@@ -90,11 +91,16 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
     : "Les CMedicals personvernerklæring. Informasjon om hvordan vi behandler dine personopplysninger i samsvar med GDPR og norsk personvernlovgivning.";
   const seoTitle = sanityData?.seo?.metaTitle || title;
   const privacyDescription = sanityData?.seo?.metaDescription || fallbackDescription;
+  const schemaLocale = locale === "en" ? "en" : "nb";
   const ogImage = sanityData?.seo?.ogImage
     ? getImageUrl(sanityData.seo.ogImage)
     : undefined;
+  const ogImageAlt = resolveOgImageAlt(
+    sanityData?.seo,
+    schemaLocale,
+    title,
+  );
   const loadingLabel = isEn ? "Loading..." : "Laster innhold...";
-  const schemaLocale = locale === "en" ? "en" : "nb";
   const hasSanityBody = sanityData?.body && sanityData.body.length > 0;
 
   return (
@@ -105,6 +111,7 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
         canonical={privacyPath}
         noIndex={!!sanityData?.seo?.noIndex}
         ogImage={ogImage || undefined}
+        ogImageAlt={ogImageAlt}
         breadcrumbs={[
           { name: isEn ? "Home" : "Hjem", path: localePath("/") },
           { name: t("footer.privacy"), path: privacyPath },

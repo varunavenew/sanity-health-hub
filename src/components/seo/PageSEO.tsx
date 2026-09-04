@@ -21,6 +21,7 @@ interface PageSEOProps {
   noIndex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   ogImage?: string;
+  ogImageAlt?: string;
   publishedAt?: string;
 }
 
@@ -35,6 +36,7 @@ export const PageSEO = ({
   noIndex = false,
   jsonLd,
   ogImage,
+  ogImageAlt,
   publishedAt,
 }: PageSEOProps) => {
   const { i18n } = useTranslation();
@@ -44,6 +46,10 @@ export const PageSEO = ({
   const safeTitle = plainMetaString(title, "", sanityLang);
   const safeDescription = plainMetaString(description, "", sanityLang);
   const fullTitle = normalizePageTitle(safeTitle);
+  const resolvedOgImageAlt =
+    (typeof ogImageAlt === "string" && ogImageAlt.trim()) ||
+    safeTitle ||
+    "CMedical";
 
   const cleanPath = canonical.startsWith("http")
     ? canonical.replace(BASE_URL, "")
@@ -62,6 +68,7 @@ export const PageSEO = ({
       ogLocale,
       ogLocaleAlternate: lang === "en" ? "nb_NO" : "en_US",
       ogImage,
+      ogImageAlt: resolvedOgImageAlt,
       publishedAt,
     }),
     [
@@ -73,6 +80,7 @@ export const PageSEO = ({
       ogLocale,
       lang,
       ogImage,
+      resolvedOgImageAlt,
       publishedAt,
     ],
   );

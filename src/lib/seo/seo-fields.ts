@@ -1,13 +1,14 @@
 import type { AppLocaleStr } from "@/lib/seo/metadata-builders";
+import { DEFAULT_OG_IMAGE_ALT } from "@/lib/seo/defaults";
 
 export type SanitySeoFields = {
   metaTitle?: string | null;
   metaDescription?: string | null;
+  ogImageAlt?: string | null;
   ogImage?: unknown;
   useCustomOgImage?: boolean | null;
   noIndex?: boolean;
 } | null;
-
 function pickI18nMetaString(value: unknown, lang: "no" | "en"): string {
   if (!Array.isArray(value)) return "";
   const match = value.find((e) => {
@@ -69,4 +70,18 @@ export function resolveMetaStrings(
     title: plainMetaString(seo?.metaTitle, fb.title, sanityLang),
     description: plainMetaString(seo?.metaDescription, fb.description, sanityLang),
   };
+}
+
+/** CMS ogImageAlt when set; otherwise page-specific fallback; then brand default. */
+export function resolveOgImageAlt(
+  seo: SanitySeoFields | undefined,
+  lang: AppLocaleStr,
+  pageFallback: string,
+): string {
+  const sanityLang = lang === "en" ? "en" : "no";
+  const fromSeo = plainMetaString(seo?.ogImageAlt, "", sanityLang);
+  if (fromSeo) return fromSeo;
+  const fb = typeof pageFallback === "string" ? pageFallback.trim() : "";
+  if (fb) return fb;
+  return DEFAULT_OG_IMAGE_ALT;
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { appLocaleFromParam, buildPageMetadata } from "@/lib/seo/metadata-builders";
-import { plainMetaString, resolveMetaStrings } from "@/lib/seo/seo-fields";
+import { plainMetaString, resolveMetaStrings, resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import {
   resolveSeoShareImageFromPage,
   type SeoShareImageFields,
@@ -36,6 +36,14 @@ function pageOgImage(
   page?: PageHeroFields,
 ): string | undefined {
   return resolveSeoShareImageFromPage(seo, page);
+}
+
+function pageOgImageAlt(
+  seo: SeoShareImageFields | null | undefined,
+  lang: ReturnType<typeof appLocaleFromParam>,
+  pageFallback: string,
+): string {
+  return resolveOgImageAlt(seo, lang, pageFallback);
 }
 
 const HOME_DEFAULTS = {
@@ -91,6 +99,7 @@ export async function buildHomeMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: ogImage || undefined,
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -109,6 +118,7 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -163,6 +173,7 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: ogImage || undefined,
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -191,6 +202,7 @@ export async function buildOpennessActMetadata(locale: string): Promise<Metadata
     title,
     description,
     ogImage: ogImage || undefined,
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -209,6 +221,7 @@ export async function buildAboutMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -240,12 +253,14 @@ export async function buildInsuranceMetadata(locale: string): Promise<Metadata> 
     title,
     description,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
 }
 
 export async function buildNewsMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchNewsPageDocument(sanityLang);
   const seo = data?.seo;
@@ -258,12 +273,14 @@ export async function buildNewsMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: pageOgImage(seo),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
 }
 
 export async function buildSpecialistsAboutMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchSpecialistsPageDocument(sanityLang);
   const seo = data?.seo;
@@ -276,12 +293,14 @@ export async function buildSpecialistsAboutMetadata(locale: string): Promise<Met
     title,
     description,
     ogImage: pageOgImage(seo),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
 }
 
 export async function buildServicesMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const paths = await fetchSingletonLocalizedPaths("servicesPage");
   const data = await fetchServicesPageDocument(sanityLang);
@@ -295,6 +314,7 @@ export async function buildServicesMetadata(locale: string): Promise<Metadata> {
     title,
     description,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -322,6 +342,7 @@ export async function buildPricingMetadata(locale: string): Promise<Metadata> {
     title: resolvedTitle,
     description: resolvedDescription,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, resolvedTitle),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -359,6 +380,7 @@ export async function buildSpecialistsListingMetadata(
     title,
     description,
     ogImage: pageOgImage(seo),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -396,6 +418,7 @@ export async function buildClinicsListingMetadata(
     title,
     description,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -448,6 +471,7 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
     title: resolvedTitle,
     description: resolvedDescription,
     ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, resolvedTitle),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -483,6 +507,7 @@ export async function buildBookingMetadata(locale: string): Promise<Metadata> {
     title: pageTitle,
     description: description || geoDescription || BOOKING_FALLBACK[lang].description,
     ogImage: pageOgImage(seo),
+    ogImageAlt: pageOgImageAlt(seo, lang, pageTitle),
     noIndex: !!seo?.noIndex,
     type: "website",
   });
@@ -491,6 +516,7 @@ export async function buildBookingMetadata(locale: string): Promise<Metadata> {
 export async function buildKarriereListingMetadata(
   locale: string,
 ): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchCareersPageDocument(sanityLang);
   if (!data) return {};
@@ -517,6 +543,7 @@ export async function buildKarriereListingMetadata(
     title,
     description,
     ogImage: pageOgImage(seo),
+    ogImageAlt: pageOgImageAlt(seo, lang, title),
     noIndex: !!seo?.noIndex,
     type: "website",
   });

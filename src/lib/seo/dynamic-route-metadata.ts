@@ -5,7 +5,7 @@ import {
   type LocalizedPaths,
 } from "@/lib/seo/metadata-builders";
 import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
-import { resolveMetaStrings, type SanitySeoFields } from "@/lib/seo/seo-fields";
+import { resolveMetaStrings, resolveOgImageAlt, type SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 import {
   fetchArticleSeo,
@@ -35,6 +35,7 @@ function metadataFromSeo(
     heroImageUrl?: string | null;
     heroMedia?: unknown;
     portraitImageUrl?: string | null;
+    fallbackOgImageAlt?: string;
   },
 ): Metadata {
   const lang = appLocaleFromParam(locale);
@@ -52,6 +53,7 @@ function metadataFromSeo(
     title,
     description,
     ogImage: ogImage || undefined,
+    ogImageAlt: resolveOgImageAlt(seo, lang, opts?.fallbackOgImageAlt ?? title),
     noIndex: !!seo?.noIndex,
     type: opts?.type ?? "website",
     publishedTime: opts?.publishedTime,
@@ -84,7 +86,7 @@ export async function buildArticleMetadata(
             "Read the latest news and articles from CMedical on women's health, fertility and urology.",
         },
       },
-      { type: "article", publishedTime: doc?.date, heroImageUrl: doc?.image },
+      { type: "article", publishedTime: doc?.date, heroImageUrl: doc?.image, fallbackOgImageAlt: doc?.title },
     );
   } catch {
     const isEn = locale === "en";
@@ -126,6 +128,7 @@ export async function buildTreatmentCategoryMetadata(
     {
       heroImageUrl: doc?.heroImage,
       heroMedia: doc?.heroMedia,
+      fallbackOgImageAlt: title,
     },
   );
 }
@@ -163,6 +166,7 @@ export async function buildTreatmentMetadata(
       {
         heroImageUrl: doc?.heroImage,
         heroMedia: doc?.heroMedia,
+        fallbackOgImageAlt: title,
       },
     );
   } catch {
@@ -177,6 +181,7 @@ export async function buildTreatmentMetadata(
       description: isEn
         ? `Learn about ${treatmentSlug} at CMedical.`
         : `Les om ${treatmentSlug} hos CMedical.`,
+      ogImageAlt: treatmentSlug,
     });
   }
 }
@@ -206,6 +211,7 @@ export async function buildThemePageMetadata(
         description: `Learn more about ${title} at CMedical.`,
       },
     },
+    { fallbackOgImageAlt: title },
   );
 }
 
@@ -232,6 +238,7 @@ export async function buildClinicianGuidePageMetadata(
         description: doc?.subtitle || `Learn more about ${title} at CMedical.`,
       },
     },
+    { fallbackOgImageAlt: title },
   );
 }
 
@@ -268,6 +275,7 @@ export async function buildSpecialistMetadata(
   return metadataFromSeo(locale, paths, doc.seo, cmsSeo, {
     portraitImageUrl: doc.image,
     heroMedia: doc.heroMedia,
+    fallbackOgImageAlt: doc.name,
   });
 }
 
@@ -298,6 +306,7 @@ export async function buildClinicMetadata(
     {
       heroImageUrl: doc?.heroImage,
       heroMedia: doc?.heroMedia,
+      fallbackOgImageAlt: `CMedical ${label}`,
     },
   );
 }
@@ -333,5 +342,6 @@ export async function buildJobListingMetadata(
     title,
     description,
     type: "website",
+    ogImageAlt: jobTitle,
   });
 }

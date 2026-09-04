@@ -11,6 +11,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { useArticle, useArticles, useNewsPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
 import { createArticlePortableTextComponents } from "@/components/news/article-portable-text";
 import { ArticleRelatedSection } from "@/components/news/ArticleRelatedSection";
@@ -272,6 +273,11 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     seo: sanityArticle?.seo,
     heroImageUrl: article.image || undefined,
   });
+  const ogImageAlt = resolveOgImageAlt(
+    sanityArticle?.seo,
+    contentLang,
+    article.title,
+  );
   const summaryText = article.geoSummary?.trim() || article.excerpt || "";
   const geoJsonLd = combineGeoJsonLd(
     articleJsonLd({
@@ -298,6 +304,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         type="article"
         publishedAt={article.date}
         ogImage={shareImageUrl}
+        ogImageAlt={ogImageAlt}
         breadcrumbs={[
           {
             name: newsPage?.breadcrumbHomeLabel || t("nav.home", { defaultValue: "Hjem" }),

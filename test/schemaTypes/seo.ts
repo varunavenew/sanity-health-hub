@@ -56,6 +56,13 @@ export default {
         }),
     },
     {
+      name: 'ogImageAlt',
+      title: 'Sharing image alt text',
+      type: 'internationalizedArrayString',
+      description:
+        'Describes the sharing image for accessibility and social previews (og:image:alt). Leave empty to use an automatic default from the page (e.g. clinic name, article title).',
+    },
+    {
       name: 'noIndex',
       title: 'Hide from search engines',
       type: 'boolean',

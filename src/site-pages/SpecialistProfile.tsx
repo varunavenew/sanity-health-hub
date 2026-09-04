@@ -24,6 +24,7 @@ import {
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { siteUrl } from "@/lib/env";
 import { assetSrc } from "@/lib/media";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -114,6 +115,11 @@ function SpecialistProfileBody({
     portraitImageUrl: assetSrc(specialist.image),
     heroMedia: specialist.heroMedia,
   });
+  const ogImageAlt = resolveOgImageAlt(
+    specialist.seo,
+    locale === "en" ? "en" : "nb",
+    specialist.name,
+  );
 
   useEffect(() => {
     const clinicLabel =
@@ -156,6 +162,7 @@ function SpecialistProfileBody({
         description={seoDescription}
         canonical={profilePath}
         ogImage={shareImageUrl}
+        ogImageAlt={ogImageAlt}
         type="profile"
         breadcrumbs={[
           { name: profileUi.breadcrumbHomeLabel, path: "/" },

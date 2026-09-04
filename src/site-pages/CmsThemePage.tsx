@@ -11,6 +11,7 @@ import { useThemePage } from "@/hooks/useSanity";
 import { useNavigate, useParams } from "@/lib/router";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { getImageUrl } from "@/lib/sanity/image-url";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { ArrowRight } from "lucide-react";
 
 type Props = {
@@ -41,6 +42,11 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
   const ctaLink = page?.ctaLink?.trim();
   const seoTitle = page?.seo?.metaTitle?.trim() || title;
   const seoDescription = page?.seo?.metaDescription?.trim() || "";
+  const ogImageAlt = resolveOgImageAlt(
+    page?.seo,
+    locale === "en" ? "en" : "nb",
+    title,
+  );
   const pagePath = `/${themeSlug}`;
   const summaryText =
     page?.geoSummary?.trim() || introTexts[0] || seoDescription;
@@ -74,6 +80,7 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
               ? page.seo.ogImage
               : heroPoster || undefined
           }
+          ogImageAlt={ogImageAlt}
           noIndex={page?.seo?.noIndex}
           jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
           breadcrumbs={[

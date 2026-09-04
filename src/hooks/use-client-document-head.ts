@@ -13,6 +13,7 @@ type ClientDocumentHead = {
   ogLocale: string;
   ogLocaleAlternate: string;
   ogImage?: string;
+  ogImageAlt?: string;
   publishedAt?: string;
 };
 
@@ -66,6 +67,9 @@ export function useClientDocumentHead(spec: ClientDocumentHead | null) {
     if (spec.ogImage) {
       upsertMeta("property", "og:image", spec.ogImage);
       upsertMeta("name", "twitter:image", spec.ogImage);
+      if (spec.ogImageAlt) {
+        upsertMeta("property", "og:image:alt", spec.ogImageAlt);
+      }
     }
     if (spec.publishedAt) {
       upsertMeta("property", "article:published_time", spec.publishedAt);

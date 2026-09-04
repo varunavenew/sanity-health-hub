@@ -9,6 +9,7 @@ import { useNavigate } from "@/lib/router";
 import { useThemePage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { getImageUrl } from "@/lib/sanity/image-url";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {
@@ -39,6 +40,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
         description={page?.seo?.metaDescription?.trim() || ""}
         canonical={`/${THEME_SLUG}`}
         ogImage={typeof page?.seo?.ogImage === "string" ? page.seo.ogImage : undefined}
+        ogImageAlt={resolveOgImageAlt(page?.seo, "nb", title)}
         noIndex={page?.seo?.noIndex}
         breadcrumbs={[
           { name: "Hjem", path: "/" },

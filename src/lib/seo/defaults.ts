@@ -16,6 +16,10 @@ export function brandLogoUrl(): string {
   return `${siteUrl()}/brand-logo.png`;
 }
 
+/** Alt text for the brand default sharing image (og-default.png). */
+export const DEFAULT_OG_IMAGE_ALT =
+  "CMedical – privat spesialisthelse innen kvinnehelse, fertilitet og urologi";
+
 export function resolveOgImageUrl(ogImage?: string | null): string {
   const trimmed = ogImage?.trim();
   if (!trimmed) return defaultOgImageUrl();

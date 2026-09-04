@@ -13,6 +13,7 @@ import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { getImageUrl } from "@/lib/sanity/image-url";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 
 interface Aapenhetsloven2025Props {
   isChatOpen?: boolean;
@@ -99,9 +100,10 @@ const Aapenhetsloven2025 = ({ isChatOpen = false }: Aapenhetsloven2025Props) => 
   const fallbackDescription = subtitle;
   const seoTitle = sanityData?.seo?.metaTitle || `${title} | CMedical`;
   const seoDescription = sanityData?.seo?.metaDescription || fallbackDescription;
-  const ogImage = sanityData?.seo?.ogImage ? getImageUrl(sanityData.seo.ogImage) : undefined;
-  const loadingLabel = isEn ? "Loading..." : "Laster innhold...";
   const schemaLocale = locale === "en" ? "en" : "nb";
+  const ogImage = sanityData?.seo?.ogImage ? getImageUrl(sanityData.seo.ogImage) : undefined;
+  const ogImageAlt = resolveOgImageAlt(sanityData?.seo, schemaLocale, title);
+  const loadingLabel = isEn ? "Loading..." : "Laster innhold...";
   const hasSanityBody = sanityData?.body && sanityData.body.length > 0;
   const showFaq = sanityData?.showPracticalInfoSection !== false;
 
@@ -113,6 +115,7 @@ const Aapenhetsloven2025 = ({ isChatOpen = false }: Aapenhetsloven2025Props) => 
         canonical={pagePath}
         noIndex={!!sanityData?.seo?.noIndex}
         ogImage={ogImage || undefined}
+        ogImageAlt={ogImageAlt}
         breadcrumbs={[
           { name: homeLabel, path: localePath("/") },
           { name: title, path: pagePath },

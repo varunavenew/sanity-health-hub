@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { useClientDocumentHead } from "@/hooks/use-client-document-head";
 import { resolveSeoShareImageFromPage } from "@/lib/seo/resolve-seo-share-image";
 import { brandLogoUrl } from "@/lib/seo/defaults";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 
 const DEFAULTS = {
   nb: {
@@ -86,6 +87,7 @@ interface HomepageSEOProps {
     metaTitle?: string;
     metaDescription?: string;
     ogImage?: unknown;
+    ogImageAlt?: string;
     useCustomOgImage?: boolean;
     noIndex?: boolean;
   } | null;
@@ -101,6 +103,7 @@ export const HomepageSEO = ({ seo, heroImageUrl }: HomepageSEOProps) => {
   const title = seo?.metaTitle || DEFAULTS[lang].title;
   const description = seo?.metaDescription || DEFAULTS[lang].description;
   const ogImage = resolveSeoShareImageFromPage(seo, { heroImage: heroImageUrl });
+  const ogImageAlt = resolveOgImageAlt(seo, lang, title);
 
   const headSpec = useMemo(
     () => ({
@@ -114,8 +117,9 @@ export const HomepageSEO = ({ seo, heroImageUrl }: HomepageSEOProps) => {
       ogLocale,
       ogLocaleAlternate: lang === "en" ? "nb_NO" : "en_US",
       ogImage,
+      ogImageAlt,
     }),
-    [title, description, seo?.noIndex, ogLocale, lang, ogImage],
+    [title, description, seo?.noIndex, ogLocale, lang, ogImage, ogImageAlt],
   );
 
   useClientDocumentHead(headSpec);

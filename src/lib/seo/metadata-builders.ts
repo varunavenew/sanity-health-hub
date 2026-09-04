@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { isProductionDeploy, siteUrl } from "@/lib/env";
-import { resolveOgImageUrl } from "@/lib/seo/defaults";
+import { resolveOgImageUrl, DEFAULT_OG_IMAGE_ALT } from "@/lib/seo/defaults";
 
 export type AppLocaleStr = "nb" | "en";
 
@@ -35,6 +35,7 @@ export function buildPageMetadata(opts: {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
   type?: "website" | "article";
   noIndex?: boolean;
   publishedTime?: string;
@@ -55,6 +56,9 @@ export function buildPageMetadata(opts: {
   const pageTitle = normalizePageTitle(title);
 
   const ogImage = resolveOgImageUrl(opts.ogImage);
+  const ogImageAlt =
+    (typeof opts.ogImageAlt === "string" ? opts.ogImageAlt.trim() : "") ||
+    DEFAULT_OG_IMAGE_ALT;
 
   return {
     // Absolute title — do not use layout template `%s | CMedical` (would duplicate suffix).
@@ -93,7 +97,7 @@ export function buildPageMetadata(opts: {
       locale: ogLocale,
       alternateLocale: [ogLocaleAlt],
       siteName: "CMedical",
-      images: [{ url: ogImage, alt: "CMedical" }],
+      images: [{ url: ogImage, alt: ogImageAlt }],
       ...(opts.publishedTime ? { publishedTime: opts.publishedTime } : {}),
     },
     twitter: {

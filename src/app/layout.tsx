@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { isProductionDeploy, siteUrl } from "@/lib/env";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo/defaults";
+import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@/lib/seo/defaults";
 import {
   GoogleConsentDefault,
   GoogleCookiebotHead,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nb_NO",
     alternateLocale: ["en_US"],
-    images: [{ url: DEFAULT_OG_IMAGE, alt: "CMedical" }],
+    images: [{ url: DEFAULT_OG_IMAGE, alt: DEFAULT_OG_IMAGE_ALT }],
   },
   twitter: {
     card: "summary_large_image",

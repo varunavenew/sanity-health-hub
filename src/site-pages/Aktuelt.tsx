@@ -12,6 +12,7 @@ import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRen
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { getImageUrl } from "@/lib/sanity/image-url";
+import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { NewsSocialPlatformSection } from "@/components/news/NewsSocialPlatformSection";
 import { NewsInstagramSection } from "@/components/news/NewsInstagramSection";
 import { resolveArticleCategoryLabel, resolveNewsFilterOptions } from "@/lib/news/category-labels";
@@ -284,6 +285,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const ogImage = newsPage?.seo?.ogImage
     ? getImageUrl(newsPage.seo.ogImage)
     : undefined;
+  const ogImageAlt = resolveOgImageAlt(newsPage?.seo, locale, newsUi.title);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -293,6 +295,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         canonical={newsPath}
         noIndex={!!newsPage?.seo?.noIndex}
         ogImage={ogImage || undefined}
+        ogImageAlt={ogImageAlt}
         breadcrumbs={[
           { name: newsPage?.breadcrumbHomeLabel || "", path: withLocalePath(routeLocale, "/") },
           { name: newsUi.title, path: newsPath },
