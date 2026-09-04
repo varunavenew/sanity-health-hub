@@ -26,6 +26,8 @@ const AUTO_HERO_PAGE_TYPES = new Set([
   'specialist',
   'treatment',
   'treatmentCategory',
+  'clinicPage',
+  'article',
 ])
 
 const NO_HERO_PAGE_TYPES = new Set([
@@ -61,6 +63,7 @@ function pickImageSource(
   heroImage: unknown,
   heroMedia: unknown,
   heroBanner: unknown,
+  primaryImage: unknown,
 ): SanityImageSource | undefined {
   const media = heroMedia as {mediaType?: string; image?: SanityImageSource} | undefined
   const mediaImage = media?.image
@@ -72,6 +75,14 @@ function pickImageSource(
   if (docType === 'specialist') {
     if (photo && typeof photo === 'object') return photo as SanityImageSource
     if (mediaImage) return mediaImage
+    return undefined
+  }
+
+  if (docType === 'clinicPage' || docType === 'article') {
+    if (mediaImage) return mediaImage
+    if (primaryImage && typeof primaryImage === 'object') {
+      return primaryImage as SanityImageSource
+    }
     return undefined
   }
 
@@ -105,6 +116,8 @@ function pickImageSource(
 function heroLabel(docType: string | undefined): string {
   if (docType === 'specialist') return 'profile / hero image'
   if (docType === 'homepage') return 'hero banner image'
+  if (docType === 'clinicPage') return 'hero media image'
+  if (docType === 'article') return 'article hero image'
   if (docType === 'treatment' || docType === 'treatmentCategory') return 'hero image'
   return 'hero image'
 }
@@ -116,10 +129,11 @@ function SeoAutoHeroPreviewBanner() {
   const heroImage = useFormValue(['heroImage'])
   const heroMedia = useFormValue(['heroMedia'])
   const heroBanner = useFormValue(['heroBanner'])
+  const primaryImage = useFormValue(['primaryImage'])
 
   const imageSource = useMemo(
-    () => pickImageSource(docType, photo, heroImage, heroMedia, heroBanner),
-    [docType, photo, heroImage, heroMedia, heroBanner],
+    () => pickImageSource(docType, photo, heroImage, heroMedia, heroBanner, primaryImage),
+    [docType, photo, heroImage, heroMedia, heroBanner, primaryImage],
   )
 
   const previewUrl = useMemo(() => {

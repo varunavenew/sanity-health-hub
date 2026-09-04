@@ -62,16 +62,23 @@ export function resolveHeroImageUrlForSeo(source: {
   const homepage = resolveHomepageHeroImageUrl(source.homepageHeroBanner);
   if (homepage) return homepage;
 
-  const hero = source.heroImageUrl?.trim();
-  if (hero) return hero;
+  // Prefer heroMedia (page hero) with primaryImage / heroImage as legacy fallback —
+  // matches clinic/treatment UI (mergeSanityClinic, resolveCmsMedia dual-read).
+  const legacyImage = source.heroImageUrl?.trim() || undefined;
+  if (source.heroMedia) {
+    const media = resolveCmsMedia(source.heroMedia, {
+      mediaType: "image",
+      imageUrl: legacyImage,
+    });
+    if (media?.kind === "image" && media.src?.trim()) {
+      return media.src.trim();
+    }
+    if (media?.poster?.trim()) {
+      return media.poster.trim();
+    }
+  }
 
-  const media = resolveCmsMedia(source.heroMedia, { mediaType: "image" });
-  if (media?.kind === "image" && media.src?.trim()) {
-    return media.src.trim();
-  }
-  if (media?.poster?.trim()) {
-    return media.poster.trim();
-  }
+  if (legacyImage) return legacyImage;
 
   return undefined;
 }

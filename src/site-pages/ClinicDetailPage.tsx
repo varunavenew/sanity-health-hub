@@ -241,7 +241,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const clinicPath = `${clinicsPath}/${clinic.slug}`;
   const shareImageUrl = resolveSeoShareImageUrl({
     seo: clinic.seo,
-    heroImageUrl: clinic.heroImage,
+    heroImageUrl: clinic.primaryImage,
     heroMedia: clinic.heroMedia,
   });
   const serviceRows = resolveClinicServiceRows(
