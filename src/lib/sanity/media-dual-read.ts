@@ -87,6 +87,31 @@ export const SPECIALIST_PHOTO_PROJECTION = `
   "imageAssetRef": photo.asset._ref
 `;
 
+/**
+ * Article `primaryImage`: keep the URL string consumers already use, and
+ * project crop/hotspot so listing cards and heroes can frame the same asset.
+ */
+export const ARTICLE_PRIMARY_IMAGE_PROJECTION = `
+  "image": primaryImage.asset->url,
+  "imageHotspot": primaryImage.hotspot,
+  "imageCrop": primaryImage.crop,
+  "imageAssetRef": primaryImage.asset._ref
+`;
+
+/** Copy projected hotspot/crop off a GROQ row without dropping nulls. */
+export function pickImageFocal(row: {
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
+}): {
+  imageHotspot: SanityHotspot | MediaFocalPoint | null;
+  imageCrop: SanityCrop | null;
+} {
+  return {
+    imageHotspot: row.imageHotspot ?? null,
+    imageCrop: row.imageCrop ?? null,
+  };
+}
+
 function asUrl(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();

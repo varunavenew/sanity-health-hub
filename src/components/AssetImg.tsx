@@ -13,7 +13,12 @@ import {
   DEFAULT_CONTENT_WIDTH,
   type ImageDeliveryPreset,
 } from "@/lib/media/delivery";
-import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
+import {
+  resolveObjectPosition,
+  type MediaFocalPoint,
+  type SanityCrop,
+  type SanityHotspot,
+} from "@/lib/media/focal-point";
 
 export type AssetImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src"> & {
   src: ImageRef;
@@ -85,6 +90,17 @@ export function AssetImg({
     }
   }
 
+  const explicitPosition =
+    props.style && typeof props.style.objectPosition === "string"
+      ? props.style.objectPosition
+      : undefined;
+  const position = hotspot
+    ? resolveObjectPosition({
+        objectPosition: explicitPosition,
+        hotspot,
+      })
+    : explicitPosition;
+
   return (
     <img
       {...props}
@@ -94,6 +110,15 @@ export function AssetImg({
       alt={alt}
       loading={loading}
       decoding={decoding ?? (loading === "eager" ? "sync" : "async")}
+      style={{
+        ...props.style,
+        ...(position
+          ? {
+              objectPosition: position,
+              ["--media-focal" as string]: position,
+            }
+          : {}),
+      }}
     />
   );
 }

@@ -30,6 +30,8 @@ type RawArticle = {
   title?: string;
   excerpt?: string;
   image?: string;
+  imageHotspot?: ListingArticle["imageHotspot"];
+  imageCrop?: ListingArticle["imageCrop"];
   date?: string;
   category?: string;
   externalUrl?: string;
@@ -43,6 +45,8 @@ const mapRawArticle = (a: RawArticle): ListingArticle | null => {
     title: a.title || "",
     excerpt: a.excerpt || "",
     image: a.image || "",
+    imageHotspot: a.imageHotspot,
+    imageCrop: a.imageCrop,
     date: a.date || "",
     category: normalizeCategory(a.category || ""),
     externalUrl: a.externalUrl,
@@ -102,6 +106,8 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         title: a.title,
         excerpt: a.excerpt,
         image: a.image,
+        imageHotspot: a.imageHotspot,
+        imageCrop: a.imageCrop,
         date: a.date,
         category: normalizeCategory(a.category),
         externalUrl: a.externalUrl,

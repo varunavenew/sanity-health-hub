@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 
 type HeroCompactProps = {
   /** When false, omit any section header above the category grid (services page). */
@@ -42,12 +42,14 @@ export const HeroCompact = ({ showHeader: _showHeader = false }: HeroCompactProp
               className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
-              <AssetImg
+              <ResponsiveImage
                 src={category.image}
                 alt={category.imageAlt || category.title}
-                preset="card"
+                variant="card"
+                hotspot={category.imageHotspot}
+                crop={category.imageCrop}
                 loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
+                className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.08]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent opacity-80 transition-opacity duration-300" aria-hidden="true" />
               

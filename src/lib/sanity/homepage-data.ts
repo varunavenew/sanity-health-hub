@@ -4,6 +4,7 @@ import {
   resolveCmsMedia,
   type ResolvedCmsMedia,
 } from "@/lib/sanity/media-dual-read";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 import {
   normalizePageSections,
   type PageSectionBookingCtaConfig,
@@ -54,21 +55,40 @@ export type HomepageCategoryCard = {
   path: string;
   image: string;
   imageAlt?: string;
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
+};
+
+type HomepageCardImage = {
+  url: string;
+  hotspot: SanityHotspot | MediaFocalPoint | null;
+  crop: SanityCrop | null;
 };
 
 /** Prefer dedicated homepage tile; fall back to legacy hero fields until CMS is filled. */
-function resolveHomepageCategoryCardImage(row: Record<string, unknown>): string {
+function resolveHomepageCategoryCardImage(row: Record<string, unknown>): HomepageCardImage {
   const dedicated = asPlainString(row.homepageCardImage);
-  if (dedicated) return dedicated;
+  if (dedicated) {
+    return {
+      url: dedicated,
+      hotspot: (row.homepageCardImageHotspot as SanityHotspot | null) || null,
+      crop: (row.homepageCardImageCrop as SanityCrop | null) || null,
+    };
+  }
 
   const media = resolveCmsMedia(row.heroMedia, {
     mediaType: "image",
     imageUrl: asPlainString(row.heroImage),
+    hotspot: (row.heroImageHotspot as SanityHotspot | null) || null,
+    crop: (row.heroImageCrop as SanityCrop | null) || null,
   });
-  return (
-    (media?.kind === "image" ? media.src : media?.poster) ||
-    asPlainString(row.heroImage)
-  );
+  return {
+    url:
+      (media?.kind === "image" ? media.src : media?.poster) ||
+      asPlainString(row.heroImage),
+    hotspot: media?.hotspot || null,
+    crop: media?.crop || null,
+  };
 }
 
 export type HomepageFaq = {
@@ -545,14 +565,16 @@ export function mapHomepageDocument(
         const categoryId = asPlainString(row.categoryId);
         const slug = asPlainString(row.slug);
         const routeKey = categoryId || slug;
-        const image = resolveHomepageCategoryCardImage(row);
+        const resolvedImage = resolveHomepageCategoryCardImage(row);
         const imageAlt = asPlainString(row.homepageCardImageAlt);
         return {
           id: routeKey,
           title: asPlainString(row.title),
           // Preserve homepage.serviceCategories array order (Studio drag-and-drop).
           path: routeKey ? `/${routeKey}` : "",
-          image,
+          image: resolvedImage.url,
+          imageHotspot: resolvedImage.hotspot,
+          imageCrop: resolvedImage.crop,
           ...(imageAlt ? { imageAlt } : {}),
         };
       })
@@ -582,6 +604,8 @@ export function mapHomepageDocument(
           title: asPlainString(a.title),
           excerpt: asPlainString(a.excerpt),
           image: asPlainString(a.image),
+          imageHotspot: a.imageHotspot ?? null,
+          imageCrop: a.imageCrop ?? null,
           date: asPlainString(a.date),
           category: normalizeArticleCategory(asPlainString(a.category)),
           externalUrl: asPlainString(a.externalUrl) || undefined,
