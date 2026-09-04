@@ -559,7 +559,7 @@ export function mapHomepageDocument(
           (s.image || s.videoUrl || s.mobileVideoUrl || s.media) && s.label,
       ),
     categoryCards: serviceCategories
-      .map((c) => {
+      .map((c): HomepageCategoryCard | null => {
         const row = c as Record<string, unknown> | null;
         if (!row) return null;
         const categoryId = asPlainString(row.categoryId);
@@ -567,7 +567,7 @@ export function mapHomepageDocument(
         const routeKey = categoryId || slug;
         const resolvedImage = resolveHomepageCategoryCardImage(row);
         const imageAlt = asPlainString(row.homepageCardImageAlt);
-        return {
+        const card: HomepageCategoryCard = {
           id: routeKey,
           title: asPlainString(row.title),
           // Preserve homepage.serviceCategories array order (Studio drag-and-drop).
@@ -577,6 +577,7 @@ export function mapHomepageDocument(
           imageCrop: resolvedImage.crop,
           ...(imageAlt ? { imageAlt } : {}),
         };
+        return card;
       })
       .filter((c): c is HomepageCategoryCard => Boolean(c?.id && c?.title && c?.image)),
     valueBadges: valueBadges.map((v) => {
