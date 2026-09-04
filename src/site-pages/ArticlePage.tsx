@@ -5,7 +5,8 @@ import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useArticle, useArticles, useNewsPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -28,6 +29,8 @@ interface ArticlePageProps {
 function ArticleMobileHero({
   image,
   imageAlt,
+  imageHotspot,
+  imageCrop,
   title,
   newsPath,
   backLabel,
@@ -38,6 +41,8 @@ function ArticleMobileHero({
 }: {
   image?: string;
   imageAlt: string;
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
   title: string;
   newsPath: string;
   backLabel: string;
@@ -92,15 +97,17 @@ function ArticleMobileHero({
           className="absolute inset-0 z-0 will-change-transform"
           style={{ transform: "translate3d(0px, 0px, 0px)", transformOrigin: "center center" }}
         >
-          <AssetImg
+          <ResponsiveImage
             src={image}
             alt={imageAlt}
-            preset="hero"
+            variant="hero"
+            hotspot={imageHotspot}
+            crop={imageCrop}
             imageWidth={1200}
             loading="eager"
             width={1200}
             height={1800}
-            className="h-[115%] w-full object-cover"
+            className="h-[115%] w-full"
           />
         </div>
       ) : null}
@@ -199,6 +206,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         title: a.title,
         excerpt: a.excerpt,
         image: a.image,
+        imageHotspot: a.imageHotspot,
+        imageCrop: a.imageCrop,
         date: a.date,
         category: normalizeCategory(a.category),
         externalUrl: a.externalUrl,
@@ -304,6 +313,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         <h1 className="sr-only">{article.title}</h1>
         <ArticleMobileHero
           image={article.image}
+          imageHotspot={article.imageHotspot}
+          imageCrop={article.imageCrop}
           imageAlt={sanityArticle?.imageAlt || article.title}
           title={article.title}
           newsPath={newsPath}
@@ -353,15 +364,17 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           </div>
           {article.image ? (
             <div className="split-media bg-secondary/40">
-              <AssetImg
+              <ResponsiveImage
                 src={article.image}
                 alt={sanityArticle?.imageAlt || article.title}
-                preset="hero"
+                variant="hero"
+                hotspot={article.imageHotspot}
+                crop={article.imageCrop}
                 imageWidth={1600}
                 loading="eager"
                 width={1600}
                 height={1800}
-                className="h-full w-full object-cover"
+                className="h-full w-full"
               />
             </div>
           ) : (

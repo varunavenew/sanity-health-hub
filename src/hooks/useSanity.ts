@@ -88,6 +88,7 @@ import {
 import type { CmsRouteIndex } from "@/lib/routing/cms-route-types";
 import { enrichRouteIndexWithNavPaths } from "@/lib/routing/enrich-route-index";
 import { normalizePageSections, withPageSections, type PageSection } from "@/lib/sanity/page-sections";
+import { pickImageFocal } from "@/lib/sanity/media-dual-read";
 import {
   parseSpecialistProfileUi,
   type SpecialistProfileUi,
@@ -975,6 +976,8 @@ export interface SanityArticle {
   excerpt: string;
   geoSummary?: string;
   image: string;
+  imageHotspot?: import("@/lib/media/focal-point").SanityHotspot | import("@/lib/media/focal-point").MediaFocalPoint | null;
+  imageCrop?: import("@/lib/media/focal-point").SanityCrop | null;
   imageAlt?: string;
   date: string;
   category: string;
@@ -1003,6 +1006,7 @@ export const useArticles = () => {
         title: typeof a.title === "string" ? a.title : "",
         excerpt: typeof a.excerpt === "string" ? a.excerpt : "",
         image: a.image || "",
+        ...pickImageFocal(a),
         date: a.date || "",
         category: normalizeArticleCategory(a.category || "Nytt fra oss"),
       })) as SanityArticle[];
@@ -1029,6 +1033,7 @@ export const useArticle = (slug: string) => {
         excerpt: typeof data.excerpt === "string" ? data.excerpt : "",
         geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
         image: data.image || "",
+        ...pickImageFocal(data),
         imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",
         category: normalizeArticleCategory(data.category || "Nytt fra oss"),

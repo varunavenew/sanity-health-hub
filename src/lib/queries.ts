@@ -3,7 +3,11 @@ import {
   localizedSeoObject,
   localizedSeoObjectLocale,
 } from "@/lib/sanity/seo-groq";
-import { MEDIA_OBJECT_PROJECTION, SPECIALIST_PHOTO_PROJECTION } from "@/lib/sanity/media-dual-read";
+import {
+  ARTICLE_PRIMARY_IMAGE_PROJECTION,
+  MEDIA_OBJECT_PROJECTION,
+  SPECIALIST_PHOTO_PROJECTION,
+} from "@/lib/sanity/media-dual-read";
 import {
   localizedPrimaryCategorySlugField,
   localizedRefSlugField,
@@ -264,7 +268,7 @@ export const PAGE_SECTIONS_GROQ = `
       ${i18nStringLocale("title")},
       ${localizedSlug},
       ${i18nTextLocale("excerpt")},
-      "image": primaryImage.asset->url,
+      ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
       "date": publishedAt,
       category
     },
@@ -301,9 +305,13 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
   "serviceCategories": serviceCategories[]->{
     _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug},
     "homepageCardImage": homepageCardImage.asset->url,
+    "homepageCardImageHotspot": homepageCardImage.hotspot,
+    "homepageCardImageCrop": homepageCardImage.crop,
     ${i18nString("homepageCardImageAlt")},
     "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-    "heroImage": heroImage.asset->url
+    "heroImage": heroImage.asset->url,
+    "heroImageHotspot": heroImage.hotspot,
+    "heroImageCrop": heroImage.crop
   },
   valueBadges[]{icon, ${i18nString("label")}},
   patientTrustBanner{
@@ -324,7 +332,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
     ${i18nStringLocale("title")},
     ${localizedSlug},
     ${i18nTextLocale("excerpt")},
-    "image": primaryImage.asset->url,
+    ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
     "date": publishedAt,
     category,
   },
@@ -1125,7 +1133,7 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
     ${i18nStringLocale("title")},
     ${localizedSlug},
     ${i18nTextLocale("excerpt")},
-    "image": primaryImage.asset->url,
+    ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
     "date": publishedAt,
     category,
   },
@@ -1134,7 +1142,7 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
     ${i18nStringLocale("title")},
     ${localizedSlug},
     ${i18nTextLocale("excerpt")},
-    "image": primaryImage.asset->url,
+    ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
     "date": publishedAt,
     category,
   },
@@ -1505,7 +1513,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
     }
   },
   faqs[]{${localizedFaqRow}},
-  specialists[]->{ name, ${localizedSlug}, "image": photo.asset->url, role },
+  specialists[]->{ name, ${localizedSlug}, ${SPECIALIST_PHOTO_PROJECTION}, role },
   treatments[]->{ title, ${localizedSlug}, ${localizedPrimaryCategorySlugField("categorySlug")}, "categoryLabel": parentCategoryLabel },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
@@ -1682,7 +1690,7 @@ export const ARTICLES_QUERY = `*[_type == "article" && ${publishedOnly}] | order
   ${i18nStringLocale("title")},
   ${localizedSlug},
   ${i18nTextLocale("excerpt")},
-  "image": primaryImage.asset->url,
+  ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
   "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value),
   "date": publishedAt,
   category,
@@ -1694,7 +1702,7 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${publishedOnly} &
   ${localizedSlug},
   ${i18nTextLocale("excerpt")},
   ${i18nTextLocale("geoSummary")},
-  "image": primaryImage.asset->url,
+  ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
   "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value),
   "date": publishedAt,
   category,

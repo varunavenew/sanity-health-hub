@@ -5,7 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/lib/router";
 import { articles, normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useHomepage } from "@/hooks/useSanity";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 import { defaultNewsSplitSection } from "@/lib/sanity/homepage-data";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +15,8 @@ type NewsSplitItem = {
   slug: string;
   title: string;
   image: string;
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
   eyebrow: string;
 };
 
@@ -33,6 +36,8 @@ function articleToItem(
     slug,
     title: article.title,
     image: article.image || imageFallback,
+    imageHotspot: article.imageHotspot,
+    imageCrop: article.imageCrop,
     eyebrow: normalizeCategory(article.category),
   };
 }
@@ -118,6 +123,8 @@ export const NewsSplitScreen = () => {
                 title: a.title,
                 excerpt: a.excerpt,
                 image: a.image,
+                imageHotspot: a.imageHotspot,
+                imageCrop: a.imageCrop,
                 date: a.date,
                 category: normalizeCategory(a.category),
                 externalUrl: a.externalUrl,
@@ -175,12 +182,14 @@ export const NewsSplitScreen = () => {
               to={`/aktuelt/${item.slug}`}
               className="group relative block overflow-hidden min-h-[40vh] md:min-h-0"
             >
-              <AssetImg
+              <ResponsiveImage
                 src={item.image}
                 alt={item.title}
-                preset="card"
+                variant="card"
+                hotspot={item.imageHotspot}
+                crop={item.imageCrop}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                className="absolute inset-0 w-full h-full transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
               />
               <div
                 aria-hidden="true"

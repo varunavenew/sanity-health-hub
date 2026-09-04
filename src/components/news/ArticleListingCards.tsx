@@ -1,6 +1,6 @@
 import { Calendar, FileText, MessageSquare, Mic, Video } from "lucide-react";
 import { Link } from "@/lib/router";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { MediaChip } from "@/components/ui/MediaChip";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
 import type { Article } from "@/data/articles";
@@ -57,12 +57,14 @@ export function ArticleCard({
   return (
     <Link to={linkTo} className="group">
       <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
-        <AssetImg
+        <ResponsiveImage
           src={article.image}
           alt={article.title}
-          preset="card"
+          variant="card"
+          hotspot={article.imageHotspot}
+          crop={article.imageCrop}
           loading="lazy"
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 left-3">
           <MediaChip>{categoryLabel}</MediaChip>
@@ -106,11 +108,13 @@ export function FeaturedCard({
   return (
     <Link to={linkTo} className="group relative block rounded-sm overflow-hidden">
       <div className="aspect-[4/3] overflow-hidden">
-        <AssetImg
+        <ResponsiveImage
           src={article.image}
           alt={article.title}
-          preset="gallery"
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+          variant="card"
+          hotspot={article.imageHotspot}
+          crop={article.imageCrop}
+          className="w-full h-full group-hover:scale-105 transition-transform duration-700"
         />
       </div>
       <MediaBadge type={article.mediaType} />

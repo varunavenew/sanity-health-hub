@@ -2,12 +2,15 @@ import {
   ARTICLE_CATEGORIES,
   normalizeArticleCategory,
 } from "@/lib/news/article-categories";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 
 export interface Article {
   slug: string;
   title: string;
   excerpt: string;
   image: string;
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
   date: string;
   category: string;
   externalUrl?: string;

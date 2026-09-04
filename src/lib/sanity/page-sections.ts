@@ -8,6 +8,7 @@ import {
   resolveSpecialistsDisplayMode,
 } from "@/lib/sanity/specialists-display-mode";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
+import { pickImageFocal } from "@/lib/sanity/media-dual-read";
 
 export type PageSectionSpecialistsConfig = {
   _type: "pageSectionSpecialists";
@@ -71,6 +72,8 @@ export type PageSectionArticleCard = {
   title: string;
   excerpt: string;
   image: string;
+  imageHotspot?: import("@/lib/media/focal-point").SanityHotspot | import("@/lib/media/focal-point").MediaFocalPoint | null;
+  imageCrop?: import("@/lib/media/focal-point").SanityCrop | null;
   date: string;
   category: string;
   externalUrl?: string;
@@ -113,6 +116,8 @@ export function sanitySpecialistToCard(s: SanitySpecialist): Specialist {
     subtitle: s.subtitle,
     expertise: s.expertise,
     image: s.image,
+    imageHotspot: s.imageHotspot,
+    imageCrop: s.imageCrop,
     category: s.category as Specialist["category"],
     slug: s.slug,
     bio: s.bio,
@@ -166,6 +171,7 @@ export function normalizePageSections(raw: unknown): PageSection[] {
                 title: str(row.title),
                 excerpt: str(row.excerpt),
                 image: str(row.image),
+                ...pickImageFocal(row as { imageHotspot?: PageSectionArticleCard["imageHotspot"]; imageCrop?: PageSectionArticleCard["imageCrop"] }),
                 date: str(row.date),
                 category: normalizeArticleCategory(
                   str(row.category) || "Nytt fra oss",
