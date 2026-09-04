@@ -136,7 +136,10 @@ function buildFromSource(
       .image(mergeImageSource(source, options.crop, options.hotspot))
       .auto("format")
       .quality(options.quality ?? IMAGE_QUALITY)
-      .fit(options.fit ?? "max");
+      .fit(
+        options.fit ??
+          (options.width != null && options.height != null ? "crop" : "max"),
+      );
     if (options.width) img = img.width(options.width);
     if (options.height) img = img.height(options.height);
     return img.url();
@@ -230,12 +233,19 @@ export function optimizeSanityImageUrl(
 
   let next = applyCropRect(url, options.crop);
   const quality = options.quality ?? IMAGE_QUALITY;
+  const fit =
+    options.fit ??
+    (options.width != null && options.height != null ? "crop" : "max");
+  const hotspotSpec = hotspotToSpec(options.hotspot);
   next = withSanityParams(next, {
     auto: "format",
     q: quality,
-    fit: options.fit ?? "max",
+    fit,
     ...(options.width ? { w: options.width } : {}),
     ...(options.height ? { h: options.height } : {}),
+    ...(fit === "crop" && hotspotSpec
+      ? { crop: "focalpoint", "fp-x": hotspotSpec.x, "fp-y": hotspotSpec.y }
+      : {}),
   });
   return next;
 }

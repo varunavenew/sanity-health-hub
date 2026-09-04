@@ -213,6 +213,7 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     minHeight: 560,
     tips: [
       'Works as both listing thumbnail and article hero.',
+      'Set the hotspot on the face or main subject — the website keeps it in frame.',
       'Add descriptive alt text.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',

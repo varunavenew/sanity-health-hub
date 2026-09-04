@@ -8,7 +8,7 @@ import { useArticles } from "@/hooks/useSanity";
 import { normalizeCategory, type Article } from "@/data/articles";
 import type { PageSectionArticlesConfig } from "@/lib/sanity/page-sections";
 import { resolveArticlesDisplayMode } from "@/lib/sanity/specialists-display-mode";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { resolveArticleCategoryLabel } from "@/lib/news/category-labels";
 
 function formatDate(dateStr: string) {
@@ -32,12 +32,14 @@ function ArticleGridCard({ article }: { article: Article }) {
     <Link to={linkTo} className="group">
       <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
         {article.image ? (
-          <AssetImg
+          <ResponsiveImage
             src={article.image}
             alt={article.title}
-            preset="card"
+            variant="card"
+            hotspot={article.imageHotspot}
+            crop={article.imageCrop}
             loading="lazy"
-            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full bg-brand-beige/40" />
@@ -76,6 +78,8 @@ function resolveArticles(config: PageSectionArticlesConfig, all: Article[]): Art
         title: a.title,
         excerpt: a.excerpt,
         image: a.image,
+        imageHotspot: a.imageHotspot,
+        imageCrop: a.imageCrop,
         date: a.date,
         category: a.category,
         externalUrl: a.externalUrl,
@@ -115,6 +119,8 @@ export function PageSectionArticlesBlock({ config }: Props) {
       title: a.title,
       excerpt: a.excerpt,
       image: a.image,
+      imageHotspot: a.imageHotspot,
+      imageCrop: a.imageCrop,
       date: a.date,
       category: normalizeCategory(a.category),
     }));
@@ -162,11 +168,13 @@ export function PageSectionArticlesBlock({ config }: Props) {
             >
               <div className="aspect-[4/3] md:aspect-auto md:h-full min-h-[280px] overflow-hidden">
                 {featured.image ? (
-                  <AssetImg
+                  <ResponsiveImage
                     src={featured.image}
                     alt={featured.title}
-                    preset="gallery"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    variant="card"
+                    hotspot={featured.imageHotspot}
+                    crop={featured.imageCrop}
+                    className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                   />
                 ) : (
                   <div className="w-full h-full bg-brand-beige/40" />
