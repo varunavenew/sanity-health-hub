@@ -81,11 +81,6 @@ function mapTreatmentReviews(
     .filter((row): row is TreatmentReview => row != null);
 }
 
-export type TreatmentSection = {
-  id: string;
-  heading: string;
-  content: string;
-};
 
 export type TreatmentReview = {
   id: string;
@@ -152,8 +147,6 @@ export type TreatmentData = {
   reasonsLead2?: string;
   reasonsLayout?: "prose" | "accordion" | "auto";
   reasons?: { n: string; title: string; desc: string; id?: string }[];
-  /** Legacy about sections. Used as a reasons[] fallback when symptoms is empty. */
-  sections?: TreatmentSection[];
   promises?: { eyebrow: string; title: string; desc: string; image?: string; imageAlt?: string }[];
   expertAreas?: {
     title?: string;
@@ -363,17 +356,6 @@ export function mapTreatmentDocument(
         };
       })
       .filter((r) => r.title || r.desc),
-    sections: ((data.sections as unknown[]) || [])
-      .filter(Boolean)
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return {
-          id: asPlainString(r.id),
-          heading: asPlainString(r.heading),
-          content: asPlainString(r.content),
-        };
-      })
-      .filter((section) => section.heading || section.content),
     promises: ((data.promises as unknown[]) || [])
       .filter(Boolean)
       .map((item) => {

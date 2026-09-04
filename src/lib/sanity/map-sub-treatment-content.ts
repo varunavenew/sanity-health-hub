@@ -1,5 +1,5 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import type { TreatmentData, TreatmentSection } from "@/lib/sanity/treatment-data";
+import type { TreatmentData } from "@/lib/sanity/treatment-data";
 import {
   categoryLandingPath,
   FLERE_FAGOMRADER_CATEGORY_ID,
@@ -104,45 +104,16 @@ function seoText(treatment: TreatmentData): { title: string; description: string
   };
 }
 
-/** Legacy `sections[]` (heading/content) → reasons accordion items. */
-function reasonsFromLegacySections(
-  sections: TreatmentSection[] | undefined,
-): { n: string; title: string; desc: string; id: string }[] {
-  return (sections ?? [])
-    .map((section, index) => ({
-      n: String(index + 1).padStart(2, "0"),
-      title: section.heading.trim(),
-      desc: section.content.trim(),
-      id: reasonAnchorId(section.heading, section.id),
-    }))
-    .filter((item) => item.title || item.desc);
-}
-
-/** Keep CMS reasons; append leftover legacy sections that are not already titles. */
-function mergeReasonsWithLegacySections(
+function mapReasons(
   reasons: { n: string; title: string; desc: string; id?: string }[],
-  sections: TreatmentSection[] | undefined,
 ): { n: string; title: string; desc: string; id: string }[] {
-  const fromSections = reasonsFromLegacySections(sections);
-  const withIds = reasons.map((item) => ({
-    ...item,
-    id: reasonAnchorId(item.title, item.id),
-  }));
-  if (fromSections.length === 0) return withIds;
-  if (withIds.length === 0) return fromSections;
-
-  const existingTitles = new Set(
-    withIds.map((item) => item.title.trim().toLowerCase()).filter(Boolean),
-  );
-  const extra = fromSections.filter(
-    (item) => item.title && !existingTitles.has(item.title.trim().toLowerCase()),
-  );
-  if (extra.length === 0) return withIds;
-
-  return [...withIds, ...extra].map((item, index) => ({
-    ...item,
-    n: String(index + 1).padStart(2, "0"),
-  }));
+  return reasons
+    .filter((item) => item.title || item.desc)
+    .map((item, index) => ({
+      ...item,
+      n: item.n?.trim() || String(index + 1).padStart(2, "0"),
+      id: reasonAnchorId(item.title, item.id),
+    }));
 }
 
 /** Map Sanity treatment (flat layout fields at root) to SubTreatmentLayout content. */
@@ -169,11 +140,7 @@ export function mapTreatmentToSubTreatmentContent(
 
   const heroPoints = (treatment.heroPoints ?? []).filter((p) => p.title || p.desc);
   const flow = (treatment.flow ?? []).filter((s) => s.title || s.desc);
-  const mappedReasons = (treatment.reasons ?? []).filter((r) => r.title || r.desc);
-  const reasons = mergeReasonsWithLegacySections(
-    mappedReasons,
-    treatment.sections,
-  );
+  const reasons = mapReasons(treatment.reasons ?? []);
   const promises = (treatment.promises ?? []).filter((p) => p.title);
 
   const related = (treatment.related ?? []).map((r) => ({

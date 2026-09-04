@@ -1093,24 +1093,6 @@ export default {
       ],
     },
     {
-      name: 'sections',
-      title: 'Sections (legacy)',
-      type: 'array',
-      group: 'advanced',
-      fieldset: 'advancedLegacy',
-      description: 'Legacy about sections. Migrated equivalent is Symptoms / indications (`reasons`).',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'id', title: 'ID', type: 'string' },
-            { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
-            { name: 'content', title: 'Content', type: 'internationalizedArrayText' },
-          ],
-        },
-      ],
-    },
-    {
       name: 'linkedServices',
       title: 'Linked services (legacy)',
       type: 'array',

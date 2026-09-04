@@ -885,7 +885,6 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   heroPoints[]{ ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   flow[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   reasons[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
-  sections[]{ id, ${i18nStringLocale('heading')}, ${i18nTextLocale('content')} },
   promises[]{
     ${i18nStringLocale('eyebrow')},
     ${i18nStringLocale('title')},
