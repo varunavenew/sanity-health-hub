@@ -18,13 +18,19 @@ import {
 import { checkContactRateLimit } from "@/lib/email/rate-limit";
 import { getSmtpConfig, sendContactEmail } from "@/lib/email/smtp";
 import { siteUrl } from "@/lib/env";
+import { isValidNorwegianMobileFieldInput } from "@/lib/booking/phoneMobile";
 
 export const runtime = "nodejs";
 
 const contactBodySchema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(200),
-  phone: z.string().trim().max(40).optional().default(""),
+  phone: z
+    .string()
+    .trim()
+    .min(1)
+    .max(40)
+    .refine(isValidNorwegianMobileFieldInput, { message: "invalid_phone" }),
   clinic: z.string().trim().min(1).max(120),
   subject: z.string().trim().min(1).max(200),
   message: z.string().trim().min(1).max(5000),

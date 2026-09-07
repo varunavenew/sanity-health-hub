@@ -244,6 +244,8 @@
       "name": "Name",
       "namePlaceholder": "Your name",
       "phone": "Phone",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Enter a valid Norwegian phone number",
       "email": "Email",
       "emailPlaceholder": "your@email.com",
       "emailRequired": "Please enter a valid email",
