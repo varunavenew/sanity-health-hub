@@ -1405,7 +1405,7 @@ const TreatmentCategoryLanding = ({
                   imageAspect={isFertility ? "16/9" : "3/2"}
                   imageRadiusClass="rounded-t-2xl"
                   cardChrome="whiteCard"
-                  seeAllHref={isFertility ? `/behandlinger/${categoryId}` : undefined}
+                  seeAllHref={isFertility ? `/no/tjenester` : undefined}
                   seeAllLabel={isFertility ? "Se alle behandlinger" : undefined}
                 />
               </div>
