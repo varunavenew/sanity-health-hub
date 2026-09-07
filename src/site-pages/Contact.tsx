@@ -21,6 +21,7 @@ import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
+import { isValidNorwegianMobileFieldInput } from "@/lib/booking/phoneMobile";
 
 interface ContactProps {
   isChatOpen: boolean;
@@ -60,10 +61,27 @@ const Contact = ({ isChatOpen }: ContactProps) => {
     subject: "",
     message: ""
   });
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const validatePhone = (value: string): string | null => {
+    const trimmed = value.trim();
+    if (!trimmed) return t("contact.form.phoneRequired");
+    if (!isValidNorwegianMobileFieldInput(trimmed)) {
+      return t("contact.form.phoneInvalid");
+    }
+    return null;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+
+    const nextPhoneError = validatePhone(formData.phone);
+    setPhoneError(nextPhoneError);
+    if (nextPhoneError) {
+      document.getElementById("contact-phone")?.focus();
+      return;
+    }
 
     setIsSubmitting(true);
     try {
@@ -73,7 +91,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
+          phone: formData.phone.trim(),
           clinic: formData.clinic,
           subject: formData.subject,
           message: formData.message,
@@ -102,6 +120,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
       trackFormSubmit({ form_name: "contact_message", form_location: "contact_page" });
       trackContactMessage({ form_location: "contact_page" });
       setFormData({ name: "", email: "", phone: "", clinic: "", subject: "", message: "" });
+      setPhoneError(null);
       setIsSubmitted(true);
     } catch {
       toast({
@@ -279,15 +298,47 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                 <div>
                   <label htmlFor="contact-phone" className="text-sm font-medium mb-2 block text-brand-dark">
                     {pick(formCopy?.phoneLabel, t("contact.form.phone"))}
+                    <span className="text-brand-dark" aria-hidden="true">
+                      {" "}
+                      *
+                    </span>
                   </label>
                   <Input
                     id="contact-phone"
                     type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder={pick(formCopy?.phonePlaceholder, "+47 000 00 000")}
-                    className="h-12 rounded-sm border-brand-dark/20 bg-white"
+                    onFocus={onContactFormStart}
+                    onChange={(e) => {
+                      setFormData({ ...formData, phone: e.target.value });
+                      if (phoneError) setPhoneError(null);
+                    }}
+                    onBlur={() => {
+                      if (formData.phone.trim()) {
+                        setPhoneError(validatePhone(formData.phone));
+                      }
+                    }}
+                    placeholder={pick(formCopy?.phonePlaceholder, "22 60 00 50")}
+                    required
+                    aria-required="true"
+                    aria-invalid={phoneError ? true : undefined}
+                    aria-describedby={phoneError ? "contact-phone-error" : undefined}
+                    className={`h-12 rounded-sm bg-white ${
+                      phoneError
+                        ? "border-destructive focus-visible:ring-destructive"
+                        : "border-brand-dark/20"
+                    }`}
                   />
+                  {phoneError ? (
+                    <p
+                      id="contact-phone-error"
+                      role="alert"
+                      className="mt-2 text-sm text-destructive"
+                    >
+                      {phoneError}
+                    </p>
+                  ) : null}
                 </div>
               </div>
               <div>

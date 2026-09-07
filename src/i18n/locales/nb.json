@@ -245,6 +245,8 @@
       "name": "Navn",
       "namePlaceholder": "Ditt navn",
       "phone": "Telefon",
+      "phoneRequired": "Telefonnummer er påkrevd",
+      "phoneInvalid": "Oppgi et gyldig norsk telefonnummer",
       "email": "E-post",
       "emailPlaceholder": "din@email.no",
       "emailRequired": "Vennligst fyll inn en gyldig e-post",
