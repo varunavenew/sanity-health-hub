@@ -4,6 +4,7 @@
  */
 import * as fs from 'fs'
 import * as path from 'path'
+import { decodeHtmlEntities } from './decode-html-entities'
 
 const CACHE_FILE =
   process.env.TRANSLATION_CACHE ||
@@ -223,7 +224,7 @@ export async function translateNoToEn(text: string): Promise<string> {
 
   await sleep(DELAY_MS)
   try {
-    const translated = await translateOnce(trimmed)
+    const translated = decodeHtmlEntities(await translateOnce(trimmed))
     if (!translated) return ''
     cache[trimmed] = translated
     dirty = true
@@ -245,13 +246,14 @@ export function getCacheSize(): number {
 
 export function getCachedTranslation(text: string): string | undefined {
   loadCache()
-  return cache[text?.trim()]
+  const hit = cache[text?.trim()]
+  return typeof hit === 'string' ? decodeHtmlEntities(hit) : undefined
 }
 
 export function cacheTranslation(text: string, translation: string): void {
   const trimmed = text?.trim()
   if (!trimmed || !translation?.trim()) return
   loadCache()
-  cache[trimmed] = translation.trim()
+  cache[trimmed] = decodeHtmlEntities(translation.trim())
   dirty = true
 }

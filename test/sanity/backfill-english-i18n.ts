@@ -33,6 +33,7 @@ import {
   saveCache,
   translateNoToEn,
 } from './lib/translate-free'
+import { decodeHtmlEntities } from './lib/decode-html-entities'
 
 const DRY_RUN = process.env.DRY_RUN === '1'
 const FORCE = process.env.FORCE === '1'
@@ -325,6 +326,7 @@ async function translateText(text: string): Promise<string> {
   else return translateNoToEn(trimmed)
 
   if (result) {
+    result = decodeHtmlEntities(result)
     cacheTranslation(trimmed, result)
     saveCache()
   }
