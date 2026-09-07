@@ -11,7 +11,7 @@ export const NOINDEX_SEGMENTS = [
 ] as const;
 
 /** Paths outside locale routing that should not be indexed. */
-const NOINDEX_ROOT_PATHS = ["/studio"] as const;
+const NOINDEX_ROOT_PATHS = ["/studio", "/api/metodika-webbooking"] as const;
 
 /** `robots.txt` disallow entries for all locales. */
 export function robotsDisallowPaths(): string[] {

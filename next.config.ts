@@ -5,6 +5,7 @@ import {
   requireSanityDataset,
   requireSanityProjectId,
 } from "./src/lib/sanity/dataset-env";
+import { LEGACY_REDIRECTS } from "./src/lib/seo/legacy-redirects";
 
 // Fail fast — never bake a silent dataset default into the client bundle.
 // Startup banner is logged once from src/instrumentation.ts.
@@ -242,8 +243,7 @@ const nextConfig: NextConfig = {
       { source: "/no/hudhelse/behandlingsutstyr", destination: "/no/ovrige/behandlingsutstyr", permanent: true },
       { source: "/no/hudhelse/hudbehandlinger", destination: "/no/ovrige/hudbehandlinger", permanent: true },
       { source: "/no/hudhelse/hudpleieprodukter", destination: "/no/ovrige/hudpleieprodukter", permanent: true },
-      // Martin SEO (Aug 2026): legacy news prefix → aktuelt (newsPage CMS slug).
-      // Article slug alias first (before :path* wildcard).
+      // Legacy news prefix → aktuelt (newsPage CMS slug). Specific rules before :path* wildcard.
       {
         source: "/no/nyheter-og-artikler/18-maneder-etter-hofteoperasjon-hos-cmedical-sto-hun-pa-sydpolen",
         destination: "/no/aktuelt/18-maneder-etter-hofteoperasjon-hos-cmedical",
@@ -252,6 +252,16 @@ const nextConfig: NextConfig = {
       {
         source: "/nb/nyheter-og-artikler/18-maneder-etter-hofteoperasjon-hos-cmedical-sto-hun-pa-sydpolen",
         destination: "/nb/aktuelt/18-maneder-etter-hofteoperasjon-hos-cmedical",
+        permanent: true,
+      },
+      {
+        source: "/no/nyheter-og-artikler/prisliste-for-privatbetalende",
+        destination: "/no/priser",
+        permanent: true,
+      },
+      {
+        source: "/no/nyheter-og-artikler/prisliste-for-fertilitet",
+        destination: "/no/priser",
         permanent: true,
       },
       { source: "/no/nyheter-og-artikler", destination: "/no/aktuelt", permanent: true },
@@ -264,17 +274,8 @@ const nextConfig: NextConfig = {
       { source: "/no/prisliste-for-karkirurgi", destination: "/no/priser", permanent: true },
       { source: "/nb/prisliste-for-karkirurgi", destination: "/nb/priser", permanent: true },
       { source: "/:locale(nb|no)/prisliste-for/:slug*", destination: "/:locale/priser", permanent: true },
-      {
-        source: "/no/nyheter-og-artikler/prisliste-for-privatbetalende",
-        destination: "/no/priser",
-        permanent: true,
-      },
+      { source: "/en/prisliste-for-fertilitet", destination: "/en/priser", permanent: true },
       { source: "/no/fertilitet/prisliste-fertiliet", destination: "/no/priser", permanent: true },
-      {
-        source: "/no/nyheter-og-artikler/prisliste-for-fertilitet",
-        destination: "/no/priser",
-        permanent: true,
-      },
       // Legacy privacy + transparency URLs (Martin SEO Aug 2026).
       { source: "/no/privacy-policy", destination: "/no/personvern", permanent: true },
       { source: "/nb/privacy-policy", destination: "/nb/personvern", permanent: true },
@@ -312,7 +313,9 @@ const nextConfig: NextConfig = {
       // Legacy clinic URLs (singular /klinikk/, compound slugs — launch audit Sep 2026).
       { source: "/no/klinikk/bekkestua-gynekologi-hud", destination: "/no/klinikker/bekkestua", permanent: true },
       { source: "/nb/klinikk/bekkestua-gynekologi-hud", destination: "/nb/klinikker/bekkestua", permanent: true },
-      { source: "/:locale(nb|no)/klinikk/majorstuen", destination: "/:locale/klinikker/majorstuen", permanent: true },
+      { source: "/no/klinikk/majorstuen", destination: "/no/klinikker/majorstuen", permanent: true },
+      { source: "/nb/klinikk/majorstuen", destination: "/no/klinikker/majorstuen", permanent: true },
+      { source: "/nb/klinikker/majorstuen", destination: "/no/klinikker/majorstuen", permanent: true },
       { source: "/:locale(nb|no)/klinikk/bekkestua", destination: "/:locale/klinikker/bekkestua", permanent: true },
       { source: "/:locale(nb|no)/klinikk/moss", destination: "/:locale/klinikker/moss", permanent: true },
       { source: "/:locale(nb|no)/klinikk/moelv", destination: "/:locale/klinikker/moelv", permanent: true },
@@ -330,6 +333,8 @@ const nextConfig: NextConfig = {
       // Pregnancy overview lives under Graviditet (not Gynekologi nav) — match demo routing.
       { source: "/:locale(en)/gynecology/graviditet", destination: "/:locale/pregnancy", permanent: true },
       { source: "/:locale(nb|no)/behandlinger/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },
+
+      ...LEGACY_REDIRECTS,
     ];
   },
 };

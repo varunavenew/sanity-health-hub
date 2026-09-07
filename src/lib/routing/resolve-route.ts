@@ -27,6 +27,7 @@ import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-ali
 import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
 import { resolveOrtopediTreatmentSlug } from "@/lib/sanity/ortopedi-slug-aliases";
 import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
+import { isTestContentSlug } from "@/lib/seo/test-content-slugs";
 
 function listingSlug(
   listings: ListingSlugs,
@@ -324,7 +325,7 @@ export function staticParamsFromRouteIndex(
     for (const doc of index.categories) {
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
-      if (slug) push(locale, [slug]);
+      if (slug && !isTestContentSlug(slug)) push(locale, [slug]);
     }
 
     for (const listingType of LISTING_PAGE_KEYS) {
@@ -360,7 +361,14 @@ export function staticParamsFromRouteIndex(
 
     for (const doc of index.treatments) {
       const treatmentSlug = docSlug(doc, lang);
-      if (isRetiredIvfSlug(treatmentSlug) || isRetiredIvfSlug(doc.slugNb) || isRetiredIvfSlug(doc.slugEn)) {
+      if (
+        isRetiredIvfSlug(treatmentSlug) ||
+        isRetiredIvfSlug(doc.slugNb) ||
+        isRetiredIvfSlug(doc.slugEn) ||
+        isTestContentSlug(treatmentSlug) ||
+        isTestContentSlug(doc.slugNb) ||
+        isTestContentSlug(doc.slugEn)
+      ) {
         continue;
       }
       const membershipIds =
