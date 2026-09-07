@@ -165,6 +165,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/product/:id", destination: "/nb/produkt/:id", permanent: true },
 
+      // SEO audit redirects (batch 3 + 4) — before wildcards so exact paths win.
+      ...LEGACY_REDIRECTS,
+
       // Legacy singleton folders → CMS slug routes (defaults until Studio changes slugs).
       { source: "/:locale(nb|no)/tjenester-og-priser", destination: "/:locale/tjenester", permanent: true },
       { source: "/:locale(en)/tjenester-og-priser", destination: "/:locale/services", permanent: true },
@@ -269,12 +272,8 @@ const nextConfig: NextConfig = {
       { source: "/nb/nyheter-og-artikler", destination: "/nb/aktuelt", permanent: true },
       { source: "/nb/nyheter-og-artikler/:path*", destination: "/nb/aktuelt/:path*", permanent: true },
       // Legacy pricing list URLs → /priser (Martin SEO Aug/Sep 2026).
-      { source: "/no/prisliste-for-privatbetalende", destination: "/no/priser", permanent: true },
-      { source: "/nb/prisliste-for-privatbetalende", destination: "/nb/priser", permanent: true },
-      { source: "/no/prisliste-for-karkirurgi", destination: "/no/priser", permanent: true },
-      { source: "/nb/prisliste-for-karkirurgi", destination: "/nb/priser", permanent: true },
+      // Batch 4 in LEGACY_REDIRECTS sends listed prisliste paths → /aktuelt/… first.
       { source: "/:locale(nb|no)/prisliste-for/:slug*", destination: "/:locale/priser", permanent: true },
-      { source: "/en/prisliste-for-fertilitet", destination: "/en/priser", permanent: true },
       { source: "/no/fertilitet/prisliste-fertiliet", destination: "/no/priser", permanent: true },
       // Legacy privacy + transparency URLs (Martin SEO Aug 2026).
       { source: "/no/privacy-policy", destination: "/no/personvern", permanent: true },
@@ -299,7 +298,6 @@ const nextConfig: NextConfig = {
       { source: "/en/fertility/insemination", destination: "/en/fertility/singel-mann", permanent: true },
       { source: "/en/fertility/ovulation-stimulation", destination: "/en/fertility/donor-treatment", permanent: true },
       { source: "/en/fertility/sperm-freezing", destination: "/en/fertility/egg-freezing", permanent: true },
-      { source: "/en/fertility/prices-fertility", destination: "/en/prices", permanent: true },
       { source: "/en/gynecology/abortion", destination: "/en/gynecology/poi", permanent: true },
       { source: "/en/gynecology/contraception-consultation", destination: "/en/gynecology/new-treatment", permanent: true },
       { source: "/en/gynecology/test-for-chlamydia-gonorrhea", destination: "/en/gynecology/celleforandringer", permanent: true },
@@ -311,8 +309,6 @@ const nextConfig: NextConfig = {
       { source: "/en/livio-oslo", destination: "/en/clinics", permanent: true },
 
       // Legacy clinic URLs (singular /klinikk/, compound slugs — launch audit Sep 2026).
-      { source: "/no/klinikk/bekkestua-gynekologi-hud", destination: "/no/klinikker/bekkestua", permanent: true },
-      { source: "/nb/klinikk/bekkestua-gynekologi-hud", destination: "/nb/klinikker/bekkestua", permanent: true },
       { source: "/no/klinikk/majorstuen", destination: "/no/klinikker/majorstuen", permanent: true },
       { source: "/nb/klinikk/majorstuen", destination: "/no/klinikker/majorstuen", permanent: true },
       { source: "/nb/klinikker/majorstuen", destination: "/no/klinikker/majorstuen", permanent: true },
@@ -333,8 +329,6 @@ const nextConfig: NextConfig = {
       // Pregnancy overview lives under Graviditet (not Gynekologi nav) — match demo routing.
       { source: "/:locale(en)/gynecology/graviditet", destination: "/:locale/pregnancy", permanent: true },
       { source: "/:locale(nb|no)/behandlinger/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },
-
-      ...LEGACY_REDIRECTS,
     ];
   },
 };
