@@ -48,6 +48,12 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/nb/ovrige/forebyggende-helse", "/no/ovrige"),
   perm("/en/specialists/lisa-reppert", "/en/specialists/mia-kitter"),
   perm("/en/prisliste-for-fertilitet", "/no/aktuelt/prisliste-for-fertilitet"),
+  perm("/no/prisliste-for-fertilitet", "/no/aktuelt/prisliste-for-fertilitet"),
+  perm("/nb/prisliste-for-fertilitet", "/nb/aktuelt/prisliste-for-fertilitet"),
+  perm("/no/prisliste-for-urologi", "/no/aktuelt/prisliste-for-urologi"),
+  perm("/nb/prisliste-for-urologi", "/nb/aktuelt/prisliste-for-urologi"),
+  perm("/no/prisliste-for-gynekologi", "/no/aktuelt/prisliste-for-gynekologi"),
+  perm("/nb/prisliste-for-gynekologi", "/nb/aktuelt/prisliste-for-gynekologi"),
   perm("/no/gynekologi/pms-pmdd", "/no/gynekologi/pms-og-pmdd"),
   perm("/nb/gynekologi/pms-pmdd", "/no/gynekologi/pms-og-pmdd"),
   perm("/en/other/preventive-healthcare", "/en/other"),
@@ -248,7 +254,7 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   },
 
   // Remaining prisliste URLs not covered by batch 4 → /priser.
-  ...["fertilitet", "urologi", "gynekologi", "privatbetalende"].flatMap((slug) => [
+  ...["privatbetalende"].flatMap((slug) => [
     {
       source: `/no/prisliste-for-${slug}`,
       destination: "/no/priser",
