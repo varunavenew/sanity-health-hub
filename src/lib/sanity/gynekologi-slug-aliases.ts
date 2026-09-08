@@ -22,8 +22,8 @@ export const GYNEKOLOGI_NAV_TREATMENT_SLUGS = [
 
 /** URL slug → Sanity treatment document slug for gynekologi sub-pages. */
 export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
-  /** Demo / marketing long form → published undersokelse page. */
-  "gynekologisk-undersokelse": "undersokelse",
+  /** Legacy short URL / old CMS slug → published gynekologisk-undersokelse page. */
+  undersokelse: "gynekologisk-undersokelse",
   /** Legacy / alternate hormone pages → dedicated POI treatment. */
   hormonforstyrrelser: "poi",
   hormonbehandling: "poi",
@@ -37,8 +37,8 @@ export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
   pcos: "pmos",
   pmos: "pcos",
   "multidisciplinary-team": "tverrfaglig",
-  "gynaecological-examination": "undersokelse",
-  "gynecological-examination": "undersokelse",
+  "gynaecological-examination": "gynekologisk-undersokelse",
+  "gynecological-examination": "gynekologisk-undersokelse",
   "urinary-incontinence": "urinlekkasje",
   menopause: "overgangsalder",
   "vaginal-prolapse": "vaginale-fremfall",
