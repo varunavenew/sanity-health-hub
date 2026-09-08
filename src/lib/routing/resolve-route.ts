@@ -27,7 +27,7 @@ import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-ali
 import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
 import { resolveOrtopediTreatmentSlug } from "@/lib/sanity/ortopedi-slug-aliases";
 import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
-import { isTestContentSlug } from "@/lib/seo/test-content-slugs";
+import { isTestContentSlug, hasTestContentSegment } from "@/lib/seo/test-content-slugs";
 import { isSitemapExcludedSlug } from "@/lib/seo/sitemap-excluded-slugs";
 
 function listingSlug(
@@ -147,6 +147,7 @@ export function resolveCmsRoute(
 ): ResolvedCmsRoute | null {
   const normalized = segments.map(normalizeSlugSegment).filter(Boolean);
   if (normalized.length === 0) return null;
+  if (hasTestContentSegment(normalized)) return null;
 
   const lang = locale === "en" ? "en" : "no";
   const { listings } = index;

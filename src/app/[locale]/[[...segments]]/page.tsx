@@ -23,6 +23,7 @@ import {
   IVF_SECTION_ID,
   isRetiredIvfSlug,
 } from "@/lib/sanity/ivf-canonical";
+import { hasTestContentSegment } from "@/lib/seo/test-content-slugs";
 
 type Props = {
   params: Promise<{ locale: string; segments?: string[] }>;
@@ -36,6 +37,10 @@ export const dynamicParams = true;
 
 function rejectLegacySeLocale(locale: string) {
   if (locale === "se") notFound();
+}
+
+function rejectTestContentSegments(segments: string[]) {
+  if (hasTestContentSegment(segments)) notFound();
 }
 
 async function resolveCmsRouteCached(segments: string[], locale: string) {
@@ -72,6 +77,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, segments = [] } = await params;
   rejectLegacySeLocale(locale);
   redirectRetiredIvfPage(locale, segments);
+  rejectTestContentSegments(segments);
   if (segments.length === 0) return buildHomeMetadata(locale);
 
   const route = await resolveCmsRouteCached(segments, locale);
@@ -127,6 +133,7 @@ export default async function CmsOptionalCatchAllPage({ params }: Props) {
   if (segments.length === 0) return renderHomepage(locale);
 
   redirectRetiredIvfPage(locale, segments);
+  rejectTestContentSegments(segments);
 
   const route = await resolveCmsRouteCached(segments, locale);
   if (!route) notFound();

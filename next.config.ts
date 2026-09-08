@@ -299,7 +299,7 @@ const nextConfig: NextConfig = {
       { source: "/en/fertility/ovulation-stimulation", destination: "/en/fertility/donor-treatment", permanent: true },
       { source: "/en/fertility/sperm-freezing", destination: "/en/fertility/egg-freezing", permanent: true },
       { source: "/en/gynecology/abortion", destination: "/en/gynecology/poi", permanent: true },
-      { source: "/en/gynecology/contraception-consultation", destination: "/en/gynecology/new-treatment", permanent: true },
+      { source: "/en/gynecology/contraception-consultation", destination: "/en/gynecology/gynecological-examination", permanent: true },
       { source: "/en/gynecology/test-for-chlamydia-gonorrhea", destination: "/en/gynecology/celleforandringer", permanent: true },
       { source: "/en/gynecology/childbirth-injuries", destination: "/en/pregnancy/fodselsskader", permanent: true },
       { source: "/en/gynecology/nipt-en", destination: "/en/pregnancy/nipt", permanent: true },
