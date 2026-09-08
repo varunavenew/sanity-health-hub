@@ -21,6 +21,11 @@ async function fetchRouteIndexFresh(): Promise<CmsRouteIndex> {
   return enrichRouteIndexWithNavPaths(index, navItems ?? []);
 }
 
+/** Uncached index — use when the cached index may lag behind a recent CMS publish. */
+export async function fetchCmsRouteIndexFresh(): Promise<CmsRouteIndex> {
+  return fetchRouteIndexFresh();
+}
+
 export async function fetchCmsRouteIndex(): Promise<CmsRouteIndex> {
   if (process.env.NODE_ENV === "development") {
     return fetchRouteIndexFresh();

@@ -9,7 +9,7 @@ import { medicalOrganizationJsonLd } from "@/lib/seo/geo-jsonld";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { buildHomeMetadata } from "@/lib/seo/route-metadata";
 import { fetchHomepageData } from "@/lib/sanity/homepage-fetch";
-import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
+import { fetchCmsRouteIndex, fetchCmsRouteIndexFresh } from "@/lib/routing/fetch-route-index";
 import {
   resolveCmsRoute,
   staticParamsFromRouteIndex,
@@ -36,6 +36,14 @@ export const dynamicParams = true;
 
 function rejectLegacySeLocale(locale: string) {
   if (locale === "se") notFound();
+}
+
+async function resolveCmsRouteCached(segments: string[], locale: string) {
+  const index = await fetchCmsRouteIndex();
+  const route = resolveCmsRoute(segments, locale, index);
+  if (route) return route;
+  const freshIndex = await fetchCmsRouteIndexFresh();
+  return resolveCmsRoute(segments, locale, freshIndex);
 }
 
 function redirectRetiredIvfPage(locale: string, segments: string[]) {
@@ -66,8 +74,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   redirectRetiredIvfPage(locale, segments);
   if (segments.length === 0) return buildHomeMetadata(locale);
 
-  const index = await fetchCmsRouteIndex();
-  const route = resolveCmsRoute(segments, locale, index);
+  const route = await resolveCmsRouteCached(segments, locale);
   if (!route) return {};
   return buildCmsRouteMetadata(route, locale);
 }
@@ -121,8 +128,7 @@ export default async function CmsOptionalCatchAllPage({ params }: Props) {
 
   redirectRetiredIvfPage(locale, segments);
 
-  const index = await fetchCmsRouteIndex();
-  const route = resolveCmsRoute(segments, locale, index);
+  const route = await resolveCmsRouteCached(segments, locale);
   if (!route) notFound();
   return renderCmsRoute(route, locale);
 }

@@ -77,14 +77,6 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/careers/urolog", "/en/career/urolog"),
   perm("/en/specialists/gunilla-thomasson", "/en/specialists"),
   perm("/en/careers/fertilitetssykepleier", "/en/career/fertilitetssykepleier"),
-  perm(
-    "/no/nyheter-og-artikler/vi-tar-opp-kampen-mot-prostatakreft-med-robotkirurgi",
-    "/no/aktuelt",
-  ),
-  perm(
-    "/nb/nyheter-og-artikler/vi-tar-opp-kampen-mot-prostatakreft-med-robotkirurgi",
-    "/no/aktuelt",
-  ),
   perm("/en/bariatric-surgery/sleeve-gastrektomi", "/no/ovrige/sleeve-gastrektomi"),
   perm("/en/fertility/aggfrys", "/no/fertilitet/eggfrys"),
   perm("/en/fertility/agglossningsstimulering", "/en/fertility"),
