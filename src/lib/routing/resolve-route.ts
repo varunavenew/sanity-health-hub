@@ -28,6 +28,7 @@ import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
 import { resolveOrtopediTreatmentSlug } from "@/lib/sanity/ortopedi-slug-aliases";
 import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
 import { isTestContentSlug } from "@/lib/seo/test-content-slugs";
+import { isSitemapExcludedSlug } from "@/lib/seo/sitemap-excluded-slugs";
 
 function listingSlug(
   listings: ListingSlugs,
@@ -367,7 +368,10 @@ export function staticParamsFromRouteIndex(
         isRetiredIvfSlug(doc.slugEn) ||
         isTestContentSlug(treatmentSlug) ||
         isTestContentSlug(doc.slugNb) ||
-        isTestContentSlug(doc.slugEn)
+        isTestContentSlug(doc.slugEn) ||
+        isSitemapExcludedSlug(treatmentSlug) ||
+        isSitemapExcludedSlug(doc.slugNb) ||
+        isSitemapExcludedSlug(doc.slugEn)
       ) {
         continue;
       }

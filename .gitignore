@@ -38,6 +38,7 @@ coverage/
 # Temporary files
 tmp/
 temp/
+.tmp/
 test/sanity/_tmp*
 test/sanity/_tmp*/
 *_tmp-*
