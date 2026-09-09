@@ -60,7 +60,7 @@ export default {
       title: 'Sharing image alt text',
       type: 'internationalizedArrayString',
       description:
-        'Describes the sharing image for accessibility and social previews (og:image:alt). Leave empty to use an automatic default from the page (e.g. clinic name, article title).',
+        'Describes the sharing image for accessibility and social previews (og:image:alt). Leave empty to use an automatic default from the page (e.g. clinic name, article title). If this draft is missing alt text, Publish copies it from the live published document so the field is not deleted.',
     },
     {
       name: 'noIndex',

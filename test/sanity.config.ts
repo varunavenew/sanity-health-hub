@@ -32,6 +32,7 @@ import {
   NAV_SYNC_PAGE_TYPES,
   PublishWithNavSync,
 } from './sanity/actions/publishWithNavSync'
+import {createPublishPreservingOgImageAlt} from './sanity/actions/publishPreservingOgImageAlt'
 import {createSpecialistDeleteAction} from './sanity/actions/safeDeleteSpecialist'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
@@ -220,11 +221,15 @@ export default defineConfig({
     actions: (prev, context) => {
       let actions = prev
 
-      if (NAV_SYNC_PAGE_TYPES.has(context.schemaType)) {
-        actions = actions.map((action) =>
-          action.action === 'publish' ? PublishWithNavSync : action,
-        )
-      }
+      // Always copy published seo.ogImageAlt onto a draft that is missing it
+      // before publish — a published-only backfill must not be wiped.
+      actions = actions.map((action) => {
+        if (action.action !== 'publish') return action
+        const inner = NAV_SYNC_PAGE_TYPES.has(context.schemaType)
+          ? PublishWithNavSync
+          : action
+        return createPublishPreservingOgImageAlt(inner)
+      })
 
       // Specialist Delete: wrap native Delete — cleanup refs, then delete (no wizard).
       if (context.schemaType === 'specialist') {
