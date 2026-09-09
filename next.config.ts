@@ -164,6 +164,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/product/:id", destination: "/nb/produkt/:id", permanent: true },
+      { source: "/og-default.png", destination: "/og-default.jpg", permanent: true },
 
       // SEO audit redirects (batch 3 + 4) — before wildcards so exact paths win.
       ...LEGACY_REDIRECTS,
@@ -329,6 +330,10 @@ const nextConfig: NextConfig = {
       // Pregnancy overview lives under Graviditet (not Gynekologi nav) — match demo routing.
       { source: "/:locale(en)/gynecology/graviditet", destination: "/:locale/pregnancy", permanent: true },
       { source: "/:locale(nb|no)/behandlinger/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },
+
+      // Legacy locale prefix `nb` → canonical `no` (after more specific /nb rules).
+      { source: "/nb", destination: "/no", permanent: true },
+      { source: "/nb/:path*", destination: "/no/:path*", permanent: true },
     ];
   },
 };

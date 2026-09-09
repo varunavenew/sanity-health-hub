@@ -4,7 +4,7 @@ import { siteUrl } from "@/lib/env";
  * Default social share image — matches legacy cmedical-web.vercel.app brand fallback
  * (Sanity asset d2af824…, 1200×630 wordmark on skin texture). Served from /public.
  */
-export const DEFAULT_OG_IMAGE = "/og-default.png";
+export const DEFAULT_OG_IMAGE = "/og-default.jpg";
 
 /** Brand fallback when no page-specific share image is available. */
 export function defaultOgImageUrl(): string {
@@ -16,7 +16,7 @@ export function brandLogoUrl(): string {
   return `${siteUrl()}/brand-logo.png`;
 }
 
-/** Alt text for the brand default sharing image (og-default.png). */
+/** Alt text for the brand default sharing image (og-default.jpg). */
 export const DEFAULT_OG_IMAGE_ALT =
   "CMedical – privat spesialisthelse innen kvinnehelse, fertilitet og urologi";
 

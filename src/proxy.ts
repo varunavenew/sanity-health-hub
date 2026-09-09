@@ -24,6 +24,20 @@ const HUDLEGE_REDIRECTS: Array<[RegExp, string]> = [
   [/^\/behandlinger\/(?:ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
 ];
 
+/** Typo slug missing "s" in forstyrrelser → canonical treatment URL (301). */
+const BLODNING_TYPO_REDIRECTS: Array<[RegExp, string]> = [
+  [/^\/(no|nb)\/gynekologi\/blodningsfortyrrelser(?=\/|$)/, "/$1/gynekologi/blodningsforstyrrelser"],
+  [
+    /^\/(no|nb)\/behandlinger\/gynekologi\/blodningsfortyrrelser(?=\/|$)/,
+    "/$1/gynekologi/blodningsforstyrrelser",
+  ],
+  [/^\/gynekologi\/blodningsfortyrrelser(?=\/|$)/, "/no/gynekologi/blodningsforstyrrelser"],
+  [
+    /^\/behandlinger\/gynekologi\/blodningsfortyrrelser(?=\/|$)/,
+    "/no/gynekologi/blodningsforstyrrelser",
+  ],
+];
+
 function ivfMigrationRedirect(request: NextRequest): NextResponse | null {
   const { pathname } = request.nextUrl;
   const rewritten = rewriteRetiredIvfPath(pathname);
@@ -43,6 +57,20 @@ function hudlegeMigrationRedirect(request: NextRequest): NextResponse | null {
     if (!pattern.test(pathname)) continue;
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(pattern, replacement);
+    return NextResponse.redirect(url, 301);
+  }
+  return null;
+}
+
+function blodningTypoRedirect(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl;
+  for (const [pattern, replacement] of BLODNING_TYPO_REDIRECTS) {
+    if (!pattern.test(pathname)) continue;
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(pattern, replacement);
+    if (url.pathname.startsWith("/nb/")) {
+      url.pathname = url.pathname.replace(/^\/nb/, "/no");
+    }
     return NextResponse.redirect(url, 301);
   }
   return null;
@@ -110,6 +138,9 @@ export async function proxy(request: NextRequest) {
   const hudlegeRedirect = hudlegeMigrationRedirect(request);
   if (hudlegeRedirect) return hudlegeRedirect;
 
+  const blodningRedirect = blodningTypoRedirect(request);
+  if (blodningRedirect) return blodningRedirect;
+
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
@@ -128,11 +159,19 @@ export async function proxy(request: NextRequest) {
   }
 
   const first = pathname.split("/").filter(Boolean)[0];
+
+  // Legacy locale prefix `nb` → canonical `no` (homepage canonicals used /nb).
+  if (first === "nb") {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/nb(?=\/|$)/, "/no") || "/no";
+    return NextResponse.redirect(url, 301);
+  }
+
   if (first && LOCALE_PREFIX.has(first as (typeof locales)[number])) {
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set(
       "x-cmedical-html-lang",
-      first === "en" ? "en" : "no-NO",
+      first === "en" ? "en" : "nb-NO",
     );
     return NextResponse.next({
       request: { headers: requestHeaders },
@@ -143,7 +182,7 @@ export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname =
     pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(url, 308);
 }
 
 export const config = {

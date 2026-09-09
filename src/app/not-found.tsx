@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function LocaleNotFound() {
+export default function RootNotFound() {
   return <NotFound />;
 }

@@ -44,6 +44,8 @@ export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
   "vaginal-prolapse": "vaginale-fremfall",
   urogynaecology: "urogynekologi",
   urogynecology: "urogynekologi",
+  /** Legacy misspelling (missing "s" in forstyrrelser) → published slug. */
+  blodningsfortyrrelser: "blodningsforstyrrelser",
   "bleeding-disorders": "blodningsforstyrrelser",
   "cell-changes": "celleforandringer",
   "ovarian-cysts": "cyster",

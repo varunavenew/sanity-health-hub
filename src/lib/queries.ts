@@ -682,7 +682,7 @@ const CATEGORY_LANDING_GROQ = `
   }
 `;
 
-export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
+export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
   _id, ${i18nStringLocale("title")}, ${localizedSlug}, categoryId, categoryNumericId,
   ${i18nTextLocale('geoSummary')},
   ${i18nTextLocale('missingLandingMessage')},
@@ -1544,7 +1544,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     "slugNb": slug.current,
     "slugEn": slug.current
   },
-  "categories": *[_type == "treatmentCategory"]{
+  "categories": *[_type == "treatmentCategory" && ${publishedOnly}]{
     _id,
     _type,
     categoryId,
@@ -1594,12 +1594,12 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     _type,
     ${localizedSlugBoth}
   },
-  "jobs": *[_type == "jobListing" && active == true]{
+  "jobs": *[_type == "jobListing" && active == true && ${publishedOnly}]{
     _id,
     _type,
     ${localizedSlugBoth}
   },
-  "products": *[_type == "product"]{
+  "products": *[_type == "product" && ${publishedOnly}]{
     _id,
     _type,
     ${localizedSlugBoth}

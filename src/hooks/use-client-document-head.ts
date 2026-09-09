@@ -54,6 +54,11 @@ export function useClientDocumentHead(spec: ClientDocumentHead | null) {
     upsertLink("alternate", spec.canonical, "x-default");
 
     if (spec.noIndex) {
+      for (const name of ["robots", "googlebot"]) {
+        document.head.querySelectorAll(`meta[name="${name}"]`).forEach((node) => {
+          (node as HTMLMetaElement).content = "noindex, nofollow";
+        });
+      }
       upsertMeta("name", "robots", "noindex, nofollow");
     }
 

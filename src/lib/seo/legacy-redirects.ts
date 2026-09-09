@@ -56,6 +56,31 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/nb/prisliste-for-gynekologi", "/nb/aktuelt/prisliste-for-gynekologi"),
   perm("/no/gynekologi/pms-pmdd", "/no/gynekologi/pms-og-pmdd"),
   perm("/nb/gynekologi/pms-pmdd", "/no/gynekologi/pms-og-pmdd"),
+  {
+    source: "/no/gynekologi/blodningsfortyrrelser",
+    destination: "/no/gynekologi/blodningsforstyrrelser",
+    statusCode: 301,
+  },
+  {
+    source: "/nb/gynekologi/blodningsfortyrrelser",
+    destination: "/no/gynekologi/blodningsforstyrrelser",
+    statusCode: 301,
+  },
+  {
+    source: "/no/behandlinger/gynekologi/blodningsfortyrrelser",
+    destination: "/no/gynekologi/blodningsforstyrrelser",
+    statusCode: 301,
+  },
+  {
+    source: "/nb/behandlinger/gynekologi/blodningsfortyrrelser",
+    destination: "/no/gynekologi/blodningsforstyrrelser",
+    statusCode: 301,
+  },
+  {
+    source: "/gynekologi/blodningsfortyrrelser",
+    destination: "/no/gynekologi/blodningsforstyrrelser",
+    statusCode: 301,
+  },
   perm("/en/other/preventive-healthcare", "/en/other"),
   perm("/no/prisliste-for-psykologspesialist", "/no/aktuelt/prisliste-for-psykologspesialist"),
   perm("/nb/prisliste-for-psykologspesialist", "/nb/aktuelt/prisliste-for-psykologspesialist"),

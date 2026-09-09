@@ -1,7 +1,7 @@
 /** Legacy Metodika embed URL — retired; return 410 Gone for crawlers and old bookmarks. */
 export const dynamic = "force-static";
 
-export function GET() {
+function gone() {
   return new Response("This booking endpoint has been removed.", {
     status: 410,
     headers: {
@@ -11,4 +11,12 @@ export function GET() {
   });
 }
 
+export function GET() {
+  return gone();
+}
+
 export const HEAD = GET;
+export const POST = GET;
+export const PUT = GET;
+export const PATCH = GET;
+export const DELETE = GET;

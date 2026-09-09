@@ -95,7 +95,7 @@ export async function buildHomeMetadata(locale: string): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/nb", enPath: "/en" },
+    paths: { nbPath: "/no", enPath: "/en" },
     title,
     description,
     ogImage: ogImage || undefined,

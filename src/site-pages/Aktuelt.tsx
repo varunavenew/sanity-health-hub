@@ -63,8 +63,12 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { data: sanityArticles } = useArticles();
   const { data: newsPage } = useNewsPage();
   const { data: siteSettings } = useSiteSettings();
+  const pageSize =
+    typeof newsPage?.listSize === "number" && newsPage.listSize > 0
+      ? newsPage.listSize
+      : 6;
   const [activeFilter, setActiveFilter] = useState("");
-  const [visibleCount, setVisibleCount] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(pageSize);
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
 
@@ -134,10 +138,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     return articles.filter((a) => isListableArticle(a.category));
   }, [articles, isListableArticle, listingFromCms]);
 
-  const pageSize =
-    typeof newsPage?.listSize === "number" && newsPage.listSize > 0
-      ? newsPage.listSize
-      : 6;
   const allFilterKey = filterOptions[0]?.key || "";
   const newsPath = newsPage?.slug
     ? withLocalePath(routeLocale, `/${newsPage.slug}`)
@@ -313,6 +313,21 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         title={newsUi.title}
         description={newsUi.subtitle}
       />
+
+      {sortedArticles.length > 0 ? (
+        <nav
+          className="sr-only"
+          aria-label={routeLocale === "en" ? "All articles" : "Alle artikler"}
+        >
+          <ul>
+            {sortedArticles.map((article) => (
+              <li key={`crawl-${article.slug}`}>
+                <a href={articleLink(article)}>{article.title || article.slug}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
 
       <section className="bg-background pt-3 pb-6 md:pb-10">
         <div className="container mx-auto px-6 md:px-16">

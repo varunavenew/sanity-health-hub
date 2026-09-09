@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import {
   appLocaleFromParam,
   buildPageMetadata,
@@ -20,6 +21,7 @@ import {
 } from "@/lib/seo/fetch-sanity-seo";
 import { fetchThemeLocalizedPaths, pathsForDetailBySlug, pathsForCategorySlug, pathsForTreatment } from "@/lib/routing/singleton-slug-paths";
 import { categorySlugForFetch } from "@/lib/sanity/category-keys";
+import { isNotFoundError } from "@/lib/navigation/is-not-found-error";
 
 function metadataFromSeo(
   locale: string,
@@ -67,6 +69,7 @@ export async function buildArticleMetadata(
   try {
     const sanityLang = sanityContentLangFromLocale(locale);
     const doc = await fetchArticleSeo(slug, sanityLang);
+    if (!doc) notFound();
     const paths = await pathsForDetailBySlug("articles", "newsPage", slug, sanityLang);
     return metadataFromSeo(
       locale,
@@ -88,7 +91,8 @@ export async function buildArticleMetadata(
       },
       { type: "article", publishedTime: doc?.date, heroImageUrl: doc?.image, fallbackOgImageAlt: doc?.title },
     );
-  } catch {
+  } catch (err) {
+    if (isNotFoundError(err)) throw err;
     const isEn = locale === "en";
     const base = `/${locale}/aktuelt/${slug}`;
     return buildPageMetadata({
@@ -110,7 +114,8 @@ export async function buildTreatmentCategoryMetadata(
   const sanityLang = sanityContentLangFromLocale(locale);
   const paths = await pathsForCategorySlug(categorySlug);
   const doc = await fetchTreatmentCategorySeo(categorySlug, sanityLang);
-  const title = doc?.title || categorySlug;
+  if (!doc) notFound();
+  const title = doc.title || categorySlug;
   return metadataFromSeo(
     locale,
     paths,
@@ -143,8 +148,9 @@ export async function buildTreatmentMetadata(
   try {
     const paths = await pathsForTreatment(categorySlug, treatmentSlug, sanityLang);
     const doc = await fetchTreatmentSeo(fetchCategorySlug, treatmentSlug, sanityLang);
-    const title = doc?.title || treatmentSlug;
-    const category = doc?.parentCategory || categorySlug;
+    if (!doc) notFound();
+    const title = doc.title || treatmentSlug;
+    const category = doc.parentCategory || categorySlug;
     return metadataFromSeo(
       locale,
       paths,
@@ -169,20 +175,9 @@ export async function buildTreatmentMetadata(
         fallbackOgImageAlt: title,
       },
     );
-  } catch {
-    const isEn = locale === "en";
-    const base = `/${locale}/${categorySlug}/${treatmentSlug}`;
-    return buildPageMetadata({
-      locale,
-      paths: { nbPath: base, enPath: base },
-      title: isEn
-        ? `${treatmentSlug} | CMedical`
-        : `${treatmentSlug} | CMedical`,
-      description: isEn
-        ? `Learn about ${treatmentSlug} at CMedical.`
-        : `Les om ${treatmentSlug} hos CMedical.`,
-      ogImageAlt: treatmentSlug,
-    });
+  } catch (err) {
+    if (isNotFoundError(err)) throw err;
+    notFound();
   }
 }
 

@@ -17,6 +17,9 @@ export const sanityClient = createClient({
   dataset: SANITY_DATASET,
   apiVersion: "2024-01-01",
   useCdn: false,
+  // Token-bearing clients default to raw (drafts visible). The public site
+  // must only ever resolve published documents — sitemap, route index, pages.
+  perspective: "published",
   ...(SANITY_TOKEN ? { token: SANITY_TOKEN } : {}),
 });
 

@@ -52,7 +52,7 @@ export function medicalClinicJsonLd(lang: HomeJsonLang): Record<string, unknown>
 
 export function homeBreadcrumbJsonLd(lang: HomeJsonLang): Record<string, unknown> {
   const base = siteUrl();
-  const path = lang === "en" ? "/en" : "/nb";
+  const path = lang === "en" ? "/en" : "/no";
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

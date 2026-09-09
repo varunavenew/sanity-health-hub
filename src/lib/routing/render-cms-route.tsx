@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { CategoryDataProvider } from "@/components/providers/CategoryDataProvider";
@@ -10,6 +10,9 @@ import { fetchTreatmentData } from "@/lib/sanity/treatment-data.server";
 import { fetchClinicDetailData } from "@/lib/sanity/clinic-detail.server";
 import { fetchSpecialistDetailData } from "@/lib/sanity/specialist-detail.server";
 import { fetchSpecialistsListingPageData } from "@/lib/sanity/specialists-listing-page.server";
+import { fetchSpecialistsListData } from "@/lib/sanity/specialists-list.server";
+import { fetchArticlesListData } from "@/lib/sanity/articles-list.server";
+import { prefetchSingletonPage } from "@/lib/sanity/singleton-page-data.server";
 import { fetchArticleDetailData } from "@/lib/sanity/article-detail.server";
 import type { ResolvedCmsRoute } from "@/lib/routing/cms-route-types";
 import type { SingletonPageType } from "@/lib/routing/cms-route-types";
@@ -151,6 +154,30 @@ export async function renderCmsRoute(
       const handler = SINGLETON_HANDLERS[route.documentType as SingletonPageType];
       if (!handler) return null;
       const { Component } = handler;
+      if (
+        route.documentType === "specialistsListingPage" ||
+        route.documentType === "newsPage"
+      ) {
+        const queryClient = new QueryClient();
+        await prefetchSingletonPage(queryClient, route.documentType, sanityLang);
+        if (route.documentType === "specialistsListingPage") {
+          queryClient.setQueryData(
+            ["sanity", "specialists", sanityLang],
+            await fetchSpecialistsListData(sanityLang),
+          );
+        }
+        if (route.documentType === "newsPage") {
+          queryClient.setQueryData(
+            ["sanity", "articles", sanityLang],
+            await fetchArticlesListData(sanityLang),
+          );
+        }
+        return (
+          <TreatmentHydration state={dehydrate(queryClient)}>
+            <Component isChatOpen={false} />
+          </TreatmentHydration>
+        );
+      }
       return <Component isChatOpen={false} />;
     }
     case "theme":
@@ -162,6 +189,7 @@ export async function renderCmsRoute(
         route.categoryId ||
         route.slug;
       const initialCategory = await fetchTreatmentCategoryData(categoryId, sanityLang);
+      if (!initialCategory) notFound();
       const queryClient = new QueryClient();
       queryClient.setQueryData(
         ["sanity", "treatmentCategory", categoryId, sanityLang],
@@ -203,6 +231,7 @@ export async function renderCmsRoute(
                     ? resolveFlereFagomraderTreatmentSlug(route.slug)
                     : route.slug;
       const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
+      if (!initialTreatment) notFound();
       // Only dedicated team/profile slugs redirect to the specialists listing.
       // Regular treatments (e.g. fertilitetsutredning) must keep their own page
       // even if pageRole was set incorrectly in CMS.
@@ -244,6 +273,7 @@ export async function renderCmsRoute(
     }
     case "clinic": {
       const initialClinic = await fetchClinicDetailData(route.slug, sanityLang);
+      if (!initialClinic) notFound();
       const queryClient = new QueryClient();
       queryClient.setQueryData(
         ["sanity", "clinic", route.slug, sanityLang],
@@ -260,6 +290,7 @@ export async function renderCmsRoute(
         fetchSpecialistDetailData(route.slug, sanityLang),
         fetchSpecialistsListingPageData(sanityLang),
       ]);
+      if (!initialSpecialist) notFound();
       const queryClient = new QueryClient();
       queryClient.setQueryData(
         ["sanity", "specialist", route.slug, sanityLang],
@@ -277,6 +308,7 @@ export async function renderCmsRoute(
     }
     case "article": {
       const initialArticle = await fetchArticleDetailData(route.slug, sanityLang);
+      if (!initialArticle) notFound();
       const queryClient = new QueryClient();
       queryClient.setQueryData(
         ["sanity", "article", route.slug, sanityLang],

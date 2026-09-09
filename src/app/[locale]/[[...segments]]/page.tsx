@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (segments.length === 0) return buildHomeMetadata(locale);
 
   const route = await resolveCmsRouteCached(segments, locale);
-  if (!route) return {};
+  if (!route) notFound();
   return buildCmsRouteMetadata(route, locale);
 }
 
