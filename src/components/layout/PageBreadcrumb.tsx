@@ -12,25 +12,22 @@ type PageBreadcrumbProps = {
   /** Photo / dark heroes use onDark. */
   tone?: "onLight" | "onDark";
   className?: string;
-  /**
-   * Index of the current site section (e.g. Fertilitet).
-   * Defaults to the first crumb after Home.
-   */
-  sectionIndex?: number;
 };
 
+/**
+ * The current page carries the emphasis so the section is readable at a glance;
+ * ancestors stay secondary but keep their link affordance.
+ */
 const TONE = {
   onLight: {
     sep: "text-foreground/35",
     trail: "text-foreground/50 hover:text-foreground",
-    section: "text-foreground",
-    current: "text-foreground/70",
+    current: "text-foreground",
   },
   onDark: {
     sep: "text-white/40",
     trail: "text-white/55 hover:text-white",
-    section: "text-white",
-    current: "text-white/80",
+    current: "text-white",
   },
 } as const;
 
@@ -38,13 +35,10 @@ export function PageBreadcrumb({
   items,
   tone = "onLight",
   className,
-  sectionIndex,
 }: PageBreadcrumbProps) {
   const crumbs = items.filter((item) => item.name?.trim());
   if (crumbs.length === 0) return null;
 
-  const sectionAt =
-    sectionIndex ?? (crumbs.length >= 2 ? 1 : 0);
   const colors = TONE[tone];
 
   return (
@@ -52,12 +46,9 @@ export function PageBreadcrumb({
       <ol className="page-breadcrumb__list">
         {crumbs.map((item, index) => {
           const isLast = index === crumbs.length - 1;
-          const isSection = index === sectionAt;
-          const labelClass = isSection
-            ? cn("page-breadcrumb__section", colors.section)
-            : isLast
-              ? cn("page-breadcrumb__current", colors.current)
-              : cn("page-breadcrumb__trail", colors.trail);
+          const labelClass = isLast
+            ? cn("page-breadcrumb__current", colors.current)
+            : cn("page-breadcrumb__trail", colors.trail);
 
           return (
             <li key={`${item.path ?? ""}-${item.name}-${index}`} className="page-breadcrumb__item">

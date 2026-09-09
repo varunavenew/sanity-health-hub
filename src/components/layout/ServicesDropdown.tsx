@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate, useLocation } from "@/lib/router";
+import { useNavigate, useLocation, useLocaleParam } from "@/lib/router";
+import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { useTranslation } from "react-i18next";
 import { NavigationMenuItem } from "@/components/ui/navigation-menu";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
+import { siteNavMenuTriggerStyle } from "@/lib/navigation/site-nav-trigger-style";
+import { isServicesSectionActive } from "@/lib/navigation/services-section-active";
+import { cn } from "@/lib/utils";
 
 // Returns true if a service item path resolves to a real treatment page.
 // Since all treatment pages are dynamic now, any non-empty path is valid.
@@ -97,6 +102,9 @@ export const ServicesNavMenuItem = () => {
   const { categories: serviceCategories } = useServiceCategories();
   const { t } = useTranslation();
   const location = useLocation();
+  const servicesPath = useNavCmsPath("services");
+  const locale = useLocaleParam();
+  const { index: cmsRouteIndex } = useCmsRouteContext();
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
@@ -107,6 +115,17 @@ export const ServicesNavMenuItem = () => {
   const currentCategory = serviceCategories
     .filter((c) => c.path && (location.pathname === c.path || location.pathname.startsWith(c.path + "/")))
     .sort((a, b) => b.path.length - a.path.length)[0];
+
+  const isActive = useMemo(
+    () =>
+      isServicesSectionActive(
+        location.pathname,
+        locale,
+        cmsRouteIndex,
+        servicesPath,
+      ),
+    [location.pathname, locale, cmsRouteIndex, servicesPath],
+  );
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -160,9 +179,13 @@ export const ServicesNavMenuItem = () => {
               setIsOpen(false);
             }, 200);
           }}
-          className="px-1.5 lg:px-3 py-1.5 text-xs lg:text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
+          className={cn(
+            siteNavMenuTriggerStyle({ active: isActive }),
+            "flex items-center gap-1",
+          )}
           aria-expanded={isOpen}
           aria-haspopup="true"
+          aria-current={isActive ? "page" : undefined}
         >
           {t("nav.services")}
           <ChevronDown
