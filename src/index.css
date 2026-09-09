@@ -260,21 +260,21 @@
     font-weight: 300;
     line-height: 1.3;
   }
-  .page-breadcrumb__trail,
-  .page-breadcrumb__current {
+  .page-breadcrumb__trail {
     font-size: 0.75rem;
     font-weight: 300;
     line-height: 1.4;
     overflow-wrap: anywhere;
   }
-  .page-breadcrumb__section {
+  /* Current page: one step up in size and weight over its ancestors. */
+  .page-breadcrumb__current {
     font-size: 0.8125rem;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.4;
     overflow-wrap: anywhere;
   }
   @media (min-width: 768px) {
-    .page-breadcrumb__section {
+    .page-breadcrumb__current {
       font-size: 0.875rem;
     }
   }
