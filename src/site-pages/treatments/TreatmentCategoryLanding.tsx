@@ -1695,6 +1695,7 @@ const TreatmentCategoryLanding = ({
                   <TreatmentCtaButtons
                     primaryLabel={hero.primaryCtaLabel}
                     callLabel={hero.secondaryCtaLabel}
+                    categoryId={categoryId}
                     onPrimary={() => {
                       window.location.href = buildBookingUrl(bookingParams);
                     }}
@@ -1783,6 +1784,7 @@ const TreatmentCategoryLanding = ({
                 <TreatmentCtaButtons
                   primaryLabel={hero.primaryCtaLabel}
                   callLabel={hero.secondaryCtaLabel}
+                  categoryId={categoryId}
                   onPrimary={() => {
                     window.location.href = buildBookingUrl(bookingParams);
                   }}

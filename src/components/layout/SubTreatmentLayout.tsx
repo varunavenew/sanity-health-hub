@@ -589,6 +589,7 @@ export const SubTreatmentLayout = ({
                 <TreatmentCtaButtons
                   primaryLabel={c.primaryCtaLabel}
                   callLabel={c.callCtaLabel}
+                  categoryId={c.booking.kategori}
                   onPrimary={() => {
                     trackBookingMenuStart({
                       entry_point: "service_page_cta",
@@ -946,6 +947,7 @@ export const SubTreatmentLayout = ({
                   ? undefined
                   : c.midCtaCallLabel || c.callCtaLabel
               }
+              categoryId={c.booking.kategori}
               onPrimary={() => {
                 trackBookingMenuStart({
                   entry_point: "service_page_cta",

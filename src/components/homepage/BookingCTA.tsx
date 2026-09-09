@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, type LucideIcon } from "lucide-react";
 import { useNavigate, Link } from "@/lib/router";
-import { useClinics } from "@/hooks/useSanity";
+import { useCallableClinics } from "@/hooks/useCallableClinics";
 import { useTranslation } from "react-i18next";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import type { BookingCtaQuickInfoItem } from "@/lib/sanity/page-sections";
@@ -61,10 +61,8 @@ export const BookingCTA = ({
 }: BookingCTAProps = {}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data: clinics = [] } = useClinics();
-  const callableClinics = (clinics as { label: string; phone?: string }[])
-    .filter((c) => c.phone)
-    .map((c) => ({ label: c.label, phone: c.phone! }));
+  const { clinics: callableClinics, pending: clinicsPending } =
+    useCallableClinics(bookingCategoryId);
   const [showClinicPicker, setShowClinicPicker] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +89,12 @@ export const BookingCTA = ({
     quickInfoItems === undefined
       ? defaultQuickInfo
       : quickInfoItems.filter((item) => item.text?.trim());
+
+  // A plain link secondary always renders; the clinic picker variant only when
+  // this category actually has a clinic to call.
+  const showSecondaryHere =
+    showSecondaryButton &&
+    (Boolean(secondaryPath?.trim()) || clinicsPending || callableClinics.length > 0);
 
   const bookingTarget =
     primaryPath?.trim() ||
@@ -180,7 +184,7 @@ export const BookingCTA = ({
           {resolvedPrimaryLabel}
         </Button>
 
-        {showSecondaryButton ? (
+        {showSecondaryHere ? (
           secondaryPath?.trim() ? (
             <Button
               variant={useWarmChrome ? "contact-outline" : "cta-outline-dark"}

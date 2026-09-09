@@ -9,6 +9,8 @@ interface TreatmentCtaButtonsProps {
   primaryLabel?: string;
   onPrimary: () => void;
   callLabel?: string;
+  /** Category page id — limits the call dropdown to clinics that offer it. */
+  categoryId?: string;
   className?: string;
 }
 
@@ -17,6 +19,7 @@ export function TreatmentCtaButtons({
   primaryLabel,
   onPrimary,
   callLabel,
+  categoryId,
   className,
 }: TreatmentCtaButtonsProps) {
   if (!primaryLabel && !callLabel) return null;
@@ -43,6 +46,7 @@ export function TreatmentCtaButtons({
           variant="lightSolid"
           size="lg"
           label={callLabel}
+          categoryId={categoryId}
           className={buttonClass}
         />
       ) : null}
