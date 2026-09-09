@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
-import { useClinics } from "@/hooks/useSanity";
+import { useCallableClinics } from "@/hooks/useCallableClinics";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +17,11 @@ interface Props {
   variant?: "light" | "lightSolid" | "dark" | "fill";
   size?: "default" | "lg";
   label?: string;
+  /**
+   * Category page id (e.g. "gynekologi", "flere-fagomrader"). Limits the
+   * dropdown to clinics that offer it; omit outside a category context.
+   */
+  categoryId?: string;
   className?: string;
 }
 
@@ -28,11 +33,12 @@ export const CallUsClinicPicker = ({
   variant = "light",
   size = "lg",
   label,
+  categoryId,
   className
 }: Props & { className?: string }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data: clinics = [] } = useClinics();
+  const { clinics: callable, pending } = useCallableClinics(categoryId);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -44,9 +50,9 @@ export const CallUsClinicPicker = ({
     return () => document.removeEventListener("mousedown", handle);
   }, []);
 
-  const callable = (clinics as { label: string; phone?: string }[])
-    .filter((c) => c.phone)
-    .map((c) => ({ label: c.label, phone: c.phone! }));
+  // Nothing to call for this category — drop the CTA rather than open an empty
+  // menu. Rendered while loading so the button does not flash out and back in.
+  if (!pending && callable.length === 0) return null;
 
   const buttonVariant =
     variant === "dark"

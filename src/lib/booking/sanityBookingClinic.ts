@@ -5,6 +5,7 @@ import type {
 } from "@/lib/booking/mapApiLocation";
 import type { SanityClinicListRow } from "@/hooks/useSanity";
 import {
+  bookingCategoryPageIdForClinicService,
   bookingIdToCategoryPage,
   categoryPageToBookingId,
 } from "@/lib/bookingLinks";
@@ -152,6 +153,39 @@ export function resolveBookingCategoryKeys(
     if (bookingFromPage) keys.add(bookingFromPage);
   }
   return [...keys];
+}
+
+/**
+ * Category-page id a clinic service belongs to, e.g. `gynekolog` → `gynekologi`
+ * and `revmatolog` → `flere-fagomrader`. Accepts either form so callers can pass
+ * a page id (`ortopedi`) or a booking id (`ortoped`).
+ */
+function categoryPageIdFor(raw: string | undefined): string {
+  const key = raw?.trim().toLowerCase();
+  if (!key) return "";
+  return bookingIdToCategoryPage[key] ?? key;
+}
+
+/**
+ * Whether a clinic's Sanity `services` cover a category page. Unlike
+ * `clinicOffersBookingCategory` this resolves each service through the
+ * category-page map, so the `flere-fagomrader` umbrella matches clinics whose
+ * only relevant services are sub-specialties like `revmatolog` or `hudlege`.
+ *
+ * Without a category every clinic matches — callers outside a category context
+ * (specialist profiles, the homepage CTA) keep showing the full list.
+ */
+export function clinicOffersCategoryPage(
+  clinicServices: string[] | undefined,
+  categoryId: string | undefined,
+): boolean {
+  const target = categoryPageIdFor(categoryId);
+  if (!target) return true;
+  if (!clinicServices?.length) return false;
+  return clinicServices.some(
+    (service) =>
+      bookingCategoryPageIdForClinicService(service.trim().toLowerCase()) === target,
+  );
 }
 
 export function normalizeClinicLabelForCompare(label: string): string {
