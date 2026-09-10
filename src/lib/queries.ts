@@ -901,7 +901,24 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       path,
       ${i18nStringLocale('imageAlt')},
       "ownImage": image.asset->url,
-      "linkedSlug": array::compact(string::split(coalesce(path, ""), "/"))[-1]
+      "pathParts": array::compact(string::split(coalesce(path, ""), "/")),
+    }{
+      title,
+      desc,
+      path,
+      imageAlt,
+      ownImage,
+      "linkedCategory": select(
+        pathParts[-2] == "urology" => "urologi",
+        pathParts[-2] == "gynecology" => "gynekologi",
+        pathParts[-2] == "other" => "ovrige",
+        pathParts[-2]
+      ),
+      "linkedSlugAliases": select(
+        pathParts[-1] in ["robotkirurgi", "robot-assisted-surgery", "robotassistert-kirurgi"] =>
+          ["robotkirurgi", "robot-assisted-surgery", "robotassistert-kirurgi"],
+        [pathParts[-1]]
+      )
     }{
       title,
       desc,
@@ -910,16 +927,58 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       "image": coalesce(
         ownImage,
         *[_type == "treatment" && ${publishedOnly} && (
-          slug[language == $lang][0].value.current == ^.linkedSlug
-          || slug[_key == $lang][0].value.current == ^.linkedSlug
-          || slug[language == "no"][0].value.current == ^.linkedSlug
-          || slug[_key == "no"][0].value.current == ^.linkedSlug
+          slug[language == $lang][0].value.current in ^.linkedSlugAliases
+          || slug[_key == $lang][0].value.current in ^.linkedSlugAliases
+          || slug[language == "no"][0].value.current in ^.linkedSlugAliases
+          || slug[_key == "no"][0].value.current in ^.linkedSlugAliases
+        ) && (
+          !defined(^.linkedCategory)
+          || ^.linkedCategory == ""
+          || category->categoryId == ^.linkedCategory
+          || category->slug[language == $lang][0].value.current == ^.linkedCategory
+          || category->slug[language == "no"][0].value.current == ^.linkedCategory
+          || count(categories[
+            @->categoryId == ^.linkedCategory
+            || @->slug[language == $lang][0].value.current == ^.linkedCategory
+            || @->slug[language == "no"][0].value.current == ^.linkedCategory
+          ]) > 0
         )][0]{
           "url": coalesce(heroImage.asset->url, heroMedia.image.asset->url)
         }.url
       )
     }
   },
+  "linkedCardHeroes": select(
+    coalesce(
+      slug[language == $lang][0].value.current,
+      slug[_key == $lang][0].value.current,
+      slug[language == "no"][0].value.current,
+      slug[_key == "no"][0].value.current
+    ) == "robotkirurgi" => *[_type == "treatment" && ${publishedOnly} && (
+      slug[language == "no"][0].value.current in ["robotassistert-kirurgi", "robotkirurgi", "gastrokirurgi"]
+      || slug[_key == "no"][0].value.current in ["robotassistert-kirurgi", "robotkirurgi", "gastrokirurgi"]
+      || slug[language == "en"][0].value.current in ["robot-assisted-surgery", "robotkirurgi"]
+      || slug[_key == "en"][0].value.current in ["robot-assisted-surgery", "robotkirurgi"]
+    )]{
+      "slug": coalesce(
+        slug[language == $lang][0].value.current,
+        slug[_key == $lang][0].value.current,
+        slug[language == "no"][0].value.current,
+        slug[_key == "no"][0].value.current
+      ),
+      "noSlug": coalesce(slug[language == "no"][0].value.current, slug[_key == "no"][0].value.current),
+      "enSlug": coalesce(slug[language == "en"][0].value.current, slug[_key == "en"][0].value.current),
+      "categoryId": coalesce(categories[0]->categoryId, category->categoryId),
+      "categorySlug": coalesce(
+        categories[0]->slug[language == "no"][0].value.current,
+        categories[0]->slug[_key == "no"][0].value.current,
+        category->slug[language == "no"][0].value.current,
+        category->slug[_key == "no"][0].value.current
+      ),
+      "url": coalesce(heroImage.asset->url, heroMedia.image.asset->url)
+    },
+    []
+  ),
   textSection{
     ${i18nStringLocale('title')},
     ${i18nTextLocale('lead')},

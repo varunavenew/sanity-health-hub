@@ -35,6 +35,7 @@ export type FlereLayoutInput = {
   heroThemes?: string[];
   expertAreas?: ExpertAreasBand;
   relatedSeeAll?: { href: string; label: string };
+  linkedCardHeroes?: Record<string, string>;
 };
 
 export type FlereLayoutOutput = {
@@ -143,6 +144,7 @@ function buildCardItems(
   linkedServices: LinkedService[],
   reasons: ReasonItem[],
   lang: "no" | "en",
+  linkedCardHeroes?: Record<string, string>,
 ): ExpertAreaItem[] {
   const items: ExpertAreaItem[] = [];
   for (const service of linkedServices) {
@@ -153,7 +155,11 @@ function buildCardItems(
       title: service.label.trim(),
       desc,
       href: resolveFlereLinkedServicePath(service.path, lang),
-      image: resolveFlereLinkedServiceImage(service.path, service.image),
+      image: resolveFlereLinkedServiceImage(
+        service.path,
+        service.image,
+        linkedCardHeroes,
+      ),
       imageAlt: service.label.trim(),
     });
   }
@@ -261,7 +267,11 @@ export function normalizeFlereFagomraderTreatmentLayout(
           href: item.href
             ? resolveFlereLinkedServicePath(item.href, input.lang)
             : item.href,
-          image: resolveFlereLinkedServiceImage(item.href, item.image),
+          image: resolveFlereLinkedServiceImage(
+            item.href,
+            item.image,
+            input.linkedCardHeroes,
+          ),
         })),
       },
       relatedSeeAll: seeAll,
@@ -270,7 +280,12 @@ export function normalizeFlereFagomraderTreatmentLayout(
 
   const cardItems =
     linkedServices.length > 0
-      ? buildCardItems(linkedServices, input.reasons, input.lang)
+      ? buildCardItems(
+          linkedServices,
+          input.reasons,
+          input.lang,
+          input.linkedCardHeroes,
+        )
       : input.reasons
           .filter((item) => item.title && isCardReason(item.title, cardTitles))
           .map((item) => ({

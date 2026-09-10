@@ -2,8 +2,8 @@
 import gynekologiImgAsset from "@/assets/categories/gynekologi.jpg";
 const gynekologiImg = typeof gynekologiImgAsset === "string" ? gynekologiImgAsset : (gynekologiImgAsset as any).src;
 
-import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
-const urologiImg = urologiHeroAsset.url;
+import urologiImgAsset from "@/assets/categories/urologi.jpg";
+const urologiImg = typeof urologiImgAsset === "string" ? urologiImgAsset : (urologiImgAsset as { src?: string }).src ?? "";
 
 import fertilitetImgAsset from "@/assets/categories/fertilitet.jpg";
 const fertilitetImg = typeof fertilitetImgAsset === "string" ? fertilitetImgAsset : (fertilitetImgAsset as any).src;
@@ -1624,7 +1624,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
                 label: "Urologisk robotkirurgi",
                 description: "Brukes blant annet ved godartet forstørret prostata (RASP), prostatakreft (RALP), og nyrekirurgi (f.eks. nefrektomi).",
                 path: "/urologi/robotassistert-kirurgi",
-                image: urologiImg,
             },
             {
                 label: "Gastrokirurgisk robotkirurgi",

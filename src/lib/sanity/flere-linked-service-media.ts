@@ -1,5 +1,7 @@
 import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 import { assetSrc, type ImageRef } from "@/lib/media";
+import { IMAGE_PRESET, IMAGE_QUALITY } from "@/lib/media/delivery";
+import { getImageUrl, isSanityCdnUrl } from "@/lib/sanity/image-url";
 import gynekologiCategory from "@/assets/categories/gynekologi.jpg";
 import flereFagomraderCategory from "@/assets/categories/flere-fagomrader.jpg";
 import hudbehandlingerCard from "@/assets/services/flere-hudhelse-cards/hudbehandlinger.webp";
@@ -104,19 +106,123 @@ function imageKeyFromPath(path: string): string {
   return lastSegment(stripped);
 }
 
+/** Lovable/gpt-engineer prototype URLs 404 on cmedical.no. */
+export function isDeadPrototypeAssetUrl(url: string | undefined): boolean {
+  if (!url?.trim()) return false;
+  return (
+    url.includes("/__l5e/") ||
+    url.includes("lovable.app/") ||
+    url.includes("avenewdemo.online/__l5e/")
+  );
+}
+
+function usableSanityImage(explicit?: string): string | undefined {
+  const raw = explicit?.trim();
+  if (!raw || isDeadPrototypeAssetUrl(raw)) return undefined;
+  if (raw.startsWith("image-") || isSanityCdnUrl(raw)) {
+    return (
+      getImageUrl(raw, {
+        width: IMAGE_PRESET.card.defaultWidth,
+        quality: IMAGE_QUALITY,
+      }) || undefined
+    );
+  }
+  return undefined;
+}
+
+const CATEGORY_PATH_ALIASES: Record<string, readonly string[]> = {
+  urologi: ["urologi", "urology"],
+  urology: ["urologi", "urology"],
+  gynekologi: ["gynekologi", "gynecology"],
+  gynecology: ["gynekologi", "gynecology"],
+  ovrige: ["ovrige", "other", "flere-fagomrader"],
+  other: ["ovrige", "other", "flere-fagomrader"],
+  "flere-fagomrader": ["ovrige", "other", "flere-fagomrader"],
+};
+
+const ROBOT_SLUG_ALIASES = [
+  "robotassistert-kirurgi",
+  "robotkirurgi",
+  "robot-assisted-surgery",
+] as const;
+
+const SHARED_TREATMENT_SLUGS = new Set<string>(ROBOT_SLUG_ALIASES);
+
+export type LinkedCardHeroRow = {
+  slug?: string;
+  noSlug?: string;
+  enSlug?: string;
+  categoryId?: string;
+  categorySlug?: string;
+  url?: string;
+};
+
+function slugAliases(slug: string): string[] {
+  const trimmed = slug.trim().toLowerCase();
+  if (!trimmed) return [];
+  if (ROBOT_SLUG_ALIASES.includes(trimmed as (typeof ROBOT_SLUG_ALIASES)[number])) {
+    return [...ROBOT_SLUG_ALIASES];
+  }
+  return [trimmed];
+}
+
+function categoryAliases(...values: Array<string | undefined>): string[] {
+  const out = new Set<string>();
+  for (const value of values) {
+    const key = value?.trim().toLowerCase();
+    if (!key) continue;
+    for (const alias of CATEGORY_PATH_ALIASES[key] ?? [key]) {
+      out.add(alias);
+    }
+  }
+  return [...out];
+}
+
+/** Map Sanity treatment heroes to card path keys (`urologi/robotassistert-kirurgi`). */
+export function buildLinkedCardHeroLookup(
+  rows: LinkedCardHeroRow[] | null | undefined,
+): Record<string, string> {
+  const map: Record<string, string> = {};
+  if (!rows?.length) return map;
+
+  for (const row of rows) {
+    const url = usableSanityImage(row.url);
+    if (!url) continue;
+    const slugs = [
+      ...slugAliases(row.slug ?? ""),
+      ...slugAliases(row.noSlug ?? ""),
+      ...slugAliases(row.enSlug ?? ""),
+    ];
+    const uniqueSlugs = [...new Set(slugs)];
+    const cats = categoryAliases(row.categoryId, row.categorySlug);
+    for (const cat of cats) {
+      for (const slug of uniqueSlugs) {
+        map[`${cat}/${slug}`] = url;
+      }
+    }
+    for (const slug of uniqueSlugs) {
+      if (!SHARED_TREATMENT_SLUGS.has(slug)) {
+        map[slug] = url;
+      }
+    }
+  }
+  return map;
+}
+
 export function resolveFlereLinkedServiceImage(
   path: string,
   explicit?: string,
+  sanityByPath?: Record<string, string | undefined>,
 ): string | undefined {
   const key = imageKeyFromPath(path);
   const slug = lastSegment(path);
-  const mapped = IMAGE_BY_SLUG[key] ?? IMAGE_BY_SLUG[slug];
-  if (mapped) return mapped;
+  const fromSanity =
+    usableSanityImage(explicit) ||
+    usableSanityImage(sanityByPath?.[key]) ||
+    usableSanityImage(sanityByPath?.[slug]);
+  if (fromSanity) return fromSanity;
 
-  if (explicit?.trim()) {
-    return toAssetUrl(explicit) ?? explicit.trim();
-  }
-  return undefined;
+  return IMAGE_BY_SLUG[key] ?? IMAGE_BY_SLUG[slug];
 }
 
 /**

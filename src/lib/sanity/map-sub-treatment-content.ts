@@ -7,7 +7,10 @@ import {
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import { normalizeFlereFagomraderTreatmentLayout } from "@/lib/sanity/flere-fagomrader-treatment-layout";
-import { resolveFlereLinkedServiceImage } from "@/lib/sanity/flere-linked-service-media";
+import {
+  isDeadPrototypeAssetUrl,
+  resolveFlereLinkedServiceImage,
+} from "@/lib/sanity/flere-linked-service-media";
 import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 import { reasonAnchorId, rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -191,6 +194,7 @@ export function mapTreatmentToSubTreatmentContent(
           heroThemes: treatment.heroThemes,
           expertAreas: mappedExpertAreas,
           relatedSeeAll,
+          linkedCardHeroes: treatment.linkedCardHeroes,
         })
       : null;
 
@@ -204,18 +208,20 @@ export function mapTreatmentToSubTreatmentContent(
     categoryId === FLERE_FAGOMRADER_CATEGORY_ID && treatmentSlug
       ? `${parentPath}/${treatmentSlug}`
       : "";
-  const flereMappedHero = flereHeroPath
-    ? resolveFlereLinkedServiceImage(flereHeroPath)
-    : undefined;
-  const resolvedHeroImage =
-    flereHeroPath
-      ? resolveFlereLinkedServiceImage(flereHeroPath, treatment.heroImage) ??
-        treatment.heroImage
-      : treatment.heroImage;
+  const cmsHeroIsUsable = Boolean(
+    (treatment.heroImage?.trim() &&
+      !isDeadPrototypeAssetUrl(treatment.heroImage)) ||
+      treatment.heroMedia,
+  );
+  const resolvedHeroImage = flereHeroPath
+    ? resolveFlereLinkedServiceImage(
+        flereHeroPath,
+        treatment.heroImage,
+        treatment.linkedCardHeroes,
+      ) ?? treatment.heroImage
+    : treatment.heroImage;
   const resolvedHeroMedia =
-    flereMappedHero && categoryId === FLERE_FAGOMRADER_CATEGORY_ID
-      ? undefined
-      : treatment.heroMedia;
+    flereHeroPath && !cmsHeroIsUsable ? undefined : treatment.heroMedia;
 
   return {
     seoTitle,

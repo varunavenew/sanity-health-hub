@@ -16,6 +16,10 @@ import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
 import { isRelatedServiceEligible } from "@/lib/sanity/treatment-page-role";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
+import {
+  buildLinkedCardHeroLookup,
+  type LinkedCardHeroRow,
+} from "@/lib/sanity/flere-linked-service-media";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -192,6 +196,8 @@ export type TreatmentData = {
   specialistCtaHref?: string;
   relatedSpecialistSlugs?: string[];
   related?: { eyebrow?: string; title: string; desc: string; path: string; image?: string; imageAlt?: string }[];
+  /** Sanity heroes for linked robot/gastro cards when the listing has no expertAreas images. */
+  linkedCardHeroes?: Record<string, string>;
   pageSections: ReturnType<typeof normalizePageSections>;
   /** Locale-specific slug from CMS (for canonical redirects). */
   canonicalSlug?: string;
@@ -251,6 +257,12 @@ export function mapTreatmentDocument(
       .filter((item) => item.image)
       .map((item) => [pathSlug(item.path), item.image!] as const)
       .filter(([slug]) => Boolean(slug)),
+  );
+
+  const linkedCardHeroes = buildLinkedCardHeroLookup(
+    Array.isArray(data.linkedCardHeroes)
+      ? (data.linkedCardHeroes as LinkedCardHeroRow[])
+      : [],
   );
 
   return {
@@ -451,6 +463,7 @@ export function mapTreatmentDocument(
     specialistCtaHref: row("specialistCtaHref"),
     relatedSpecialistSlugs,
     related,
+    linkedCardHeroes,
     pageSections: normalizePageSections(data.pageSections),
     canonicalSlug: asPlainString(data.slug) || undefined,
     pageRole: row("pageRole"),

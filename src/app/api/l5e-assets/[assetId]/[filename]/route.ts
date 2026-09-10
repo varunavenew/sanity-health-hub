@@ -11,6 +11,11 @@ const R2_CDN =
 const L5E_PROJECT_ID =
   process.env.L5E_PROJECT_ID ?? "3dcc4aff-3deb-44f0-b035-de0201b2a94e";
 
+/** Prototype filenames with no sibling file — serve the current bundled asset. */
+const FILENAME_FALLBACK: Record<string, string> = {
+  "urologi-hero.jpg": "urologisk-robotkirurgi.jpg",
+};
+
 const MIME: Record<string, string> = {
   jpg: "image/jpeg",
   jpeg: "image/jpeg",
@@ -83,7 +88,10 @@ export async function GET(_request: NextRequest, context: RouteContext) {
     return new Response("Bad request", { status: 400 });
   }
 
-  const localPath = findLocalAsset(assetId, filename);
+  const alias = FILENAME_FALLBACK[filename];
+  const localPath =
+    findLocalAsset(assetId, filename) ||
+    (alias ? findFileByName(ASSETS_DIR, alias) : null);
   if (localPath) {
     const buffer = fs.readFileSync(localPath);
     return new Response(buffer, {
