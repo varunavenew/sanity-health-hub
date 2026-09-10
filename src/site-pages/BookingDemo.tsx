@@ -2829,9 +2829,6 @@ const BookingDemo = () => {
                       type="email"
                       className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
                     />
-                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
-                      {copy.formEmailHelp}
-                    </p>
                   </div>
                   <div>
                     <label htmlFor="note" className="text-sm text-brand-dark/70">{copy.formNoteLabel}</label>
