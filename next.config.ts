@@ -286,6 +286,27 @@ const nextConfig: NextConfig = {
       // Dropped / legacy URLs (batch 2 — destinations verified live).
       { source: "/no/fertilitet/fertilitetsutredning-i-juli", destination: "/no/fertilitet/fertilitetsutredning", permanent: true },
       { source: "/no/livio-oslo", destination: "/no/om-oss", permanent: true },
+      // Old-site concat: /no/livio-oslo + https://cmedical.no/no/livio-oslo (colon is a path-to-regexp param).
+      {
+        source: "/no/livio-oslohttps\\:/:path*",
+        destination: "/no/om-oss",
+        permanent: true,
+      },
+      {
+        source: "/nb/livio-oslohttps\\:/:path*",
+        destination: "/no/om-oss",
+        permanent: true,
+      },
+      {
+        source: "/no/livio-oslohttps\\://:path*",
+        destination: "/no/om-oss",
+        permanent: true,
+      },
+      {
+        source: "/nb/livio-oslohttps\\://:path*",
+        destination: "/no/om-oss",
+        permanent: true,
+      },
 
       // IVF is a section on Assistert befruktning — not a separate indexable page.
       { source: "/fertilitet/ivf", destination: "/no/fertilitet/assistert-befruktning#ivf", statusCode: 301 },

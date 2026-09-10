@@ -44,6 +44,7 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/specialists/kjersti-brenden", "/en/specialists"),
   perm("/no/spesialister/line-fusdahl-hulleberg", "/no/spesialister"),
   perm("/nb/spesialister/line-fusdahl-hulleberg", "/no/spesialister"),
+  perm("/en/specialists/line-fusdahl-hulleberg", "/en/specialists"),
   perm("/no/ovrige/forebyggende-helse", "/no/ovrige"),
   perm("/nb/ovrige/forebyggende-helse", "/no/ovrige"),
   perm("/en/specialists/lisa-reppert", "/en/specialists"),
