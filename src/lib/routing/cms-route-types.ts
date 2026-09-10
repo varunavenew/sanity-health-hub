@@ -23,6 +23,7 @@ export type RouteIndexDoc = {
   _type: string;
   slugNb?: string;
   slugEn?: string;
+  _updatedAt?: string;
   categoryId?: string;
   /** All category memberships (categories[] + legacy category). Dual-read. */
   categoryIds?: string[];
@@ -42,6 +43,7 @@ export type CmsRouteIndex = {
   articles: RouteIndexDoc[];
   jobs: RouteIndexDoc[];
   products: RouteIndexDoc[];
+  homepageUpdatedAt?: string;
 };
 
 export type ResolvedCmsRoute = {

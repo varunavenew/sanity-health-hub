@@ -30,6 +30,18 @@ import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrad
 import { isTestContentSlug, hasTestContentSegment } from "@/lib/seo/test-content-slugs";
 import { isSitemapExcludedSlug } from "@/lib/seo/sitemap-excluded-slugs";
 
+export type SitemapRoutePath = {
+  locale: string;
+  segments: string[];
+  lastModified?: Date;
+};
+
+function parseUpdatedAt(value?: string): Date | undefined {
+  if (!value) return undefined;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
 function listingSlug(
   listings: ListingSlugs,
   key: ListingPageKey,
@@ -290,17 +302,19 @@ export function resolveCmsRoute(
   return null;
 }
 
-export function staticParamsFromRouteIndex(
-  index: CmsRouteIndex,
-): Array<{ locale: string; segments: string[] }> {
-  const params: Array<{ locale: string; segments: string[] }> = [];
+export function sitemapPathsFromRouteIndex(index: CmsRouteIndex): SitemapRoutePath[] {
+  const params: SitemapRoutePath[] = [];
   const seen = new Set<string>();
 
-  const push = (locale: string, segments: string[]) => {
+  const push = (locale: string, segments: string[], updatedAt?: string) => {
     const key = `${locale}:${segments.join("/")}`;
     if (!segments.length || seen.has(key)) return;
     seen.add(key);
-    params.push({ locale, segments });
+    params.push({
+      locale,
+      segments,
+      lastModified: parseUpdatedAt(updatedAt),
+    });
   };
 
   for (const locale of ["no", "en"] as const) {
@@ -309,56 +323,58 @@ export function staticParamsFromRouteIndex(
     for (const doc of index.singletons) {
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
-      if (slug) push(locale, [slug]);
+      if (slug) push(locale, [slug], doc._updatedAt);
     }
 
     for (const doc of index.themes) {
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
-      if (slug) push(locale, [slug]);
+      if (slug) push(locale, [slug], doc._updatedAt);
     }
 
     for (const doc of index.clinicianGuides ?? []) {
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
-      if (slug) push(locale, [slug]);
+      if (slug) push(locale, [slug], doc._updatedAt);
     }
 
     for (const doc of index.categories) {
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
-      if (slug && !isTestContentSlug(slug)) push(locale, [slug]);
+      if (slug && !isTestContentSlug(slug)) push(locale, [slug], doc._updatedAt);
     }
 
     for (const listingType of LISTING_PAGE_KEYS) {
       const pair = listingSlugPair(index.listings, listingType);
       if (!pair) continue;
       const slug = slugForLocale(pair, lang);
-      if (slug) push(locale, [slug]);
+      const listingUpdatedAt = (index.listings[listingType] as { _updatedAt?: string } | undefined)
+        ?._updatedAt;
+      if (slug) push(locale, [slug], listingUpdatedAt);
     }
 
     const newsPrefix = listingSlug(index.listings, "newsPage", lang);
     for (const doc of index.articles) {
       const slug = docSlug(doc, lang);
-      if (newsPrefix && slug) push(locale, [newsPrefix, slug]);
+      if (newsPrefix && slug) push(locale, [newsPrefix, slug], doc._updatedAt);
     }
 
     const clinicsPrefix = listingSlug(index.listings, "clinicsPage", lang);
     for (const doc of index.clinics) {
       const slug = docSlug(doc, lang);
-      if (clinicsPrefix && slug) push(locale, [clinicsPrefix, slug]);
+      if (clinicsPrefix && slug) push(locale, [clinicsPrefix, slug], doc._updatedAt);
     }
 
     const specialistsPrefix = listingSlug(index.listings, "specialistsListingPage", lang);
     for (const doc of index.specialists) {
       const slug = docSlug(doc, lang);
-      if (specialistsPrefix && slug) push(locale, [specialistsPrefix, slug]);
+      if (specialistsPrefix && slug) push(locale, [specialistsPrefix, slug], doc._updatedAt);
     }
 
     const careersPrefix = listingSlug(index.listings, "careersPage", lang);
     for (const doc of index.jobs) {
       const slug = docSlug(doc, lang);
-      if (careersPrefix && slug) push(locale, [careersPrefix, slug]);
+      if (careersPrefix && slug) push(locale, [careersPrefix, slug], doc._updatedAt);
     }
 
     for (const doc of index.treatments) {
@@ -395,11 +411,20 @@ export function staticParamsFromRouteIndex(
               : doc.categorySlugNb || "",
         );
         if (categorySlug && treatmentSlug) {
-          push(locale, [categorySlug, treatmentSlug]);
+          push(locale, [categorySlug, treatmentSlug], doc._updatedAt);
         }
       }
     }
   }
 
   return params;
+}
+
+export function staticParamsFromRouteIndex(
+  index: CmsRouteIndex,
+): Array<{ locale: string; segments: string[] }> {
+  return sitemapPathsFromRouteIndex(index).map(({ locale, segments }) => ({
+    locale,
+    segments,
+  }));
 }

@@ -1578,11 +1578,12 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
 }`;
 
 export const CMS_ROUTE_INDEX_QUERY = `{
+  "homepageUpdatedAt": *[_type == "homepage" && ${publishedOnly}][0]._updatedAt,
   "listings": {
-    "newsPage": *[_type == "newsPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} },
-    "clinicsPage": *[_type == "clinicsPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} },
-    "specialistsListingPage": *[_type == "specialistsListingPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} },
-    "careersPage": *[_type == "careersPage" && ${publishedOnly}][0]{ ${localizedSlugBoth} }
+    "newsPage": *[_type == "newsPage" && ${publishedOnly}][0]{ ${localizedSlugBoth}, _updatedAt },
+    "clinicsPage": *[_type == "clinicsPage" && ${publishedOnly}][0]{ ${localizedSlugBoth}, _updatedAt },
+    "specialistsListingPage": *[_type == "specialistsListingPage" && ${publishedOnly}][0]{ ${localizedSlugBoth}, _updatedAt },
+    "careersPage": *[_type == "careersPage" && ${publishedOnly}][0]{ ${localizedSlugBoth}, _updatedAt }
   },
   "singletons": *[_type in [
     "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
@@ -1590,28 +1591,33 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     "privacyPolicyPage", "opennessActPage", "careersPage", "guidePage"
   ] && ${publishedOnly}]{
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   },
   "themes": *[_type == "themePage" && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   },
   "clinicianGuides": *[_type == "clinicianGuidePage" && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     "slugNb": slug.current,
     "slugEn": slug.current
   },
   "categories": *[_type == "treatmentCategory" && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     categoryId,
     ${localizedSlugBoth}
   },
   "treatments": *[_type == "treatment" && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth},
     "categoryId": coalesce(categories[0]->categoryId, category->categoryId),
     "categoryIds": array::compact(array::unique(
@@ -1641,26 +1647,31 @@ export const CMS_ROUTE_INDEX_QUERY = `{
   "clinics": *[_type == "clinicPage" && ${publishedClinicFilter}]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   },
   "specialists": *[_type == "specialist" && !(_id in path("drafts.**"))]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   },
   "articles": *[_type == "article" && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   },
   "jobs": *[_type == "jobListing" && active == true && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   },
   "products": *[_type == "product" && ${publishedOnly}]{
     _id,
     _type,
+    _updatedAt,
     ${localizedSlugBoth}
   }
 }`;

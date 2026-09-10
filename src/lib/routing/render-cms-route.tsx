@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { CategoryDataProvider } from "@/components/providers/CategoryDataProvider";
@@ -243,7 +243,9 @@ export async function renderCmsRoute(
       if (initialTreatment?.pageRole === "team" && isTeamSlug) {
         const listingSlug = sanityLang === "en" ? "specialists" : "spesialister";
         const kategori = normalizeCategoryFilterKey(categoryId) || categoryId;
-        redirect(`/${locale}/${listingSlug}?kategori=${encodeURIComponent(kategori)}`);
+        permanentRedirect(
+          `/${locale}/${listingSlug}?kategori=${encodeURIComponent(kategori)}`,
+        );
       }
       const SubPage = TREATMENT_COMPONENTS[categoryId] || TreatmentPage;
       const queryClient = new QueryClient();

@@ -218,6 +218,11 @@ const ROOT_ARTICLE_REDIRECTS: LegacyRedirect[] = [
 
 /** Retired specialist profiles → listing (not another person). */
 const EN_SPECIALIST_LISTING = "/en/specialists";
+/**
+ * Live profiles — do not redirect to another doctor:
+ * `/en/specialists/kjersti-margrete-finsrud`, `/en/specialists/lars-eldar-myrseth`.
+ * Typo slug `cennet-akdeni` stays until Avenew publishes `cennet-akdeniz`.
+ */
 const EN_SPECIALIST_REDIRECTS: LegacyRedirect[] = [
   perm("/en/specialists/stylianos-triantafyllidis", EN_SPECIALIST_LISTING),
   perm("/en/specialists/kristina-torn", EN_SPECIALIST_LISTING),
@@ -297,8 +302,6 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { source: "/nb/ovrige/robotassistert-kirurgi", destination: "/nb/robotassistert-kirurgi", permanent: true },
   { source: "/no/gynekologi/tverrfaglig-team", destination: "/no/gynekologi/tverrfaglig", permanent: true },
   { source: "/nb/gynekologi/tverrfaglig-team", destination: "/nb/gynekologi/tverrfaglig", permanent: true },
-  { source: "/no/aapenhetsloven-2025", destination: "/no/personvern", permanent: true },
-  { source: "/nb/aapenhetsloven-2025", destination: "/nb/personvern", permanent: true },
   { source: "/en/careers", destination: "/en/career", permanent: true },
   {
     source: "/en/urology/testicle-and-scrotum",
@@ -324,7 +327,7 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   },
   {
     source: "/en/clinics/fertilitet-stockholm",
-    destination: "/en/fertility/teamet",
+    destination: "/en/specialists?kategori=fertilitet",
     permanent: true,
   },
   {

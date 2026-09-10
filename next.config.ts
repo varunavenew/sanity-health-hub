@@ -236,8 +236,15 @@ const nextConfig: NextConfig = {
       { source: "/behandlinger/flere-fagomrader/hudlege", destination: "/no/ovrige/hudhelse", statusCode: 301 },
       { source: "/behandlinger/flere-fagomrader/hudlege/:path*", destination: "/no/ovrige/hudhelse/:path*", statusCode: 301 },
 
+      // Fertilitet team page is a redirect to the specialists listing — keep off the sitemap.
+      { source: "/no/fertilitetsteamet", destination: "/no/spesialister?kategori=fertilitet", permanent: true },
+      { source: "/:locale(nb|no)/fertilitet/teamet", destination: "/:locale/spesialister?kategori=fertilitet", permanent: true },
+      { source: "/:locale(nb|no)/fertilitet/fertilitetsteamet", destination: "/:locale/spesialister?kategori=fertilitet", permanent: true },
+      { source: "/en/fertility/teamet", destination: "/en/specialists?kategori=fertilitet", permanent: true },
+      { source: "/en/fertility/fertilitetsteamet", destination: "/en/specialists?kategori=fertilitet", permanent: true },
+      { source: "/en/fertilitet/teamet", destination: "/en/specialists?kategori=fertilitet", permanent: true },
+      { source: "/en/fertilitet/fertilitetsteamet", destination: "/en/specialists?kategori=fertilitet", permanent: true },
       // Legacy top-level paths → current CMS routes (SEO 301s).
-      { source: "/no/fertilitetsteamet", destination: "/no/fertilitet/teamet", permanent: true },
       { source: "/:locale(nb|no)/gynekologi/graviditet", destination: "/:locale/graviditet", permanent: true },
       { source: "/:locale(nb|no)/gynekologi/fodselsskader", destination: "/:locale/graviditet/fodselsskader", permanent: true },
       { source: "/:locale(nb|no)/gynekologi/fostermedisin", destination: "/:locale/graviditet/fostermedisin", permanent: true },
