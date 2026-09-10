@@ -282,6 +282,11 @@ export function urlForImageRef(
 /** Alias used by portable text and legacy imports. */
 export const urlFor = urlForImageRef;
 
+/** True for a Sanity image asset id (`image-{id}-{w}x{h}-{ext}`), not a URL. */
+export function looksLikeSanityAssetId(value: string): boolean {
+  return value.startsWith("image-") && !value.includes("/") && !value.startsWith("http");
+}
+
 /**
  * Build from a full Sanity image object (asset + hotspot/crop) when available.
  */
@@ -296,8 +301,9 @@ export function urlForImage(
   if (built) return built;
 
   const obj = source as {
-    asset?: { _ref?: string; url?: string };
+    asset?: { _ref?: string; _id?: string; url?: string } | string;
     url?: string;
+    src?: string;
     crop?: SanityCrop;
     hotspot?: SanityHotspot;
   };
@@ -306,9 +312,16 @@ export function urlForImage(
     crop: options.crop ?? obj.crop,
     hotspot: options.hotspot ?? obj.hotspot,
   };
-  if (obj.asset?._ref) return urlForImageRef(obj.asset._ref, merged);
-  if (obj.asset?.url) return optimizeSanityImageUrl(obj.asset.url, merged);
-  if (typeof obj.url === "string") return optimizeSanityImageUrl(obj.url, merged);
+  if (typeof obj.asset === "string" && obj.asset) {
+    return urlForImageRef(obj.asset, merged);
+  }
+  if (obj.asset && typeof obj.asset === "object") {
+    if (obj.asset._ref) return urlForImageRef(obj.asset._ref, merged);
+    if (obj.asset._id) return urlForImageRef(obj.asset._id, merged);
+    if (obj.asset.url) return optimizeSanityImageUrl(obj.asset.url, merged);
+  }
+  if (typeof obj.url === "string") return urlForImage(obj.url, merged);
+  if (typeof obj.src === "string") return urlForImage(obj.src, merged);
   return "";
 }
 
@@ -317,6 +330,16 @@ export function getImageUrl(
   options: OptimizeImageOptions = {},
 ): string {
   return urlForImage(image as SanityImageSource, options);
+}
+
+/** First usable CDN URL from GROQ image fields (URL, asset id, or image object). */
+export function cmsImageSrc(...candidates: unknown[]): string {
+  for (const candidate of candidates) {
+    if (candidate == null || candidate === "") continue;
+    const url = getImageUrl(candidate);
+    if (url && !looksLikeSanityAssetId(url)) return url;
+  }
+  return "";
 }
 
 export type SrcSetOptions = OptimizeImageOptions & {

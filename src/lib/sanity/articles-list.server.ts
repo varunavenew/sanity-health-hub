@@ -3,6 +3,7 @@ import "server-only";
 import { ARTICLES_QUERY } from "@/lib/queries";
 import { fetchSanityGroqServer } from "@/lib/sanity/fetch-groq-server";
 import { pickImageFocal } from "@/lib/sanity/media-dual-read";
+import { cmsImageSrc } from "@/lib/sanity/image-url";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
 
@@ -33,7 +34,7 @@ export async function fetchArticlesListData(
       ...a,
       title: typeof a.title === "string" ? a.title : "",
       excerpt: typeof a.excerpt === "string" ? a.excerpt : "",
-      image: typeof a.image === "string" ? a.image : "",
+      image: cmsImageSrc(a.image, a.imageAssetRef),
       ...pickImageFocal(a),
       date: typeof a.date === "string" ? a.date : "",
       category: normalizeArticleCategory(

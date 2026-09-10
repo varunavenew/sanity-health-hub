@@ -18,6 +18,7 @@ import {
   type SanityCrop,
   type SanityHotspot,
 } from "../media/focal-point";
+import { looksLikeSanityAssetId, urlForImage, urlForImageRef } from "@/lib/sanity/image-url";
 
 export type CmsMediaType = "image" | "video";
 
@@ -58,7 +59,7 @@ export type CmsMediaProjection = {
 export const MEDIA_OBJECT_PROJECTION = `{
   mediaType,
   videoSource,
-  "imageUrl": image.asset->url,
+  "imageUrl": coalesce(image.asset->url, image.asset._ref),
   "imageAssetRef": image.asset._ref,
   "videoFileUrl": videoFile.asset->url,
   videoUrl,
@@ -71,7 +72,7 @@ export const MEDIA_OBJECT_PROJECTION = `{
  * (e.g. specialist `photo`, card thumbnails).
  */
 export const IMAGE_WITH_FOCAL_PROJECTION = `{
-  "url": asset->url,
+  "url": coalesce(asset->url, asset._ref),
   "asset": { "_ref": asset._ref },
   hotspot,
   crop
@@ -81,7 +82,7 @@ export const IMAGE_WITH_FOCAL_PROJECTION = `{
  * Specialist portrait: display URL plus crop/hotspot/asset for the image URL builder.
  */
 export const SPECIALIST_PHOTO_PROJECTION = `
-  "image": photo.asset->url,
+  "image": coalesce(photo.asset->url, photo.asset._ref),
   "imageHotspot": photo.hotspot,
   "imageCrop": photo.crop,
   "imageAssetRef": photo.asset._ref
@@ -92,7 +93,7 @@ export const SPECIALIST_PHOTO_PROJECTION = `
  * project crop/hotspot so listing cards and heroes can frame the same asset.
  */
 export const ARTICLE_PRIMARY_IMAGE_PROJECTION = `
-  "image": primaryImage.asset->url,
+  "image": coalesce(primaryImage.asset->url, primaryImage.asset._ref),
   "imageHotspot": primaryImage.hotspot,
   "imageCrop": primaryImage.crop,
   "imageAssetRef": primaryImage.asset._ref
@@ -115,7 +116,12 @@ export function pickImageFocal(row: {
 function asUrl(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
+  if (!trimmed) return undefined;
+  if (looksLikeSanityAssetId(trimmed)) {
+    const built = urlForImageRef(trimmed);
+    return built || undefined;
+  }
+  return trimmed;
 }
 
 function looksLikeDirectVideoFile(url: string): boolean {
@@ -203,7 +209,7 @@ export function resolveMediaObject(media: unknown): ResolvedCmsMedia | null {
   if (!media || typeof media !== "object") return null;
   const m = media as CmsMediaProjection;
   const type: CmsMediaType = m.mediaType === "video" ? "video" : "image";
-  const imageUrl = asUrl(m.imageUrl);
+  const imageUrl = asUrl(m.imageUrl) || (m.imageAssetRef ? urlForImageRef(m.imageAssetRef) : undefined);
   const uploadUrl = asUrl(m.videoFileUrl);
   const videoUrl = asUrl(m.videoUrl);
 
@@ -341,17 +347,23 @@ export function resolveImageWithFocal(image: unknown): {
 } | null {
   if (!image) return null;
   if (typeof image === "string") {
-    const url = asUrl(image);
+    const url = looksLikeSanityAssetId(image) || image.startsWith("http")
+      ? urlForImage(image)
+      : asUrl(image);
     return url ? { url, hotspot: null, crop: null } : null;
   }
   if (typeof image !== "object") return null;
   const row = image as {
     url?: string | null;
-    asset?: { url?: string | null };
+    asset?: { url?: string | null; _ref?: string | null; _id?: string | null };
     hotspot?: SanityHotspot | null;
     crop?: SanityCrop | null;
   };
-  const url = asUrl(row.url) || asUrl(row.asset?.url);
+  const url =
+    asUrl(row.url) ||
+    asUrl(row.asset?.url) ||
+    (row.asset?._ref ? urlForImageRef(row.asset._ref) : undefined) ||
+    (row.asset?._id ? urlForImageRef(row.asset._id) : undefined);
   if (!url) return null;
   return {
     url,

@@ -2,6 +2,7 @@ import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientR
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { cmsImageSrc } from "@/lib/sanity/image-url";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
@@ -370,7 +371,8 @@ export function mapSanitySpecialistRow(
     crop: imageCrop,
   });
   const image =
-    (media?.kind === "image" ? media.src : media?.poster) || raw.image!.trim();
+    (media?.kind === "image" ? media.src : media?.poster) ||
+    cmsImageSrc(raw.image, raw.imageAssetRef);
   const clinicRefs = mapClinicRefs(raw.clinicRefs);
 
   return {

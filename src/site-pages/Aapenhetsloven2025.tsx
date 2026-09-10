@@ -3,12 +3,12 @@
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
-import { AssetImg } from "@/components/AssetImg";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useOpennessActPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { SpecialistFAQ } from "@/components/specialist/SpecialistFAQ";
+import { portableTextImageType } from "@/lib/portable-text/image-type";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
@@ -62,24 +62,7 @@ const portableTextComponents = {
   },
   types: {
     ...youtubeEmbedPortableTextType,
-    image: ({ value }: any) => {
-      const ref = value?.asset?._ref || "";
-      if (!ref) return null;
-      return (
-        <figure className="my-6">
-          <AssetImg
-            src={ref}
-            alt={value?.alt || ""}
-            preset="gallery"
-            loading="lazy"
-            className="rounded-lg w-full"
-          />
-          {value?.caption && (
-            <figcaption className="text-sm text-muted-foreground mt-2">{value.caption}</figcaption>
-          )}
-        </figure>
-      );
-    },
+    ...portableTextImageType,
   },
 };
 

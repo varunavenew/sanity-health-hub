@@ -89,6 +89,7 @@ import type { CmsRouteIndex } from "@/lib/routing/cms-route-types";
 import { enrichRouteIndexWithNavPaths } from "@/lib/routing/enrich-route-index";
 import { normalizePageSections, withPageSections, type PageSection } from "@/lib/sanity/page-sections";
 import { pickImageFocal } from "@/lib/sanity/media-dual-read";
+import { cmsImageSrc } from "@/lib/sanity/image-url";
 import {
   parseSpecialistProfileUi,
   type SpecialistProfileUi,
@@ -1010,7 +1011,7 @@ export const useArticles = () => {
         ...a,
         title: typeof a.title === "string" ? a.title : "",
         excerpt: typeof a.excerpt === "string" ? a.excerpt : "",
-        image: a.image || "",
+        image: cmsImageSrc(a.image, a.imageAssetRef),
         ...pickImageFocal(a),
         date: a.date || "",
         category: normalizeArticleCategory(a.category || "Nytt fra oss"),
@@ -1037,7 +1038,7 @@ export const useArticle = (slug: string) => {
         title: typeof data.title === "string" ? data.title : "",
         excerpt: typeof data.excerpt === "string" ? data.excerpt : "",
         geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
-        image: data.image || "",
+        image: cmsImageSrc(data.image, data.imageAssetRef),
         ...pickImageFocal(data),
         imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
         date: data.date || "",

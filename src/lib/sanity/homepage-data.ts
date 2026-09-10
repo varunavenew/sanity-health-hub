@@ -14,6 +14,7 @@ import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import type { Article } from "@/data/articles";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
+import { cmsImageSrc } from "@/lib/sanity/image-url";
 import type { HomepageSpecialistsSectionConfig, HomepageSpecialistsCategoryRef } from "@/lib/sanity/homepage-specialists";
 import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
 
@@ -593,7 +594,7 @@ export function mapHomepageDocument(
         description: (row.description as string) || "",
         cta: (row.ctaText as string) || "Les mer",
         path: asPlainString(row.ctaLink) || "/",
-        image: (row.image as string) || "",
+        image: cmsImageSrc(row.image),
       };
     }),
     patientTrustBanner: mapPatientTrustBanner(data.patientTrustBanner, lang),
@@ -604,7 +605,7 @@ export function mapHomepageDocument(
           slug: asPlainString(a.slug),
           title: asPlainString(a.title),
           excerpt: asPlainString(a.excerpt),
-          image: asPlainString(a.image),
+          image: cmsImageSrc(a.image, a.imageAssetRef),
           imageHotspot: a.imageHotspot ?? null,
           imageCrop: a.imageCrop ?? null,
           date: asPlainString(a.date),

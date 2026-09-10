@@ -1,5 +1,5 @@
 import type { PortableTextComponents } from "@portabletext/react";
-import { AssetImg } from "@/components/AssetImg";
+import { portableTextImageType } from "@/lib/portable-text/image-type";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 export const specialistBioPortableTextComponents: PortableTextComponents = {
@@ -49,25 +49,6 @@ export const specialistBioPortableTextComponents: PortableTextComponents = {
   },
   types: {
     ...youtubeEmbedPortableTextType,
-    image: ({ value }) => {
-      const ref = value?.asset?._ref || "";
-      if (!ref) return null;
-      return (
-        <figure className="my-4">
-          <AssetImg
-            src={ref}
-            alt={value?.alt || ""}
-            preset="gallery"
-            loading="lazy"
-            className="w-full rounded-sm object-cover"
-          />
-          {value?.caption ? (
-            <figcaption className="mt-2 text-xs text-muted-foreground font-light">
-              {value.caption}
-            </figcaption>
-          ) : null}
-        </figure>
-      );
-    },
+    ...portableTextImageType,
   },
 };

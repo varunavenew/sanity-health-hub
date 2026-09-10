@@ -1,6 +1,6 @@
 import type { PortableTextComponents } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
-import { AssetImg } from "@/components/AssetImg";
+import { portableTextImageType } from "@/lib/portable-text/image-type";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 function blockText(value: PortableTextBlock | undefined): string {
@@ -133,22 +133,7 @@ export function createArticlePortableTextComponents(
     },
     types: {
       ...youtubeEmbedPortableTextType,
-      image: ({ value }) => (
-        <figure className="my-8">
-          <AssetImg
-            src={value?.asset?._ref || ""}
-            alt={value?.alt || ""}
-            preset="gallery"
-            loading="lazy"
-            className="w-full rounded-sm"
-          />
-          {value?.caption ? (
-            <figcaption className="text-sm text-muted-foreground mt-2">
-              {value.caption}
-            </figcaption>
-          ) : null}
-        </figure>
-      ),
+      ...portableTextImageType,
     },
   };
 }

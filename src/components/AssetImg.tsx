@@ -6,6 +6,7 @@ import {
   defaultWidthForPreset,
   getImageUrl,
   isSanityCdnUrl,
+  looksLikeSanityAssetId,
   type OptimizeImageOptions,
 } from "@/lib/sanity/image-url";
 import {
@@ -55,11 +56,16 @@ export function AssetImg({
   srcSet,
   ...props
 }: AssetImgProps) {
-  const resolved = assetSrc(src);
-  if (!resolved) return null;
+  const resolvedRaw = assetSrc(src);
+  if (!resolvedRaw) return null;
 
   const opts: OptimizeImageOptions = { quality, crop, hotspot };
-  const isSanity = isSanityCdnUrl(resolved) || resolved.startsWith("image-");
+  const resolved = looksLikeSanityAssetId(resolvedRaw)
+    ? getImageUrl(resolvedRaw, opts)
+    : resolvedRaw;
+  if (!resolved || looksLikeSanityAssetId(resolved)) return null;
+
+  const isSanity = isSanityCdnUrl(resolved) || looksLikeSanityAssetId(resolvedRaw);
 
   // Sanity images without an explicit delivery intent get content defaults.
   const effectivePreset: ImageDeliveryPreset | undefined =

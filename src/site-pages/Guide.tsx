@@ -14,6 +14,7 @@ import { useGuidePage } from "@/hooks/useSanity";
 import { useParams } from "@/lib/router";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { AssetImg } from "@/components/AssetImg";
+import { portableTextImageType } from "@/lib/portable-text/image-type";
 
 interface GuideProps {
   isChatOpen: boolean;
@@ -54,6 +55,7 @@ const portableTextComponents = {
       </div>
     ),
   },
+  types: portableTextImageType,
 };
 
 const GuideMarketingSection = ({

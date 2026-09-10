@@ -2,6 +2,7 @@ import "server-only";
 
 import { ARTICLE_BY_SLUG_QUERY } from "@/lib/queries";
 import { fetchSanityGroqServer } from "@/lib/sanity/fetch-groq-server";
+import { cmsImageSrc } from "@/lib/sanity/image-url";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
@@ -25,7 +26,7 @@ export async function fetchArticleDetailData(
     excerpt: typeof excerpt === "string" ? excerpt : "",
     geoSummary:
       typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
-    image: data.image || "",
+    image: cmsImageSrc(data.image, data.imageAssetRef),
     imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : "",
     date: data.date || "",
     category: normalizeArticleCategory(

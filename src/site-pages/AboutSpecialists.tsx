@@ -9,6 +9,7 @@ import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useSpecialistsPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PortableText } from "@portabletext/react";
+import { portableTextImageType } from "@/lib/portable-text/image-type";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 import { useParams } from "@/lib/router";
 
@@ -90,7 +91,12 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
               <div className="prose prose-lg max-w-none text-foreground/80 font-light leading-[1.85]">
                 <PortableText
                   value={pageData.body}
-                  components={{ types: youtubeEmbedPortableTextType }}
+                  components={{
+                    types: {
+                      ...youtubeEmbedPortableTextType,
+                      ...portableTextImageType,
+                    },
+                  }}
                 />
               </div>
             ) : null}
