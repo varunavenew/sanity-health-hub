@@ -43,6 +43,34 @@ import { syncI18nLanguage } from "@/lib/i18n/sync-language";
 
 interface PageProps { isChatOpen: boolean }
 
+/** Gap between the sticky category bar and the section heading after a jump. */
+const CATEGORY_SCROLL_GAP_PX = 16;
+/** Fallback when the sticky bar is collapsed (Vår meny click) and not yet measurable. */
+const STICKY_BAR_FALLBACK_PX = 56;
+
+/**
+ * Shared offset for category jump + scroll-spy: site header + sticky pill bar + gap.
+ * When the bar is still collapsed (`h-0`), estimate from scroller content + py-3
+ * so a Vår meny click does not undershoot once the bar sticks.
+ */
+function getCategoryStickyOffset(
+  navTop: number,
+  stickyNavEl: HTMLElement | null,
+  scrollerEl: HTMLElement | null,
+): number {
+  let barHeight = STICKY_BAR_FALLBACK_PX;
+  if (stickyNavEl) {
+    const visible = stickyNavEl.getBoundingClientRect().height;
+    if (visible > 1) {
+      barHeight = visible;
+    } else if (scrollerEl) {
+      const content = Math.max(scrollerEl.scrollHeight, scrollerEl.offsetHeight, 40);
+      barHeight = content + 24; // py-3 when the bar is shown
+    }
+  }
+  return navTop + barHeight + CATEGORY_SCROLL_GAP_PX;
+}
+
 interface PricingTestimonial {
   _id: string;
   name: string;
@@ -307,7 +335,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [navTop, setNavTop] = useState(80);
+  const [stickyOffset, setStickyOffset] = useState(80 + STICKY_BAR_FALLBACK_PX + CATEGORY_SCROLL_GAP_PX);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const stickyNavRef = useRef<HTMLDivElement | null>(null);
   const navScrollerRef = useRef<HTMLDivElement | null>(null);
   const overviewRef = useRef<HTMLDivElement | null>(null);
   const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -599,11 +629,30 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, [sortedCategories]);
 
   useEffect(() => {
+    const updateStickyOffset = () => {
+      setStickyOffset(
+        getCategoryStickyOffset(
+          navTop,
+          stickyNavRef.current,
+          navScrollerRef.current,
+        ),
+      );
+    };
+    updateStickyOffset();
+    window.addEventListener("resize", updateStickyOffset);
+    return () => window.removeEventListener("resize", updateStickyOffset);
+  }, [navTop, showStickyNav, sortedCategories.length]);
+
+  useEffect(() => {
     if (sortedCategories.length === 0) return;
 
     const pickActiveFromScroll = () => {
       if (Date.now() < suspendSpyUntil.current) return;
-      const marker = navTop + 72;
+      const marker = getCategoryStickyOffset(
+        navTop,
+        stickyNavRef.current,
+        navScrollerRef.current,
+      );
       let currentId = sortedCategories[0]?.id ?? "";
       for (const category of sortedCategories) {
         const el = document.getElementById(`cat-${category.id}`);
@@ -622,7 +671,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       window.removeEventListener("scroll", pickActiveFromScroll);
       window.removeEventListener("resize", pickActiveFromScroll);
     };
-  }, [sortedCategories, navTop]);
+  }, [sortedCategories, navTop, showStickyNav]);
 
   useEffect(() => {
     const scroller = navScrollerRef.current;
@@ -675,11 +724,17 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const scrollToCat = (id: string) => {
     const el = document.getElementById(`cat-${id}`);
     if (!el) return;
-    const navHeight = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
-    suspendSpyUntil.current = Date.now() + 900;
+    const offset = getCategoryStickyOffset(
+      navTop,
+      stickyNavRef.current,
+      navScrollerRef.current,
+    );
+    setStickyOffset(offset);
+    // Hold the clicked highlight until smooth scroll settles past the spy.
+    suspendSpyUntil.current = Date.now() + 1200;
     setActiveCategory(id);
     window.scrollTo({
-      top: el.getBoundingClientRect().top + window.scrollY - navTop - navHeight - 16,
+      top: el.getBoundingClientRect().top + window.scrollY - offset,
       behavior: "smooth",
     });
   };
@@ -783,6 +838,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               </div>
 
               <div
+                ref={stickyNavRef}
                 className={`sticky z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 -mx-[var(--gutter)] px-[var(--gutter)] ${
                   showStickyNav
                     ? "mb-8 md:mb-10 py-3"
@@ -818,7 +874,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
               <div className="space-y-16 md:space-y-20">
                 {sortedCategories.map((category) => (
-                  <section key={category.id} id={`cat-${category.id}`} className="scroll-mt-40">
+                  <section
+                    key={category.id}
+                    id={`cat-${category.id}`}
+                    style={{ scrollMarginTop: stickyOffset }}
+                  >
                     <h2 className="text-2xl md:text-3xl font-light text-brand-dark mb-8 md:mb-10">
                       {category.label}
                     </h2>
