@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/env";
 import { locales } from "@/lib/i18n/routing";
@@ -22,10 +24,39 @@ const STATIC_APP_SEGMENTS = [
   "gynekologi-design",
 ].filter((seg) => !(NOINDEX_SEGMENTS as readonly string[]).includes(seg));
 
+/** Local page files for sitemap lastmod when the route has no Sanity document. */
+const STATIC_PAGE_FILES: Record<string, string> = {
+  guide: "src/app/[locale]/guide/page.tsx",
+  booking: "src/app/[locale]/booking/page.tsx",
+  "bestill-time": "src/app/[locale]/bestill-time/page.tsx",
+  "book-appointment": "src/app/[locale]/book-appointment/page.tsx",
+};
+
 function parseUpdatedAt(value?: string): Date | undefined {
   if (!value) return undefined;
-  const date = new Date(value);
+  const date = value.trim() && /^\d+$/.test(value.trim())
+    ? new Date(Number(value.trim()) * (value.trim().length <= 10 ? 1000 : 1))
+    : new Date(value);
   return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
+/** Captured when this module loads (build / deploy / serverless cold start). */
+const BUILD_LASTMOD: Date =
+  parseUpdatedAt(process.env.VERCEL_GIT_COMMIT_TIMESTAMP) ??
+  parseUpdatedAt(process.env.SOURCE_DATE_EPOCH) ??
+  new Date();
+
+function lastModifiedFromPageFile(relativePath: string): Date | undefined {
+  try {
+    return fs.statSync(path.join(process.cwd(), relativePath)).mtime;
+  } catch {
+    return undefined;
+  }
+}
+
+function staticRouteLastModified(segment: string): Date {
+  const pageFile = STATIC_PAGE_FILES[segment];
+  return (pageFile && lastModifiedFromPageFile(pageFile)) || BUILD_LASTMOD;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -70,7 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   push("", { priority: 1, lastModified: homepageLastModified });
 
   for (const seg of STATIC_APP_SEGMENTS) {
-    push(seg);
+    push(seg, { lastModified: staticRouteLastModified(seg) });
   }
 
   for (const { locale, segments, lastModified } of cmsPaths) {
