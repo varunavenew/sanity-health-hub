@@ -10,6 +10,7 @@
 
 import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
 import {
+  DEFAULT_CONTENT_WIDTH,
   IMAGE_QUALITY,
   IMAGE_SRCSET_WIDTHS,
   type ImageDeliveryPreset,
@@ -132,15 +133,16 @@ function buildFromSource(
   const builder = getBuilder();
   if (!builder) return null;
   try {
+    const width = options.width ?? DEFAULT_CONTENT_WIDTH;
     let img = builder
       .image(mergeImageSource(source, options.crop, options.hotspot))
       .auto("format")
       .quality(options.quality ?? IMAGE_QUALITY)
       .fit(
         options.fit ??
-          (options.width != null && options.height != null ? "crop" : "max"),
+          (options.height != null ? "crop" : "max"),
       );
-    if (options.width) img = img.width(options.width);
+    img = img.width(width);
     if (options.height) img = img.height(options.height);
     return img.url();
   } catch {
@@ -226,6 +228,7 @@ export function optimizeSanityImageUrl(
   options: OptimizeImageOptions = {},
 ): string {
   if (!url) return "";
+  if (url.startsWith("image-")) return urlForImageRef(url, options);
   if (!isSanityCdnUrl(url)) return url;
 
   const built = buildFromSource(toSanityImageSource(url, options.crop, options.hotspot), options);
@@ -233,15 +236,16 @@ export function optimizeSanityImageUrl(
 
   let next = applyCropRect(url, options.crop);
   const quality = options.quality ?? IMAGE_QUALITY;
+  const width = options.width ?? DEFAULT_CONTENT_WIDTH;
   const fit =
     options.fit ??
-    (options.width != null && options.height != null ? "crop" : "max");
+    (options.height != null ? "crop" : "max");
   const hotspotSpec = hotspotToSpec(options.hotspot);
   next = withSanityParams(next, {
     auto: "format",
     q: quality,
     fit,
-    ...(options.width ? { w: options.width } : {}),
+    w: width,
     ...(options.height ? { h: options.height } : {}),
     ...(fit === "crop" && hotspotSpec
       ? { crop: "focalpoint", "fp-x": hotspotSpec.x, "fp-y": hotspotSpec.y }

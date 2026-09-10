@@ -22,6 +22,7 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 import { AssetImg } from "@/components/AssetImg";
+import { IMAGE_PRESET, IMAGE_QUALITY } from "@/lib/media/delivery";
 import { optimizeSanityImageUrl } from "@/lib/sanity/image-url";
 
 export type ResponsiveVideoProps = {
@@ -92,7 +93,10 @@ export function ResponsiveVideo({
     "absolute inset-0 h-full w-full",
   );
   const posterUrl = poster
-    ? optimizeSanityImageUrl(poster, { width: 1920, quality: 78 })
+    ? optimizeSanityImageUrl(poster, {
+        width: IMAGE_PRESET.hero.defaultWidth,
+        quality: IMAGE_QUALITY,
+      })
     : undefined;
 
   return (

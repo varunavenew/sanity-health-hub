@@ -11,6 +11,7 @@ import { useArticles, useNewsPage, useSiteSettings, type SanitySocialPost } from
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { IMAGE_PRESET } from "@/lib/media/delivery";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { NewsSocialPlatformSection } from "@/components/news/NewsSocialPlatformSection";
@@ -283,7 +284,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const seoTitle = newsPage?.seo?.metaTitle || "";
   const seoDescription = newsPage?.seo?.metaDescription || "";
   const ogImage = newsPage?.seo?.ogImage
-    ? getImageUrl(newsPage.seo.ogImage)
+    ? getImageUrl(newsPage.seo.ogImage, { width: IMAGE_PRESET.og.defaultWidth })
     : undefined;
   const ogImageAlt = resolveOgImageAlt(newsPage?.seo, locale, newsUi.title);
 

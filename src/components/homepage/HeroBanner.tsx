@@ -10,6 +10,7 @@ import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import type { ImageRef } from "@/lib/media";
 import type { ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
+import { IMAGE_PRESET } from "@/lib/media/delivery";
 import { optimizeSanityImageUrl } from "@/lib/sanity/image-url";
 
 interface HeroSlide {
@@ -31,7 +32,7 @@ interface HeroSlide {
 
 function posterUrl(image?: ImageRef): string | undefined {
   return typeof image === "string"
-    ? optimizeSanityImageUrl(image, { width: 1920 })
+    ? optimizeSanityImageUrl(image, { width: IMAGE_PRESET.hero.defaultWidth })
     : undefined;
 }
 

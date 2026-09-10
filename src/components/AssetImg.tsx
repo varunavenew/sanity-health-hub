@@ -4,8 +4,8 @@ import {
   buildImageSrcSet,
   defaultSizesForPreset,
   defaultWidthForPreset,
+  getImageUrl,
   isSanityCdnUrl,
-  optimizeSanityImageUrl,
   type OptimizeImageOptions,
 } from "@/lib/sanity/image-url";
 import {
@@ -75,7 +75,7 @@ export function AssetImg({
   let finalSizes = sizes;
 
   if (optimize && isSanity) {
-    finalSrc = optimizeSanityImageUrl(resolved, { ...opts, width });
+    finalSrc = getImageUrl(resolved, { ...opts, width });
     if (!finalSrcSet) {
       const generated = buildImageSrcSet(resolved, {
         ...opts,

@@ -12,6 +12,7 @@ import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-
 import { useTranslation } from "react-i18next";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { useParams } from "@/lib/router";
+import { IMAGE_PRESET } from "@/lib/media/delivery";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 
@@ -93,7 +94,7 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
   const privacyDescription = sanityData?.seo?.metaDescription || fallbackDescription;
   const schemaLocale = locale === "en" ? "en" : "nb";
   const ogImage = sanityData?.seo?.ogImage
-    ? getImageUrl(sanityData.seo.ogImage)
+    ? getImageUrl(sanityData.seo.ogImage, { width: IMAGE_PRESET.og.defaultWidth })
     : undefined;
   const ogImageAlt = resolveOgImageAlt(
     sanityData?.seo,

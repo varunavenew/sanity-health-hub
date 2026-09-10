@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useThemePage } from "@/hooks/useSanity";
 import { useNavigate, useParams } from "@/lib/router";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { IMAGE_PRESET } from "@/lib/media/delivery";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { ArrowRight } from "lucide-react";
@@ -76,8 +77,8 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
           description={seoDescription}
           canonical={pagePath}
           ogImage={
-            typeof page?.seo?.ogImage === "string"
-              ? page.seo.ogImage
+            page?.seo?.ogImage
+              ? getImageUrl(page.seo.ogImage, { width: IMAGE_PRESET.og.defaultWidth })
               : heroPoster || undefined
           }
           ogImageAlt={ogImageAlt}

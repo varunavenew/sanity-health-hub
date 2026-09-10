@@ -24,7 +24,7 @@ export const DEFAULT_CONTENT_SIZES =
   '(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px'
 
 /** Default responsive widths for srcset generation */
-export const IMAGE_SRCSET_WIDTHS = [480, 640, 768, 960, 1200, 1600, 1920, 2400] as const
+export const IMAGE_SRCSET_WIDTHS = [480, 640, 768, 960, 1200, 1600] as const
 
 /** Suggested display widths / sizes attribute per preset */
 export const IMAGE_PRESET: Record<
@@ -32,9 +32,9 @@ export const IMAGE_PRESET: Record<
   { widths: number[]; sizes: string; defaultWidth: number }
 > = {
   hero: {
-    widths: [960, 1280, 1600, 1920, 2400],
+    widths: [960, 1280, 1600],
     sizes: '100vw',
-    defaultWidth: 1920,
+    defaultWidth: DEFAULT_CONTENT_WIDTH,
   },
   card: {
     widths: [400, 600, 800, 1200],
@@ -47,13 +47,13 @@ export const IMAGE_PRESET: Record<
     defaultWidth: 800,
   },
   gallery: {
-    widths: [640, 960, 1280, 1600, 2000],
+    widths: [640, 960, 1280, 1600],
     sizes: '(max-width: 768px) 100vw, 50vw',
-    defaultWidth: 1600,
+    defaultWidth: DEFAULT_CONTENT_WIDTH,
   },
   /** Generic CMS body / layout images without a more specific preset */
   content: {
-    widths: [640, 960, 1280, 1600, 1920],
+    widths: [640, 960, 1280, 1600],
     sizes: DEFAULT_CONTENT_SIZES,
     defaultWidth: DEFAULT_CONTENT_WIDTH,
   },

@@ -12,6 +12,7 @@ import { SpecialistFAQ } from "@/components/specialist/SpecialistFAQ";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 import { useParams } from "@/lib/router";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { IMAGE_PRESET } from "@/lib/media/delivery";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 
@@ -101,7 +102,9 @@ const Aapenhetsloven2025 = ({ isChatOpen = false }: Aapenhetsloven2025Props) => 
   const seoTitle = sanityData?.seo?.metaTitle || `${title} | CMedical`;
   const seoDescription = sanityData?.seo?.metaDescription || fallbackDescription;
   const schemaLocale = locale === "en" ? "en" : "nb";
-  const ogImage = sanityData?.seo?.ogImage ? getImageUrl(sanityData.seo.ogImage) : undefined;
+  const ogImage = sanityData?.seo?.ogImage
+    ? getImageUrl(sanityData.seo.ogImage, { width: IMAGE_PRESET.og.defaultWidth })
+    : undefined;
   const ogImageAlt = resolveOgImageAlt(sanityData?.seo, schemaLocale, title);
   const loadingLabel = isEn ? "Loading..." : "Laster innhold...";
   const hasSanityBody = sanityData?.body && sanityData.body.length > 0;

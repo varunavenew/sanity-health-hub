@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { useThemePage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { IMAGE_PRESET } from "@/lib/media/delivery";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -39,7 +40,11 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
         title={page?.seo?.metaTitle?.trim() || title}
         description={page?.seo?.metaDescription?.trim() || ""}
         canonical={`/${THEME_SLUG}`}
-        ogImage={typeof page?.seo?.ogImage === "string" ? page.seo.ogImage : undefined}
+        ogImage={
+          page?.seo?.ogImage
+            ? getImageUrl(page.seo.ogImage, { width: IMAGE_PRESET.og.defaultWidth })
+            : undefined
+        }
         ogImageAlt={resolveOgImageAlt(page?.seo, "nb", title)}
         noIndex={page?.seo?.noIndex}
         breadcrumbs={[
