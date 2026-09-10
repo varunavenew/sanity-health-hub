@@ -148,7 +148,7 @@ const Aapenhetsloven2025 = ({ isChatOpen = false }: Aapenhetsloven2025Props) => 
 
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          {loading ? (
+          {loading && !sanityData ? (
             <p className="text-muted-foreground font-light">{loadingLabel}</p>
           ) : hasSanityBody ? (
             <PortableText

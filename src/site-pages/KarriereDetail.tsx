@@ -50,7 +50,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
     : "";
   const applyEmail = job?.contactEmail?.trim() || page?.spontaneousEmail?.trim();
 
-  if (isLoading) {
+  if (isLoading && !sanityJob) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 max-w-3xl">

@@ -67,5 +67,8 @@ export function gynekologiTreatmentSlugCandidates(urlSlug: string): string[] {
   const trimmed = urlSlug.trim();
   if (!trimmed) return [];
   const resolved = resolveGynekologiTreatmentSlug(trimmed);
-  return [...new Set([trimmed, resolved].filter(Boolean))];
+  const reverseAliases = Object.entries(GYNEKOLOGI_SLUG_ALIASES)
+    .filter(([, target]) => target === trimmed || target === resolved)
+    .map(([alias]) => alias);
+  return [...new Set([trimmed, resolved, ...reverseAliases].filter(Boolean))];
 }

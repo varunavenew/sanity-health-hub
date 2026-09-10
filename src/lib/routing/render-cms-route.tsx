@@ -14,6 +14,12 @@ import { fetchSpecialistsListData } from "@/lib/sanity/specialists-list.server";
 import { fetchArticlesListData } from "@/lib/sanity/articles-list.server";
 import { prefetchSingletonPage } from "@/lib/sanity/singleton-page-data.server";
 import { fetchArticleDetailData } from "@/lib/sanity/article-detail.server";
+import { fetchClinicianGuidePageData } from "@/lib/sanity/clinician-guide.server";
+import { fetchThemePageData } from "@/lib/sanity/theme-page.server";
+import {
+  fetchJobListingBySlugData,
+  fetchJobListingsData,
+} from "@/lib/sanity/job-listing.server";
 import type { ResolvedCmsRoute } from "@/lib/routing/cms-route-types";
 import type { SingletonPageType } from "@/lib/routing/cms-route-types";
 import { pathsForRoute } from "@/lib/routing/path-builder";
@@ -97,6 +103,20 @@ const SINGLETON_HANDLERS: Record<
   guidePage: { Component: Guide, buildMetadata: buildGuideMetadata },
 };
 
+/** Singletons whose body is hydrated into React Query so the initial HTML includes CMS copy. */
+const SSR_SINGLETON_TYPES = new Set<SingletonPageType>([
+  "specialistsListingPage",
+  "newsPage",
+  "aboutPage",
+  "careersPage",
+  "privacyPolicyPage",
+  "opennessActPage",
+  "servicesPage",
+  "specialistsPage",
+  "guidePage",
+  "insurancePage",
+]);
+
 const TREATMENT_COMPONENTS: Record<string, React.ComponentType<{ isChatOpen: boolean; sanityLang?: "no" | "en"; initialTreatment?: unknown; categoryId?: string }>> = {
   gynekologi: GynekologiSubPage,
   fertilitet: FertilitetSubPage,
@@ -154,10 +174,7 @@ export async function renderCmsRoute(
       const handler = SINGLETON_HANDLERS[route.documentType as SingletonPageType];
       if (!handler) return null;
       const { Component } = handler;
-      if (
-        route.documentType === "specialistsListingPage" ||
-        route.documentType === "newsPage"
-      ) {
+      if (SSR_SINGLETON_TYPES.has(route.documentType as SingletonPageType)) {
         const queryClient = new QueryClient();
         await prefetchSingletonPage(queryClient, route.documentType, sanityLang);
         if (route.documentType === "specialistsListingPage") {
@@ -172,6 +189,12 @@ export async function renderCmsRoute(
             await fetchArticlesListData(sanityLang),
           );
         }
+        if (route.documentType === "careersPage") {
+          queryClient.setQueryData(
+            ["sanity", "jobListings", sanityLang],
+            await fetchJobListingsData(sanityLang),
+          );
+        }
         return (
           <TreatmentHydration state={dehydrate(queryClient)}>
             <Component isChatOpen={false} />
@@ -180,10 +203,32 @@ export async function renderCmsRoute(
       }
       return <Component isChatOpen={false} />;
     }
-    case "theme":
-      return <CmsThemePage isChatOpen={false} themeSlug={route.slug} />;
-    case "clinicianGuide":
-      return <ClinicianGuidePage isChatOpen={false} slug={route.slug} />;
+    case "theme": {
+      const initialTheme = await fetchThemePageData(route.slug, sanityLang);
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(
+        ["sanity", "themePage", route.slug, sanityLang],
+        initialTheme,
+      );
+      return (
+        <TreatmentHydration state={dehydrate(queryClient)}>
+          <CmsThemePage isChatOpen={false} themeSlug={route.slug} />
+        </TreatmentHydration>
+      );
+    }
+    case "clinicianGuide": {
+      const initialGuide = await fetchClinicianGuidePageData(route.slug, sanityLang);
+      const queryClient = new QueryClient();
+      queryClient.setQueryData(
+        ["sanity", "clinicianGuidePage", route.slug, sanityLang],
+        initialGuide,
+      );
+      return (
+        <TreatmentHydration state={dehydrate(queryClient)}>
+          <ClinicianGuidePage isChatOpen={false} slug={route.slug} />
+        </TreatmentHydration>
+      );
+    }
     case "category": {
       const categoryId = normalizeCategoryRouteKey(route.categoryId || route.slug) ||
         route.categoryId ||
@@ -230,7 +275,7 @@ export async function renderCmsRoute(
                   : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
                     ? resolveFlereFagomraderTreatmentSlug(route.slug)
                     : route.slug;
-      const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
+      const initialTreatment = await fetchTreatmentData(categoryId, route.slug, sanityLang);
       if (!initialTreatment) notFound();
       // Only dedicated team/profile slugs redirect to the specialists listing.
       // Regular treatments (e.g. fertilitetsutredning) must keep their own page
@@ -322,8 +367,22 @@ export async function renderCmsRoute(
         </TreatmentHydration>
       );
     }
-    case "job":
-      return <KarriereDetail isChatOpen={false} />;
+    case "job": {
+      const queryClient = new QueryClient();
+      const [initialJob] = await Promise.all([
+        fetchJobListingBySlugData(route.slug, sanityLang),
+        prefetchSingletonPage(queryClient, "careersPage", sanityLang),
+      ]);
+      queryClient.setQueryData(
+        ["sanity", "jobListing", route.slug, sanityLang],
+        initialJob,
+      );
+      return (
+        <TreatmentHydration state={dehydrate(queryClient)}>
+          <KarriereDetail isChatOpen={false} />
+        </TreatmentHydration>
+      );
+    }
     default:
       return null;
   }

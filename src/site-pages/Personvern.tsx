@@ -128,7 +128,7 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
       <div className="container mx-auto px-6 md:px-16 py-20 max-w-3xl">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">{title}</h1>
         <div className="prose prose-lg max-w-none text-foreground/80 space-y-6">
-          {loading ? (
+          {loading && !sanityData ? (
             <p className="text-muted-foreground">
               {loadingLabel}
             </p>

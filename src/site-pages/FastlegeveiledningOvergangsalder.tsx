@@ -29,7 +29,7 @@ export default function ClinicianGuidePage({ isChatOpen, slug = DEFAULT_GUIDE_SL
   const { data, isLoading } = useClinicianGuidePage(slug);
   const pageSlug = data?.slug || slug;
 
-  if (isLoading) {
+  if (isLoading && !data) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">

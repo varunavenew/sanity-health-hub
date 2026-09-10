@@ -109,6 +109,11 @@ import {
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
+import {
+  mapClinicianGuidePage,
+  type ClinicianGuideRaw,
+} from "@/lib/sanity/clinician-guide-data";
+import { mapThemePageData } from "@/lib/sanity/theme-page-data";
 
 const useSanityLang = useSanityContentLang;
 
@@ -1113,233 +1118,35 @@ export const useThemePage = (slug: string) => {
   return useQuery({
     queryKey: ["sanity", "themePage", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<{
-        title: string;
-        geoSummary?: string;
-        heroImage?: string;
-        heroMedia?: unknown;
-        introTexts?: string[];
-        sections?: { heading: string; paragraphs?: string[]; bulletPoints?: string[] }[];
-        lifePhases?: { title: string; text: string }[];
-        supportSpecialtiesSection?: {
-          title?: string;
-          intro?: string;
-          items?: Array<{ title?: string; description?: string }>;
-        };
-        specialtyAreasSection?: {
-          title?: string;
-          cards?: Array<{
-            title?: string;
-            href?: string;
-            image?: string;
-            imageAlt?: string;
-          }>;
-        };
-        ctaText?: string;
-        ctaLink?: string;
-        pageSections?: unknown;
-        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(THEME_PAGE_QUERY, { slug }, lang);
-      if (!data) return null;
-
-      const introTexts = Array.isArray(data.introTexts)
-        ? data.introTexts
-            .map((text) => (typeof text === "string" ? text.trim() : ""))
-            .filter(Boolean)
-        : [];
-
-      const sections = Array.isArray(data.sections)
-        ? data.sections
-            .map((section) => ({
-              heading: typeof section.heading === "string" ? section.heading.trim() : "",
-              paragraphs: Array.isArray(section.paragraphs)
-                ? section.paragraphs
-                    .map((p) => (typeof p === "string" ? p.trim() : ""))
-                    .filter(Boolean)
-                : [],
-              bulletPoints: Array.isArray(section.bulletPoints)
-                ? section.bulletPoints
-                    .map((p) => (typeof p === "string" ? p.trim() : ""))
-                    .filter(Boolean)
-                : [],
-            }))
-            .filter(
-              (section) =>
-                section.heading || section.paragraphs.length > 0 || section.bulletPoints.length > 0,
-            )
-        : [];
-
-      const lifePhases = Array.isArray(data.lifePhases)
-        ? data.lifePhases
-            .map((phase) => ({
-              title: typeof phase.title === "string" ? phase.title.trim() : "",
-              text: typeof phase.text === "string" ? phase.text.trim() : "",
-            }))
-            .filter((phase) => phase.title && phase.text)
-        : [];
-
-      const supportSpecialtiesSection = data.supportSpecialtiesSection
-        ? {
-            title:
-              typeof data.supportSpecialtiesSection.title === "string"
-                ? data.supportSpecialtiesSection.title.trim()
-                : "",
-            intro:
-              typeof data.supportSpecialtiesSection.intro === "string"
-                ? data.supportSpecialtiesSection.intro.trim()
-                : "",
-            items: Array.isArray(data.supportSpecialtiesSection.items)
-              ? data.supportSpecialtiesSection.items
-                  .map((item) => ({
-                    title: typeof item.title === "string" ? item.title.trim() : "",
-                    description:
-                      typeof item.description === "string" ? item.description.trim() : "",
-                  }))
-                  .filter((item) => item.title && item.description)
-              : [],
-          }
-        : undefined;
-
-      const specialtyAreasSection = data.specialtyAreasSection
-        ? {
-            title:
-              typeof data.specialtyAreasSection.title === "string"
-                ? data.specialtyAreasSection.title.trim()
-                : "",
-            cards: Array.isArray(data.specialtyAreasSection.cards)
-              ? data.specialtyAreasSection.cards
-                  .map((card) => ({
-                    title: typeof card.title === "string" ? card.title.trim() : "",
-                    href: typeof card.href === "string" ? card.href.trim() : "",
-                    image: typeof card.image === "string" ? card.image.trim() : "",
-                    imageAlt:
-                      typeof card.imageAlt === "string" ? card.imageAlt.trim() : "",
-                  }))
-                  .filter((card) => card.title && card.href && card.image)
-              : [],
-          }
-        : undefined;
-
-      return {
-        ...data,
-        title: typeof data.title === "string" ? data.title.trim() : "",
-        geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
-        introTexts,
-        sections,
-        lifePhases,
-        supportSpecialtiesSection,
-        specialtyAreasSection,
-        ctaText: typeof data.ctaText === "string" ? data.ctaText.trim() : "",
-        ctaLink: typeof data.ctaLink === "string" ? data.ctaLink.trim() : "",
-        pageSections: normalizePageSections(data.pageSections),
-      };
+      const data = await fetchSanity<Parameters<typeof mapThemePageData>[0]>(
+        THEME_PAGE_QUERY,
+        { slug },
+        lang,
+      );
+      return mapThemePageData(data);
     },
     staleTime: 5 * 60 * 1000,
   });
 };
 
 // ─── Clinician Guide Pages (Fastlegeveiledere) ───────────────────────
-export type ClinicianGuideBlock = {
-  _key: string;
-  _type: "guideSubheading" | "guideParagraph" | "guideList" | "guideQuote";
-  level?: "h3" | "h4";
-  style?: string;
-  text?: string;
-  source?: string;
-  items?: string[];
-};
-
-export type ClinicianGuideSection = {
-  _key: string;
-  heading: string;
-  blocks: ClinicianGuideBlock[];
-};
-
-export type ClinicianGuidePageData = {
-  title: string;
-  slug: string;
-  subtitle?: string;
-  backLinkLabel?: string;
-  backLinkUrl?: string;
-  introTexts: string[];
-  disclaimer?: string;
-  sections: ClinicianGuideSection[];
-  sources: string[];
-  closingNote?: string;
-  ctaText?: string;
-  ctaLink?: string;
-  seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
-};
+export type {
+  ClinicianGuideBlock,
+  ClinicianGuidePageData,
+  ClinicianGuideSection,
+} from "@/lib/sanity/clinician-guide-data";
 
 export const useClinicianGuidePage = (slug: string) => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "clinicianGuidePage", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<{
-        title?: string;
-        slug?: string;
-        subtitle?: string;
-        backLinkLabel?: string;
-        backLinkUrl?: string;
-        introTexts?: { text?: string }[];
-        disclaimer?: string;
-        sections?: {
-          _key: string;
-          heading?: string;
-          blocks?: {
-            _key: string;
-            _type: ClinicianGuideBlock["_type"];
-            level?: "h3" | "h4";
-            style?: string;
-            text?: string;
-            source?: string;
-            items?: { text?: string }[];
-          }[];
-        }[];
-        sources?: { text?: string }[];
-        closingNote?: string;
-        ctaText?: string;
-        ctaLink?: string;
-        seo?: ClinicianGuidePageData["seo"];
-      } | null>(CLINICIAN_GUIDE_PAGE_QUERY, { slug }, lang);
-      if (!data) return null;
-
-      const textList = (arr?: { text?: string }[]) =>
-        (arr || [])
-          .map((item) => (typeof item.text === "string" ? item.text.trim() : ""))
-          .filter(Boolean);
-
-      const sections: ClinicianGuideSection[] = (data.sections || []).map((section) => ({
-        _key: section._key,
-        heading: typeof section.heading === "string" ? section.heading.trim() : "",
-        blocks: (section.blocks || []).map((block) => ({
-          _key: block._key,
-          _type: block._type,
-          level: block.level,
-          style: block.style,
-          text: typeof block.text === "string" ? block.text : undefined,
-          source: typeof block.source === "string" ? block.source : undefined,
-          items: block._type === "guideList" ? textList(block.items) : undefined,
-        })),
-      }));
-
-      const result: ClinicianGuidePageData = {
-        title: typeof data.title === "string" ? data.title.trim() : "",
-        slug: typeof data.slug === "string" ? data.slug : slug,
-        subtitle: typeof data.subtitle === "string" ? data.subtitle.trim() : "",
-        backLinkLabel: typeof data.backLinkLabel === "string" ? data.backLinkLabel.trim() : "",
-        backLinkUrl: typeof data.backLinkUrl === "string" ? data.backLinkUrl.trim() : "",
-        introTexts: textList(data.introTexts),
-        disclaimer: typeof data.disclaimer === "string" ? data.disclaimer.trim() : "",
-        sections,
-        sources: textList(data.sources),
-        closingNote: typeof data.closingNote === "string" ? data.closingNote.trim() : "",
-        ctaText: typeof data.ctaText === "string" ? data.ctaText.trim() : "",
-        ctaLink: typeof data.ctaLink === "string" ? data.ctaLink.trim() : "",
-        seo: data.seo,
-      };
-      return result;
+      const data = await fetchSanity<ClinicianGuideRaw | null>(
+        CLINICIAN_GUIDE_PAGE_QUERY,
+        { slug },
+        lang,
+      );
+      return mapClinicianGuidePage(data, slug);
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,

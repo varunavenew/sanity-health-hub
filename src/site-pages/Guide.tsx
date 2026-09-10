@@ -242,7 +242,7 @@ const Guide = ({ isChatOpen }: GuideProps) => {
         </section>
       ) : null}
 
-      {isLoading ? (
+      {isLoading && !page ? (
         <div className="container mx-auto px-4 py-20 space-y-8 max-w-5xl">
           {[1, 2, 3].map((i) => (
             <div key={i} className="grid md:grid-cols-2 gap-16">

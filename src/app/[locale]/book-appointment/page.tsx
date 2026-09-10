@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import BookingDemo from "@/site-pages/BookingDemo";
+import { renderHydratedBookingPage } from "@/lib/routing/render-booking-page";
 import { buildBookingMetadata } from "@/lib/seo/route-metadata";
 
 type Props = {
@@ -11,6 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildBookingMetadata(locale);
 }
 
-export default function Page() {
-  return <BookingDemo />;
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  return renderHydratedBookingPage(locale);
 }

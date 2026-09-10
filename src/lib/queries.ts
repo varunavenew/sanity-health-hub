@@ -1880,7 +1880,7 @@ const i18nArrayItemText = (field: string) => `"${field}": ${field}[]{
   "text": coalesce(value[language == $lang][0].value, value[_key == $lang][0].value, value[language == "no"][0].value, value[_key == "no"][0].value, value)
 }`;
 
-export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${slugMatchesParam("slug")}][0]{
+export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${publishedOnly} && ${slugMatchesParam("slug")}][0]{
   ${i18nString("title")},
   "slug": slug.current,
   ${i18nString("subtitle")},
