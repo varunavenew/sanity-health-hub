@@ -220,7 +220,7 @@ export const Footer = () => {
               © {new Date().getFullYear()} CMedical. {t("footer.rights")}
             </p>
             <p className="text-sm font-light text-white/50">
-              Nettsiden er designet og utviklet av{" "}
+              {t("footer.designedBy")}{" "}
               <a
                 href="https://www.avenew.no/"
                 target="_blank"

@@ -8,6 +8,12 @@ const perm = (source: string, destination: string): LegacyRedirect => ({
   permanent: true,
 });
 
+const moved301 = (source: string, destination: string): LegacyRedirect => ({
+  source,
+  destination,
+  statusCode: 301,
+});
+
 /** Pending SEO redirects (batch 4 — Sep 2026). Listed before wildcards in next.config. */
 export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/no/klinikker/ski", "/no/klinikker"),
@@ -136,8 +142,12 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/specialists/rebecca-ostlund", "/en/specialists"),
   perm("/no/karriere/markedskoordinator-prosjektleder", "/no/karriere"),
   perm("/nb/karriere/markedskoordinator-prosjektleder", "/no/karriere"),
-  perm("/no/klinikk/bekkestua-gynekologi-hud", "/no/klinikker"),
-  perm("/nb/klinikk/bekkestua-gynekologi-hud", "/no/klinikker"),
+  moved301("/klinikk/bekkestua-gynekologi-hud", "/no/klinikker/bekkestua"),
+  moved301("/no/klinikk/bekkestua-gynekologi-hud", "/no/klinikker/bekkestua"),
+  moved301("/nb/klinikk/bekkestua-gynekologi-hud", "/no/klinikker/bekkestua"),
+  moved301("/en/klinikk/bekkestua-gynekologi-hud", "/en/clinics/bekkestua"),
+  moved301("/en/clinics/bekkestua-gynekologi-hud", "/en/clinics/bekkestua"),
+  moved301("/en/other/physician", "/en/other/skin-health"),
   perm("/no/prisliste-for-ernaeringsfysiolog", "/no/aktuelt/prisliste-for-ernaeringsfysiolog"),
   perm("/nb/prisliste-for-ernaeringsfysiolog", "/nb/aktuelt/prisliste-for-ernaeringsfysiolog"),
   perm("/no/prisliste-for-hud", "/no/aktuelt/prisliste-for-hud"),

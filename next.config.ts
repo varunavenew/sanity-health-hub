@@ -346,7 +346,17 @@ const nextConfig: NextConfig = {
       { source: "/:locale(nb|no)/klinikk/moelv", destination: "/:locale/klinikker/moelv", permanent: true },
       { source: "/en/klinikk/moelv", destination: "/en/clinics/moelv", permanent: true },
       { source: "/en/klinikk/moss", destination: "/en/clinics/moss", permanent: true },
+      {
+        source: "/en/klinikk/bekkestua-gynekologi-hud",
+        destination: "/en/clinics/bekkestua",
+        statusCode: 301,
+      },
       { source: "/en/klinikk/:slug*", destination: "/en/clinics/:slug*", permanent: true },
+      {
+        source: "/en/other/physician",
+        destination: "/en/other/skin-health",
+        statusCode: 301,
+      },
       { source: "/en/bariatric-surgery", destination: "/en/other/obesity-surgery", permanent: true },
       { source: "/en/gynecology/gynecological-ultrasound", destination: "/en/gynecology/ultrasound", permanent: true },
 

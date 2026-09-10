@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useNavigate } from "@/lib/router";
+import { useTranslation } from "react-i18next";
 import {
   useClinicianGuidePage,
   type ClinicianGuideBlock,
@@ -26,6 +27,7 @@ function guidePageHasBody(data: ClinicianGuidePageData | null | undefined): bool
 
 /** CMS-driven clinician guide page (routed by slug from Sanity). */
 export default function ClinicianGuidePage({ isChatOpen, slug = DEFAULT_GUIDE_SLUG }: PageProps) {
+  const { t } = useTranslation();
   const { data, isLoading } = useClinicianGuidePage(slug);
   const pageSlug = data?.slug || slug;
 
@@ -33,7 +35,7 @@ export default function ClinicianGuidePage({ isChatOpen, slug = DEFAULT_GUIDE_SL
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">Laster…</p>
+          <p className="text-muted-foreground font-light">{t("common.loading")}</p>
         </div>
       </PageLayout>
     );

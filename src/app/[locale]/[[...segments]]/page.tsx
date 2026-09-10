@@ -24,6 +24,7 @@ import {
   isRetiredIvfSlug,
 } from "@/lib/sanity/ivf-canonical";
 import { hasTestContentSegment } from "@/lib/seo/test-content-slugs";
+import { redirectEnTreatmentIfNotCanonical } from "@/lib/routing/redirect-en-treatment-slug";
 
 type Props = {
   params: Promise<{ locale: string; segments?: string[] }>;
@@ -137,5 +138,6 @@ export default async function CmsOptionalCatchAllPage({ params }: Props) {
 
   const route = await resolveCmsRouteCached(segments, locale);
   if (!route) notFound();
+  await redirectEnTreatmentIfNotCanonical(locale, segments, route);
   return renderCmsRoute(route, locale);
 }

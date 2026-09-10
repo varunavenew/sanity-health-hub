@@ -12,16 +12,29 @@ import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 const LOCALE_PREFIX = new Set(locales);
 
-/** Retired slug `hudlege` → canonical `hudhelse` (301, no alias/duplicate page). */
+/** Retired slug `hudlege` / EN `physician` → canonical skin-health page (301). */
 const HUDLEGE_REDIRECTS: Array<[RegExp, string]> = [
   [/^\/(no|nb)\/ovrige\/hudlege(?=\/|$)/, "/$1/ovrige/hudhelse"],
   [/^\/(no|nb)\/flere-fagomrader\/hudlege(?=\/|$)/, "/$1/ovrige/hudhelse"],
   [/^\/(no|nb)\/behandlinger\/(?:ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/$1/ovrige/hudhelse"],
-  [/^\/en\/(?:other|more-specialties|ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/en/other/hudhelse"],
-  [/^\/en\/behandlinger\/(?:other|more-specialties|ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/en/other/hudhelse"],
+  [/^\/en\/(?:other|more-specialties|ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/en/other/skin-health"],
+  [/^\/en\/(?:other|more-specialties|ovrige|flere-fagomrader)\/physician(?=\/|$)/, "/en/other/skin-health"],
+  [/^\/en\/behandlinger\/(?:other|more-specialties|ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/en/other/skin-health"],
+  [/^\/en\/behandlinger\/(?:other|more-specialties|ovrige|flere-fagomrader)\/physician(?=\/|$)/, "/en/other/skin-health"],
   [/^\/ovrige\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
   [/^\/flere-fagomrader\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
   [/^\/behandlinger\/(?:ovrige|flere-fagomrader)\/hudlege(?=\/|$)/, "/no/ovrige/hudhelse"],
+];
+
+/**
+ * Legacy compound clinic slug — must 301 to the live clinic page in one hop.
+ * Unprefixed `/klinikk/…` is a Norwegian URL: never let detectLocale send it via `/en/`.
+ */
+const BEKKESTUA_LEGACY_REDIRECTS: Array<[RegExp, string]> = [
+  [/^\/klinikk\/bekkestua-gynekologi-hud(?=\/|$)/, "/no/klinikker/bekkestua"],
+  [/^\/(no|nb)\/klinikk\/bekkestua-gynekologi-hud(?=\/|$)/, "/no/klinikker/bekkestua"],
+  [/^\/en\/klinikk\/bekkestua-gynekologi-hud(?=\/|$)/, "/en/clinics/bekkestua"],
+  [/^\/en\/clinics\/bekkestua-gynekologi-hud(?=\/|$)/, "/en/clinics/bekkestua"],
 ];
 
 /** Typo slug missing "s" in forstyrrelser → canonical treatment URL (301). */
@@ -48,16 +61,30 @@ function ivfMigrationRedirect(request: NextRequest): NextResponse | null {
   const url = request.nextUrl.clone();
   url.pathname = destPath;
   if (destHash) url.hash = destHash;
-  return NextResponse.redirect(url, 301);
+  return NextResponse.redirect(url, { status: 301 });
 }
 
 function hudlegeMigrationRedirect(request: NextRequest): NextResponse | null {
+  return firstMatchingRedirect(request, HUDLEGE_REDIRECTS);
+}
+
+function bekkestuaLegacyRedirect(request: NextRequest): NextResponse | null {
+  return firstMatchingRedirect(request, BEKKESTUA_LEGACY_REDIRECTS);
+}
+
+function firstMatchingRedirect(
+  request: NextRequest,
+  rules: Array<[RegExp, string]>,
+): NextResponse | null {
   const { pathname } = request.nextUrl;
-  for (const [pattern, replacement] of HUDLEGE_REDIRECTS) {
+  for (const [pattern, replacement] of rules) {
     if (!pattern.test(pathname)) continue;
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(pattern, replacement);
-    return NextResponse.redirect(url, 301);
+    if (url.pathname.startsWith("/nb/")) {
+      url.pathname = url.pathname.replace(/^\/nb/, "/no");
+    }
+    return NextResponse.redirect(url, { status: 301 });
   }
   return null;
 }
@@ -71,7 +98,7 @@ function blodningTypoRedirect(request: NextRequest): NextResponse | null {
     if (url.pathname.startsWith("/nb/")) {
       url.pathname = url.pathname.replace(/^\/nb/, "/no");
     }
-    return NextResponse.redirect(url, 301);
+    return NextResponse.redirect(url, { status: 301 });
   }
   return null;
 }
@@ -138,6 +165,9 @@ export async function proxy(request: NextRequest) {
   const hudlegeRedirect = hudlegeMigrationRedirect(request);
   if (hudlegeRedirect) return hudlegeRedirect;
 
+  const bekkestuaRedirect = bekkestuaLegacyRedirect(request);
+  if (bekkestuaRedirect) return bekkestuaRedirect;
+
   const blodningRedirect = blodningTypoRedirect(request);
   if (blodningRedirect) return blodningRedirect;
 
@@ -164,7 +194,7 @@ export async function proxy(request: NextRequest) {
   if (first === "nb") {
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(/^\/nb(?=\/|$)/, "/no") || "/no";
-    return NextResponse.redirect(url, 301);
+    return NextResponse.redirect(url, { status: 301 });
   }
 
   if (first && LOCALE_PREFIX.has(first as (typeof locales)[number])) {
