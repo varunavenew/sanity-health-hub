@@ -8,11 +8,19 @@ import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import type { ImageRef } from "@/lib/media";
+import type {
+  MediaFocalPoint,
+  SanityCrop,
+  SanityHotspot,
+} from "@/lib/media/focal-point";
 
 export interface SpecialistLike {
   slug: string;
   name: string;
   image: ImageRef | string;
+  /** Editor-set focal point; without one the card falls back to its CSS framing. */
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
   title?: string;
   subtitle?: string;
   category?: string;
@@ -191,7 +199,11 @@ export const SpecialistCard = ({
       <AssetImg
         src={sp.image}
         alt={sp.name}
+        hotspot={sp.imageHotspot}
+        crop={sp.imageCrop}
         loading="lazy"
+        // object-top/-center only applies to specialists without a hotspot —
+        // AssetImg emits an inline object-position that wins when one is set.
         className="w-full h-full object-cover object-top md:object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
