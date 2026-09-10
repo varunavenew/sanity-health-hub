@@ -4,7 +4,7 @@ import { urlForImage } from "@/lib/sanity/image-url";
 import type { SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 
 type PortableTextImageValue = {
-  _type?: string;
+  _type: "image";
   asset?: { _ref?: string; _id?: string; url?: string } | string;
   alt?: string;
   caption?: string;
