@@ -128,10 +128,11 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     return mapped.length ? mapped : null;
   }, [newsPage?.listingArticles]);
 
-  const articlePool = useMemo(() => {
-    if (listingFromCms?.length) return listingFromCms;
-    return articles.filter((a) => isListableArticle(a.category));
-  }, [articles, isListableArticle, listingFromCms]);
+  /** Every published article that belongs to one of the news filter chips. */
+  const listableArticles = useMemo(
+    () => articles.filter((a) => isListableArticle(a.category)),
+    [articles, isListableArticle],
+  );
 
   const pageSize =
     typeof newsPage?.listSize === "number" && newsPage.listSize > 0
@@ -153,32 +154,45 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   }, [activeFilter, allFilterKey, filterOptions, pageSize]);
 
   const filteredArticles = useMemo(() => {
-    const pool = activeFilter === allFilterKey ? articlePool : articles;
-    return pool.filter((a) => {
-      return (
-        activeFilter === allFilterKey ||
-        (filterOptions.find((filter) => filter.key === activeFilter)
-          ?.acceptedArticleCategories.length ?? 0) === 0 ||
-        filterOptions
-          .find((filter) => filter.key === activeFilter)
-          ?.acceptedArticleCategories.includes(a.category) ||
-        filterOptions
-          .find((filter) => filter.key === activeFilter)
-          ?.acceptedArticleCategories.includes(normalizeCategory(a.category))
-      );
-    });
+    // "Alle" = every article that fits any news category chip, not the curated
+    // listingArticles subset (that list is only used for preferred order).
+    if (activeFilter === allFilterKey) return listableArticles;
+
+    const accepted =
+      filterOptions.find((filter) => filter.key === activeFilter)
+        ?.acceptedArticleCategories ?? [];
+    if (accepted.length === 0) return listableArticles;
+
+    return articles.filter(
+      (a) =>
+        accepted.includes(a.category) ||
+        accepted.includes(normalizeCategory(a.category)),
+    );
   }, [
     activeFilter,
     allFilterKey,
-    articlePool,
     articles,
     filterOptions,
+    listableArticles,
   ]);
 
   const sortedArticles = useMemo(() => {
     if (activeFilter === allFilterKey && listingFromCms?.length) {
-      const slugs = new Set(filteredArticles.map((a) => a.slug));
-      return listingFromCms.filter((a) => slugs.has(a.slug));
+      const bySlug = new Map(filteredArticles.map((a) => [a.slug, a]));
+      const ordered: ListingArticle[] = [];
+      const seen = new Set<string>();
+      for (const curated of listingFromCms) {
+        const hit = bySlug.get(curated.slug);
+        if (!hit || seen.has(hit.slug)) continue;
+        ordered.push(hit);
+        seen.add(hit.slug);
+      }
+      const remainder = filteredArticles
+        .filter((a) => !seen.has(a.slug))
+        .sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
+      return [...ordered, ...remainder];
     }
     return [...filteredArticles].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
