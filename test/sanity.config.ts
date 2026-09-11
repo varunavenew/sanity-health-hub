@@ -129,8 +129,9 @@ export default defineConfig({
       // New empty fields: use “Add all languages” (or schema initialValue).
       // The base types we want a localized variant of.
       // Studio will register: internationalizedArrayString, internationalizedArrayText,
-      // internationalizedArrayBlockContent, internationalizedArraySlug
-      fieldTypes: ['string', 'text', 'blockContent', 'slug'],
+      // internationalizedArrayBlockContent, internationalizedArraySimpleBlockContent,
+      // internationalizedArraySlug
+      fieldTypes: ['string', 'text', 'blockContent', 'simpleBlockContent', 'slug'],
     }),
   ],
 

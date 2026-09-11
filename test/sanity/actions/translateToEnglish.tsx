@@ -15,6 +15,7 @@ const I18N_VALUE_TYPES = new Set([
   'internationalizedArrayStringValue',
   'internationalizedArrayTextValue',
   'internationalizedArrayBlockContentValue',
+  'internationalizedArraySimpleBlockContentValue',
 ])
 
 interface I18nItem {
@@ -54,7 +55,8 @@ function collectJobs(node: any, path: (string | number)[], jobs: Job[]) {
           (typeof enItem.value === 'string' ? enItem.value.trim().length > 0 : true)
         if (!enHasValue) {
           const isPT =
-            noItem._type === 'internationalizedArrayBlockContentValue' &&
+            (noItem._type === 'internationalizedArrayBlockContentValue' ||
+              noItem._type === 'internationalizedArraySimpleBlockContentValue') &&
             Array.isArray(noItem.value)
           jobs.push({path, noValue: noItem.value, ptBlocks: isPT})
         }

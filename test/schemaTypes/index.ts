@@ -14,6 +14,7 @@ import servicesPage from './servicesPage'
 import googleReview from './googleReview'
 import googleReviewSettings from './googleReviewSettings'
 import blockContent from './blockContent'
+import simpleBlockContent from './simpleBlockContent'
 import youtubeEmbed from './youtubeEmbed'
 import mediaObject from './objects/media'
 import homepageSpecialistsSectionType from './homepageSpecialistsSection'
@@ -105,6 +106,7 @@ export const schemaTypes = [
   pageSectionBookingCta,
   youtubeEmbed,
   blockContent,
+  simpleBlockContent,
   seo,
   siteSettings,
   googleAnalyticsSettings,

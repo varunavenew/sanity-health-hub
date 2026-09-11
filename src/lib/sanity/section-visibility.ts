@@ -107,6 +107,7 @@ type TextSectionBand = {
 export function isMeaningfulReasonItem(item: ReasonItem): boolean {
   if (isBlacklistedReasonTitle(item.title)) return false;
   if (typeof item.desc === "string") return item.desc.trim().length > 0;
+  if (Array.isArray(item.desc)) return hasPortableText(item.desc);
   return Boolean(item.desc);
 }
 

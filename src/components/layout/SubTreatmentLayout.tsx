@@ -33,6 +33,8 @@ import {
   filterMeaningfulPageSections,
 } from "@/lib/sanity/section-visibility";
 import { renderLightMarkdown } from "@/lib/light-markdown";
+import { SimpleRichText } from "@/components/portable-text/SimpleRichText";
+import { isPortableTextBlocks } from "@/lib/portable-text/plain";
 import {
   Accordion,
   AccordionContent,
@@ -41,6 +43,7 @@ import {
 } from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import type { PortableTextBlock } from "@portabletext/types";
 
 export interface SubTreatmentContent {
   seoTitle: string;
@@ -84,7 +87,7 @@ export interface SubTreatmentContent {
   reasonsTitle: string;
   reasonsLead?: string;
   reasonsLead2?: string;
-  reasons: { n: string; title: string; desc: string | ReactNode; id?: string }[];
+  reasons: { n: string; title: string; desc: string | ReactNode | PortableTextBlock[]; id?: string }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
   promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
   textSection?: {
@@ -181,7 +184,7 @@ function ReasonsEditorial({
   title: string;
   lead?: string;
   lead2?: string;
-  items: { n: string; title: string; desc: string | ReactNode; id?: string }[];
+  items: { n: string; title: string; desc: string | ReactNode | PortableTextBlock[]; id?: string }[];
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
   const hasLead = Boolean(lead?.trim() || lead2?.trim());
@@ -248,10 +251,14 @@ function ReasonsEditorial({
                       <span className="pr-4">{item.title}</span>
                     </AccordionTrigger>
                     <AccordionContent>
-                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-                        {typeof item.desc === "string"
-                          ? renderLightMarkdown(item.desc)
-                          : item.desc}
+                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_a]:text-foreground [&_li]:marker:text-foreground/40">
+                        {isPortableTextBlocks(item.desc) ? (
+                          <SimpleRichText value={item.desc} />
+                        ) : typeof item.desc === "string" ? (
+                          renderLightMarkdown(item.desc)
+                        ) : (
+                          item.desc
+                        )}
                       </div>
                     </AccordionContent>
                   </AccordionItem>

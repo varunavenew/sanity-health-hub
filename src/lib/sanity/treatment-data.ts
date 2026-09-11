@@ -20,6 +20,10 @@ import {
   buildLinkedCardHeroLookup,
   type LinkedCardHeroRow,
 } from "@/lib/sanity/flere-linked-service-media";
+import type { PortableTextBlock } from "@portabletext/types";
+import { isPortableTextBlocks } from "@/lib/portable-text/plain";
+
+export type ReasonDesc = string | PortableTextBlock[];
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -45,6 +49,12 @@ function asPlainString(value: unknown): string {
     if (typeof inner === "string") return inner;
   }
   return "";
+}
+
+function asReasonDesc(value: unknown): ReasonDesc {
+  if (typeof value === "string") return value;
+  if (isPortableTextBlocks(value)) return value;
+  return asPlainString(value);
 }
 
 function pathSlug(path: string): string {
@@ -150,7 +160,7 @@ export type TreatmentData = {
   reasonsLead?: string;
   reasonsLead2?: string;
   reasonsLayout?: "prose" | "accordion" | "auto";
-  reasons?: { n: string; title: string; desc: string; id?: string }[];
+  reasons?: { n: string; title: string; desc: ReasonDesc; id?: string }[];
   promises?: { eyebrow: string; title: string; desc: string; image?: string; imageAlt?: string }[];
   expertAreas?: {
     title?: string;
@@ -363,7 +373,7 @@ export function mapTreatmentDocument(
         return {
           n: asPlainString(r.n),
           title,
-          desc: asPlainString(r.desc),
+          desc: asReasonDesc(r.desc),
           id: asPlainString(r.id) || undefined,
         };
       })

@@ -13,6 +13,7 @@ const I18N_VALUE_TYPES = new Set([
   'internationalizedArrayStringValue',
   'internationalizedArrayTextValue',
   'internationalizedArrayBlockContentValue',
+  'internationalizedArraySimpleBlockContentValue',
 ])
 
 const DOCUMENT_TYPES = [
@@ -59,7 +60,8 @@ function collectJobs(node: unknown, path: (string | number)[], jobs: Job[]) {
           valueType: noItem._type,
           noValue: noItem.value,
           ptBlocks:
-            noItem._type === 'internationalizedArrayBlockContentValue' &&
+            (noItem._type === 'internationalizedArrayBlockContentValue' ||
+              noItem._type === 'internationalizedArraySimpleBlockContentValue') &&
             Array.isArray(noItem.value),
         })
       }

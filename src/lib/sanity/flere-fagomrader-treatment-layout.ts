@@ -8,8 +8,10 @@ import {
   resolveFlereLinkedServiceImage,
   resolveFlereLinkedServicePath,
 } from "@/lib/sanity/flere-linked-service-media";
+import type { PortableTextBlock } from "@portabletext/types";
+import { portableTextToPlain } from "@/lib/portable-text/plain";
 
-type ReasonItem = { n: string; title: string; desc: string };
+type ReasonItem = { n: string; title: string; desc: string | PortableTextBlock[] };
 
 type ExpertAreaItem = {
   title: string;
@@ -149,7 +151,7 @@ function buildCardItems(
   const items: ExpertAreaItem[] = [];
   for (const service of linkedServices) {
     const matched = reasonByTitle(reasons, service.label);
-    const desc = matched?.desc?.trim() || service.description.trim();
+    const desc = portableTextToPlain(matched?.desc).trim() || service.description.trim();
     if (!service.label.trim() || !desc) continue;
     items.push({
       title: service.label.trim(),
@@ -290,7 +292,7 @@ export function normalizeFlereFagomraderTreatmentLayout(
           .filter((item) => item.title && isCardReason(item.title, cardTitles))
           .map((item) => ({
             title: item.title,
-            desc: item.desc,
+            desc: portableTextToPlain(item.desc),
             href: "",
             imageAlt: item.title,
           }))

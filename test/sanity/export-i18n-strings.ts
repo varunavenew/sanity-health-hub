@@ -10,6 +10,7 @@ const I18N_VALUE_TYPES = new Set([
   'internationalizedArrayStringValue',
   'internationalizedArrayTextValue',
   'internationalizedArrayBlockContentValue',
+  'internationalizedArraySimpleBlockContentValue',
 ])
 
 const DOCUMENT_TYPES = [

@@ -12,6 +12,7 @@ import {
 
 const i18nString = { type: 'internationalizedArrayString' as const }
 const i18nText = { type: 'internationalizedArrayText' as const }
+const i18nSimpleBlock = { type: 'internationalizedArraySimpleBlockContent' as const }
 
 const titledItemPreview = {
   select: { title: 'title' },
@@ -137,7 +138,12 @@ export const subTreatmentLayoutType = {
           fields: [
             { name: 'n', title: 'Number', ...i18nString },
             { name: 'title', title: 'Title', ...i18nString },
-            { name: 'desc', title: 'Description', ...i18nText },
+            {
+              name: 'desc',
+              title: 'Description',
+              ...i18nSimpleBlock,
+              description: 'Use the link button for “Les mer” / “Read more”.',
+            },
           ],
           preview: titledItemPreview,
         },

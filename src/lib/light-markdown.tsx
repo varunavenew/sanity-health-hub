@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 
+const LINK_CLASS =
+  "text-foreground underline underline-offset-4 hover:opacity-70 transition-opacity";
+
 /**
- * Minimal markdown for CMS text fields that store bold + bullet lists.
+ * Minimal markdown for CMS text fields: bold, bullet lists, and [label](url) links.
  * Renders React nodes — does not use dangerouslySetInnerHTML.
  */
 export function renderLightMarkdown(input: string): ReactNode {
@@ -45,10 +48,31 @@ export function renderLightMarkdown(input: string): ReactNode {
 }
 
 function renderInlineMarkdown(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g).filter(Boolean);
   return parts.map((part, index) => {
     if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
-      return <strong key={index} className="font-medium text-foreground">{part.slice(2, -2)}</strong>;
+      return (
+        <strong key={index} className="font-medium text-foreground">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (link) {
+      const [, label, href] = link;
+      const isExternal = /^https?:\/\//i.test(href ?? "");
+      return (
+        <a
+          key={index}
+          href={href}
+          className={LINK_CLASS}
+          {...(isExternal
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
+        >
+          {label}
+        </a>
+      );
     }
     return <span key={index}>{part}</span>;
   });

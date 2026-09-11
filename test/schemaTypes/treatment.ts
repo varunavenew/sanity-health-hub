@@ -516,7 +516,12 @@ export default {
           fields: [
             { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+            {
+              name: 'desc',
+              title: 'Description',
+              type: 'internationalizedArraySimpleBlockContent',
+              description: 'Use the link button for “Les mer” / “Read more”.',
+            },
           ],
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },

@@ -51,6 +51,7 @@ const OPAQUE_VALUE_TYPES = new Set([
   'internationalizedArrayTextValue',
   'internationalizedArraySlugValue',
   'internationalizedArrayBlockContentValue',
+  'internationalizedArraySimpleBlockContentValue',
 ])
 
 type SchemaNode = {

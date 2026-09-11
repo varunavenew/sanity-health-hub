@@ -1,5 +1,6 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import type { TreatmentData } from "@/lib/sanity/treatment-data";
+import type { ReasonDesc, TreatmentData } from "@/lib/sanity/treatment-data";
+import { portableTextToPlain } from "@/lib/portable-text/plain";
 import {
   categoryLandingPath,
   FLERE_FAGOMRADER_CATEGORY_ID,
@@ -108,10 +109,10 @@ function seoText(treatment: TreatmentData): { title: string; description: string
 }
 
 function mapReasons(
-  reasons: { n: string; title: string; desc: string; id?: string }[],
-): { n: string; title: string; desc: string; id: string }[] {
+  reasons: { n: string; title: string; desc: ReasonDesc; id?: string }[],
+): { n: string; title: string; desc: ReasonDesc; id: string }[] {
   return reasons
-    .filter((item) => item.title || item.desc)
+    .filter((item) => item.title || portableTextToPlain(item.desc))
     .map((item, index) => ({
       ...item,
       n: item.n?.trim() || String(index + 1).padStart(2, "0"),
