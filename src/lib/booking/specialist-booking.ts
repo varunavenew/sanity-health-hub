@@ -29,7 +29,9 @@ export function isFetalMedicineBookingCategory(category: {
   const clinicId = (category.clinicServiceId || "").trim().toLowerCase();
   return (
     clinicId === "fostermedisiner" ||
+    clinicId === "graviditet" ||
     id === "fostermedisiner" ||
+    id === "graviditet" ||
     id === "fostermedisiner-graviditet"
   );
 }

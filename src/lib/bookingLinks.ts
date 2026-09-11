@@ -88,15 +88,32 @@ export type BookingCategoryMatch = {
 
 /**
  * Resolve a category-page id (gynekologi) to a booking API category.
+ * Matches clinicServiceId, category id, and page-id aliases so deep links
+ * keep working when Metodika renames a group (e.g. «Fostermedisiner - graviditet»
+ * → «Graviditet»).
  */
 export function findBookingCategoryForPage(
   categoryPageId: string,
   categories: BookingCategoryMatch[],
 ): BookingCategoryMatch | undefined {
-  const clinicId = clinicServiceIdForCategoryPage(categoryPageId);
-  return categories.find(
-    (c) => c.clinicServiceId === clinicId || c.id === clinicId,
+  const normalizedPageId = categoryPageId.trim().toLowerCase();
+  if (!normalizedPageId) return undefined;
+
+  const clinicId = clinicServiceIdForCategoryPage(normalizedPageId);
+  const aliases = new Set(
+    [normalizedPageId, clinicId, categoryPageToBookingId[normalizedPageId]]
+      .filter(Boolean)
+      .map((value) => value.toLowerCase()),
   );
+
+  return categories.find((c) => {
+    const id = (c.id || "").trim().toLowerCase();
+    const serviceId = (c.clinicServiceId || "").trim().toLowerCase();
+    if (aliases.has(id) || aliases.has(serviceId)) return true;
+    if (bookingIdToCategoryPage[serviceId] === normalizedPageId) return true;
+    if (bookingIdToCategoryPage[id] === normalizedPageId) return true;
+    return false;
+  });
 }
 
 /** Resolve a Metodika wbactivitygroup id (e.g. 36 → Håndterapeut) from loaded categories. */
