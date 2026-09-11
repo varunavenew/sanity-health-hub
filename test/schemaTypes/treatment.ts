@@ -220,6 +220,16 @@ export default {
       group: 'general',
     },
     {
+      name: 'searchKeywords',
+      title: 'Search keywords / synonyms',
+      type: 'array',
+      group: 'general',
+      of: [{type: 'string'}],
+      options: {layout: 'tags'},
+      description:
+        'Alternative words patients may type when searching for this treatment on Tjenester (e.g. slankeoperasjon, fedmekirurgi, gastric bypass). Also searchable: the full treatment name and any text in parentheses. Do not list the official name again.',
+    },
+    {
       name: 'categories',
       title: 'Categories',
       type: 'array',

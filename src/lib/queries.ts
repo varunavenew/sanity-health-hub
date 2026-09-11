@@ -499,6 +499,7 @@ const CATEGORY_TREATMENT_ROW = `
   ${i18nStringLocale("title")},
   ${i18nTextLocale("description")},
   ${i18nStringLocale("subtitle")},
+  searchKeywords,
   "heroImage": heroImage.asset->url
 `;
 
@@ -1432,6 +1433,7 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
     categoryId,
     sortOrder,
     title,
+    searchKeywords,
     ${localizedSlug},
     "heroImage": heroImage.asset->url,
     ${CATEGORY_TREATMENTS_GROQ}
@@ -1444,8 +1446,35 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
       categoryId,
       sortOrder,
       title,
+      searchKeywords,
       ${localizedSlug},
       ${CATEGORY_TREATMENTS_GROQ}
+    }
+  },
+  "searchCatalog": {
+    "categories": *[_type == "treatmentCategory" && ${publishedOnly}]{
+      _id,
+      categoryId,
+      ${i18nString("title")},
+      searchKeywords,
+      ${localizedSlug}
+    },
+    "treatments": *[_type == "treatment" && ${publishedOnly} && pageRole != "team"]{
+      _id,
+      ${i18nString("title")},
+      searchKeywords,
+      ${localizedSlug},
+      ${localizedPrimaryCategorySlugField("categorySlug")},
+      "categoryTitle": coalesce(
+        categories[0]->title[language == $lang][0].value,
+        categories[0]->title[_key == $lang][0].value,
+        categories[0]->title[language == "no"][0].value,
+        categories[0]->title[_key == "no"][0].value,
+        category->title[language == $lang][0].value,
+        category->title[_key == $lang][0].value,
+        category->title[language == "no"][0].value,
+        category->title[_key == "no"][0].value
+      )
     }
   },
   ${PAGE_SECTIONS_GROQ},
