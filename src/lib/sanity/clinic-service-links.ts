@@ -1,4 +1,5 @@
 import { bookingCategoryHrefForClinicService } from "@/lib/bookingLinks";
+import { coercePath } from "@/lib/navigation/coerce-path";
 import {
   behandlingerCategorySegment,
   normalizeCategoryFilterKey,
@@ -21,31 +22,63 @@ type ClinicServicesSection = {
 };
 
 /**
+ * True when a clinic service href is safe to render as a real navigation target.
+ * Rejects empty, hash-only, and bare `#` placeholders so rows never look clickable
+ * without a destination.
+ */
+export function isValidClinicServicePath(path: string | undefined | null): boolean {
+  if (typeof path !== "string") return false;
+  const trimmed = path.trim();
+  if (!trimmed || trimmed === "#" || trimmed.startsWith("#")) return false;
+  if (/^(javascript:|mailto:|tel:)/i.test(trimmed)) return false;
+  return Boolean(coercePath(trimmed) || /^https?:\/\//i.test(trimmed));
+}
+
+function normalizeClinicServicePath(
+  path: string | undefined | null,
+  locale: "no" | "en" = "no",
+): string | undefined {
+  if (!isValidClinicServicePath(path)) return undefined;
+  const trimmed = path!.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  const coerced = coercePath(trimmed, locale);
+  return coerced || undefined;
+}
+
+/**
  * Prefer CMS `servicesSection.items` (label + href, including external URLs).
  * Fall back to Advanced `services[]` IDs looked up in the category catalogue.
+ * Rows without a valid path stay path-less so the UI can render them as plain text.
  */
 export function resolveClinicServiceRows(
   servicesSection: ClinicServicesSection | undefined,
   serviceIds: string[] | undefined,
   catalogue: Record<string, ClinicServiceLink>,
+  locale: "no" | "en" = "no",
 ): ClinicServiceRow[] {
   const items = servicesSection?.items;
   if (Array.isArray(items) && items.length > 0) {
     return items.map((item, index) => {
       const id = (item.serviceId || "").trim() || `service-${index}`;
       const fromCatalogue = catalogue[id];
-      const href = (item.href || "").trim() || fromCatalogue?.path;
+      // CMS href wins when present so editors can attach a page later without
+      // a code change; otherwise use the catalogue fallback.
+      const path = normalizeClinicServicePath(
+        (item.href || "").trim() || fromCatalogue?.path,
+        locale,
+      );
       const label = (item.label || "").trim() || fromCatalogue?.label || id;
-      return { id, label, ...(href ? { path: href } : {}) };
+      return { id, label, ...(path ? { path } : {}) };
     });
   }
 
   return (serviceIds ?? []).map((id) => {
     const fromCatalogue = catalogue[id];
+    const path = normalizeClinicServicePath(fromCatalogue?.path, locale);
     return {
       id,
       label: fromCatalogue?.label || id,
-      ...(fromCatalogue?.path ? { path: fromCatalogue.path } : {}),
+      ...(path ? { path } : {}),
     };
   });
 }
