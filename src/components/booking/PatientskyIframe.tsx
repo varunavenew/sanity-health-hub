@@ -2,6 +2,15 @@
 
 import { trackBookingCompleted, trackBookingInit } from "@/lib/tracking/booking-analytics";
 import { matchPasientskyCalendarId } from "@/lib/booking/pasientskyCalendarMatch";
+import {
+  asMessageRecord,
+  coercePasientskyMessageData,
+  isPasientskyCompletionMessage,
+  isPasientskyMessageOrigin,
+  resolvePasientskyTransactionId,
+  stringifyPasientskyDebugPayload,
+} from "@/lib/booking/pasientskyIframeMessages";
+import { track } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 
@@ -106,31 +115,43 @@ export const PatientskyIframe: FC<Props> = ({
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      if (event.data?.event === "booking-completed") {
-        if (bookingCompletedTracked.current) return;
-        bookingCompletedTracked.current = true;
-        const rawId = event.data?.appointmentId ?? event.data?.transaction_id;
-        trackBookingCompleted({
-          booking_method: "pasientsky",
-          transaction_id:
-            typeof rawId === "string" || typeof rawId === "number" ? rawId : undefined,
-          currency: "NOK",
-          clinic: null,
-          service_name: null,
-          category: null,
-          practitioner: specialistName?.trim() || null,
-          value: null,
-        });
+      if (!isPasientskyMessageOrigin(event.origin, iframeBaseUrl)) return;
+
+      if (isResizeExternalBookingMessage(event.data)) {
+        if (iframeRef.current) {
+          iframeRef.current.height = event.data.height.toString();
+        }
+        return;
       }
 
-      if (isResizeExternalBookingMessage(event.data) && iframeRef.current) {
-        iframeRef.current.height = event.data.height.toString();
-      }
+      const data = coercePasientskyMessageData(event.data);
+      const payload = asMessageRecord(data);
+
+      // Temporary instrumentation — remove once the real Pasientsky completion payload is identified.
+      track("pasientsky_debug_message", {
+        payload: stringifyPasientskyDebugPayload(data),
+      });
+
+      if (!payload || !isPasientskyCompletionMessage(payload)) return;
+      if (bookingCompletedTracked.current) return;
+      bookingCompletedTracked.current = true;
+
+      const transactionId = resolvePasientskyTransactionId(payload);
+      trackBookingCompleted({
+        booking_method: "pasientsky",
+        transaction_id: transactionId ?? "pasientsky-session",
+        currency: "NOK",
+        clinic: "moelv",
+        service_name: null,
+        category: null,
+        practitioner: specialistName?.trim() || null,
+        value: null,
+      });
     }
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, []);
+  }, [iframeBaseUrl, specialistName]);
 
   const url = useMemo(() => {
     if (!iframeBaseUrl || !calendarLookupDone) return null;
