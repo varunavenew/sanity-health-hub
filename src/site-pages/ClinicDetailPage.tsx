@@ -235,19 +235,14 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     clinic.servicesSection,
     clinic.services,
     serviceLinks,
+    sanityLang,
   );
-  const allServicesLinked =
-    serviceRows.length > 0 && serviceRows.every((row) => Boolean(row.path));
   const servicesTitle =
     clinic.servicesSection?.title || "Tjenester ved denne klinikken";
   const servicesDescription =
     clinic.servicesSection?.description ||
     (serviceRows.length > 0
-      ? `CMedical ${clinic.label} tilbyr ${serviceRows.length} ulike tjenester. ${
-          allServicesLinked
-            ? "Klikk for å lese mer."
-            : "Klikk på tjenestene med pil for å lese mer."
-        }`
+      ? `CMedical ${clinic.label} tilbyr ${serviceRows.length} ulike tjenester.`
       : "");
   const openingHoursLines = formatOpeningHoursLines(clinic.hours);
 
@@ -458,23 +453,27 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
 
               <ul className="grid grid-cols-1 gap-x-6 gap-y-1 border-t border-brand-dark/10 sm:grid-cols-2">
                 {serviceRows.map((svc) => {
+                  const hasLink = Boolean(svc.path);
+                  const rowClass = hasLink
+                    ? "flex cursor-pointer items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors group-hover:text-brand-dark"
+                    : "flex cursor-default items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-muted-foreground";
+
                   const content = (
-                    <span
-                      className={`flex items-center justify-between border-b border-brand-dark/10 py-3 text-sm font-light text-foreground transition-colors${svc.path ? " group-hover:text-brand-dark" : ""}`}
-                    >
+                    <span className={rowClass}>
                       <span>{svc.label}</span>
-                      {svc.path ? (
+                      {hasLink ? (
                         <ArrowRight
-                          className="h-3.5 w-3.5 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
+                          className="h-3.5 w-3.5 shrink-0 text-brand-dark/40 transition-all group-hover:translate-x-0.5 group-hover:text-brand-dark"
                           strokeWidth={1.5}
                           aria-hidden="true"
                         />
                       ) : null}
                     </span>
                   );
+
                   return (
-                    <li key={svc.id} className={svc.path ? "group" : ""}>
-                      {svc.path ? (
+                    <li key={svc.id} className={hasLink ? "group" : undefined}>
+                      {hasLink && svc.path ? (
                         <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
                           {content}
                         </Link>
