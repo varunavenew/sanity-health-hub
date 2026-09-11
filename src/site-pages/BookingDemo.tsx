@@ -194,9 +194,18 @@ function serviceDurationLabel(
   return service.duration ?? null;
 }
 
+function isFetalMedicineSortId(id: string | undefined): boolean {
+  const normalized = (id || "").trim().toLowerCase();
+  return (
+    normalized === "fostermedisiner" ||
+    normalized === "graviditet" ||
+    normalized === "fostermedisiner-graviditet"
+  );
+}
+
 function sortBookingCategories(a: BookingServiceCategory, b: BookingServiceCategory) {
-  if (a.id === "fostermedisiner") return -1;
-  if (b.id === "fostermedisiner") return 1;
+  if (isFetalMedicineSortId(a.id) || isFetalMedicineSortId(a.clinicServiceId)) return -1;
+  if (isFetalMedicineSortId(b.id) || isFetalMedicineSortId(b.clinicServiceId)) return 1;
   return a.label.localeCompare(b.label, "nb");
 }
 
@@ -577,7 +586,7 @@ const BookingDemo = () => {
     // Clinic may already be set from ?klinikk= (Pasientsky/Moelv) before this runs —
     // still allow service/specialist prefill. Only skip once service is chosen.
     if (bookingData.service) return;
-    if (specialists.length === 0 || servicesLoading) return;
+    if (servicesLoading || bookingServices.length === 0) return;
 
     const kategori = searchParams.get("kategori");
     const kategoriIdRaw = searchParams.get("kategoriId");
@@ -586,6 +595,8 @@ const BookingDemo = () => {
     const aktivitetIdRaw = searchParams.get("aktivitetId");
     const spesialistSlug = searchParams.get("spesialist");
     const klinikkId = searchParams.get("klinikk");
+    // Specialist prefill needs the specialists list; kategori/tjeneste do not.
+    if (spesialistSlug && specialists.length === 0) return;
     const kategoriId = kategoriIdRaw != null ? Number(kategoriIdRaw) : NaN;
     const aktivitetId =
       aktivitetIdRaw != null ? Number(aktivitetIdRaw) : NaN;

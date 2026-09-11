@@ -52,6 +52,9 @@ const GROUP_LABEL_TO_CLINIC_ID: Record<string, string> = {
   saedanalyse: "fertilitet",
   urolog: "urolog",
   gynekolog: "gynekolog",
+  /** Current Metodika label is just «Graviditet»; older labels still appear in caches. */
+  graviditet: "fostermedisiner",
+  fostermedisiner: "fostermedisiner",
   "fostermedisiner-graviditet": "fostermedisiner",
   "fysioterapeut-osteopat": "fysioterapeut",
   sexolog: "sexolog",
