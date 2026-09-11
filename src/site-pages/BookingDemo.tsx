@@ -181,6 +181,37 @@ type BookingServiceItem = {
   duration?: string;
 };
 
+type DurationEntry =
+  | { status: "loading" }
+  | { status: "ready"; label: string }
+  | { status: "none" };
+
+/** Session cache of wbfreetimes duration minutes (`null` = none). Survives accordion close/remount. */
+const durationMinutesCache = new Map<number, number | null>();
+const FREETIMES_DURATION_CHUNK = 8;
+
+function durationStateFromMinutes(minutes: number | null, locale: string): DurationEntry {
+  if (minutes == null) return { status: "none" };
+  return {
+    status: "ready",
+    label: localizeDurationLabel(formatDurationMinutes(minutes, locale), locale),
+  };
+}
+
+function hydrateDurationState(locale: string): Record<number, DurationEntry> {
+  const next: Record<number, DurationEntry> = {};
+  for (const [id, minutes] of durationMinutesCache) {
+    next[id] = durationStateFromMinutes(minutes, locale);
+  }
+  return next;
+}
+
+function activityIdsForCategory(category: BookingServiceCategory): number[] {
+  return category.services
+    .map((s) => s.apiActivityId)
+    .filter((id): id is number => typeof id === "number");
+}
+
 function serviceDurationLabel(
   service: BookingServiceItem,
   durationByActivityId: Record<number, { status: string; label?: string }>,
@@ -405,10 +436,109 @@ const BookingDemo = () => {
   const bookingCompletedTrackedRef = useRef(false);
   /** Duration per activity from wbfreetimes only (no static fallback). */
   const [durationByActivityId, setDurationByActivityId] = useState<
-    Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
-  >({});
+    Record<number, DurationEntry>
+  >(() => hydrateDurationState(locale));
   const durationByActivityIdRef = useRef(durationByActivityId);
   durationByActivityIdRef.current = durationByActivityId;
+  const durationQueueRef = useRef<number[]>([]);
+  const durationInFlightRef = useRef(new Set<number>());
+  const durationPumpRunningRef = useRef(false);
+  const durationAliveRef = useRef(true);
+  const localeRef = useRef(locale);
+  localeRef.current = locale;
+  const pumpDurationQueueRef = useRef<() => Promise<void>>(async () => {});
+  const enqueueDurationIdsRef = useRef<(ids: number[], prepend?: boolean) => void>(
+    () => {},
+  );
+
+  pumpDurationQueueRef.current = async () => {
+    if (durationPumpRunningRef.current) return;
+    durationPumpRunningRef.current = true;
+    try {
+      while (durationAliveRef.current && durationQueueRef.current.length > 0) {
+        const chunk = durationQueueRef.current.splice(0, FREETIMES_DURATION_CHUNK);
+        for (const id of chunk) durationInFlightRef.current.add(id);
+        try {
+          const res = await fetch(
+            `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
+          );
+          const json = (await res.json()) as {
+            ok?: boolean;
+            byActivityId?: Record<string, ApiFreeTimeSlot[]>;
+            slots?: ApiFreeTimeSlot[];
+          };
+
+          const results = chunk.map((id) => {
+            const slots =
+              json.byActivityId?.[String(id)] ??
+              (chunk.length === 1 && Array.isArray(json.slots) ? json.slots : []);
+            const mins =
+              slots.find((s) => s.durationMinutes != null)?.durationMinutes ?? null;
+            return { id, minutes: mins };
+          });
+
+          for (const { id, minutes } of results) {
+            durationMinutesCache.set(id, minutes);
+          }
+
+          if (!durationAliveRef.current) return;
+
+          const loc = localeRef.current;
+          setDurationByActivityId((prev) => {
+            const next = { ...prev };
+            for (const { id, minutes } of results) {
+              next[id] = durationStateFromMinutes(minutes, loc);
+            }
+            return next;
+          });
+        } catch {
+          if (!durationAliveRef.current) return;
+          for (const id of chunk) {
+            if (!durationMinutesCache.has(id)) durationMinutesCache.set(id, null);
+          }
+          setDurationByActivityId((prev) => {
+            const next = { ...prev };
+            for (const id of chunk) {
+              if (next[id]?.status === "ready") continue;
+              next[id] = { status: "none" };
+            }
+            return next;
+          });
+        } finally {
+          for (const id of chunk) durationInFlightRef.current.delete(id);
+        }
+      }
+    } finally {
+      durationPumpRunningRef.current = false;
+      if (durationAliveRef.current && durationQueueRef.current.length > 0) {
+        void pumpDurationQueueRef.current();
+      }
+    }
+  };
+
+  enqueueDurationIdsRef.current = (ids, prepend = false) => {
+    const wanted = [...new Set(ids)].filter((id) => {
+      if (durationMinutesCache.has(id) || durationInFlightRef.current.has(id)) return false;
+      const cached = durationByActivityIdRef.current[id];
+      return cached?.status !== "ready" && cached?.status !== "none";
+    });
+    if (wanted.length === 0) return;
+
+    if (prepend) {
+      const wantedSet = new Set(wanted);
+      durationQueueRef.current = [
+        ...wanted,
+        ...durationQueueRef.current.filter((id) => !wantedSet.has(id)),
+      ];
+    } else {
+      const queued = new Set(durationQueueRef.current);
+      for (const id of wanted) {
+        if (!queued.has(id)) durationQueueRef.current.push(id);
+      }
+    }
+
+    void pumpDurationQueueRef.current();
+  };
 
   const enrichedMetodikaClinics = useMemo(
     () =>
@@ -727,97 +857,32 @@ const BookingDemo = () => {
   }, [searchParams, specialists, bookingData.specialist]);
 
   // Active category filter is derived above; no debug logging in production.
-  // Step 1: load duration from wbfreetimes when a category is expanded (cached per activity)
+  useEffect(() => {
+    durationAliveRef.current = true;
+    return () => {
+      durationAliveRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (durationMinutesCache.size === 0) return;
+    setDurationByActivityId(hydrateDurationState(locale));
+  }, [locale]);
+
+  // Prefetch all durations in the background so opening a category is instant.
+  useEffect(() => {
+    if (bookingServices.length === 0) return;
+    const ordered = [...bookingServices].sort(sortBookingCategories);
+    enqueueDurationIdsRef.current(ordered.flatMap(activityIdsForCategory));
+  }, [bookingServices]);
+
+  // Opening (or URL auto-expand) jumps that category to the front of the queue.
   useEffect(() => {
     if (!expandedCategory) return;
-
     const category = bookingServices.find((c) => c.id === expandedCategory);
     if (!category) return;
-
-    const activityIds = category.services
-      .map((s) => s.apiActivityId)
-      .filter((id): id is number => typeof id === "number");
-
-    if (activityIds.length === 0) return;
-
-    const idsToFetch = activityIds.filter((id) => {
-      const cached = durationByActivityIdRef.current[id];
-      return cached?.status !== "ready" && cached?.status !== "none";
-    });
-
-    if (idsToFetch.length === 0) return;
-
-    let cancelled = false;
-
-    setDurationByActivityId((prev) => {
-      const next = { ...prev };
-      for (const id of idsToFetch) next[id] = { status: "loading" };
-      return next;
-    });
-
-    async function loadDurationsForCategory() {
-      try {
-        const res = await fetch(
-          `/api/booking/freetimes?wbactivityIds=${idsToFetch.join(",")}`,
-        );
-        const json = (await res.json()) as {
-          ok?: boolean;
-          byActivityId?: Record<string, ApiFreeTimeSlot[]>;
-          slots?: ApiFreeTimeSlot[];
-        };
-
-        if (cancelled) return;
-
-        const results = idsToFetch.map((id) => {
-          const slots =
-            json.byActivityId?.[String(id)] ??
-            (idsToFetch.length === 1 && Array.isArray(json.slots) ? json.slots : []);
-          const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
-          if (mins == null) return { id, status: "none" as const };
-          return {
-            id,
-            status: "ready" as const,
-            label: localizeDurationLabel(formatDurationMinutes(mins, locale), locale),
-          };
-        });
-
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const result of results) {
-            if (result.status === "ready") {
-              next[result.id] = { status: "ready", label: result.label };
-            } else {
-              next[result.id] = { status: "none" };
-            }
-          }
-          return next;
-        });
-      } catch {
-        if (cancelled) return;
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const id of idsToFetch) next[id] = { status: "none" };
-          return next;
-        });
-      }
-    }
-
-    loadDurationsForCategory();
-    return () => {
-      cancelled = true;
-      setDurationByActivityId((prev) => {
-        const next = { ...prev };
-        let changed = false;
-        for (const id of idsToFetch) {
-          if (next[id]?.status === "loading") {
-            delete next[id];
-            changed = true;
-          }
-        }
-        return changed ? next : prev;
-      });
-    };
-  }, [expandedCategory, bookingServices, locale]);
+    enqueueDurationIdsRef.current(activityIdsForCategory(category), true);
+  }, [expandedCategory, bookingServices]);
 
   // wbfreetimes → rooms → locations: discovery (clinics + caregivers, 1 slot/day)
   useEffect(() => {
@@ -2057,6 +2122,18 @@ const BookingDemo = () => {
                         <button
                           type="button"
                           onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
+                          onMouseEnter={() =>
+                            enqueueDurationIdsRef.current(
+                              activityIdsForCategory(category),
+                              true,
+                            )
+                          }
+                          onFocus={() =>
+                            enqueueDurationIdsRef.current(
+                              activityIdsForCategory(category),
+                              true,
+                            )
+                          }
                           className={cn(
                             "w-full flex items-center justify-between gap-3 p-5 text-left transition-colors",
                             "bg-brand-beige/40 hover:bg-brand-beige/60",
@@ -2109,10 +2186,6 @@ const BookingDemo = () => {
                                     service,
                                     durationByActivityId,
                                   );
-                                  const durationLoading =
-                                    service.apiActivityId != null &&
-                                    durationByActivityId[service.apiActivityId]?.status ===
-                                      "loading";
 
                                   return (
                                     <button
@@ -2142,13 +2215,11 @@ const BookingDemo = () => {
                                           <span className="text-sm text-brand-dark/80">
                                             {isFree ? copy.step1PriceFree : fillBookingTemplate(copy.step1PriceFrom, { price: service.price })}
                                           </span>
-                                          {!isFree && (duration || durationLoading) ? (
+                                          {!isFree && duration ? (
                                             <>
                                               <span className="text-brand-dark/40">·</span>
                                               <span className="text-sm text-brand-dark/70">
-                                                {durationLoading
-                                                  ? copy.step1LoadingDuration
-                                                  : duration}
+                                                {duration}
                                               </span>
                                             </>
                                           ) : null}
