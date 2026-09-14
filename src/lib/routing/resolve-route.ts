@@ -21,7 +21,6 @@ import {
   FLERE_FAGOMRADER_CATEGORY_ID,
 } from "@/lib/sanity/category-keys";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
-import { isRetiredIvfSlug } from "@/lib/sanity/ivf-canonical";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
 import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
@@ -380,9 +379,6 @@ export function sitemapPathsFromRouteIndex(index: CmsRouteIndex): SitemapRoutePa
     for (const doc of index.treatments) {
       const treatmentSlug = docSlug(doc, lang);
       if (
-        isRetiredIvfSlug(treatmentSlug) ||
-        isRetiredIvfSlug(doc.slugNb) ||
-        isRetiredIvfSlug(doc.slugEn) ||
         isTestContentSlug(treatmentSlug) ||
         isTestContentSlug(doc.slugNb) ||
         isTestContentSlug(doc.slugEn) ||

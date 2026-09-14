@@ -1,51 +1,19 @@
-/** Stable accordion/section id on Assistert befruktning. */
+/** Stable accordion/section id when IVF appears as a section title. */
 export const IVF_SECTION_ID = "ivf";
 
 export const ASSISTERT_BEFRUKTNING_SLUG = "assistert-befruktning";
 
-/** Retired IVF page slug — 301 to Assistert befruktning #ivf. */
+/** @deprecated IVF is a live treatment page again — kept for call-site compatibility. */
 export const RETIRED_IVF_SLUG = "ivf";
 
-const IVF_PAGE_RE =
-  /^(\/(?:no|nb|en))?(\/(?:behandlinger\/)?(?:fertilitet|fertility))\/ivf$/i;
-
-function splitPathParts(path: string): {
-  base: string;
-  query: string;
-  hash: string;
-} {
-  const hashIdx = path.indexOf("#");
-  const hash = hashIdx >= 0 ? path.slice(hashIdx) : "";
-  const withoutHash = hashIdx >= 0 ? path.slice(0, hashIdx) : path;
-  const qIdx = withoutHash.indexOf("?");
-  const query = qIdx >= 0 ? withoutHash.slice(qIdx) : "";
-  const base = (qIdx >= 0 ? withoutHash.slice(0, qIdx) : withoutHash)
-    .replace(/\/+$/, "") || "/";
-  return { base, query, hash };
-}
-
-/**
- * Map a retired IVF treatment URL to Assistert befruktning with `#ivf`.
- * Idempotent — already-canonical paths are returned unchanged.
- */
+/** No-op: IVF URLs stay on `/…/ivf` (no longer rewritten to Assistert befruktning). */
 export function rewriteRetiredIvfPath(path: string): string {
-  if (!path) return path;
-  const { base, query } = splitPathParts(path.trim());
-  const match = base.match(IVF_PAGE_RE);
-  if (!match) return path;
-
-  const localePrefix = match[1] ?? "";
-  const categoryWithOptionalBehandlinger = match[2] ?? "/fertilitet";
-  const category = categoryWithOptionalBehandlinger.replace(
-    /^\/behandlinger/,
-    "",
-  );
-  const destBase = `${localePrefix}${category}/${ASSISTERT_BEFRUKTNING_SLUG}`;
-  return `${destBase}${query}#${IVF_SECTION_ID}`;
+  return path;
 }
 
-export function isRetiredIvfSlug(slug: string | undefined | null): boolean {
-  return (slug ?? "").trim().toLowerCase() === RETIRED_IVF_SLUG;
+/** Always false — IVF is a routable treatment slug. */
+export function isRetiredIvfSlug(_slug: string | undefined | null): boolean {
+  return false;
 }
 
 /** DOM id for a reasons accordion item. IVF titles always resolve to `ivf`. */

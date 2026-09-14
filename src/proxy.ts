@@ -8,7 +8,6 @@ import {
   proxyLegacySeRequest,
   readLegacySeOrigin,
 } from "@/lib/legacy-se-proxy";
-import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 const LOCALE_PREFIX = new Set(locales);
 
@@ -51,27 +50,6 @@ const BLODNING_TYPO_REDIRECTS: Array<[RegExp, string]> = [
   ],
 ];
 
-function ivfMigrationRedirect(request: NextRequest): NextResponse | null {
-  const { pathname } = request.nextUrl;
-  const rewritten = rewriteRetiredIvfPath(pathname);
-  if (rewritten === pathname) return null;
-  const hashIdx = rewritten.indexOf("#");
-  const destPath = hashIdx >= 0 ? rewritten.slice(0, hashIdx) : rewritten;
-  const destHash = hashIdx >= 0 ? rewritten.slice(hashIdx + 1) : "";
-  const url = request.nextUrl.clone();
-  url.pathname = destPath;
-  if (destHash) url.hash = destHash;
-  return NextResponse.redirect(url, { status: 301 });
-}
-
-function hudlegeMigrationRedirect(request: NextRequest): NextResponse | null {
-  return firstMatchingRedirect(request, HUDLEGE_REDIRECTS);
-}
-
-function bekkestuaLegacyRedirect(request: NextRequest): NextResponse | null {
-  return firstMatchingRedirect(request, BEKKESTUA_LEGACY_REDIRECTS);
-}
-
 function firstMatchingRedirect(
   request: NextRequest,
   rules: Array<[RegExp, string]>,
@@ -84,23 +62,21 @@ function firstMatchingRedirect(
     if (url.pathname.startsWith("/nb/")) {
       url.pathname = url.pathname.replace(/^\/nb/, "/no");
     }
-    return NextResponse.redirect(url, { status: 301 });
+    return NextResponse.redirect(url, 301);
   }
   return null;
 }
 
+function hudlegeMigrationRedirect(request: NextRequest): NextResponse | null {
+  return firstMatchingRedirect(request, HUDLEGE_REDIRECTS);
+}
+
+function bekkestuaLegacyRedirect(request: NextRequest): NextResponse | null {
+  return firstMatchingRedirect(request, BEKKESTUA_LEGACY_REDIRECTS);
+}
+
 function blodningTypoRedirect(request: NextRequest): NextResponse | null {
-  const { pathname } = request.nextUrl;
-  for (const [pattern, replacement] of BLODNING_TYPO_REDIRECTS) {
-    if (!pattern.test(pathname)) continue;
-    const url = request.nextUrl.clone();
-    url.pathname = pathname.replace(pattern, replacement);
-    if (url.pathname.startsWith("/nb/")) {
-      url.pathname = url.pathname.replace(/^\/nb/, "/no");
-    }
-    return NextResponse.redirect(url, { status: 301 });
-  }
-  return null;
+  return firstMatchingRedirect(request, BLODNING_TYPO_REDIRECTS);
 }
 
 /** Only what's needed to render the 401 challenge itself — everything else is gated. */
@@ -158,9 +134,6 @@ export async function proxy(request: NextRequest) {
   if (readLegacySeOrigin() && isLegacySeProxyPath(pathname)) {
     return proxyLegacySeRequest(request);
   }
-
-  const ivfRedirect = ivfMigrationRedirect(request);
-  if (ivfRedirect) return ivfRedirect;
 
   const hudlegeRedirect = hudlegeMigrationRedirect(request);
   if (hudlegeRedirect) return hudlegeRedirect;
