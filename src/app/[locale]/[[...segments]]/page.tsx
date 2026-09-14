@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Index from "@/site-pages/Index";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HomepageHydration } from "@/components/providers/HomepageHydration";
@@ -9,7 +9,10 @@ import { medicalOrganizationJsonLd } from "@/lib/seo/geo-jsonld";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { buildHomeMetadata } from "@/lib/seo/route-metadata";
 import { fetchHomepageData } from "@/lib/sanity/homepage-fetch";
-import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
+import {
+  fetchCmsRouteIndex,
+  fetchCmsRouteIndexFresh,
+} from "@/lib/routing/fetch-route-index";
 import {
   resolveCmsRoute,
   staticParamsFromRouteIndex,
@@ -18,11 +21,8 @@ import {
   buildCmsRouteMetadata,
   renderCmsRoute,
 } from "@/lib/routing/render-cms-route";
-import {
-  ASSISTERT_BEFRUKTNING_SLUG,
-  IVF_SECTION_ID,
-  isRetiredIvfSlug,
-} from "@/lib/sanity/ivf-canonical";
+import { hasTestContentSegment } from "@/lib/seo/test-content-slugs";
+import { redirectEnTreatmentIfNotCanonical } from "@/lib/routing/redirect-en-treatment-slug";
 
 type Props = {
   params: Promise<{ locale: string; segments?: string[] }>;
@@ -38,15 +38,16 @@ function rejectLegacySeLocale(locale: string) {
   if (locale === "se") notFound();
 }
 
-function redirectRetiredIvfPage(locale: string, segments: string[]) {
-  const rest = segments[0] === "behandlinger" ? segments.slice(1) : segments;
-  if (rest.length < 2) return;
-  const [categorySeg, slug] = rest;
-  if (!isRetiredIvfSlug(slug)) return;
-  if (!/^(fertilitet|fertility)$/i.test(categorySeg ?? "")) return;
-  permanentRedirect(
-    `/${locale}/${categorySeg}/${ASSISTERT_BEFRUKTNING_SLUG}#${IVF_SECTION_ID}`,
-  );
+function rejectTestContentSegments(segments: string[]) {
+  if (hasTestContentSegment(segments)) notFound();
+}
+
+async function resolveCmsRouteCached(segments: string[], locale: string) {
+  const index = await fetchCmsRouteIndex();
+  const route = resolveCmsRoute(segments, locale, index);
+  if (route) return route;
+  const freshIndex = await fetchCmsRouteIndexFresh();
+  return resolveCmsRoute(segments, locale, freshIndex);
 }
 
 export async function generateStaticParams() {
@@ -63,11 +64,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, segments = [] } = await params;
   rejectLegacySeLocale(locale);
-  redirectRetiredIvfPage(locale, segments);
+  rejectTestContentSegments(segments);
   if (segments.length === 0) return buildHomeMetadata(locale);
 
-  const index = await fetchCmsRouteIndex();
-  const route = resolveCmsRoute(segments, locale, index);
+  const route = await resolveCmsRouteCached(segments, locale);
   if (!route) return {};
   return buildCmsRouteMetadata(route, locale);
 }
@@ -119,10 +119,10 @@ export default async function CmsOptionalCatchAllPage({ params }: Props) {
   rejectLegacySeLocale(locale);
   if (segments.length === 0) return renderHomepage(locale);
 
-  redirectRetiredIvfPage(locale, segments);
+  rejectTestContentSegments(segments);
 
-  const index = await fetchCmsRouteIndex();
-  const route = resolveCmsRoute(segments, locale, index);
+  const route = await resolveCmsRouteCached(segments, locale);
   if (!route) notFound();
+  await redirectEnTreatmentIfNotCanonical(locale, segments, route);
   return renderCmsRoute(route, locale);
 }

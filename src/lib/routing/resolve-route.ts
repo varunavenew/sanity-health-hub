@@ -21,12 +21,13 @@ import {
   FLERE_FAGOMRADER_CATEGORY_ID,
 } from "@/lib/sanity/category-keys";
 import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
-import { isRetiredIvfSlug } from "@/lib/sanity/ivf-canonical";
 import { resolveGynekologiTreatmentSlug } from "@/lib/sanity/gynekologi-slug-aliases";
 import { resolveGraviditetTreatmentSlug } from "@/lib/sanity/graviditet-slug-aliases";
 import { resolveUrologiTreatmentSlug } from "@/lib/sanity/urologi-slug-aliases";
 import { resolveOrtopediTreatmentSlug } from "@/lib/sanity/ortopedi-slug-aliases";
 import { resolveFlereFagomraderTreatmentSlug } from "@/lib/sanity/flere-fagomrader-slug-aliases";
+import { isTestContentSlug } from "@/lib/seo/test-content-slugs";
+import { isSitemapExcludedSlug } from "@/lib/seo/sitemap-excluded-slugs";
 
 function listingSlug(
   listings: ListingSlugs,
@@ -360,7 +361,14 @@ export function staticParamsFromRouteIndex(
 
     for (const doc of index.treatments) {
       const treatmentSlug = docSlug(doc, lang);
-      if (isRetiredIvfSlug(treatmentSlug) || isRetiredIvfSlug(doc.slugNb) || isRetiredIvfSlug(doc.slugEn)) {
+      if (
+        isTestContentSlug(treatmentSlug) ||
+        isTestContentSlug(doc.slugNb) ||
+        isTestContentSlug(doc.slugEn) ||
+        isSitemapExcludedSlug(treatmentSlug) ||
+        isSitemapExcludedSlug(doc.slugNb) ||
+        isSitemapExcludedSlug(doc.slugEn)
+      ) {
         continue;
       }
       const membershipIds =
