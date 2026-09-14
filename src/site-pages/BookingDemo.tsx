@@ -2266,8 +2266,8 @@ const BookingDemo = () => {
                 <FriendlyEmpty
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
-                  phone={copy.supportPhone}
-                  phoneLabel={copy.supportPhoneLabel}
+                  phone={copy.step2EmptyPhone}
+                  phoneLabel={copy.step2EmptyButtonLabel}
                 />
               )}
 

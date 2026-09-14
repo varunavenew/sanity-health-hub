@@ -34,6 +34,8 @@ export type BookingPageCopy = {
   step2Loading: string;
   step2EmptyTitle: string;
   step2EmptyMessage: string;
+  step2EmptyButtonLabel: string;
+  step2EmptyPhone: string;
   step3Heading: string;
   step3Subtitle: string;
   step3Loading: string;
@@ -140,9 +142,11 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step1CategoryClinicBadges: [],
   step2Heading: "Velg klinikk",
   step2Loading: "Henter klinikker fra booking-systemet…",
-  step2EmptyTitle: "Ingen klinikker tilgjengelig akkurat nå",
+  step2EmptyTitle: "Denne tjenesten kan ikke bestilles online akkurat nå",
   step2EmptyMessage:
-    "Denne tjenesten er ikke bookbar online for øyeblikket. Vi hjelper deg gjerne med å finne riktig time.",
+    "Denne spesifikke tjenesten er dessverre ikke tilgjengelig for nettbestilling for øyeblikket. Ring oss, så hjelper vi deg å finne en time.",
+  step2EmptyButtonLabel: "Ring oss så hjelper vi deg",
+  step2EmptyPhone: "22 60 00 50",
   step3Heading: "Velg behandler",
   step3Subtitle: "Velg en behandler, eller gå videre for å se alle ledige tider.",
   step3Loading: "Henter behandlere fra booking-systemet…",
@@ -229,23 +233,132 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
     "Ugyldig fødselsnummer — sjekk at du har tastet riktig.",
 };
 
-/** English fallbacks when CMS has no `en` value yet (e.g. newly added fields). */
-const BOOKING_PAGE_EN_FALLBACKS: Partial<BookingPageCopy> = {
-  pageTitle: "Book an appointment",
+/** English fallbacks when CMS has no `en` value yet (avoids Norwegian on /en). */
+const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
+  pageTitle: "Book appointment",
+  closeAriaLabel: "Close booking and go to homepage",
+  backLabel: "Back",
+  stepProgressTemplate: "Step {{step}} of {{total}}",
+  stepLabelService: "Service",
+  stepLabelClinic: "Clinic",
+  stepLabelSpecialist: "Practitioner",
+  stepLabelTime: "Time",
+  stepLabelConfirm: "Confirm",
+  summaryServiceLabel: "Service:",
+  summaryClinicLabel: "Clinic:",
+  summarySpecialistLabel: "Practitioner:",
+  supportPhone: "22 60 00 50",
+  supportPhoneLabel: "Call us and we will help",
+  supportFooterText:
+    "If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.",
+  step1Heading: "Choose a service",
+  step1HeadingFiltered: "Choose a service within {{category}}",
+  step1ShowAllServices: "Show all services",
+  step1Loading: "Loading services…",
+  step1LoadingClinics: "Loading clinics…",
+  step1AllClinicsBadge: "All clinics",
+  step1EmptyTitle: "Could not load services",
+  step1EmptyMessage:
+    "We cannot load the service list from the booking system right now. Call us and we will help you find the right appointment.",
+  step1PriceFree: "Free",
+  step1PriceFrom: "From NOK {{price}}",
+  step1LoadingDuration: "Loading duration…",
+  step1CategoryClinicBadges: [],
+  step2Heading: "Choose a clinic",
+  step2Loading: "Loading clinics from the booking system…",
+  step2EmptyTitle: "This service can't be booked online right now",
+  step2EmptyMessage:
+    "This particular service is currently not available for online booking. Please give us a call and we'll help you find a suitable appointment.",
+  step2EmptyButtonLabel: "Call us and we will help",
+  step2EmptyPhone: "22 60 00 50",
+  step3Heading: "Choose a practitioner",
+  step3Subtitle: "Choose a practitioner, or continue to see all available times.",
+  step3Loading: "Loading practitioners from the booking system…",
+  step3FirstAvailableTitle: "First available",
+  step3FirstAvailableSubtitle: "Show all available times regardless of practitioner",
+  step3EmptyNoCaregiversTitle: "No practitioners with available times",
+  step3EmptyNoCaregiversMessage:
+    "We cannot find practitioners linked to available slots for this service. Choose \"First available\" or call us for help.",
+  step3EmptyFetchTitle: "Could not load practitioners",
+  step3EmptyFetchMessage:
+    "The booking system did not return practitioner information. Choose \"First available\" or try again later.",
+  step4Heading: "Choose a time",
+  step4SelectedDayLabel: "Selected day",
+  step4NoDaysLabel: "No available days",
+  step4TodayLabel: "Today",
+  step4PickTimeLabel: "Choose a time",
+  step4DurationPrefix: "Duration",
+  step4LoadingTimes: "Loading available times…",
+  step4NotOnlineTitle: "Online times not available",
+  step4NotOnlineMessage:
+    "This service is not connected to the booking system. Call us and we will help you find an appointment.",
+  step4NoSlotsTitle: "No available times this day",
+  step4NoSlotsMessage:
+    "Try another day in the calendar, or call us directly – we often find openings that are not listed online.",
+  step5Heading: "Confirm",
+  step5OrderTitle: "Your booking",
+  step5LabelService: "Service",
+  step5LabelPrice: "Price",
+  step5LabelClinic: "Clinic",
+  step5LabelDuration: "Duration",
+  step5LabelDate: "Date",
+  step5LabelTime: "Time",
+  step5PriceFree: "Free",
+  step5PriceFrom: "From {{price}} NOK",
+  step5PriceNote: "The price may vary by time of day, weekends and any add-ons.",
+  step5PersonalInfoTitle: "Your details",
+  step5SubmitLabel: "Confirm booking",
+  step5SubmittingLabel: "Submitting booking…",
+  formFirstNameLabel: "First name *",
+  formFirstNamePlaceholder: "First name",
+  formLastNameLabel: "Last name *",
+  formLastNamePlaceholder: "Last name",
+  formBirthNumberLabel: "National ID (11 digits) *",
+  formBirthNumberPlaceholder: "DDMMYYXXXXX",
+  formBirthNumberHelp:
+    "* National ID is required for secure identification and medical records under healthcare regulations. Information is handled confidentially and not shared with third parties.",
+  formPhoneLabel: "Mobile number *",
+  formPhonePlaceholder: "XXX XX XXX",
+  formPhoneHelp: "Confirmation and reminders are sent by SMS to this number.",
+  formEmailLabel: "Email address",
+  formEmailPlaceholder: "you@email.com",
+  formEmailHelp: "Optional. Confirmation is also sent by email if provided.",
   formNoteLabel: "Message to the clinic",
   formNotePlaceholder: "Optional — e.g. questions or information we should know",
   formCancellationRulesHeading: "Cancellation rules",
+  formCancellationRules:
+    "Rescheduling or cancellation must happen at least 24 hours before the appointment. No-shows or late cancellations incur a fee.",
+  formTermsPageTeaser:
+    '"{{termsLink}}" – read the terms for booking and treatment at CMedical.',
+  formTermsLinkText: "Terms",
+  formTermsInlineLinkText: "the terms",
+  formTermsCheckbox: "I accept the {{termsLink}} for booking *",
+  formPrivacyLinkText: "privacy policy",
+  formPrivacyCheckbox:
+    "I consent to CMedical processing submitted information according to the {{privacyLink}} *",
+  formMarketingCheckbox: "I would like to receive information and news from CMedical",
+  successTitle: "Booking confirmed",
+  successMessageSms: "You will receive a confirmation by SMS.",
+  successMessageSmsEmail: "You will receive a confirmation by SMS and email.",
+  successLabelTreatment: "Treatment",
+  successLabelClinic: "Clinic",
+  successClinicPrefix: "CMedical – ",
+  successLabelDateTime: "Date and time",
+  successLabelSpecialist: "Practitioner",
+  successBackHome: "Back to homepage",
+  errorMissingData:
+    "Missing booking data. Choose service, clinic and time again, or call us for help.",
+  errorActivityType:
+    "Could not load activity type from the booking system. Try again or call us.",
+  errorSubmit: "The booking could not be completed. Try again or call us at 22 60 00 50.",
+  errorSubmitNetwork:
+    "The booking could not be completed. Check your network and try again, or call us at 22 60 00 50.",
   errorInvalidBirthNumber:
     "Invalid national ID — please check that you entered it correctly.",
-  supportFooterText:
-    "If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.",
 };
 
 export function defaultBookingPageCopyForLang(lang: "no" | "en"): BookingPageCopy {
-  if (lang === "en") {
-    return { ...DEFAULT_BOOKING_PAGE_COPY, ...BOOKING_PAGE_EN_FALLBACKS };
-  }
-  return DEFAULT_BOOKING_PAGE_COPY;
+  return lang === "en" ? DEFAULT_BOOKING_PAGE_COPY_EN : DEFAULT_BOOKING_PAGE_COPY;
 }
 
 export function splitTemplateLink(
