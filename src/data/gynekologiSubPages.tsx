@@ -573,7 +573,11 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
       { title: "Helhetlig vurdering", desc: "Vi ser fremfall i sammenheng med blære, tarm og bekkenbunn." },
     ],
     rating: "4,7 — Spesialister på bekkenbunnshelse",
-    booking: { ...baseBooking, tjeneste: "vaginale-fremfall" },
+    booking: {
+      ...baseBooking,
+      // Must match Metodika activity: "Fremfall / tyngdefølelse underliv / fødselsskader"
+      tjeneste: "fremfall-tyngdefolelse-underliv-fodselsskader",
+    },
     primaryCtaLabel: "Bestill utredning",
     flowTitle: "Slik utreder og behandler vi",
     flow: [

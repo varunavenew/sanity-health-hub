@@ -13,6 +13,8 @@ export function bookingServiceSlug(name: string): string {
 /** Extra slugs that should still match after a display-name rename. */
 const SERVICE_SLUG_ALIASES: Record<string, readonly string[]> = {
   "generell-gynekologisk-undersokelse": ["generell-undersokelse"],
+  // Page slug historically used as ?tjeneste=; Metodika name differs.
+  "fremfall-tyngdefolelse-underliv-fodselsskader": ["vaginale-fremfall"],
 };
 
 function slugsForServiceName(serviceName: string): string[] {
