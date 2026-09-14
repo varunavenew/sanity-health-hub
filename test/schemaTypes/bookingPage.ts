@@ -196,6 +196,19 @@ export default {
     i18n('step2Loading', 'Loading text', 'step2'),
     i18n('step2EmptyTitle', 'Empty state – title', 'step2'),
     i18n('step2EmptyMessage', 'Empty state - message', 'step2', undefined, 'internationalizedArrayText'),
+    i18n(
+      'step2EmptyButtonLabel',
+      'Empty state – button text',
+      'step2',
+      'Call button label. Shown before the empty-state phone number.',
+    ),
+    {
+      name: 'step2EmptyPhone',
+      title: 'Empty state – phone number',
+      type: 'string',
+      group: 'step2',
+      description: 'Shown after the button text, e.g. 22 60 00 50',
+    },
 
     i18n('step3Heading', 'Heading', 'step3'),
     i18n('step3Subtitle', 'Subtitle', 'step3', undefined, 'internationalizedArrayText'),

@@ -61,13 +61,15 @@ async function run() {
       'Loading clinics from the booking system…',
     ),
     step2EmptyTitle: S(
-      'Ingen klinikker tilgjengelig akkurat nå',
-      'No clinics available right now',
+      'Denne tjenesten kan ikke bestilles online akkurat nå',
+      "This service can't be booked online right now",
     ),
     step2EmptyMessage: T(
-      'Denne tjenesten er ikke bookbar online for øyeblikket. Vi hjelper deg gjerne med å finne riktig time.',
-      'This service is not bookable online at the moment. We are happy to help you find the right appointment.',
+      'Denne spesifikke tjenesten er dessverre ikke tilgjengelig for nettbestilling for øyeblikket. Ring oss, så hjelper vi deg å finne en time.',
+      "This particular service is currently not available for online booking. Please give us a call and we'll help you find a suitable appointment.",
     ),
+    step2EmptyButtonLabel: S('Ring oss så hjelper vi deg', 'Call us and we will help'),
+    step2EmptyPhone: '22 60 00 50',
     step3Heading: S('Velg behandler', 'Choose a practitioner'),
     step3Subtitle: T(
       'Velg en behandler, eller gå videre for å se alle ledige tider.',

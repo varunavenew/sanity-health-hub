@@ -806,6 +806,7 @@ export const useBookingPage = () => {
         BOOKING_PAGE_QUERY,
         undefined,
         lang,
+        { strict: true },
       );
       return {
         ...resolveBookingPageCopy(data, lang),
