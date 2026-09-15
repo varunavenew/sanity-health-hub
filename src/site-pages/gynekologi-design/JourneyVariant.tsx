@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo } from "react";
 import { Link } from "@/lib/router";
 import {
@@ -102,7 +103,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
             </h1>
             <Button
               className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11"
-              onClick={() => (window.location.href = "/booking")}
+              onClick={() => (window.location.href = withBookingReturnContext("/booking"))}
             >
               Bestill gynekologtime
               <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
@@ -272,7 +273,7 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
             <div className="flex flex-col gap-3">
               <Button
                 className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light h-12"
-                onClick={() => (window.location.href = "/booking")}
+                onClick={() => (window.location.href = withBookingReturnContext("/booking"))}
               >
                 Bestill gynekologtime
                 <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
