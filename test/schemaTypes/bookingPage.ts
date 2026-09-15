@@ -198,16 +198,22 @@ export default {
     i18n('step2EmptyMessage', 'Empty state - message', 'step2', undefined, 'internationalizedArrayText'),
     i18n(
       'step2EmptyButtonLabel',
-      'Empty state – button text',
+      'Empty state – call button text',
       'step2',
       'Call button label. Shown before the empty-state phone number.',
+    ),
+    i18n(
+      'step2EmptyBookLabel',
+      'Empty state – book button text',
+      'step2',
+      'Secondary CTA when no clinics are bookable online (e.g. Bestill time).',
     ),
     {
       name: 'step2EmptyPhone',
       title: 'Empty state – phone number',
       type: 'string',
       group: 'step2',
-      description: 'Shown after the button text, e.g. 22 60 00 50',
+      description: 'Shown after the button text, e.g. 22 60 00 50. Used as tel: link.',
     },
 
     i18n('step3Heading', 'Heading', 'step3'),

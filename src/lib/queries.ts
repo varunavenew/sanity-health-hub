@@ -1237,6 +1237,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step2Loading",
   "step2EmptyTitle",
   "step2EmptyButtonLabel",
+  "step2EmptyBookLabel",
   "step3Heading",
   "step3Loading",
   "step3FirstAvailableTitle",

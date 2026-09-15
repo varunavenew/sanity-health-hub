@@ -36,6 +36,8 @@ export type BookingPageCopy = {
   step2EmptyMessage: string;
   step2EmptyButtonLabel: string;
   step2EmptyPhone: string;
+  /** CTA to continue booking with another service when clinics are empty. */
+  step2EmptyBookLabel: string;
   step3Heading: string;
   step3Subtitle: string;
   step3Loading: string;
@@ -144,9 +146,10 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step2Loading: "Henter klinikker fra booking-systemet…",
   step2EmptyTitle: "Denne tjenesten kan ikke bestilles online akkurat nå",
   step2EmptyMessage:
-    "Denne spesifikke tjenesten er dessverre ikke tilgjengelig for nettbestilling for øyeblikket. Ring oss, så hjelper vi deg å finne en time.",
+    "Denne spesifikke tjenesten er dessverre ikke tilgjengelig for nettbestilling for øyeblikket. Ring oss, eller bestill en annen time online.",
   step2EmptyButtonLabel: "Ring oss så hjelper vi deg",
   step2EmptyPhone: "22 60 00 50",
+  step2EmptyBookLabel: "Bestill time",
   step3Heading: "Velg behandler",
   step3Subtitle: "Velg en behandler, eller gå videre for å se alle ledige tider.",
   step3Loading: "Henter behandlere fra booking-systemet…",
@@ -268,9 +271,10 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   step2Loading: "Loading clinics from the booking system…",
   step2EmptyTitle: "This service can't be booked online right now",
   step2EmptyMessage:
-    "This particular service is currently not available for online booking. Please give us a call and we'll help you find a suitable appointment.",
+    "This particular service is currently not available for online booking. Please give us a call, or book a different appointment online.",
   step2EmptyButtonLabel: "Call us and we will help",
   step2EmptyPhone: "22 60 00 50",
+  step2EmptyBookLabel: "Book appointment",
   step3Heading: "Choose a practitioner",
   step3Subtitle: "Choose a practitioner, or continue to see all available times.",
   step3Loading: "Loading practitioners from the booking system…",
