@@ -48,6 +48,11 @@ import {
   statsGridClass,
   threeCardGridClass,
 } from "@/lib/ui/grid-cols-for-count";
+import {
+  emergencyNoticePlacement,
+  isAkuttSegment,
+  resolveEmergencyNoticeText,
+} from "@/lib/sanity/emergency-notice";
 import { mergeSectionOrder } from "@/lib/ui/merge-section-order";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import {
@@ -602,11 +607,31 @@ type LifePhase = {
   n?: string;
 };
 
+function EmergencyNotice({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
+  const value = text.trim();
+  if (!value) return null;
+  return (
+    <p
+      className={`text-sm font-light leading-relaxed text-muted-foreground ${className}`.trim()}
+      role="note"
+    >
+      {value}
+    </p>
+  );
+}
+
 function LifePhasesCarousel({
   phases,
   variant: _variant = "default",
   layout: _layout = "grid",
   showReadMore = true,
+  emergencyNoticeText,
 }: {
   phases: LifePhase[];
   variant?: "default" | "fertility";
@@ -617,6 +642,8 @@ function LifePhasesCarousel({
   layout?: "grid" | "accordion";
   /** CMS toggle: hide Les mer under each card when false. */
   showReadMore?: boolean;
+  /** Shown inside the Akutt skade eller smerte item (Ortopedi). */
+  emergencyNoticeText?: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -667,6 +694,9 @@ function LifePhasesCarousel({
                   {phase.cta}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
+              ) : null}
+              {emergencyNoticeText && isAkuttSegment(phase.n, phase.title) ? (
+                <EmergencyNotice text={emergencyNoticeText} className="mt-3 pb-2" />
               ) : null}
             </div>
           </AccordionContent>
@@ -728,6 +758,9 @@ function LifePhasesCarousel({
                   {phase.cta}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
+              ) : null}
+              {emergencyNoticeText && isAkuttSegment(phase.n, phase.title) ? (
+                <EmergencyNotice text={emergencyNoticeText} className="mt-3" />
               ) : null}
             </article>
           ))}
@@ -1070,6 +1103,16 @@ const TreatmentCategoryLanding = ({
   const isFertility =
     categoryId === "fertilitet" || categoryId === "fertility";
 
+  const noticePlacement = emergencyNoticePlacement(categoryId);
+  const emergencyNoticeText = resolveEmergencyNoticeText(
+    siteSettings?.emergencyNoticeText,
+    sanityLang === "en" ? "en" : "no",
+  );
+  const accordionEmergencyNotice =
+    noticePlacement === "akutt-accordion" ? emergencyNoticeText : undefined;
+  const heroEmergencyNotice =
+    noticePlacement === "hero" ? emergencyNoticeText : undefined;
+
   /**
    * Lovable Media band uses the ultralyd image — not the hero portrait.
    * When Pregnancy spotlight was incorrectly pointed at the hero asset,
@@ -1216,6 +1259,7 @@ const TreatmentCategoryLanding = ({
                 variant={isFertility ? "fertility" : "default"}
                 layout={segmentsSection.layout}
                 showReadMore={segmentsSection.showReadMore}
+                emergencyNoticeText={accordionEmergencyNotice}
               />
             </div>
           </div>
@@ -1701,6 +1745,9 @@ const TreatmentCategoryLanding = ({
                     }}
                     className="w-full"
                   />
+                  {heroEmergencyNotice ? (
+                    <EmergencyNotice text={heroEmergencyNotice} />
+                  ) : null}
                   {hero.helpText ? (
                     <p className="text-sm font-light text-muted-foreground leading-relaxed">
                       {hero.helpText}
@@ -1788,8 +1835,14 @@ const TreatmentCategoryLanding = ({
                   onPrimary={() => {
                     window.location.href = buildBookingUrl(bookingParams);
                   }}
-                  className={`w-full ${hero.helpText ? "mb-4" : "mb-10"}`}
+                  className={`w-full ${hero.helpText || heroEmergencyNotice ? "mb-4" : "mb-10"}`}
                 />
+                {heroEmergencyNotice ? (
+                  <EmergencyNotice
+                    text={heroEmergencyNotice}
+                    className={hero.helpText ? "mb-4" : "mb-10"}
+                  />
+                ) : null}
                 {hero.helpText ? (
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-10">
                     {hero.helpText}

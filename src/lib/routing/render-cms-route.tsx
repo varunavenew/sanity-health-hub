@@ -45,6 +45,7 @@ import Specialists from "@/site-pages/Specialists";
 import TreatmentCategoryLanding from "@/site-pages/treatments/TreatmentCategoryLanding";
 import TreatmentPage from "@/site-pages/treatments/TreatmentPage";
 import Guide from "@/site-pages/Guide";
+import RobotkirurgiPage from "@/site-pages/themes/RobotkirurgiPage";
 import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
 import SubTreatmentPage from "@/site-pages/treatments/SubTreatmentPage";
@@ -72,6 +73,7 @@ import {
   buildSpecialistsListingMetadata,
   buildKarriereListingMetadata,
   buildGuideMetadata,
+  buildRobotkirurgiMetadata,
 } from "@/lib/seo/route-metadata";
 import {
   buildArticleMetadata,
@@ -101,6 +103,7 @@ const SINGLETON_HANDLERS: Record<
   opennessActPage: { Component: Aapenhetsloven2025, buildMetadata: buildOpennessActMetadata },
   careersPage: { Component: Karriere, buildMetadata: buildKarriereListingMetadata },
   guidePage: { Component: Guide, buildMetadata: buildGuideMetadata },
+  robotkirurgiPage: { Component: RobotkirurgiPage, buildMetadata: buildRobotkirurgiMetadata },
 };
 
 /** Singletons whose body is hydrated into React Query so the initial HTML includes CMS copy. */
@@ -114,6 +117,7 @@ const SSR_SINGLETON_TYPES = new Set<SingletonPageType>([
   "servicesPage",
   "specialistsPage",
   "guidePage",
+  "robotkirurgiPage",
   "insurancePage",
 ]);
 

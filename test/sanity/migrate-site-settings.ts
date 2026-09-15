@@ -110,6 +110,20 @@ async function migrate() {
       "Beklager, vi finner ikke siden du leter etter. Den kan ha blitt flyttet eller slettet.",
     notFoundCtaLabel: "Tilbake til forsiden",
     notFoundCtaPath: "/",
+    emergencyNoticeText: [
+      {
+        _type: "internationalizedArrayStringValue",
+        _key: "no",
+        language: "no",
+        value: "Ved livstruende akutte behov — ring 113.",
+      },
+      {
+        _type: "internationalizedArrayStringValue",
+        _key: "en",
+        language: "en",
+        value: "In life-threatening emergencies — call 113.",
+      },
+    ],
     ...(notFoundImage ? { notFoundImage } : {}),
   };
 

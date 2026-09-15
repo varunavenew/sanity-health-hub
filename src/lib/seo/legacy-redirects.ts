@@ -310,6 +310,7 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   // Slug / path fixes.
   { source: "/no/ovrige/robotassistert-kirurgi", destination: "/no/robotassistert-kirurgi", permanent: true },
   { source: "/nb/ovrige/robotassistert-kirurgi", destination: "/nb/robotassistert-kirurgi", permanent: true },
+  { source: "/en/robotassistert-kirurgi", destination: "/en/robot-assisted-surgery", permanent: true },
   { source: "/no/gynekologi/tverrfaglig-team", destination: "/no/gynekologi/tverrfaglig", permanent: true },
   { source: "/nb/gynekologi/tverrfaglig-team", destination: "/nb/gynekologi/tverrfaglig", permanent: true },
   { source: "/en/careers", destination: "/en/career", permanent: true },

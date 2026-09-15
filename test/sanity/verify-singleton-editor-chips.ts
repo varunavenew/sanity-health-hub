@@ -15,6 +15,7 @@ import {clinicsPageEditorConfig} from './page-editor/pages/clinicsSections'
 import {contactPageEditorConfig} from './page-editor/pages/contactSections'
 import {newsPageEditorConfig} from './page-editor/pages/newsSections'
 import {guidePageEditorConfig} from './page-editor/pages/guideSections'
+import {robotkirurgiPageEditorConfig} from './page-editor/pages/robotkirurgiSections'
 import {careersPageEditorConfig} from './page-editor/pages/careersSections'
 import {privacyPageEditorConfig} from './page-editor/pages/privacySections'
 import type {PageEditorConfig} from './page-editor/types'
@@ -28,6 +29,7 @@ const CONFIGS: Array<{id: string; config: PageEditorConfig}> = [
   {id: 'contactPage', config: contactPageEditorConfig},
   {id: 'newsPage', config: newsPageEditorConfig},
   {id: 'guidePage', config: guidePageEditorConfig},
+  {id: 'robotkirurgiPage', config: robotkirurgiPageEditorConfig},
   {id: 'careersPage', config: careersPageEditorConfig},
   {id: 'privacyPolicyPage', config: privacyPageEditorConfig},
 ]

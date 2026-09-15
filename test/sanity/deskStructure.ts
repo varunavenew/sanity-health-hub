@@ -37,6 +37,7 @@ import {clinicsPageEditorConfig} from './page-editor/pages/clinicsSections'
 import {contactPageEditorConfig} from './page-editor/pages/contactSections'
 import {newsPageEditorConfig} from './page-editor/pages/newsSections'
 import {guidePageEditorConfig} from './page-editor/pages/guideSections'
+import {robotkirurgiPageEditorConfig} from './page-editor/pages/robotkirurgiSections'
 import {careersPageEditorConfig} from './page-editor/pages/careersSections'
 import {privacyPageEditorConfig} from './page-editor/pages/privacySections'
 import {opennessActPageEditorConfig} from './page-editor/pages/opennessActSections'
@@ -198,6 +199,14 @@ function pagesSection(S: StructureBuilder) {
             schemaType: 'guidePage',
             documentId: 'guidePage',
             config: guidePageEditorConfig,
+            withLocalePreviews: true,
+          }),
+          buildPageSectionListItem(S, {
+            title: 'Robot-assisted surgery',
+            schemaType: 'robotkirurgiPage',
+            documentId: 'robotkirurgiPage',
+            icon: ThemeIcon,
+            config: robotkirurgiPageEditorConfig,
             withLocalePreviews: true,
           }),
           careersItem,

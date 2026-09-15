@@ -1619,7 +1619,8 @@ export const CMS_ROUTE_INDEX_QUERY = `{
   "singletons": *[_type in [
     "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
     "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
-    "privacyPolicyPage", "opennessActPage", "careersPage", "guidePage"
+    "privacyPolicyPage", "opennessActPage", "careersPage", "guidePage",
+    "robotkirurgiPage"
   ] && ${publishedOnly}]{
     _type,
     _updatedAt,
@@ -1751,6 +1752,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && ${publishedOnly
     ${i18nNestedText("treatmentPageUi", "notFoundBody")},
     ${i18nNestedString("treatmentPageUi", "backLabel")}
   },
+  ${i18nString("emergencyNoticeText")},
   mainNavigation[]{
     _key,
     ${i18nString("label")},
@@ -2034,6 +2036,35 @@ export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage" && ${publishedOnly}]
   ${i18nString("secondaryCtaLabel")},
   secondaryCtaPath,
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
+  ${localizedSeoObject}
+}`;
+
+export const ROBOTKIRURGI_PAGE_QUERY = `*[_type == "robotkirurgiPage" && ${publishedOnly}][0]{
+  ${i18nString("title")},
+  ${i18nText("subtitle")},
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
+  ${i18nString("heroImageAlt")},
+  ${i18nString("primaryCtaLabel")},
+  primaryCtaPath,
+  "introTexts": introTexts[]{
+    "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value)
+  }.text,
+  sections[]{
+    "heading": coalesce(heading[language == $lang][0].value, heading[_key == $lang][0].value, heading[language == "no"][0].value, heading[_key == "no"][0].value, heading),
+    "paragraphs": paragraphs[]{
+      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value)
+    }.text,
+    "bulletPoints": bulletPoints[]{
+      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value)
+    }.text
+  },
+  ${i18nText("quoteText")},
+  ${i18nString("quoteAttribution")},
+  ${i18nString("secondaryCtaLabel")},
+  secondaryCtaPath,
+  ${i18nString("faqSectionTitle")},
+  ${faqCollectionProjection},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
