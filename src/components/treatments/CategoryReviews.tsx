@@ -211,7 +211,7 @@ export const CategoryReviews = ({
   if (reviews.length === 0) return null;
 
   return (
-    <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden">
+    <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden text-center">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">

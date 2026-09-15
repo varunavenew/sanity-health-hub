@@ -20,6 +20,7 @@ import {
   fetchSpecialistsListingPageDocument,
   fetchSpecialistsPageDocument,
   fetchGuidePageDocument,
+  fetchRobotkirurgiPageDocument,
   fetchCareersPageDocument,
 } from "@/lib/seo/fetch-sanity-seo";
 import { fetchSingletonLocalizedPaths } from "@/lib/routing/singleton-slug-paths";
@@ -463,6 +464,58 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
     paths = await fetchSingletonLocalizedPaths("guidePage");
   } catch {
     // guidePage slug not yet in CMS
+  }
+
+  return buildPageMetadata({
+    locale,
+    paths,
+    title: resolvedTitle,
+    description: resolvedDescription,
+    ogImage: pageOgImage(seo, data as PageHeroFields | undefined),
+    ogImageAlt: pageOgImageAlt(seo, lang, resolvedTitle),
+    noIndex: !!seo?.noIndex,
+    type: "website",
+  });
+}
+
+const ROBOTKIRURGI_FALLBACK = {
+  nb: {
+    title: "Robotassistert kirurgi | CMedical",
+    description:
+      "Robotassistert kirurgi er en avansert, men skånsom behandlingsform. Presisjon, rask restitusjon og korte ventetider hos CMedical.",
+  },
+  en: {
+    title: "Robot-assisted surgery | CMedical",
+    description:
+      "Robot-assisted surgery is an advanced yet gentle form of treatment. Precision, rapid recovery and short waiting times at CMedical.",
+  },
+} as const;
+
+export async function buildRobotkirurgiMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchRobotkirurgiPageDocument(sanityLang);
+  const seo = data?.seo;
+  const { title, description } = resolveMetaStrings(seo, lang, ROBOTKIRURGI_FALLBACK);
+  const resolvedTitle = plainMetaString(
+    seo?.metaTitle,
+    data?.title?.trim() || title,
+    sanityLang,
+  );
+  const resolvedDescription = plainMetaString(
+    seo?.metaDescription,
+    data?.subtitle?.trim().slice(0, 160) || description,
+    sanityLang,
+  );
+
+  let paths = {
+    nbPath: "/no/robotassistert-kirurgi",
+    enPath: "/en/robot-assisted-surgery",
+  };
+  try {
+    paths = await fetchSingletonLocalizedPaths("robotkirurgiPage");
+  } catch {
+    // robotkirurgiPage slug not yet in CMS
   }
 
   return buildPageMetadata({

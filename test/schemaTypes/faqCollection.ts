@@ -72,6 +72,7 @@ export default {
         {type: 'clinicPage'},
         {type: 'servicesPage'},
         {type: 'pricingPage'},
+        {type: 'robotkirurgiPage'},
       ],
       creationAllowed: false,
     }),

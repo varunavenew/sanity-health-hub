@@ -28,6 +28,7 @@ import clinicsPage from './clinicsPage'
 import careersPage from './careersPage'
 import bookingPage from './bookingPage'
 import guidePage from './guidePage'
+import robotkirurgiPage from './robotkirurgiPage'
 
 import article from './article'
 import jobListing from './jobListing'
@@ -71,6 +72,7 @@ export const schemaTypes = [
   careersPage,
   bookingPage,
   guidePage,
+  robotkirurgiPage,
 
   themePage,
   specialistsPage,

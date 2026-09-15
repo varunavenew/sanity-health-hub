@@ -73,6 +73,7 @@ export const SINGLETON_PAGE_TYPES = [
   "opennessActPage",
   "careersPage",
   "guidePage",
+  "robotkirurgiPage",
 ] as const;
 
 export type SingletonPageType = (typeof SINGLETON_PAGE_TYPES)[number];

@@ -21,6 +21,7 @@ import {
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
   CAREERS_PAGE_QUERY,
   GUIDE_PAGE_QUERY,
+  ROBOTKIRURGI_PAGE_QUERY,
   CLINICIAN_GUIDE_PAGE_QUERY,
 } from "@/lib/queries";
 import { normalizeI18n, normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
@@ -471,6 +472,26 @@ export async function fetchClinicianGuidePageSeo(
   });
   if (raw == null) return null;
   return normalizeI18n(raw, lang) as DocWithSeo & { title?: string; subtitle?: string };
+}
+
+export type RobotkirurgiPageDocument = DocWithSeo & {
+  title?: string;
+  subtitle?: string;
+  heroMedia?: unknown;
+};
+
+export async function fetchRobotkirurgiPageDocument(
+  lang: "no" | "en",
+): Promise<RobotkirurgiPageDocument | null> {
+  const raw = await sanityFetchCached({
+    query: ROBOTKIRURGI_PAGE_QUERY,
+    params: { lang },
+    key: ["sanity", "robotkirurgiPage", lang, ROBOTKIRURGI_PAGE_QUERY],
+    tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.type("robotkirurgiPage")],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+  if (raw == null) return null;
+  return normalizeI18n(raw, lang) as RobotkirurgiPageDocument;
 }
 
 export type GuidePageDocument = DocWithSeo & {

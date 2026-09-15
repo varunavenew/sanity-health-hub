@@ -154,6 +154,8 @@
     "migrate:site-settings-email-defaults:production": "node scripts/migrate-site-settings-email-defaults-production.cjs",
     "migrate:emergency-notice:dry": "cross-env DRY_RUN=1 tsx sanity/migrate-emergency-notice.ts",
     "migrate:emergency-notice": "tsx sanity/migrate-emergency-notice.ts",
+    "migrate:robotkirurgi-page:dry": "cross-env DRY_RUN=1 tsx sanity/migrate-robotkirurgi-page.ts",
+    "migrate:robotkirurgi-page": "tsx sanity/migrate-robotkirurgi-page.ts",
     "migrate:cleanup-review-collections:dry": "cross-env DRY_RUN=1 tsx sanity/cleanup-review-collections.ts",
     "migrate:cleanup-review-collections": "tsx sanity/cleanup-review-collections.ts",
     "migrate:homepage-reviews:dry": "DRY_RUN=1 tsx sanity/migrate-homepage-reviews.ts",

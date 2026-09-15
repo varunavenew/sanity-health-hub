@@ -13,6 +13,7 @@ import {clinicsPageEditorConfig} from './page-editor/pages/clinicsSections'
 import {contactPageEditorConfig} from './page-editor/pages/contactSections'
 import {newsPageEditorConfig} from './page-editor/pages/newsSections'
 import {guidePageEditorConfig} from './page-editor/pages/guideSections'
+import {robotkirurgiPageEditorConfig} from './page-editor/pages/robotkirurgiSections'
 import {careersPageEditorConfig} from './page-editor/pages/careersSections'
 import {privacyPageEditorConfig} from './page-editor/pages/privacySections'
 import {homepagePageEditorConfig} from './page-editor/pages/homepageSections'
@@ -39,6 +40,7 @@ const pages: {
   {id: 'contact', schemaName: 'contactPage', config: contactPageEditorConfig, hasGroups: true},
   {id: 'news', schemaName: 'newsPage', config: newsPageEditorConfig, hasGroups: true},
   {id: 'guide', schemaName: 'guidePage', config: guidePageEditorConfig, hasGroups: true},
+  {id: 'robotkirurgi', schemaName: 'robotkirurgiPage', config: robotkirurgiPageEditorConfig, hasGroups: true},
   {id: 'careers', schemaName: 'careersPage', config: careersPageEditorConfig, hasGroups: true},
   {id: 'privacy', schemaName: 'privacyPolicyPage', config: privacyPageEditorConfig, hasGroups: true},
 ]
