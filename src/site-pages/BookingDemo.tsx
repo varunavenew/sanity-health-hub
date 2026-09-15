@@ -500,8 +500,9 @@ const BookingDemo = () => {
 
         for (let i = 0; i < settled.length; i++) {
           const chunk = chunks[i]!;
-          if (settled[i]?.status === "fulfilled") {
-            const { chunk: fulfilledChunk, json } = settled[i].value;
+          const entry = settled[i];
+          if (entry?.status === "fulfilled") {
+            const { chunk: fulfilledChunk, json } = entry.value;
             for (const id of fulfilledChunk) {
               const slots =
                 json.byActivityId?.[String(id)] ??
