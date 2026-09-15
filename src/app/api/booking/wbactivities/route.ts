@@ -108,11 +108,18 @@ export async function GET(request: Request) {
           { status: 404 },
         );
       }
-      return NextResponse.json({
-        ok: true,
-        activity: entry,
-        locationIds: locationIdsForWbActivity(entry),
-      });
+      return NextResponse.json(
+        {
+          ok: true,
+          activity: entry,
+          locationIds: locationIdsForWbActivity(entry),
+        },
+        {
+          headers: {
+            "Cache-Control": "private, max-age=300, stale-while-revalidate=600",
+          },
+        },
+      );
     }
 
     if (caregiverUserId != null) {

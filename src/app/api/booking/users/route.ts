@@ -10,11 +10,11 @@ import {
 import {
   BOOKING_URLS,
   bookingResourceUrl,
-  fetchBookingResource,
+  fetchBookingResourceCached,
   unwrapList,
 } from "@/lib/booking/upstream";
 
-const DEFAULT_CONCURRENCY = 6;
+const DEFAULT_CONCURRENCY = 8;
 
 async function mapWithConcurrency<T, R>(
   items: T[],
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
     const caregivers = await mapWithConcurrency(ids, DEFAULT_CONCURRENCY, async (userId) => {
       try {
         const url = bookingResourceUrl(BOOKING_URLS.users, userId);
-        const payload = await fetchBookingResource(url, apiKey);
+        const payload = await fetchBookingResourceCached(url, apiKey);
         const entries = unwrapList(payload);
         const entry = entries[0];
         if (!entry || typeof entry !== "object") return null;
@@ -103,7 +103,14 @@ export async function GET(request: Request) {
       .filter((item): item is BookingCaregiver => item !== null)
       .sort((a, b) => a.name.localeCompare(b.name, "nb"));
 
-    return NextResponse.json({ ok: true, users });
+    return NextResponse.json(
+      { ok: true, users },
+      {
+        headers: {
+          "Cache-Control": "private, max-age=300, stale-while-revalidate=600",
+        },
+      },
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
     return NextResponse.json({ ok: false, message }, { status: 502 });
