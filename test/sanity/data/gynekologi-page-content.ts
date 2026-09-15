@@ -1155,9 +1155,9 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
         titleNo: "Fosterdiagnostikk hos spesialist",
         titleEn: "Prenatal diagnosis with a specialist",
         descNo:
-          "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+          "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
         descEn:
-          "Dr Ashi Ahmad at CMedical is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
+          "[Dr Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) at CMedical is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
       },
     ],
   },
@@ -1234,9 +1234,9 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
         titleNo: "Fosterdiagnostikk",
         titleEn: "Prenatal diagnosis",
         descNo:
-          "Dr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+          "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
         descEn:
-          "Dr Ashi Ahmad is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
+          "[Dr Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
       },
     ],
   },

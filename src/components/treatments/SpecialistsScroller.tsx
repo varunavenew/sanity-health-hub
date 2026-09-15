@@ -6,6 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -441,6 +442,7 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
   const firstName = sp.name.split(" ")[0] || sp.name;
   // Treatment editorial: job title only (e.g. "Gastrokirurg"), not "Category · Title".
   const roleLine = (sp.subtitle?.trim() || sp.title).trim();
+  const bookingHref = bookingUrlForSpecialist(sp);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
@@ -464,7 +466,12 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
       <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between">
         <div>
           <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-3 hyphens-auto [overflow-wrap:anywhere]">
-            {sp.name}
+            <Link
+              to={bookingHref}
+              className="text-inherit no-underline hover:underline underline-offset-4 decoration-1 focus-visible:underline"
+            >
+              {sp.name}
+            </Link>
           </h3>
           {roleLine ? (
             <p className="text-base md:text-lg text-muted-foreground font-light mb-6 max-w-md">
@@ -497,7 +504,7 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
 
         <div className="mt-10">
           <Button variant="cta" asChild>
-            <Link to="/booking">Finn ledig tid hos {firstName}</Link>
+            <Link to={bookingHref}>Finn ledig tid hos {firstName}</Link>
           </Button>
         </div>
       </div>

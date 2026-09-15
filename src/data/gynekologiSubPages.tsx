@@ -980,7 +980,7 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
     reasonsLead: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.",
     reasons: [
       { n: "01", title: "Tidlig ultralyd", desc: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6–10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg." },
-      { n: "02", title: "Fosterdiagnostikk", desc: "Dr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp." },
+      { n: "02", title: "Fosterdiagnostikk", desc: "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp." },
     ],
     promises: standardPromises,
     related: [

@@ -80,6 +80,7 @@ import {
   SPECIALISTS_LISTING_PAGE_QUERY,
   CAREERS_PAGE_QUERY,
   GUIDE_PAGE_QUERY,
+  ROBOTKIRURGI_PAGE_QUERY,
   CLINICS_PAGE_QUERY,
   SOCIAL_POSTS_QUERY,
   CMS_ROUTE_INDEX_QUERY,
@@ -115,6 +116,7 @@ import {
   type ClinicianGuideRaw,
 } from "@/lib/sanity/clinician-guide-data";
 import { mapThemePageData } from "@/lib/sanity/theme-page-data";
+import { mapRobotkirurgiPageData } from "@/lib/sanity/robotkirurgi-page-data";
 
 const useSanityLang = useSanityContentLang;
 
@@ -1345,6 +1347,16 @@ export const useGuidePage = () => {
       }>(GUIDE_PAGE_QUERY, undefined, lang);
       return withPageSections(data);
     },
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useRobotkirurgiPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "robotkirurgiPage", lang],
+    queryFn: async () =>
+      mapRobotkirurgiPageData(await fetchSanity<any>(ROBOTKIRURGI_PAGE_QUERY, undefined, lang)),
     staleTime: 5 * 60 * 1000,
   });
 };
