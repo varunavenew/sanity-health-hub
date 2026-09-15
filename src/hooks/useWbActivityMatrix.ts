@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
-
-type WbActivityResponse = {
-  ok?: boolean;
-  activity?: WbActivityMatrixEntry;
-};
+import {
+  fetchWbActivityMatrixClient,
+  peekWbActivityMatrixClient,
+} from "@/lib/booking/fetchWbActivityMatrix.client";
 
 /** Metodika wbactivity entry with location → caregiver matrix for one treatment. */
 export function useWbActivityMatrix(wbactivityId: number | undefined) {
-  const [activity, setActivity] = useState<WbActivityMatrixEntry | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [activity, setActivity] = useState<WbActivityMatrixEntry | null>(() => {
+    if (wbactivityId == null) return null;
+    const peeked = peekWbActivityMatrixClient(wbactivityId);
+    return peeked === undefined ? null : peeked;
+  });
+  const [loading, setLoading] = useState(() => {
+    if (wbactivityId == null) return false;
+    return peekWbActivityMatrixClient(wbactivityId) === undefined;
+  });
 
   useEffect(() => {
     if (wbactivityId == null) {
@@ -18,25 +24,26 @@ export function useWbActivityMatrix(wbactivityId: number | undefined) {
       return;
     }
 
+    const peeked = peekWbActivityMatrixClient(wbactivityId);
+    if (peeked !== undefined) {
+      setActivity(peeked);
+      setLoading(false);
+      return;
+    }
+
     let cancelled = false;
     setLoading(true);
 
-    void (async () => {
-      try {
-        const res = await fetch(`/api/booking/wbactivities?wbactivityId=${wbactivityId}`);
-        const json = (await res.json()) as WbActivityResponse;
-        if (cancelled) return;
-        if (res.ok && json.ok && json.activity) {
-          setActivity(json.activity);
-        } else {
-          setActivity(null);
-        }
-      } catch {
+    void fetchWbActivityMatrixClient(wbactivityId)
+      .then((entry) => {
+        if (!cancelled) setActivity(entry);
+      })
+      .catch(() => {
         if (!cancelled) setActivity(null);
-      } finally {
+      })
+      .finally(() => {
         if (!cancelled) setLoading(false);
-      }
-    })();
+      });
 
     return () => {
       cancelled = true;

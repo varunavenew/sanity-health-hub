@@ -258,7 +258,7 @@ export async function fetchBookingFreetimesList(
   }
 }
 
-/** Cached fetch for relatively static catalog endpoints (groups, activities). */
+/** Cached fetch for relatively static catalog endpoints (groups, activities, users). */
 export async function fetchBookingResourceCached(
   url: string,
   apiKey: string,
@@ -267,9 +267,20 @@ export async function fetchBookingResourceCached(
   const hit = responseCache.get(cacheKey);
   if (hit && hit.expiresAt > Date.now()) return hit.data;
 
-  const data = await fetchBookingResource(url, apiKey);
-  responseCache.set(cacheKey, { data, expiresAt: Date.now() + CACHE_TTL_MS });
-  return data;
+  const pending = inFlightRequests.get(cacheKey);
+  if (pending) return pending;
+
+  const promise = fetchBookingResource(url, apiKey)
+    .then((data) => {
+      responseCache.set(cacheKey, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+      return data;
+    })
+    .finally(() => {
+      inFlightRequests.delete(cacheKey);
+    });
+
+  inFlightRequests.set(cacheKey, promise);
+  return promise;
 }
 
 export function bookingResourceUrl(base: string, id: number | string): string {

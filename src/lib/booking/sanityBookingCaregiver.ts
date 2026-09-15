@@ -31,27 +31,42 @@ export function resolveSanityCaregiverImage(
   return undefined;
 }
 
+const PORTRAIT_CACHE_TTL_MS = 5 * 60 * 1000;
+let portraitsCache: { expiresAt: number; data: SanityCaregiverPortrait[] } | null = null;
+let portraitsInFlight: Promise<SanityCaregiverPortrait[]> | null = null;
+
 export async function fetchSanityCaregiverPortraits(): Promise<SanityCaregiverPortrait[]> {
-  try {
-    const rows = await sanityClient.fetch<
+  if (portraitsCache && portraitsCache.expiresAt > Date.now()) {
+    return portraitsCache.data;
+  }
+  if (portraitsInFlight) return portraitsInFlight;
+
+  portraitsInFlight = sanityClient
+    .fetch<
       Array<{
         name?: string;
         metodikaUserId?: number;
         image?: string;
       }>
-    >(SANITY_CAREGIVER_PORTRAITS_QUERY);
+    >(SANITY_CAREGIVER_PORTRAITS_QUERY)
+    .then((rows) => {
+      const data = (rows || [])
+        .map((row) => ({
+          name: typeof row.name === "string" ? row.name.trim() : "",
+          metodikaUserId:
+            typeof row.metodikaUserId === "number" && row.metodikaUserId > 0
+              ? row.metodikaUserId
+              : undefined,
+          image: typeof row.image === "string" ? row.image.trim() : undefined,
+        }))
+        .filter((row) => row.name);
+      portraitsCache = { data, expiresAt: Date.now() + PORTRAIT_CACHE_TTL_MS };
+      return data;
+    })
+    .catch(() => portraitsCache?.data ?? [])
+    .finally(() => {
+      portraitsInFlight = null;
+    });
 
-    return (rows || [])
-      .map((row) => ({
-        name: typeof row.name === "string" ? row.name.trim() : "",
-        metodikaUserId:
-          typeof row.metodikaUserId === "number" && row.metodikaUserId > 0
-            ? row.metodikaUserId
-            : undefined,
-        image: typeof row.image === "string" ? row.image.trim() : undefined,
-      }))
-      .filter((row) => row.name);
-  } catch {
-    return [];
-  }
+  return portraitsInFlight;
 }

@@ -3,6 +3,10 @@ import type {
   BookingMetodikaClinic,
   BookingPasientskyClinic,
 } from "@/lib/booking/mapApiLocation";
+import {
+  locationIdsForWbActivity,
+  type WbActivityMatrixEntry,
+} from "@/lib/booking/wbactivitiesMatrix";
 import type { SanityClinicListRow } from "@/hooks/useSanity";
 import {
   bookingCategoryPageIdForClinicService,
@@ -194,6 +198,48 @@ export function normalizeClinicLabelForCompare(label: string): string {
     .replace(/^cmedical\s+/i, "")
     .replace(/^oslo\s+/i, "")
     .trim();
+}
+
+/** Metodika fallback labels like "Location 1" — hide from booking UI. */
+export function isPlaceholderMetodikaLocationLabel(label: string): boolean {
+  return /^location\s+\d+$/i.test(label.trim());
+}
+
+/**
+ * Step 2 fast path: Metodika clinics from wbactivities matrix + Sanity mapping only.
+ * Avoids slow wbfreetimes → rooms → locations chain.
+ */
+export function metodikaClinicsFromMatrix(
+  sanityClinics: SanityClinicListRow[],
+  activityEntry: WbActivityMatrixEntry | null | undefined,
+): BookingMetodikaClinic[] {
+  if (!activityEntry) return [];
+
+  const allowedLocationIds = new Set(locationIdsForWbActivity(activityEntry));
+  if (allowedLocationIds.size === 0) return [];
+
+  const clinics: BookingMetodikaClinic[] = [];
+  const seenLocationIds = new Set<number>();
+
+  for (const sanity of sanityClinics) {
+    if (sanity.booking?.method !== "metodika") continue;
+
+    const locationId = sanity.booking.metodikaLocationId;
+    if (typeof locationId !== "number" || !allowedLocationIds.has(locationId)) continue;
+    if (seenLocationIds.has(locationId)) continue;
+    seenLocationIds.add(locationId);
+
+    clinics.push({
+      id: `location-${locationId}`,
+      label: sanity.label,
+      apiLocationId: locationId,
+      bookingSystem: "metodika",
+      sanityClinicId: sanity.id,
+      sanityImage: sanity.primaryImage,
+    });
+  }
+
+  return clinics.sort((a, b) => a.label.localeCompare(b.label, "nb"));
 }
 
 export function clinicOffersBookingCategory(
