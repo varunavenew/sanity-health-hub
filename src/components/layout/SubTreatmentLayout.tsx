@@ -151,7 +151,7 @@ function TreatmentSectionHead({
   className?: string;
 }) {
   return (
-    <div className={`grid gap-y-3 md:gap-y-4 ${className}`.trim()}>
+    <div>
       <h2 className={`${titleClassName} !mb-0`}>{title}</h2>
       {description ? <p className={`${descriptionClassName} !mb-0`}>{description}</p> : null}
       {description2 ? <p className={descriptionClassName}>{description2}</p> : null}
@@ -547,7 +547,7 @@ export const SubTreatmentLayout = ({
                 {heroTitle}
               </p>
               {c.heroDescription ? (
-                <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-muted-foreground">
+                <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
                   {c.heroDescription}
                 </p>
               ) : null}
@@ -759,13 +759,13 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasExpertAreasSection(c) ? (
-        <section className="bg-secondary/40 py-10">
+        <section className="bg-secondary/40 pt-14 md:pt-28">
           <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <TreatmentSectionHead
                 title={c.expertAreas?.title ?? ""}
                 description={c.expertAreas?.description}
-                className="lg:grid-cols-12 lg:gap-x-24 mb-14"
+                // className="lg:grid-cols-12 lg:gap-x-24 mb-14"
                 titleClassName="text-3xl md:text-5xl font-light leading-tight text-foreground lg:col-span-6"
                 descriptionClassName="text-base font-light text-muted-foreground leading-relaxed lg:col-span-6"
               />
@@ -793,7 +793,7 @@ export const SubTreatmentLayout = ({
                       )}
                     </div>
                     <div className="p-7 flex flex-col flex-1">
-                      <h3 className="text-xl font-light text-foreground mb-3">{area.title}</h3>
+                      <h3 className="text-lg font-normal text-foreground mb-3">{area.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                         {area.desc}
                       </p>
@@ -935,7 +935,7 @@ export const SubTreatmentLayout = ({
       {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
       <section className="bg-brand-light text-foreground py-10 border-t border-brand-dark/10">
-        <div className="page-shell">
+        <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
               <TreatmentSectionHead

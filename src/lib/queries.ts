@@ -1751,6 +1751,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && ${publishedOnly
     ${i18nNestedText("treatmentPageUi", "notFoundBody")},
     ${i18nNestedString("treatmentPageUi", "backLabel")}
   },
+  ${i18nString("emergencyNoticeText")},
   mainNavigation[]{
     _key,
     ${i18nString("label")},

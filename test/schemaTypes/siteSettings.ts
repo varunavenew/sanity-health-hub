@@ -51,6 +51,28 @@ export default {
       ],
     },
     {
+      name: 'emergencyNoticeText',
+      title: 'Emergency notice (113)',
+      type: 'internationalizedArrayString',
+      group: 'general',
+      description:
+        'One line for all three pages. Shown on Ortopedi (under «Akutt skade eller smerte»), Gynekologi and Øvrige (below the hero booking buttons). Never shown on Fertilitet.',
+      initialValue: [
+        {
+          _key: 'no',
+          _type: 'internationalizedArrayStringValue',
+          language: 'no',
+          value: 'Ved livstruende akutte behov — ring 113.',
+        },
+        {
+          _key: 'en',
+          _type: 'internationalizedArrayStringValue',
+          language: 'en',
+          value: 'In life-threatening emergencies — call 113.',
+        },
+      ],
+    },
+    {
       name: 'title',
       title: 'Site name',
       type: 'string',

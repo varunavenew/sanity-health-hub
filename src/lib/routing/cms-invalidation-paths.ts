@@ -222,6 +222,12 @@ export function cmsInvalidationPaths(
     case "googleAnalyticsSettings":
       paths.add("/no");
       paths.add("/en");
+      paths.add("/no/ortopedi");
+      paths.add("/no/gynekologi");
+      paths.add("/no/ovrige");
+      paths.add("/en/orthopedics");
+      paths.add("/en/gynecology");
+      paths.add("/en/other");
       break;
 
     default:
