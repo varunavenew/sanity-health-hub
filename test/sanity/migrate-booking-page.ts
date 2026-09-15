@@ -101,6 +101,11 @@ async function run() {
     step4Heading: S('Velg tid', 'Choose a time'),
     step4SelectedDayLabel: S('Valgt dag', 'Selected day'),
     step4NoDaysLabel: S('Ingen ledige dager', 'No available days'),
+    step4NoDaysTitle: S('Ingen ledige dager', 'No available days'),
+    step4NoDaysMessage: T(
+      'Vi finner ingen ledige timer i kalenderen akkurat nå. Ring oss direkte – vi finner ofte en åpning som ikke ligger ute online.',
+      "We couldn't find any available appointments in the calendar right now. Call us directly – we often find openings that aren't listed online.",
+    ),
     step4TodayLabel: S('I dag', 'Today'),
     step4PickTimeLabel: S('Velg en tid', 'Choose a time'),
     step4DurationPrefix: S('Varighet', 'Duration'),

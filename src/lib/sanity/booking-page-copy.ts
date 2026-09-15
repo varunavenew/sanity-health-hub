@@ -50,6 +50,8 @@ export type BookingPageCopy = {
   step4Heading: string;
   step4SelectedDayLabel: string;
   step4NoDaysLabel: string;
+  step4NoDaysTitle: string;
+  step4NoDaysMessage: string;
   step4TodayLabel: string;
   step4PickTimeLabel: string;
   step4DurationPrefix: string;
@@ -164,6 +166,9 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step4Heading: "Velg tid",
   step4SelectedDayLabel: "Valgt dag",
   step4NoDaysLabel: "Ingen ledige dager",
+  step4NoDaysTitle: "Ingen ledige dager",
+  step4NoDaysMessage:
+    "Vi finner ingen ledige timer i kalenderen akkurat nå. Ring oss direkte – vi finner ofte en åpning som ikke ligger ute online.",
   step4TodayLabel: "I dag",
   step4PickTimeLabel: "Velg en tid",
   step4DurationPrefix: "Varighet",
@@ -289,6 +294,9 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   step4Heading: "Choose a time",
   step4SelectedDayLabel: "Selected day",
   step4NoDaysLabel: "No available days",
+  step4NoDaysTitle: "No available days",
+  step4NoDaysMessage:
+    "We couldn't find any available appointments in the calendar right now. Call us directly – we often find openings that aren't listed online.",
   step4TodayLabel: "Today",
   step4PickTimeLabel: "Choose a time",
   step4DurationPrefix: "Duration",

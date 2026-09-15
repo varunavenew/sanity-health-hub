@@ -24,9 +24,25 @@ function parseOptionalInt(value: string | null): number | undefined {
 }
 
 async function loadMatrix(apiKey: string): Promise<WbActivityMatrixEntry[]> {
+  const now = Date.now();
+  if (parsedMatrixCache && parsedMatrixCache.expiresAt > now) {
+    return parsedMatrixCache.matrix;
+  }
+
   const payload = await fetchBookingResourceCached(wbactivitiesUrl(), apiKey);
-  return parseWbActivitiesMatrix(payload);
+  const matrix = parseWbActivitiesMatrix(payload);
+  parsedMatrixCache = {
+    matrix,
+    expiresAt: now + PARSED_MATRIX_CACHE_TTL_MS,
+  };
+  return matrix;
 }
+
+const PARSED_MATRIX_CACHE_TTL_MS = 5 * 60 * 1000;
+let parsedMatrixCache: {
+  expiresAt: number;
+  matrix: WbActivityMatrixEntry[];
+} | null = null;
 
 /**
  * GET /api/booking/wbactivities

@@ -230,6 +230,8 @@ export default {
     i18n('step4SelectedDayLabel', '\'Selected day\' label', 'step4'),
     i18n('step4NotOnlineTitle', 'Not online – title', 'step4'),
     i18n('step4NotOnlineMessage', 'Not online - message', 'step4', undefined, 'internationalizedArrayText'),
+    i18n('step4NoDaysTitle', 'No days – title', 'step4'),
+    i18n('step4NoDaysMessage', 'No days - message', 'step4', undefined, 'internationalizedArrayText'),
     i18n('step4NoSlotsTitle', 'No appointments – title', 'step4'),
     i18n('step4NoSlotsMessage', 'No appointments - message', 'step4', undefined, 'internationalizedArrayText'),
 

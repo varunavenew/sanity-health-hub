@@ -2,6 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams, Link, useLocaleParam, useLocation } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,10 @@ import {
   step1ClinicDisplayTagsForCategory,
 } from "@/lib/sanity/booking-page-step1-clinics";
 import {
+  bookingActivityGroupsQueryKey,
+  fetchBookingActivityGroupsClient,
+} from "@/lib/booking/fetchActivityGroups.client";
+import {
   bookingPersonForModal,
   isBookingCaregiver,
   resolveSanitySpecialistForCaregiver,
@@ -77,6 +82,10 @@ import {
   filterClinicsForWbActivity,
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
+import {
+  fetchWbActivityMatrixClient,
+  prefetchWbActivityMatrix,
+} from "@/lib/booking/fetchWbActivityMatrix.client";
 import { caregiverIdsForWbActivityAtLocation } from "@/lib/booking/wbactivitiesMatrix";
 import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
@@ -133,7 +142,12 @@ export type BookingServiceCategory = {
   clinicServiceId?: string;
   label: string;
   apiGroupId?: number;
-  services: { name: string; price: string; apiActivityId?: number; duration?: string }[];
+  services: {
+    name: string;
+    price: string;
+    apiActivityId?: number;
+    durationMinutes?: number;
+  }[];
 };
 
 function clinicIdForCategory(category: BookingServiceCategory): string {
@@ -187,33 +201,8 @@ type BookingServiceItem = {
   name: string;
   price: string;
   apiActivityId?: number;
-  duration?: string;
+  durationMinutes?: number;
 };
-
-type DurationEntry =
-  | { status: "loading" }
-  | { status: "ready"; label: string }
-  | { status: "none" };
-
-/** Session cache of wbfreetimes duration minutes (`null` = none). Survives accordion close/remount. */
-const durationMinutesCache = new Map<number, number | null>();
-const FREETIMES_DURATION_CHUNK = 8;
-
-function durationStateFromMinutes(minutes: number | null, locale: string): DurationEntry {
-  if (minutes == null) return { status: "none" };
-  return {
-    status: "ready",
-    label: localizeDurationLabel(formatDurationMinutes(minutes, locale), locale),
-  };
-}
-
-function hydrateDurationState(locale: string): Record<number, DurationEntry> {
-  const next: Record<number, DurationEntry> = {};
-  for (const [id, minutes] of durationMinutesCache) {
-    next[id] = durationStateFromMinutes(minutes, locale);
-  }
-  return next;
-}
 
 function activityIdsForCategory(category: BookingServiceCategory): number[] {
   return category.services
@@ -221,17 +210,12 @@ function activityIdsForCategory(category: BookingServiceCategory): number[] {
     .filter((id): id is number => typeof id === "number");
 }
 
-function serviceDurationLabel(
-  service: BookingServiceItem,
-  durationByActivityId: Record<number, { status: string; label?: string }>,
-): string | null {
-  if (service.apiActivityId != null) {
-    const state = durationByActivityId[service.apiActivityId];
-    if (!state || state.status === "none") return service.duration ?? null;
-    if (state.status === "loading") return null;
-    return state.label ?? null;
-  }
-  return service.duration ?? null;
+function serviceDurationLabel(service: BookingServiceItem, locale: string): string | null {
+  if (service.durationMinutes == null) return null;
+  return localizeDurationLabel(
+    formatDurationMinutes(service.durationMinutes, locale),
+    locale,
+  );
 }
 
 function isFetalMedicineSortId(id: string | undefined): boolean {
@@ -324,46 +308,14 @@ const BookingDemo = () => {
   const copy = bookingPageData;
   const bookingGeoSummary = bookingPageData.geoSummary;
   const { data: sanityClinics = [] } = useClinics();
-  const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
-  const [servicesLoading, setServicesLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadServices() {
-      setServicesLoading(true);
-      try {
-        const groupsRes = await fetch("/api/booking/activity-groups");
-        const groupsJson = (await groupsRes.json()) as {
-          ok?: boolean;
-          categories?: BookingServiceCategory[];
-        };
-
-        if (cancelled) return;
-
-        if (
-          groupsRes.ok &&
-          groupsJson.ok &&
-          Array.isArray(groupsJson.categories) &&
-          groupsJson.categories.length > 0
-        ) {
-          setBookingServices(groupsJson.categories);
-        } else {
-          setBookingServices([]);
-        }
-      } catch {
-        if (!cancelled) setBookingServices([]);
-      } finally {
-        if (!cancelled) setServicesLoading(false);
-      }
-    }
-
-    loadServices();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const {
+    data: bookingServices = [],
+    isLoading: servicesLoading,
+  } = useQuery({
+    queryKey: bookingActivityGroupsQueryKey(locale),
+    queryFn: () => fetchBookingActivityGroupsClient(locale),
+    staleTime: 5 * 60 * 1000,
+  });
 
   // Full-page jumps (window.location.href = "/booking") may skip navigate/Link hooks.
   // Capture same-origin referrer once when no return path was stored yet.
@@ -380,19 +332,6 @@ const BookingDemo = () => {
       /* ignore */
     }
   }, [searchParams]);
-
-  const step1ClinicTagsByCategoryId = useMemo(() => {
-    const result: Record<string, ReturnType<typeof step1ClinicDisplayTagsForCategory>> = {};
-    for (const category of bookingServices) {
-      result[category.id] = step1ClinicDisplayTagsForCategory(
-        bookingPageData.step1CategoryClinicBadges,
-        sanityClinics,
-        category.id,
-        category.clinicServiceId,
-      );
-    }
-    return result;
-  }, [bookingServices, bookingPageData.step1CategoryClinicBadges, sanityClinics]);
 
   const allStep1ClinicTags = useMemo(
     () => allStep1ClinicDisplayTags(bookingPageData.step1CategoryClinicBadges, sanityClinics),
@@ -449,142 +388,19 @@ const BookingDemo = () => {
   const daySlotsFetchGenRef = useRef(0);
   /** Prevents duplicate booking_completed if submit succeeds twice in the same session. */
   const bookingCompletedTrackedRef = useRef(false);
-  /** Duration per activity from wbfreetimes only (no static fallback). */
-  const [durationByActivityId, setDurationByActivityId] = useState<
-    Record<number, DurationEntry>
-  >(() => hydrateDurationState(locale));
-  const durationByActivityIdRef = useRef(durationByActivityId);
-  durationByActivityIdRef.current = durationByActivityId;
-  const durationQueueRef = useRef<number[]>([]);
-  const durationInFlightRef = useRef(new Set<number>());
-  const durationPumpRunningRef = useRef(false);
-  const durationAliveRef = useRef(true);
-  const localeRef = useRef(locale);
-  localeRef.current = locale;
-  const pumpDurationQueueRef = useRef<() => Promise<void>>(async () => {});
-  const enqueueDurationIdsRef = useRef<(ids: number[], prepend?: boolean) => void>(
-    () => {},
-  );
 
-  pumpDurationQueueRef.current = async () => {
-    if (durationPumpRunningRef.current) return;
-    durationPumpRunningRef.current = true;
-    try {
-      while (durationAliveRef.current && durationQueueRef.current.length > 0) {
-        const pendingIds = durationQueueRef.current.splice(0);
-        const chunks: number[][] = [];
-        for (let i = 0; i < pendingIds.length; i += FREETIMES_DURATION_CHUNK) {
-          chunks.push(pendingIds.slice(i, i + FREETIMES_DURATION_CHUNK));
-        }
-        if (chunks.length === 0) continue;
-
-        for (const chunk of chunks) {
-          for (const id of chunk) durationInFlightRef.current.add(id);
-        }
-
-        const settled = await Promise.allSettled(
-          chunks.map(async (chunk) => {
-            const res = await fetch(
-              `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
-            );
-            const json = (await res.json()) as {
-              ok?: boolean;
-              byActivityId?: Record<string, ApiFreeTimeSlot[]>;
-              slots?: ApiFreeTimeSlot[];
-            };
-            return { chunk, json, res };
-          }),
-        );
-
-        const allResults: Array<{ id: number; minutes: number | null }> = [];
-        const failedIds: number[] = [];
-
-        for (let i = 0; i < settled.length; i++) {
-          const chunk = chunks[i]!;
-          const entry = settled[i];
-          if (entry?.status === "fulfilled") {
-            const { chunk: fulfilledChunk, json } = entry.value;
-            for (const id of fulfilledChunk) {
-              const slots =
-                json.byActivityId?.[String(id)] ??
-                (fulfilledChunk.length === 1 && Array.isArray(json.slots)
-                  ? json.slots
-                  : []);
-              const mins =
-                slots.find((s) => s.durationMinutes != null)?.durationMinutes ?? null;
-              allResults.push({ id, minutes: mins });
-            }
-          } else {
-            failedIds.push(...chunk);
-          }
-        }
-
-        for (const { id, minutes } of allResults) {
-          durationMinutesCache.set(id, minutes);
-        }
-
-        if (!durationAliveRef.current) return;
-
-        const loc = localeRef.current;
-        if (allResults.length > 0) {
-          setDurationByActivityId((prev) => {
-            const next = { ...prev };
-            for (const { id, minutes } of allResults) {
-              next[id] = durationStateFromMinutes(minutes, loc);
-            }
-            return next;
-          });
-        }
-
-        if (failedIds.length > 0) {
-          for (const id of failedIds) {
-            if (!durationMinutesCache.has(id)) durationMinutesCache.set(id, null);
-          }
-          setDurationByActivityId((prev) => {
-            const next = { ...prev };
-            for (const id of failedIds) {
-              if (next[id]?.status === "ready") continue;
-              next[id] = { status: "none" };
-            }
-            return next;
-          });
-        }
-
-        for (const chunk of chunks) {
-          for (const id of chunk) durationInFlightRef.current.delete(id);
-        }
-      }
-    } finally {
-      durationPumpRunningRef.current = false;
-      if (durationAliveRef.current && durationQueueRef.current.length > 0) {
-        void pumpDurationQueueRef.current();
-      }
+  const step1ClinicTagsByCategoryId = useMemo(() => {
+    const result: Record<string, ReturnType<typeof step1ClinicDisplayTagsForCategory>> = {};
+    for (const category of bookingServices) {
+      result[category.id] = step1ClinicDisplayTagsForCategory(
+        bookingPageData.step1CategoryClinicBadges,
+        sanityClinics,
+        category.id,
+        category.clinicServiceId,
+      );
     }
-  };
-
-  enqueueDurationIdsRef.current = (ids, prepend = false) => {
-    const wanted = [...new Set(ids)].filter((id) => {
-      if (durationMinutesCache.has(id) || durationInFlightRef.current.has(id)) return false;
-      const cached = durationByActivityIdRef.current[id];
-      return cached?.status !== "ready" && cached?.status !== "none";
-    });
-    if (wanted.length === 0) return;
-
-    if (prepend) {
-      const wantedSet = new Set(wanted);
-      durationQueueRef.current = [
-        ...wanted,
-        ...durationQueueRef.current.filter((id) => !wantedSet.has(id)),
-      ];
-    } else {
-      const queued = new Set(durationQueueRef.current);
-      for (const id of wanted) {
-        if (!queued.has(id)) durationQueueRef.current.push(id);
-      }
-    }
-
-    void pumpDurationQueueRef.current();
-  };
+    return result;
+  }, [bookingServices, bookingPageData.step1CategoryClinicBadges, sanityClinics]);
 
   const enrichedMetodikaClinics = useMemo(
     () =>
@@ -878,8 +694,10 @@ const BookingDemo = () => {
     if (resolvedService || resolvedSpecialist) {
       setBookingData((prev) => {
         const next: BookingData = { ...prev };
-        if (resolvedCategoryClinicId) next.categoryId = resolvedCategoryClinicId;
-        if (resolvedCategoryListId) next.categoryApiSlug = resolvedCategoryListId;
+        if (resolvedCategoryListId) next.categoryId = resolvedCategoryListId;
+        if (matchingCategory?.clinicServiceId) {
+          next.categoryApiSlug = matchingCategory.clinicServiceId;
+        }
         if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
         if (resolvedService) next.service = resolvedService;
         if (resolvedSpecialist) {
@@ -908,32 +726,14 @@ const BookingDemo = () => {
     }));
   }, [searchParams, specialists, bookingData.specialist]);
 
-  // Active category filter is derived above; no debug logging in production.
-  useEffect(() => {
-    durationAliveRef.current = true;
-    return () => {
-      durationAliveRef.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (durationMinutesCache.size === 0) return;
-    setDurationByActivityId(hydrateDurationState(locale));
-  }, [locale]);
-
-  // Step 1: prefetch duration hints for all services (feeds expanded rows; keep fetch).
-  useEffect(() => {
-    if (bookingServices.length === 0) return;
-    const ordered = [...bookingServices].sort(sortBookingCategories);
-    enqueueDurationIdsRef.current(ordered.flatMap(activityIdsForCategory));
-  }, [bookingServices]);
-
-  // Prioritize the expanded category when the user opens an accordion.
+  // Step 2 prefetch when a category accordion opens.
   useEffect(() => {
     if (!expandedCategory) return;
     const category = bookingServices.find((c) => c.id === expandedCategory);
     if (!category) return;
-    enqueueDurationIdsRef.current(activityIdsForCategory(category), true);
+    for (const id of activityIdsForCategory(category)) {
+      prefetchWbActivityMatrix(id);
+    }
   }, [expandedCategory, bookingServices]);
 
   // wbfreetimes → rooms → locations: discovery (clinics + caregivers, 1 slot/day)
@@ -1143,7 +943,7 @@ const BookingDemo = () => {
     );
   }, [matrixMetodikaClinics, enrichedMetodikaClinics]);
 
-  // Prefill clinic from ?klinikk= when it matches an API location id (location-1) or legacy slug after load
+  // Prefill clinic from ?klinikk=
   const pendingKlinikkRef = useRef<string | null>(null);
   useEffect(() => {
     pendingKlinikkRef.current = searchParams.get("klinikk");
@@ -1376,6 +1176,8 @@ const BookingDemo = () => {
 
   const canGoPrevRange = weekOffset > 0;
   const canGoNextRange = weekOffset < MAX_CALENDAR_WEEKS;
+  const step4NoBookableDays =
+    hasApiActivity && clinicsAvailabilityReady && bookableDates.length === 0;
 
   // Prefetch day slots so step 4 times appear instantly from cache.
   useEffect(() => {
@@ -1552,9 +1354,10 @@ const BookingDemo = () => {
     });
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
+    prefetchWbActivityMatrix(service.apiActivityId);
 
     setBookingData({
-      categoryId,
+      categoryId: categoryId,
       categoryApiSlug,
       category: categoryLabel,
       service,
@@ -2206,18 +2009,6 @@ const BookingDemo = () => {
                         <button
                           type="button"
                           onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
-                          onMouseEnter={() =>
-                            enqueueDurationIdsRef.current(
-                              activityIdsForCategory(category),
-                              true,
-                            )
-                          }
-                          onFocus={() =>
-                            enqueueDurationIdsRef.current(
-                              activityIdsForCategory(category),
-                              true,
-                            )
-                          }
                           className={cn(
                             "w-full flex items-center justify-between gap-3 p-5 text-left transition-colors",
                             "bg-brand-beige/40 hover:bg-brand-beige/60",
@@ -2234,7 +2025,7 @@ const BookingDemo = () => {
                                   <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
                                     {copy.step1AllClinicsBadge}
                                   </span>
-                                ) : (
+                                ) : clinicsForCategory.length > 0 ? (
                                   clinicsForCategory.map((clinic) => (
                                     <span
                                       key={clinic.tagKey}
@@ -2243,7 +2034,7 @@ const BookingDemo = () => {
                                       {clinic.label}
                                     </span>
                                   ))
-                                ))}
+                                ) : null)}
                             </div>
                             <ChevronDown
                               className={cn(
@@ -2266,22 +2057,25 @@ const BookingDemo = () => {
                               <div className="p-3 space-y-2">
                                 {visibleServices.map((service) => {
                                   const isFree = service.price === "0";
-                                  const duration = serviceDurationLabel(
-                                    service,
-                                    durationByActivityId,
-                                  );
+                                  const duration = serviceDurationLabel(service, locale);
 
                                   return (
                                     <button
                                       key={service.apiActivityId ?? service.name}
                                       type="button"
                                       data-service={service.name}
+                                      onMouseEnter={() =>
+                                        prefetchWbActivityMatrix(service.apiActivityId)
+                                      }
+                                      onFocus={() =>
+                                        prefetchWbActivityMatrix(service.apiActivityId)
+                                      }
                                       onClick={() =>
                                         handleSelectService(
-                                          clinicIdForCategory(category),
+                                          category.id,
                                           category.label,
                                           service,
-                                          category.id,
+                                          category.clinicServiceId,
                                         )
                                       }
                                       className={cn(
@@ -2359,25 +2153,15 @@ const BookingDemo = () => {
 
               {step2Ready && availableClinics.length > 0 && (
                 <div className="space-y-3">
-                  {availableClinics.map((clinic) => {
-                    const sanityImage =
-                      isMetodikaClinic(clinic) ? clinic.sanityImage : undefined;
-                    return (
+                  {availableClinics.map((clinic) => (
                     <button
                       key={clinic.id}
                       type="button"
                       onClick={() => handleSelectClinic(clinic)}
                       className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
                     >
-                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors overflow-hidden shrink-0">
-                        {sanityImage ? (
-                          <AssetImg
-                            src={sanityImage}
-                            alt=""
-                            preset="thumb"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : isExternalClinic(clinic) ? (
+                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors shrink-0">
+                        {isExternalClinic(clinic) ? (
                           <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                         ) : (
                           <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
@@ -2388,8 +2172,7 @@ const BookingDemo = () => {
                       </div>
                       <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
                     </button>
-                    );
-                  })}
+                  ))}
                 </div>
               )}
             </motion.div>
@@ -2551,6 +2334,8 @@ const BookingDemo = () => {
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
+                    {!step4NoBookableDays ? (
+                    <>
                     <button
                       type="button"
                       onClick={() => {
@@ -2608,10 +2393,29 @@ const BookingDemo = () => {
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
+                    </>
+                    ) : null}
                   </div>
                 </div>
 
                 <div className="overflow-hidden min-h-24">
+                  {hasApiActivity && !clinicsAvailabilityReady ? (
+                    <BookingStepLoader
+                      message={copy.step4LoadingTimes}
+                      variant="grid"
+                      skeletonCount={7}
+                      className="py-4"
+                    />
+                  ) : step4NoBookableDays ? (
+                    <FriendlyEmpty
+                      title={copy.step4NoDaysTitle}
+                      message={copy.step4NoDaysMessage}
+                      phone={copy.supportPhone}
+                      phoneLabel={copy.supportPhoneLabel}
+                      secondaryLabel={copy.step2EmptyBookLabel}
+                      onSecondaryClick={handleBookAnotherWay}
+                    />
+                  ) : (
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
                       key={weekOffset}
@@ -2692,6 +2496,7 @@ const BookingDemo = () => {
                       })}
                     </motion.div>
                   </AnimatePresence>
+                  )}
                 </div>
               </div>
 
@@ -2720,9 +2525,16 @@ const BookingDemo = () => {
                       message={copy.step4NotOnlineMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
+                      secondaryLabel={copy.step2EmptyBookLabel}
+                      onSecondaryClick={handleBookAnotherWay}
                     />
                   ) : timesLoading && availableSlots.length === 0 ? (
-                    <p className="text-sm text-brand-dark/60 font-light">{copy.step4LoadingTimes}</p>
+                    <BookingStepLoader
+                      message={copy.step4LoadingTimes}
+                      variant="grid"
+                      skeletonCount={9}
+                      className="py-2"
+                    />
                   ) : availableSlots.length > 0 ? (
                     isFirstAvailableFlow ? (
                       <div className="space-y-2">
@@ -2782,6 +2594,8 @@ const BookingDemo = () => {
                       message={copy.step4NoSlotsMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
+                      secondaryLabel={copy.step2EmptyBookLabel}
+                      onSecondaryClick={handleBookAnotherWay}
                     />
                   )}
                 </div>
@@ -2867,6 +2681,13 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
+              {submitLoading ? (
+                <BookingStepLoader
+                  message={copy.step5SubmittingLabel}
+                  skeletonCount={4}
+                />
+              ) : (
+              <>
               <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">{copy.step5PersonalInfoTitle}</h3>
                 <div className="space-y-4">
@@ -3086,8 +2907,10 @@ const BookingDemo = () => {
                     : "bg-brand-beige text-brand-dark/40 cursor-not-allowed"
                 )}
               >
-                {submitLoading ? copy.step5SubmittingLabel : copy.step5SubmitLabel}
+                {copy.step5SubmitLabel}
               </Button>
+              </>
+              )}
 
             </motion.div>
           )}

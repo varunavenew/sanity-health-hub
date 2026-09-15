@@ -1,7 +1,10 @@
 import type { SanityClinicListRow } from "@/hooks/useSanity";
+import type { BookingMetodikaClinic } from "@/lib/booking/mapApiLocation";
 import {
   type CategoryClinicDisplayTag,
   findSanityClinicBySlugOrId,
+  findSanityClinicForMetodikaLocation,
+  metodikaClinicsFromSanityForCategory,
   resolveBookingCategoryKeys,
   sanityAllClinicDisplayTags,
   sanityClinicDisplayTagsForCategory,
@@ -146,6 +149,69 @@ export function step1ClinicDisplayTagsForCategory(
   }
 
   return group.badges.map((badge) => toDisplayTag(badge, sanityClinics));
+}
+
+/**
+ * Step 2 Metodika clinics aligned with step 1 CMS badges for the category.
+ * Pasientsky / external badges are skipped — those come from sanityManagedClinicsForCategory.
+ */
+export function metodikaClinicsFromStep1BadgesForCategory(
+  config: BookingStep1CategoryClinicBadges[],
+  sanityClinics: SanityClinicListRow[],
+  categoryId?: string,
+  categoryApiSlug?: string,
+): BookingMetodikaClinic[] {
+  const categoryKeys = resolveBookingCategoryKeys(categoryId, categoryApiSlug);
+
+  if (!config.length) {
+    return metodikaClinicsFromSanityForCategory(sanityClinics, categoryId, categoryApiSlug);
+  }
+
+  const group = findCategoryBadgeGroup(config, categoryKeys);
+  if (!group) {
+    return metodikaClinicsFromSanityForCategory(sanityClinics, categoryId, categoryApiSlug);
+  }
+
+  const result: BookingMetodikaClinic[] = [];
+  const seenLocationIds = new Set<number>();
+
+  for (const badge of group.badges) {
+    let locationId: number | undefined;
+    let sanity: SanityClinicListRow | undefined;
+
+    if (badge.clinicId) {
+      sanity = findSanityClinicBySlugOrId(sanityClinics, badge.clinicId);
+      if (sanity?.booking?.method !== "metodika") continue;
+      locationId =
+        typeof badge.metodikaLocationId === "number" && badge.metodikaLocationId > 0
+          ? badge.metodikaLocationId
+          : sanity.booking?.metodikaLocationId;
+    } else if (
+      typeof badge.metodikaLocationId === "number" &&
+      badge.metodikaLocationId > 0
+    ) {
+      locationId = badge.metodikaLocationId;
+      sanity = findSanityClinicForMetodikaLocation(sanityClinics, locationId, badge.label);
+    }
+
+    if (typeof locationId !== "number" || !Number.isFinite(locationId) || locationId <= 0) {
+      continue;
+    }
+    if (seenLocationIds.has(locationId)) continue;
+    seenLocationIds.add(locationId);
+
+    const image = sanity?.primaryImage ?? badge.image;
+    result.push({
+      id: `location-${locationId}`,
+      label: sanity?.label ?? badge.label,
+      apiLocationId: locationId,
+      bookingSystem: "metodika",
+      ...(sanity?.id ? { sanityClinicId: sanity.id } : {}),
+      ...(image ? { sanityImage: image } : {}),
+    });
+  }
+
+  return result.sort((a, b) => a.label.localeCompare(b.label, "nb"));
 }
 
 /** Unique step 1 badges across all configured categories (for «Alle klinikker»). */

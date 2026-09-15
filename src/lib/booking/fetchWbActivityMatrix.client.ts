@@ -53,3 +53,9 @@ export async function fetchWbActivityMatrixClient(
   inFlight.set(wbactivityId, promise);
   return promise;
 }
+
+/** Fire-and-forget warm of client + server wbactivities cache (step 2 prefetch). */
+export function prefetchWbActivityMatrix(wbactivityId: number | undefined): void {
+  if (wbactivityId == null) return;
+  void fetchWbActivityMatrixClient(wbactivityId);
+}
