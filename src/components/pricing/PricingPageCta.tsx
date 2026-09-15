@@ -28,7 +28,7 @@ export function PricingPageCta({ config }: Props) {
   const bookingTarget =
     config.primaryPath?.trim() ||
     (config.bookingCategory?.categoryId
-      ? buildBookingUrl({ kategori: config.bookingCategory.categoryId })
+      ? buildBookingUrl({ kategori: config.bookingCategory.categoryId }, { withReturnContext: false })
       : "/booking");
 
   return (

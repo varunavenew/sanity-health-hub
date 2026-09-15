@@ -222,12 +222,22 @@ export const specialistCategoryToBookingId: Record<string, string> = {
 
 import { withBookingReturnContext } from "@/lib/booking/return-to";
 
+export { withBookingLocale, localeFromPathname } from "@/lib/booking/return-to";
+
 /**
  * Build a booking URL from structured params.
  * Empty/undefined values are dropped.
- * In the browser, remembers the current page and appends `fra` for close-to-origin.
+ *
+ * By default (browser), remembers the current page, appends `fra`, and prefixes
+ * the current page locale — so hard navigations never hit bare `/booking`.
+ *
+ * Pass `{ withReturnContext: false }` when handing the path to `Link` /
+ * `useNavigate` (they apply locale + return-path themselves).
  */
-export function buildBookingUrl(params: BookingLinkParams = {}): string {
+export function buildBookingUrl(
+  params: BookingLinkParams = {},
+  options?: { withReturnContext?: boolean },
+): string {
   const sp = new URLSearchParams();
   if (params.kategori) sp.set("kategori", params.kategori);
   if (params.kategoriId != null) sp.set("kategoriId", String(params.kategoriId));
@@ -243,6 +253,7 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   if (params.klinikk) sp.set("klinikk", params.klinikk);
   const qs = sp.toString();
   const base = qs ? `/booking?${qs}` : "/booking";
+  if (options?.withReturnContext === false) return base;
   return withBookingReturnContext(base);
 }
 

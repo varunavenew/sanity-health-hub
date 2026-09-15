@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect } from "react";
 import { Link } from "@/lib/router";
 import {
@@ -81,7 +82,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
             </h1>
             <Button
               className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11"
-              onClick={() => (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")}
+              onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))}
             >
               Bestill fertilitetssjekk
               <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
@@ -277,7 +278,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
             <div className="flex flex-col gap-3">
               <Button
                 className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light h-12"
-                onClick={() => (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")}
+                onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))}
               >
                 Bestill fertilitetssjekk
                 <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />

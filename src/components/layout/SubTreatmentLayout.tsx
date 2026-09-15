@@ -597,13 +597,13 @@ export const SubTreatmentLayout = ({
                   primaryLabel={c.primaryCtaLabel}
                   callLabel={c.callCtaLabel}
                   categoryId={c.booking.kategori}
+                  primaryHref={buildBookingUrl(c.booking, { withReturnContext: false })}
                   onPrimary={() => {
                     trackBookingMenuStart({
                       entry_point: "service_page_cta",
                       category: c.booking.kategori ?? null,
                       service_name: c.booking.tjeneste ?? null,
                     });
-                    window.location.href = buildBookingUrl(c.booking);
                   }}
                 />
                 {!c.hideSeePriser ? (
@@ -955,13 +955,13 @@ export const SubTreatmentLayout = ({
                   : c.midCtaCallLabel || c.callCtaLabel
               }
               categoryId={c.booking.kategori}
+              primaryHref={buildBookingUrl(c.booking, { withReturnContext: false })}
               onPrimary={() => {
                 trackBookingMenuStart({
                   entry_point: "service_page_cta",
                   category: c.booking.kategori ?? null,
                   service_name: c.booking.tjeneste ?? null,
                 });
-                window.location.href = buildBookingUrl(c.booking);
               }}
               className="w-full md:w-auto"
             />
