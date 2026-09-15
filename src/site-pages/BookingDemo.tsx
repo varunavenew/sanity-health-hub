@@ -470,55 +470,85 @@ const BookingDemo = () => {
     durationPumpRunningRef.current = true;
     try {
       while (durationAliveRef.current && durationQueueRef.current.length > 0) {
-        const chunk = durationQueueRef.current.splice(0, FREETIMES_DURATION_CHUNK);
-        for (const id of chunk) durationInFlightRef.current.add(id);
-        try {
-          const res = await fetch(
-            `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
-          );
-          const json = (await res.json()) as {
-            ok?: boolean;
-            byActivityId?: Record<string, ApiFreeTimeSlot[]>;
-            slots?: ApiFreeTimeSlot[];
-          };
+        const pendingIds = durationQueueRef.current.splice(0);
+        const chunks: number[][] = [];
+        for (let i = 0; i < pendingIds.length; i += FREETIMES_DURATION_CHUNK) {
+          chunks.push(pendingIds.slice(i, i + FREETIMES_DURATION_CHUNK));
+        }
+        if (chunks.length === 0) continue;
 
-          const results = chunk.map((id) => {
-            const slots =
-              json.byActivityId?.[String(id)] ??
-              (chunk.length === 1 && Array.isArray(json.slots) ? json.slots : []);
-            const mins =
-              slots.find((s) => s.durationMinutes != null)?.durationMinutes ?? null;
-            return { id, minutes: mins };
-          });
+        for (const chunk of chunks) {
+          for (const id of chunk) durationInFlightRef.current.add(id);
+        }
 
-          for (const { id, minutes } of results) {
-            durationMinutesCache.set(id, minutes);
+        const settled = await Promise.allSettled(
+          chunks.map(async (chunk) => {
+            const res = await fetch(
+              `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
+            );
+            const json = (await res.json()) as {
+              ok?: boolean;
+              byActivityId?: Record<string, ApiFreeTimeSlot[]>;
+              slots?: ApiFreeTimeSlot[];
+            };
+            return { chunk, json, res };
+          }),
+        );
+
+        const allResults: Array<{ id: number; minutes: number | null }> = [];
+        const failedIds: number[] = [];
+
+        for (let i = 0; i < settled.length; i++) {
+          const chunk = chunks[i]!;
+          if (settled[i]?.status === "fulfilled") {
+            const { chunk: fulfilledChunk, json } = settled[i].value;
+            for (const id of fulfilledChunk) {
+              const slots =
+                json.byActivityId?.[String(id)] ??
+                (fulfilledChunk.length === 1 && Array.isArray(json.slots)
+                  ? json.slots
+                  : []);
+              const mins =
+                slots.find((s) => s.durationMinutes != null)?.durationMinutes ?? null;
+              allResults.push({ id, minutes: mins });
+            }
+          } else {
+            failedIds.push(...chunk);
           }
+        }
 
-          if (!durationAliveRef.current) return;
+        for (const { id, minutes } of allResults) {
+          durationMinutesCache.set(id, minutes);
+        }
 
-          const loc = localeRef.current;
+        if (!durationAliveRef.current) return;
+
+        const loc = localeRef.current;
+        if (allResults.length > 0) {
           setDurationByActivityId((prev) => {
             const next = { ...prev };
-            for (const { id, minutes } of results) {
+            for (const { id, minutes } of allResults) {
               next[id] = durationStateFromMinutes(minutes, loc);
             }
             return next;
           });
-        } catch {
-          if (!durationAliveRef.current) return;
-          for (const id of chunk) {
+        }
+
+        if (failedIds.length > 0) {
+          for (const id of failedIds) {
             if (!durationMinutesCache.has(id)) durationMinutesCache.set(id, null);
           }
           setDurationByActivityId((prev) => {
             const next = { ...prev };
-            for (const id of chunk) {
+            for (const id of failedIds) {
               if (next[id]?.status === "ready") continue;
               next[id] = { status: "none" };
             }
             return next;
           });
-        } finally {
+        }
+
+        for (const chunk of chunks) {
           for (const id of chunk) durationInFlightRef.current.delete(id);
         }
       }
@@ -885,7 +915,14 @@ const BookingDemo = () => {
     setDurationByActivityId(hydrateDurationState(locale));
   }, [locale]);
 
-  // Prefetch durations for the expanded category only (avoids blocking step 4 freetimes).
+  // Step 1: prefetch duration hints for all services (feeds expanded rows; keep fetch).
+  useEffect(() => {
+    if (bookingServices.length === 0) return;
+    const ordered = [...bookingServices].sort(sortBookingCategories);
+    enqueueDurationIdsRef.current(ordered.flatMap(activityIdsForCategory));
+  }, [bookingServices]);
+
+  // Prioritize the expanded category when the user opens an accordion.
   useEffect(() => {
     if (!expandedCategory) return;
     const category = bookingServices.find((c) => c.id === expandedCategory);

@@ -20,7 +20,7 @@ interface ApiFreeTime {
   roomId?: number;
 }
 
-const BATCH_CONCURRENCY = Number(process.env.BOOKING_FREETIMES_BATCH_CONCURRENCY || 2);
+const BATCH_CONCURRENCY = Number(process.env.BOOKING_FREETIMES_BATCH_CONCURRENCY || 8);
 
 function formatTime(iso: string): string {
   const date = new Date(iso);

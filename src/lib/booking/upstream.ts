@@ -32,8 +32,8 @@ const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
 
 const EMPTY_FREETIMES_SENTINEL = Symbol("empty-freetimes");
 
-const FREETIMES_MAX_IN_FLIGHT = Number(process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT || 2);
-const FREETIMES_THROTTLE_MS = Number(process.env.BOOKING_FREETIMES_THROTTLE_MS || 120);
+const FREETIMES_MAX_IN_FLIGHT = Number(process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT || 8);
+const FREETIMES_THROTTLE_MS = Number(process.env.BOOKING_FREETIMES_THROTTLE_MS || 0);
 
 const responseCache = new Map<string, { expiresAt: number; data: unknown }>();
 const inFlightRequests = new Map<string, Promise<unknown>>();
