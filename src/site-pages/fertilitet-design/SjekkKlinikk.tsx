@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Check, Clock, FileText, ShieldCheck } from "lucide-react";
@@ -61,7 +62,7 @@ const SjekkKlinikk = ({ isChatOpen }: PageProps) => {
                   </li>
                 ))}
               </ul>
-              <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")}>
+              <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))}>
                 Bestill sjekk <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
               </Button>
             </div>
@@ -176,7 +177,7 @@ const SjekkKlinikk = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-4xl text-center">
           <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-6">{sjekkContent.ctaTitle}</h2>
           <p className="text-base text-white/70 font-light leading-relaxed max-w-xl mx-auto mb-10">{sjekkContent.ctaDescription}</p>
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")}>
+          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))}>
             Bestill fertilitetssjekk <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
           </Button>
         </div>

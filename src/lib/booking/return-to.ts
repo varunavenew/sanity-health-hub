@@ -1,3 +1,5 @@
+import { isAppLocale, withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+
 const STORAGE_KEY = "cmedical:booking-return-to";
 
 /** True for booking flow paths (locale optional). */
@@ -7,6 +9,31 @@ export function isBookingPath(path: string): boolean {
     /(?:^|\/)(?:no|en|nb)\/(?:booking|book-appointment)(?:\/|$)/.test(pathname) ||
     /(?:^|\/)(?:booking|book-appointment|bestill)(?:\/|$)/.test(pathname)
   );
+}
+
+/** Locale from a pathname (`/no/...` → `no`). */
+export function localeFromPathname(pathname: string): AppLocale | null {
+  const first = pathname.split("/").filter(Boolean)[0];
+  return first && isAppLocale(first) ? first : null;
+}
+
+/**
+ * Prefix a booking path with the given (or current-page) locale.
+ * Keeps query params. Safe to call with an already-prefixed path.
+ * On the server without an explicit locale, returns the path unchanged
+ * (Link / useNavigate apply locale at render time).
+ */
+export function withBookingLocale(
+  bookingUrl: string,
+  locale?: AppLocale | null,
+): string {
+  const resolved =
+    locale ??
+    (typeof window !== "undefined"
+      ? localeFromPathname(window.location.pathname)
+      : null);
+  if (!resolved) return bookingUrl;
+  return withLocalePath(resolved, bookingUrl);
 }
 
 /** Same-origin relative paths only; never booking itself. */
@@ -66,23 +93,32 @@ export function resolveBookingReturnPath(
   return fallback;
 }
 
-/** Append `fra` and remember current page when building a booking URL in the browser. */
+/**
+ * Append `fra`, remember current page, and prefix the current page locale.
+ * Hard navigations (`window.location.href = buildBookingUrl(...)`) must not
+ * land on bare `/booking`, or the proxy may redirect via geo/cookie to the
+ * wrong locale (e.g. `/se/booking`).
+ */
 export function withBookingReturnContext(bookingUrl: string): string {
   if (typeof window === "undefined") return bookingUrl;
 
   const current = `${window.location.pathname}${window.location.search}`;
-  if (!isSafeBookingReturnPath(current)) return bookingUrl;
+  const locale = localeFromPathname(window.location.pathname);
 
-  rememberBookingReturnPath(current);
+  if (isSafeBookingReturnPath(current)) {
+    rememberBookingReturnPath(current);
+  }
 
   try {
     const url = new URL(bookingUrl, window.location.origin);
-    if (!isBookingPath(url.pathname)) return bookingUrl;
-    if (!url.searchParams.has("fra")) {
+    if (!isBookingPath(url.pathname)) {
+      return withBookingLocale(bookingUrl, locale);
+    }
+    if (isSafeBookingReturnPath(current) && !url.searchParams.has("fra")) {
       url.searchParams.set("fra", current);
     }
-    return `${url.pathname}${url.search}`;
+    return withBookingLocale(`${url.pathname}${url.search}`, locale);
   } catch {
-    return bookingUrl;
+    return withBookingLocale(bookingUrl, locale);
   }
 }

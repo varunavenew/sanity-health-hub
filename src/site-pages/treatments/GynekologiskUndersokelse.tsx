@@ -180,14 +180,16 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                   variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
-                  onClick={() =>
-                    (window.location.href = buildBookingUrl({
-                      kategori: "gynekologi",
-                      tjeneste: "undersokelse",
-                    }))
-                  }
+                  asChild
                 >
-                  Bestill undersøkelse
+                  <Link
+                    to={buildBookingUrl(
+                      { kategori: "gynekologi", tjeneste: "undersokelse" },
+                      { withReturnContext: false },
+                    )}
+                  >
+                    Bestill undersøkelse
+                  </Link>
                 </Button>
                 <Link
                   to="/priser"

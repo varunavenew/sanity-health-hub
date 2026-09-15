@@ -99,16 +99,8 @@ export const BookingCTA = ({
   const bookingTarget =
     primaryPath?.trim() ||
     (bookingCategoryId
-      ? buildBookingUrl({ kategori: bookingCategoryId })
+      ? buildBookingUrl({ kategori: bookingCategoryId }, { withReturnContext: false })
       : "/booking");
-
-  const handlePrimaryClick = () => {
-    if (primaryPath?.trim()) {
-      navigate(primaryPath.trim());
-      return;
-    }
-    window.location.href = bookingTarget;
-  };
 
   const customBg = backgroundColor?.trim() || "";
   const customText = textColor?.trim() || "";
@@ -179,9 +171,9 @@ export const BookingCTA = ({
                 }
               : undefined
           }
-          onClick={handlePrimaryClick}
+          asChild
         >
-          {resolvedPrimaryLabel}
+          <Link to={bookingTarget}>{resolvedPrimaryLabel}</Link>
         </Button>
 
         {showSecondaryHere ? (

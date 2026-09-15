@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Star } from "lucide-react";
@@ -74,7 +75,7 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
               </h1>
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-8">{fertilitetContent.heroLead}</p>
               <div className="flex items-center gap-4">
-                <Button className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = "/booking?kategori=fertilitet")}>
+                <Button className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet"))}>
                   Bestill time <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
                 </Button>
                 <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-light">
@@ -258,7 +259,7 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-4xl text-center">
           <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-6">Klar for å lese videre — sammen med oss?</h2>
           <p className="text-base text-white/70 font-light leading-relaxed max-w-xl mx-auto mb-10">Bestill en konsultasjon eller en uforpliktende samtale med sykepleier.</p>
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = "/booking?kategori=fertilitet")}>
+          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet"))}>
             Bestill time <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
           </Button>
         </div>

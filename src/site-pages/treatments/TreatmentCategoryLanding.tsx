@@ -871,18 +871,16 @@ function PatientJourneySection({
 
   const ctaTarget =
     ctaHref ||
-    buildBookingUrl(bookingParams);
+    buildBookingUrl(bookingParams, { withReturnContext: false });
 
   const ctaButton = ctaLabel ? (
     <Button
       variant="cta"
       size="lg"
       className="h-12 min-h-12 px-8 rounded-2xl w-full sm:w-auto"
-      onClick={() => {
-        window.location.href = ctaTarget;
-      }}
+      asChild
     >
-      {ctaLabel}
+      <Link to={ctaTarget}>{ctaLabel}</Link>
     </Button>
   ) : null;
 
@@ -1740,9 +1738,7 @@ const TreatmentCategoryLanding = ({
                     primaryLabel={hero.primaryCtaLabel}
                     callLabel={hero.secondaryCtaLabel}
                     categoryId={categoryId}
-                    onPrimary={() => {
-                      window.location.href = buildBookingUrl(bookingParams);
-                    }}
+                    primaryHref={buildBookingUrl(bookingParams, { withReturnContext: false })}
                     className="w-full"
                   />
                   {heroEmergencyNotice ? (
@@ -1832,9 +1828,7 @@ const TreatmentCategoryLanding = ({
                   primaryLabel={hero.primaryCtaLabel}
                   callLabel={hero.secondaryCtaLabel}
                   categoryId={categoryId}
-                  onPrimary={() => {
-                    window.location.href = buildBookingUrl(bookingParams);
-                  }}
+                  primaryHref={buildBookingUrl(bookingParams, { withReturnContext: false })}
                   className={`w-full ${hero.helpText || heroEmergencyNotice ? "mb-4" : "mb-10"}`}
                 />
                 {heroEmergencyNotice ? (

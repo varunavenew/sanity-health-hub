@@ -99,9 +99,16 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
                   variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
-                  onClick={() => (window.location.href = buildBookingUrl({ kategori: "flere-fagomrader" }))}
+                  asChild
                 >
-                  Bestill time
+                  <Link
+                    to={buildBookingUrl(
+                      { kategori: "flere-fagomrader" },
+                      { withReturnContext: false },
+                    )}
+                  >
+                    Bestill time
+                  </Link>
                 </Button>
                 <Link to="/kontakt" className="text-sm font-light text-foreground/85 hover:text-foreground border-b border-foreground/40 pb-0.5">
                   Gratis prat med sykepleier

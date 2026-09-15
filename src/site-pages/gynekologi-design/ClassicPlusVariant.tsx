@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Plus, Minus } from "lucide-react";
@@ -73,7 +74,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
               <div className="flex items-center gap-3 mt-8">
                 <Button
                   className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light h-11 px-6"
-                  onClick={() => (window.location.href = "/booking")}
+                  onClick={() => (window.location.href = withBookingReturnContext("/booking"))}
                 >
                   Bestill time
                   <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
@@ -256,7 +257,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
           </div>
           <Button
             className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-8 h-12"
-            onClick={() => (window.location.href = "/booking")}
+            onClick={() => (window.location.href = withBookingReturnContext("/booking"))}
           >
             Til booking
             <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />

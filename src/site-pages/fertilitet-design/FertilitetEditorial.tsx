@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Star } from "lucide-react";
@@ -77,7 +78,7 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
               <div className="flex items-center gap-4 mt-8">
                 <Button
                   className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-6 h-11"
-                  onClick={() => (window.location.href = "/booking?kategori=fertilitet")}
+                  onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet"))}
                 >
                   Bestill konsultasjon
                   <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
@@ -327,7 +328,7 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
           </p>
           <Button
             className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12"
-            onClick={() => (window.location.href = "/booking?kategori=fertilitet")}
+            onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet"))}
           >
             Bestill konsultasjon
             <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />

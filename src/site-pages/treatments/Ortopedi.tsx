@@ -197,13 +197,11 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
                   variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
-                  onClick={() =>
-                    (window.location.href = buildBookingUrl({
-                      kategori: "ortopedi",
-                    }))
-                  }
+                  asChild
                 >
-                  Bestill ortopedtime
+                  <Link to={buildBookingUrl({ kategori: "ortopedi" }, { withReturnContext: false })}>
+                    Bestill ortopedtime
+                  </Link>
                 </Button>
               </div>
 
@@ -532,9 +530,11 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
                   variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
-                  onClick={() => (window.location.href = buildBookingUrl({ kategori: "ortopedi" }))}
+                  asChild
                 >
-                  Bestill time
+                  <Link to={buildBookingUrl({ kategori: "ortopedi" }, { withReturnContext: false })}>
+                    Bestill time
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -564,9 +564,11 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
               variant="cta"
               size="lg"
               className="px-8 w-full sm:w-auto"
-              onClick={() => (window.location.href = buildBookingUrl({ kategori: "ortopedi" }))}
+              asChild
             >
-              Bestill time
+              <Link to={buildBookingUrl({ kategori: "ortopedi" }, { withReturnContext: false })}>
+                Bestill time
+              </Link>
             </Button>
           </div>
         </div>
