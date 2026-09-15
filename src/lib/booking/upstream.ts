@@ -22,11 +22,12 @@ export const BOOKING_URLS = {
 
 const CACHE_TTL_MS = Number(process.env.BOOKING_CACHE_TTL_MS || 5 * 60 * 1000);
 const FREETIMES_CACHE_TTL_MS = Number(
-  process.env.BOOKING_FREETIMES_CACHE_TTL_MS || 3 * 60 * 1000,
+  process.env.BOOKING_FREETIMES_CACHE_TTL_MS || 45 * 1000,
 );
 const FREETIMES_NEGATIVE_CACHE_TTL_MS = Number(
-  process.env.BOOKING_FREETIMES_NEGATIVE_CACHE_MS || 45 * 1000,
+  process.env.BOOKING_FREETIMES_NEGATIVE_CACHE_MS || 30 * 1000,
 );
+const FREETIMES_CACHE_LOG = process.env.BOOKING_FREETIMES_CACHE_LOG === "1";
 const MAX_RETRIES = Number(process.env.BOOKING_FETCH_MAX_RETRIES || 3);
 const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
 
@@ -197,7 +198,13 @@ async function fetchBookingResourceDeduped(
     if (hit.data === EMPTY_FREETIMES_SENTINEL) {
       throw new Error(`Upstream booking API recently failed for ${url}`);
     }
+    if (FREETIMES_CACHE_LOG && isFreetimesUrl(url)) {
+      console.info(`[booking/freetimes-cache] HIT ${url}`);
+    }
     return hit.data;
+  }
+  if (FREETIMES_CACHE_LOG && isFreetimesUrl(url)) {
+    console.info(`[booking/freetimes-cache] MISS ${url}`);
   }
 
   const inFlight = inFlightRequests.get(cacheKey);
@@ -212,6 +219,11 @@ async function fetchBookingResourceDeduped(
         data,
         expiresAt: Date.now() + options.cacheTtlMs,
       });
+      if (FREETIMES_CACHE_LOG && isFreetimesUrl(url)) {
+        console.info(
+          `[booking/freetimes-cache] STORE ${url} ttlMs=${options.cacheTtlMs}`,
+        );
+      }
       return data;
     } catch (error) {
       const negativeTtl = options.negativeCacheTtlMs ?? 0;
