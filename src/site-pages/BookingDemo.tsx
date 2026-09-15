@@ -2007,8 +2007,8 @@ const BookingDemo = () => {
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div className="min-w-0">
-                  <span className="text-brand-dark/60 text-xs block">{copy.summaryServiceLabel}</span>
-                  <span className="methodika-sentence-case font-normal text-brand-dark block">
+                  <span className="text-brand-dark/60 text-xs">{copy.summaryServiceLabel} </span>
+                  <span className="methodika-sentence-case font-normal text-brand-dark">
                     {bookingData.service.name}
                   </span>
                 </div>
