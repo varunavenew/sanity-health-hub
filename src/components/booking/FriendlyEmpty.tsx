@@ -1,10 +1,14 @@
 import { Phone, HeartHandshake } from "lucide-react";
+import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
 
 interface FriendlyEmptyProps {
   title?: string;
   message: string;
   phone?: string;
   phoneLabel?: string;
+  /** Optional second CTA (e.g. book another service). */
+  secondaryLabel?: string;
+  onSecondaryClick?: () => void;
 }
 
 /**
@@ -17,8 +21,10 @@ export const FriendlyEmpty = ({
   message,
   phone = "22 60 00 50",
   phoneLabel = "Ring oss så hjelper vi deg",
+  secondaryLabel,
+  onSecondaryClick,
 }: FriendlyEmptyProps) => {
-  const telHref = `tel:${phone.replace(/\s+/g, "")}`;
+  const telHref = bookingSupportTelHref(phone);
   return (
     <div className="p-6 bg-white rounded-lg text-center space-y-4">
       <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center mx-auto">
@@ -28,13 +34,26 @@ export const FriendlyEmpty = ({
         <p className="text-base font-normal text-foreground">{title}</p>
         <p className="text-sm text-muted-foreground font-light">{message}</p>
       </div>
-      <a
-        href={telHref}
-        className="inline-flex items-center gap-2 px-4 py-2.5 bg-foreground text-background rounded-full text-sm hover:bg-foreground/90 transition-colors"
-      >
-        <Phone className="w-4 h-4" aria-hidden="true" />
-        <span>{phoneLabel} · {phone}</span>
-      </a>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+        <a
+          href={telHref}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-foreground text-background rounded-full text-sm hover:bg-foreground/90 transition-colors"
+        >
+          <Phone className="w-4 h-4" aria-hidden="true" />
+          <span>
+            {phoneLabel} · {phone}
+          </span>
+        </a>
+        {secondaryLabel && onSecondaryClick ? (
+          <button
+            type="button"
+            onClick={onSecondaryClick}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-foreground/20 bg-background text-foreground rounded-full text-sm hover:bg-muted/40 transition-colors"
+          >
+            {secondaryLabel}
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };

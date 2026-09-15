@@ -2,7 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useSearchParams, Link, useLocaleParam } from "@/lib/router";
+import { useNavigate, useSearchParams, Link, useLocaleParam, useLocation } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -272,6 +272,7 @@ interface FormData {
 const BookingDemo = () => {
   const navigate = useNavigate();
   const locale = useLocaleParam();
+  const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const serviceChoiceSlugs = useMemo(
     () => parseTjenesteValg(searchParams.get("tjenesteValg")),
@@ -532,6 +533,8 @@ const BookingDemo = () => {
   const trackedStepRef = useRef<number | null>(null);
   const bookingInitTracked = useRef(false);
   const deepLinkMenuStartTracked = useRef(false);
+  /** After empty-clinic «Bestill time», skip URL service prefill so the user can pick another service. */
+  const skipServicePrefillRef = useRef(false);
 
   useEffect(() => {
     if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
@@ -583,6 +586,8 @@ const BookingDemo = () => {
   // Jumps to the first unfilled step so users coming from a specific
   // page never have to start over.
   useEffect(() => {
+    // After "Bestill time" on the empty-clinic state, do not re-lock the non-bookable service.
+    if (skipServicePrefillRef.current) return;
     // Clinic may already be set from ?klinikk= (Pasientsky/Moelv) before this runs —
     // still allow service/specialist prefill. Only skip once service is chosen.
     if (bookingData.service) return;
@@ -1418,6 +1423,22 @@ const BookingDemo = () => {
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */
   const autoSelectedClinicActivityRef = useRef<number | null>(null);
 
+  const handleBookAnotherWay = () => {
+    skipServicePrefillRef.current = true;
+    autoSelectedClinicActivityRef.current = null;
+    setClinicsAvailabilityReady(false);
+    setBookingData({});
+    setExpandedCategory(null);
+    setFilterToCategoryId(null);
+
+    const next = new URLSearchParams(searchParams.toString());
+    for (const key of ["aktivitetId", "tjeneste", "tjenesteValg"]) {
+      next.delete(key);
+    }
+    const qs = next.toString();
+    navigate(qs ? `${pathname}?${qs}` : pathname, { replace: true });
+  };
+
   const handleSelectService = (
     categoryId: string,
     categoryLabel: string,
@@ -2206,8 +2227,11 @@ const BookingDemo = () => {
                 <FriendlyEmpty
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
-                  phone={copy.supportPhone}
-                  phoneLabel={copy.supportPhoneLabel}
+                  phone={copy.step2EmptyPhone}
+                  phoneLabel={copy.step2EmptyButtonLabel}
+                  secondaryLabel={copy.step2EmptyBookLabel}
+                  onSecondaryClick={handleBookAnotherWay}
+
                 />
               )}
 

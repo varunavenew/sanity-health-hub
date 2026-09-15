@@ -34,6 +34,10 @@ export type BookingPageCopy = {
   step2Loading: string;
   step2EmptyTitle: string;
   step2EmptyMessage: string;
+  step2EmptyButtonLabel: string;
+  step2EmptyPhone: string;
+  /** CTA to continue booking with another service when clinics are empty. */
+  step2EmptyBookLabel: string;
   step3Heading: string;
   step3Subtitle: string;
   step3Loading: string;
@@ -142,7 +146,10 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step2Loading: "Henter klinikker fra booking-systemet…",
   step2EmptyTitle: "Ingen klinikker tilgjengelig akkurat nå",
   step2EmptyMessage:
-    "Denne tjenesten er ikke bookbar online for øyeblikket. Vi hjelper deg gjerne med å finne riktig time.",
+    "Denne spesifikke tjenesten er dessverre ikke tilgjengelig for nettbestilling for øyeblikket. Ring oss, eller bestill en annen time online.",
+  step2EmptyButtonLabel: "Ring oss så hjelper vi deg",
+  step2EmptyPhone: "22 60 00 50",
+  step2EmptyBookLabel: "Bestill time",
   step3Heading: "Velg behandler",
   step3Subtitle: "Velg en behandler, eller gå videre for å se alle ledige tider.",
   step3Loading: "Henter behandlere fra booking-systemet…",
@@ -239,6 +246,11 @@ const BOOKING_PAGE_EN_FALLBACKS: Partial<BookingPageCopy> = {
     "Invalid national ID — please check that you entered it correctly.",
   supportFooterText:
     "If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.",
+  step2EmptyMessage:
+    "This particular service is currently not available for online booking. Please give us a call, or book a different appointment online.",
+  step2EmptyButtonLabel: "Call us and we will help",
+  step2EmptyPhone: "22 60 00 50",
+  step2EmptyBookLabel: "Book appointment",
 };
 
 export function defaultBookingPageCopyForLang(lang: "no" | "en"): BookingPageCopy {

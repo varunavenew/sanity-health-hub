@@ -1178,6 +1178,8 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step2Heading",
   "step2Loading",
   "step2EmptyTitle",
+  "step2EmptyButtonLabel",
+  "step2EmptyBookLabel",
   "step3Heading",
   "step3Loading",
   "step3FirstAvailableTitle",
@@ -1257,6 +1259,7 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}]
   ${BOOKING_PAGE_I18N_FIELDS.join(",\n  ")},
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
+  step2EmptyPhone,
   step1CategoryClinicBadges[]{
     categoryKeys,
     badges[]{
