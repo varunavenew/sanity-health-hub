@@ -63,7 +63,13 @@ const segmentItem = {
       hidden: true,
     },
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
-    { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
+    {
+      name: 'description',
+      title: 'Text',
+      ...i18nTxt,
+      description:
+        'Optional. Leave empty to hide the small text under the title — the website skips the gap.',
+    },
     {
       name: 'tagLinks',
       title: 'Keywords with links',

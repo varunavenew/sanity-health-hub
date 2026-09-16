@@ -170,10 +170,6 @@ const landingPageBase = {
           "Menstruasjonssyklus, hormonell helse og prevensjon",
           "Menstrual cycle, hormonal health and contraception",
         ),
-        description: i18nText(
-          "Vi hjelper deg med prevensjon, menstruasjonsforstyrrelser og hormonelle plager — ingen skal leve med plager vi kan hjelpe deg med.",
-          "We help you with contraception, menstrual disorders and hormonal symptoms — no one should live with problems we can help you with.",
-        ),
         tagLinks: [
           tagLink("Prevensjonsveiledning", "Contraception counselling", "/gynekologi/undersokelse"),
           tagLink("PMOS", "PMOS", "/gynekologi/pcos"),
