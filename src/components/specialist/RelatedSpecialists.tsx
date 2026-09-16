@@ -2,6 +2,7 @@ import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { Link } from "@/lib/router";
 import { ArrowRight, MapPin } from "lucide-react";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
@@ -107,6 +108,7 @@ function RelatedSpecialistCard({
   profileLabel: string;
 }) {
   const clinicLabel = specialist.clinics?.filter(Boolean).join(" · ");
+  const { hotspot, crop } = resolveSpecialistImageFocal(specialist);
 
   return (
     <Link
@@ -119,8 +121,8 @@ function RelatedSpecialistCard({
           src={specialist.image}
           alt={specialist.name}
           variant="card"
-          hotspot={specialist.imageHotspot}
-          crop={specialist.imageCrop}
+          hotspot={hotspot}
+          crop={crop}
           className="w-full h-full scale-[1.12] transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-100 group-focus-visible:scale-100"
           loading="lazy"
         />

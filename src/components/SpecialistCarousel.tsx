@@ -3,10 +3,11 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, MapPin } from "lucide-react";
-import { AssetImg } from "@/components/AssetImg";
+import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
+import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 import type { ImageRef } from "@/lib/media";
 import type {
   MediaFocalPoint,
@@ -21,6 +22,7 @@ export interface SpecialistLike {
   /** Editor-set focal point; without one the card falls back to its CSS framing. */
   imageHotspot?: SanityHotspot | MediaFocalPoint | null;
   imageCrop?: SanityCrop | null;
+  heroMedia?: import("@/lib/sanity/media-dual-read").ResolvedCmsMedia;
   title?: string;
   subtitle?: string;
   category?: string;
@@ -187,7 +189,10 @@ export const SpecialistCard = ({
   hovered?: boolean;
   onEnter?: () => void;
   onLeave?: () => void;
-}) => (
+}) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
+
+  return (
   <Link
     to={`/spesialister/${sp.slug}`}
     className="group block"
@@ -196,15 +201,14 @@ export const SpecialistCard = ({
     onMouseLeave={onLeave}
   >
     <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-      <AssetImg
+      <ResponsiveImage
         src={sp.image}
         alt={sp.name}
-        hotspot={sp.imageHotspot}
-        crop={sp.imageCrop}
+        variant="card"
+        hotspot={hotspot}
+        crop={crop}
         loading="lazy"
-        // object-top/-center only applies to specialists without a hotspot —
-        // AssetImg emits an inline object-position that wins when one is set.
-        className="w-full h-full object-cover object-top md:object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+        className="w-full h-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
       <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/25 to-transparent" />
@@ -241,4 +245,5 @@ export const SpecialistCard = ({
       </div>
     </div>
   </Link>
-);
+  );
+};
