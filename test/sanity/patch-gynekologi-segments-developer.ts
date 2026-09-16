@@ -78,7 +78,7 @@ const SEGMENTS = [
       tagLink("Vulvalidelser og vulvodyni", "Vulvar disorders and vulvodynia", "/gynekologi/vulvalidelser"),
       tagLink("Vaginisme", "Vaginismus", "/gynekologi/vaginisme"),
       tagLink("Hudproblemer i vulva", "Vulvar skin problems", "/gynekologi/vulvalidelser"),
-      tagLink("Test for klamydia / gonoré", "Chlamydia / gonorrhoea testing", "/gynekologi/undersokelse"),
+      tagLink("Test for klamydia / gonoré", "Chlamydia / gonorrhoea testing", "/gynekologi/test-for-klamydia-gonore"),
       tagLink("Celleforandringer", "Cell changes", "/gynekologi/celleforandringer"),
       tagLink("Konisering", "Cone biopsy", "/gynekologi/celleforandringer"),
       tagLink("Endometriose og adenomyose", "Endometriosis and adenomyosis", "/gynekologi/endometriose"),
