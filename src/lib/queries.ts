@@ -776,6 +776,22 @@ const localizedRouteParentSlug = `"parentSlug": coalesce(
   category->slug[_key == $lang][0].value.current
 )`;
 
+/**
+ * Breadcrumb ancestor chain: walks the `parent` self-reference up to 2 levels
+ * (enough for the deepest nesting today, e.g. sub-treatment → Hudbehandlinger → Hudhelse).
+ * Each node carries its own category so its breadcrumb link resolves to the right URL.
+ */
+const localizedParentTreatmentChain = `"parentTreatment": parent->{
+  ${i18nStringLocale('title')},
+  ${localizedSlug},
+  "categorySegment": coalesce(categories[0]->categoryId, category->categoryId),
+  "parentTreatment": parent->{
+    ${i18nStringLocale('title')},
+    ${localizedSlug},
+    "categorySegment": coalesce(categories[0]->categoryId, category->categoryId)
+  }
+}`;
+
 export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTreatmentFilter} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
   _id,
   pageRole,
@@ -789,6 +805,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTre
   ${i18nStringLocale('heroImageAlt')},
   ${localizedParentCategory},
   ${localizedRouteParentSlug},
+  ${localizedParentTreatmentChain},
   "categoryNumericId": coalesce(categories[0]->categoryNumericId, category->categoryNumericId),
   ${i18nStringLocale("faqSectionTitle")},
   "faqCollection": faqCollection->{
