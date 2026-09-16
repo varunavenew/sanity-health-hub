@@ -283,7 +283,7 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
                 </p>
                 <h3 className="text-xl font-light text-foreground mb-1">{s.name}</h3>
                 <p className="text-sm text-muted-foreground font-light">
-                  {s.expertise.slice(0, 2).join(" · ")}
+                  {s.expertise.slice(0, 2).map((tag) => tag.label).join(" · ")}
                 </p>
               </Link>
             ))}

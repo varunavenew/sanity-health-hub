@@ -64,6 +64,8 @@
     "migrate:services-page-content": "tsx sanity/migrate-services-page-content.ts",
     "migrate:specialist-categories:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-categories.ts",
     "migrate:specialist-categories": "tsx sanity/migrate-specialist-categories.ts",
+    "migrate:specialist-tags:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-tags.ts",
+    "migrate:specialist-tags": "tsx sanity/migrate-specialist-tags.ts",
     "migrate:specialist-booking-ids:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-booking-category-ids.ts",
     "migrate:specialist-booking-ids": "tsx sanity/migrate-specialist-booking-category-ids.ts",
     "migrate:specialist-static:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-static-content.ts",

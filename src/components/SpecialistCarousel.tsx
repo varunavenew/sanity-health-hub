@@ -27,7 +27,7 @@ export interface SpecialistLike {
   subtitle?: string;
   category?: string;
   clinics?: string[];
-  expertise?: string[];
+  expertise?: import("@/lib/sanity/specialist-types").SpecialistExpertiseTag[];
 }
 
 interface Props {

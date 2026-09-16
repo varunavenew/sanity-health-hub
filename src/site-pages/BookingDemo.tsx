@@ -2953,7 +2953,7 @@ const BookingDemo = () => {
                               key={idx}
                               className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
                             >
-                              {exp}
+                              {exp.label}
                             </span>
                           ))}
                         </div>

@@ -396,6 +396,15 @@ function componentLibrarySection(S: StructureBuilder) {
             {field: 'internalName', direction: 'asc'},
           ]),
       ),
+    S.listItem()
+      .title('Specialist Tags')
+      .icon(CategoryIcon)
+      .schemaType('specialistTag')
+      .child(
+        S.documentTypeList('specialistTag')
+          .title('Specialist Tags')
+          .defaultOrdering([{field: '_updatedAt', direction: 'desc'}]),
+      ),
     S.documentTypeListItem('googleReview')
       .title('Google & Legelisten Reviews')
       .icon(ReviewIcon)

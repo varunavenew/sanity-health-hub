@@ -61,7 +61,8 @@ export interface SubTreatmentContent {
   insuranceTitle: string;
   insurancePartners: { key: string; label: string }[];
   parent: { name: string; path: string };
-  grandparent?: { name: string; path: string };
+  /** Extra levels between the category (`parent`) and this page, top-down (e.g. Hudhelse, then Hudbehandlinger). */
+  ancestors?: { name: string; path: string }[];
   title: string;
   heroTitle: string | ReactNode;
   heroDescription: string;
@@ -495,19 +496,11 @@ export const SubTreatmentLayout = ({
   const breadcrumbItems = useMemo(
     () => [
       { name: c.homeBreadcrumbLabel, path: "/" },
-      ...(c.grandparent
-        ? [{ name: c.grandparent.name, path: c.grandparent.path }]
-        : []),
       { name: c.parent.name, path: c.parent.path },
+      ...(c.ancestors ?? []),
       { name: c.title },
     ],
-    [
-      c.homeBreadcrumbLabel,
-      c.grandparent,
-      c.parent.name,
-      c.parent.path,
-      c.title,
-    ],
+    [c.homeBreadcrumbLabel, c.parent.name, c.parent.path, c.ancestors, c.title],
   );
 
   return (
@@ -519,8 +512,8 @@ export const SubTreatmentLayout = ({
         canonical={c.canonical}
         breadcrumbs={[
           { name: c.homeBreadcrumbLabel, path: "/" },
-          ...(c.grandparent ? [c.grandparent] : []),
           c.parent,
+          ...(c.ancestors ?? []),
           { name: c.title, path: c.canonical },
         ]}
       />

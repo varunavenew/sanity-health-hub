@@ -88,7 +88,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       category: categorySlug,
       service_name: serviceName,
     });
@@ -193,7 +193,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
             trackBookingMenuStart({
               entry_point: "specialist_page",
               practitioner: specialist.name,
-              specialty: specialist.title || specialist.expertise?.[0] || null,
+              specialty: specialist.title || specialist.expertise?.[0]?.label || null,
             });
             navigate(
               buildBookingUrl({

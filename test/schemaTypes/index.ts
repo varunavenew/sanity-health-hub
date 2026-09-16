@@ -7,6 +7,7 @@ import treatment from './treatment'
 import aboutPage from './aboutPage'
 import contactPage from './contactPage'
 import specialist from './specialist'
+import specialistTag from './specialistTag'
 import newsPage from './newsPage'
 import pricingPage from './pricingPage'
 import insurancePage from './insurancePage'
@@ -83,6 +84,7 @@ export const schemaTypes = [
   treatmentCategory,
   treatment,
   specialist,
+  specialistTag,
   googleReview,
   googleReviewSettings,
   article,
