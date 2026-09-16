@@ -337,10 +337,12 @@ export async function renderCmsRoute(
       );
     }
     case "specialist": {
-      const [initialSpecialist, initialListingPage] = await Promise.all([
-        fetchSpecialistDetailData(route.slug, sanityLang),
-        fetchSpecialistsListingPageData(sanityLang),
-      ]);
+      const [initialSpecialist, initialListingPage, initialSpecialists] =
+        await Promise.all([
+          fetchSpecialistDetailData(route.slug, sanityLang),
+          fetchSpecialistsListingPageData(sanityLang),
+          fetchSpecialistsListData(sanityLang),
+        ]);
       if (!initialSpecialist) notFound();
       const queryClient = new QueryClient();
       queryClient.setQueryData(
@@ -350,6 +352,10 @@ export async function renderCmsRoute(
       queryClient.setQueryData(
         ["sanity", "specialistsListingPage", sanityLang],
         initialListingPage,
+      );
+      queryClient.setQueryData(
+        ["sanity", "specialists", sanityLang],
+        initialSpecialists,
       );
       return (
         <TreatmentHydration state={dehydrate(queryClient)}>

@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "@/lib/router";
 import { ArrowRight, MapPin } from "lucide-react";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -29,7 +31,8 @@ export const RelatedSpecialists = ({
   ctaLabel,
   ctaPath,
 }: RelatedSpecialistsProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   if (specialists.length === 0) return null;
 
@@ -38,9 +41,19 @@ export const RelatedSpecialists = ({
   const showCta = Boolean(ctaLabel?.trim() && listingPath);
   const showHeader = Boolean(eyebrow?.trim() || heading?.trim());
   const profileLabel = t("specialists.viewProfile", { defaultValue: "Se profil" });
+  const isEn = (i18n.language || "").toLowerCase().startsWith("en");
+  const ctaLink = showCta ? (
+    <Link
+      to={listingPath!}
+      className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity"
+    >
+      {ctaLabel}
+      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+    </Link>
+  ) : null;
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {showHeader ? (
           <motion.div
@@ -62,37 +75,45 @@ export const RelatedSpecialists = ({
             ) : null}
           </motion.div>
         ) : null}
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          {specialists.map((s, idx) => (
-            <motion.div
-              key={s.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-            >
-              <RelatedSpecialistCard
-                specialist={s}
-                href={`${specialistsPath}/${s.slug}`}
-                profileLabel={profileLabel}
-              />
-            </motion.div>
-          ))}
-        </div>
-
-        {showCta ? (
-          <div className="mt-6 md:mt-8">
-            <Link
-              to={listingPath!}
-              className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity"
-            >
-              {ctaLabel}
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-          </div>
-        ) : null}
       </div>
+
+      <div
+        ref={scrollRef}
+        className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-6 md:pl-16 pr-6 md:pr-16"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        {specialists.map((s, idx) => (
+          <motion.div
+            key={s.slug}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: Math.min(idx, 8) * 0.06 }}
+            className="flex-shrink-0 w-[240px] sm:w-[260px] md:w-[300px] snap-start"
+          >
+            <RelatedSpecialistCard
+              specialist={s}
+              href={`${specialistsPath}/${s.slug}`}
+              profileLabel={profileLabel}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      <ScrollArrows
+        scrollRef={scrollRef}
+        visibility="all"
+        slideCount={specialists.length}
+        className="px-6 md:px-16 mt-4 md:mt-6"
+        trailing={ctaLink}
+        progressLabel={isEn ? "Carousel progress" : "Fremdrift i karusell"}
+        prevLabel={isEn ? "Previous" : "Forrige"}
+        nextLabel={isEn ? "Next" : "Neste"}
+      />
     </section>
   );
 };
