@@ -1044,7 +1044,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className="font-normal text-white text-sm md:text-base mb-0.5">{specialist.name}</h3>
                     <p className="text-white/70 text-xs font-light line-clamp-1 pr-4">
-                      {specialist.expertise.join(", ")}
+                      {specialist.expertise.map((tag) => tag.label).join(", ")}
                     </p>
                   </div>
                 </div>

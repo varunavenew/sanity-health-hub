@@ -1,4 +1,4 @@
-import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
+import type { Specialist, SpecialistClinicRef, SpecialistExpertiseTag, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveCmsMedia, type ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
@@ -172,11 +172,20 @@ function pickSpecialtyNo(entry: unknown): string {
   return pickNo(readSpecialtyLabel(entry));
 }
 
-function readLocalizedStringArray(value: unknown, lang: SanityLang): string[] {
+function mapExpertiseTags(value: unknown, lang: SanityLang): SpecialistExpertiseTag[] {
   if (!Array.isArray(value)) return [];
-  return value
-    .map((entry) => readLocalizedString(readSpecialtyLabel(entry), lang))
-    .filter((entry): entry is string => Boolean(entry));
+  const tags: SpecialistExpertiseTag[] = [];
+  for (const entry of value) {
+    const label = readLocalizedString(readSpecialtyLabel(entry), lang);
+    if (!label) continue;
+    const hrefRaw =
+      entry && typeof entry === "object" && "href" in entry
+        ? (entry as { href?: unknown }).href
+        : undefined;
+    const href = typeof hrefRaw === "string" ? hrefRaw.trim() : "";
+    tags.push(href ? { label, href } : { label });
+  }
+  return tags;
 }
 
 function readEducation(value: unknown, lang: SanityLang): string | undefined {
@@ -369,7 +378,7 @@ export function mapSanitySpecialistRow(
 
   const bio = readLocalizedString(raw.shortBio, lang);
   const title = readLocalizedString(raw.role, lang);
-  const expertise = readLocalizedStringArray(raw.specialties, lang);
+  const expertise = mapExpertiseTags(raw.specialties, lang);
   const bookingCategoryIds = normalizeBookingCategoryIds(raw.bookingCategoryIds);
 
   if (!bio || !title || expertise.length === 0) return null;

@@ -53,6 +53,12 @@ const specialistClinicRefsGroq = `"clinicRefs": clinics[]->{
   ${localizedSlug}
 }`;
 
+/** Dual-read: specialistTag references or legacy inline specialtyItem objects. */
+const specialistSpecialtiesGroq = `"specialties": specialties[]{
+  "label": coalesce(@->label, label),
+  "href": coalesce(@->href, href)
+}`;
+
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
     ${i18nNestedString("profileUi", "notFoundTitle")},
@@ -256,7 +262,7 @@ export const PAGE_SECTIONS_GROQ = `
     },
     "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
     "specialists": specialists[]->{
-      _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      _id, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
       ${specialistCtaTogglesGroq},
       "clinics": clinics[]->title,
       ${localizedSlug},
@@ -422,7 +428,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
 }`;
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
-  _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  _id, _createdAt, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
   ${specialistClinicRefsGroq},
@@ -435,7 +441,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
 }`;
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")) && ${slugMatchesParam("slug")}][0]{
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  _id, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
   ${specialistClinicRefsGroq},
@@ -467,7 +473,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
     ${i18nStringLocale("ctaLabel")},
     ctaPath,
     "specialists": specialists[]->{
-      _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      _id, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
       ${specialistCtaTogglesGroq},
       metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
       ${specialistClinicRefsGroq},
@@ -798,7 +804,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
     ${SPECIALIST_PHOTO_PROJECTION},
-    specialties
+    ${specialistSpecialtiesGroq}
   },
   ${i18nStringLocale('homeBreadcrumbLabel')},
   ${i18nStringLocale('srOnlyTitle')},

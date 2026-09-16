@@ -1,5 +1,5 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import type { TreatmentData, TreatmentSection } from "@/lib/sanity/treatment-data";
+import type { ParentTreatmentNode, TreatmentData, TreatmentSection } from "@/lib/sanity/treatment-data";
 import {
   categoryLandingPath,
   normalizeCategoryFilterKey,
@@ -10,6 +10,29 @@ import { reasonAnchorId, rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonica
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { BookingLinkParams } from "@/lib/bookingLinks";
 import { FERTILITETSUTREDNING_BOOKING_OPTIONS } from "@/lib/booking/resolve-booking-service";
+
+/**
+ * Walks the `treatment.parentTreatment` chain (immediate parent first) and returns
+ * breadcrumb entries top-down, e.g. leaf.parentTreatment = Hudbehandlinger (parentTreatment: Hudhelse)
+ * becomes [Hudhelse, Hudbehandlinger].
+ */
+function buildAncestorBreadcrumbs(
+  parentTreatment: ParentTreatmentNode | undefined,
+  lang: "no" | "en",
+): { name: string; path: string }[] {
+  const chain: ParentTreatmentNode[] = [];
+  for (let node = parentTreatment; node; node = node.parentTreatment) {
+    chain.push(node);
+  }
+  return chain
+    .reverse()
+    .filter((node) => node.title && node.slug && node.categorySegment)
+    .map((node) => {
+      const categoryKey = normalizeCategoryRouteKey(node.categorySegment!) || node.categorySegment!;
+      const categoryPath = categoryLandingPath(categoryKey, lang);
+      return { name: node.title!, path: `${categoryPath}/${node.slug}` };
+    });
+}
 
 function firstHeroParagraph(text: string): string {
   const trimmed = text.trim();
@@ -162,6 +185,7 @@ export function mapTreatmentToSubTreatmentContent(
 
   const canonical = treatmentSlug ? `${parentPath}/${treatmentSlug}` : parentPath;
   const parentName = treatment.parentCategory?.trim() || "";
+  const ancestors = buildAncestorBreadcrumbs(treatment.parentTreatment, options.lang);
   const { title: seoTitle, description: seoDescription } = seoText(treatment);
 
   const heroPoints = (treatment.heroPoints ?? []).filter((p) => p.title || p.desc);
@@ -208,6 +232,7 @@ export function mapTreatmentToSubTreatmentContent(
     // Partners come from CMS / Insurance Collection dual-read. Empty = section hidden.
     insurancePartners: treatment.insurancePartners ?? [],
     parent: { name: parentName, path: parentPath },
+    ancestors,
     title: treatment.title,
     heroTitle: treatment.heroTitle || treatment.title || "",
     heroDescription: firstHeroParagraph(

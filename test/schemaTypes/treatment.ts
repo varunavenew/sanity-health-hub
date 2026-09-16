@@ -275,6 +275,31 @@ export default {
       hidden: () => true,
       readOnly: true,
     },
+    {
+      name: 'parent',
+      title: 'Parent treatment',
+      type: 'reference',
+      group: 'general',
+      to: [{type: 'treatment'}],
+      description:
+        'Optional. Set this when the page sits under another Treatment page (e.g. a sub-treatment under Hudbehandlinger, which itself sits under Hudhelse). Drives the breadcrumb trail and its structured data. Leave empty for treatments that sit directly under a Category.',
+      options: {
+        filter: ({document}: {document: {_id?: string}}) => {
+          const id = (document._id || '').replace(/^drafts\./, '')
+          return {
+            filter: '!(_id in [$id, $draftId])',
+            params: {id, draftId: `drafts.${id}`},
+          }
+        },
+      },
+      validation: (Rule: any) =>
+        Rule.custom((value: {_ref?: string} | undefined, context: any) => {
+          if (!value?._ref) return true
+          const currentId = String(context.document?._id || '').replace(/^drafts\./, '')
+          const targetId = value._ref.replace(/^drafts\./, '')
+          return targetId === currentId ? 'A treatment cannot be its own parent' : true
+        }),
+    },
 
     // ── Page Content ──────────────────────────────────────────────────────────
     {

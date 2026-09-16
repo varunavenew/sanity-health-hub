@@ -52,6 +52,29 @@ function asStringArray(value: unknown): string[] {
   return value.map((v) => asPlainString(v)).filter(Boolean);
 }
 
+export type ParentTreatmentNode = {
+  title?: string;
+  slug?: string;
+  categorySegment?: string;
+  parentTreatment?: ParentTreatmentNode;
+};
+
+/** Recursively maps the GROQ `parent->{...}` chain (title/slug/category + nested parentTreatment). */
+function mapParentTreatmentNode(value: unknown): ParentTreatmentNode | undefined {
+  if (!value || typeof value !== "object") return undefined;
+  const row = value as Record<string, unknown>;
+  const title = asPlainString(row.title);
+  const slug = asPlainString(row.slug);
+  const categorySegment = asPlainString(row.categorySegment);
+  if (!title || !slug) return undefined;
+  return {
+    title,
+    slug,
+    categorySegment: categorySegment || undefined,
+    parentTreatment: mapParentTreatmentNode(row.parentTreatment),
+  };
+}
+
 function mapTreatmentReviews(
   value: unknown,
   lang: "no" | "en" = "no",
@@ -105,6 +128,8 @@ export type TreatmentData = {
   heroMedia?: unknown;
   parentCategory?: string;
   parentSlug?: string;
+  /** Ancestor treatment chain from the `parent` ref (immediate parent first), for breadcrumb nesting under another Treatment page. */
+  parentTreatment?: ParentTreatmentNode;
   categoryNumericId?: number;
   faqSectionTitle?: string;
   faqs?: { question: string; answer: string }[];
@@ -270,6 +295,7 @@ export function mapTreatmentDocument(
     heroMedia: data.heroMedia,
     parentCategory: row("parentCategory"),
     parentSlug: row("parentSlug"),
+    parentTreatment: mapParentTreatmentNode(data.parentTreatment),
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
     faqSectionTitle: row("faqSectionTitle"),

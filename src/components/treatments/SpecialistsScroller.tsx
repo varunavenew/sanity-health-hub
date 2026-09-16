@@ -497,10 +497,10 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
               <ul className="divide-y divide-brand-dark/10">
                 {sp.expertise.map((item) => (
                   <li
-                    key={item}
+                    key={item.label}
                     className="py-3 text-sm font-light text-foreground"
                   >
-                    {item}
+                    {item.label}
                   </li>
                 ))}
               </ul>
@@ -575,7 +575,7 @@ const SpecialistCard = ({
 
     {showExpertise && sp.expertise && sp.expertise.length > 0 ? (
       <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">
-        {sp.expertise.join(", ")}
+        {sp.expertise.map((tag) => tag.label).join(", ")}
       </p>
     ) : null}
   </Link>

@@ -53,12 +53,18 @@ export type SpecialistBioBlock =
   | { type: "embed"; url: string; caption?: string }
   | { type: "link"; href: string; label: string; description?: string };
 
+export interface SpecialistExpertiseTag {
+  label: string;
+  /** Internal path or absolute URL from Sanity; omit when the chip is not linked. */
+  href?: string;
+}
+
 export interface Specialist {
   _createdAt?: string;
   name: string;
   title: string;
   subtitle?: string;
-  expertise: string[];
+  expertise: SpecialistExpertiseTag[];
   image: ImageRef;
   /** Sanity photo hotspot (0–1) when editors set a focal point. */
   imageHotspot?: import("@/lib/media/focal-point").SanityHotspot | import("@/lib/media/focal-point").MediaFocalPoint | null;
@@ -105,4 +111,11 @@ export interface Specialist {
     noIndex?: boolean;
   };
   geoSummary?: string;
+}
+
+export function specialistExpertiseLabels(
+  expertise: SpecialistExpertiseTag[] | undefined | null,
+): string[] {
+  if (!Array.isArray(expertise)) return [];
+  return expertise.map((tag) => tag.label).filter(Boolean);
 }

@@ -2,8 +2,6 @@
 // Phase 16B: Studio polish — Category/Treatment UX parity; architecture preserved
 import { SpecialistIcon } from './icons'
 import {
-  hasSpecialtyWithEnText,
-  hasSpecialtyWithNoText,
   i18nSlugFieldFromString,
   pickForLang,
   pickNo,
@@ -181,40 +179,17 @@ export default {
       options: { layout: 'list' },
       of: [
         {
-          type: 'object',
-          name: 'specialtyItem',
-          title: 'Specialty',
-          fields: [
-            {
-              name: 'label',
-              title: 'Text',
-              type: 'internationalizedArrayString',
-              validation: reqI18n('Specialty'),
-            },
-          ],
-          preview: {
-            select: { label: 'label' },
-            prepare({ label }: { label?: unknown }) {
-              return { title: pickStudioEn(label) || 'New specialty' }
-            },
-          },
+          type: 'reference',
+          to: [{ type: 'specialistTag' }],
         },
       ],
       description:
-        'Short keywords on profile and cards. Add at least one row with Norwegian and English text.',
+        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones.',
       validation: (Rule: any) =>
-        Rule.custom((items: unknown[] | undefined) => {
-          if (!Array.isArray(items) || items.length === 0) {
-            return 'Add at least one specialty'
-          }
-          if (!hasSpecialtyWithNoText(items)) {
-            return 'Fill in Norwegian (NO) text for at least one specialty'
-          }
-          if (!hasSpecialtyWithEnText(items)) {
-            return 'Fill in English (EN) text for at least one specialty'
-          }
-          return true
-        }),
+        Rule.required()
+          .min(1)
+          .unique()
+          .error('Select at least one specialty tag'),
     },
     {
       name: 'categories',
@@ -561,11 +536,9 @@ export default {
       if (!pickForLang(document.role, 'en')?.trim()) {
         issues.push('Title / role (English) is missing')
       }
-      if (!hasSpecialtyWithNoText(document.specialties)) {
-        issues.push('At least one specialty with Norwegian text is missing')
-      }
-      if (!hasSpecialtyWithEnText(document.specialties)) {
-        issues.push('At least one specialty with English text is missing')
+      const specialties = document.specialties as unknown[] | undefined
+      if (!Array.isArray(specialties) || specialties.length === 0) {
+        issues.push('At least one specialty tag must be selected')
       }
       const categories = document.categories as unknown[] | undefined
       if (!Array.isArray(categories) || categories.length === 0) {
