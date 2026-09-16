@@ -396,7 +396,8 @@ export default {
           title: 'Specialists',
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
-          description: 'Select peers to display (Studio order kept). Not yourself.',
+          description:
+            'Optional. The website shows all specialists in the same field (then same clinic if none), in listing sort — not this list.',
           validation: (Rule: any) =>
             Rule.custom(
               (

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
+import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 // import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
@@ -32,6 +32,7 @@ import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
+import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
@@ -105,7 +106,11 @@ function SpecialistProfileBody({
   const ui = useSpecialistProfileUi();
 
   const relatedSection = specialist.relatedSpecialistsSection;
-  const relatedSpecialists = relatedSection?.specialists ?? [];
+  const { sorted: allSpecialists } = useSpecialistsData();
+  const relatedSpecialists = useMemo(
+    () => resolveRelatedSpecialistsForProfile(specialist, allSpecialists),
+    [specialist, allSpecialists],
+  );
 
   const seoTitle = specialist.seo?.metaTitle ?? specialist.name;
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
