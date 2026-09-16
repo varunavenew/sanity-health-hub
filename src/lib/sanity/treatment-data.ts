@@ -14,7 +14,7 @@ import { flereFagomraderTreatmentSlugCandidates } from "@/lib/sanity/flere-fagom
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
-import { isRelatedServiceEligible } from "@/lib/sanity/treatment-page-role";
+import { isRelatedServiceEligible, isTreatmentVisibleOnWebsite } from "@/lib/sanity/treatment-page-role";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import {
   buildLinkedCardHeroLookup,
@@ -248,6 +248,7 @@ export function mapTreatmentDocument(
         const r = item as Record<string, unknown>;
         return {
           pageRole: asPlainString(r.pageRole) || undefined,
+          hideFromWebsite: r.hideFromWebsite === true,
           eyebrow: asPlainString(r.eyebrow),
           title: asPlainString(r.title),
           desc: asPlainString(r.desc),
@@ -259,7 +260,13 @@ export function mapTreatmentDocument(
             undefined,
         };
       })
-      .filter((r) => r.title && r.path && isRelatedServiceEligible(r.pageRole));
+      .filter(
+        (r) =>
+          r.title &&
+          r.path &&
+          isRelatedServiceEligible(r.pageRole) &&
+          isTreatmentVisibleOnWebsite(r.hideFromWebsite),
+      );
   })();
 
   const relatedImageBySlug = new Map(

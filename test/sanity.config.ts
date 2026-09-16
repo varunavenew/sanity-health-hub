@@ -33,6 +33,8 @@ import {
   PublishWithNavSync,
 } from './sanity/actions/publishWithNavSync'
 import {createPublishPreservingOgImageAlt} from './sanity/actions/publishPreservingOgImageAlt'
+import {PublishTreatment} from './sanity/actions/publishTreatment'
+import {UnpublishTreatment} from './sanity/actions/unpublishTreatment'
 import {createSpecialistDeleteAction} from './sanity/actions/safeDeleteSpecialist'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
@@ -226,11 +228,20 @@ export default defineConfig({
       // before publish — a published-only backfill must not be wiped.
       actions = actions.map((action) => {
         if (action.action !== 'publish') return action
+        if (context.schemaType === 'treatment') {
+          return createPublishPreservingOgImageAlt(PublishTreatment)
+        }
         const inner = NAV_SYNC_PAGE_TYPES.has(context.schemaType)
           ? PublishWithNavSync
           : action
         return createPublishPreservingOgImageAlt(inner)
       })
+
+      if (context.schemaType === 'treatment') {
+        actions = actions.map((action) =>
+          action.action === 'unpublish' ? UnpublishTreatment : action,
+        )
+      }
 
       // Specialist Delete: wrap native Delete — cleanup refs, then delete (no wizard).
       if (context.schemaType === 'specialist') {

@@ -264,6 +264,15 @@ export default {
       initialValue: 'service',
     },
     {
+      name: 'hideFromWebsite',
+      title: 'Hide from website',
+      type: 'boolean',
+      group: 'general',
+      description:
+        'Removes this treatment from the public website. Click "Hide from website" — linked category lists, related sections, and similar CMS references are cleaned up automatically. Turn off and Publish to show it again.',
+      initialValue: false,
+    },
+    {
       // Stored for historical dual-read / rollback only. Never shown in Studio.
       // Prefer categories[]; migrate-treatment-categories.ts copies category → categories[].
       name: 'category',
@@ -1382,6 +1391,7 @@ export default {
   validation: (Rule: any) =>
     Rule.custom((document: Record<string, unknown> | undefined) => {
       if (!document) return true
+      if (document.hideFromWebsite === true) return true
       const issues: string[] = []
       if (!pickNo(document.title)?.trim()) issues.push('Treatment name (Norwegian) is missing')
       if (!pickForLang(document.title, 'en')?.trim()) {

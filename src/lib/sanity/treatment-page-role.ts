@@ -9,3 +9,10 @@ export function isRelatedServiceEligible(
 ): boolean {
   return pageRole !== 'team'
 }
+
+/** Published treatments with hideFromWebsite enabled are excluded from the public site. */
+export function isTreatmentVisibleOnWebsite(
+  hideFromWebsite: boolean | null | undefined,
+): boolean {
+  return hideFromWebsite !== true
+}

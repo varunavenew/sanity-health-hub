@@ -188,6 +188,8 @@ const i18nBlockContent = (field: string) =>
 const publishedClinicFilter = `!(_id in path("drafts.**"))`;
 /** Prefer published documents — empty drafts (e.g. drafts.homepage) must not win `[0]`. */
 const publishedOnly = `!(_id in path("drafts.**"))`;
+const treatmentVisibleOnWebsite = `coalesce(hideFromWebsite, false) != true`;
+const publishedTreatmentFilter = `${publishedOnly} && ${treatmentVisibleOnWebsite}`;
 
 /** Shared row shape for clinic lists (grid, about section, footer). */
 export const CLINIC_LIST_ROW_PROJECTION = `
@@ -506,8 +508,8 @@ const CATEGORY_TREATMENT_ROW = `
 /** Explicit Behandlinger[] on category doc, else treatments whose Kategori points here. */
 const CATEGORY_TREATMENTS_GROQ = `
   "treatments": select(
-    count(treatments) > 0 => treatments[]->{${CATEGORY_TREATMENT_ROW}},
-    *[_type == "treatment" && ${publishedOnly} && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
+    count(treatments) > 0 => treatments[coalesce(@->hideFromWebsite, false) != true]->{${CATEGORY_TREATMENT_ROW}},
+    *[_type == "treatment" && ${publishedTreatmentFilter} && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
   )
 `;
 
@@ -768,7 +770,7 @@ const localizedRouteParentSlug = `"parentSlug": coalesce(
   category->slug[_key == $lang][0].value.current
 )`;
 
-export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnly} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
+export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTreatmentFilter} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
   _id,
   pageRole,
   ${localizedSlug},
@@ -864,9 +866,10 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
     seeAllHref,
     ${i18nStringLocale('seeAllLabel')},
     // Filter on refs before dereference. Post-projection filters on []-> return null rows.
-    items[@->pageRole != "team"]->{
+    items[@->pageRole != "team" && coalesce(@->hideFromWebsite, false) != true]->{
       _id,
       pageRole,
+      hideFromWebsite,
       ${i18nStringLocale('eyebrow')},
       ${i18nStringLocale('title')},
       ${i18nTextLocale('desc')},
@@ -927,7 +930,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       imageAlt,
       "image": coalesce(
         ownImage,
-        *[_type == "treatment" && ${publishedOnly} && (
+        *[_type == "treatment" && ${publishedTreatmentFilter} && (
           slug[language == $lang][0].value.current in ^.linkedSlugAliases
           || slug[_key == $lang][0].value.current in ^.linkedSlugAliases
           || slug[language == "no"][0].value.current in ^.linkedSlugAliases
@@ -955,7 +958,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       slug[_key == $lang][0].value.current,
       slug[language == "no"][0].value.current,
       slug[_key == "no"][0].value.current
-    ) == "robotkirurgi" => *[_type == "treatment" && ${publishedOnly} && (
+    ) == "robotkirurgi" => *[_type == "treatment" && ${publishedTreatmentFilter} && (
       slug[language == "no"][0].value.current in ["robotassistert-kirurgi", "robotkirurgi", "gastrokirurgi"]
       || slug[_key == "no"][0].value.current in ["robotassistert-kirurgi", "robotkirurgi", "gastrokirurgi"]
       || slug[language == "en"][0].value.current in ["robot-assisted-surgery", "robotkirurgi"]
@@ -1522,7 +1525,7 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
       searchKeywords,
       ${localizedSlug}
     },
-    "treatments": *[_type == "treatment" && ${publishedOnly} && pageRole != "team"]{
+    "treatments": *[_type == "treatment" && ${publishedTreatmentFilter} && pageRole != "team"]{
       _id,
       ${i18nString("title")},
       searchKeywords,
@@ -1606,7 +1609,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   },
   faqs[]{${localizedFaqRow}},
   specialists[]->{ name, ${localizedSlug}, ${SPECIALIST_PHOTO_PROJECTION}, role },
-  treatments[]->{ title, ${localizedSlug}, ${localizedPrimaryCategorySlugField("categorySlug")}, "categoryLabel": parentCategoryLabel },
+  treatments[coalesce(@->hideFromWebsite, false) != true]->{ title, ${localizedSlug}, ${localizedPrimaryCategorySlugField("categorySlug")}, "categoryLabel": parentCategoryLabel },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
@@ -1649,7 +1652,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     categoryId,
     ${localizedSlugBoth}
   },
-  "treatments": *[_type == "treatment" && ${publishedOnly}]{
+  "treatments": *[_type == "treatment" && ${publishedTreatmentFilter}]{
     _id,
     _type,
     _updatedAt,
@@ -1963,8 +1966,8 @@ const SERVICE_DROPDOWN_TREATMENT_ROW = `
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
-  "treatments": treatments[]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
-  "referencedTreatments": *[_type == "treatment" && ${publishedOnly} && (
+  "treatments": treatments[coalesce(@->hideFromWebsite, false) != true]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
+  "referencedTreatments": *[_type == "treatment" && ${publishedTreatmentFilter} && (
     count(categories[_ref == ^._id]) > 0
     || (
       (!defined(categories) || count(categories) == 0)

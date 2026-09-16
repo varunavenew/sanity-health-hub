@@ -37,6 +37,7 @@ import {
   type ContactRequestDialogCopy,
 } from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
+import { isTreatmentVisibleOnWebsite } from "@/lib/sanity/treatment-page-role";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
@@ -1258,6 +1259,7 @@ export const useServiceCategoriesFromSanity = () => {
                   : cmsTreatmentLabel;
               if (!navId || !pathSlug || !treatmentLabel) return null;
               if (t.pageRole === "team") return null;
+              if (!isTreatmentVisibleOnWebsite(t.hideFromWebsite)) return null;
               if (slugLocalized === "new-treatment" || slugNo === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
                 return null;
               }
