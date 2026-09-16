@@ -1,8 +1,9 @@
 import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
-import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { resolveCmsMedia, type ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
 import { cmsImageSrc } from "@/lib/sanity/image-url";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
@@ -346,6 +347,21 @@ function mapRelatedSpecialistsSection(
   };
 }
 
+/** Hotspot/crop for card thumbnails — prefers mapped fields, falls back to heroMedia. */
+export function resolveSpecialistImageFocal(specialist: {
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
+  heroMedia?: ResolvedCmsMedia | null;
+}): {
+  hotspot: SanityHotspot | MediaFocalPoint | null;
+  crop: SanityCrop | null;
+} {
+  return {
+    hotspot: specialist.imageHotspot ?? specialist.heroMedia?.hotspot ?? null,
+    crop: specialist.imageCrop ?? specialist.heroMedia?.crop ?? null,
+  };
+}
+
 export function mapSanitySpecialistRow(
   raw: RawSanitySpecialist,
   lang: SanityLang,
@@ -362,14 +378,14 @@ export function mapSanitySpecialistRow(
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
 
-  const imageHotspot = raw.imageHotspot || null;
-  const imageCrop = raw.imageCrop ?? null;
   const media = resolveCmsMedia(raw.heroMedia, {
     mediaType: "image",
     imageUrl: raw.image?.trim(),
     hotspot: raw.imageHotspot,
-    crop: imageCrop,
+    crop: raw.imageCrop ?? null,
   });
+  const imageHotspot = media?.hotspot ?? raw.imageHotspot ?? null;
+  const imageCrop = media?.crop ?? raw.imageCrop ?? null;
   const image =
     (media?.kind === "image" ? media.src : media?.poster) ||
     cmsImageSrc(raw.image, raw.imageAssetRef);

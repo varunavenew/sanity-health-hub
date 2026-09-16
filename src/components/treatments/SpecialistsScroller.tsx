@@ -10,6 +10,7 @@ import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 
 function specialistRoleLine(sp: Specialist): string {
   if (sp.subtitle && sp.subtitle !== sp.title) {
@@ -385,7 +386,10 @@ const CategorySpecialistCard = ({
 }: {
   sp: Specialist;
   profileLabel: string;
-}) => (
+}) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
+
+  return (
   <Link
     to={`/spesialister/${sp.slug}`}
     aria-label={`Les mer om ${sp.name}`}
@@ -396,8 +400,8 @@ const CategorySpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        hotspot={sp.imageHotspot}
-        crop={sp.imageCrop}
+        hotspot={hotspot}
+        crop={crop}
         loading="lazy"
         className="w-full h-full transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.05]"
       />
@@ -430,13 +434,15 @@ const CategorySpecialistCard = ({
       </div>
     </div>
   </Link>
-);
+  );
+};
 
 /**
  * Editorial split layout when there is exactly one specialist for a service.
  * Name as heading, role as subtitle; bio + specialty list + CTA (demo treatment layout).
  */
 const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
   const bio = sp.bio ?? "";
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
   const firstName = sp.name.split(" ")[0] || sp.name;
@@ -456,8 +462,8 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
             src={sp.image}
             alt={sp.name}
             variant="card"
-            hotspot={sp.imageHotspot}
-            crop={sp.imageCrop}
+            hotspot={hotspot}
+            crop={crop}
             className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         </div>
@@ -523,7 +529,10 @@ const SpecialistCard = ({
   flush?: boolean;
   showExpertise?: boolean;
   profileLabel?: string;
-}) => (
+}) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
+
+  return (
   <Link
     to={`/spesialister/${sp.slug}`}
     aria-label={`Les mer om ${sp.name}`}
@@ -536,8 +545,8 @@ const SpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        hotspot={sp.imageHotspot}
-        crop={sp.imageCrop}
+        hotspot={hotspot}
+        crop={crop}
         loading="lazy"
         className="w-full h-full saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
       />
@@ -570,4 +579,5 @@ const SpecialistCard = ({
       </p>
     ) : null}
   </Link>
-);
+  );
+};
