@@ -660,9 +660,11 @@ function LifePhasesCarousel({
           </AccordionTrigger>
           <AccordionContent>
             <div className="pb-2">
-              <p className="text-sm font-light leading-relaxed mb-5 text-muted-foreground">
-                {phase.desc}
-              </p>
+              {phase.desc.trim() ? (
+                <p className="text-sm font-light leading-relaxed mb-5 text-muted-foreground">
+                  {phase.desc}
+                </p>
+              ) : null}
               {phase.tags && phase.tags.length > 0 ? (
                 <div className="mb-5">
                   {phase.tags.map((tag, tagIndex) =>
@@ -722,7 +724,7 @@ function LifePhasesCarousel({
               <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
                 {phase.title}
               </h3>
-              {phase.desc ? (
+              {phase.desc.trim() ? (
                 <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
                   {phase.desc}
                 </p>

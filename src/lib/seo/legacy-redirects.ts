@@ -131,7 +131,7 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/gynecology/nipt", "/no/graviditet/nipt"),
   perm("/en/gynecology/radgivning-preventivmedel", "/en/gynecology"),
   perm("/en/gynecology/spontanabort", "/en/pregnancy/spontanabort"),
-  perm("/en/gynecology/test-klamydia-gonorre", "/en/gynecology"),
+  perm("/en/gynecology/test-klamydia-gonorre", "/en/gynecology/test-for-chlamydia-gonorrhea"),
   perm("/en/gynecology/urininkontinens", "/en/gynecology"),
   perm("/en/gynecology/vaginalt-framfall", "/en/gynecology/vaginale-fremfall"),
   perm("/en/other/robotassistert-kirurgi", "/no/urologi/robotassistert-kirurgi"),
