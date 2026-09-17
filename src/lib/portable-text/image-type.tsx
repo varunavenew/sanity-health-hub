@@ -57,6 +57,7 @@ function PortableTextImage({
         preset="gallery"
         loading="lazy"
         hotspot={value?.hotspot}
+        crop={value?.crop}
         className={className ?? "w-full rounded-sm"}
       />
       {value?.caption ? (

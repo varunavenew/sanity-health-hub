@@ -29,6 +29,7 @@ export const articles: Article[] = [
       "«Mini og Muttern» er verdens første mor-datter-duo på Sydpolen. Etter 55 dager på ekspedisjon sto Emma «Mini» Gyllenhammar og moren Kathinka «Muttern» på verdens sørligste punkt.",
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/1a6b5c045dd900b09dd7dd5e0c2e9683d2d12643-4284x5712.jpg?q=75&fit=clip&auto=format&w=800",
+    imageHotspot: { x: 0.52, y: 0.4, height: 0.4, width: 0.45 },
     date: "2026-03-10",
     category: "Pasienthistorier",
   },
@@ -59,6 +60,7 @@ export const articles: Article[] = [
       "For Kathinka «Muttern» Gyllenhammar er det å lede mennesker gjennom polare områder en del av jobben. Men ingenting kunne forberede henne på den reisen datteren Emma «Mini» skulle gjennom.",
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/946dc27d7aa8ac81e67a23ec388973f4e01cc259-4000x6000.jpg?q=75&fit=clip&auto=format&w=800",
+    imageHotspot: { x: 0.48, y: 0.48, height: 0.42, width: 0.55 },
     date: "2026-02-19",
     category: "Pasienthistorier",
   },
@@ -139,6 +141,7 @@ export const articles: Article[] = [
       "CMedical og Nors Care, som står bak Norges største kvinnehelseapp Nørs, har inngått en strategisk samarbeidsavtale med mål om å øke kunnskapen om fertilitet blant kvinner.",
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/3480faeccb875c3efde636db2e2a32f0c473c967-3456x4608.jpg?q=75&fit=clip&auto=format&w=800",
+    imageHotspot: { x: 0.47, y: 0.4, height: 0.42, width: 0.62 },
     date: "2025-10-15",
     category: "Nytt fra oss",
   },
