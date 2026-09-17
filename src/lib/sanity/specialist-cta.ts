@@ -18,6 +18,16 @@ export function specialistHasOnlineBookingConfig(specialist: {
   return hasMetodikaId && hasActivityGroups;
 }
 
+/**
+ * Book now on the specialist profile opens in-page booking (clinic picker).
+ * Metodika IDs are not required — Moelv (Pasientsky) and Moss (phone) still work.
+ */
+export function specialistCanOpenPageBooking(
+  specialist: SpecialistBookingFields,
+): boolean {
+  return specialistShowsBookingButton(specialist);
+}
+
 /** Unset CMS toggles keep current website behaviour (both buttons visible). */
 export function specialistShowsBookingButton(
   specialist: SpecialistBookingFields,

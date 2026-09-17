@@ -21,8 +21,16 @@ export const GOOGLE_ANALYTICS_SETTINGS_QUERY = `*[_type == "googleAnalyticsSetti
 export async function fetchGoogleAnalyticsSettings(
   lang: AnalyticsLang = "no",
 ): Promise<GoogleAnalyticsSettingsResolved> {
-  const raw = await fetchSanityGroqServer<Record<string, unknown> | null>(
-    GOOGLE_ANALYTICS_SETTINGS_QUERY,
-  );
-  return resolveGoogleAnalyticsSettings(raw, lang);
+  try {
+    const raw = await fetchSanityGroqServer<Record<string, unknown> | null>(
+      GOOGLE_ANALYTICS_SETTINGS_QUERY,
+    );
+    return resolveGoogleAnalyticsSettings(raw, lang);
+  } catch (error) {
+    console.warn(
+      "[sanity] googleAnalyticsSettings fetch failed, using defaults",
+      error instanceof Error ? error.message : error,
+    );
+    return resolveGoogleAnalyticsSettings(null, lang);
+  }
 }

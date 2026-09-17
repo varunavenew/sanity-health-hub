@@ -20,6 +20,10 @@ export const sanityClient = createClient({
   // Token-bearing clients default to raw (drafts visible). The public site
   // must only ever resolve published documents — sitemap, route index, pages.
   perspective: "published",
+  // Avoid long hangs in local dev when Sanity is unreachable (5 retries × 10s).
+  ...(process.env.NODE_ENV === "development"
+    ? { maxRetries: 0, timeout: 15_000 }
+    : {}),
   ...(SANITY_TOKEN ? { token: SANITY_TOKEN } : {}),
 });
 

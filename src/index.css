@@ -168,6 +168,8 @@
     font-family: 'ABC Ginto Normal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     overflow-x: clip;
     max-width: 100%;
+    /* Keep layout width stable when Radix dialogs lock body scroll. */
+    scrollbar-gutter: stable;
   }
 
   body {

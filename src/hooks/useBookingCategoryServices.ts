@@ -8,6 +8,8 @@ export type BookingCategoryService = {
   name: string;
   price: string;
   apiActivityId?: number;
+  /** From Metodika wbactivities `timelength` via activity-groups. */
+  durationMinutes?: number;
 };
 
 export type BookingCategoryFromApi = {
@@ -47,7 +49,10 @@ function matchApiCategory(
 }
 
 /** Metodika categories + services filtered by specialist bookingCategoryIds from Sanity. */
-export function useSpecialistMetodikaBooking(bookingCategoryIds: number[]) {
+export function useSpecialistMetodikaBooking(
+  bookingCategoryIds: number[],
+  bookingApiBase: string = "/api/booking",
+) {
   const [apiCategories, setApiCategories] = useState<BookingCategoryFromApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [fromApi, setFromApi] = useState(false);
@@ -63,7 +68,7 @@ export function useSpecialistMetodikaBooking(bookingCategoryIds: number[]) {
     async function load() {
       setLoading(true);
       try {
-        const res = await fetch("/api/booking/activity-groups");
+        const res = await fetch(`${bookingApiBase}/activity-groups`);
         const json = (await res.json()) as ActivityGroupsResponse;
         if (cancelled) return;
 
@@ -95,7 +100,7 @@ export function useSpecialistMetodikaBooking(bookingCategoryIds: number[]) {
     return () => {
       cancelled = true;
     };
-  }, [idsKey, bookingCategoryIds.length]);
+  }, [idsKey, bookingCategoryIds.length, bookingApiBase]);
 
   const categories = useMemo(() => {
     const allowed = new Set(bookingCategoryIds);

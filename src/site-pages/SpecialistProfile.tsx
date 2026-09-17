@@ -8,7 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
-// import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
+import { SpecialistInlineBookingBand } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
 import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
@@ -16,11 +16,11 @@ import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
 import { SpecialistBookNowButton } from "@/components/specialist/SpecialistCtaButtons";
+import { SpecialistPageBookingProvider } from "@/components/specialist/SpecialistPageBooking";
 import {
   SpecialistProfileUiProvider,
   useSpecialistProfileUi,
 } from "@/components/specialist/SpecialistProfileUiContext";
-// import { motion } from "framer-motion";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
@@ -81,11 +81,13 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
 
   return (
     <SpecialistProfileUiProvider firstName={firstName} profileUi={profileUi}>
-      <SpecialistProfileBody
-        isChatOpen={isChatOpen}
-        specialist={specialist}
-        profileUi={profileUi}
-      />
+      <SpecialistPageBookingProvider specialist={specialist}>
+        <SpecialistProfileBody
+          isChatOpen={isChatOpen}
+          specialist={specialist}
+          profileUi={profileUi}
+        />
+      </SpecialistPageBookingProvider>
     </SpecialistProfileUiProvider>
   );
 };
@@ -176,38 +178,7 @@ function SpecialistProfileBody({
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
 
-      {/* Inline booking CTA band — temporarily hidden
-      <section className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="md:col-span-4"
-            >
-              <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
-                {ui.bookingSectionTitle}
-              </h2>
-              <p className="text-sm text-white/60 font-light leading-relaxed max-w-sm">
-                {ui.bookingSectionDescription}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="md:col-span-8"
-            >
-              <InlineBookingSection specialist={specialist} />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-      */}
+      <SpecialistInlineBookingBand specialist={specialist} />
 
       <RelatedSpecialists
         specialists={relatedSpecialists}

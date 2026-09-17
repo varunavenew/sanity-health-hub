@@ -3,4 +3,9 @@ export async function register() {
 
   const { logSanityConfiguration } = await import("@/lib/sanity/dataset-env");
   logSanityConfiguration("Next.js");
+
+  const { logMetodikaUpstreamConfiguration } = await import(
+    "@/lib/booking/bookingUpstreamEnv.server"
+  );
+  logMetodikaUpstreamConfiguration("Next.js");
 }

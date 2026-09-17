@@ -8,7 +8,11 @@ import {
   wbactivityIdsForCaregiver,
   type WbActivityMatrixEntry,
 } from "@/lib/booking/wbactivitiesMatrix";
-import { fetchBookingResourceCached, wbactivitiesListUrl } from "@/lib/booking/upstream";
+import {
+  fetchBookingResourceCached,
+  getBookingApiKey,
+  wbactivitiesListUrl,
+} from "@/lib/booking/upstream";
 
 const WBACTIVITIES_FIELDS =
   "timelength,pricetype,supplementaryinformation,location";
@@ -38,7 +42,7 @@ async function loadMatrix(apiKey: string): Promise<WbActivityMatrixEntry[]> {
  * - locationId — with wbactivityId, list caregivers at location
  */
 export async function GET(request: Request) {
-  const apiKey = process.env.BOOKING_API_KEY;
+  const apiKey = getBookingApiKey();
   if (!apiKey) {
     return NextResponse.json(
       { ok: false, message: "Missing BOOKING_API_KEY environment variable." },

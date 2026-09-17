@@ -6,23 +6,35 @@ import {
   stripPriceFromActivityName,
 } from "@/lib/booking/item-prices";
 import { displayBookingActivityName } from "@/lib/booking/activity-display-names";
+import { parseDurationMinutes } from "@/lib/booking/duration";
 import {
+  BOOKING_URLS,
   fetchBookingResourceCached,
+  getBookingApiKey,
   unwrapList,
   wbactivitiesListUrl,
 } from "@/lib/booking/upstream";
+import { currentBookingUpstreamEnv } from "@/lib/booking/bookingUpstreamEnv.server";
 
-const GROUPS_URL =
-  process.env.BOOKING_ACTIVITY_GROUPS_URL ||
-  "http://13.50.107.42/api/v1/resources/wbactivitygroups";
+function groupsUrl(): string {
+  return BOOKING_URLS.activityGroups;
+}
 
-const ACTIVITIES_URL =
-  process.env.BOOKING_ACTIVITIES_URL || wbactivitiesListUrl();
+function activitiesUrl(): string {
+  if (
+    currentBookingUpstreamEnv() === "live" &&
+    process.env.BOOKING_ACTIVITIES_URL?.trim()
+  ) {
+    return process.env.BOOKING_ACTIVITIES_URL;
+  }
+  return wbactivitiesListUrl({ fields: "timelength" });
+}
 
 interface BookingService {
   name: string;
   price: string;
   apiActivityId?: number;
+  durationMinutes?: number;
 }
 
 export interface BookingCategory {
@@ -43,6 +55,7 @@ interface ApiActivity {
   "activity-id"?: number;
   activityId?: number;
   name?: string;
+  timelength?: string;
   "wbactivitygroup-id"?: number;
   wbactivitygroupId?: number;
 }
@@ -112,11 +125,13 @@ function normalizeActivity(
 
   const procedureId = activityProcedureId(activity);
   const price = resolveActivityPrice(rawName, procedureId, priceMap);
+  const durationMinutes = parseDurationMinutes(activity.timelength) ?? undefined;
 
   return {
     name: stripPriceFromActivityName(rawName),
     price,
     apiActivityId: activity.id,
+    ...(durationMinutes != null ? { durationMinutes } : {}),
   };
 }
 
@@ -125,7 +140,7 @@ function compareCategories(a: BookingCategory, b: BookingCategory): number {
 }
 
 export async function GET(request: Request) {
-  const apiKey = process.env.BOOKING_API_KEY;
+  const apiKey = getBookingApiKey();
   if (!apiKey) {
     return NextResponse.json(
       { ok: false, message: "Missing BOOKING_API_KEY environment variable." },
@@ -140,8 +155,8 @@ export async function GET(request: Request) {
 
   try {
     const [groupsPayload, activitiesPayload] = await Promise.all([
-      fetchBookingResourceCached(GROUPS_URL, apiKey),
-      fetchBookingResourceCached(ACTIVITIES_URL, apiKey),
+      fetchBookingResourceCached(groupsUrl(), apiKey),
+      fetchBookingResourceCached(activitiesUrl(), apiKey),
     ]);
 
     const groups = unwrapList(groupsPayload) as ApiGroup[];

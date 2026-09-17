@@ -13,6 +13,18 @@ export type SanityClinicBooking = {
   externalBookingUrl?: string;
 };
 
+/** Majorstuen has one entrance — strip legacy "A og B" / "A and B" suffixes from CMS. */
+function normalizeClinicAddress(address: string): string {
+  return address
+    .replace(
+      /(S[øo]rkedalsveien\s+10)\s+A\s+(og|and)\s+B/gi,
+      "$1",
+    )
+    .replace(/(S[øo]rkedalsveien\s+10)\s+B\b/gi, "$1")
+    .replace(/\s+,/g, ",")
+    .trim();
+}
+
 export type SanityClinicListRow = {
   _createdAt?: string;
   id: string;
@@ -55,7 +67,9 @@ export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicList
         ? c.title
         : "";
   const locationSearch = c.locationSearch as ClinicLocation | undefined;
-  const address = typeof c.address === "string" ? c.address : "";
+  const address = normalizeClinicAddress(
+    typeof c.address === "string" ? c.address : "",
+  );
   const bookingRaw = c.booking as Record<string, unknown> | undefined;
   const booking =
     bookingRaw && typeof bookingRaw === "object"

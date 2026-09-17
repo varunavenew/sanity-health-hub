@@ -58,7 +58,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
     <header className="bg-background lg:pt-0">
       <h1 className="sr-only">{specialist.name}</h1>
       {/* Mobile — full-bleed image with bottom overlay content */}
-      <div className="relative lg:hidden min-h-[100svh] overflow-hidden bg-brand-dark">
+      <div className="relative lg:hidden min-h-[100svh] overflow-hidden bg-brand-dark [contain:paint]">
         <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
         <div
           className="absolute inset-0 z-10 pointer-events-none"
@@ -219,7 +219,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
 
         <div
           data-hero-parallax=""
-          className="split-media relative w-full min-h-0 bg-secondary/40"
+          className="split-media relative isolate w-full min-h-[420px] bg-secondary/40 lg:min-h-0"
         >
           <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
         </div>

@@ -1,24 +1,104 @@
-const BOOKING_API_BASE =
-  process.env.BOOKING_API_BASE_URL || "http://13.50.107.42/api/v1/resources";
+import {
+  currentBookingUpstreamEnv,
+  resolveTestBookingApiBaseFromLive,
+  type BookingUpstreamEnv,
+} from "@/lib/booking/bookingUpstreamEnv.server";
+import { unwrapList } from "@/lib/booking/unwrap-list";
 
 export { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
+export { unwrapList } from "@/lib/booking/unwrap-list";
+export type { BookingUpstreamEnv } from "@/lib/booking/bookingUpstreamEnv.server";
 
-export const BOOKING_URLS = {
-  freetimes: process.env.BOOKING_FREETIMES_URL || `${BOOKING_API_BASE}/wbfreetimes`,
-  rooms: process.env.BOOKING_ROOMS_URL || `${BOOKING_API_BASE}/rooms`,
-  locations: process.env.BOOKING_LOCATIONS_URL || `${BOOKING_API_BASE}/locations`,
-  users: process.env.BOOKING_USERS_URL || `${BOOKING_API_BASE}/users`,
-  wbactivities:
-    process.env.BOOKING_WBACTIVITIES_URL || `${BOOKING_API_BASE}/wbactivities`,
-  webaccounts:
-    process.env.BOOKING_WEBACCOUNTS_URL || `${BOOKING_API_BASE}/webaccounts`,
-  appointments:
-    process.env.BOOKING_APPOINTMENTS_URL || `${BOOKING_API_BASE}/appointments`,
-  itemPrices:
-    process.env.BOOKING_ITEM_PRICES_URL ||
-    process.env.PRICE_URL ||
-    `${BOOKING_API_BASE}/itemprices`,
+const LIVE_BOOKING_API_BASE =
+  process.env.BOOKING_API_BASE_URL || "http://13.50.107.42/api/v1/resources";
+
+/** Derive Laravel TEST resource base from LIVE base, or use TEST_BOOKING_API_BASE_URL. */
+export function resolveBookingApiBase(
+  env: BookingUpstreamEnv = currentBookingUpstreamEnv(),
+): string {
+  if (env === "test") {
+    const explicit = process.env.TEST_BOOKING_API_BASE_URL?.trim();
+    if (explicit) return explicit.replace(/\/$/, "");
+    return resolveTestBookingApiBaseFromLive(LIVE_BOOKING_API_BASE);
+  }
+  return LIVE_BOOKING_API_BASE.replace(/\/$/, "");
+}
+
+export type BookingUrls = {
+  freetimes: string;
+  rooms: string;
+  locations: string;
+  users: string;
+  wbactivities: string;
+  webaccounts: string;
+  appointments: string;
+  itemPrices: string;
+  activityGroups: string;
 };
+
+function buildBookingUrls(env: BookingUpstreamEnv): BookingUrls {
+  const base = resolveBookingApiBase(env);
+
+  if (env === "test") {
+    // Never inherit LIVE-only absolute URL overrides (would hit LIVE Laravel).
+    return {
+      freetimes: `${base}/wbfreetimes`,
+      rooms: `${base}/rooms`,
+      locations: `${base}/locations`,
+      users: `${base}/users`,
+      wbactivities: `${base}/wbactivities`,
+      webaccounts: `${base}/webaccounts`,
+      appointments: `${base}/appointments`,
+      itemPrices: `${base}/itemprices`,
+      activityGroups: `${base}/wbactivitygroups`,
+    };
+  }
+
+  return {
+    freetimes: process.env.BOOKING_FREETIMES_URL || `${base}/wbfreetimes`,
+    rooms: process.env.BOOKING_ROOMS_URL || `${base}/rooms`,
+    locations: process.env.BOOKING_LOCATIONS_URL || `${base}/locations`,
+    users: process.env.BOOKING_USERS_URL || `${base}/users`,
+    wbactivities:
+      process.env.BOOKING_WBACTIVITIES_URL || `${base}/wbactivities`,
+    webaccounts:
+      process.env.BOOKING_WEBACCOUNTS_URL || `${base}/webaccounts`,
+    appointments:
+      process.env.BOOKING_APPOINTMENTS_URL || `${base}/appointments`,
+    itemPrices:
+      process.env.BOOKING_ITEM_PRICES_URL ||
+      process.env.PRICE_URL ||
+      `${base}/itemprices`,
+    activityGroups:
+      process.env.BOOKING_ACTIVITY_GROUPS_URL || `${base}/wbactivitygroups`,
+  };
+}
+
+export function bookingUrlsFor(env: BookingUpstreamEnv = currentBookingUpstreamEnv()): BookingUrls {
+  return buildBookingUrls(env);
+}
+
+/**
+ * LIVE by default. Inside `runWithBookingUpstreamEnv('test', …)` resolves TEST Laravel URLs.
+ * Existing LIVE imports keep working without call-site changes.
+ */
+export const BOOKING_URLS: BookingUrls = new Proxy({} as BookingUrls, {
+  get(_target, prop: string | symbol) {
+    if (typeof prop !== "string") return undefined;
+    const urls = buildBookingUrls(currentBookingUpstreamEnv());
+    return urls[prop as keyof BookingUrls];
+  },
+});
+
+/** LIVE uses BOOKING_API_KEY; TEST prefers TEST_BOOKING_API_KEY then falls back. */
+export function getBookingApiKey(
+  env: BookingUpstreamEnv = currentBookingUpstreamEnv(),
+): string | undefined {
+  if (env === "test") {
+    return process.env.TEST_BOOKING_API_KEY || process.env.BOOKING_API_KEY;
+  }
+  return process.env.BOOKING_API_KEY;
+}
 
 const CACHE_TTL_MS = Number(process.env.BOOKING_CACHE_TTL_MS || 5 * 60 * 1000);
 const FREETIMES_CACHE_TTL_MS = Number(
@@ -78,23 +158,6 @@ function retryDelayMs(response: Response, attempt: number): number {
     if (Number.isFinite(seconds) && seconds > 0) return seconds * 1000;
   }
   return Math.min(500 * 2 ** attempt, 8000);
-}
-
-export function unwrapList(payload: unknown): unknown[] {
-  if (Array.isArray(payload)) return payload;
-  if (!payload || typeof payload !== "object") return [];
-
-  const root = payload as Record<string, unknown>;
-  const level1 = root.data;
-
-  if (Array.isArray(level1)) return level1;
-  if (level1 && typeof level1 === "object") {
-    const nested = (level1 as Record<string, unknown>).data;
-    if (Array.isArray(nested)) return nested;
-  }
-
-  if (Array.isArray(root.result)) return root.result;
-  return [];
 }
 
 async function fetchBookingResponse(

@@ -12,10 +12,18 @@ import { sanityClient } from "@/lib/sanityClient";
 export async function fetchHomepageData(
   lang: "no" | "en",
 ): Promise<HomepageData | null> {
-  const raw = await sanityClient.fetch<Record<string, unknown> | null>(
-    HOMEPAGE_QUERY,
-    { lang },
-  );
-  if (!raw) return null;
-  return mapHomepageDocument(normalizeI18n(raw, lang) as Record<string, unknown>, lang);
+  try {
+    const raw = await sanityClient.fetch<Record<string, unknown> | null>(
+      HOMEPAGE_QUERY,
+      { lang },
+    );
+    if (!raw) return null;
+    return mapHomepageDocument(normalizeI18n(raw, lang) as Record<string, unknown>, lang);
+  } catch (error) {
+    console.warn(
+      "[sanity] homepage fetch failed",
+      error instanceof Error ? error.message : error,
+    );
+    return null;
+  }
 }

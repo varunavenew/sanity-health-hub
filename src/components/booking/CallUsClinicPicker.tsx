@@ -22,6 +22,8 @@ interface Props {
    * dropdown to clinics that offer it; omit outside a category context.
    */
   categoryId?: string;
+  /** Open menu above the trigger (e.g. specialist mobile hero at page bottom). */
+  menuPlacement?: "top" | "bottom";
   className?: string;
 }
 
@@ -34,6 +36,7 @@ export const CallUsClinicPicker = ({
   size = "lg",
   label,
   categoryId,
+  menuPlacement = "bottom",
   className
 }: Props & { className?: string }) => {
   const navigate = useNavigate();
@@ -89,7 +92,12 @@ export const CallUsClinicPicker = ({
       </Button>
 
       {open && (
-        <div className="absolute top-full mt-2 left-0 right-0 bg-white rounded-lg shadow-xl border border-border overflow-hidden z-50 min-w-[260px]">
+        <div
+          className={cn(
+            "absolute left-0 right-0 z-50 min-w-[260px] overflow-hidden rounded-lg border border-border bg-white shadow-xl",
+            menuPlacement === "top" ? "bottom-full mb-2" : "top-full mt-2",
+          )}
+        >
           <p className="px-4 pt-3 pb-2 text-xs text-muted-foreground font-light">
             {t("booking.selectClinic")}
           </p>

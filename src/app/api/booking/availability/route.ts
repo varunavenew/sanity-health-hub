@@ -7,6 +7,7 @@ import {
   bookingResourceUrl,
   fetchBookingFreetimesList,
   fetchBookingResource,
+  getBookingApiKey,
   unwrapList,
   type FreetimesQueryOptions,
 } from "@/lib/booking/upstream";
@@ -142,7 +143,7 @@ async function loadRawFreetimes(
  * Chains: wbfreetimes → rooms → locations
  */
 export async function GET(request: Request) {
-  const apiKey = process.env.BOOKING_API_KEY;
+  const apiKey = getBookingApiKey();
   if (!apiKey) {
     return NextResponse.json(
       { ok: false, message: "Missing BOOKING_API_KEY environment variable." },

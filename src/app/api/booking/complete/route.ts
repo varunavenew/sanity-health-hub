@@ -11,7 +11,12 @@ import {
 import { buildAppointmentCreateBody } from "@/lib/booking/appointmentPayload";
 import { buildWebAccountCreateBody } from "@/lib/booking/webAccountPayload";
 import { BookingValidationError, assertValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
-import { BOOKING_URLS, fetchBookingResource, postBookingResource } from "@/lib/booking/upstream";
+import {
+  BOOKING_URLS,
+  fetchBookingResource,
+  getBookingApiKey,
+  postBookingResource,
+} from "@/lib/booking/upstream";
 import type { CreateAppointmentBody } from "@/app/api/booking/appointments/route";
 import type { CreateWebAccountBody } from "@/app/api/booking/webaccounts/route";
 
@@ -82,7 +87,7 @@ async function resolveWebAccountIds(
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.BOOKING_API_KEY;
+  const apiKey = getBookingApiKey();
   if (!apiKey) {
     return NextResponse.json(
       { ok: false, message: "Missing BOOKING_API_KEY environment variable." },

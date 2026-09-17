@@ -58,6 +58,8 @@ export function bookingUrlForSpecialistContext(params: {
   /** Metodika category slug from activity-groups (e.g. handterapeut). */
   kategori?: string;
   tjeneste?: string;
+  /** Metodika wbactivity id — resolves service and skips to time step when combined with specialist + clinic. */
+  aktivitetId?: number;
   /** Clinic slug when the specialist works at a known location. */
   klinikk?: string;
 }): string {
@@ -71,6 +73,7 @@ export function bookingUrlForSpecialistContext(params: {
     spesialist: params.specialistSlug,
     tjeneste: params.tjeneste ? slugifyNo(params.tjeneste) : undefined,
     klinikk: params.klinikk,
+    aktivitetId: params.aktivitetId,
   });
 }
 

@@ -1,4 +1,4 @@
-import { unwrapList } from "@/lib/booking/upstream";
+import { unwrapList } from "@/lib/booking/unwrap-list";
 
 export type WebAccountCreatedIds = {
   /** Web account record id (`id` on webaccounts response). */

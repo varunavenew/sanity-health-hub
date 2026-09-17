@@ -280,7 +280,7 @@ export default {
       group: 'general',
       initialValue: true,
       description:
-        'Show the booking button on this specialist’s profile. The button stays visible but does not open booking if Metodika user ID or booking activity groups is empty.',
+        'Show the booking button on this specialist’s profile (default on). Opens in-page booking: Metodika, Pasientsky (Moelv), or phone (Moss). Turn off only when this specialist should not offer booking.',
     },
     {
       name: 'showCallButton',

@@ -1,4 +1,4 @@
-import { unwrapList } from "@/lib/booking/upstream";
+import { unwrapList } from "@/lib/booking/unwrap-list";
 
 function readNestedId(value: unknown): number | null {
   if (value == null) return null;
