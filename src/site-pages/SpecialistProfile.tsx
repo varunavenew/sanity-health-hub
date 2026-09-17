@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
+import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { SpecialistInlineBookingBand } from "@/components/specialist/InlineBookingSection";
@@ -28,10 +28,12 @@ import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { siteUrl } from "@/lib/env";
 import { assetSrc } from "@/lib/media";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
+import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
@@ -107,7 +109,11 @@ function SpecialistProfileBody({
   const ui = useSpecialistProfileUi();
 
   const relatedSection = specialist.relatedSpecialistsSection;
-  const relatedSpecialists = relatedSection?.specialists ?? [];
+  const { sorted: allSpecialists } = useSpecialistsData();
+  const relatedSpecialists = useMemo(
+    () => resolveRelatedSpecialistsForProfile(specialist, allSpecialists),
+    [specialist, allSpecialists],
+  );
 
   const seoTitle = specialist.seo?.metaTitle ?? specialist.name;
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
@@ -130,7 +136,7 @@ function SpecialistProfileBody({
       null;
     trackSpecialistView({
       specialist_name: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: clinicLabel,
     });
   }, [specialist.slug, specialist.name, specialist.title, specialist.expertise, specialist.clinicRefs, specialist.clinics]);
@@ -140,7 +146,7 @@ function SpecialistProfileBody({
     "@type": "Physician",
     name: specialist.name,
     jobTitle: specialist.title,
-    medicalSpecialty: specialist.expertise || [],
+    medicalSpecialty: specialistExpertiseLabels(specialist.expertise),
     ...(shareImageUrl ? { image: shareImageUrl } : {}),
     worksFor: {
       "@type": "MedicalClinic",

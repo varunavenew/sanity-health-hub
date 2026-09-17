@@ -14,7 +14,10 @@ import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SpecialistCarousel } from "@/components/SpecialistCarousel";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { HeroCompact } from "@/components/homepage/HeroCompact";
-import { searchSuggestions, type SearchItem } from "@/data/searchData";
+import {
+  searchServicesStrict,
+  type ServicesSearchItem,
+} from "@/lib/sanity/services-search";
 import { resolveFlereTjenesterMoreServices } from "@/lib/sanity/services-more-services-items";
 import { TRUST_NO_REFERRAL, TRUST_SHORT_WAIT } from "@/lib/trustTags";
 import { findHomepageBookingCta } from "@/lib/sanity/homepage-data";
@@ -104,10 +107,25 @@ const Services = ({ isChatOpen }: PageProps) => {
   );
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
+  const [searchResults, setSearchResults] = useState<ServicesSearchItem[]>([]);
   const [selectedIdx, setSelectedIdx] = useState(-1);
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  const catalogItems = useMemo((): ServicesSearchItem[] => {
+    if (page?.searchItems?.length) return page.searchItems;
+    // Fallback while CMS catalog loads / if empty: visible hub + more-services rows.
+    const fromFeatured = (page?.featuredCategories || []).map((c) => ({
+      label: c.title,
+      path: c.path,
+      category: "Fagområde",
+    }));
+    const fromMore = moreServicesItems.map((s) => ({
+      label: s.title,
+      path: s.path,
+    }));
+    return [...fromFeatured, ...fromMore];
+  }, [page?.searchItems, page?.featuredCategories, moreServicesItems]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -119,13 +137,21 @@ const Services = ({ isChatOpen }: PageProps) => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const onSearchChange = useCallback((val: string) => {
-    setSearchQuery(val);
-    const results = searchSuggestions(val, 6);
-    setSearchResults(results);
-    setSelectedIdx(-1);
-    setShowResults(val.length > 0 && results.length > 0);
-  }, []);
+  const onSearchChange = useCallback(
+    (val: string) => {
+      setSearchQuery(val);
+      const results = searchServicesStrict(catalogItems, val, 8);
+      setSearchResults(results);
+      setSelectedIdx(-1);
+      setShowResults(val.trim().length > 0);
+    },
+    [catalogItems],
+  );
+
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+    setSearchResults(searchServicesStrict(catalogItems, searchQuery, 8));
+  }, [catalogItems, searchQuery]);
 
   const onSearchKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -243,11 +269,7 @@ const Services = ({ isChatOpen }: PageProps) => {
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 onKeyDown={onSearchKeyDown}
-                onFocus={() =>
-                  searchQuery.length > 0 &&
-                  searchResults.length > 0 &&
-                  setShowResults(true)
-                }
+                onFocus={() => searchQuery.trim().length > 0 && setShowResults(true)}
                 placeholder={searchPlaceholder}
                 className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/30 bg-transparent text-[15px] font-light text-foreground placeholder:text-foreground/60 focus:outline-none focus:border-foreground transition-all"
               />
@@ -260,27 +282,37 @@ const Services = ({ isChatOpen }: PageProps) => {
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
                   className="absolute z-30 left-0 right-0 mt-1 bg-card border border-border/60 rounded-sm shadow-lg overflow-hidden"
+                  role="listbox"
+                  aria-label={searchPlaceholder}
                 >
-                  {searchResults.map((item, idx) => (
-                    <button
-                      key={item.label + item.path}
-                      type="button"
-                      onClick={() => {
-                        navigate(item.path);
-                        setShowResults(false);
-                        setSearchQuery("");
-                      }}
-                      className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${idx === selectedIdx ? "bg-muted/60" : "hover:bg-muted/40"} ${idx !== 0 ? "border-t border-border/30" : ""}`}
-                    >
-                      <div>
-                        <span className="text-sm font-light text-foreground">{item.label}</span>
-                        <span className="ml-2 text-xs text-muted-foreground/60">
-                          {item.category}
-                        </span>
-                      </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
-                    </button>
-                  ))}
+                  {searchResults.length === 0 ? (
+                    <p className="px-4 py-3 text-sm font-light text-muted-foreground">
+                      {locale === "en" ? "No results" : "Ingen treff"}
+                    </p>
+                  ) : (
+                    searchResults.map((item, idx) => (
+                      <button
+                        key={item.label + item.path}
+                        type="button"
+                        onClick={() => {
+                          navigate(item.path);
+                          setShowResults(false);
+                          setSearchQuery("");
+                        }}
+                        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${idx === selectedIdx ? "bg-muted/60" : "hover:bg-muted/40"} ${idx !== 0 ? "border-t border-border/30" : ""}`}
+                      >
+                        <div>
+                          <span className="text-sm font-light text-foreground">{item.label}</span>
+                          {item.category ? (
+                            <span className="ml-2 text-xs text-muted-foreground/60">
+                              {item.category}
+                            </span>
+                          ) : null}
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+                      </button>
+                    ))
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

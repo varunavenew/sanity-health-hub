@@ -6,7 +6,6 @@ import { locales } from "@/lib/i18n/routing";
 import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
 import { sitemapPathsFromRouteIndex } from "@/lib/routing/resolve-route";
 import { NOINDEX_SEGMENTS } from "@/lib/seo/robots-paths";
-import { isRetiredIvfSlug } from "@/lib/sanity/ivf-canonical";
 import { isSitemapExcludedPath } from "@/lib/seo/sitemap-excluded-slugs";
 import { hasTestContentSegment } from "@/lib/seo/test-content-slugs";
 
@@ -106,7 +105,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const { locale, segments, lastModified } of cmsPaths) {
     if (
-      segments.some((seg) => isRetiredIvfSlug(seg)) ||
       hasTestContentSegment(segments) ||
       isSitemapExcludedPath(locale, segments)
     ) {

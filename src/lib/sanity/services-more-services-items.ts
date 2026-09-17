@@ -15,7 +15,6 @@ export const FLERE_TJENESTER_MORE_SERVICES: MoreServicesListItem[] = [
     slug: "gastrokirurgi",
   },
   { titleNo: "Osteopati", titleEn: "Osteopathy", slug: "osteopati" },
-  { titleNo: "Plastikkirurgi", titleEn: "Plastic surgery", slug: "plastikkirurgi" },
   { titleNo: "Psykologi", titleEn: "Psychology", slug: "psykologi" },
   { titleNo: "Revmatologi", titleEn: "Rheumatology", slug: "revmatologi" },
   { titleNo: "Robotassistert kirurgi", titleEn: "Robot-assisted surgery", slug: "robotkirurgi" },

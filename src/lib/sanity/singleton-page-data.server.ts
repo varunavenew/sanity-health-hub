@@ -7,6 +7,7 @@ import {
   CLINICS_PAGE_QUERY,
   CONTACT_PAGE_QUERY,
   GUIDE_PAGE_QUERY,
+  ROBOTKIRURGI_PAGE_QUERY,
   INSURANCE_PAGE_QUERY,
   NEWS_PAGE_QUERY,
   OPENNESS_ACT_PAGE_QUERY,
@@ -21,6 +22,7 @@ import { mapInsurancePageData } from "@/lib/sanity/insurance-page-data";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections, withPageSections } from "@/lib/sanity/page-sections";
 import { mapPricingPageData } from "@/lib/sanity/pricing-page-data";
+import { mapRobotkirurgiPageData } from "@/lib/sanity/robotkirurgi-page-data";
 import { fetchServicesPageData } from "@/lib/sanity/services-page-data.server";
 import { fetchSpecialistsListingPageData } from "@/lib/sanity/specialists-listing-page.server";
 
@@ -67,6 +69,8 @@ function queryKeyForSingleton(
       return ["sanity", "careersPage", lang];
     case "guidePage":
       return ["sanity", "guidePage", lang];
+    case "robotkirurgiPage":
+      return ["sanity", "robotkirurgiPage", lang];
     default:
       return null;
   }
@@ -137,6 +141,8 @@ async function fetchSingletonPageData(documentType: string, lang: "no" | "en") {
       return withPageSections(await fetchNormalized(CAREERS_PAGE_QUERY, lang));
     case "guidePage":
       return withPageSections(await fetchNormalized(GUIDE_PAGE_QUERY, lang));
+    case "robotkirurgiPage":
+      return mapRobotkirurgiPageData(await fetchNormalized(ROBOTKIRURGI_PAGE_QUERY, lang));
     default:
       return null;
   }

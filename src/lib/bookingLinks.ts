@@ -88,15 +88,32 @@ export type BookingCategoryMatch = {
 
 /**
  * Resolve a category-page id (gynekologi) to a booking API category.
+ * Matches clinicServiceId, category id, and page-id aliases so deep links
+ * keep working when Metodika renames a group (e.g. «Fostermedisiner - graviditet»
+ * → «Graviditet»).
  */
 export function findBookingCategoryForPage(
   categoryPageId: string,
   categories: BookingCategoryMatch[],
 ): BookingCategoryMatch | undefined {
-  const clinicId = clinicServiceIdForCategoryPage(categoryPageId);
-  return categories.find(
-    (c) => c.clinicServiceId === clinicId || c.id === clinicId,
+  const normalizedPageId = categoryPageId.trim().toLowerCase();
+  if (!normalizedPageId) return undefined;
+
+  const clinicId = clinicServiceIdForCategoryPage(normalizedPageId);
+  const aliases = new Set(
+    [normalizedPageId, clinicId, categoryPageToBookingId[normalizedPageId]]
+      .filter(Boolean)
+      .map((value) => value.toLowerCase()),
   );
+
+  return categories.find((c) => {
+    const id = (c.id || "").trim().toLowerCase();
+    const serviceId = (c.clinicServiceId || "").trim().toLowerCase();
+    if (aliases.has(id) || aliases.has(serviceId)) return true;
+    if (bookingIdToCategoryPage[serviceId] === normalizedPageId) return true;
+    if (bookingIdToCategoryPage[id] === normalizedPageId) return true;
+    return false;
+  });
 }
 
 /** Resolve a Metodika wbactivitygroup id (e.g. 36 → Håndterapeut) from loaded categories. */
@@ -205,12 +222,22 @@ export const specialistCategoryToBookingId: Record<string, string> = {
 
 import { withBookingReturnContext } from "@/lib/booking/return-to";
 
+export { withBookingLocale, localeFromPathname } from "@/lib/booking/return-to";
+
 /**
  * Build a booking URL from structured params.
  * Empty/undefined values are dropped.
- * In the browser, remembers the current page and appends `fra` for close-to-origin.
+ *
+ * By default (browser), remembers the current page, appends `fra`, and prefixes
+ * the current page locale — so hard navigations never hit bare `/booking`.
+ *
+ * Pass `{ withReturnContext: false }` when handing the path to `Link` /
+ * `useNavigate` (they apply locale + return-path themselves).
  */
-export function buildBookingUrl(params: BookingLinkParams = {}): string {
+export function buildBookingUrl(
+  params: BookingLinkParams = {},
+  options?: { withReturnContext?: boolean },
+): string {
   const sp = new URLSearchParams();
   if (params.kategori) sp.set("kategori", params.kategori);
   if (params.kategoriId != null) sp.set("kategoriId", String(params.kategoriId));
@@ -226,6 +253,7 @@ export function buildBookingUrl(params: BookingLinkParams = {}): string {
   if (params.klinikk) sp.set("klinikk", params.klinikk);
   const qs = sp.toString();
   const base = qs ? `/booking?${qs}` : "/booking";
+  if (options?.withReturnContext === false) return base;
   return withBookingReturnContext(base);
 }
 

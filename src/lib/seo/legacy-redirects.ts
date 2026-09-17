@@ -131,7 +131,7 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/gynecology/nipt", "/no/graviditet/nipt"),
   perm("/en/gynecology/radgivning-preventivmedel", "/en/gynecology"),
   perm("/en/gynecology/spontanabort", "/en/pregnancy/spontanabort"),
-  perm("/en/gynecology/test-klamydia-gonorre", "/en/gynecology"),
+  perm("/en/gynecology/test-klamydia-gonorre", "/en/gynecology/test-for-chlamydia-gonorrhea"),
   perm("/en/gynecology/urininkontinens", "/en/gynecology"),
   perm("/en/gynecology/vaginalt-framfall", "/en/gynecology/vaginale-fremfall"),
   perm("/en/other/robotassistert-kirurgi", "/no/urologi/robotassistert-kirurgi"),
@@ -310,6 +310,7 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   // Slug / path fixes.
   { source: "/no/ovrige/robotassistert-kirurgi", destination: "/no/robotassistert-kirurgi", permanent: true },
   { source: "/nb/ovrige/robotassistert-kirurgi", destination: "/nb/robotassistert-kirurgi", permanent: true },
+  { source: "/en/robotassistert-kirurgi", destination: "/en/robot-assisted-surgery", permanent: true },
   { source: "/no/gynekologi/tverrfaglig-team", destination: "/no/gynekologi/tverrfaglig", permanent: true },
   { source: "/nb/gynekologi/tverrfaglig-team", destination: "/nb/gynekologi/tverrfaglig", permanent: true },
   { source: "/en/careers", destination: "/en/career", permanent: true },

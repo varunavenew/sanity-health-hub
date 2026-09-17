@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { parseDurationMinutes } from "@/lib/booking/duration";
+import { locationIdsByRoomId } from "@/lib/booking/attachFreetimeLocationIds";
 import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
 import { fetchBookingFreetimesList } from "@/lib/booking/upstream";
 
@@ -9,6 +10,7 @@ export interface BookingFreeTimeSlot {
   durationMinutes?: number;
   caregiverUserId?: number;
   roomId?: number;
+  locationId?: number;
 }
 
 interface ApiFreeTime {
@@ -20,7 +22,7 @@ interface ApiFreeTime {
   roomId?: number;
 }
 
-const BATCH_CONCURRENCY = Number(process.env.BOOKING_FREETIMES_BATCH_CONCURRENCY || 2);
+const BATCH_CONCURRENCY = Number(process.env.BOOKING_FREETIMES_BATCH_CONCURRENCY || 8);
 
 function formatTime(iso: string): string {
   const date = new Date(iso);
@@ -30,16 +32,10 @@ function formatTime(iso: string): string {
   return `${hours}:${minutes}`;
 }
 
-function normalizeSlots(rawSlots: unknown[]): BookingFreeTimeSlot[] {
-  return rawSlots
-    .map((entry) => normalizeSlot(entry as ApiFreeTime))
-    .filter((item): item is BookingFreeTimeSlot => item !== null)
-    .sort(
-      (a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
-    );
-}
-
-function normalizeSlot(entry: ApiFreeTime): BookingFreeTimeSlot | null {
+function normalizeSlot(
+  entry: ApiFreeTime,
+  locationId?: number,
+): BookingFreeTimeSlot | null {
   const startDateTime = entry.startdatetime?.trim();
   if (!startDateTime) return null;
 
@@ -47,14 +43,35 @@ function normalizeSlot(entry: ApiFreeTime): BookingFreeTimeSlot | null {
   if (!time) return null;
 
   const durationMinutes = parseDurationMinutes(entry.timelength);
+  const roomId = entry["room-id"] ?? entry.roomId;
 
   return {
     startDateTime,
     time,
     ...(durationMinutes != null ? { durationMinutes } : {}),
     caregiverUserId: entry["caregiver_user-id"] ?? entry.caregiverUserId,
-    roomId: entry["room-id"] ?? entry.roomId,
+    ...(roomId != null ? { roomId } : {}),
+    ...(locationId != null ? { locationId } : {}),
   };
+}
+
+function normalizeSlots(
+  rawSlots: unknown[],
+  roomToLocation: Map<number, number>,
+): BookingFreeTimeSlot[] {
+  return rawSlots
+    .map((entry) => {
+      const row = entry as ApiFreeTime;
+      const roomId = row["room-id"] ?? row.roomId;
+      const locationId =
+        roomId != null ? roomToLocation.get(roomId) : undefined;
+      return normalizeSlot(row, locationId);
+    })
+    .filter((item): item is BookingFreeTimeSlot => item !== null)
+    .sort(
+      (a, b) =>
+        new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+    );
 }
 
 function parseActivityIds(searchParams: URLSearchParams): string[] {
@@ -73,7 +90,8 @@ async function slotsForActivity(
 ): Promise<BookingFreeTimeSlot[]> {
   try {
     const rawSlots = await fetchBookingFreetimesList(wbactivityId, apiKey);
-    return normalizeSlots(rawSlots);
+    const roomToLocation = await locationIdsByRoomId(rawSlots, apiKey);
+    return normalizeSlots(rawSlots, roomToLocation);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
     console.warn(`[booking/freetimes] wbactivityId=${wbactivityId}:`, message);

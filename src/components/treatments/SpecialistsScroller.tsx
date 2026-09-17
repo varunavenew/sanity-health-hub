@@ -6,9 +6,11 @@ import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 
 function specialistRoleLine(sp: Specialist): string {
   if (sp.subtitle && sp.subtitle !== sp.title) {
@@ -384,7 +386,10 @@ const CategorySpecialistCard = ({
 }: {
   sp: Specialist;
   profileLabel: string;
-}) => (
+}) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
+
+  return (
   <Link
     to={`/spesialister/${sp.slug}`}
     aria-label={`Les mer om ${sp.name}`}
@@ -395,8 +400,8 @@ const CategorySpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        hotspot={sp.imageHotspot}
-        crop={sp.imageCrop}
+        hotspot={hotspot}
+        crop={crop}
         loading="lazy"
         className="w-full h-full transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.05]"
       />
@@ -429,18 +434,21 @@ const CategorySpecialistCard = ({
       </div>
     </div>
   </Link>
-);
+  );
+};
 
 /**
  * Editorial split layout when there is exactly one specialist for a service.
  * Name as heading, role as subtitle; bio + specialty list + CTA (demo treatment layout).
  */
 const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
   const bio = sp.bio ?? "";
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
   const firstName = sp.name.split(" ")[0] || sp.name;
   // Treatment editorial: job title only (e.g. "Gastrokirurg"), not "Category · Title".
   const roleLine = (sp.subtitle?.trim() || sp.title).trim();
+  const bookingHref = bookingUrlForSpecialist(sp);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
@@ -454,8 +462,8 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
             src={sp.image}
             alt={sp.name}
             variant="card"
-            hotspot={sp.imageHotspot}
-            crop={sp.imageCrop}
+            hotspot={hotspot}
+            crop={crop}
             className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         </div>
@@ -464,7 +472,12 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
       <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between">
         <div>
           <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-3 hyphens-auto [overflow-wrap:anywhere]">
-            {sp.name}
+            <Link
+              to={bookingHref}
+              className="text-inherit no-underline hover:underline underline-offset-4 decoration-1 focus-visible:underline"
+            >
+              {sp.name}
+            </Link>
           </h3>
           {roleLine ? (
             <p className="text-base md:text-lg text-muted-foreground font-light mb-6 max-w-md">
@@ -484,10 +497,10 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
               <ul className="divide-y divide-brand-dark/10">
                 {sp.expertise.map((item) => (
                   <li
-                    key={item}
+                    key={item.label}
                     className="py-3 text-sm font-light text-foreground"
                   >
-                    {item}
+                    {item.label}
                   </li>
                 ))}
               </ul>
@@ -497,7 +510,7 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
 
         <div className="mt-10">
           <Button variant="cta" asChild>
-            <Link to="/booking">Finn ledig tid hos {firstName}</Link>
+            <Link to={bookingHref}>Finn ledig tid hos {firstName}</Link>
           </Button>
         </div>
       </div>
@@ -516,7 +529,10 @@ const SpecialistCard = ({
   flush?: boolean;
   showExpertise?: boolean;
   profileLabel?: string;
-}) => (
+}) => {
+  const { hotspot, crop } = resolveSpecialistImageFocal(sp);
+
+  return (
   <Link
     to={`/spesialister/${sp.slug}`}
     aria-label={`Les mer om ${sp.name}`}
@@ -529,8 +545,8 @@ const SpecialistCard = ({
         src={sp.image}
         alt={sp.name}
         variant="card"
-        hotspot={sp.imageHotspot}
-        crop={sp.imageCrop}
+        hotspot={hotspot}
+        crop={crop}
         loading="lazy"
         className="w-full h-full saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
       />
@@ -559,8 +575,9 @@ const SpecialistCard = ({
 
     {showExpertise && sp.expertise && sp.expertise.length > 0 ? (
       <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">
-        {sp.expertise.join(", ")}
+        {sp.expertise.map((tag) => tag.label).join(", ")}
       </p>
     ) : null}
   </Link>
-);
+  );
+};

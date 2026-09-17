@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useGenerateImage } from "@/hooks/useGenerateImage";
+import { Link } from "@/lib/router";
 
 const treatments = [
   {
@@ -130,20 +131,18 @@ export const TreatmentShowcase = () => {
                 </div>
 
                 <div className="flex gap-4 mt-8">
-                  <Button
-                    variant="cta"
-                    className="font-light"
-                    onClick={() => window.location.href = '/booking'}
-                  >
-                    Book time
+                  <Button variant="cta" className="font-light" asChild>
+                    <Link to="/booking">Book time</Link>
                   </Button>
                   <Button
                     variant="outline"
                     className="group border-primary/20 hover:border-primary hover:bg-primary/5 rounded-full"
-                    onClick={() => window.location.href = `/${treatment.id}`}
+                    asChild
                   >
-                    <span className="text-sm font-light">Les mer</span>
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+                    <Link to={`/${treatment.id}`}>
+                      <span className="text-sm font-light">Les mer</span>
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+                    </Link>
                   </Button>
                 </div>
               </div>

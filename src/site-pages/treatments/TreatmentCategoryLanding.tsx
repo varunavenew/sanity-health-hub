@@ -48,6 +48,11 @@ import {
   statsGridClass,
   threeCardGridClass,
 } from "@/lib/ui/grid-cols-for-count";
+import {
+  emergencyNoticePlacement,
+  isAkuttSegment,
+  resolveEmergencyNoticeText,
+} from "@/lib/sanity/emergency-notice";
 import { mergeSectionOrder } from "@/lib/ui/merge-section-order";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import {
@@ -602,11 +607,31 @@ type LifePhase = {
   n?: string;
 };
 
+function EmergencyNotice({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
+  const value = text.trim();
+  if (!value) return null;
+  return (
+    <p
+      className={`text-sm font-light leading-relaxed text-muted-foreground ${className}`.trim()}
+      role="note"
+    >
+      {value}
+    </p>
+  );
+}
+
 function LifePhasesCarousel({
   phases,
   variant: _variant = "default",
   layout: _layout = "grid",
   showReadMore = true,
+  emergencyNoticeText,
 }: {
   phases: LifePhase[];
   variant?: "default" | "fertility";
@@ -617,6 +642,8 @@ function LifePhasesCarousel({
   layout?: "grid" | "accordion";
   /** CMS toggle: hide Les mer under each card when false. */
   showReadMore?: boolean;
+  /** Shown inside the Akutt skade eller smerte item (Ortopedi). */
+  emergencyNoticeText?: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -633,9 +660,11 @@ function LifePhasesCarousel({
           </AccordionTrigger>
           <AccordionContent>
             <div className="pb-2">
-              <p className="text-sm font-light leading-relaxed mb-5 text-muted-foreground">
-                {phase.desc}
-              </p>
+              {phase.desc.trim() ? (
+                <p className="text-sm font-light leading-relaxed mb-5 text-muted-foreground">
+                  {phase.desc}
+                </p>
+              ) : null}
               {phase.tags && phase.tags.length > 0 ? (
                 <div className="mb-5">
                   {phase.tags.map((tag, tagIndex) =>
@@ -668,6 +697,9 @@ function LifePhasesCarousel({
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               ) : null}
+              {emergencyNoticeText && isAkuttSegment(phase.n, phase.title) ? (
+                <EmergencyNotice text={emergencyNoticeText} className="mt-3 pb-2" />
+              ) : null}
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -692,7 +724,7 @@ function LifePhasesCarousel({
               <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
                 {phase.title}
               </h3>
-              {phase.desc ? (
+              {phase.desc.trim() ? (
                 <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
                   {phase.desc}
                 </p>
@@ -728,6 +760,9 @@ function LifePhasesCarousel({
                   {phase.cta}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
+              ) : null}
+              {emergencyNoticeText && isAkuttSegment(phase.n, phase.title) ? (
+                <EmergencyNotice text={emergencyNoticeText} className="mt-3" />
               ) : null}
             </article>
           ))}
@@ -838,18 +873,16 @@ function PatientJourneySection({
 
   const ctaTarget =
     ctaHref ||
-    buildBookingUrl(bookingParams);
+    buildBookingUrl(bookingParams, { withReturnContext: false });
 
   const ctaButton = ctaLabel ? (
     <Button
       variant="cta"
       size="lg"
       className="h-12 min-h-12 px-8 rounded-2xl w-full sm:w-auto"
-      onClick={() => {
-        window.location.href = ctaTarget;
-      }}
+      asChild
     >
-      {ctaLabel}
+      <Link to={ctaTarget}>{ctaLabel}</Link>
     </Button>
   ) : null;
 
@@ -989,6 +1022,7 @@ const TreatmentCategoryLanding = ({
   );
   const loadingLabel = sanityLang === "en" ? "Loading..." : "Laster...";
   const expertAreasRef = useRef<HTMLDivElement>(null);
+  const audiencesRef = useRef<HTMLDivElement>(null);
   const breadcrumbHomeLabel =
     landing?.breadcrumbHomeLabel?.trim() || t("common.breadcrumbHome");
 
@@ -1069,6 +1103,16 @@ const TreatmentCategoryLanding = ({
     categoryId === "graviditet" || categoryId === "pregnancy";
   const isFertility =
     categoryId === "fertilitet" || categoryId === "fertility";
+
+  const noticePlacement = emergencyNoticePlacement(categoryId);
+  const emergencyNoticeText = resolveEmergencyNoticeText(
+    siteSettings?.emergencyNoticeText,
+    sanityLang === "en" ? "en" : "no",
+  );
+  const accordionEmergencyNotice =
+    noticePlacement === "akutt-accordion" ? emergencyNoticeText : undefined;
+  const heroEmergencyNotice =
+    noticePlacement === "hero" ? emergencyNoticeText : undefined;
 
   /**
    * Lovable Media band uses the ultralyd image — not the hero portrait.
@@ -1216,6 +1260,7 @@ const TreatmentCategoryLanding = ({
                 variant={isFertility ? "fertility" : "default"}
                 layout={segmentsSection.layout}
                 showReadMore={segmentsSection.showReadMore}
+                emergencyNoticeText={accordionEmergencyNotice}
               />
             </div>
           </div>
@@ -1299,49 +1344,67 @@ const TreatmentCategoryLanding = ({
               />
                 );
               })()}
-              <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`}>
-                {audiencesSection.audiences.map((a) => {
-                  const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
-                  return (
+              {(() => {
+                const isCarousel = audiencesSection.layout === "carousel";
+                return (
+                  <>
                     <div
-                      key={a.title}
-                      className="bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden"
+                      ref={isCarousel ? audiencesRef : undefined}
+                      className={
+                        isCarousel
+                          ? "flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide md:gap-6"
+                          : `${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`
+                      }
+                      style={isCarousel ? { scrollbarWidth: "none" } : undefined}
                     >
-                      {a.image ? (
-                        <div
-                          className={`relative overflow-hidden bg-secondary ${
-                            isFertility ? "aspect-[16/9]" : "aspect-[3/2]"
-                          }`}
-                        >
-                          <AssetImg
-                            src={a.image}
-                            alt={a.title}
-                            preset="card"
-                            loading="lazy"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="pt-7 px-7 text-foreground/80">
-                          {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
-                        </div>
-                      )}
-                      <div className="p-7 md:p-8 flex flex-col flex-1">
-                        <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                        <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1 max-w-md">{a.desc}</p>
-                        {a.href ? (
-                          <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
-                            {a.ctaLabel.trim() ||
-                              audiencesSection.readMoreLabel.trim() ||
-                              t("hero.readMore")}
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-                        ) : null}
-                      </div>
+                      {audiencesSection.audiences.map((a) => {
+                        const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
+                        return (
+                          <div
+                            key={a.title}
+                            className={`bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden ${
+                              isCarousel ? "shrink-0 w-[85%] md:w-auto snap-start" : ""
+                            }`}
+                          >
+                            {a.image ? (
+                              <div
+                                className={`relative overflow-hidden bg-secondary ${
+                                  isFertility ? "aspect-[16/9]" : "aspect-[3/2]"
+                                }`}
+                              >
+                                <AssetImg
+                                  src={a.image}
+                                  alt={a.title}
+                                  preset="card"
+                                  loading="lazy"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="pt-7 px-7 text-foreground/80">
+                                {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
+                              </div>
+                            )}
+                            <div className="p-7 md:p-8 flex flex-col flex-1">
+                              <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1 max-w-md">{a.desc}</p>
+                              {a.href ? (
+                                <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
+                                  {a.ctaLabel.trim() ||
+                                    audiencesSection.readMoreLabel.trim() ||
+                                    t("hero.readMore")}
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                </Link>
+                              ) : null}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
+                    {isCarousel ? <ScrollArrows scrollRef={audiencesRef} /> : null}
+                  </>
+                );
+              })()}
             </div>
           </div>
         </section>
@@ -1696,11 +1759,12 @@ const TreatmentCategoryLanding = ({
                     primaryLabel={hero.primaryCtaLabel}
                     callLabel={hero.secondaryCtaLabel}
                     categoryId={categoryId}
-                    onPrimary={() => {
-                      window.location.href = buildBookingUrl(bookingParams);
-                    }}
+                    primaryHref={buildBookingUrl(bookingParams, { withReturnContext: false })}
                     className="w-full"
                   />
+                  {heroEmergencyNotice ? (
+                    <EmergencyNotice text={heroEmergencyNotice} />
+                  ) : null}
                   {hero.helpText ? (
                     <p className="text-sm font-light text-muted-foreground leading-relaxed">
                       {hero.helpText}
@@ -1785,11 +1849,15 @@ const TreatmentCategoryLanding = ({
                   primaryLabel={hero.primaryCtaLabel}
                   callLabel={hero.secondaryCtaLabel}
                   categoryId={categoryId}
-                  onPrimary={() => {
-                    window.location.href = buildBookingUrl(bookingParams);
-                  }}
-                  className={`w-full ${hero.helpText ? "mb-4" : "mb-10"}`}
+                  primaryHref={buildBookingUrl(bookingParams, { withReturnContext: false })}
+                  className={`w-full ${hero.helpText || heroEmergencyNotice ? "mb-4" : "mb-10"}`}
                 />
+                {heroEmergencyNotice ? (
+                  <EmergencyNotice
+                    text={heroEmergencyNotice}
+                    className={hero.helpText ? "mb-4" : "mb-10"}
+                  />
+                ) : null}
                 {hero.helpText ? (
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-10">
                     {hero.helpText}

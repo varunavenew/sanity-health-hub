@@ -187,13 +187,11 @@ const Urology = ({ isChatOpen }: PageProps) => {
                   variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
-                  onClick={() =>
-                    (window.location.href = buildBookingUrl({
-                      kategori: "urologi",
-                    }))
-                  }
+                  asChild
                 >
-                  Bestill urologtime
+                  <Link to={buildBookingUrl({ kategori: "urologi" }, { withReturnContext: false })}>
+                    Bestill urologtime
+                  </Link>
                 </Button>
               </div>
 
@@ -523,9 +521,11 @@ const Urology = ({ isChatOpen }: PageProps) => {
                   variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
-                  onClick={() => (window.location.href = buildBookingUrl({ kategori: "urologi" }))}
+                  asChild
                 >
-                  Bestill time
+                  <Link to={buildBookingUrl({ kategori: "urologi" }, { withReturnContext: false })}>
+                    Bestill time
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -555,9 +555,11 @@ const Urology = ({ isChatOpen }: PageProps) => {
               variant="cta"
               size="lg"
               className="px-8 w-full sm:w-auto"
-              onClick={() => (window.location.href = buildBookingUrl({ kategori: "urologi" }))}
+              asChild
             >
-              Bestill time
+              <Link to={buildBookingUrl({ kategori: "urologi" }, { withReturnContext: false })}>
+                Bestill time
+              </Link>
             </Button>
           </div>
         </div>

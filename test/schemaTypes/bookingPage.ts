@@ -196,6 +196,25 @@ export default {
     i18n('step2Loading', 'Loading text', 'step2'),
     i18n('step2EmptyTitle', 'Empty state – title', 'step2'),
     i18n('step2EmptyMessage', 'Empty state - message', 'step2', undefined, 'internationalizedArrayText'),
+    i18n(
+      'step2EmptyButtonLabel',
+      'Empty state – call button text',
+      'step2',
+      'Call button label. Shown before the empty-state phone number.',
+    ),
+    i18n(
+      'step2EmptyBookLabel',
+      'Empty state – book button text',
+      'step2',
+      'Secondary CTA when no clinics are bookable online (e.g. Bestill time).',
+    ),
+    {
+      name: 'step2EmptyPhone',
+      title: 'Empty state – phone number',
+      type: 'string',
+      group: 'step2',
+      description: 'Shown after the button text, e.g. 22 60 00 50. Used as tel: link.',
+    },
 
     i18n('step3Heading', 'Heading', 'step3'),
     i18n('step3Subtitle', 'Subtitle', 'step3', undefined, 'internationalizedArrayText'),
@@ -211,6 +230,8 @@ export default {
     i18n('step4SelectedDayLabel', '\'Selected day\' label', 'step4'),
     i18n('step4NotOnlineTitle', 'Not online – title', 'step4'),
     i18n('step4NotOnlineMessage', 'Not online - message', 'step4', undefined, 'internationalizedArrayText'),
+    i18n('step4NoDaysTitle', 'No days – title', 'step4'),
+    i18n('step4NoDaysMessage', 'No days - message', 'step4', undefined, 'internationalizedArrayText'),
     i18n('step4NoSlotsTitle', 'No appointments – title', 'step4'),
     i18n('step4NoSlotsMessage', 'No appointments - message', 'step4', undefined, 'internationalizedArrayText'),
 

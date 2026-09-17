@@ -13,6 +13,8 @@ export type ListingArticleRow = {
   title: string;
   excerpt: string;
   image: string;
+  imageHotspot?: import("@/lib/media/focal-point").SanityHotspot | import("@/lib/media/focal-point").MediaFocalPoint | null;
+  imageCrop?: import("@/lib/media/focal-point").SanityCrop | null;
   date: string;
   category: string;
   externalUrl?: string;

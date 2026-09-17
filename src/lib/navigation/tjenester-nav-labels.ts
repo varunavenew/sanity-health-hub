@@ -43,6 +43,8 @@ export const EN_TREATMENT_NAV_LABELS: Record<string, Record<string, string>> = {
     urogynekologi: "Urogynaecology",
     blodningsforstyrrelser: "Bleeding disorders",
     celleforandringer: "Cell changes",
+    konisering: "Cone biopsy",
+    "cone-biopsy": "Cone biopsy",
     cyster: "Ovarian cysts",
     "fjerne-livmor": "Hysterectomy",
     kirurgi: "Gynaecological surgery",

@@ -3,6 +3,10 @@ import type {
   BookingMetodikaClinic,
   BookingPasientskyClinic,
 } from "@/lib/booking/mapApiLocation";
+import {
+  locationIdsForWbActivity,
+  type WbActivityMatrixEntry,
+} from "@/lib/booking/wbactivitiesMatrix";
 import type { SanityClinicListRow } from "@/hooks/useSanity";
 import {
   bookingCategoryPageIdForClinicService,
@@ -196,6 +200,82 @@ export function normalizeClinicLabelForCompare(label: string): string {
     .trim();
 }
 
+/** Metodika fallback labels like "Location 1" — hide from booking UI. */
+export function isPlaceholderMetodikaLocationLabel(label: string): boolean {
+  return /^location\s+\d+$/i.test(label.trim());
+}
+
+/**
+ * Step 2 fast path: Metodika clinics from wbactivities matrix + Sanity mapping only.
+ * Avoids slow wbfreetimes → rooms → locations chain.
+ */
+export function metodikaClinicsFromMatrix(
+  sanityClinics: SanityClinicListRow[],
+  activityEntry: WbActivityMatrixEntry | null | undefined,
+): BookingMetodikaClinic[] {
+  if (!activityEntry) return [];
+
+  const allowedLocationIds = new Set(locationIdsForWbActivity(activityEntry));
+  if (allowedLocationIds.size === 0) return [];
+
+  const clinics: BookingMetodikaClinic[] = [];
+  const seenLocationIds = new Set<number>();
+
+  for (const sanity of sanityClinics) {
+    if (sanity.booking?.method !== "metodika") continue;
+
+    const locationId = sanity.booking.metodikaLocationId;
+    if (typeof locationId !== "number" || !allowedLocationIds.has(locationId)) continue;
+    if (seenLocationIds.has(locationId)) continue;
+    seenLocationIds.add(locationId);
+
+    clinics.push({
+      id: `location-${locationId}`,
+      label: sanity.label,
+      apiLocationId: locationId,
+      bookingSystem: "metodika",
+      sanityClinicId: sanity.id,
+      sanityImage: sanity.primaryImage,
+    });
+  }
+
+  return clinics.sort((a, b) => a.label.localeCompare(b.label, "nb"));
+}
+
+/**
+ * Step 2 instant path: Metodika clinics from Sanity (no wbactivities wait).
+ * Refined by {@link metodikaClinicsFromMatrix} when the matrix response arrives.
+ */
+export function metodikaClinicsFromSanityForCategory(
+  clinics: SanityClinicListRow[],
+  categoryId?: string,
+  categoryApiSlug?: string,
+): BookingMetodikaClinic[] {
+  const categoryKeys = resolveBookingCategoryKeys(categoryId, categoryApiSlug);
+  const result: BookingMetodikaClinic[] = [];
+  const seenLocationIds = new Set<number>();
+
+  for (const sanity of clinics) {
+    if (sanity.booking?.method !== "metodika") continue;
+    const locationId = sanity.booking.metodikaLocationId;
+    if (typeof locationId !== "number") continue;
+    if (!clinicOffersBookingCategory(sanity.services, categoryKeys)) continue;
+    if (seenLocationIds.has(locationId)) continue;
+    seenLocationIds.add(locationId);
+
+    result.push({
+      id: `location-${locationId}`,
+      label: sanity.label,
+      apiLocationId: locationId,
+      bookingSystem: "metodika",
+      sanityClinicId: sanity.id,
+      sanityImage: sanity.primaryImage,
+    });
+  }
+
+  return result.sort((a, b) => a.label.localeCompare(b.label, "nb"));
+}
+
 export function clinicOffersBookingCategory(
   clinicServices: string[] | undefined,
   categoryKeys: string[],
@@ -288,6 +368,16 @@ export function findSanityClinicForMetodikaLocation(
   if (!apiLabel?.trim()) return undefined;
   const normalizedApi = normalizeClinicLabelForCompare(apiLabel);
 
+  const byLabel = clinics.find((clinic) => {
+    const normalized = normalizeClinicLabelForCompare(clinic.label);
+    return (
+      normalized === normalizedApi ||
+      normalized.includes(normalizedApi) ||
+      normalizedApi.includes(normalized)
+    );
+  });
+  if (byLabel) return byLabel;
+
   return clinics.find((clinic) => {
     if (clinic.booking?.method !== "metodika") return false;
     const normalized = normalizeClinicLabelForCompare(clinic.label);
@@ -321,9 +411,14 @@ export function enrichMetodikaClinicWithSanity(
     normalizedApi.includes(normalizedSanity) ||
     normalizedSanity.includes(normalizedApi);
 
+  if (!labelsCompatible && typeof sanityLocationId === "number") {
+    return metodika;
+  }
+
   return {
     ...metodika,
-    label: labelsCompatible ? sanity.label : metodika.label,
+    // Keep Metodika API location name (e.g. "Majorstuen 10A") like production step 2.
+    label: metodika.label,
     sanityClinicId: sanity.id,
     sanityImage: sanity.primaryImage,
   };

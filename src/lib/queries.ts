@@ -53,9 +53,10 @@ const specialistClinicRefsGroq = `"clinicRefs": clinics[]->{
   ${localizedSlug}
 }`;
 
-/** Dual-read: inline specialty rows or shared specialist-tag references. */
+/** Dual-read: specialistTag references or legacy inline specialtyItem objects. */
 const specialistSpecialtiesGroq = `"specialties": specialties[]{
-  "label": coalesce(@->label, label)
+  "label": coalesce(@->label, label),
+  "href": coalesce(@->href, href)
 }`;
 
 const SPECIALIST_PROFILE_UI_GROQ = `
@@ -193,6 +194,8 @@ const i18nBlockContent = (field: string) =>
 const publishedClinicFilter = `!(_id in path("drafts.**"))`;
 /** Prefer published documents — empty drafts (e.g. drafts.homepage) must not win `[0]`. */
 const publishedOnly = `!(_id in path("drafts.**"))`;
+const treatmentVisibleOnWebsite = `coalesce(hideFromWebsite, false) != true`;
+const publishedTreatmentFilter = `${publishedOnly} && ${treatmentVisibleOnWebsite}`;
 
 /** Shared row shape for clinic lists (grid, about section, footer). */
 export const CLINIC_LIST_ROW_PROJECTION = `
@@ -504,14 +507,15 @@ const CATEGORY_TREATMENT_ROW = `
   ${i18nStringLocale("title")},
   ${i18nTextLocale("description")},
   ${i18nStringLocale("subtitle")},
+  searchKeywords,
   "heroImage": heroImage.asset->url
 `;
 
 /** Explicit Behandlinger[] on category doc, else treatments whose Kategori points here. */
 const CATEGORY_TREATMENTS_GROQ = `
   "treatments": select(
-    count(treatments) > 0 => treatments[]->{${CATEGORY_TREATMENT_ROW}},
-    *[_type == "treatment" && ${publishedOnly} && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
+    count(treatments) > 0 => treatments[coalesce(@->hideFromWebsite, false) != true]->{${CATEGORY_TREATMENT_ROW}},
+    *[_type == "treatment" && ${publishedTreatmentFilter} && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
   )
 `;
 
@@ -630,6 +634,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleAccent")},
+      layout,
       ${i18nStringLocale("readMoreLabel")},
       audiences[]{
         ${i18nStringLocale("title")},
@@ -772,7 +777,23 @@ const localizedRouteParentSlug = `"parentSlug": coalesce(
   category->slug[_key == $lang][0].value.current
 )`;
 
-export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnly} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
+/**
+ * Breadcrumb ancestor chain: walks the `parent` self-reference up to 2 levels
+ * (enough for the deepest nesting today, e.g. sub-treatment → Hudbehandlinger → Hudhelse).
+ * Each node carries its own category so its breadcrumb link resolves to the right URL.
+ */
+const localizedParentTreatmentChain = `"parentTreatment": parent->{
+  ${i18nStringLocale('title')},
+  ${localizedSlug},
+  "categorySegment": coalesce(categories[0]->categoryId, category->categoryId),
+  "parentTreatment": parent->{
+    ${i18nStringLocale('title')},
+    ${localizedSlug},
+    "categorySegment": coalesce(categories[0]->categoryId, category->categoryId)
+  }
+}`;
+
+export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTreatmentFilter} && ${slugMatchesParam("treatmentSlug")} && ${treatmentBelongsToCategoryParam("categorySlug")}][0]{
   _id,
   pageRole,
   ${localizedSlug},
@@ -785,6 +806,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   ${i18nStringLocale('heroImageAlt')},
   ${localizedParentCategory},
   ${localizedRouteParentSlug},
+  ${localizedParentTreatmentChain},
   "categoryNumericId": coalesce(categories[0]->categoryNumericId, category->categoryNumericId),
   ${i18nStringLocale("faqSectionTitle")},
   "faqCollection": faqCollection->{
@@ -868,9 +890,10 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
     seeAllHref,
     ${i18nStringLocale('seeAllLabel')},
     // Filter on refs before dereference. Post-projection filters on []-> return null rows.
-    items[@->pageRole != "team"]->{
+    items[@->pageRole != "team" && coalesce(@->hideFromWebsite, false) != true]->{
       _id,
       pageRole,
+      hideFromWebsite,
       ${i18nStringLocale('eyebrow')},
       ${i18nStringLocale('title')},
       ${i18nTextLocale('desc')},
@@ -889,7 +912,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
   },
   heroPoints[]{ ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   flow[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
-  reasons[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
+  reasons[]{ id, ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   promises[]{
     ${i18nStringLocale('eyebrow')},
     ${i18nStringLocale('title')},
@@ -931,7 +954,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       imageAlt,
       "image": coalesce(
         ownImage,
-        *[_type == "treatment" && ${publishedOnly} && (
+        *[_type == "treatment" && ${publishedTreatmentFilter} && (
           slug[language == $lang][0].value.current in ^.linkedSlugAliases
           || slug[_key == $lang][0].value.current in ^.linkedSlugAliases
           || slug[language == "no"][0].value.current in ^.linkedSlugAliases
@@ -959,7 +982,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedOnl
       slug[_key == $lang][0].value.current,
       slug[language == "no"][0].value.current,
       slug[_key == "no"][0].value.current
-    ) == "robotkirurgi" => *[_type == "treatment" && ${publishedOnly} && (
+    ) == "robotkirurgi" => *[_type == "treatment" && ${publishedTreatmentFilter} && (
       slug[language == "no"][0].value.current in ["robotassistert-kirurgi", "robotkirurgi", "gastrokirurgi"]
       || slug[_key == "no"][0].value.current in ["robotassistert-kirurgi", "robotkirurgi", "gastrokirurgi"]
       || slug[language == "en"][0].value.current in ["robot-assisted-surgery", "robotkirurgi"]
@@ -1240,6 +1263,8 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step2Heading",
   "step2Loading",
   "step2EmptyTitle",
+  "step2EmptyButtonLabel",
+  "step2EmptyBookLabel",
   "step3Heading",
   "step3Loading",
   "step3FirstAvailableTitle",
@@ -1248,6 +1273,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step4Heading",
   "step4SelectedDayLabel",
   "step4NotOnlineTitle",
+  "step4NoDaysTitle",
   "step4NoSlotsTitle",
   "step5Heading",
   "step5OrderTitle",
@@ -1301,6 +1327,7 @@ const BOOKING_PAGE_I18N_TEXT_FIELDS = [
   "step3EmptyNoCaregiversMessage",
   "step3EmptyFetchMessage",
   "step4NotOnlineMessage",
+  "step4NoDaysMessage",
   "step4NoSlotsMessage",
   "step5PriceNote",
   "formBirthNumberHelp",
@@ -1319,6 +1346,7 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}]
   ${BOOKING_PAGE_I18N_FIELDS.join(",\n  ")},
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
+  step2EmptyPhone,
   step1CategoryClinicBadges[]{
     categoryKeys,
     badges[]{
@@ -1495,6 +1523,7 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
     categoryId,
     sortOrder,
     title,
+    searchKeywords,
     ${localizedSlug},
     "heroImage": heroImage.asset->url,
     ${CATEGORY_TREATMENTS_GROQ}
@@ -1507,8 +1536,35 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage" && ${publishedOnly
       categoryId,
       sortOrder,
       title,
+      searchKeywords,
       ${localizedSlug},
       ${CATEGORY_TREATMENTS_GROQ}
+    }
+  },
+  "searchCatalog": {
+    "categories": *[_type == "treatmentCategory" && ${publishedOnly}]{
+      _id,
+      categoryId,
+      ${i18nString("title")},
+      searchKeywords,
+      ${localizedSlug}
+    },
+    "treatments": *[_type == "treatment" && ${publishedTreatmentFilter} && pageRole != "team"]{
+      _id,
+      ${i18nString("title")},
+      searchKeywords,
+      ${localizedSlug},
+      ${localizedPrimaryCategorySlugField("categorySlug")},
+      "categoryTitle": coalesce(
+        categories[0]->title[language == $lang][0].value,
+        categories[0]->title[_key == $lang][0].value,
+        categories[0]->title[language == "no"][0].value,
+        categories[0]->title[_key == "no"][0].value,
+        category->title[language == $lang][0].value,
+        category->title[_key == $lang][0].value,
+        category->title[language == "no"][0].value,
+        category->title[_key == "no"][0].value
+      )
     }
   },
   ${PAGE_SECTIONS_GROQ},
@@ -1577,7 +1633,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   },
   faqs[]{${localizedFaqRow}},
   specialists[]->{ name, ${localizedSlug}, ${SPECIALIST_PHOTO_PROJECTION}, role },
-  treatments[]->{ title, ${localizedSlug}, ${localizedPrimaryCategorySlugField("categorySlug")}, "categoryLabel": parentCategoryLabel },
+  treatments[coalesce(@->hideFromWebsite, false) != true]->{ title, ${localizedSlug}, ${localizedPrimaryCategorySlugField("categorySlug")}, "categoryLabel": parentCategoryLabel },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
@@ -1593,7 +1649,8 @@ export const CMS_ROUTE_INDEX_QUERY = `{
   "singletons": *[_type in [
     "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
     "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
-    "privacyPolicyPage", "opennessActPage", "careersPage", "guidePage"
+    "privacyPolicyPage", "opennessActPage", "careersPage", "guidePage",
+    "robotkirurgiPage"
   ] && ${publishedOnly}]{
     _type,
     _updatedAt,
@@ -1619,7 +1676,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     categoryId,
     ${localizedSlugBoth}
   },
-  "treatments": *[_type == "treatment" && ${publishedOnly}]{
+  "treatments": *[_type == "treatment" && ${publishedTreatmentFilter}]{
     _id,
     _type,
     _updatedAt,
@@ -1725,6 +1782,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && ${publishedOnly
     ${i18nNestedText("treatmentPageUi", "notFoundBody")},
     ${i18nNestedString("treatmentPageUi", "backLabel")}
   },
+  ${i18nString("emergencyNoticeText")},
   mainNavigation[]{
     _key,
     ${i18nString("label")},
@@ -1932,8 +1990,8 @@ const SERVICE_DROPDOWN_TREATMENT_ROW = `
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory" && ${publishedOnly} && defined(categoryId) && categoryId != ""]{
   _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
-  "treatments": treatments[]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
-  "referencedTreatments": *[_type == "treatment" && ${publishedOnly} && (
+  "treatments": treatments[coalesce(@->hideFromWebsite, false) != true]->{${SERVICE_DROPDOWN_TREATMENT_ROW}},
+  "referencedTreatments": *[_type == "treatment" && ${publishedTreatmentFilter} && (
     count(categories[_ref == ^._id]) > 0
     || (
       (!defined(categories) || count(categories) == 0)
@@ -2008,6 +2066,35 @@ export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage" && ${publishedOnly}]
   ${i18nString("secondaryCtaLabel")},
   secondaryCtaPath,
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
+  ${localizedSeoObject}
+}`;
+
+export const ROBOTKIRURGI_PAGE_QUERY = `*[_type == "robotkirurgiPage" && ${publishedOnly}][0]{
+  ${i18nString("title")},
+  ${i18nText("subtitle")},
+  "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
+  ${i18nString("heroImageAlt")},
+  ${i18nString("primaryCtaLabel")},
+  primaryCtaPath,
+  "introTexts": introTexts[]{
+    "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value)
+  }.text,
+  sections[]{
+    "heading": coalesce(heading[language == $lang][0].value, heading[_key == $lang][0].value, heading[language == "no"][0].value, heading[_key == "no"][0].value, heading),
+    "paragraphs": paragraphs[]{
+      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value)
+    }.text,
+    "bulletPoints": bulletPoints[]{
+      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value)
+    }.text
+  },
+  ${i18nText("quoteText")},
+  ${i18nString("quoteAttribution")},
+  ${i18nString("secondaryCtaLabel")},
+  secondaryCtaPath,
+  ${i18nString("faqSectionTitle")},
+  ${faqCollectionProjection},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;

@@ -103,7 +103,7 @@ const PATCHES: Array<{
       group("sg-behandling", "Behandling og kirurgi", "Treatment and surgery", [
         item("g7", "Hormonbehandling", "Hormone therapy", "Overgangsalder og hormonforstyrrelser", "Menopause and hormonal disorders", `${GYN}/overgangsalder`),
         item("g8", "Botoxbehandling", "Botox treatment", "Vaginisme og vulvalidelser", "Vaginismus and vulvar conditions", `${GYN}/vulvalidelser`),
-        item("g9", "Konisering", "Cone biopsy", "Behandling av celleforandringer", "Treatment of cell changes", `${GYN}/celleforandringer`),
+        item("g9", "Konisering", "Cone biopsy", "Behandling av celleforandringer", "Treatment of cell changes", `${GYN}/konisering`),
         item("g10", "6-ukers kontroll etter fødsel", "6-week postnatal check", "Oppfølging etter fødsel", "Follow-up after birth", `${GRAV}/6-ukerskontroll`),
         item("g11", "Robotassistert kirurgi", "Robot-assisted surgery", "Høy presisjon, rask rehabilitering", "High precision, fast recovery", `${GYN}/robotkirurgi`),
         item("g12", "Gynekologisk kirurgi", "Gynaecological surgery", "Laparoskopi og åpen kirurgi", "Laparoscopy and open surgery", `${GYN}/kirurgi`),

@@ -4,6 +4,7 @@ import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
+import type { ServicesSearchItem } from "@/lib/sanity/services-search";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -19,6 +20,13 @@ function asPlainString(value: unknown): string {
   return "";
 }
 
+function asKeywordList(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => asPlainString(entry).trim())
+    .filter(Boolean);
+}
+
 export type ServicesPageCategoryCard = {
   _createdAt?: string;
   sortOrder?: number;
@@ -31,6 +39,7 @@ export type ServicesPageCategoryCard = {
 export type ServicesPageListItem = {
   title: string;
   path: string;
+  searchKeywords?: string[];
 };
 
 export type ServicesPageFaq = {
@@ -63,14 +72,13 @@ export type ServicesPageData = {
     metaDescription?: string;
   };
   geoSummary?: string;
-  searchItems: ServicesPageListItem[];
+  /** Catalog for the Tjenester search box (categories + treatments + synonyms). */
+  searchItems: ServicesSearchItem[];
 };
 
 function mapCategoryTreatments(
   category: Record<string, unknown>,
 ): ServicesPageListItem[] {
-  const categoryId =
-    asPlainString(category.categoryId) || asPlainString(category.slug) || "";
   const categorySlug = asPlainString(category.slug);
   const treatmentsRaw = (category.treatments as unknown[]) || [];
   return treatmentsRaw
@@ -83,9 +91,100 @@ function mapCategoryTreatments(
           slug && categorySlug
             ? rewriteRetiredIvfPath(`/${categorySlug}/${slug}`)
             : "",
+        searchKeywords: asKeywordList(t.searchKeywords),
       };
     })
     .filter((item) => item.title && item.path);
+}
+
+function pushUniqueSearchItem(
+  byPath: Map<string, ServicesSearchItem>,
+  item: ServicesSearchItem,
+) {
+  const path = item.path.trim();
+  const label = item.label.trim();
+  if (!path || !label) return;
+
+  const existing = byPath.get(path);
+  if (!existing) {
+    byPath.set(path, {
+      label,
+      path,
+      category: item.category?.trim() || undefined,
+      searchKeywords: [...(item.searchKeywords || [])],
+    });
+    return;
+  }
+
+  const merged = new Set([
+    ...(existing.searchKeywords || []),
+    ...(item.searchKeywords || []),
+  ]);
+  // Prefer the longer / more specific visible label when duplicates share a path.
+  if (label.length > existing.label.length) {
+    existing.label = label;
+  }
+  if (!existing.category && item.category?.trim()) {
+    existing.category = item.category.trim();
+  }
+  existing.searchKeywords = [...merged];
+}
+
+function buildSearchCatalog(
+  data: Record<string, unknown>,
+  featuredCategories: ServicesPageCategoryCard[],
+  moreServicesItems: ServicesPageListItem[],
+): ServicesSearchItem[] {
+  const byPath = new Map<string, ServicesSearchItem>();
+  const catalog = (data.searchCatalog as Record<string, unknown>) || {};
+
+  const categoriesRaw = (catalog.categories as unknown[]) || [];
+  for (const row of categoriesRaw) {
+    const c = row as Record<string, unknown>;
+    const slug = asPlainString(c.slug);
+    pushUniqueSearchItem(byPath, {
+      label: asPlainString(c.title),
+      path: slug ? `/${slug}` : "",
+      category: "Fagområde",
+      searchKeywords: asKeywordList(c.searchKeywords),
+    });
+  }
+
+  const treatmentsRaw = (catalog.treatments as unknown[]) || [];
+  for (const row of treatmentsRaw) {
+    const t = row as Record<string, unknown>;
+    const slug = asPlainString(t.slug);
+    const categorySlug = asPlainString(t.categorySlug);
+    pushUniqueSearchItem(byPath, {
+      label: asPlainString(t.title),
+      path:
+        slug && categorySlug
+          ? rewriteRetiredIvfPath(`/${categorySlug}/${slug}`)
+          : "",
+      category: asPlainString(t.categoryTitle) || undefined,
+      searchKeywords: asKeywordList(t.searchKeywords),
+    });
+  }
+
+  // Ensure hub cards / more-services rows are always searchable even if catalog is empty.
+  for (const card of featuredCategories) {
+    pushUniqueSearchItem(byPath, {
+      label: card.title,
+      path: card.path,
+      category: "Fagområde",
+    });
+  }
+  for (const item of moreServicesItems) {
+    pushUniqueSearchItem(byPath, {
+      label: item.title,
+      path: item.path,
+      searchKeywords: item.searchKeywords,
+    });
+  }
+
+  return [...byPath.values()].sort((a, b) =>
+    a.label.localeCompare(b.label, "nb"),
+  );
 }
 
 export function mapServicesPageDocument(
@@ -140,17 +239,16 @@ export function mapServicesPageDocument(
       moreServicesItems.push({
         title: asPlainString(category.title),
         path: asPlainString(category.slug) ? `/${asPlainString(category.slug)}` : "",
+        searchKeywords: asKeywordList(category.searchKeywords),
       });
     }
   }
 
-  const searchItems: ServicesPageListItem[] = [];
-  for (const card of featuredCategories) {
-    searchItems.push({ title: card.title, path: card.path });
-  }
-  for (const item of moreServicesItems) {
-    searchItems.push(item);
-  }
+  const searchItems = buildSearchCatalog(
+    data,
+    featuredCategories,
+    moreServicesItems,
+  );
 
   const seoRaw = data.seo as Record<string, unknown> | undefined;
 

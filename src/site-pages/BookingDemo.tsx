@@ -1,8 +1,9 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useSearchParams, Link, useLocaleParam } from "@/lib/router";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearchParams, Link, useLocaleParam, useLocation } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
@@ -55,14 +56,20 @@ import {
   findSanityClinicForMetodikaLocation,
   findSanityClinicBySlugOrId,
   findSanityManagedClinicBySlug,
+  isPlaceholderMetodikaLocationLabel,
   logSanityMetodikaMappingAudit,
   mergeMetodikaAndSanityClinics,
+  metodikaClinicsFromMatrix,
   sanityManagedClinicsForCategory,
 } from "@/lib/booking/sanityBookingClinic";
 import {
   allStep1ClinicDisplayTags,
   step1ClinicDisplayTagsForCategory,
 } from "@/lib/sanity/booking-page-step1-clinics";
+import {
+  bookingActivityGroupsQueryKey,
+  fetchBookingActivityGroupsClient,
+} from "@/lib/booking/fetchActivityGroups.client";
 import {
   bookingPersonForModal,
   isBookingCaregiver,
@@ -75,6 +82,10 @@ import {
   filterClinicsForWbActivity,
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
+import {
+  fetchWbActivityMatrixClient,
+  prefetchWbActivityMatrix,
+} from "@/lib/booking/fetchWbActivityMatrix.client";
 import { caregiverIdsForWbActivityAtLocation } from "@/lib/booking/wbactivitiesMatrix";
 import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
@@ -107,7 +118,14 @@ import {
   fillBookingTemplate,
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
-import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
+import {
+  fetchBookingDaySlotsClient,
+  peekBookingDaySlotsClient,
+} from "@/lib/booking/fetchBookingDaySlots.client";
+import {
+  fetchBookingUsersClient,
+  peekBookingUsersClient,
+} from "@/lib/booking/fetchBookingUsers.client";
 import {
   isValidNorwegianMobileFieldInput,
   normalizeNorwegianMobileForMetodika,
@@ -124,7 +142,12 @@ export type BookingServiceCategory = {
   clinicServiceId?: string;
   label: string;
   apiGroupId?: number;
-  services: { name: string; price: string; apiActivityId?: number; duration?: string }[];
+  services: {
+    name: string;
+    price: string;
+    apiActivityId?: number;
+    durationMinutes?: number;
+  }[];
 };
 
 function clinicIdForCategory(category: BookingServiceCategory): string {
@@ -178,25 +201,35 @@ type BookingServiceItem = {
   name: string;
   price: string;
   apiActivityId?: number;
-  duration?: string;
+  durationMinutes?: number;
 };
 
-function serviceDurationLabel(
-  service: BookingServiceItem,
-  durationByActivityId: Record<number, { status: string; label?: string }>,
-): string | null {
-  if (service.apiActivityId != null) {
-    const state = durationByActivityId[service.apiActivityId];
-    if (!state || state.status === "none") return service.duration ?? null;
-    if (state.status === "loading") return null;
-    return state.label ?? null;
-  }
-  return service.duration ?? null;
+function activityIdsForCategory(category: BookingServiceCategory): number[] {
+  return category.services
+    .map((s) => s.apiActivityId)
+    .filter((id): id is number => typeof id === "number");
+}
+
+function serviceDurationLabel(service: BookingServiceItem, locale: string): string | null {
+  if (service.durationMinutes == null) return null;
+  return localizeDurationLabel(
+    formatDurationMinutes(service.durationMinutes, locale),
+    locale,
+  );
+}
+
+function isFetalMedicineSortId(id: string | undefined): boolean {
+  const normalized = (id || "").trim().toLowerCase();
+  return (
+    normalized === "fostermedisiner" ||
+    normalized === "graviditet" ||
+    normalized === "fostermedisiner-graviditet"
+  );
 }
 
 function sortBookingCategories(a: BookingServiceCategory, b: BookingServiceCategory) {
-  if (a.id === "fostermedisiner") return -1;
-  if (b.id === "fostermedisiner") return 1;
+  if (isFetalMedicineSortId(a.id) || isFetalMedicineSortId(a.clinicServiceId)) return -1;
+  if (isFetalMedicineSortId(b.id) || isFetalMedicineSortId(b.clinicServiceId)) return 1;
   return a.label.localeCompare(b.label, "nb");
 }
 
@@ -263,6 +296,7 @@ interface FormData {
 const BookingDemo = () => {
   const navigate = useNavigate();
   const locale = useLocaleParam();
+  const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const serviceChoiceSlugs = useMemo(
     () => parseTjenesteValg(searchParams.get("tjenesteValg")),
@@ -274,46 +308,14 @@ const BookingDemo = () => {
   const copy = bookingPageData;
   const bookingGeoSummary = bookingPageData.geoSummary;
   const { data: sanityClinics = [] } = useClinics();
-  const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
-  const [servicesLoading, setServicesLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadServices() {
-      setServicesLoading(true);
-      try {
-        const groupsRes = await fetch("/api/booking/activity-groups");
-        const groupsJson = (await groupsRes.json()) as {
-          ok?: boolean;
-          categories?: BookingServiceCategory[];
-        };
-
-        if (cancelled) return;
-
-        if (
-          groupsRes.ok &&
-          groupsJson.ok &&
-          Array.isArray(groupsJson.categories) &&
-          groupsJson.categories.length > 0
-        ) {
-          setBookingServices(groupsJson.categories);
-        } else {
-          setBookingServices([]);
-        }
-      } catch {
-        if (!cancelled) setBookingServices([]);
-      } finally {
-        if (!cancelled) setServicesLoading(false);
-      }
-    }
-
-    loadServices();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const {
+    data: bookingServices = [],
+    isLoading: servicesLoading,
+  } = useQuery({
+    queryKey: bookingActivityGroupsQueryKey(locale),
+    queryFn: () => fetchBookingActivityGroupsClient(locale),
+    staleTime: 5 * 60 * 1000,
+  });
 
   // Full-page jumps (window.location.href = "/booking") may skip navigate/Link hooks.
   // Capture same-origin referrer once when no return path was stored yet.
@@ -330,19 +332,6 @@ const BookingDemo = () => {
       /* ignore */
     }
   }, [searchParams]);
-
-  const step1ClinicTagsByCategoryId = useMemo(() => {
-    const result: Record<string, ReturnType<typeof step1ClinicDisplayTagsForCategory>> = {};
-    for (const category of bookingServices) {
-      result[category.id] = step1ClinicDisplayTagsForCategory(
-        bookingPageData.step1CategoryClinicBadges,
-        sanityClinics,
-        category.id,
-        category.clinicServiceId,
-      );
-    }
-    return result;
-  }, [bookingServices, bookingPageData.step1CategoryClinicBadges, sanityClinics]);
 
   const allStep1ClinicTags = useMemo(
     () => allStep1ClinicDisplayTags(bookingPageData.step1CategoryClinicBadges, sanityClinics),
@@ -393,22 +382,25 @@ const BookingDemo = () => {
   const [timesLoading, setTimesLoading] = useState(false);
   /** Full alltimes slots per day (fetched on date click). Discovery stays in apiFreeTimeSlots. */
   const [slotsByDayKey, setSlotsByDayKey] = useState<Record<string, ApiFreeTimeSlot[]>>({});
-  /** Step 4 calendar hints: discovery filtered by clinic + specialist (1 slot/day). */
-  const [calendarHintSlots, setCalendarHintSlots] = useState<ApiFreeTimeSlot[]>([]);
-  const [calendarHintsLoading, setCalendarHintsLoading] = useState(false);
-  const [calendarHintsReady, setCalendarHintsReady] = useState(false);
   const slotsByDayRef = useRef<Record<string, ApiFreeTimeSlot[]>>({});
   /** Tracks step-4 calendar init per clinic/specialist so date clicks are not overwritten. */
   const step4CalendarInitKeyRef = useRef<string | null>(null);
   const daySlotsFetchGenRef = useRef(0);
   /** Prevents duplicate booking_completed if submit succeeds twice in the same session. */
   const bookingCompletedTrackedRef = useRef(false);
-  /** Duration per activity from wbfreetimes only (no static fallback). */
-  const [durationByActivityId, setDurationByActivityId] = useState<
-    Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
-  >({});
-  const durationByActivityIdRef = useRef(durationByActivityId);
-  durationByActivityIdRef.current = durationByActivityId;
+
+  const step1ClinicTagsByCategoryId = useMemo(() => {
+    const result: Record<string, ReturnType<typeof step1ClinicDisplayTagsForCategory>> = {};
+    for (const category of bookingServices) {
+      result[category.id] = step1ClinicDisplayTagsForCategory(
+        bookingPageData.step1CategoryClinicBadges,
+        sanityClinics,
+        category.id,
+        category.clinicServiceId,
+      );
+    }
+    return result;
+  }, [bookingServices, bookingPageData.step1CategoryClinicBadges, sanityClinics]);
 
   const enrichedMetodikaClinics = useMemo(
     () =>
@@ -523,6 +515,8 @@ const BookingDemo = () => {
   const trackedStepRef = useRef<number | null>(null);
   const bookingInitTracked = useRef(false);
   const deepLinkMenuStartTracked = useRef(false);
+  /** After empty-clinic «Bestill time», skip URL service prefill so the user can pick another service. */
+  const skipServicePrefillRef = useRef(false);
 
   useEffect(() => {
     if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
@@ -574,10 +568,12 @@ const BookingDemo = () => {
   // Jumps to the first unfilled step so users coming from a specific
   // page never have to start over.
   useEffect(() => {
+    // After "Bestill time" on the empty-clinic state, do not re-lock the non-bookable service.
+    if (skipServicePrefillRef.current) return;
     // Clinic may already be set from ?klinikk= (Pasientsky/Moelv) before this runs —
     // still allow service/specialist prefill. Only skip once service is chosen.
     if (bookingData.service) return;
-    if (specialists.length === 0 || servicesLoading) return;
+    if (servicesLoading || bookingServices.length === 0) return;
 
     const kategori = searchParams.get("kategori");
     const kategoriIdRaw = searchParams.get("kategoriId");
@@ -586,6 +582,8 @@ const BookingDemo = () => {
     const aktivitetIdRaw = searchParams.get("aktivitetId");
     const spesialistSlug = searchParams.get("spesialist");
     const klinikkId = searchParams.get("klinikk");
+    // Specialist prefill needs the specialists list; kategori/tjeneste do not.
+    if (spesialistSlug && specialists.length === 0) return;
     const kategoriId = kategoriIdRaw != null ? Number(kategoriIdRaw) : NaN;
     const aktivitetId =
       aktivitetIdRaw != null ? Number(aktivitetIdRaw) : NaN;
@@ -696,8 +694,10 @@ const BookingDemo = () => {
     if (resolvedService || resolvedSpecialist) {
       setBookingData((prev) => {
         const next: BookingData = { ...prev };
-        if (resolvedCategoryClinicId) next.categoryId = resolvedCategoryClinicId;
-        if (resolvedCategoryListId) next.categoryApiSlug = resolvedCategoryListId;
+        if (resolvedCategoryListId) next.categoryId = resolvedCategoryListId;
+        if (matchingCategory?.clinicServiceId) {
+          next.categoryApiSlug = matchingCategory.clinicServiceId;
+        }
         if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
         if (resolvedService) next.service = resolvedService;
         if (resolvedSpecialist) {
@@ -726,98 +726,15 @@ const BookingDemo = () => {
     }));
   }, [searchParams, specialists, bookingData.specialist]);
 
-  // Active category filter is derived above; no debug logging in production.
-  // Step 1: load duration from wbfreetimes when a category is expanded (cached per activity)
+  // Step 2 prefetch when a category accordion opens.
   useEffect(() => {
     if (!expandedCategory) return;
-
     const category = bookingServices.find((c) => c.id === expandedCategory);
     if (!category) return;
-
-    const activityIds = category.services
-      .map((s) => s.apiActivityId)
-      .filter((id): id is number => typeof id === "number");
-
-    if (activityIds.length === 0) return;
-
-    const idsToFetch = activityIds.filter((id) => {
-      const cached = durationByActivityIdRef.current[id];
-      return cached?.status !== "ready" && cached?.status !== "none";
-    });
-
-    if (idsToFetch.length === 0) return;
-
-    let cancelled = false;
-
-    setDurationByActivityId((prev) => {
-      const next = { ...prev };
-      for (const id of idsToFetch) next[id] = { status: "loading" };
-      return next;
-    });
-
-    async function loadDurationsForCategory() {
-      try {
-        const res = await fetch(
-          `/api/booking/freetimes?wbactivityIds=${idsToFetch.join(",")}`,
-        );
-        const json = (await res.json()) as {
-          ok?: boolean;
-          byActivityId?: Record<string, ApiFreeTimeSlot[]>;
-          slots?: ApiFreeTimeSlot[];
-        };
-
-        if (cancelled) return;
-
-        const results = idsToFetch.map((id) => {
-          const slots =
-            json.byActivityId?.[String(id)] ??
-            (idsToFetch.length === 1 && Array.isArray(json.slots) ? json.slots : []);
-          const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
-          if (mins == null) return { id, status: "none" as const };
-          return {
-            id,
-            status: "ready" as const,
-            label: localizeDurationLabel(formatDurationMinutes(mins, locale), locale),
-          };
-        });
-
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const result of results) {
-            if (result.status === "ready") {
-              next[result.id] = { status: "ready", label: result.label };
-            } else {
-              next[result.id] = { status: "none" };
-            }
-          }
-          return next;
-        });
-      } catch {
-        if (cancelled) return;
-        setDurationByActivityId((prev) => {
-          const next = { ...prev };
-          for (const id of idsToFetch) next[id] = { status: "none" };
-          return next;
-        });
-      }
+    for (const id of activityIdsForCategory(category)) {
+      prefetchWbActivityMatrix(id);
     }
-
-    loadDurationsForCategory();
-    return () => {
-      cancelled = true;
-      setDurationByActivityId((prev) => {
-        const next = { ...prev };
-        let changed = false;
-        for (const id of idsToFetch) {
-          if (next[id]?.status === "loading") {
-            delete next[id];
-            changed = true;
-          }
-        }
-        return changed ? next : prev;
-      });
-    };
-  }, [expandedCategory, bookingServices, locale]);
+  }, [expandedCategory, bookingServices]);
 
   // wbfreetimes → rooms → locations: discovery (clinics + caregivers, 1 slot/day)
   useEffect(() => {
@@ -850,7 +767,9 @@ const BookingDemo = () => {
         if (res.ok && json.ok && Array.isArray(json.slots)) {
           setApiFreeTimeSlots(json.slots);
           const mappedClinics = Array.isArray(json.locations)
-            ? json.locations.map(apiLocationToClinic)
+            ? json.locations
+                .map(apiLocationToClinic)
+                .filter((clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label))
             : [];
           setApiBookingClinics(mappedClinics);
           setAvailabilityFromApi(mappedClinics.length > 0);
@@ -896,77 +815,38 @@ const BookingDemo = () => {
   useEffect(() => {
     slotsByDayRef.current = {};
     setSlotsByDayKey({});
-    setCalendarHintSlots([]);
-    setCalendarHintsReady(false);
-    setCalendarHintsLoading(false);
     step4CalendarInitKeyRef.current = null;
     setSelectedDate(undefined);
   }, [slotsFetchContextKey]);
 
-  // Step 4: discovery hints filtered by clinic + specialist (correct days per caregiver)
-  useEffect(() => {
-    const activityId = bookingData.service?.apiActivityId;
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
+  const prefetchDaySlots = useCallback(
+    (date: Date) => {
+      const activityId = bookingData.service?.apiActivityId;
+      const selectedLocationId =
+        bookingData.clinic && "apiLocationId" in bookingData.clinic
+          ? bookingData.clinic.apiLocationId
+          : undefined;
+      if (!activityId || selectedLocationId == null) return;
 
-    if (currentStep < 4 || !activityId || selectedLocationId == null) {
-      setCalendarHintSlots([]);
-      setCalendarHintsLoading(false);
-      setCalendarHintsReady(false);
-      return;
-    }
+      const key = dayKey(date);
+      if (slotsByDayRef.current[key]) return;
 
-    let cancelled = false;
-    setCalendarHintsLoading(true);
+      const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
+      void fetchBookingDaySlotsClient({
+        wbactivityId: activityId,
+        date,
+        locationId: selectedLocationId,
+        caregiverUserId: caregiverUserId ?? undefined,
+      }).then((slots) => {
+        if (slotsByDayRef.current[key]) return;
+        slotsByDayRef.current[key] = slots;
+        setSlotsByDayKey((prev) => (prev[key] ? prev : { ...prev, [key]: slots }));
+      });
+    },
+    [bookingData.service?.apiActivityId, bookingData.clinic, bookingData.specialist],
+  );
 
-    async function loadCalendarHints() {
-      try {
-        const params = new URLSearchParams({
-          wbactivityId: String(activityId),
-          locationId: String(selectedLocationId),
-        });
-        const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
-        if (caregiverUserId != null) {
-          params.set("caregiverUserId", String(caregiverUserId));
-        }
-
-        const res = await fetch(`/api/booking/availability?${params.toString()}`);
-        const json = (await res.json()) as {
-          ok?: boolean;
-          slots?: ApiFreeTimeSlot[];
-        };
-        if (cancelled) return;
-
-        setCalendarHintSlots(
-          res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [],
-        );
-      } catch {
-        if (!cancelled) setCalendarHintSlots([]);
-      } finally {
-        if (!cancelled) {
-          setCalendarHintsLoading(false);
-          setCalendarHintsReady(true);
-        }
-      }
-    }
-
-    loadCalendarHints();
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    currentStep,
-    bookingData.service?.apiActivityId,
-    bookingData.clinic && "apiLocationId" in (bookingData.clinic ?? {})
-      ? (bookingData.clinic as BookingMetodikaClinic).apiLocationId
-      : undefined,
-    bookingData.specialist,
-    slotsFetchContextKey,
-  ]);
-
-  // Fetch alltimes for the selected day only (fast — one Metodika request per click)
+  // Fetch alltimes for the selected day — fast /api/booking/day-slots
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     const selectedLocationId =
@@ -992,48 +872,45 @@ const BookingDemo = () => {
     }
 
     const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
-    const searchFromTime = metodikaSearchTime(selectedDate, false);
-    const searchToTime = metodikaSearchTime(selectedDate, true);
+    const peeked = peekBookingDaySlotsClient({
+      wbactivityId: activityId,
+      date: selectedDate,
+      locationId: selectedLocationId,
+      caregiverUserId: caregiverUserId ?? undefined,
+    });
+    if (peeked) {
+      slotsByDayRef.current[key] = peeked;
+      setSlotsByDayKey((prev) => ({ ...prev, [key]: peeked }));
+      setTimesLoading(false);
+      return;
+    }
 
     const fetchGen = ++daySlotsFetchGenRef.current;
     let cancelled = false;
     setTimesLoading(true);
 
-    async function loadDaySlots() {
-      try {
-        const params = new URLSearchParams({
-          wbactivityId: String(activityId),
-          searchFromTime,
-          searchToTime,
-          locationId: String(selectedLocationId),
-        });
-        if (caregiverUserId != null) {
-          params.set("caregiverUserId", String(caregiverUserId));
-        }
-
-        const res = await fetch(`/api/booking/availability?${params.toString()}`);
-        const json = (await res.json()) as {
-          ok?: boolean;
-          slots?: ApiFreeTimeSlot[];
-        };
+    void fetchBookingDaySlotsClient({
+      wbactivityId: activityId,
+      date: selectedDate,
+      locationId: selectedLocationId,
+      caregiverUserId: caregiverUserId ?? undefined,
+    })
+      .then((slots) => {
         if (cancelled || fetchGen !== daySlotsFetchGenRef.current) return;
-
-        const slots = res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [];
         slotsByDayRef.current[key] = slots;
         setSlotsByDayKey((prev) => ({ ...prev, [key]: slots }));
-      } catch {
-        if (!cancelled && fetchGen === daySlotsFetchGenRef.current) {
-          slotsByDayRef.current[key] = [];
-          setSlotsByDayKey((prev) => ({ ...prev, [key]: [] }));
-        }
-      } finally {
+      })
+      .catch(() => {
+        if (cancelled || fetchGen !== daySlotsFetchGenRef.current) return;
+        slotsByDayRef.current[key] = [];
+        setSlotsByDayKey((prev) => ({ ...prev, [key]: [] }));
+      })
+      .finally(() => {
         if (!cancelled && fetchGen === daySlotsFetchGenRef.current) {
           setTimesLoading(false);
         }
-      }
-    }
+      });
 
-    loadDaySlots();
     return () => {
       cancelled = true;
     };
@@ -1054,7 +931,19 @@ const BookingDemo = () => {
     bookingData.service?.apiActivityId,
   );
 
-  // Prefill clinic from ?klinikk= when it matches an API location id (location-1) or legacy slug after load
+  const matrixMetodikaClinics = useMemo(
+    () => metodikaClinicsFromMatrix(sanityClinics, wbActivityMatrix),
+    [sanityClinics, wbActivityMatrix],
+  );
+
+  const metodikaClinicsForStep2 = useMemo(() => {
+    if (matrixMetodikaClinics.length > 0) return matrixMetodikaClinics;
+    return enrichedMetodikaClinics.filter(
+      (clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label),
+    );
+  }, [matrixMetodikaClinics, enrichedMetodikaClinics]);
+
+  // Prefill clinic from ?klinikk=
   const pendingKlinikkRef = useRef<string | null>(null);
   useEffect(() => {
     pendingKlinikkRef.current = searchParams.get("klinikk");
@@ -1189,30 +1078,27 @@ const BookingDemo = () => {
       return;
     }
 
+    const specialty = bookingData.category ?? "";
+    const peeked = peekBookingUsersClient(caregiverIdsFromSlots, specialty);
+    if (peeked) {
+      setBookingCaregivers(peeked);
+      setCaregiversLoading(false);
+      return;
+    }
+
     let cancelled = false;
     setCaregiversLoading(true);
 
-    const specialty = encodeURIComponent(bookingData.category ?? "");
-    const ids = caregiverIdsFromSlots.join(",");
-
-    void (async () => {
-      try {
-        const res = await fetch(
-          `/api/booking/users?ids=${ids}${specialty ? `&specialty=${specialty}` : ""}`,
-        );
-        const json = (await res.json()) as { ok?: boolean; users?: BookingCaregiver[] };
-        if (cancelled) return;
-        if (res.ok && json.ok && Array.isArray(json.users)) {
-          setBookingCaregivers(json.users);
-        } else {
-          setBookingCaregivers([]);
-        }
-      } catch {
+    void fetchBookingUsersClient(caregiverIdsFromSlots, specialty)
+      .then((users) => {
+        if (!cancelled) setBookingCaregivers(users);
+      })
+      .catch(() => {
         if (!cancelled) setBookingCaregivers([]);
-      } finally {
+      })
+      .finally(() => {
         if (!cancelled) setCaregiversLoading(false);
-      }
-    })();
+      });
 
     return () => {
       cancelled = true;
@@ -1229,38 +1115,39 @@ const BookingDemo = () => {
         ? bookingData.clinic.apiLocationId
         : undefined;
     const keys = new Set<string>();
-    const useCalendarHints =
-      currentStep >= 4 && selectedLocationId != null && calendarHintsReady;
-    const source = useCalendarHints ? calendarHintSlots : apiFreeTimeSlots;
 
-    for (const slot of source) {
-      if (
-        selectedLocationId != null &&
-        slot.locationId != null &&
-        slot.locationId !== selectedLocationId
-      ) {
-        continue;
+    const addFromSlots = (slots: ApiFreeTimeSlot[]) => {
+      for (const slot of slots) {
+        if (
+          selectedLocationId != null &&
+          slot.locationId != null &&
+          slot.locationId !== selectedLocationId
+        ) {
+          continue;
+        }
+        if (
+          selectedCaregiverUserId != null &&
+          slot.caregiverUserId != null &&
+          slot.caregiverUserId !== selectedCaregiverUserId
+        ) {
+          continue;
+        }
+        keys.add(dayKey(parseISO(slot.startDateTime)));
       }
-      if (
-        selectedCaregiverUserId != null &&
-        slot.caregiverUserId != null &&
-        slot.caregiverUserId !== selectedCaregiverUserId
-      ) {
-        continue;
-      }
-      const day = parseISO(slot.startDateTime);
-      day.setHours(0, 0, 0, 0);
-      keys.add(day.toISOString());
+    };
+
+    addFromSlots(apiFreeTimeSlots);
+
+    for (const [key, slots] of Object.entries(slotsByDayKey)) {
+      if (slots.length > 0) keys.add(key);
     }
 
     return keys;
   }, [
-    currentStep,
-    calendarHintSlots,
-    calendarHintsReady,
     apiFreeTimeSlots,
     bookingData.clinic,
     selectedCaregiverUserId,
+    slotsByDayKey,
   ]);
 
   const currentWeekStart = useMemo(
@@ -1289,6 +1176,35 @@ const BookingDemo = () => {
 
   const canGoPrevRange = weekOffset > 0;
   const canGoNextRange = weekOffset < MAX_CALENDAR_WEEKS;
+  const step4NoBookableDays =
+    hasApiActivity && clinicsAvailabilityReady && bookableDates.length === 0;
+
+  // Prefetch day slots so step 4 times appear instantly from cache.
+  useEffect(() => {
+    if (currentStep < 3 || !hasApiActivity || !clinicsAvailabilityReady) return;
+    const selectedLocationId =
+      bookingData.clinic && "apiLocationId" in bookingData.clinic
+        ? bookingData.clinic.apiLocationId
+        : undefined;
+    if (selectedLocationId == null) return;
+
+    bookableDates.slice(0, 3).forEach(prefetchDaySlots);
+    visibleDates.forEach((date) => {
+      if (date >= today && datesWithApiSlots.has(dayKey(date))) {
+        prefetchDaySlots(date);
+      }
+    });
+  }, [
+    currentStep,
+    hasApiActivity,
+    clinicsAvailabilityReady,
+    bookableDates,
+    visibleDates,
+    datesWithApiSlots,
+    today,
+    prefetchDaySlots,
+    bookingData.clinic,
+  ]);
 
   // Pick first API day with slots when entering step 4 (no static default date)
   useEffect(() => {
@@ -1298,7 +1214,7 @@ const BookingDemo = () => {
       bookingData.clinic && "apiLocationId" in bookingData.clinic
         ? bookingData.clinic.apiLocationId
         : undefined;
-    if (selectedLocationId != null && (!calendarHintsReady || calendarHintsLoading)) return;
+    if (selectedLocationId != null && !clinicsAvailabilityReady) return;
 
     const initKey = slotsFetchContextKey;
     if (
@@ -1318,18 +1234,19 @@ const BookingDemo = () => {
     }
     step4CalendarInitKeyRef.current = initKey;
     setSelectedDate(firstDay);
+    prefetchDaySlots(firstDay);
     setWeekOffset(Math.max(0, Math.min(MAX_CALENDAR_WEEKS, weekOffsetForDate(firstDay, today))));
   }, [
     currentStep,
     hasApiActivity,
-    calendarHintsLoading,
-    calendarHintsReady,
+    clinicsAvailabilityReady,
     bookableDates,
     selectedDate,
     today,
     bookingData.clinic,
     datesWithApiSlots,
     slotsFetchContextKey,
+    prefetchDaySlots,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
@@ -1407,6 +1324,22 @@ const BookingDemo = () => {
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */
   const autoSelectedClinicActivityRef = useRef<number | null>(null);
 
+  const handleBookAnotherWay = () => {
+    skipServicePrefillRef.current = true;
+    autoSelectedClinicActivityRef.current = null;
+    setClinicsAvailabilityReady(false);
+    setBookingData({});
+    setExpandedCategory(null);
+    setFilterToCategoryId(null);
+
+    const next = new URLSearchParams(searchParams.toString());
+    for (const key of ["aktivitetId", "tjeneste", "tjenesteValg"]) {
+      next.delete(key);
+    }
+    const qs = next.toString();
+    navigate(qs ? `${pathname}?${qs}` : pathname, { replace: true });
+  };
+
   const handleSelectService = (
     categoryId: string,
     categoryLabel: string,
@@ -1421,9 +1354,10 @@ const BookingDemo = () => {
     });
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
+    prefetchWbActivityMatrix(service.apiActivityId);
 
     setBookingData({
-      categoryId,
+      categoryId: categoryId,
       categoryApiSlug,
       category: categoryLabel,
       service,
@@ -1449,10 +1383,23 @@ const BookingDemo = () => {
     [sanityClinics, bookingData.categoryId, bookingData.categoryApiSlug],
   );
 
+  const prefetchCaregiversForClinic = useCallback(
+    (clinic: BookingClinic) => {
+      if (!hasApiActivity || !wbActivityMatrix || !isMetodikaClinic(clinic)) return;
+      const ids = caregiverIdsForWbActivityAtLocation(
+        wbActivityMatrix,
+        clinic.apiLocationId,
+      );
+      if (ids.length === 0) return;
+      void fetchBookingUsersClient(ids, bookingData.category ?? undefined);
+    },
+    [hasApiActivity, wbActivityMatrix, bookingData.category],
+  );
+
   // Step 2: Metodika locations (enriched from Sanity) + Pasientsky / external from Sanity.
   // When a specialist is already chosen (e.g. ?spesialist=), only show clinics where they work.
   const availableClinics: BookingClinic[] = useMemo(() => {
-    const metodika = bookingData.service?.apiActivityId ? enrichedMetodikaClinics : [];
+    const metodika = bookingData.service?.apiActivityId ? metodikaClinicsForStep2 : [];
     const metodikaForActivity = filterClinicsForWbActivity(metodika, wbActivityMatrix);
     const merged = mergeMetodikaAndSanityClinics(metodikaForActivity, sanityManagedClinicOptions);
     if (!bookingData.specialistChosen || !bookingData.specialist) return merged;
@@ -1466,14 +1413,16 @@ const BookingDemo = () => {
     bookingData.service?.apiActivityId,
     bookingData.specialist,
     bookingData.specialistChosen,
-    enrichedMetodikaClinics,
+    metodikaClinicsForStep2,
     sanityManagedClinicOptions,
     apiFreeTimeSlots,
     wbActivityMatrix,
   ]);
 
   const step2Ready =
-    !bookingData.service?.apiActivityId || clinicsAvailabilityReady;
+    !bookingData.service?.apiActivityId ||
+    matrixMetodikaClinics.length > 0 ||
+    clinicsAvailabilityReady;
 
   // Auto-select when exactly one clinic is available (once per service; not after "Tilbake")
   useEffect(() => {
@@ -1485,6 +1434,7 @@ const BookingDemo = () => {
 
     autoSelectedClinicActivityRef.current = activityId;
     const onlyClinic = availableClinics[0];
+    prefetchCaregiversForClinic(onlyClinic);
     setBookingData((prev) => ({
       ...prev,
       clinic: onlyClinic,
@@ -1497,10 +1447,12 @@ const BookingDemo = () => {
     bookingData.clinic,
     step2Ready,
     availableClinics,
+    prefetchCaregiversForClinic,
   ]);
 
   const handleSelectClinic = (clinic: BookingClinic) => {
     trackBookingSelectClinic(clinic);
+    prefetchCaregiversForClinic(clinic);
     const keepSpecialist =
       Boolean(bookingData.specialistChosen) &&
       Boolean(bookingData.specialist) &&
@@ -1916,7 +1868,7 @@ const BookingDemo = () => {
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
-                <div>
+                <div className="min-w-0">
                   <span className="text-brand-dark/60 text-xs">{copy.summaryServiceLabel} </span>
                   <span className="methodika-sentence-case font-normal text-brand-dark">
                     {bookingData.service.name}
@@ -2073,7 +2025,7 @@ const BookingDemo = () => {
                                   <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
                                     {copy.step1AllClinicsBadge}
                                   </span>
-                                ) : (
+                                ) : clinicsForCategory.length > 0 ? (
                                   clinicsForCategory.map((clinic) => (
                                     <span
                                       key={clinic.tagKey}
@@ -2082,7 +2034,7 @@ const BookingDemo = () => {
                                       {clinic.label}
                                     </span>
                                   ))
-                                ))}
+                                ) : null)}
                             </div>
                             <ChevronDown
                               className={cn(
@@ -2105,26 +2057,25 @@ const BookingDemo = () => {
                               <div className="p-3 space-y-2">
                                 {visibleServices.map((service) => {
                                   const isFree = service.price === "0";
-                                  const duration = serviceDurationLabel(
-                                    service,
-                                    durationByActivityId,
-                                  );
-                                  const durationLoading =
-                                    service.apiActivityId != null &&
-                                    durationByActivityId[service.apiActivityId]?.status ===
-                                      "loading";
+                                  const duration = serviceDurationLabel(service, locale);
 
                                   return (
                                     <button
                                       key={service.apiActivityId ?? service.name}
                                       type="button"
                                       data-service={service.name}
+                                      onMouseEnter={() =>
+                                        prefetchWbActivityMatrix(service.apiActivityId)
+                                      }
+                                      onFocus={() =>
+                                        prefetchWbActivityMatrix(service.apiActivityId)
+                                      }
                                       onClick={() =>
                                         handleSelectService(
-                                          clinicIdForCategory(category),
+                                          category.id,
                                           category.label,
                                           service,
-                                          category.id,
+                                          category.clinicServiceId,
                                         )
                                       }
                                       className={cn(
@@ -2142,13 +2093,11 @@ const BookingDemo = () => {
                                           <span className="text-sm text-brand-dark/80">
                                             {isFree ? copy.step1PriceFree : fillBookingTemplate(copy.step1PriceFrom, { price: service.price })}
                                           </span>
-                                          {!isFree && (duration || durationLoading) ? (
+                                          {!isFree && duration ? (
                                             <>
                                               <span className="text-brand-dark/40">·</span>
                                               <span className="text-sm text-brand-dark/70">
-                                                {durationLoading
-                                                  ? copy.step1LoadingDuration
-                                                  : duration}
+                                                {duration}
                                               </span>
                                             </>
                                           ) : null}
@@ -2187,7 +2136,7 @@ const BookingDemo = () => {
             >
               <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
-              {bookingData.service?.apiActivityId && !clinicsAvailabilityReady && (
+              {bookingData.service?.apiActivityId && !step2Ready && (
                 <BookingStepLoader message={copy.step2Loading} />
               )}
 
@@ -2195,32 +2144,24 @@ const BookingDemo = () => {
                 <FriendlyEmpty
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
-                  phone={copy.supportPhone}
-                  phoneLabel={copy.supportPhoneLabel}
+                  phone={copy.step2EmptyPhone}
+                  phoneLabel={copy.step2EmptyButtonLabel}
+                  secondaryLabel={copy.step2EmptyBookLabel}
+                  onSecondaryClick={handleBookAnotherWay}
                 />
               )}
 
               {step2Ready && availableClinics.length > 0 && (
                 <div className="space-y-3">
-                  {availableClinics.map((clinic) => {
-                    const sanityImage =
-                      isMetodikaClinic(clinic) ? clinic.sanityImage : undefined;
-                    return (
+                  {availableClinics.map((clinic) => (
                     <button
                       key={clinic.id}
                       type="button"
                       onClick={() => handleSelectClinic(clinic)}
                       className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
                     >
-                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors overflow-hidden shrink-0">
-                        {sanityImage ? (
-                          <AssetImg
-                            src={sanityImage}
-                            alt=""
-                            preset="thumb"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : isExternalClinic(clinic) ? (
+                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors shrink-0">
+                        {isExternalClinic(clinic) ? (
                           <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                         ) : (
                           <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
@@ -2231,8 +2172,7 @@ const BookingDemo = () => {
                       </div>
                       <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
                     </button>
-                    );
-                  })}
+                  ))}
                 </div>
               )}
             </motion.div>
@@ -2331,6 +2271,7 @@ const BookingDemo = () => {
                           <AssetImg
                             src={resolveBookingSpecialistImage(spec.image)}
                             alt={spec.name}
+                            preset="thumb"
                             className="w-full h-full object-cover object-top"
                           />
                         </div>
@@ -2393,6 +2334,8 @@ const BookingDemo = () => {
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
+                    {!step4NoBookableDays ? (
+                    <>
                     <button
                       type="button"
                       onClick={() => {
@@ -2450,15 +2393,29 @@ const BookingDemo = () => {
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
+                    </>
+                    ) : null}
                   </div>
                 </div>
 
                 <div className="overflow-hidden min-h-24">
-                  {calendarHintsLoading && !calendarHintsReady && (
-                    <p className="text-xs text-brand-dark/50 font-light mb-3">
-                      {copy.step4LoadingTimes}
-                    </p>
-                  )}
+                  {hasApiActivity && !clinicsAvailabilityReady ? (
+                    <BookingStepLoader
+                      message={copy.step4LoadingTimes}
+                      variant="grid"
+                      skeletonCount={7}
+                      className="py-4"
+                    />
+                  ) : step4NoBookableDays ? (
+                    <FriendlyEmpty
+                      title={copy.step4NoDaysTitle}
+                      message={copy.step4NoDaysMessage}
+                      phone={copy.supportPhone}
+                      phoneLabel={copy.supportPhoneLabel}
+                      secondaryLabel={copy.step2EmptyBookLabel}
+                      onSecondaryClick={handleBookAnotherWay}
+                    />
+                  ) : (
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
                       key={weekOffset}
@@ -2473,14 +2430,8 @@ const BookingDemo = () => {
                         const isToday = isSameDay(date, today);
                         const hasSlots = datesWithApiSlots.has(dayKey(date));
                         const isPast = date < today;
-                        const selectedLocationId =
-                          bookingData.clinic && "apiLocationId" in bookingData.clinic
-                            ? bookingData.clinic.apiLocationId
-                            : undefined;
                         const calendarDatesReady =
-                          currentStep >= 4 && selectedLocationId != null
-                            ? calendarHintsReady && !calendarHintsLoading
-                            : apiFreeTimeSlots.length > 0;
+                          !hasApiActivity || clinicsAvailabilityReady;
                         const isDisabled =
                           isPast ||
                           (hasApiActivity && (!calendarDatesReady || !hasSlots));
@@ -2491,6 +2442,9 @@ const BookingDemo = () => {
                             type="button"
                             onClick={() => {
                               if (!isDisabled) setSelectedDate(date);
+                            }}
+                            onMouseEnter={() => {
+                              if (!isDisabled && hasApiActivity) prefetchDaySlots(date);
                             }}
                             disabled={isDisabled}
                             aria-label={formatBookingLongDate(date, locale)}
@@ -2542,6 +2496,7 @@ const BookingDemo = () => {
                       })}
                     </motion.div>
                   </AnimatePresence>
+                  )}
                 </div>
               </div>
 
@@ -2570,9 +2525,16 @@ const BookingDemo = () => {
                       message={copy.step4NotOnlineMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
+                      secondaryLabel={copy.step2EmptyBookLabel}
+                      onSecondaryClick={handleBookAnotherWay}
                     />
                   ) : timesLoading && availableSlots.length === 0 ? (
-                    <p className="text-sm text-brand-dark/60 font-light">{copy.step4LoadingTimes}</p>
+                    <BookingStepLoader
+                      message={copy.step4LoadingTimes}
+                      variant="grid"
+                      skeletonCount={9}
+                      className="py-2"
+                    />
                   ) : availableSlots.length > 0 ? (
                     isFirstAvailableFlow ? (
                       <div className="space-y-2">
@@ -2632,6 +2594,8 @@ const BookingDemo = () => {
                       message={copy.step4NoSlotsMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
+                      secondaryLabel={copy.step2EmptyBookLabel}
+                      onSecondaryClick={handleBookAnotherWay}
                     />
                   )}
                 </div>
@@ -2654,15 +2618,15 @@ const BookingDemo = () => {
               <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">{copy.step5OrderTitle}</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-                  <div>
+                  <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelService}</span>
-                    <p className="methodika-sentence-case font-normal mt-1 text-brand-dark">
+                    <p className="methodika-sentence-case font-normal text-brand-dark block">
                       {bookingData.service?.name}
                     </p>
                   </div>
-                  <div>
+                  <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelPrice}</span>
-                    <p className="font-normal mt-1 text-brand-dark">
+                    <p className="font-normal text-brand-dark">
                       {bookingData.service?.price === "0"
                         ? copy.step5PriceFree
                         : fillBookingTemplate(copy.step5PriceFrom, {
@@ -2673,14 +2637,14 @@ const BookingDemo = () => {
                       {copy.step5PriceNote}
                     </p>
                   </div>
-                  <div>
+                  <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelClinic}</span>
-                    <p className="font-normal mt-1 text-brand-dark">{bookingData.clinic?.label}</p>
+                    <p className="font-normal text-brand-dark">{bookingData.clinic?.label}</p>
                   </div>
                   {bookingData.slotDurationMinutes != null && (
-                    <div>
+                    <div className="flex flex-col gap-1 min-w-0">
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
-                      <p className="font-normal mt-1 text-brand-dark">
+                      <p className="font-normal text-brand-dark">
                         {localizeDurationLabel(
                           formatDurationMinutes(bookingData.slotDurationMinutes, locale),
                           locale,
@@ -2688,15 +2652,15 @@ const BookingDemo = () => {
                       </p>
                     </div>
                   )}
-                  <div>
+                  <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDate}</span>
-                    <p className="font-normal mt-1 text-brand-dark">
+                    <p className="font-normal text-brand-dark">
                       {bookingData.date && formatBookingLongDate(bookingData.date, locale)}
                     </p>
                   </div>
-                  <div>
+                  <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelTime}</span>
-                    <p className="font-normal mt-1 text-brand-dark">{bookingData.time}</p>
+                    <p className="font-normal text-brand-dark">{bookingData.time}</p>
                   </div>
                 </div>
                 {bookingData.specialist && (
@@ -2717,6 +2681,13 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
+              {submitLoading ? (
+                <BookingStepLoader
+                  message={copy.step5SubmittingLabel}
+                  skeletonCount={4}
+                />
+              ) : (
+              <>
               <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">{copy.step5PersonalInfoTitle}</h3>
                 <div className="space-y-4">
@@ -2936,8 +2907,10 @@ const BookingDemo = () => {
                     : "bg-brand-beige text-brand-dark/40 cursor-not-allowed"
                 )}
               >
-                {submitLoading ? copy.step5SubmittingLabel : copy.step5SubmitLabel}
+                {copy.step5SubmitLabel}
               </Button>
+              </>
+              )}
 
             </motion.div>
           )}
@@ -2980,7 +2953,7 @@ const BookingDemo = () => {
                               key={idx}
                               className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
                             >
-                              {exp}
+                              {exp.label}
                             </span>
                           ))}
                         </div>

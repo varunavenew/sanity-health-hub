@@ -102,18 +102,19 @@ export function getBookingApiKey(
 
 const CACHE_TTL_MS = Number(process.env.BOOKING_CACHE_TTL_MS || 5 * 60 * 1000);
 const FREETIMES_CACHE_TTL_MS = Number(
-  process.env.BOOKING_FREETIMES_CACHE_TTL_MS || 3 * 60 * 1000,
+  process.env.BOOKING_FREETIMES_CACHE_TTL_MS || 45 * 1000,
 );
 const FREETIMES_NEGATIVE_CACHE_TTL_MS = Number(
-  process.env.BOOKING_FREETIMES_NEGATIVE_CACHE_MS || 45 * 1000,
+  process.env.BOOKING_FREETIMES_NEGATIVE_CACHE_MS || 30 * 1000,
 );
+const FREETIMES_CACHE_LOG = process.env.BOOKING_FREETIMES_CACHE_LOG === "1";
 const MAX_RETRIES = Number(process.env.BOOKING_FETCH_MAX_RETRIES || 3);
 const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
 
 const EMPTY_FREETIMES_SENTINEL = Symbol("empty-freetimes");
 
-const FREETIMES_MAX_IN_FLIGHT = Number(process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT || 2);
-const FREETIMES_THROTTLE_MS = Number(process.env.BOOKING_FREETIMES_THROTTLE_MS || 120);
+const FREETIMES_MAX_IN_FLIGHT = Number(process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT || 8);
+const FREETIMES_THROTTLE_MS = Number(process.env.BOOKING_FREETIMES_THROTTLE_MS || 0);
 
 const responseCache = new Map<string, { expiresAt: number; data: unknown }>();
 const inFlightRequests = new Map<string, Promise<unknown>>();
@@ -260,7 +261,13 @@ async function fetchBookingResourceDeduped(
     if (hit.data === EMPTY_FREETIMES_SENTINEL) {
       throw new Error(`Upstream booking API recently failed for ${url}`);
     }
+    if (FREETIMES_CACHE_LOG && isFreetimesUrl(url)) {
+      console.info(`[booking/freetimes-cache] HIT ${url}`);
+    }
     return hit.data;
+  }
+  if (FREETIMES_CACHE_LOG && isFreetimesUrl(url)) {
+    console.info(`[booking/freetimes-cache] MISS ${url}`);
   }
 
   const inFlight = inFlightRequests.get(cacheKey);
@@ -275,6 +282,11 @@ async function fetchBookingResourceDeduped(
         data,
         expiresAt: Date.now() + options.cacheTtlMs,
       });
+      if (FREETIMES_CACHE_LOG && isFreetimesUrl(url)) {
+        console.info(
+          `[booking/freetimes-cache] STORE ${url} ttlMs=${options.cacheTtlMs}`,
+        );
+      }
       return data;
     } catch (error) {
       const negativeTtl = options.negativeCacheTtlMs ?? 0;
@@ -321,7 +333,7 @@ export async function fetchBookingFreetimesList(
   }
 }
 
-/** Cached fetch for relatively static catalog endpoints (groups, activities). */
+/** Cached fetch for relatively static catalog endpoints (groups, activities, users). */
 export async function fetchBookingResourceCached(
   url: string,
   apiKey: string,
@@ -330,9 +342,20 @@ export async function fetchBookingResourceCached(
   const hit = responseCache.get(cacheKey);
   if (hit && hit.expiresAt > Date.now()) return hit.data;
 
-  const data = await fetchBookingResource(url, apiKey);
-  responseCache.set(cacheKey, { data, expiresAt: Date.now() + CACHE_TTL_MS });
-  return data;
+  const pending = inFlightRequests.get(cacheKey);
+  if (pending) return pending;
+
+  const promise = fetchBookingResource(url, apiKey)
+    .then((data) => {
+      responseCache.set(cacheKey, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+      return data;
+    })
+    .finally(() => {
+      inFlightRequests.delete(cacheKey);
+    });
+
+  inFlightRequests.set(cacheKey, promise);
+  return promise;
 }
 
 export function bookingResourceUrl(base: string, id: number | string): string {

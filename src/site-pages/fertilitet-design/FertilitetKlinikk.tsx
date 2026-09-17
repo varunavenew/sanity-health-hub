@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Star, Check } from "lucide-react";
@@ -59,7 +60,7 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
                 ))}
               </div>
               <div className="flex items-center gap-4">
-                <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = "/booking?kategori=fertilitet")}>
+                <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet"))}>
                   Bestill time <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
                 </Button>
                 <Link to="/priser" className="text-sm font-light text-white/70 hover:text-white underline underline-offset-4">Se priser</Link>
@@ -217,7 +218,7 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
           <div className="flex items-center justify-center gap-2 text-xs text-white/60 font-light mb-10">
             <Star className="w-3 h-3 fill-current" strokeWidth={0} /> {fertilitetContent.ratingLine}
           </div>
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = "/booking?kategori=fertilitet")}>
+          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet"))}>
             Bestill time <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
           </Button>
         </div>

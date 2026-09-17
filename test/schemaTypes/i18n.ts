@@ -191,6 +191,20 @@ export function getStudioContentLanguage(): StudioContentLang {
  *
  * Does not affect website / GROQ.
  */
+function valueToPreviewString(raw: unknown): string {
+  if (typeof raw === 'string') return raw.trim()
+  if (!Array.isArray(raw)) return ''
+  return raw
+    .map((block) => {
+      if (!block || typeof block !== 'object') return ''
+      const children = (block as {children?: {text?: string}[]}).children
+      if (!Array.isArray(children)) return ''
+      return children.map((child) => child.text || '').join('')
+    })
+    .join(' ')
+    .trim()
+}
+
 export function resolveLocalizedPreview(
   value: unknown,
   preferred: StudioContentLang = getStudioContentLanguage(),
@@ -198,18 +212,28 @@ export function resolveLocalizedPreview(
   if (typeof value === 'string') return value.trim()
   if (!Array.isArray(value)) return ''
 
+  const firstItem = value[0] as {_type?: string; value?: unknown; language?: string} | undefined
+  if (firstItem?._type === 'block') return valueToPreviewString(value)
+
   const primary = preferred
   const secondary: StudioContentLang = preferred === 'en' ? 'no' : 'en'
 
-  const first = pickForLang(value, primary)?.trim()
+  const first = valueToPreviewString(
+    (value.find((x: any) => (x.language || x._key) === primary) as {value?: unknown} | undefined)
+      ?.value,
+  )
   if (first) return first
 
-  const second = pickForLang(value, secondary)?.trim()
+  const second = valueToPreviewString(
+    (value.find((x: any) => (x.language || x._key) === secondary) as {value?: unknown} | undefined)
+      ?.value,
+  )
   if (second) return second
 
   for (const entry of value) {
     const raw = (entry as {value?: unknown})?.value
-    if (typeof raw === 'string' && raw.trim()) return raw.trim()
+    const text = valueToPreviewString(raw)
+    if (text) return text
   }
   return ''
 }

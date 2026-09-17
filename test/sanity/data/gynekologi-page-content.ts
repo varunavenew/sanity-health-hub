@@ -588,6 +588,33 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
     ],
   },
 
+  konisering: {
+    titleNo: "Konisering",
+    titleEn: "Cone biopsy",
+    heroTitleNo: "Konisering",
+    heroTitleEn: "Cone biopsy",
+    heroLeadNo:
+      "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft.",
+    heroLeadEn:
+      "Cone biopsy is a minor surgical procedure that removes a small part of the outer layer of the cervix. The procedure prevents the cell changes from developing into cervical cancer.",
+    reasonsTitleNo: "Om konisering",
+    reasonsTitleEn: "About cone biopsy",
+    midCtaNo: gynCta.no,
+    midCtaEn: gynCta.en,
+    promiseVariant: "standard",
+    relatedSlugs: ["celleforandringer", "undersokelse", "hysteroskopi", "kirurgi"],
+    reasons: [
+      {
+        titleNo: "Om inngrepet",
+        titleEn: "About the procedure",
+        descNo:
+          "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft. Hos vår klinikk på Bekkestua tilbyr vi konisering i lokalbedøvelse, utført av vår erfarne gynekolog Birgitte Aspenes. Inngrepet tar vanligvis rundt 15 minutter, og du blir godt ivaretatt i rolige og trygge omgivelser. Vi vet at dette kan oppleves som en sårbar situasjon, derfor legger vi stor vekt på å møte deg med trygghet og omsorg gjennom hele prosessen. Inngrepet blir utført i narkose om du er veldig engstelig.",
+        descEn:
+          "Cone biopsy is a minor surgical procedure that removes a small part of the outer layer of the cervix. The procedure prevents the cell changes from developing into cervical cancer. At our Bekkestua clinic we offer cone biopsy under local anaesthetic, performed by our experienced gynaecologist Birgitte Aspenes. The procedure usually takes around 15 minutes, and you will be well looked after in calm and safe surroundings. We know this can feel like a vulnerable situation, so we place great emphasis on meeting you with safety and care throughout the process. The procedure is performed under general anaesthesia if you are very anxious.",
+      },
+    ],
+  },
+
   vulvalidelser: {
     titleNo: "Vulvalidelser og vulvodyni",
     titleEn: "Vulvar disorders and vulvodynia",
@@ -1155,9 +1182,9 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
         titleNo: "Fosterdiagnostikk hos spesialist",
         titleEn: "Prenatal diagnosis with a specialist",
         descNo:
-          "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+          "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
         descEn:
-          "Dr Ashi Ahmad at CMedical is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
+          "[Dr Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) at CMedical is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
       },
     ],
   },
@@ -1234,9 +1261,9 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
         titleNo: "Fosterdiagnostikk",
         titleEn: "Prenatal diagnosis",
         descNo:
-          "Dr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+          "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
         descEn:
-          "Dr Ashi Ahmad is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
+          "[Dr Ashi Ahmad](/booking?spesialist=ashi-ahmad&klinikk=majorstuen) is authorised to provide prenatal diagnosis for pregnant women. She is a specialist in obstetrics and gynaecology and holds a doctorate in epidemiology and obstetrics.",
       },
     ],
   },

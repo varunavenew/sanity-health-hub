@@ -40,6 +40,7 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/gynekologi/vaginale-fremfall", name: "Vaginale fremfall", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/blodningsforstyrrelser", name: "Blødningsforstyrrelser", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/celleforandringer", name: "Celleforandringer", category: "Gynekologi – underbehandlinger" },
+  { path: "/gynekologi/konisering", name: "Konisering", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/cyster", name: "Cyster på eggstokkene", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/fjerne-livmor", name: "Fjerne livmor", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/graviditet", name: "Graviditet (gyn)", category: "Gynekologi – underbehandlinger" },

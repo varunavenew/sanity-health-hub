@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect, useMemo } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Star } from "lucide-react";
@@ -58,7 +59,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
             <div>
               <h1 className="text-4xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight mb-6 italic">{sjekkContent.heroHeadline}</h1>
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-8">{sjekkContent.heroLead}</p>
-              <Button className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")}>
+              <Button className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-6 h-11" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))}>
                 Bestill sjekk <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
               </Button>
             </div>
@@ -184,7 +185,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
           <div className="flex items-center justify-center gap-2 text-xs text-white/60 font-light mb-10">
             <Star className="w-3 h-3 fill-current" strokeWidth={0} /> {sjekkContent.ratingLine}
           </div>
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")}>
+          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12" onClick={() => (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))}>
             Bestill sjekk <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
           </Button>
         </div>

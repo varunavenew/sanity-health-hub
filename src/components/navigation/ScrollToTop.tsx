@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { scrollToHashId } from "@/lib/navigation/scroll-to-hash";
 
 if (typeof window !== "undefined") {
   window.history.scrollRestoration = "manual";
@@ -19,12 +20,10 @@ export function ScrollToTop() {
 
     const hash = window.location.hash;
     if (hash) {
-      const id = hash.replace(/^#/, "");
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
       }
+      return scrollToHashId(hash);
     }
 
     scrollWindowToTop();

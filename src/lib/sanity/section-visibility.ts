@@ -107,17 +107,24 @@ type TextSectionBand = {
 export function isMeaningfulReasonItem(item: ReasonItem): boolean {
   if (isBlacklistedReasonTitle(item.title)) return false;
   if (typeof item.desc === "string") return item.desc.trim().length > 0;
+  if (Array.isArray(item.desc)) return hasPortableText(item.desc);
   return Boolean(item.desc);
+}
+
+function hasMeaningfulLead(value: unknown): boolean {
+  if (typeof value === "string") return value.trim().length > 0;
+  if (Array.isArray(value)) return hasPortableText(value);
+  return false;
 }
 
 /** Symptoms / reasons — same rule as ReasonsEditorial clean-items filter. */
 export function hasSymptomsSection(content: {
   reasons?: ReasonItem[];
-  reasonsLead?: string;
-  reasonsLead2?: string;
+  reasonsLead?: string | unknown[];
+  reasonsLead2?: string | unknown[];
 }): boolean {
   if ((content.reasons ?? []).some(isMeaningfulReasonItem)) return true;
-  return Boolean(content.reasonsLead?.trim() || content.reasonsLead2?.trim());
+  return hasMeaningfulLead(content.reasonsLead) || hasMeaningfulLead(content.reasonsLead2);
 }
 
 export function hasProcessSection(content: { flow?: FlowItem[] }): boolean {

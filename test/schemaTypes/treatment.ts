@@ -220,6 +220,16 @@ export default {
       group: 'general',
     },
     {
+      name: 'searchKeywords',
+      title: 'Search keywords / synonyms',
+      type: 'array',
+      group: 'general',
+      of: [{type: 'string'}],
+      options: {layout: 'tags'},
+      description:
+        'Alternative words patients may type when searching for this treatment on Tjenester (e.g. slankeoperasjon, fedmekirurgi, gastric bypass). Also searchable: the full treatment name and any text in parentheses. Do not list the official name again.',
+    },
+    {
       name: 'categories',
       title: 'Categories',
       type: 'array',
@@ -254,6 +264,15 @@ export default {
       initialValue: 'service',
     },
     {
+      name: 'hideFromWebsite',
+      title: 'Hide from website',
+      type: 'boolean',
+      group: 'general',
+      description:
+        'Removes this treatment from the public website. Click "Hide from website" — linked category lists, related sections, and similar CMS references are cleaned up automatically. Turn off and Publish to show it again.',
+      initialValue: false,
+    },
+    {
       // Stored for historical dual-read / rollback only. Never shown in Studio.
       // Prefer categories[]; migrate-treatment-categories.ts copies category → categories[].
       name: 'category',
@@ -264,6 +283,31 @@ export default {
       to: [{type: 'treatmentCategory'}],
       hidden: () => true,
       readOnly: true,
+    },
+    {
+      name: 'parent',
+      title: 'Parent treatment',
+      type: 'reference',
+      group: 'general',
+      to: [{type: 'treatment'}],
+      description:
+        'Optional. Set this when the page sits under another Treatment page (e.g. a sub-treatment under Hudbehandlinger, which itself sits under Hudhelse). Drives the breadcrumb trail and its structured data. Leave empty for treatments that sit directly under a Category.',
+      options: {
+        filter: ({document}: {document: {_id?: string}}) => {
+          const id = (document._id || '').replace(/^drafts\./, '')
+          return {
+            filter: '!(_id in [$id, $draftId])',
+            params: {id, draftId: `drafts.${id}`},
+          }
+        },
+      },
+      validation: (Rule: any) =>
+        Rule.custom((value: {_ref?: string} | undefined, context: any) => {
+          if (!value?._ref) return true
+          const currentId = String(context.document?._id || '').replace(/^drafts\./, '')
+          const targetId = value._ref.replace(/^drafts\./, '')
+          return targetId === currentId ? 'A treatment cannot be its own parent' : true
+        }),
     },
 
     // ── Page Content ──────────────────────────────────────────────────────────
@@ -465,14 +509,14 @@ export default {
     {
       name: 'reasonsLead',
       title: 'Introduction 1',
-      type: 'internationalizedArrayText',
+      type: 'internationalizedArraySimpleBlockContent',
       group: 'pageContent',
       fieldset: 'pcSymptoms',
     },
     {
       name: 'reasonsLead2',
       title: 'Introduction 2',
-      type: 'internationalizedArrayText',
+      type: 'internationalizedArraySimpleBlockContent',
       group: 'pageContent',
       fieldset: 'pcSymptoms',
     },
@@ -504,9 +548,21 @@ export default {
           title: 'Symptom',
           type: 'object',
           fields: [
+            {
+              name: 'id',
+              title: 'Anchor id',
+              type: 'string',
+              description:
+                'Stable URL hash for this accordion item, e.g. vannlating. Used so fold-out links land on this heading in every language.',
+            },
             { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+            {
+              name: 'desc',
+              title: 'Description',
+              type: 'internationalizedArraySimpleBlockContent',
+              description: 'Use the link button for “Les mer” / “Read more”.',
+            },
           ],
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
@@ -1367,6 +1423,7 @@ export default {
   validation: (Rule: any) =>
     Rule.custom((document: Record<string, unknown> | undefined) => {
       if (!document) return true
+      if (document.hideFromWebsite === true) return true
       const issues: string[] = []
       if (!pickNo(document.title)?.trim()) issues.push('Treatment name (Norwegian) is missing')
       if (!pickForLang(document.title, 'en')?.trim()) {

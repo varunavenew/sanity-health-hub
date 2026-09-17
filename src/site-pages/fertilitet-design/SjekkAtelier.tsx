@@ -1,4 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
+import { withBookingReturnContext } from "@/lib/booking/return-to";
 import { useEffect } from "react";
 import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Check } from "lucide-react";
@@ -61,7 +62,7 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
                 <Button
                   className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light px-6 h-11"
                   onClick={() =>
-                    (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")
+                    (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))
                   }
                 >
                   Bestill fertilitetssjekk
@@ -268,7 +269,7 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
           <Button
             className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-8 h-12"
             onClick={() =>
-              (window.location.href = "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk")
+              (window.location.href = withBookingReturnContext("/booking?kategori=fertilitet&tjeneste=fertilitetssjekk"))
             }
           >
             Bestill fertilitetssjekk

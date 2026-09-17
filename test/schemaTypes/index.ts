@@ -7,6 +7,7 @@ import treatment from './treatment'
 import aboutPage from './aboutPage'
 import contactPage from './contactPage'
 import specialist from './specialist'
+import specialistTag from './specialistTag'
 import newsPage from './newsPage'
 import pricingPage from './pricingPage'
 import insurancePage from './insurancePage'
@@ -14,6 +15,7 @@ import servicesPage from './servicesPage'
 import googleReview from './googleReview'
 import googleReviewSettings from './googleReviewSettings'
 import blockContent from './blockContent'
+import simpleBlockContent from './simpleBlockContent'
 import youtubeEmbed from './youtubeEmbed'
 import mediaObject from './objects/media'
 import homepageSpecialistsSectionType from './homepageSpecialistsSection'
@@ -27,6 +29,7 @@ import clinicsPage from './clinicsPage'
 import careersPage from './careersPage'
 import bookingPage from './bookingPage'
 import guidePage from './guidePage'
+import robotkirurgiPage from './robotkirurgiPage'
 
 import article from './article'
 import jobListing from './jobListing'
@@ -70,6 +73,7 @@ export const schemaTypes = [
   careersPage,
   bookingPage,
   guidePage,
+  robotkirurgiPage,
 
   themePage,
   specialistsPage,
@@ -80,6 +84,7 @@ export const schemaTypes = [
   treatmentCategory,
   treatment,
   specialist,
+  specialistTag,
   googleReview,
   googleReviewSettings,
   article,
@@ -105,6 +110,7 @@ export const schemaTypes = [
   pageSectionBookingCta,
   youtubeEmbed,
   blockContent,
+  simpleBlockContent,
   seo,
   siteSettings,
   googleAnalyticsSettings,

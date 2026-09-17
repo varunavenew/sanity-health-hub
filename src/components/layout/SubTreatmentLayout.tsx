@@ -17,6 +17,7 @@ import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { buildBookingUrl, type BookingLinkParams } from "@/lib/bookingLinks";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 import { Link } from "@/lib/router";
+import { scrollToHashId } from "@/lib/navigation/scroll-to-hash";
 import type { PageSection } from "@/lib/sanity/page-sections";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import {
@@ -33,6 +34,8 @@ import {
   filterMeaningfulPageSections,
 } from "@/lib/sanity/section-visibility";
 import { renderLightMarkdown } from "@/lib/light-markdown";
+import { SimpleRichText } from "@/components/portable-text/SimpleRichText";
+import { isPortableTextBlocks, portableTextToPlain } from "@/lib/portable-text/plain";
 import {
   Accordion,
   AccordionContent,
@@ -40,7 +43,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
+import type { PortableTextBlock } from "@portabletext/types";
 
 export interface SubTreatmentContent {
   seoTitle: string;
@@ -58,7 +62,8 @@ export interface SubTreatmentContent {
   insuranceTitle: string;
   insurancePartners: { key: string; label: string }[];
   parent: { name: string; path: string };
-  grandparent?: { name: string; path: string };
+  /** Extra levels between the category (`parent`) and this page, top-down (e.g. Hudhelse, then Hudbehandlinger). */
+  ancestors?: { name: string; path: string }[];
   title: string;
   heroTitle: string | ReactNode;
   heroDescription: string;
@@ -82,9 +87,9 @@ export interface SubTreatmentContent {
   flowLinkLabel?: string;
   flowLinkHref?: string;
   reasonsTitle: string;
-  reasonsLead?: string;
-  reasonsLead2?: string;
-  reasons: { n: string; title: string; desc: string | ReactNode; id?: string }[];
+  reasonsLead?: string | PortableTextBlock[];
+  reasonsLead2?: string | PortableTextBlock[];
+  reasons: { n: string; title: string; desc: string | ReactNode | PortableTextBlock[]; id?: string }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
   promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
   textSection?: {
@@ -148,12 +153,23 @@ function TreatmentSectionHead({
   className?: string;
 }) {
   return (
-    <div className={`grid gap-y-3 md:gap-y-4 ${className}`.trim()}>
+    <div>
       <h2 className={`${titleClassName} !mb-0`}>{title}</h2>
-      {description ? <p className={`${descriptionClassName} !mb-0`}>{description}</p> : null}
-      {description2 ? <p className={descriptionClassName}>{description2}</p> : null}
+      {description ? (
+        <div className={`${descriptionClassName} !mb-0 [&>p+p]:mt-3`}>{description}</div>
+      ) : null}
+      {description2 ? (
+        <div className={`${descriptionClassName} [&>p+p]:mt-3`}>{description2}</div>
+      ) : null}
     </div>
   );
+}
+
+/** Dual-read: renders Portable Text blocks (new) or a legacy markdown string. */
+function renderReasonDesc(value: string | PortableTextBlock[] | ReactNode): ReactNode {
+  if (isPortableTextBlocks(value)) return <SimpleRichText value={value} />;
+  if (typeof value === "string") return renderLightMarkdown(value);
+  return value as ReactNode;
 }
 
 const parseHeroTitle = (heroTitle: string | ReactNode): ReactNode => {
@@ -179,12 +195,14 @@ function ReasonsEditorial({
   items,
 }: {
   title: string;
-  lead?: string;
-  lead2?: string;
-  items: { n: string; title: string; desc: string | ReactNode; id?: string }[];
+  lead?: string | PortableTextBlock[];
+  lead2?: string | PortableTextBlock[];
+  items: { n: string; title: string; desc: string | ReactNode | PortableTextBlock[]; id?: string }[];
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
-  const hasLead = Boolean(lead?.trim() || lead2?.trim());
+  const hasLead = Boolean(
+    portableTextToPlain(lead).trim() || portableTextToPlain(lead2).trim(),
+  );
   const itemsWithIds = cleanItems.map((item, index) => ({
     ...item,
     id: item.id || `reason-${index}`,
@@ -194,20 +212,23 @@ function ReasonsEditorial({
 
   const itemIdsKey = itemsWithIds.map((item) => item.id).join("|");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const applyHash = () => {
-      const hashId = window.location.hash.replace(/^#/, "");
-      if (!hashId) return;
-      if (!itemIdsKey.split("|").includes(hashId)) return;
-      setOpenItem(hashId);
-      window.requestAnimationFrame(() => {
-        document.getElementById(hashId)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      const nextHashId = window.location.hash.replace(/^#/, "");
+      if (!nextHashId) return;
+      if (!itemIdsKey.split("|").includes(nextHashId)) return;
+      setOpenItem(nextHashId);
     };
     applyHash();
     window.addEventListener("hashchange", applyHash);
     return () => window.removeEventListener("hashchange", applyHash);
   }, [itemIdsKey]);
+
+  useLayoutEffect(() => {
+    const hashId = window.location.hash.replace(/^#/, "");
+    if (!hashId || hashId !== openItem) return;
+    return scrollToHashId(`#${hashId}`);
+  }, [itemIdsKey, openItem]);
 
   // Demo pages can show title + lead with no right-column items yet.
   if (cleanItems.length === 0 && !hasLead) return null;
@@ -220,8 +241,8 @@ function ReasonsEditorial({
             <div className="lg:sticky lg:top-28">
               <TreatmentSectionHead
                 title={title}
-                description={lead}
-                description2={lead2}
+                description={renderReasonDesc(lead)}
+                description2={renderReasonDesc(lead2)}
                 titleClassName="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1]"
               />
             </div>
@@ -248,10 +269,8 @@ function ReasonsEditorial({
                       <span className="pr-4">{item.title}</span>
                     </AccordionTrigger>
                     <AccordionContent>
-                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-                        {typeof item.desc === "string"
-                          ? renderLightMarkdown(item.desc)
-                          : item.desc}
+                      <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_a]:text-foreground [&_li]:marker:text-foreground/40">
+                        {renderReasonDesc(item.desc)}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -488,19 +507,11 @@ export const SubTreatmentLayout = ({
   const breadcrumbItems = useMemo(
     () => [
       { name: c.homeBreadcrumbLabel, path: "/" },
-      ...(c.grandparent
-        ? [{ name: c.grandparent.name, path: c.grandparent.path }]
-        : []),
       { name: c.parent.name, path: c.parent.path },
+      ...(c.ancestors ?? []),
       { name: c.title },
     ],
-    [
-      c.homeBreadcrumbLabel,
-      c.grandparent,
-      c.parent.name,
-      c.parent.path,
-      c.title,
-    ],
+    [c.homeBreadcrumbLabel, c.parent.name, c.parent.path, c.ancestors, c.title],
   );
 
   return (
@@ -512,8 +523,8 @@ export const SubTreatmentLayout = ({
         canonical={c.canonical}
         breadcrumbs={[
           { name: c.homeBreadcrumbLabel, path: "/" },
-          ...(c.grandparent ? [c.grandparent] : []),
           c.parent,
+          ...(c.ancestors ?? []),
           { name: c.title, path: c.canonical },
         ]}
       />
@@ -540,7 +551,7 @@ export const SubTreatmentLayout = ({
                 {heroTitle}
               </p>
               {c.heroDescription ? (
-                <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-muted-foreground">
+                <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
                   {c.heroDescription}
                 </p>
               ) : null}
@@ -590,13 +601,13 @@ export const SubTreatmentLayout = ({
                   primaryLabel={c.primaryCtaLabel}
                   callLabel={c.callCtaLabel}
                   categoryId={c.booking.kategori}
+                  primaryHref={buildBookingUrl(c.booking, { withReturnContext: false })}
                   onPrimary={() => {
                     trackBookingMenuStart({
                       entry_point: "service_page_cta",
                       category: c.booking.kategori ?? null,
                       service_name: c.booking.tjeneste ?? null,
                     });
-                    window.location.href = buildBookingUrl(c.booking);
                   }}
                 />
                 {!c.hideSeePriser ? (
@@ -752,13 +763,13 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       {hasExpertAreasSection(c) ? (
-        <section className="bg-secondary/40 py-10">
+        <section className="bg-secondary/40 pt-14 md:pt-28">
           <div className="page-shell">
             <div className="max-w-6xl mx-auto">
               <TreatmentSectionHead
                 title={c.expertAreas?.title ?? ""}
                 description={c.expertAreas?.description}
-                className="lg:grid-cols-12 lg:gap-x-24 mb-14"
+                // className="lg:grid-cols-12 lg:gap-x-24 mb-14"
                 titleClassName="text-3xl md:text-5xl font-light leading-tight text-foreground lg:col-span-6"
                 descriptionClassName="text-base font-light text-muted-foreground leading-relaxed lg:col-span-6"
               />
@@ -786,7 +797,7 @@ export const SubTreatmentLayout = ({
                       )}
                     </div>
                     <div className="p-7 flex flex-col flex-1">
-                      <h3 className="text-xl font-light text-foreground mb-3">{area.title}</h3>
+                      <h3 className="text-lg font-normal text-foreground mb-3">{area.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                         {area.desc}
                       </p>
@@ -928,7 +939,7 @@ export const SubTreatmentLayout = ({
       {/* MID-PAGE CONVERSION BAND — CMS heading + mid-page button labels */}
       {hasMidCtaSection(c) ? (
       <section className="bg-brand-light text-foreground py-10 border-t border-brand-dark/10">
-        <div className="page-shell">
+        <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
               <TreatmentSectionHead
@@ -948,13 +959,13 @@ export const SubTreatmentLayout = ({
                   : c.midCtaCallLabel || c.callCtaLabel
               }
               categoryId={c.booking.kategori}
+              primaryHref={buildBookingUrl(c.booking, { withReturnContext: false })}
               onPrimary={() => {
                 trackBookingMenuStart({
                   entry_point: "service_page_cta",
                   category: c.booking.kategori ?? null,
                   service_name: c.booking.tjeneste ?? null,
                 });
-                window.location.href = buildBookingUrl(c.booking);
               }}
               className="w-full md:w-auto"
             />

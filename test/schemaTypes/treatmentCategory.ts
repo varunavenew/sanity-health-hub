@@ -177,6 +177,16 @@ export default {
       group: 'general',
     },
     {
+      name: 'searchKeywords',
+      title: 'Search keywords / synonyms',
+      type: 'array',
+      group: 'general',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+      description:
+        'Alternative words patients may type when searching for this category on Tjenester (e.g. revmatolog, leddgikt). Also searchable: the full category name and any text in parentheses. Do not list the official name again.',
+    },
+    {
       name: 'treatments',
       title: 'Linked treatments',
       group: 'general',

@@ -7,6 +7,7 @@ import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import { specialistHasHeroCtas } from "@/lib/sanity/specialist-cta";
 import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-types";
+import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 
 interface SpecialistHeroProps {
   specialist: Specialist;
@@ -14,6 +15,30 @@ interface SpecialistHeroProps {
 
 const expertiseChipClass =
   "inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-transparent";
+
+const expertiseChipLinkClass =
+  `${expertiseChipClass} hover:border-foreground/60 hover:bg-foreground/[0.03] transition-colors`;
+
+function ExpertiseChip({
+  label,
+  href,
+  className,
+  linkClassName,
+}: {
+  label: string;
+  href?: string;
+  className: string;
+  linkClassName: string;
+}) {
+  if (href) {
+    return (
+      <Link to={href} className={linkClassName}>
+        {label}
+      </Link>
+    );
+  }
+  return <span className={className}>{label}</span>;
+}
 
 const SPECIALIST_MOBILE_HERO_GRADIENT =
   "linear-gradient(to top, rgba(24, 4, 4, 0.94) 0%, rgba(66, 51, 42, 0.88) 22%, rgba(66, 51, 42, 0.72) 40%, rgba(66, 51, 42, 0.48) 58%, rgba(66, 51, 42, 0.24) 78%, rgba(66, 51, 42, 0.1) 100%)";
@@ -32,13 +57,15 @@ function SpecialistHeroMedia({
   className?: string;
   variant?: "hero" | "profile";
 }) {
+  const { hotspot, crop } = resolveSpecialistImageFocal(specialist);
+
   return (
     <ResponsiveHeroMedia
       variant={variant}
       media={specialist.heroMedia}
       src={specialist.image}
-      hotspot={specialist.heroMedia?.hotspot ?? specialist.imageHotspot}
-      crop={specialist.heroMedia?.crop ?? specialist.imageCrop}
+      hotspot={hotspot}
+      crop={crop}
       alt={specialist.name}
       className={className}
       loading="eager"
@@ -116,9 +143,13 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
               className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4"
             >
               {specialist.expertise.map((tag) => (
-                <span key={tag} className="text-sm font-light text-white">
-                  {tag}
-                </span>
+                <ExpertiseChip
+                  key={tag.label}
+                  label={tag.label}
+                  href={tag.href}
+                  className="text-sm font-light text-white"
+                  linkClassName="text-sm font-light text-white underline-offset-4 hover:underline"
+                />
               ))}
             </motion.div>
           ) : null}
@@ -193,9 +224,13 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
                 className="flex flex-wrap items-center gap-1.5 mb-8"
               >
                 {specialist.expertise.map((tag) => (
-                  <span key={tag} className={expertiseChipClass}>
-                    {tag}
-                  </span>
+                  <ExpertiseChip
+                    key={tag.label}
+                    label={tag.label}
+                    href={tag.href}
+                    className={expertiseChipClass}
+                    linkClassName={expertiseChipLinkClass}
+                  />
                 ))}
               </motion.div>
             ) : null}

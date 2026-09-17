@@ -55,6 +55,7 @@ const I18N_VALUE_TYPES = new Set([
   'internationalizedArrayStringValue',
   'internationalizedArrayTextValue',
   'internationalizedArrayBlockContentValue',
+  'internationalizedArraySimpleBlockContentValue',
 ])
 
 const DOCUMENT_TYPES = [
@@ -184,7 +185,8 @@ function collectJobs(node: unknown, path: (string | number)[], jobs: Job[]) {
       const enItem = items.find((i) => getLang(i) === 'en')
       if (noItem && noItem.value != null && (FORCE || !enHasValue(enItem, noItem))) {
         const ptBlocks =
-          noItem._type === 'internationalizedArrayBlockContentValue' &&
+          (noItem._type === 'internationalizedArrayBlockContentValue' ||
+            noItem._type === 'internationalizedArraySimpleBlockContentValue') &&
           Array.isArray(noItem.value)
         jobs.push({
           path,

@@ -83,9 +83,9 @@ export const IMAGE_WITH_FOCAL_PROJECTION = `{
  */
 export const SPECIALIST_PHOTO_PROJECTION = `
   "image": coalesce(photo.asset->url, photo.asset._ref),
-  "imageHotspot": photo.hotspot,
-  "imageCrop": photo.crop,
-  "imageAssetRef": photo.asset._ref
+  "imageHotspot": coalesce(photo.hotspot, heroMedia.image.hotspot),
+  "imageCrop": coalesce(photo.crop, heroMedia.image.crop),
+  "imageAssetRef": coalesce(photo.asset._ref, heroMedia.image.asset._ref)
 `;
 
 /**

@@ -1,5 +1,6 @@
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/lib/router";
 import { cn } from "@/lib/utils";
 
 const buttonClass =
@@ -7,7 +8,10 @@ const buttonClass =
 
 interface TreatmentCtaButtonsProps {
   primaryLabel?: string;
-  onPrimary: () => void;
+  /** Locale-agnostic or localized booking path; preferred over onPrimary. */
+  primaryHref?: string;
+  /** Fired on primary click (e.g. analytics). Navigation uses primaryHref when set. */
+  onPrimary?: () => void;
   callLabel?: string;
   /** Category page id — limits the call dropdown to clinics that offer it. */
   categoryId?: string;
@@ -17,6 +21,7 @@ interface TreatmentCtaButtonsProps {
 /** Matching book + call pair used on treatment and category pages. */
 export function TreatmentCtaButtons({
   primaryLabel,
+  primaryHref,
   onPrimary,
   callLabel,
   categoryId,
@@ -32,14 +37,22 @@ export function TreatmentCtaButtons({
       )}
     >
       {primaryLabel ? (
-        <Button
-          variant="cta"
-          size="lg"
-          className={buttonClass}
-          onClick={onPrimary}
-        >
-          {primaryLabel}
-        </Button>
+        primaryHref ? (
+          <Button variant="cta" size="lg" className={buttonClass} asChild>
+            <Link to={primaryHref} onClick={onPrimary}>
+              {primaryLabel}
+            </Link>
+          </Button>
+        ) : (
+          <Button
+            variant="cta"
+            size="lg"
+            className={buttonClass}
+            onClick={onPrimary}
+          >
+            {primaryLabel}
+          </Button>
+        )
       ) : null}
       {callLabel ? (
         <CallUsClinicPicker

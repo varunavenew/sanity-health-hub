@@ -27,6 +27,7 @@ const SINGLETON_SLUGS: Record<string, SlugPair> = {
   privacyPolicyPage: { no: "personvern", en: "personvern" },
   careersPage: { no: "karriere", en: "careers" },
   guidePage: { no: "guide", en: "guide" },
+  robotkirurgiPage: { no: "robotassistert-kirurgi", en: "robot-assisted-surgery" },
   opennessActPage: { no: "aapenhetsloven-2025", en: "transparency-act-2025" },
 };
 

@@ -37,6 +37,7 @@ import {
   type ContactRequestDialogCopy,
 } from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
+import { isTreatmentVisibleOnWebsite } from "@/lib/sanity/treatment-page-role";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
@@ -80,6 +81,7 @@ import {
   SPECIALISTS_LISTING_PAGE_QUERY,
   CAREERS_PAGE_QUERY,
   GUIDE_PAGE_QUERY,
+  ROBOTKIRURGI_PAGE_QUERY,
   CLINICS_PAGE_QUERY,
   SOCIAL_POSTS_QUERY,
   CMS_ROUTE_INDEX_QUERY,
@@ -115,6 +117,7 @@ import {
   type ClinicianGuideRaw,
 } from "@/lib/sanity/clinician-guide-data";
 import { mapThemePageData } from "@/lib/sanity/theme-page-data";
+import { mapRobotkirurgiPageData } from "@/lib/sanity/robotkirurgi-page-data";
 
 const useSanityLang = useSanityContentLang;
 
@@ -806,6 +809,7 @@ export const useBookingPage = () => {
         BOOKING_PAGE_QUERY,
         undefined,
         lang,
+        { strict: true },
       );
       return {
         ...resolveBookingPageCopy(data, lang),
@@ -1255,6 +1259,7 @@ export const useServiceCategoriesFromSanity = () => {
                   : cmsTreatmentLabel;
               if (!navId || !pathSlug || !treatmentLabel) return null;
               if (t.pageRole === "team") return null;
+              if (!isTreatmentVisibleOnWebsite(t.hideFromWebsite)) return null;
               if (slugLocalized === "new-treatment" || slugNo === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
                 return null;
               }
@@ -1344,6 +1349,16 @@ export const useGuidePage = () => {
       }>(GUIDE_PAGE_QUERY, undefined, lang);
       return withPageSections(data);
     },
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useRobotkirurgiPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "robotkirurgiPage", lang],
+    queryFn: async () =>
+      mapRobotkirurgiPageData(await fetchSanity<any>(ROBOTKIRURGI_PAGE_QUERY, undefined, lang)),
     staleTime: 5 * 60 * 1000,
   });
 };

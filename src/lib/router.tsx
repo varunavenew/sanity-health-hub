@@ -175,8 +175,16 @@ export function Link({ to, replace, children, onClick, prefetch, scroll, ...rest
     );
   }
 
+  const hasHash = href.includes("#") || to.includes("#");
   return (
-    <NextLink href={href} replace={replace} prefetch={prefetch} scroll={scroll} onClick={handleClick} {...rest}>
+    <NextLink
+      href={href}
+      replace={replace}
+      prefetch={prefetch}
+      scroll={scroll ?? !hasHash}
+      onClick={handleClick}
+      {...rest}
+    >
       {children}
     </NextLink>
   );

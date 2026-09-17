@@ -63,7 +63,13 @@ const segmentItem = {
       hidden: true,
     },
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
-    { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
+    {
+      name: 'description',
+      title: 'Text',
+      ...i18nTxt,
+      description:
+        'Optional. Leave empty to hide the small text under the title — the website skips the gap.',
+    },
     {
       name: 'tagLinks',
       title: 'Keywords with links',
@@ -597,8 +603,24 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleAccent', title: 'Heading (accent)', ...i18nStr },
         {
+          name: 'layout',
+          title: 'Display',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel (mobile)', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'grid',
+          description:
+            'Grid = stacked cards on all screens. Carousel = swipe sideways on mobile, grid on desktop.',
+        },
+        {
           name: 'audiences',
           title: 'Cards',
+          description: 'Drag items by the handle to reorder. Cards render in this order.',
           type: 'array',
           of: [audienceItem],
         },

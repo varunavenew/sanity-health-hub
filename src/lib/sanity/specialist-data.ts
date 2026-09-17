@@ -1,8 +1,9 @@
-import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
+import type { Specialist, SpecialistClinicRef, SpecialistExpertiseTag, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
-import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
+import { resolveCmsMedia, type ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
 import { cmsImageSrc } from "@/lib/sanity/image-url";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
@@ -168,15 +169,40 @@ function readSpecialtyLabel(entry: unknown): unknown {
   return entry;
 }
 
+function readSpecialtyHref(entry: unknown): unknown {
+  if (entry && typeof entry === "object" && "href" in entry) {
+    return (entry as { href?: unknown }).href;
+  }
+  return undefined;
+}
+
 function pickSpecialtyNo(entry: unknown): string {
   return pickNo(readSpecialtyLabel(entry));
 }
 
-function readLocalizedStringArray(value: unknown, lang: SanityLang): string[] {
+/** Href is a path/URL, not translatable text — locale fallback only, no keyword translation. */
+function readLocalizedHref(value: unknown, lang: SanityLang): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  const entries = value as I18nValueItem[];
+  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
+  if (typeof matchLang === "string" && matchLang.trim()) return matchLang.trim();
+  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
+  if (typeof matchNo === "string" && matchNo.trim()) return matchNo.trim();
+  const first = entries[0]?.value;
+  return typeof first === "string" ? first.trim() : "";
+}
+
+function mapExpertiseTags(value: unknown, lang: SanityLang): SpecialistExpertiseTag[] {
   if (!Array.isArray(value)) return [];
-  return value
-    .map((entry) => readLocalizedString(readSpecialtyLabel(entry), lang))
-    .filter((entry): entry is string => Boolean(entry));
+  const tags: SpecialistExpertiseTag[] = [];
+  for (const entry of value) {
+    const label = readLocalizedString(readSpecialtyLabel(entry), lang);
+    if (!label) continue;
+    const href = readLocalizedHref(readSpecialtyHref(entry), lang);
+    tags.push(href ? { label, href } : { label });
+  }
+  return tags;
 }
 
 function readEducation(value: unknown, lang: SanityLang): string | undefined {
@@ -346,6 +372,21 @@ function mapRelatedSpecialistsSection(
   };
 }
 
+/** Hotspot/crop for card thumbnails — prefers mapped fields, falls back to heroMedia. */
+export function resolveSpecialistImageFocal(specialist: {
+  imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+  imageCrop?: SanityCrop | null;
+  heroMedia?: ResolvedCmsMedia | null;
+}): {
+  hotspot: SanityHotspot | MediaFocalPoint | null;
+  crop: SanityCrop | null;
+} {
+  return {
+    hotspot: specialist.imageHotspot ?? specialist.heroMedia?.hotspot ?? null,
+    crop: specialist.imageCrop ?? specialist.heroMedia?.crop ?? null,
+  };
+}
+
 export function mapSanitySpecialistRow(
   raw: RawSanitySpecialist,
   lang: SanityLang,
@@ -354,7 +395,7 @@ export function mapSanitySpecialistRow(
 
   const bio = readLocalizedString(raw.shortBio, lang);
   const title = readLocalizedString(raw.role, lang);
-  const expertise = readLocalizedStringArray(raw.specialties, lang);
+  const expertise = mapExpertiseTags(raw.specialties, lang);
   const bookingCategoryIds = normalizeBookingCategoryIds(raw.bookingCategoryIds);
 
   if (!bio || !title || expertise.length === 0) return null;
@@ -362,14 +403,14 @@ export function mapSanitySpecialistRow(
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
 
-  const imageHotspot = raw.imageHotspot || null;
-  const imageCrop = raw.imageCrop ?? null;
   const media = resolveCmsMedia(raw.heroMedia, {
     mediaType: "image",
     imageUrl: raw.image?.trim(),
     hotspot: raw.imageHotspot,
-    crop: imageCrop,
+    crop: raw.imageCrop ?? null,
   });
+  const imageHotspot = media?.hotspot ?? raw.imageHotspot ?? null;
+  const imageCrop = media?.crop ?? raw.imageCrop ?? null;
   const image =
     (media?.kind === "image" ? media.src : media?.poster) ||
     cmsImageSrc(raw.image, raw.imageAssetRef);

@@ -17,6 +17,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Vaginale fremfall', path: '/behandlinger/gynekologi/vaginale-fremfall', category: 'Gynekologi', keywords: ['prolaps', 'fremfall', 'tyngde', 'underliv'] },
   { label: 'Blødningsforstyrrelser', path: '/behandlinger/gynekologi/blodningsforstyrrelser', category: 'Gynekologi', keywords: ['blødning', 'menstruasjon', 'uregelmessig', 'kraftig', 'mens'] },
   { label: 'Celleforandringer', path: '/behandlinger/gynekologi/celleforandringer', category: 'Gynekologi', keywords: ['celleprøve', 'livmorhals', 'hpv', 'konisering', 'screening'] },
+  { label: 'Konisering', path: '/gynekologi/konisering', category: 'Gynekologi', keywords: ['konisering', 'celleforandringer', 'livmorhals', 'dysplasi'] },
   { label: 'Cyster på eggstokkene', path: '/behandlinger/gynekologi/cyster', category: 'Gynekologi', keywords: ['cyste', 'eggstokk'] },
   { label: 'Fjerne livmor', path: '/behandlinger/gynekologi/fjerne-livmor', category: 'Gynekologi', keywords: ['hysterektomi', 'livmor'] },
   { label: 'PMS og PMDD', path: '/behandlinger/gynekologi/pms-pmdd', category: 'Gynekologi', keywords: ['premenstruell', 'humørsvingninger', 'pms'] },

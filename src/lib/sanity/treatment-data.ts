@@ -14,12 +14,16 @@ import { flereFagomraderTreatmentSlugCandidates } from "@/lib/sanity/flere-fagom
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { fetchSanityGroqBrowser } from "@/lib/sanity/fetch-groq-browser";
-import { isRelatedServiceEligible } from "@/lib/sanity/treatment-page-role";
+import { isRelatedServiceEligible, isTreatmentVisibleOnWebsite } from "@/lib/sanity/treatment-page-role";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import {
   buildLinkedCardHeroLookup,
   type LinkedCardHeroRow,
 } from "@/lib/sanity/flere-linked-service-media";
+import type { PortableTextBlock } from "@portabletext/types";
+import { isPortableTextBlocks } from "@/lib/portable-text/plain";
+
+export type ReasonDesc = string | PortableTextBlock[];
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -47,6 +51,12 @@ function asPlainString(value: unknown): string {
   return "";
 }
 
+function asReasonDesc(value: unknown): ReasonDesc {
+  if (typeof value === "string") return value;
+  if (isPortableTextBlocks(value)) return value;
+  return asPlainString(value);
+}
+
 function pathSlug(path: string): string {
   return path.split("/").filter(Boolean).pop() || "";
 }
@@ -54,6 +64,29 @@ function pathSlug(path: string): string {
 function asStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return value.map((v) => asPlainString(v)).filter(Boolean);
+}
+
+export type ParentTreatmentNode = {
+  title?: string;
+  slug?: string;
+  categorySegment?: string;
+  parentTreatment?: ParentTreatmentNode;
+};
+
+/** Recursively maps the GROQ `parent->{...}` chain (title/slug/category + nested parentTreatment). */
+function mapParentTreatmentNode(value: unknown): ParentTreatmentNode | undefined {
+  if (!value || typeof value !== "object") return undefined;
+  const row = value as Record<string, unknown>;
+  const title = asPlainString(row.title);
+  const slug = asPlainString(row.slug);
+  const categorySegment = asPlainString(row.categorySegment);
+  if (!title || !slug) return undefined;
+  return {
+    title,
+    slug,
+    categorySegment: categorySegment || undefined,
+    parentTreatment: mapParentTreatmentNode(row.parentTreatment),
+  };
 }
 
 function mapTreatmentReviews(
@@ -104,6 +137,8 @@ export type TreatmentData = {
   heroMedia?: unknown;
   parentCategory?: string;
   parentSlug?: string;
+  /** Ancestor treatment chain from the `parent` ref (immediate parent first), for breadcrumb nesting under another Treatment page. */
+  parentTreatment?: ParentTreatmentNode;
   categoryNumericId?: number;
   faqSectionTitle?: string;
   faqs?: { question: string; answer: string }[];
@@ -147,10 +182,10 @@ export type TreatmentData = {
   flow?: { n: string; title: string; desc: string }[];
   reasonsEyebrow?: string;
   reasonsTitle?: string;
-  reasonsLead?: string;
-  reasonsLead2?: string;
+  reasonsLead?: ReasonDesc;
+  reasonsLead2?: ReasonDesc;
   reasonsLayout?: "prose" | "accordion" | "auto";
-  reasons?: { n: string; title: string; desc: string; id?: string }[];
+  reasons?: { n: string; title: string; desc: ReasonDesc; id?: string }[];
   promises?: { eyebrow: string; title: string; desc: string; image?: string; imageAlt?: string }[];
   expertAreas?: {
     title?: string;
@@ -238,6 +273,7 @@ export function mapTreatmentDocument(
         const r = item as Record<string, unknown>;
         return {
           pageRole: asPlainString(r.pageRole) || undefined,
+          hideFromWebsite: r.hideFromWebsite === true,
           eyebrow: asPlainString(r.eyebrow),
           title: asPlainString(r.title),
           desc: asPlainString(r.desc),
@@ -249,7 +285,13 @@ export function mapTreatmentDocument(
             undefined,
         };
       })
-      .filter((r) => r.title && r.path && isRelatedServiceEligible(r.pageRole));
+      .filter(
+        (r) =>
+          r.title &&
+          r.path &&
+          isRelatedServiceEligible(r.pageRole) &&
+          isTreatmentVisibleOnWebsite(r.hideFromWebsite),
+      );
   })();
 
   const relatedImageBySlug = new Map(
@@ -275,6 +317,7 @@ export function mapTreatmentDocument(
     heroMedia: data.heroMedia,
     parentCategory: row("parentCategory"),
     parentSlug: row("parentSlug"),
+    parentTreatment: mapParentTreatmentNode(data.parentTreatment),
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
     faqSectionTitle: row("faqSectionTitle"),
@@ -349,8 +392,8 @@ export function mapTreatmentDocument(
       .filter((s) => s.title || s.desc),
     reasonsEyebrow: row("reasonsEyebrow"),
     reasonsTitle: row("reasonsTitle"),
-    reasonsLead: row("reasonsLead"),
-    reasonsLead2: row("reasonsLead2"),
+    reasonsLead: asReasonDesc(data.reasonsLead) || undefined,
+    reasonsLead2: asReasonDesc(data.reasonsLead2) || undefined,
     reasonsLayout:
       data.reasonsLayout === "accordion" || data.reasonsLayout === "auto"
         ? data.reasonsLayout
@@ -363,7 +406,7 @@ export function mapTreatmentDocument(
         return {
           n: asPlainString(r.n),
           title,
-          desc: asPlainString(r.desc),
+          desc: asReasonDesc(r.desc),
           id: asPlainString(r.id) || undefined,
         };
       })
