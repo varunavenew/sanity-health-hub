@@ -987,6 +987,7 @@ const TreatmentCategoryLanding = ({
   );
   const loadingLabel = sanityLang === "en" ? "Loading..." : "Laster...";
   const expertAreasRef = useRef<HTMLDivElement>(null);
+  const audiencesRef = useRef<HTMLDivElement>(null);
   const breadcrumbHomeLabel =
     landing?.breadcrumbHomeLabel?.trim() || t("common.breadcrumbHome");
 
@@ -1297,49 +1298,67 @@ const TreatmentCategoryLanding = ({
               />
                 );
               })()}
-              <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`}>
-                {audiencesSection.audiences.map((a) => {
-                  const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
-                  return (
+              {(() => {
+                const isCarousel = audiencesSection.layout === "carousel";
+                return (
+                  <>
                     <div
-                      key={a.title}
-                      className="bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden"
+                      ref={isCarousel ? audiencesRef : undefined}
+                      className={
+                        isCarousel
+                          ? "flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide md:gap-6"
+                          : `${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`
+                      }
+                      style={isCarousel ? { scrollbarWidth: "none" } : undefined}
                     >
-                      {a.image ? (
-                        <div
-                          className={`relative overflow-hidden bg-secondary ${
-                            isFertility ? "aspect-[16/9]" : "aspect-[3/2]"
-                          }`}
-                        >
-                          <AssetImg
-                            src={a.image}
-                            alt={a.title}
-                            preset="card"
-                            loading="lazy"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="pt-7 px-7 text-foreground/80">
-                          {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
-                        </div>
-                      )}
-                      <div className="p-7 md:p-8 flex flex-col flex-1">
-                        <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                        <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1 max-w-md">{a.desc}</p>
-                        {a.href ? (
-                          <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
-                            {a.ctaLabel.trim() ||
-                              audiencesSection.readMoreLabel.trim() ||
-                              t("hero.readMore")}
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-                        ) : null}
-                      </div>
+                      {audiencesSection.audiences.map((a) => {
+                        const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
+                        return (
+                          <div
+                            key={a.title}
+                            className={`bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden ${
+                              isCarousel ? "shrink-0 w-[85%] md:w-auto snap-start" : ""
+                            }`}
+                          >
+                            {a.image ? (
+                              <div
+                                className={`relative overflow-hidden bg-secondary ${
+                                  isFertility ? "aspect-[16/9]" : "aspect-[3/2]"
+                                }`}
+                              >
+                                <AssetImg
+                                  src={a.image}
+                                  alt={a.title}
+                                  preset="card"
+                                  loading="lazy"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="pt-7 px-7 text-foreground/80">
+                                {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
+                              </div>
+                            )}
+                            <div className="p-7 md:p-8 flex flex-col flex-1">
+                              <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1 max-w-md">{a.desc}</p>
+                              {a.href ? (
+                                <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
+                                  {a.ctaLabel.trim() ||
+                                    audiencesSection.readMoreLabel.trim() ||
+                                    t("hero.readMore")}
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                </Link>
+                              ) : null}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
+                    {isCarousel ? <ScrollArrows scrollRef={audiencesRef} /> : null}
+                  </>
+                );
+              })()}
             </div>
           </div>
         </section>
