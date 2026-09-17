@@ -603,19 +603,33 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleAccent', title: 'Heading (accent)', ...i18nStr },
         {
-          name: 'layout',
-          title: 'Display',
+          name: 'mobileLayout',
+          title: 'Display (mobile)',
           type: 'string',
           options: {
             list: [
               { title: 'Grid', value: 'grid' },
-              { title: 'Horizontal carousel (mobile)', value: 'carousel' },
+              { title: 'Horizontal carousel', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'grid',
+          description: 'Grid = cards stacked vertically. Carousel = swipe sideways.',
+        },
+        {
+          name: 'desktopLayout',
+          title: 'Display (desktop)',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel', value: 'carousel' },
             ],
             layout: 'radio',
           },
           initialValue: 'grid',
           description:
-            'Grid = stacked cards on all screens. Carousel = swipe sideways on mobile, grid on desktop.',
+            'Grid = same card grid as today. Carousel = horizontal scroll strip with arrows.',
         },
         {
           name: 'audiences',
