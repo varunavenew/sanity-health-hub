@@ -4,7 +4,7 @@
  */
 import {defineIncomingReferenceDecoration} from 'sanity/structure'
 import {CategoryIcon} from './icons'
-import {pickStudioLabel} from './studioPreview'
+import {pickStudioEn, pickStudioLabel} from './studioPreview'
 import {requiredNoEnI18n} from './i18n'
 
 export default {
@@ -23,9 +23,9 @@ export default {
     {
       name: 'href',
       title: 'Link',
-      type: 'string',
+      type: 'internationalizedArrayString',
       description:
-        'Optional. Internal path (e.g. /gynekologi) or full URL. Leave empty for a non-clickable tag.',
+        'Optional. Internal path (e.g. /gynekologi) or full URL, per language (NO + EN). Leave empty for a non-clickable tag.',
     },
   ],
   renderMembers: (members: unknown[]) => [
@@ -50,10 +50,10 @@ export default {
       title: 'label',
       href: 'href',
     },
-    prepare({title, href}: {title?: unknown; href?: string}) {
+    prepare({title, href}: {title?: unknown; href?: unknown}) {
       return {
         title: pickStudioLabel({title, fallback: 'Specialist tag'}),
-        subtitle: href?.trim() || 'No link',
+        subtitle: pickStudioEn(href) || 'No link',
       }
     },
   },
