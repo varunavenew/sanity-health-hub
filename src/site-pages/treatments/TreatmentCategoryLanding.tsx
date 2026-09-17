@@ -1299,26 +1299,56 @@ const TreatmentCategoryLanding = ({
                 );
               })()}
               {(() => {
-                const isCarousel = audiencesSection.layout === "carousel";
+                const mobileCarousel = audiencesSection.mobileLayout === "carousel";
+                const desktopCarousel = audiencesSection.desktopLayout === "carousel";
+                const anyCarousel = mobileCarousel || desktopCarousel;
+
+                const containerClass = !anyCarousel
+                  ? `${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`
+                  : [
+                      mobileCarousel
+                        ? "flex overflow-x-auto snap-x snap-mandatory -mx-4 px-4"
+                        : "grid grid-cols-1",
+                      desktopCarousel
+                        ? "md:flex md:overflow-x-auto md:snap-x md:snap-mandatory"
+                        : "md:grid md:grid-cols-2",
+                      mobileCarousel ? "md:mx-0 md:px-0" : "",
+                      "scrollbar-hide gap-4 md:gap-6",
+                    ]
+                      .filter(Boolean)
+                      .join(" ");
+
+                const cardExtraClass = [
+                  mobileCarousel ? "shrink-0 w-[85%] snap-start" : "",
+                  desktopCarousel
+                    ? "md:shrink-0 md:w-[320px] md:snap-start"
+                    : mobileCarousel
+                      ? "md:w-auto"
+                      : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ");
+
+                const scrollVisibility: "mobile" | "desktop" | "all" =
+                  mobileCarousel && desktopCarousel
+                    ? "all"
+                    : desktopCarousel
+                      ? "desktop"
+                      : "mobile";
+
                 return (
                   <>
                     <div
-                      ref={isCarousel ? audiencesRef : undefined}
-                      className={
-                        isCarousel
-                          ? "flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide md:gap-6"
-                          : `${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`
-                      }
-                      style={isCarousel ? { scrollbarWidth: "none" } : undefined}
+                      ref={anyCarousel ? audiencesRef : undefined}
+                      className={containerClass}
+                      style={anyCarousel ? { scrollbarWidth: "none" } : undefined}
                     >
                       {audiencesSection.audiences.map((a) => {
                         const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
                         return (
                           <div
                             key={a.title}
-                            className={`bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden ${
-                              isCarousel ? "shrink-0 w-[85%] md:w-auto snap-start" : ""
-                            }`}
+                            className={`bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden ${cardExtraClass}`}
                           >
                             {a.image ? (
                               <div
@@ -1355,7 +1385,9 @@ const TreatmentCategoryLanding = ({
                         );
                       })}
                     </div>
-                    {isCarousel ? <ScrollArrows scrollRef={audiencesRef} /> : null}
+                    {anyCarousel ? (
+                      <ScrollArrows scrollRef={audiencesRef} visibility={scrollVisibility} />
+                    ) : null}
                   </>
                 );
               })()}

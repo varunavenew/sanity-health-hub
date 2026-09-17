@@ -174,7 +174,8 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     titleAccent: string;
-    layout: "grid" | "carousel";
+    mobileLayout: "grid" | "carousel";
+    desktopLayout: "grid" | "carousel";
     readMoreLabel: string;
     audiences: CategoryLandingAudience[];
   };
@@ -331,7 +332,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   const expertAreas = mapExpertAreas(expertAreasSection.areas);
   const supportAreas = mapExpertAreas(supportSection.areas);
   const expertAreasLayout = asPlainString(expertAreasSection.layout);
-  const audiencesLayout = asPlainString(audiencesSection.layout);
+  const audiencesMobileLayout = asPlainString(audiencesSection.mobileLayout);
+  const audiencesDesktopLayout = asPlainString(audiencesSection.desktopLayout);
 
   const serviceGroups = ((servicesSection.groups as unknown[]) || []).map((row) => {
     const g = row as Record<string, unknown>;
@@ -468,7 +470,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(audiencesSection.eyebrow),
       title: asPlainString(audiencesSection.title),
       titleAccent: asPlainString(audiencesSection.titleAccent),
-      layout: audiencesLayout === "carousel" ? "carousel" : "grid",
+      mobileLayout: audiencesMobileLayout === "carousel" ? "carousel" : "grid",
+      desktopLayout: audiencesDesktopLayout === "carousel" ? "carousel" : "grid",
       readMoreLabel: asPlainString(audiencesSection.readMoreLabel),
       audiences,
     },
