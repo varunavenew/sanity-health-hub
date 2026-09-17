@@ -168,8 +168,28 @@ function readSpecialtyLabel(entry: unknown): unknown {
   return entry;
 }
 
+function readSpecialtyHref(entry: unknown): unknown {
+  if (entry && typeof entry === "object" && "href" in entry) {
+    return (entry as { href?: unknown }).href;
+  }
+  return undefined;
+}
+
 function pickSpecialtyNo(entry: unknown): string {
   return pickNo(readSpecialtyLabel(entry));
+}
+
+/** Href is a path/URL, not translatable text — locale fallback only, no keyword translation. */
+function readLocalizedHref(value: unknown, lang: SanityLang): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  const entries = value as I18nValueItem[];
+  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
+  if (typeof matchLang === "string" && matchLang.trim()) return matchLang.trim();
+  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
+  if (typeof matchNo === "string" && matchNo.trim()) return matchNo.trim();
+  const first = entries[0]?.value;
+  return typeof first === "string" ? first.trim() : "";
 }
 
 function mapExpertiseTags(value: unknown, lang: SanityLang): SpecialistExpertiseTag[] {
@@ -178,11 +198,7 @@ function mapExpertiseTags(value: unknown, lang: SanityLang): SpecialistExpertise
   for (const entry of value) {
     const label = readLocalizedString(readSpecialtyLabel(entry), lang);
     if (!label) continue;
-    const hrefRaw =
-      entry && typeof entry === "object" && "href" in entry
-        ? (entry as { href?: unknown }).href
-        : undefined;
-    const href = typeof hrefRaw === "string" ? hrefRaw.trim() : "";
+    const href = readLocalizedHref(readSpecialtyHref(entry), lang);
     tags.push(href ? { label, href } : { label });
   }
   return tags;
