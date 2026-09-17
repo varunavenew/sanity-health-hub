@@ -634,6 +634,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleAccent")},
+      layout,
       ${i18nStringLocale("readMoreLabel")},
       audiences[]{
         ${i18nStringLocale("title")},
