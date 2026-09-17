@@ -35,6 +35,7 @@ const PAGES: PageCfg[] = [
   { id: "treatment-gynekologi-blodningsforstyrrelser", slug: "blodningsforstyrrelser", group: "gynekologi" },
   { id: "treatment-gynekologi-cyster", slug: "cyster", group: "gynekologi" },
   { id: "treatment-gynekologi-celleforandringer", slug: "celleforandringer", group: "gynekologi" },
+  { id: "treatment-gynekologi-konisering", slug: "konisering", group: "gynekologi" },
   { id: "treatment-gynekologi-vulvalidelser", slug: "vulvalidelser", group: "gynekologi" },
   { id: "treatment-gynekologi-vaginisme", slug: "vaginisme", group: "gynekologi" },
   { id: "treatment-gynekologi-urinlekkasje", slug: "urinlekkasje", group: "gynekologi" },

@@ -76,7 +76,7 @@ const SEGMENTS = [
       tagLink("Hudproblemer i vulva", "Vulvar skin problems", "/gynekologi/vulvalidelser"),
       tagLink("Test for klamydia / gonoré", "Chlamydia / gonorrhoea testing", "/gynekologi/test-for-klamydia-gonore"),
       tagLink("Celleforandringer", "Cell changes", "/gynekologi/celleforandringer"),
-      tagLink("Konisering", "Cone biopsy", "/gynekologi/celleforandringer"),
+      tagLink("Konisering", "Cone biopsy", "/gynekologi/konisering"),
       tagLink("Endometriose og adenomyose", "Endometriosis and adenomyosis", "/gynekologi/endometriose"),
     ],
     ctaLabel: i18nString("Les mer", "Read more"),

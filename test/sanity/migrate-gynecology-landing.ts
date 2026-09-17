@@ -198,7 +198,7 @@ const landingPageBase = {
           tagLink("Hudproblemer i vulva", "Vulvar skin problems", "/gynekologi/vulvalidelser"),
           tagLink("Test for klamydia / gonoré", "Chlamydia / gonorrhoea testing", "/gynekologi/test-for-klamydia-gonore"),
           tagLink("Celleforandringer", "Cell changes", "/gynekologi/celleforandringer"),
-          tagLink("Konisering", "Cone biopsy", "/gynekologi/celleforandringer"),
+          tagLink("Konisering", "Cone biopsy", "/gynekologi/konisering"),
           tagLink("Endometriose og adenomyose", "Endometriosis and adenomyosis", "/gynekologi/endometriose"),
         ],
         ctaLabel: i18nString("Les mer", "Read more"),
@@ -513,7 +513,7 @@ const landingPageBase = {
             _key: "sg2i3",
             title: i18nString("Konisering", "Cone biopsy"),
             description: i18nString("Behandling av celleforandringer", "Treatment of cell changes"),
-            href: "/gynekologi/celleforandringer",
+            href: "/gynekologi/konisering",
           },
           {
             _key: "sg2i4",

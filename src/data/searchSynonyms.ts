@@ -45,6 +45,7 @@ export const synonymMap: Record<string, string[]> = {
   // Generelle
   "hpv": ["celleforandringer", "celleprøve"],
   "papillom": ["celleforandringer"],
+  "konisering": ["konisering", "celleforandringer"],
   "klump": ["cyster", "gynekologi"],
   "operasjon": ["kirurgi", "robotassistert kirurgi"],
   "kikkert": ["hysteroskopi", "robotassistert kirurgi"],

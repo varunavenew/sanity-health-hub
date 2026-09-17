@@ -108,6 +108,7 @@ const PAGES: PageCfg[] = [
   { id: "treatment-gynekologi-blodningsforstyrrelser", slug: "blodningsforstyrrelser", group: "gynekologi" },
   { id: "treatment-gynekologi-cyster", slug: "cyster", group: "gynekologi" },
   { id: "treatment-gynekologi-celleforandringer", slug: "celleforandringer", group: "gynekologi" },
+  { id: "treatment-gynekologi-konisering", slug: "konisering", group: "gynekologi", createIfMissing: true },
   { id: "treatment-gynekologi-vulvalidelser", slug: "vulvalidelser", group: "gynekologi" },
   { id: "treatment-gynekologi-vaginisme", slug: "vaginisme", group: "gynekologi", createIfMissing: true },
   { id: "treatment-gynekologi-urinlekkasje", slug: "urinlekkasje", group: "gynekologi" },
@@ -357,6 +358,9 @@ function resolveSpecialists(page: PageCfg, demo?: DemoPage): string[] {
   if (page.slug === "celleforandringer") {
     return [SPEC.ane, SPEC.birgitteA, SPEC.siri];
   }
+  if (page.slug === "konisering") {
+    return [SPEC.birgitteA, SPEC.ane, SPEC.siri];
+  }
   if (page.slug === "urinlekkasje") return [SPEC.birgitteA, SPEC.madeleine];
   if (page.slug === "fjerne-livmor") {
     return [SPEC.ane, SPEC.henrik, SPEC.thomas];
@@ -412,7 +416,10 @@ function buildDocFields(
 
   const patch: Record<string, unknown> = {
     title: i18nString(content.titleNo, content.titleEn),
-    slug: slugField(page.slug, page.slug === "pmos" ? "pcos" : page.slug),
+    slug: slugField(
+      page.slug,
+      page.slug === "pmos" ? "pcos" : page.slug === "konisering" ? "cone-biopsy" : page.slug,
+    ),
     ...cats,
     description: i18nText(content.heroLeadNo, content.heroLeadEn),
     heroDescription: i18nText(content.heroLeadNo, content.heroLeadEn),
