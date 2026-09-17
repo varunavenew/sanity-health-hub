@@ -34,7 +34,7 @@ import {
 } from "@/lib/sanity/section-visibility";
 import { renderLightMarkdown } from "@/lib/light-markdown";
 import { SimpleRichText } from "@/components/portable-text/SimpleRichText";
-import { isPortableTextBlocks } from "@/lib/portable-text/plain";
+import { isPortableTextBlocks, portableTextToPlain } from "@/lib/portable-text/plain";
 import {
   Accordion,
   AccordionContent,
@@ -86,8 +86,8 @@ export interface SubTreatmentContent {
   flowLinkLabel?: string;
   flowLinkHref?: string;
   reasonsTitle: string;
-  reasonsLead?: string;
-  reasonsLead2?: string;
+  reasonsLead?: string | PortableTextBlock[];
+  reasonsLead2?: string | PortableTextBlock[];
   reasons: { n: string; title: string; desc: string | ReactNode | PortableTextBlock[]; id?: string }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
   promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
@@ -154,10 +154,21 @@ function TreatmentSectionHead({
   return (
     <div>
       <h2 className={`${titleClassName} !mb-0`}>{title}</h2>
-      {description ? <p className={`${descriptionClassName} !mb-0`}>{description}</p> : null}
-      {description2 ? <p className={descriptionClassName}>{description2}</p> : null}
+      {description ? (
+        <div className={`${descriptionClassName} !mb-0 [&>p+p]:mt-3`}>{description}</div>
+      ) : null}
+      {description2 ? (
+        <div className={`${descriptionClassName} [&>p+p]:mt-3`}>{description2}</div>
+      ) : null}
     </div>
   );
+}
+
+/** Dual-read: renders Portable Text blocks (new) or a legacy markdown string. */
+function renderReasonDesc(value: string | PortableTextBlock[] | ReactNode): ReactNode {
+  if (isPortableTextBlocks(value)) return <SimpleRichText value={value} />;
+  if (typeof value === "string") return renderLightMarkdown(value);
+  return value as ReactNode;
 }
 
 const parseHeroTitle = (heroTitle: string | ReactNode): ReactNode => {
@@ -183,12 +194,14 @@ function ReasonsEditorial({
   items,
 }: {
   title: string;
-  lead?: string;
-  lead2?: string;
+  lead?: string | PortableTextBlock[];
+  lead2?: string | PortableTextBlock[];
   items: { n: string; title: string; desc: string | ReactNode | PortableTextBlock[]; id?: string }[];
 }) {
   const cleanItems = (items ?? []).filter(isMeaningfulReasonItem);
-  const hasLead = Boolean(lead?.trim() || lead2?.trim());
+  const hasLead = Boolean(
+    portableTextToPlain(lead).trim() || portableTextToPlain(lead2).trim(),
+  );
   const itemsWithIds = cleanItems.map((item, index) => ({
     ...item,
     id: item.id || `reason-${index}`,
@@ -224,8 +237,8 @@ function ReasonsEditorial({
             <div className="lg:sticky lg:top-28">
               <TreatmentSectionHead
                 title={title}
-                description={lead}
-                description2={lead2}
+                description={renderReasonDesc(lead)}
+                description2={renderReasonDesc(lead2)}
                 titleClassName="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1]"
               />
             </div>
@@ -253,13 +266,7 @@ function ReasonsEditorial({
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_a]:text-foreground [&_li]:marker:text-foreground/40">
-                        {isPortableTextBlocks(item.desc) ? (
-                          <SimpleRichText value={item.desc} />
-                        ) : typeof item.desc === "string" ? (
-                          renderLightMarkdown(item.desc)
-                        ) : (
-                          item.desc
-                        )}
+                        {renderReasonDesc(item.desc)}
                       </div>
                     </AccordionContent>
                   </AccordionItem>

@@ -182,8 +182,8 @@ export type TreatmentData = {
   flow?: { n: string; title: string; desc: string }[];
   reasonsEyebrow?: string;
   reasonsTitle?: string;
-  reasonsLead?: string;
-  reasonsLead2?: string;
+  reasonsLead?: ReasonDesc;
+  reasonsLead2?: ReasonDesc;
   reasonsLayout?: "prose" | "accordion" | "auto";
   reasons?: { n: string; title: string; desc: ReasonDesc; id?: string }[];
   promises?: { eyebrow: string; title: string; desc: string; image?: string; imageAlt?: string }[];
@@ -392,8 +392,8 @@ export function mapTreatmentDocument(
       .filter((s) => s.title || s.desc),
     reasonsEyebrow: row("reasonsEyebrow"),
     reasonsTitle: row("reasonsTitle"),
-    reasonsLead: row("reasonsLead"),
-    reasonsLead2: row("reasonsLead2"),
+    reasonsLead: asReasonDesc(data.reasonsLead) || undefined,
+    reasonsLead2: asReasonDesc(data.reasonsLead2) || undefined,
     reasonsLayout:
       data.reasonsLayout === "accordion" || data.reasonsLayout === "auto"
         ? data.reasonsLayout

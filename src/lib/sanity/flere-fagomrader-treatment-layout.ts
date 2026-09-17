@@ -33,7 +33,7 @@ export type FlereLayoutInput = {
   lang: "no" | "en";
   reasons: ReasonItem[];
   reasonsTitle: string;
-  reasonsLead?: string;
+  reasonsLead?: string | PortableTextBlock[];
   heroThemes?: string[];
   expertAreas?: ExpertAreasBand;
   relatedSeeAll?: { href: string; label: string };
@@ -43,7 +43,7 @@ export type FlereLayoutInput = {
 export type FlereLayoutOutput = {
   reasons: ReasonItem[];
   reasonsTitle: string;
-  reasonsLead?: string;
+  reasonsLead?: string | PortableTextBlock[];
   expertAreas?: ExpertAreasBand;
   relatedSeeAll?: { href: string; label: string };
 };

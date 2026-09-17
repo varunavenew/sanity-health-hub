@@ -509,14 +509,14 @@ export default {
     {
       name: 'reasonsLead',
       title: 'Introduction 1',
-      type: 'internationalizedArrayText',
+      type: 'internationalizedArraySimpleBlockContent',
       group: 'pageContent',
       fieldset: 'pcSymptoms',
     },
     {
       name: 'reasonsLead2',
       title: 'Introduction 2',
-      type: 'internationalizedArrayText',
+      type: 'internationalizedArraySimpleBlockContent',
       group: 'pageContent',
       fieldset: 'pcSymptoms',
     },
