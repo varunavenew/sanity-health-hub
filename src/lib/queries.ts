@@ -911,7 +911,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTre
   },
   heroPoints[]{ ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   flow[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
-  reasons[]{ ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
+  reasons[]{ id, ${i18nStringLocale('n')}, ${i18nStringLocale('title')}, ${i18nTextLocale('desc')} },
   promises[]{
     ${i18nStringLocale('eyebrow')},
     ${i18nStringLocale('title')},

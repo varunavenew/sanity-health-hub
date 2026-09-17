@@ -5,6 +5,7 @@
 export const UROLOGI_NAV_TREATMENT_SLUGS = [
   "blaere",
   "forhud",
+  "ereksjon",
   "infertilitet",
   "nyrer",
   "prostata",
@@ -28,6 +29,7 @@ export const UROLOGI_SLUG_ALIASES: Record<string, string> = {
   "fertilitet-infertilitet": "infertilitet",
   "bladder-and-urinary-tract": "blaere",
   foreskin: "forhud",
+  erection: "ereksjon",
   "7-56-male-infertility-disorders": "infertilitet",
   "male-infertility": "infertilitet",
   refertilization: "refertilisering",

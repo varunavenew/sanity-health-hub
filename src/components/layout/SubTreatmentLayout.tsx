@@ -17,6 +17,7 @@ import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { buildBookingUrl, type BookingLinkParams } from "@/lib/bookingLinks";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 import { Link } from "@/lib/router";
+import { scrollToHashId } from "@/lib/navigation/scroll-to-hash";
 import type { PageSection } from "@/lib/sanity/page-sections";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import {
@@ -42,7 +43,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { PortableTextBlock } from "@portabletext/types";
 
 export interface SubTreatmentContent {
@@ -211,20 +212,23 @@ function ReasonsEditorial({
 
   const itemIdsKey = itemsWithIds.map((item) => item.id).join("|");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const applyHash = () => {
-      const hashId = window.location.hash.replace(/^#/, "");
-      if (!hashId) return;
-      if (!itemIdsKey.split("|").includes(hashId)) return;
-      setOpenItem(hashId);
-      window.requestAnimationFrame(() => {
-        document.getElementById(hashId)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      const nextHashId = window.location.hash.replace(/^#/, "");
+      if (!nextHashId) return;
+      if (!itemIdsKey.split("|").includes(nextHashId)) return;
+      setOpenItem(nextHashId);
     };
     applyHash();
     window.addEventListener("hashchange", applyHash);
     return () => window.removeEventListener("hashchange", applyHash);
   }, [itemIdsKey]);
+
+  useLayoutEffect(() => {
+    const hashId = window.location.hash.replace(/^#/, "");
+    if (!hashId || hashId !== openItem) return;
+    return scrollToHashId(`#${hashId}`);
+  }, [itemIdsKey, openItem]);
 
   // Demo pages can show title + lead with no right-column items yet.
   if (cleanItems.length === 0 && !hasLead) return null;

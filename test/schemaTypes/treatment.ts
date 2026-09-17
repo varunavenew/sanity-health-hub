@@ -548,6 +548,13 @@ export default {
           title: 'Symptom',
           type: 'object',
           fields: [
+            {
+              name: 'id',
+              title: 'Anchor id',
+              type: 'string',
+              description:
+                'Stable URL hash for this accordion item, e.g. vannlating. Used so fold-out links land on this heading in every language.',
+            },
             { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
             {

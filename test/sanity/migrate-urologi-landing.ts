@@ -132,8 +132,8 @@ const landingPageBase = {
         ),
         tagLinks: [
           tagLink("Prostata", "Prostate", "/urologi/prostata"),
-          tagLink("Vannlating", "Urination", "/urologi/prostata"),
-          tagLink("Ereksjon", "Erection", "/urologi/prostata"),
+          tagLink("Vannlating", "Urination", "/urologi/blaere#vannlating"),
+          tagLink("Ereksjon", "Erection", "/urologi/ereksjon"),
           tagLink("Bestill konsultasjon", "Book a consultation", "/booking?kategori=urologi"),
         ],
         ctaLabel: i18nString("", ""),
@@ -165,9 +165,9 @@ const landingPageBase = {
           "We recommend that all men over 50 have a prostate check — or earlier if you have symptoms, elevated PSA or a family history.",
         ),
         tagLinks: [
-          tagLink("PSA", "PSA", "/urologi/prostata"),
-          tagLink("Forebygging", "Prevention", "/urologi/prostata"),
-          tagLink("Utredning", "Investigation", "/urologi/prostata"),
+          tagLink("PSA", "PSA", "/urologi/prostata#psa"),
+          tagLink("Forebygging", "Prevention", "/urologi/prostata#forebygging"),
+          tagLink("Utredning", "Investigation", "/urologi/prostata#utredning"),
           tagLink(
             "Bestill prostatasjekk",
             "Book a prostate check",
