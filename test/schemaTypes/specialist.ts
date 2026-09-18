@@ -533,7 +533,19 @@ export default {
       if (!document) return true
       const issues: string[] = []
       if (!String(document.name || '').trim()) issues.push('Name is missing')
-      if (!document.photo) issues.push('Profile image is missing')
+      if (!document.photo) {
+        const media = document.heroMedia as
+          | {mediaType?: string; image?: unknown; videoUrl?: unknown}
+          | undefined
+        const hasHeroMedia =
+          (media?.mediaType === 'image' && Boolean(media.image)) ||
+          media?.mediaType === 'video' ||
+          Boolean(media?.image) ||
+          Boolean(media?.videoUrl)
+        if (!hasHeroMedia) {
+          issues.push('Profile image is missing')
+        }
+      }
       if (!pickNo(document.role)?.trim()) issues.push('Title / role (Norwegian) is missing')
       if (!pickForLang(document.role, 'en')?.trim()) {
         issues.push('Title / role (English) is missing')
