@@ -92,6 +92,7 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Eggfrys", path: "/behandlinger/fertilitet/eggfrys" },
       { name: "Hormonforstyrrelser", path: "/gynekologi/poi" },
       { name: "Hysteroskopi", path: "/behandlinger/fertilitet/hysteroskopi" },
+      { name: "Egglederundersøkelse (HyFoSy)", path: "/behandlinger/fertilitet/hyfosy" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },

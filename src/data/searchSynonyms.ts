@@ -20,7 +20,9 @@ export const synonymMap: Record<string, string[]> = {
 
   // Livsfaser / intent
   "vil ha barn": ["fertilitet", "ivf", "assistert befruktning", "infertilitet"],
-  "blir ikke gravid": ["infertilitet", "fertilitet", "ivf", "pmos", "poi"],
+  "blir ikke gravid": ["infertilitet", "fertilitet", "ivf", "pmos", "poi", "hyfosy"],
+  "eggleder": ["hyfosy", "fertilitetsutredning"],
+  "tette eggledere": ["hyfosy", "infertilitet"],
   "barnløshet": ["infertilitet", "fertilitet", "ivf"],
   "fryse egg": ["eggfrys", "fertilitet"],
   "utsette barn": ["eggfrys", "fertilitet"],

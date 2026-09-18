@@ -71,7 +71,7 @@ const PATCHES: Array<{
         item("f2", "Infertilitet", "Infertility", "Forstå årsaker og veien videre", "Understand causes and the way forward", `${FERT}/infertilitet`),
         item("f3", "Sædanalyse", "Semen analysis", "Mannlig fertilitet og mikro-TESE", "Male fertility and micro-TESE", `${FERT}/saedanalyse`),
         item("f4", "Mannlig infertilitet", "Male infertility", "Utredning av mannlig fruktbarhet", "Investigation of male fertility", `${URO}/infertilitet`),
-        item("f5", "Egglederundersøkelse (HyFoSy)", "Fallopian tube examination (HyFoSy)", "Skånsom undersøkelse av eggledere", "Gentle examination of the fallopian tubes", `${FERT}/fertilitetsutredning`),
+        item("f5", "Egglederundersøkelse (HyFoSy)", "Fallopian tube examination (HyFoSy)", "Skånsom undersøkelse av eggledere", "Gentle examination of the fallopian tubes", `${FERT}/hyfosy`),
         item("f6", "Hysteroskopi", "Hysteroscopy", "Skånsom vurdering av livmorhulen", "Gentle assessment of the uterine cavity", `${FERT}/hysteroskopi`),
       ]),
       group("sg-behandling", "Behandling", "Treatment", [
