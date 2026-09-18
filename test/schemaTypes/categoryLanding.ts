@@ -687,20 +687,35 @@ export const categoryLandingPageField = {
           of: [expertAreaCard],
         },
         {
-          name: 'layout',
-          title: 'Display',
+          name: 'mobileLayout',
+          title: 'Display (mobile)',
           type: 'string',
           fieldset: 'display',
           options: {
             list: [
               { title: 'Grid', value: 'grid' },
-              { title: 'Horizontal carousel (mobile)', value: 'carousel' },
+              { title: 'Horizontal carousel', value: 'carousel' },
             ],
             layout: 'radio',
           },
-          initialValue: 'carousel',
+          initialValue: 'grid',
+          description: 'Grid = cards stacked vertically. Carousel = swipe sideways.',
+        },
+        {
+          name: 'desktopLayout',
+          title: 'Display (desktop)',
+          type: 'string',
+          fieldset: 'display',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'grid',
           description:
-            'Slides = full-viewport alternating text/image (reference treatment slides). Carousel = swipe on mobile. Grid = same card grid on all screens.',
+            'Grid = same card grid as today. Carousel = horizontal scroll strip with arrows.',
         },
       ],
     },

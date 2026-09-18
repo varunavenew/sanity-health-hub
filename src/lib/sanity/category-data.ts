@@ -157,7 +157,8 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     description: string;
-    layout: "grid" | "carousel" | "slides";
+    mobileLayout: "grid" | "carousel";
+    desktopLayout: "grid" | "carousel";
     readMoreLabel: string;
     areas: CategoryLandingExpertArea[];
   };
@@ -336,7 +337,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
 
   const expertAreas = mapExpertAreas(expertAreasSection.areas);
   const supportAreas = mapExpertAreas(supportSection.areas);
-  const expertAreasLayout = asPlainString(expertAreasSection.layout);
+  const expertAreasMobileLayout = asPlainString(expertAreasSection.mobileLayout);
+  const expertAreasDesktopLayout = asPlainString(expertAreasSection.desktopLayout);
   const audiencesMobileLayout = asPlainString(audiencesSection.mobileLayout);
   const audiencesDesktopLayout = asPlainString(audiencesSection.desktopLayout);
 
@@ -455,12 +457,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(expertAreasSection.eyebrow),
       title: asPlainString(expertAreasSection.title),
       description: asPlainString(expertAreasSection.description),
-      layout:
-        expertAreasLayout === "grid"
-          ? "grid"
-          : expertAreasLayout === "slides"
-            ? "slides"
-            : "carousel",
+      mobileLayout: expertAreasMobileLayout === "carousel" ? "carousel" : "grid",
+      desktopLayout: expertAreasDesktopLayout === "carousel" ? "carousel" : "grid",
       readMoreLabel: asPlainString(expertAreasSection.readMoreLabel),
       areas: expertAreas,
     },
