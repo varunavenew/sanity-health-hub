@@ -180,11 +180,12 @@ export default {
       of: [
         {
           type: 'reference',
+          weak: true,
           to: [{ type: 'specialistTag' }],
         },
       ],
       description:
-        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones.',
+        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones. Tags do not need to be published to be selected.',
       validation: (Rule: any) =>
         Rule.required()
           .min(1)
