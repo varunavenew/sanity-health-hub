@@ -220,6 +220,7 @@ const GROUPS: Group[] = [
       { label: "Eggfrys", usage: "/fertilitet/eggfrys", lucide: "circle-dot", custom: "egg-freeze-sym" },
       { label: "Donorbehandling", usage: "/fertilitet/donorbehandling", lucide: "users", custom: "donor-treatment-sym" },
       { label: "Hysteroskopi (fert)", usage: "/fertilitet/hysteroskopi", lucide: "scan", custom: "hysteroscopy-sym" },
+      { label: "Egglederundersøkelse (HyFoSy)", usage: "/fertilitet/hyfosy", lucide: "scan", custom: "hysteroscopy-sym" },
       { label: "Sædanalyse", usage: "/fertilitet/saedanalyse", lucide: "microscope", custom: "sperm-analysis-sym" },
       { label: "Fertilitetsteamet", usage: "/fertilitet/teamet", lucide: "users", custom: "fertility-team-sym" },
       // brukt i prislister / underseksjoner
