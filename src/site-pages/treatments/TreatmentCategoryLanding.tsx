@@ -335,90 +335,10 @@ function CategoryReviewsCarousel({
   );
 }
 
-function FertilityExpertRow({
-  areas,
-  readMoreLabel,
-  imageAspect = "16/9",
-  seeAllHref,
-  seeAllLabel,
-}: {
-  areas: CategoryLandingExpertArea[];
-  readMoreLabel: string;
-  imageAspect?: "3/2" | "16/9";
-  seeAllHref?: string;
-  seeAllLabel?: string;
-  prevLabel?: string;
-  nextLabel?: string;
-  progressLabel?: string;
-  fillDesktop?: boolean;
-}) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const count = areas.length;
-
-  if (count === 0) return null;
-
-  return (
-    <div className="min-w-0 w-full">
-      <div
-        ref={scrollRef}
-        className="flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
-        style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
-      >
-        {areas.map((a, index) => (
-          <Link
-            key={`${a.title || "area"}-${index}`}
-            to={a.href}
-            className="shrink-0 w-[92%] md:w-auto snap-start flex flex-col group bg-background rounded-2xl overflow-hidden"
-          >
-            <div
-              className={`relative w-full overflow-hidden bg-secondary ${
-                imageAspect === "16/9" ? "aspect-[16/9]" : "aspect-[3/2]"
-              }`}
-            >
-              {a.image ? (
-                <AssetImg
-                  src={a.image}
-                  alt={a.imageAlt}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                />
-              ) : null}
-            </div>
-            <div className="flex flex-col flex-1 p-7 md:p-8">
-              <h3 className="text-lg md:text-xl font-normal text-foreground mb-2.5">
-                {a.title}
-              </h3>
-              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5 flex-1 max-w-md">
-                {a.desc}
-              </p>
-              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                {readMoreLabel}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      <div className="carousel-nav flex flex-col items-start gap-3">
-        {count > 1 ? <ScrollArrows scrollRef={scrollRef} className="mt-0" /> : null}
-        {seeAllHref && seeAllLabel ? (
-          <Link
-            to={seeAllHref}
-            className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity underline-offset-4 hover:underline"
-          >
-            {seeAllLabel}
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
 function ExpertAreaCards({
   areas,
-  layout,
+  mobileLayout,
+  desktopLayout,
   readMoreLabel,
   scrollRef,
   /** Fertilitet reference uses ~16/9 flat cards; other categories keep 3/2. */
@@ -426,128 +346,86 @@ function ExpertAreaCards({
   imageRadiusClass = "rounded-t-2xl",
   /** Fertilitet reference: cream rounded cards with soft shadow. */
   cardChrome = "plain",
-  /** Fertility: single horizontal row (~5 visible @1440) matching reference strip. */
-  fertilityRow = false,
-  /** Optional footer link shown below progress nav (Fertilitet). */
+  /** Optional footer link shown below the scroll nav (Fertilitet: "Se alle behandlinger"). */
   seeAllHref,
   seeAllLabel,
   prevLabel = "Forrige",
   nextLabel = "Neste",
   progressLabel = "Fremdrift i karusell",
-  fillDesktop = true,
 }: {
   areas: CategoryLandingExpertArea[];
-  layout: "grid" | "carousel" | "slides";
+  mobileLayout: "grid" | "carousel";
+  desktopLayout: "grid" | "carousel";
   readMoreLabel: string;
   scrollRef?: React.RefObject<HTMLDivElement | null>;
   imageAspect?: "3/2" | "16/9";
   imageRadiusClass?: string;
   cardChrome?: "plain" | "whiteCard";
-  fertilityRow?: boolean;
   seeAllHref?: string;
   seeAllLabel?: string;
   prevLabel?: string;
   nextLabel?: string;
   progressLabel?: string;
-  fillDesktop?: boolean;
 }) {
-  if (fertilityRow) {
-    return (
-      <FertilityExpertRow
-        areas={areas}
-        readMoreLabel={readMoreLabel}
-        imageAspect={imageAspect}
-        seeAllHref={seeAllHref}
-        seeAllLabel={seeAllLabel}
-        prevLabel={prevLabel}
-        nextLabel={nextLabel}
-        progressLabel={progressLabel}
-        fillDesktop={fillDesktop}
-      />
-    );
-  }
-
-  if (layout === "slides") {
-    return (
-      <div className="w-full">
-        {areas.map((a, index) => {
-          const imageRight = index % 2 === 0;
-          return (
-            <article
-              key={`${a.title || "area"}-${index}`}
-              className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section bg-secondary/40"
-            >
-                <div
-                  className={`flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20 ${
-                    imageRight ? "lg:order-1" : "lg:order-2"
-                  }`}
-                >
-                  <div className="max-w-xl w-full">
-                    <h3 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
-                      {a.title}
-                    </h3>
-                    {a.desc ? (
-                      <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed mb-8">
-                        {a.desc}
-                      </p>
-                    ) : null}
-                    {a.href ? (
-                      <Link
-                        to={a.href}
-                        className="inline-flex items-center text-sm font-light text-foreground gap-2 hover:gap-2.5 transition-all"
-                      >
-                        {readMoreLabel}
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    ) : null}
-                  </div>
-                </div>
-                <div
-                  className={`split-media ${
-                    imageRight ? "lg:order-2" : "lg:order-1"
-                  }`}
-                >
-                  {a.image ? (
-                    <AssetImg
-                      src={a.image}
-                      alt={a.imageAlt || a.title}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-secondary" />
-                  )}
-                </div>
-            </article>
-          );
-        })}
-      </div>
-    );
-  }
-
-  const isCarousel = layout === "carousel";
+  const internalScrollRef = useRef<HTMLDivElement>(null);
+  const effectiveScrollRef = scrollRef ?? internalScrollRef;
   const isWhiteCard = cardChrome === "whiteCard";
+
+  const mobileCarousel = mobileLayout === "carousel";
+  const desktopCarousel = desktopLayout === "carousel";
+  const anyCarousel = mobileCarousel || desktopCarousel;
+
+  const containerClass = !anyCarousel
+    ? "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10"
+    : [
+        mobileCarousel
+          ? "flex overflow-x-auto snap-x snap-mandatory -mx-4 px-4"
+          : "grid grid-cols-1",
+        desktopCarousel
+          ? "md:flex md:overflow-x-auto md:snap-x md:snap-mandatory md:mx-0 md:px-0"
+          : "md:grid md:grid-cols-2",
+        "scrollbar-hide gap-2 md:gap-6",
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+  const cardExtraClass = [
+    mobileCarousel ? "shrink-0 w-[92%] snap-start" : "",
+    desktopCarousel
+      ? "md:shrink-0 md:w-[380px] md:snap-start"
+      : mobileCarousel
+        ? "md:w-auto"
+        : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const scrollVisibility: "mobile" | "desktop" | "all" =
+    mobileCarousel && desktopCarousel ? "all" : desktopCarousel ? "desktop" : "mobile";
+
+  const seeAllLink =
+    seeAllHref && seeAllLabel ? (
+      <Link
+        to={seeAllHref}
+        className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:opacity-70 transition-opacity underline-offset-4 hover:underline"
+      >
+        {seeAllLabel}
+        <ArrowRight className="w-4 h-4" />
+      </Link>
+    ) : null;
 
   return (
     <>
       <div
-        ref={scrollRef}
-        className={
-          isCarousel
-            ? "flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide"
-            : "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10"
-        }
+        ref={effectiveScrollRef}
+        className={containerClass}
         style={{ scrollbarWidth: "none" }}
       >
         {areas.map((a, index) => (
           <Link
             key={`${a.title || "area"}-${index}`}
             to={a.href}
-            className={`flex flex-col group ${
-              isCarousel
-                ? "shrink-0 w-[92%] md:w-auto snap-start"
-                : ""
-            } ${
+            className={`flex flex-col group ${cardExtraClass} ${
               isWhiteCard
                 ? "bg-background rounded-2xl overflow-hidden"
                 : ""
@@ -588,7 +466,16 @@ function ExpertAreaCards({
           </Link>
         ))}
       </div>
-      {isCarousel && scrollRef ? <ScrollArrows scrollRef={scrollRef} /> : null}
+      {anyCarousel || seeAllLink ? (
+        <ScrollArrows
+          scrollRef={effectiveScrollRef}
+          visibility={scrollVisibility}
+          trailing={seeAllLink}
+          prevLabel={prevLabel}
+          nextLabel={nextLabel}
+          progressLabel={progressLabel}
+        />
+      ) : null}
     </>
   );
 }
@@ -1398,69 +1285,47 @@ const TreatmentCategoryLanding = ({
 
     expertAreas: () =>
       expertAreasSection.areas.length > 0 ? (
-        expertAreasSection.layout === "slides" ? (
-          <section className="bg-secondary/40">
-            <div className="container mx-auto px-6 md:px-16 pt-10 md:pt-14 pb-5">
-              <div className="max-w-6xl mx-auto">
-                <CategorySectionHead
-                  eyebrow={expertAreasSection.eyebrow}
-                  title={expertAreasSection.title}
-                  description={expertAreasSection.description}
-                  className="mb-0"
-                />
-              </div>
+        <section className="bg-secondary/40 py-10 overflow-x-clip">
+          <div className="page-shell min-w-0">
+            <div className="max-w-6xl mx-auto min-w-0">
+              {(() => {
+                const rawTitle = expertAreasSection.title;
+                const dashParts =
+                  isFertility && /—/.test(rawTitle)
+                    ? rawTitle.split(/\s*—\s*/)
+                    : null;
+                return (
+                  <CategorySectionHead
+                    eyebrow={expertAreasSection.eyebrow}
+                    title={dashParts ? dashParts[0] : rawTitle}
+                    titleAccent={
+                      dashParts ? `— ${dashParts.slice(1).join(" — ")}` : undefined
+                    }
+                    description={expertAreasSection.description}
+                  />
+                );
+              })()}
+              <ExpertAreaCards
+                areas={
+                  isFertility
+                    ? orderFertilityExpertAreas(expertAreasSection.areas)
+                    : expertAreasSection.areas
+                }
+                mobileLayout={expertAreasSection.mobileLayout}
+                desktopLayout={expertAreasSection.desktopLayout}
+                readMoreLabel={
+                  expertAreasSection.readMoreLabel.trim() || t("hero.readMore")
+                }
+                scrollRef={expertAreasRef}
+                imageAspect={isFertility ? "16/9" : "3/2"}
+                imageRadiusClass="rounded-t-2xl"
+                cardChrome="whiteCard"
+                seeAllHref={isFertility ? `/no/tjenester` : undefined}
+                seeAllLabel={isFertility ? "Se alle behandlinger" : undefined}
+              />
             </div>
-            <ExpertAreaCards
-              areas={expertAreasSection.areas}
-              layout="slides"
-              readMoreLabel={
-                expertAreasSection.readMoreLabel.trim() || t("hero.readMore")
-              }
-            />
-          </section>
-        ) : (
-          <section className="bg-secondary/40 py-10 overflow-x-clip">
-            <div className="page-shell min-w-0">
-              <div className="max-w-6xl mx-auto min-w-0">
-                {(() => {
-                  const rawTitle = expertAreasSection.title;
-                  const dashParts =
-                    isFertility && /—/.test(rawTitle)
-                      ? rawTitle.split(/\s*—\s*/)
-                      : null;
-                  return (
-                <CategorySectionHead
-                  eyebrow={expertAreasSection.eyebrow}
-                  title={dashParts ? dashParts[0] : rawTitle}
-                  titleAccent={
-                    dashParts ? `— ${dashParts.slice(1).join(" — ")}` : undefined
-                  }
-                  description={expertAreasSection.description}
-                />
-                  );
-                })()}
-                <ExpertAreaCards
-                  areas={
-                    isFertility
-                      ? orderFertilityExpertAreas(expertAreasSection.areas)
-                      : expertAreasSection.areas
-                  }
-                  layout="grid"
-                  fertilityRow
-                  readMoreLabel={
-                    expertAreasSection.readMoreLabel.trim() || t("hero.readMore")
-                  }
-                  scrollRef={expertAreasRef}
-                  imageAspect={isFertility ? "16/9" : "3/2"}
-                  imageRadiusClass="rounded-t-2xl"
-                  cardChrome="whiteCard"
-                  seeAllHref={isFertility ? `/no/tjenester` : undefined}
-                  seeAllLabel={isFertility ? "Se alle behandlinger" : undefined}
-                />
-              </div>
-            </div>
-          </section>
-        )
+          </div>
+        </section>
       ) : null,
 
     symptoms: () =>
@@ -1543,8 +1408,8 @@ const TreatmentCategoryLanding = ({
               </div>
               <ExpertAreaCards
                 areas={supportSection.areas}
-                layout="grid"
-                fertilityRow
+                mobileLayout="carousel"
+                desktopLayout="grid"
                 readMoreLabel={supportSection.readMoreLabel.trim() || t("hero.readMore")}
                 imageAspect={isFertility ? "16/9" : "3/2"}
                 imageRadiusClass="rounded-t-2xl"
