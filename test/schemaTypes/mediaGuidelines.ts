@@ -144,9 +144,9 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     minWidth: 750,
     minHeight: 1000,
     tips: [
-      'Upload a portrait crop — landscape 16:9 is cropped on the left and right.',
-      'Keep faces / the group in the center and set the hotspot.',
-      'Mobile uses the same file, cropped closer to square.',
+      'Upload a real 3:4 portrait file of the group, or leave a landscape photo uncropped.',
+      'Do not use Studio crop presets (3:4 / Square) on a landscape photo — they zoom in on the website.',
+      'Set the hotspot on the group so faces stay in frame.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -455,7 +455,7 @@ export function mediaDescription(
       `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
       'Desktop: 3:4 portrait · Mobile: ~1:1 crop of the same image',
       `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
-      'Set the hotspot on the group — 16:9 landscape is cropped on the sides.',
+      'Upload a portrait file. Do not use the 3:4 crop preset on a landscape photo — that zooms in.',
     ].join('\n')
   }
 
