@@ -279,7 +279,7 @@ export async function renderCmsRoute(
                   : categoryId === FLERE_FAGOMRADER_CATEGORY_ID
                     ? resolveFlereFagomraderTreatmentSlug(route.slug)
                     : route.slug;
-      const initialTreatment = await fetchTreatmentData(categoryId, route.slug, sanityLang);
+      const initialTreatment = await fetchTreatmentData(categoryId, treatmentSlug, sanityLang);
       if (!initialTreatment) notFound();
       // Only dedicated team/profile slugs redirect to the specialists listing.
       // Regular treatments (e.g. fertilitetsutredning) must keep their own page

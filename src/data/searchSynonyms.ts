@@ -8,8 +8,8 @@ export const synonymMap: Record<string, string[]> = {
   "magesmerter": ["endometriose", "cyster", "blødningsforstyrrelser"],
   "menssmerter": ["endometriose", "blødningsforstyrrelser", "pms"],
   "kraftig menstruasjon": ["blødningsforstyrrelser", "endometriose"],
-  "uregelmessig mens": ["blødningsforstyrrelser", "hormonforstyrrelser", "pcos"],
-  "uteblitt mens": ["overgangsalder", "hormonforstyrrelser"],
+  "uregelmessig mens": ["blødningsforstyrrelser", "pmos", "pcos", "poi"],
+  "uteblitt mens": ["overgangsalder", "poi", "pmos"],
   "humørsvingninger": ["pms", "pmdd", "overgangsalder"],
   "hetetokter": ["overgangsalder", "hormoner"],
   "tørr underliv": ["vaginal tørrhet", "overgangsalder"],
@@ -20,7 +20,7 @@ export const synonymMap: Record<string, string[]> = {
 
   // Livsfaser / intent
   "vil ha barn": ["fertilitet", "ivf", "assistert befruktning", "infertilitet"],
-  "blir ikke gravid": ["infertilitet", "fertilitet", "ivf", "hormonforstyrrelser"],
+  "blir ikke gravid": ["infertilitet", "fertilitet", "ivf", "pmos", "poi"],
   "barnløshet": ["infertilitet", "fertilitet", "ivf"],
   "fryse egg": ["eggfrys", "fertilitet"],
   "utsette barn": ["eggfrys", "fertilitet"],

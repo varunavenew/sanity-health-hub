@@ -50,6 +50,7 @@ export const serviceCategories: ServiceCategory[] = [
             { label: 'Hysteroskopi', path: '/behandlinger/gynekologi/hysteroskopi' },
             { label: 'Labiaplastikk', path: '/behandlinger/gynekologi/labiaplastikk' },
             { label: 'PMOS', path: '/behandlinger/gynekologi/pmos' },
+            { label: 'POI', path: '/behandlinger/gynekologi/poi' },
             { label: 'PMS og PMDD', path: '/behandlinger/gynekologi/pms-pmdd' },
             { label: 'Robotassistert kirurgi', path: '/behandlinger/gynekologi/robotkirurgi' },
             { label: 'Spontanabort', path: '/behandlinger/gynekologi/spontanabort' },

@@ -69,6 +69,7 @@ const TITLE_BY_SLUG: Record<string, string> = {
   hysteroskopi: "Hysteroscopy",
   saedanalyse: "Semen analysis",
   pmos: "PCOS",
+  poi: "POI",
 };
 
 const UROLOGI_INFERTILITY_EN = "Male infertility";

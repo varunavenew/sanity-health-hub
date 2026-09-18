@@ -280,7 +280,7 @@ const HREF_ALIASES: Record<string, string> = {
   reproduksjonsmedisin: '/fertilitet',
   'mikro tese': '/urologi/infertilitet',
   underlivsplager: '/gynekologi',
-  hormoner: '/gynekologi/hormonforstyrrelser',
+  hormoner: '/gynekologi/poi',
   hormonsykdommer: '/ovrige/endokrinologi',
   stoffskifte: '/ovrige/endokrinologi',
   diabetes: '/ovrige/endokrinologi',

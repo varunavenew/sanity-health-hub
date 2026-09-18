@@ -52,6 +52,7 @@ export const EN_TREATMENT_NAV_LABELS: Record<string, Record<string, string>> = {
     labiaplastikk: "Labiaplasty",
     pmos: "PCOS",
     pcos: "PCOS",
+    poi: "POI",
   },
   graviditet: {
     ultralyd: "Ultrasound",

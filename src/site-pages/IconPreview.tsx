@@ -199,7 +199,7 @@ const GROUPS: Group[] = [
       { label: "Fjerne livmor", usage: "/gynekologi/fjerne-livmor — IKKE saks", lucide: "scissors", custom: "hysterectomy-sym" },
       { label: "Graviditet", usage: "/gynekologi/graviditet", lucide: "baby", custom: "pregnancy-bump-sym" },
       { label: "Gynekologisk kirurgi", usage: "/gynekologi/kirurgi — presisjon, ikke saks", lucide: "scissors", custom: "precision-surgery-sym" },
-      { label: "Hormonforstyrrelser", usage: "/gynekologi/hormonforstyrrelser", lucide: "activity", custom: "hormones-sym" },
+      { label: "Hormonforstyrrelser", usage: "/gynekologi/poi", lucide: "activity", custom: "hormones-sym" },
       { label: "Hysteroskopi", usage: "/gynekologi/hysteroskopi", lucide: "scan", custom: "hysteroscopy-sym" },
       { label: "Labiaplastikk", usage: "/gynekologi/labiaplastikk", lucide: "flower", custom: "butterfly-sym" },
       { label: "Robotkirurgi (gyn)", usage: "/gynekologi/robotkirurgi", lucide: "bot", custom: "robotic-arm-sym" },
