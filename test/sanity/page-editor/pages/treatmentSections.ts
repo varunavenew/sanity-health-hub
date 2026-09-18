@@ -68,6 +68,8 @@ function treatmentSections(): PageSectionDefinition[] {
         'heroDescription',
         'rating',
         'heroPrice',
+        'heroPriceLabel',
+        'hideHeroPrice',
         'hideSeePriser',
         'heroAvailability',
         'heroThemes',

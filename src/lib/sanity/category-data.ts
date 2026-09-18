@@ -10,6 +10,8 @@ import {
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
+import { pickImageFocal } from "@/lib/sanity/media-dual-read";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -128,6 +130,7 @@ export type CategoryLandingPage = {
     primaryBookingService?: string;
     entryPriceLabel?: string;
     entryPriceValue?: string;
+    hideEntryPrice?: boolean;
   };
   segmentsSection: {
     eyebrow: string;
@@ -144,6 +147,8 @@ export type CategoryLandingPage = {
     description: string;
     image?: string;
     imageAlt?: string;
+    imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+    imageCrop?: SanityCrop | null;
     footerLinkLabel?: string;
     footerLinkHref?: string;
     steps: CategoryLandingStep[];
@@ -419,6 +424,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       primaryBookingService: asPlainString(hero.primaryBookingService) || undefined,
       entryPriceLabel: asPlainString(hero.entryPriceLabel) || undefined,
       entryPriceValue: asPlainString(hero.entryPriceValue) || undefined,
+      hideEntryPrice: hero.hideEntryPrice === true,
     },
     segmentsSection: {
       eyebrow: asPlainString(segmentsSection.eyebrow),
@@ -435,6 +441,12 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       description: asPlainString(whySection.description),
       image: asPlainString(whySection.image) || undefined,
       imageAlt: asPlainString(whySection.imageAlt) || undefined,
+      ...pickImageFocal(
+        whySection as {
+          imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+          imageCrop?: SanityCrop | null;
+        },
+      ),
       footerLinkLabel: asPlainString(whySection.footerLinkLabel) || undefined,
       footerLinkHref: asPlainString(whySection.footerLinkHref) || undefined,
       steps,

@@ -73,6 +73,7 @@ export interface SubTreatmentContent {
   rating?: string;
   heroPrice?: string;
   heroPriceLabel?: string;
+  hideHeroPrice?: boolean;
   hideSeePriser?: boolean;
   booking: BookingLinkParams;
   primaryCtaLabel?: string;
@@ -584,7 +585,7 @@ export const SubTreatmentLayout = ({
               ) : null}
 
               <div className="mb-8">
-                {c.heroPrice ? (
+                {c.heroPrice && !c.hideHeroPrice ? (
                   <div className="mb-4 text-sm font-light text-foreground/80">
                     {c.heroPriceLabel ? (
                       <span className="block text-base text-foreground font-normal">

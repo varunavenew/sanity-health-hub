@@ -13,6 +13,7 @@
 export type MediaGuidelineKind =
   | 'hero'
   | 'heroMobile'
+  | 'split'
   | 'specialist'
   | 'clinic'
   | 'card'
@@ -123,6 +124,29 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     tips: [
       'Crop for vertical phones — faces and subjects near the center.',
       'Optional: desktop keeps using the main hero media.',
+    ],
+    accept: 'image/jpeg,image/jpg,image/webp,image/png',
+  },
+  /**
+   * Tall split-column images (Why choose us side image, similar full-height panels).
+   * Desktop fills ~5/12 viewport width × 100vh (≈3:4). Mobile is a shorter ~1:1 crop of the same file.
+   */
+  split: {
+    title: 'Split column images',
+    emoji: '🖼️',
+    width: 1200,
+    height: 1600,
+    aspectLabel: '3:4 desktop · ~1:1 mobile',
+    orientation: 'portrait',
+    formats: 'JPG / WebP',
+    maxBytes: MB(4),
+    maxBytesLabel: '4 MB',
+    minWidth: 750,
+    minHeight: 1000,
+    tips: [
+      'Upload a portrait crop — landscape 16:9 is cropped on the left and right.',
+      'Keep faces / the group in the center and set the hotspot.',
+      'Mobile uses the same file, cropped closer to square.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -423,6 +447,15 @@ export function mediaDescription(
       `Aspect Ratio: ${g.aspectLabel}`,
       `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
       'Set the hotspot on the face — the website keeps it in frame.',
+    ].join('\n')
+  }
+
+  if (kind === 'split') {
+    return [
+      `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
+      'Desktop: 3:4 portrait · Mobile: ~1:1 crop of the same image',
+      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
+      'Set the hotspot on the group — 16:9 landscape is cropped on the sides.',
     ].join('\n')
   }
 

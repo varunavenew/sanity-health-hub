@@ -396,7 +396,7 @@ export const categoryLandingPageField = {
         {
           name: 'advancedHero',
           title: 'Advanced hero settings',
-          description: 'Technical booking slug and optional entry price.',
+          description: 'Technical booking slug, optional entry price, and hide-price toggle.',
           options: sectionCollapsed,
         },
       ],
@@ -495,6 +495,15 @@ export const categoryLandingPageField = {
           fieldset: 'advancedHero',
           ...i18nStr,
         },
+        {
+          name: 'hideEntryPrice',
+          title: 'Hide price on website',
+          type: 'boolean',
+          fieldset: 'advancedHero',
+          initialValue: false,
+          description:
+            'Turn on to hide the hero price line (e.g. «Pris fra 0,-») without deleting the values above.',
+        },
       ],
     },
     {
@@ -569,9 +578,9 @@ export const categoryLandingPageField = {
           name: 'image',
           title: 'Side image',
           type: 'image',
-          options: mediaImageOptions('category'),
-          description: mediaDescription('category', 'Shown to the right of the steps.'),
-          validation: softImageRules('category'),
+          options: mediaImageOptions('split'),
+          description: mediaDescription('split'),
+          validation: softImageRules('split'),
         },
         {
           name: 'imageAlt',

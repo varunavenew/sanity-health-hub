@@ -92,6 +92,12 @@ export const subTreatmentLayoutType = {
     { name: 'rating', title: 'Rating / tagline', ...i18nString },
     { name: 'heroPrice', title: 'Hero — prislinje', ...i18nString },
     { name: 'heroPriceLabel', title: 'Hero — prislabel (over prisen)', ...i18nString },
+    {
+      name: 'hideHeroPrice',
+      title: 'Hide price on website',
+      type: 'boolean',
+      description: 'Turn on to hide the hero price line without deleting it.',
+    },
     { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean' },
     { name: 'heroAvailability', title: 'Hero — tilgjengelighet', ...i18nString },
     {

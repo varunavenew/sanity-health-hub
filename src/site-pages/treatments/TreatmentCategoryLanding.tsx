@@ -1066,6 +1066,10 @@ const TreatmentCategoryLanding = ({
     sectionOrder,
   } = landing;
 
+  const showEntryPrice =
+    !hero.hideEntryPrice &&
+    Boolean(hero.entryPriceLabel && hero.entryPriceValue);
+
   const serviceGroups = servicesSection.groups;
   const stats = category?.stats?.length ? category.stats : [];
 
@@ -1314,7 +1318,10 @@ const TreatmentCategoryLanding = ({
                 <AssetImg
                   src={whySection.image}
                   alt={whySection.imageAlt}
+                  hotspot={whySection.imageHotspot}
+                  crop={whySection.imageCrop}
                   loading="lazy"
+                  sizes="(max-width: 1023px) 100vw, 42vw"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               ) : null}
@@ -1781,7 +1788,7 @@ const TreatmentCategoryLanding = ({
                   {hero.body ? <p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground whitespace-pre-line">{hero.body}</p> : null}
                 </div>
                 <div className="lg:col-span-5 flex flex-col gap-4">
-                  {hero.entryPriceLabel && hero.entryPriceValue ? (
+                  {showEntryPrice ? (
                     <div className="text-sm font-light text-foreground/80 mb-2">
                       <span className="block text-base text-foreground font-normal">{hero.entryPriceLabel}</span>
                       <span className="block text-muted-foreground font-light">{hero.entryPriceValue}</span>
@@ -1871,7 +1878,7 @@ const TreatmentCategoryLanding = ({
                     {hero.body}
                   </p>
                 ) : null}
-                {hero.entryPriceLabel && hero.entryPriceValue ? (
+                {showEntryPrice ? (
                   <div className="mb-4 text-sm font-light text-foreground/80">
                     <span className="block text-base text-foreground">{hero.entryPriceLabel}</span>
                     <span className="block">{hero.entryPriceValue}</span>
