@@ -695,10 +695,6 @@ export const categoryLandingPageField = {
             list: [
               { title: 'Grid', value: 'grid' },
               { title: 'Horizontal carousel (mobile)', value: 'carousel' },
-              {
-                title: 'Full-height slides (alternating split)',
-                value: 'slides',
-              },
             ],
             layout: 'radio',
           },
