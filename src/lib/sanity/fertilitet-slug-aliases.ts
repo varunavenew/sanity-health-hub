@@ -11,6 +11,7 @@ export const FERTILITET_NAV_TREATMENT_SLUGS = [
   "donorbehandling",
   "assistert-befruktning-for-par-og-single",
   "hysteroskopi",
+  "hyfosy",
   "saedanalyse",
 ] as const;
 
@@ -31,6 +32,9 @@ export const FERTILITET_SLUG_ALIASES: Record<string, string> = {
   "egg-freezing": "eggfrys",
   "donor-treatment": "donorbehandling",
   "diagnostic-hysteroscopy": "hysteroskopi",
+  egglederundersokelse: "hyfosy",
+  hycosy: "hyfosy",
+  "fallopian-tube-examination": "hyfosy",
   "semen-analysis": "saedanalyse",
   "fertility-investigation-and-assessment": "fertilitetsutredning",
   "fertility-workup": "fertilitetsutredning",

@@ -85,6 +85,7 @@ export const serviceCategories: ServiceCategory[] = [
             { label: 'Donorbehandling', path: '/behandlinger/fertilitet/donorbehandling' },
             { label: 'Assistert befruktning for par og single', path: '/behandlinger/fertilitet/assistert-befruktning-for-par-og-single' },
             { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi' },
+            { label: 'Egglederundersøkelse (HyFoSy)', path: '/behandlinger/fertilitet/hyfosy' },
             { label: 'Sædanalyse', path: '/behandlinger/fertilitet/saedanalyse' },
             { label: 'Fertilitetsteamet', path: '/behandlinger/fertilitet/teamet' },
         ],

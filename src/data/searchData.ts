@@ -57,6 +57,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys', category: 'Fertilitet', keywords: ['fryse egg', 'bevare fertilitet', 'nedfrysning'] },
   { label: 'Hormonforstyrrelser', path: '/gynekologi/poi', category: 'Gynekologi', keywords: ['hormon', 'poi', 'pmos', 'pcos'] },
   { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi', category: 'Fertilitet', keywords: ['kikkertundersøkelse', 'livmor'] },
+  { label: 'Egglederundersøkelse (HyFoSy)', path: '/behandlinger/fertilitet/hyfosy', category: 'Fertilitet', keywords: ['eggleder', 'hyfosy', 'hycosy', 'ultralyd'] },
 
   // Ortopedi
   { label: 'Ortopedi', path: '/behandlinger/ortopedi', category: 'Fagområde', keywords: ['bein', 'skjelett', 'ledd'] },

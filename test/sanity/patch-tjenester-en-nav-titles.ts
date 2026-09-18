@@ -67,6 +67,7 @@ const TITLE_BY_SLUG: Record<string, string> = {
   "assistert-befruktning-for-par-og-single":
     "Assisted reproduction for couples and singles",
   hysteroskopi: "Hysteroscopy",
+  hyfosy: "Fallopian tube examination (HyFoSy)",
   saedanalyse: "Semen analysis",
   pmos: "PCOS",
   poi: "POI",
