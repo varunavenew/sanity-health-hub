@@ -478,7 +478,7 @@ const landingPageBase = {
             _key: "sg1i5",
             title: i18nString("Egglederundersøkelse (HyFoSy)", "Fallopian tube examination (HyFoSy)"),
             description: i18nString("Skånsom undersøkelse av eggledere", "Gentle examination of the fallopian tubes"),
-            href: `${FERT}/fertilitetsutredning`,
+            href: `${FERT}/hyfosy`,
           },
           {
             _key: "sg1i6",

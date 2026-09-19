@@ -20,6 +20,8 @@ export const searchItems: SearchItem[] = [
   { label: 'Konisering', path: '/gynekologi/konisering', category: 'Gynekologi', keywords: ['konisering', 'celleforandringer', 'livmorhals', 'dysplasi'] },
   { label: 'Cyster på eggstokkene', path: '/behandlinger/gynekologi/cyster', category: 'Gynekologi', keywords: ['cyste', 'eggstokk'] },
   { label: 'Fjerne livmor', path: '/behandlinger/gynekologi/fjerne-livmor', category: 'Gynekologi', keywords: ['hysterektomi', 'livmor'] },
+  { label: 'PMOS', path: '/gynekologi/pmos', category: 'Gynekologi', keywords: ['pmos', 'pcos', 'polycystisk', 'hormon'] },
+  { label: 'POI', path: '/gynekologi/poi', category: 'Gynekologi', keywords: ['poi', 'prematur ovariesvikt', 'ovariesvikt', 'hormonforstyrrelser'] },
   { label: 'PMS og PMDD', path: '/behandlinger/gynekologi/pms-pmdd', category: 'Gynekologi', keywords: ['premenstruell', 'humørsvingninger', 'pms'] },
   { label: 'Labiaplastikk', path: '/behandlinger/gynekologi/labiaplastikk', category: 'Gynekologi', keywords: ['labia', 'intimkirurgi', 'kjønnslepper'] },
   { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/vaginal-torrhet', category: 'Gynekologi', keywords: ['tørrhet', 'vaginal', 'intimhelse'] },
@@ -53,8 +55,9 @@ export const searchItems: SearchItem[] = [
   { label: 'IVF', path: '/behandlinger/fertilitet/assistert-befruktning#ivf', category: 'Fertilitet', keywords: ['prøverør', 'in vitro', 'befruktning'] },
   { label: 'Assistert befruktning med donor', path: '/behandlinger/fertilitet/donorbehandling', category: 'Fertilitet', keywords: ['donor', 'sæddonor', 'eggdonor'] },
   { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys', category: 'Fertilitet', keywords: ['fryse egg', 'bevare fertilitet', 'nedfrysning'] },
-  { label: 'Hormonforstyrrelser', path: '/behandlinger/fertilitet/hormonforstyrrelser', category: 'Fertilitet', keywords: ['hormon', 'pcos'] },
+  { label: 'Hormonforstyrrelser', path: '/gynekologi/poi', category: 'Gynekologi', keywords: ['hormon', 'poi', 'pmos', 'pcos'] },
   { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi', category: 'Fertilitet', keywords: ['kikkertundersøkelse', 'livmor'] },
+  { label: 'Egglederundersøkelse (HyFoSy)', path: '/behandlinger/fertilitet/hyfosy', category: 'Fertilitet', keywords: ['eggleder', 'hyfosy', 'hycosy', 'ultralyd'] },
 
   // Ortopedi
   { label: 'Ortopedi', path: '/behandlinger/ortopedi', category: 'Fagområde', keywords: ['bein', 'skjelett', 'ledd'] },

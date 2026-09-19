@@ -31,6 +31,7 @@ export const EN_TREATMENT_NAV_LABELS: Record<string, Record<string, string>> = {
     "assistert-befruktning-for-par-og-single":
       "Assisted reproduction for couples and singles",
     hysteroskopi: "Hysteroscopy",
+    hyfosy: "Fallopian tube examination (HyFoSy)",
     saedanalyse: "Semen analysis",
   },
   gynekologi: {
@@ -52,6 +53,7 @@ export const EN_TREATMENT_NAV_LABELS: Record<string, Record<string, string>> = {
     labiaplastikk: "Labiaplasty",
     pmos: "PCOS",
     pcos: "PCOS",
+    poi: "POI",
   },
   graviditet: {
     ultralyd: "Ultrasound",

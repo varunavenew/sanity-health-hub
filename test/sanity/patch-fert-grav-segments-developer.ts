@@ -60,7 +60,7 @@ const FERT_SEGMENTS = [
       tagLink("Fertilitetsutredning", "Fertility investigation", "/fertilitet/fertilitetsutredning"),
       tagLink("Hormoner og AMH", "Hormones and AMH", "/fertilitet/fertilitetsutredning"),
       tagLink("Ultralyd", "Ultrasound", "/fertilitet/fertilitetsutredning"),
-      tagLink("Egglederundersøkelse (HyFoSy)", "Fallopian tube assessment (HyFoSy)", "/fertilitet/fertilitetsutredning"),
+      tagLink("Egglederundersøkelse (HyFoSy)", "Fallopian tube assessment (HyFoSy)", "/fertilitet/hyfosy"),
       tagLink("Hysteroskopi", "Hysteroscopy", "/fertilitet/fertilitetsutredning"),
       tagLink("Les mer", "Read more", "/fertilitet/fertilitetsutredning"),
     ],

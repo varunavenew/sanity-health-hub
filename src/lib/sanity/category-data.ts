@@ -10,6 +10,8 @@ import {
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
+import { pickImageFocal } from "@/lib/sanity/media-dual-read";
+import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -128,6 +130,7 @@ export type CategoryLandingPage = {
     primaryBookingService?: string;
     entryPriceLabel?: string;
     entryPriceValue?: string;
+    hideEntryPrice?: boolean;
   };
   segmentsSection: {
     eyebrow: string;
@@ -144,6 +147,8 @@ export type CategoryLandingPage = {
     description: string;
     image?: string;
     imageAlt?: string;
+    imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+    imageCrop?: SanityCrop | null;
     footerLinkLabel?: string;
     footerLinkHref?: string;
     steps: CategoryLandingStep[];
@@ -152,7 +157,8 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     description: string;
-    layout: "grid" | "carousel" | "slides";
+    mobileLayout: "grid" | "carousel";
+    desktopLayout: "grid" | "carousel";
     readMoreLabel: string;
     areas: CategoryLandingExpertArea[];
   };
@@ -174,7 +180,8 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     titleAccent: string;
-    layout: "grid" | "carousel";
+    mobileLayout: "grid" | "carousel";
+    desktopLayout: "grid" | "carousel";
     readMoreLabel: string;
     audiences: CategoryLandingAudience[];
   };
@@ -330,8 +337,10 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
 
   const expertAreas = mapExpertAreas(expertAreasSection.areas);
   const supportAreas = mapExpertAreas(supportSection.areas);
-  const expertAreasLayout = asPlainString(expertAreasSection.layout);
-  const audiencesLayout = asPlainString(audiencesSection.layout);
+  const expertAreasMobileLayout = asPlainString(expertAreasSection.mobileLayout);
+  const expertAreasDesktopLayout = asPlainString(expertAreasSection.desktopLayout);
+  const audiencesMobileLayout = asPlainString(audiencesSection.mobileLayout);
+  const audiencesDesktopLayout = asPlainString(audiencesSection.desktopLayout);
 
   const serviceGroups = ((servicesSection.groups as unknown[]) || []).map((row) => {
     const g = row as Record<string, unknown>;
@@ -417,6 +426,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       primaryBookingService: asPlainString(hero.primaryBookingService) || undefined,
       entryPriceLabel: asPlainString(hero.entryPriceLabel) || undefined,
       entryPriceValue: asPlainString(hero.entryPriceValue) || undefined,
+      hideEntryPrice: hero.hideEntryPrice === true,
     },
     segmentsSection: {
       eyebrow: asPlainString(segmentsSection.eyebrow),
@@ -433,6 +443,12 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       description: asPlainString(whySection.description),
       image: asPlainString(whySection.image) || undefined,
       imageAlt: asPlainString(whySection.imageAlt) || undefined,
+      ...pickImageFocal(
+        whySection as {
+          imageHotspot?: SanityHotspot | MediaFocalPoint | null;
+          imageCrop?: SanityCrop | null;
+        },
+      ),
       footerLinkLabel: asPlainString(whySection.footerLinkLabel) || undefined,
       footerLinkHref: asPlainString(whySection.footerLinkHref) || undefined,
       steps,
@@ -441,12 +457,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(expertAreasSection.eyebrow),
       title: asPlainString(expertAreasSection.title),
       description: asPlainString(expertAreasSection.description),
-      layout:
-        expertAreasLayout === "grid"
-          ? "grid"
-          : expertAreasLayout === "slides"
-            ? "slides"
-            : "carousel",
+      mobileLayout: expertAreasMobileLayout === "carousel" ? "carousel" : "grid",
+      desktopLayout: expertAreasDesktopLayout === "carousel" ? "carousel" : "grid",
       readMoreLabel: asPlainString(expertAreasSection.readMoreLabel),
       areas: expertAreas,
     },
@@ -468,7 +480,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(audiencesSection.eyebrow),
       title: asPlainString(audiencesSection.title),
       titleAccent: asPlainString(audiencesSection.titleAccent),
-      layout: audiencesLayout === "carousel" ? "carousel" : "grid",
+      mobileLayout: audiencesMobileLayout === "carousel" ? "carousel" : "grid",
+      desktopLayout: audiencesDesktopLayout === "carousel" ? "carousel" : "grid",
       readMoreLabel: asPlainString(audiencesSection.readMoreLabel),
       audiences,
     },

@@ -199,7 +199,7 @@ const GROUPS: Group[] = [
       { label: "Fjerne livmor", usage: "/gynekologi/fjerne-livmor — IKKE saks", lucide: "scissors", custom: "hysterectomy-sym" },
       { label: "Graviditet", usage: "/gynekologi/graviditet", lucide: "baby", custom: "pregnancy-bump-sym" },
       { label: "Gynekologisk kirurgi", usage: "/gynekologi/kirurgi — presisjon, ikke saks", lucide: "scissors", custom: "precision-surgery-sym" },
-      { label: "Hormonforstyrrelser", usage: "/gynekologi/hormonforstyrrelser", lucide: "activity", custom: "hormones-sym" },
+      { label: "Hormonforstyrrelser", usage: "/gynekologi/poi", lucide: "activity", custom: "hormones-sym" },
       { label: "Hysteroskopi", usage: "/gynekologi/hysteroskopi", lucide: "scan", custom: "hysteroscopy-sym" },
       { label: "Labiaplastikk", usage: "/gynekologi/labiaplastikk", lucide: "flower", custom: "butterfly-sym" },
       { label: "Robotkirurgi (gyn)", usage: "/gynekologi/robotkirurgi", lucide: "bot", custom: "robotic-arm-sym" },
@@ -220,6 +220,7 @@ const GROUPS: Group[] = [
       { label: "Eggfrys", usage: "/fertilitet/eggfrys", lucide: "circle-dot", custom: "egg-freeze-sym" },
       { label: "Donorbehandling", usage: "/fertilitet/donorbehandling", lucide: "users", custom: "donor-treatment-sym" },
       { label: "Hysteroskopi (fert)", usage: "/fertilitet/hysteroskopi", lucide: "scan", custom: "hysteroscopy-sym" },
+      { label: "Egglederundersøkelse (HyFoSy)", usage: "/fertilitet/hyfosy", lucide: "scan", custom: "hysteroscopy-sym" },
       { label: "Sædanalyse", usage: "/fertilitet/saedanalyse", lucide: "microscope", custom: "sperm-analysis-sym" },
       { label: "Fertilitetsteamet", usage: "/fertilitet/teamet", lucide: "users", custom: "fertility-team-sym" },
       // brukt i prislister / underseksjoner

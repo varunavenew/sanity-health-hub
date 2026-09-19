@@ -45,7 +45,8 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/gynekologi/fjerne-livmor", name: "Fjerne livmor", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/graviditet", name: "Graviditet (gyn)", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/kirurgi", name: "Gynekologisk kirurgi", category: "Gynekologi – underbehandlinger" },
-  { path: "/behandlinger/gynekologi/hormonforstyrrelser", name: "Hormonforstyrrelser", category: "Gynekologi – underbehandlinger" },
+  { path: "/gynekologi/pmos", name: "PMOS", category: "Gynekologi – underbehandlinger" },
+  { path: "/gynekologi/poi", name: "POI (prematur ovariesvikt)", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/hysteroskopi", name: "Hysteroskopi", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/labiaplastikk", name: "Labiaplastikk", category: "Gynekologi – underbehandlinger" },
   { path: "/behandlinger/gynekologi/robotkirurgi", name: "Robotkirurgi (gyn)", category: "Gynekologi – underbehandlinger" },
@@ -59,6 +60,7 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/fertilitet/eggfrys", name: "Eggfrys", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/donorbehandling", name: "Donorbehandling", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/hysteroskopi", name: "Hysteroskopi (fert)", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/hyfosy", name: "Egglederundersøkelse (HyFoSy)", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/saedanalyse", name: "Sædanalyse", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/teamet", name: "Fertilitetsteamet", category: "Fertilitet – underbehandlinger" },
 

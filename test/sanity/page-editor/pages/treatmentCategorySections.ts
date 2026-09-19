@@ -95,7 +95,7 @@ function treatmentCategorySections(): PageSectionDefinition[] {
     {
       id: 'why',
       title: 'Why choose us',
-      description: 'Why section - heading, steps, and side image.',
+      description: 'Why section — heading, steps, and tall 3:4 side image.',
       icon: HeartIcon,
       fields: ['landingPage'],
       landingPageFields: ['whySection'],

@@ -16,6 +16,7 @@ const NAV_TREATMENT_IDS = [
   "treatment-fertilitet-donorbehandling",
   "treatment-fertilitet-assistert-befruktning-for-par-og-single",
   "treatment-fertilitet-hysteroskopi",
+  "treatment-fertilitet-hyfosy",
   "treatment-fertilitet-saedanalyse",
 ] as const;
 

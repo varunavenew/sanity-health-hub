@@ -414,16 +414,16 @@ export const GYN_PAGE_CONTENT: Record<string, PageContent> = {
       "Prematur ovariesvikt (POI) er en hormonell forstyrrelse der eggstokkene mister funksjon før 40 års alder. Det gir uregelmessig eller uteblitt menstruasjon, hetetokter, søvnproblemer og påvirker fertiliteten. Vi tilbyr grundig utredning, moderne hormonbehandling og tett oppfølging.",
     heroLeadEn:
       "Premature ovarian insufficiency (POI) is a hormonal condition in which ovarian function declines before the age of 40. It can cause irregular or absent periods, hot flushes and sleep problems, and affects fertility. We offer thorough assessment, modern hormone treatment and close follow-up.",
-    reasonsTitleNo: "Tegn på POI og hormonforstyrrelser",
-    reasonsTitleEn: "Signs of POI and hormonal disorders",
+    reasonsTitleNo: "Tegn på POI",
+    reasonsTitleEn: "Signs of POI",
     reasonsLeadNo:
-      "Hormonforstyrrelser handler om unormale nivåer av hormoner — for mye, for lite eller ujevn produksjon. Disse tegnene bør utredes.",
+      "POI rammer kvinner under 40 år. Disse tegnene bør utredes hos gynekolog.",
     reasonsLeadEn:
-      "Hormonal disorders involve abnormal hormone levels — too much, too little or uneven production. These signs should be investigated.",
+      "POI affects women under 40. These signs should be assessed by a gynaecologist.",
     midCtaNo: gynCta.no,
     midCtaEn: gynCta.en,
     promiseVariant: "comfort",
-    relatedSlugs: ["pcos", "overgangsalder"],
+    relatedSlugs: ["pmos", "overgangsalder"],
     reasons: [
       ["Uregelmessig eller uteblitt menstruasjon", "Irregular or absent periods", "Sykluser som blir sjeldnere, uregelmessige eller opphører før 40 år.", "Periods that become less frequent, irregular or stop before the age of 40."],
       ["Hetetokter og nattesvette", "Hot flushes and night sweats", "Klassiske symptomer på østrogenmangel — også i ung alder.", "Classic symptoms of oestrogen deficiency, including at a young age."],

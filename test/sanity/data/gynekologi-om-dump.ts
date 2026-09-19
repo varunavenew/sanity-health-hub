@@ -331,30 +331,58 @@ export const GYN_OM_SECTIONS: Record<string, OmSection> = {
     ],
   },
 
-  /** Alias URL /hormonforstyrrelser → poi document */
+  /** Dedicated POI page — do not put mixed hormonforstyrrelser / PMOS / PMS copy here. */
   poi: {
-    reasonsTitleNo: "Om hormonforstyrrelser",
-    reasonsTitleEn: "About hormonal disorders",
+    reasonsTitleNo: "Tegn på POI",
+    reasonsTitleEn: "Signs of POI",
     reasonsLeadNo:
-      "Hormonforstyrrelser refererer til unormale nivåer av hormoner i kroppen, enten det er for mye, for lite eller ujevn produksjon av visse hormoner. Les mer under om ulike sykdommer.",
+      "POI rammer kvinner under 40 år. Disse tegnene bør utredes hos gynekolog.",
     reasonsLeadEn:
-      "Hormonal disorders refer to abnormal hormone levels — too much, too little or uneven production. Read more below about related conditions.",
+      "POI affects women under 40. These signs should be assessed by a gynaecologist.",
     reasons: [
       {
-        titleNo: "PMOS",
-        titleEn: "PMOS",
+        titleNo: "Uregelmessig eller uteblitt menstruasjon",
+        titleEn: "Irregular or absent periods",
         descNo:
-          "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere omtalt som Polycystisk ovariesyndrom (PMOS).)\n\nDiagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir, noe som igjen kan føre til at du mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon, eller 2–4 ganger i året ta tabletter som gir blødning, for å unngå risiko for celleforandringer i livmorslimhinnen som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens og har økt risiko for å utvikle diabetes mellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ingen spesiell test som gir diagnosen. Pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur, men det finnes medisiner og behandling som kan gjøre tilstanden bedre.",
+          "Sykluser som blir sjeldnere, uregelmessige eller opphører før 40 år.",
         descEn:
-          "Polyendocrine Metabolic Ovarian Syndrome (PMOS) is characterised by imbalance in sex hormones (previously known as polycystic ovary syndrome).\n\nIt can prevent eggs from maturing and stop ovulation, leading to absent or infrequent periods. Women with PMOS more often experience infertility. With infrequent or absent periods you should use contraception, or take tablets 2–4 times a year to induce a bleed, to reduce risk of endometrial cell changes that can lead to cancer.\n\nMany also have insulin resistance and higher risk of type 2 diabetes, high cholesterol, blood pressure and cardiovascular disease.\n\nPMOS is a syndrome, not a single endocrine disease. Diagnosis requires 2 of 3 criteria:\n\n- Irregular, infrequent periods\n- Polycystic ovaries\n- Hyperandrogenism (excess hair, acne, male-pattern hair loss)\n\nThere is no cure, but medicines and treatment can improve the condition.",
+          "Periods that become less frequent, irregular or stop before the age of 40.",
       },
       {
-        titleNo: "PMS og PMDD",
-        titleEn: "PMS and PMDD",
+        titleNo: "Hetetokter og nattesvette",
+        titleEn: "Hot flushes and night sweats",
+        descNo: "Klassiske symptomer på østrogenmangel — også i ung alder.",
+        descEn: "Classic symptoms of oestrogen deficiency, including at a young age.",
+      },
+      {
+        titleNo: "Søvnproblemer og tretthet",
+        titleEn: "Sleep problems and fatigue",
         descNo:
-          "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75 % av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse), rammer 3–8 %.\n\nDe vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene.\n\nÅrsaken er relatert til svingende hormoner. Det er mulig å få god hjelp – du skal slippe å lide hver måned.",
+          "Hormonell ubalanse kan forstyrre søvn og gi vedvarende utmattelse.",
         descEn:
-          "Premenstrual syndrome covers physical and psychological symptoms in the second half of the cycle. Mild PMS affects up to 75% of women; severe PMDD affects 3–8%.\n\nCommon physical symptoms include tender breasts, bloating, abdominal pain, weight gain, headache, increased appetite and low energy. Psychological symptoms include irritability, mood swings, depression, anxiety and inner unrest. Some women also experience suicidal thoughts in these days.\n\nThe cause relates to fluctuating hormones. Good help is available — you should not have to suffer every month.",
+          "Hormonal imbalance can disrupt sleep and cause persistent fatigue.",
+      },
+      {
+        titleNo: "Humørsvingninger og nedstemthet",
+        titleEn: "Mood changes and low mood",
+        descNo: "Endringer i psyke og energi kan ha hormonell bakgrunn.",
+        descEn: "Changes in mood and energy may have a hormonal cause.",
+      },
+      {
+        titleNo: "Vaginal tørrhet",
+        titleEn: "Vaginal dryness",
+        descNo:
+          "Slimhinneendringer og ubehag ved samleie kan komme tidlig ved POI.",
+        descEn:
+          "Changes to the vaginal tissues and discomfort during intercourse can occur early in POI.",
+      },
+      {
+        titleNo: "Vansker med å bli gravid",
+        titleEn: "Difficulty becoming pregnant",
+        descNo:
+          "Redusert eggreserve gir nedsatt fertilitet — vi kobler inn fertilitetsteamet.",
+        descEn:
+          "A reduced ovarian reserve lowers fertility; we involve our fertility team where needed.",
       },
     ],
   },
