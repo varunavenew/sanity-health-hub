@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { isProductionDeploy, siteUrl } from "@/lib/env";
+import {
+  canonicalSiteOrigin,
+  STAGING_ROBOTS_METADATA,
+  shouldBlockSearchEngineIndexing,
+} from "@/lib/seo/staging-crawl-block";
 import { resolveOgImageUrl, DEFAULT_OG_IMAGE_ALT } from "@/lib/seo/defaults";
 
 export type AppLocaleStr = "nb" | "en";
@@ -40,7 +44,7 @@ export function buildPageMetadata(opts: {
   noIndex?: boolean;
   publishedTime?: string;
 }): Metadata {
-  const base = siteUrl();
+  const base = canonicalSiteOrigin();
   const loc = appLocaleFromParam(opts.locale);
   const title = typeof opts.title === "string" ? opts.title.trim() : "";
   const description =
@@ -72,13 +76,9 @@ export function buildPageMetadata(opts: {
         "x-default": nbAbsolute,
       },
     },
-    // Non-production deploys must never be indexable, regardless of what
-    // any individual page/document's `noIndex` field says — previously this
-    // only checked `opts.noIndex`, so staging silently served `index, follow`
-    // on every page since content documents have no reason to be flagged
-    // noindex themselves.
-    robots: opts.noIndex || !isProductionDeploy()
-      ? { index: false, follow: false }
+    // Staging/preview: always noindex + production canonicals (never staging hosts).
+    robots: opts.noIndex || shouldBlockSearchEngineIndexing()
+      ? STAGING_ROBOTS_METADATA
       : {
           index: true,
           follow: true,

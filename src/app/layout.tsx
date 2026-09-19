@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { isProductionDeploy, siteUrl } from "@/lib/env";
+import { siteUrl } from "@/lib/env";
+import {
+  STAGING_ROBOTS_METADATA,
+  shouldBlockSearchEngineIndexing,
+} from "@/lib/seo/staging-crawl-block";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@/lib/seo/defaults";
 import {
   GoogleConsentDefault,
@@ -19,12 +23,11 @@ export const metadata: Metadata = {
   },
   description:
     "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
-  // Default for any route without its own `generateMetadata` — must not
-  // leak `index, follow` on staging/preview deploys just because a page
-  // doesn't set an explicit robots directive.
-  robots: isProductionDeploy()
-    ? { index: true, follow: true }
-    : { index: false, follow: false },
+  // Default for any route without its own `generateMetadata` — staging/preview
+  // must never leak `index, follow` (see staging-crawl-block.ts).
+  robots: shouldBlockSearchEngineIndexing()
+    ? STAGING_ROBOTS_METADATA
+    : { index: true, follow: true },
   openGraph: {
     siteName: "CMedical",
     type: "website",

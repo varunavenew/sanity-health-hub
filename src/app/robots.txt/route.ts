@@ -1,6 +1,9 @@
 import { isProductionDeploy, siteUrl } from "@/lib/env";
 import { AI_CRAWLER_USER_AGENTS } from "@/lib/seo/ai-crawler-user-agents";
 import { robotsDisallowPaths } from "@/lib/seo/robots-paths";
+import {
+  applyStagingCrawlBlockHeaders,
+} from "@/lib/seo/staging-crawl-block";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +20,13 @@ export async function GET() {
   const host = siteUrl();
 
   if (!isProductionDeploy()) {
-    return new Response("User-agent: *\nDisallow: /\n", {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    // Staging/preview only — full site disallow (production robots.txt unchanged below).
+    const headers = new Headers({
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
     });
+    applyStagingCrawlBlockHeaders(headers);
+    return new Response("User-agent: *\nDisallow: /\n", { headers });
   }
 
   const disallow = robotsDisallowPaths();

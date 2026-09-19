@@ -28,9 +28,23 @@ export function siteUrl(): string {
 
 /** True when deployed to the public production site (not preview/staging). */
 export function isProductionDeploy(): boolean {
-  if (process.env.VERCEL_ENV === "production") return true;
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv === "preview" || vercelEnv === "development") {
+    return false;
+  }
+  if (vercelEnv === "production") {
+    return true;
+  }
   const url = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   return url === "https://cmedical.no";
+}
+
+/**
+ * Client bundle mirror of staging crawl block (set in next.config `env` at build time).
+ * Used by PageSEO / useClientDocumentHead — never set to block production.
+ */
+export function isClientSearchIndexingBlocked(): boolean {
+  return process.env.NEXT_PUBLIC_BLOCK_SEARCH_INDEXING === "true";
 }
 
 /**

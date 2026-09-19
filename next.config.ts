@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
     SANITY_PROJECT_ID: sanityProjectId,
     SANITY_DATASET: sanityDataset,
     LEGACY_SE_ORIGIN: legacySeOrigin || "",
+    // Client hooks (PageSEO) — mirrors isProductionDeploy() at build time for this deploy target.
+    NEXT_PUBLIC_BLOCK_SEARCH_INDEXING:
+      process.env.VERCEL_ENV === "production" ? "false" : "true",
   },
   images: {
     remotePatterns: [

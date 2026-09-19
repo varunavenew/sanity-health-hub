@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { detectLocale } from "@/lib/i18n/detect-locale";
 import { locales } from "@/lib/i18n/routing";
 import { isAccessGateEnabled } from "@/lib/env";
+import { applyStagingCrawlBlockHeaders } from "@/lib/seo/staging-crawl-block";
 import {
   isLegacySeProxyPath,
   proxyLegacySeRequest,
@@ -120,6 +121,12 @@ function isGateAuthorized(request: NextRequest): boolean {
   );
 }
 
+function withStagingCrawlBlock(response: NextResponse): NextResponse {
+  // Staging/preview only — see staging-crawl-block.ts (no-op on production).
+  applyStagingCrawlBlockHeaders(response.headers);
+  return response;
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -128,21 +135,21 @@ export async function proxy(request: NextRequest) {
     !GATE_BYPASS_RE.test(pathname) &&
     !isGateAuthorized(request)
   ) {
-    return unauthorizedResponse();
+    return withStagingCrawlBlock(unauthorizedResponse());
   }
 
   if (readLegacySeOrigin() && isLegacySeProxyPath(pathname)) {
-    return proxyLegacySeRequest(request);
+    return withStagingCrawlBlock(await proxyLegacySeRequest(request));
   }
 
   const hudlegeRedirect = hudlegeMigrationRedirect(request);
-  if (hudlegeRedirect) return hudlegeRedirect;
+  if (hudlegeRedirect) return withStagingCrawlBlock(hudlegeRedirect);
 
   const bekkestuaRedirect = bekkestuaLegacyRedirect(request);
-  if (bekkestuaRedirect) return bekkestuaRedirect;
+  if (bekkestuaRedirect) return withStagingCrawlBlock(bekkestuaRedirect);
 
   const blodningRedirect = blodningTypoRedirect(request);
-  if (blodningRedirect) return blodningRedirect;
+  if (blodningRedirect) return withStagingCrawlBlock(blodningRedirect);
 
   if (
     pathname.startsWith("/_next") ||
@@ -158,7 +165,7 @@ export async function proxy(request: NextRequest) {
       pathname,
     )
   ) {
-    return NextResponse.next();
+    return withStagingCrawlBlock(NextResponse.next());
   }
 
   const first = pathname.split("/").filter(Boolean)[0];
@@ -167,7 +174,9 @@ export async function proxy(request: NextRequest) {
   if (first === "nb") {
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(/^\/nb(?=\/|$)/, "/no") || "/no";
-    return NextResponse.redirect(url, { status: 301 });
+    return withStagingCrawlBlock(
+      NextResponse.redirect(url, { status: 301 }),
+    );
   }
 
   if (first && LOCALE_PREFIX.has(first as (typeof locales)[number])) {
@@ -176,16 +185,18 @@ export async function proxy(request: NextRequest) {
       "x-cmedical-html-lang",
       first === "en" ? "en" : "nb-NO",
     );
-    return NextResponse.next({
-      request: { headers: requestHeaders },
-    });
+    return withStagingCrawlBlock(
+      NextResponse.next({
+        request: { headers: requestHeaders },
+      }),
+    );
   }
 
   const locale = detectLocale(request);
   const url = request.nextUrl.clone();
   url.pathname =
     pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
-  return NextResponse.redirect(url, 308);
+  return withStagingCrawlBlock(NextResponse.redirect(url, 308));
 }
 
 export const config = {
