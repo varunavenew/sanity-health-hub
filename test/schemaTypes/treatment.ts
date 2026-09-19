@@ -415,6 +415,16 @@ export default {
         'Optional short label shown above the price line in the hero (e.g. «Fertilitetsutredning»). Leave empty to show only the price.',
     },
     {
+      name: 'hideHeroPrice',
+      title: 'Hide price on website',
+      type: 'boolean',
+      group: 'pageContent',
+      fieldset: 'pcHero',
+      initialValue: false,
+      description:
+        'Turn on to hide the hero price line without deleting Price info. Does not hide the See prices link.',
+    },
+    {
       name: 'hideSeePriser',
       title: 'Hide See prices link',
       type: 'boolean',

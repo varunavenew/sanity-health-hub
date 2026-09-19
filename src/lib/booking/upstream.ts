@@ -34,6 +34,7 @@ export type BookingUrls = {
   appointments: string;
   itemPrices: string;
   activityGroups: string;
+  aptAvailableTimes: string;
 };
 
 function buildBookingUrls(env: BookingUpstreamEnv): BookingUrls {
@@ -51,6 +52,7 @@ function buildBookingUrls(env: BookingUpstreamEnv): BookingUrls {
       appointments: `${base}/appointments`,
       itemPrices: `${base}/itemprices`,
       activityGroups: `${base}/wbactivitygroups`,
+      aptAvailableTimes: `${base}/aptavailabletimes`,
     };
   }
 
@@ -71,6 +73,8 @@ function buildBookingUrls(env: BookingUpstreamEnv): BookingUrls {
       `${base}/itemprices`,
     activityGroups:
       process.env.BOOKING_ACTIVITY_GROUPS_URL || `${base}/wbactivitygroups`,
+    aptAvailableTimes:
+      process.env.BOOKING_APT_AVAILABLE_TIMES_URL || `${base}/aptavailabletimes`,
   };
 }
 
@@ -368,6 +372,8 @@ export const WBACTIVITIES_SELLIMIT = 1000;
 export interface WbActivitiesListOptions {
   fields?: string;
   sellimit?: number;
+  /** Metodika filter: only wbactivities linked to this caregiver user id. */
+  caregiverUserId?: number;
 }
 
 /** List URL for Metodika wbactivities (Henrik: sellimit=1000 + optional fields). */
@@ -377,6 +383,12 @@ export function wbactivitiesListUrl(options?: WbActivitiesListOptions): string {
   params.set("sellimit", String(options?.sellimit ?? WBACTIVITIES_SELLIMIT));
   if (options?.fields) {
     params.set("fields", options.fields);
+  }
+  if (options?.caregiverUserId != null) {
+    params.set(
+      "activitytype.caregiver.user.id",
+      String(options.caregiverUserId),
+    );
   }
   const separator = base.includes("?") ? "&" : "?";
   return `${base}${separator}${params.toString()}`;

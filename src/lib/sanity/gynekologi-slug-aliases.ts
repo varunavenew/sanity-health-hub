@@ -18,13 +18,18 @@ export const GYNEKOLOGI_NAV_TREATMENT_SLUGS = [
   "hysteroskopi",
   "labiaplastikk",
   "pmos",
+  "poi",
 ] as const;
 
 /** URL slug → Sanity treatment document slug for gynekologi sub-pages. */
 export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
   /** Legacy short URL / old CMS slug → published gynekologisk-undersokelse page. */
   undersokelse: "gynekologisk-undersokelse",
-  /** Legacy / alternate hormone pages → dedicated POI treatment. */
+  /**
+   * Ticket #185 — old mixed hormone page. Canonical pages are PMOS and POI.
+   * `/hormonforstyrrelser` 301s to `/poi` (see legacy-redirects); keep the
+   * alias so leftover CMS lookups still resolve to POI, not PMOS.
+   */
   hormonforstyrrelser: "poi",
   hormonbehandling: "poi",
   /** Legacy slug after rename to pms-pmdd. */
@@ -76,5 +81,7 @@ export function gynekologiTreatmentSlugCandidates(urlSlug: string): string[] {
   const reverseAliases = Object.entries(GYNEKOLOGI_SLUG_ALIASES)
     .filter(([, target]) => target === trimmed || target === resolved)
     .map(([alias]) => alias);
-  return [...new Set([trimmed, resolved, ...reverseAliases].filter(Boolean))];
+  // Canonical slug first so leftover `hormonforstyrrelser` documents cannot
+  // win over the dedicated POI page.
+  return [...new Set([resolved, trimmed, ...reverseAliases].filter(Boolean))];
 }

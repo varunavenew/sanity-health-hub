@@ -39,6 +39,7 @@ import {
   cmsCopyOrI18n,
   localizePricingText,
 } from "@/lib/pricing/pricing-i18n";
+import { mergeLegacyItemsIntoSubcategories } from "@/lib/pricing/merge-legacy-price-lines";
 import { syncI18nLanguage } from "@/lib/i18n/sync-language";
 
 interface PageProps { isChatOpen: boolean }
@@ -255,8 +256,19 @@ function mapSanityPriceCategories(
         String(raw?.bookingCategorySlug ?? raw?.categoryRef?.slug ?? "").trim() ||
         slugifyNo(label);
 
-      const fromSubs: PriceSubcategory[] = Array.isArray(raw?.subcategories)
-        ? raw.subcategories
+      const rawLegacyLines = Array.isArray(raw?.items) ? raw.items : [];
+      const subsWithLegacy =
+        Array.isArray(raw?.subcategories) && raw.subcategories.length > 0
+          ? mergeLegacyItemsIntoSubcategories(
+              raw.subcategories,
+              rawLegacyLines,
+              (line) => String(line?.name ?? "").trim(),
+            )
+          : Array.isArray(raw?.subcategories)
+            ? raw.subcategories
+            : [];
+
+      const fromSubs: PriceSubcategory[] = subsWithLegacy
             .map((sub: any) => {
               const subLabel =
                 localizePricingText(String(sub?.label ?? "").trim(), locale) ||
@@ -281,19 +293,21 @@ function mapSanityPriceCategories(
                 items,
               };
             })
-            .filter(Boolean)
-        : [];
+            .filter(Boolean);
 
-      // Legacy flat items → single subcategory
-      const legacyItems = (Array.isArray(raw?.items) ? raw.items : [])
-        .map(mapSanityPriceItem)
-        .filter((item: PriceItem | null): item is PriceItem => item != null)
-        .map((item) => ({
-          ...item,
-          name: localizePricingText(item.name, locale),
-          duration: localizePricingText(item.duration, locale),
-          price: localizePricingText(item.price, locale),
-        }));
+      // Legacy flat items → single subcategory when no subcategories exist
+      const legacyItems =
+        subsWithLegacy.length === 0
+          ? rawLegacyLines
+              .map(mapSanityPriceItem)
+              .filter((item: PriceItem | null): item is PriceItem => item != null)
+              .map((item) => ({
+                ...item,
+                name: localizePricingText(item.name, locale),
+                duration: localizePricingText(item.duration, locale),
+                price: localizePricingText(item.price, locale),
+              }))
+          : [];
 
       const subcategories =
         fromSubs.length > 0

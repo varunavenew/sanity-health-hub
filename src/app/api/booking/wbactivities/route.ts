@@ -5,7 +5,6 @@ import {
   locationIdsForCaregiverOnActivity,
   locationIdsForWbActivity,
   parseWbActivitiesMatrix,
-  wbactivityIdsForCaregiver,
   type WbActivityMatrixEntry,
 } from "@/lib/booking/wbactivitiesMatrix";
 import {
@@ -17,8 +16,18 @@ import {
 const WBACTIVITIES_FIELDS =
   "timelength,pricetype,supplementaryinformation,location";
 
+/** Specialist profile: server-side caregiver filter + duration only. */
+const WBACTIVITIES_CAREGIVER_FIELDS = "timelength";
+
 function wbactivitiesUrl(): string {
   return wbactivitiesListUrl({ fields: WBACTIVITIES_FIELDS });
+}
+
+function wbactivitiesForCaregiverUrl(caregiverUserId: number): string {
+  return wbactivitiesListUrl({
+    fields: WBACTIVITIES_CAREGIVER_FIELDS,
+    caregiverUserId,
+  });
 }
 
 function parseOptionalInt(value: string | null): number | undefined {
@@ -78,6 +87,34 @@ export async function GET(request: Request) {
   );
 
   try {
+    if (
+      caregiverUserId != null &&
+      wbactivityId == null &&
+      locationId == null
+    ) {
+      const payload = await fetchBookingResourceCached(
+        wbactivitiesForCaregiverUrl(caregiverUserId),
+        apiKey,
+      );
+      const activities = parseWbActivitiesMatrix(payload);
+      const wbactivityIds = activities
+        .map((entry) => entry.wbactivityId)
+        .sort((a, b) => a - b);
+      return NextResponse.json(
+        {
+          ok: true,
+          caregiverUserId,
+          wbactivityIds,
+          activities,
+        },
+        {
+          headers: {
+            "Cache-Control": "private, max-age=300, stale-while-revalidate=600",
+          },
+        },
+      );
+    }
+
     const matrix = await loadMatrix(apiKey);
 
     if (wbactivityId != null && caregiverUserId != null && locationId != null) {
@@ -140,19 +177,6 @@ export async function GET(request: Request) {
           },
         },
       );
-    }
-
-    if (caregiverUserId != null) {
-      const wbactivityIds = wbactivityIdsForCaregiver(matrix, caregiverUserId);
-      const activities = matrix.filter((entry) =>
-        wbactivityIds.includes(entry.wbactivityId),
-      );
-      return NextResponse.json({
-        ok: true,
-        caregiverUserId,
-        wbactivityIds,
-        activities,
-      });
     }
 
     return NextResponse.json({ ok: true, activities: matrix });

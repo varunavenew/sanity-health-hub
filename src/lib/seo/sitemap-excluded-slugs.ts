@@ -11,6 +11,8 @@ export const SITEMAP_EXCLUDED_SLUGS = new Set([
   /** Retired treatment → category landing /ovrige or /en/other */
   "plastikkirurgi",
   "procedure-reconstructive-surg",
+  /** Ticket #185 — mixed hormone page 301s to /gynekologi/poi */
+  "hormonforstyrrelser",
 ]);
 
 /**
@@ -26,6 +28,9 @@ export const SITEMAP_EXCLUDED_PATHS = new Set([
   "/no/ovrige/plastikkirurgi",
   "/en/other/procedure-reconstructive-surg",
   "/no/ovrige/hudlege",
+  "/no/gynekologi/hormonforstyrrelser",
+  "/nb/gynekologi/hormonforstyrrelser",
+  "/en/gynecology/hormonforstyrrelser",
 ]);
 
 export function isSitemapExcludedSlug(slug: string | null | undefined): boolean {

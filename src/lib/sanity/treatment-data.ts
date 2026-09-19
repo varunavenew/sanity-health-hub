@@ -163,6 +163,7 @@ export type TreatmentData = {
   heroAvailability?: string;
   heroPrice?: string;
   heroPriceLabel?: string;
+  hideHeroPrice?: boolean;
   hideSeePriser?: boolean;
   heroVideo?: string;
   rating?: string;
@@ -352,6 +353,7 @@ export function mapTreatmentDocument(
     heroAvailability: row("heroAvailability"),
     heroPrice: row("heroPrice"),
     heroPriceLabel: row("heroPriceLabel"),
+    hideHeroPrice: data.hideHeroPrice === true,
     hideSeePriser: data.hideSeePriser === true,
     heroVideo: row("heroVideo"),
     rating: row("rating"),

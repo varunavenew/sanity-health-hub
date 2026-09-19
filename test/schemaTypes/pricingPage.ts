@@ -150,6 +150,8 @@ export default {
                       name: 'items',
                       title: 'Price lines',
                       type: 'array',
+                      description:
+                        'Editable list shown on /priser. Add, remove, or change rows here — the website uses only this list (not legacy data).',
                       of: [
                         {
                           type: 'object',
@@ -254,7 +256,10 @@ export default {
               name: 'items',
               title: 'Legacy flat price lines',
               type: 'array',
-              hidden: () => true,
+              description:
+                'Deprecated. Rows here are invisible in the page editor but may still appear on the site until merged. Run patch-pricing-merge-legacy-into-price-lines.ts to move them into Price lines above, then this list is cleared.',
+              hidden: ({parent}: {parent?: {items?: unknown[]}}) =>
+                !Array.isArray(parent?.items) || parent.items.length === 0,
               of: [
                 {
                   type: 'object',

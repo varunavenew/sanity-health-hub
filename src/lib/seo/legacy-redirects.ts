@@ -313,6 +313,25 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { source: "/en/robotassistert-kirurgi", destination: "/en/robot-assisted-surgery", permanent: true },
   { source: "/no/gynekologi/tverrfaglig-team", destination: "/no/gynekologi/tverrfaglig", permanent: true },
   { source: "/nb/gynekologi/tverrfaglig-team", destination: "/nb/gynekologi/tverrfaglig", permanent: true },
+
+  // Ticket #185 — split PMOS and POI. Old mixed hormone URL → dedicated POI page
+  // (matches GYNEKOLOGI_SLUG_ALIASES.hormonforstyrrelser). Confirm with Erlend
+  // if SEO later prefers /gynekologi instead.
+  perm("/no/gynekologi/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/nb/gynekologi/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/en/gynecology/hormonforstyrrelser", "/en/gynecology/poi"),
+  perm("/en/gynekologi/hormonforstyrrelser", "/en/gynecology/poi"),
+  perm("/no/behandlinger/gynekologi/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/nb/behandlinger/gynekologi/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/en/behandlinger/gynekologi/hormonforstyrrelser", "/en/gynecology/poi"),
+  perm("/en/behandlinger/gynecology/hormonforstyrrelser", "/en/gynecology/poi"),
+  perm("/gynekologi/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/behandlinger/gynekologi/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/no/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/nb/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/en/fertility/hormonforstyrrelser", "/en/gynecology/poi"),
+  perm("/no/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
+  perm("/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
   { source: "/en/careers", destination: "/en/career", permanent: true },
   {
     source: "/en/urology/testicle-and-scrotum",

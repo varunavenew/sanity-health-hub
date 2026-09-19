@@ -11,6 +11,9 @@ import {
 } from "react";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
+import { useClinics } from "@/hooks/useSanity";
+import { useSpecialistHasAvailableSlots } from "@/hooks/useSpecialistHasAvailableSlots";
+import { resolveSpecialistPageClinics } from "@/lib/booking/specialist-page-clinics";
 
 export const SPECIALIST_INLINE_BOOKING_SECTION_ID = "specialist-inline-booking";
 export const SPECIALIST_INLINE_BOOKING_STEPS_ID = "specialist-inline-booking-steps";
@@ -38,6 +41,10 @@ type SpecialistPageBookingContextValue = {
   scrollToBookingSteps: () => void;
   /** Increments when the user opens booking — inline UI resets clinic selection. */
   bookingFocusKey: number;
+  /** False while checking Metodika/Pasientsky slot availability. */
+  availabilityLoading: boolean;
+  /** True when at least one online slot exists for this specialist. */
+  hasAvailableSlots: boolean;
 };
 
 const SpecialistPageBookingContext =
@@ -56,6 +63,13 @@ export function SpecialistPageBookingProvider({
   children: ReactNode;
 }) {
   const [bookingFocusKey, setBookingFocusKey] = useState(0);
+  const { data: sanityClinics = [] } = useClinics();
+  const pageClinics = useMemo(
+    () => resolveSpecialistPageClinics(specialist, sanityClinics),
+    [specialist, sanityClinics],
+  );
+  const { hasAvailableSlots, loading: availabilityLoading } =
+    useSpecialistHasAvailableSlots(specialist, pageClinics);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -84,8 +98,20 @@ export function SpecialistPageBookingProvider({
   }, []);
 
   const value = useMemo(
-    () => ({ scrollToBookingSection, scrollToBookingSteps, bookingFocusKey }),
-    [scrollToBookingSection, scrollToBookingSteps, bookingFocusKey],
+    () => ({
+      scrollToBookingSection,
+      scrollToBookingSteps,
+      bookingFocusKey,
+      availabilityLoading,
+      hasAvailableSlots,
+    }),
+    [
+      scrollToBookingSection,
+      scrollToBookingSteps,
+      bookingFocusKey,
+      availabilityLoading,
+      hasAvailableSlots,
+    ],
   );
 
   return (

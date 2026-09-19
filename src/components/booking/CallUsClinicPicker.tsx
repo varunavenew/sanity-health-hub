@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useCallableClinics } from "@/hooks/useCallableClinics";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 
 interface Props {
   /**
@@ -24,6 +25,8 @@ interface Props {
   categoryId?: string;
   /** Open menu above the trigger (e.g. specialist mobile hero at page bottom). */
   menuPlacement?: "top" | "bottom";
+  /** Limit to clinics this specialist works at (profile page). */
+  specialist?: Specialist;
   className?: string;
 }
 
@@ -37,11 +40,12 @@ export const CallUsClinicPicker = ({
   label,
   categoryId,
   menuPlacement = "bottom",
+  specialist,
   className
 }: Props & { className?: string }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { clinics: callable, pending } = useCallableClinics(categoryId);
+  const { clinics: callable, pending } = useCallableClinics(categoryId, specialist);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

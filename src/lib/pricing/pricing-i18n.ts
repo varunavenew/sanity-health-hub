@@ -218,6 +218,7 @@ const NAME_EN: Record<string, string> = {
   "Psykolog partime": "Psychologist couple session",
   "Førstegangskonsultasjon revmatolog":
     "Initial consultation with a rheumatologist",
+  "Kontroll revmatolog": "Rheumatologist follow-up / check-up",
   "Sexolog individuell": "Sexologist – individual",
   "Sexolog for par": "Sexologist for couples",
   "Åreknuteoperasjon (laser/radiofrekvens – ett ben)":

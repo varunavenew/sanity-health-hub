@@ -35,6 +35,33 @@ export function specialistShowsBookingButton(
   return specialist.showBookingButton !== false;
 }
 
+/** Booking CTA on profile pages — hidden when no online slots exist. */
+export function specialistShowsProfileBookingButton(
+  specialist: SpecialistBookingFields,
+  pageBooking?: {
+    availabilityLoading?: boolean;
+    hasAvailableSlots?: boolean;
+  } | null,
+): boolean {
+  if (!specialistShowsBookingButton(specialist)) return false;
+  if (!pageBooking) return true;
+  if (pageBooking.availabilityLoading) return false;
+  return pageBooking.hasAvailableSlots === true;
+}
+
+/** True while Metodika/Pasientsky slot check is still running on a profile page. */
+export function specialistProfileBookingPending(
+  specialist: SpecialistBookingFields,
+  pageBooking?: {
+    availabilityLoading?: boolean;
+  } | null,
+): boolean {
+  return (
+    specialistShowsBookingButton(specialist) &&
+    Boolean(pageBooking?.availabilityLoading)
+  );
+}
+
 export function specialistShowsCallButton(specialist: {
   showCallButton?: boolean | null;
 }): boolean {

@@ -16,7 +16,7 @@ import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
 import { SpecialistBookNowButton } from "@/components/specialist/SpecialistCtaButtons";
-import { SpecialistPageBookingProvider } from "@/components/specialist/SpecialistPageBooking";
+import { SpecialistPageBookingProvider, useSpecialistPageBookingOptional } from "@/components/specialist/SpecialistPageBooking";
 import {
   SpecialistProfileUiProvider,
   useSpecialistProfileUi,
@@ -31,7 +31,8 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
-import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
+import { specialistProfileBookingPending, specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
+import { Skeleton } from "@/components/ui/skeleton";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 
@@ -107,6 +108,7 @@ function SpecialistProfileBody({
   const locale = params?.locale === "en" ? "en" : "nb";
   const specialistsPath = useNavCmsPath("specialists");
   const ui = useSpecialistProfileUi();
+  const pageBooking = useSpecialistPageBookingOptional();
 
   const relatedSection = specialist.relatedSpecialistsSection;
   const { sorted: allSpecialists } = useSpecialistsData();
@@ -196,7 +198,11 @@ function SpecialistProfileBody({
       />
       <SpecialistFAQBlock faqs={specialist.faqs} title={specialist.faqSectionTitle} />
 
-      {specialistShowsBookingButton(specialist) ? (
+      {specialistProfileBookingPending(specialist, pageBooking) ? (
+        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+          <Skeleton className="h-12 w-full rounded-2xl" aria-hidden="true" />
+        </div>
+      ) : specialistShowsProfileBookingButton(specialist, pageBooking) ? (
         <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
           <SpecialistBookNowButton
             specialist={specialist}

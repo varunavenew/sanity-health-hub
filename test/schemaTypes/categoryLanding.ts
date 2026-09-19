@@ -396,7 +396,7 @@ export const categoryLandingPageField = {
         {
           name: 'advancedHero',
           title: 'Advanced hero settings',
-          description: 'Technical booking slug and optional entry price.',
+          description: 'Technical booking slug, optional entry price, and hide-price toggle.',
           options: sectionCollapsed,
         },
       ],
@@ -495,6 +495,15 @@ export const categoryLandingPageField = {
           fieldset: 'advancedHero',
           ...i18nStr,
         },
+        {
+          name: 'hideEntryPrice',
+          title: 'Hide price on website',
+          type: 'boolean',
+          fieldset: 'advancedHero',
+          initialValue: false,
+          description:
+            'Turn on to hide the hero price line (e.g. «Pris fra 0,-») without deleting the values above.',
+        },
       ],
     },
     {
@@ -569,9 +578,9 @@ export const categoryLandingPageField = {
           name: 'image',
           title: 'Side image',
           type: 'image',
-          options: mediaImageOptions('category'),
-          description: mediaDescription('category', 'Shown to the right of the steps.'),
-          validation: softImageRules('category'),
+          options: mediaImageOptions('split'),
+          description: mediaDescription('split'),
+          validation: softImageRules('split'),
         },
         {
           name: 'imageAlt',
@@ -603,19 +612,33 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleAccent', title: 'Heading (accent)', ...i18nStr },
         {
-          name: 'layout',
-          title: 'Display',
+          name: 'mobileLayout',
+          title: 'Display (mobile)',
           type: 'string',
           options: {
             list: [
               { title: 'Grid', value: 'grid' },
-              { title: 'Horizontal carousel (mobile)', value: 'carousel' },
+              { title: 'Horizontal carousel', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'grid',
+          description: 'Grid = cards stacked vertically. Carousel = swipe sideways.',
+        },
+        {
+          name: 'desktopLayout',
+          title: 'Display (desktop)',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel', value: 'carousel' },
             ],
             layout: 'radio',
           },
           initialValue: 'grid',
           description:
-            'Grid = stacked cards on all screens. Carousel = swipe sideways on mobile, grid on desktop.',
+            'Grid = same card grid as today. Carousel = horizontal scroll strip with arrows.',
         },
         {
           name: 'audiences',
@@ -664,24 +687,35 @@ export const categoryLandingPageField = {
           of: [expertAreaCard],
         },
         {
-          name: 'layout',
-          title: 'Display',
+          name: 'mobileLayout',
+          title: 'Display (mobile)',
           type: 'string',
           fieldset: 'display',
           options: {
             list: [
               { title: 'Grid', value: 'grid' },
-              { title: 'Horizontal carousel (mobile)', value: 'carousel' },
-              {
-                title: 'Full-height slides (alternating split)',
-                value: 'slides',
-              },
+              { title: 'Horizontal carousel', value: 'carousel' },
             ],
             layout: 'radio',
           },
-          initialValue: 'carousel',
+          initialValue: 'grid',
+          description: 'Grid = cards stacked vertically. Carousel = swipe sideways.',
+        },
+        {
+          name: 'desktopLayout',
+          title: 'Display (desktop)',
+          type: 'string',
+          fieldset: 'display',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'grid',
           description:
-            'Slides = full-viewport alternating text/image (reference treatment slides). Carousel = swipe on mobile. Grid = same card grid on all screens.',
+            'Grid = same card grid as today. Carousel = horizontal scroll strip with arrows.',
         },
       ],
     },

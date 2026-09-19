@@ -36,7 +36,7 @@ import {
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
-import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
+import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
 import { Link, useLocaleParam, useNavigate } from "@/lib/router";
 import {
@@ -55,6 +55,7 @@ interface InlineBookingSectionProps {
 /** Brown booking band on specialist profiles — clinic first, then branch by system. */
 export function SpecialistInlineBookingBand({ specialist }: InlineBookingSectionProps) {
   const ui = useSpecialistProfileUi();
+  const pageBooking = useSpecialistPageBookingOptional();
   const { data: sanityClinics = [] } = useClinics();
   const pageClinics = useMemo(
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
@@ -65,7 +66,7 @@ export function SpecialistInlineBookingBand({ specialist }: InlineBookingSection
     [specialist.bookingCategoryIds],
   );
 
-  if (!specialistShowsBookingButton(specialist)) return null;
+  if (!specialistShowsProfileBookingButton(specialist, pageBooking)) return null;
   if (bookingCategoryIds.length === 0 && pageClinics.length === 0) return null;
 
   return (
@@ -402,14 +403,15 @@ function MetodikaTreatmentPicker({
     BOOKING_API_BASE,
   );
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
-  const { allowedIds, durationMinutesByActivityId } = useCaregiverWbActivities(
-    caregiverUserId,
-    BOOKING_API_BASE,
-  );
+  const {
+    allowedIds,
+    durationMinutesByActivityId,
+    loading: wbActivitiesLoading,
+  } = useCaregiverWbActivities(caregiverUserId, BOOKING_API_BASE);
   const caregiverCategories = useMemo(() => {
     const filtered = filterSpecialistBookingCategories(specialist, metodikaCategories);
-    if (allowedIds.size === 0) return filtered;
-    const withMatrix = filtered
+    if (caregiverUserId == null || allowedIds.size === 0) return [];
+    return filtered
       .map((category) => ({
         ...category,
         services: filterServicesForCaregiverWbActivities(
@@ -418,13 +420,11 @@ function MetodikaTreatmentPicker({
         ),
       }))
       .filter((category) => category.services.length > 0);
-    // wbactivities matrix can lag CMS — never hide all services when groups exist.
-    return withMatrix.length > 0 ? withMatrix : filtered;
-  }, [specialist, metodikaCategories, allowedIds]);
+  }, [specialist, metodikaCategories, allowedIds, caregiverUserId]);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   const categories = caregiverCategories;
-  const isLoading = loading;
+  const isLoading = loading || wbActivitiesLoading;
 
   const resolveServiceDurationMinutes = (service: {
     apiActivityId?: number;

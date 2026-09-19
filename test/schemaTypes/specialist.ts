@@ -180,11 +180,12 @@ export default {
       of: [
         {
           type: 'reference',
+          weak: true,
           to: [{ type: 'specialistTag' }],
         },
       ],
       description:
-        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones.',
+        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones. Tags do not need to be published to be selected.',
       validation: (Rule: any) =>
         Rule.required()
           .min(1)
@@ -255,7 +256,7 @@ export default {
       group: 'general',
       initialValue: true,
       description:
-        'Show the booking button on this specialist’s profile (default on). Opens in-page booking: Metodika, Pasientsky (Moelv), or phone (Moss). Turn off only when this specialist should not offer booking.',
+        'Show the booking button on this specialist’s profile. The button stays visible but does not open booking if Metodika user ID or booking activity groups is empty.',
     },
     {
       name: 'showCallButton',
@@ -532,7 +533,19 @@ export default {
       if (!document) return true
       const issues: string[] = []
       if (!String(document.name || '').trim()) issues.push('Name is missing')
-      if (!document.photo) issues.push('Profile image is missing')
+      if (!document.photo) {
+        const media = document.heroMedia as
+          | {mediaType?: string; image?: unknown; videoUrl?: unknown}
+          | undefined
+        const hasHeroMedia =
+          (media?.mediaType === 'image' && Boolean(media.image)) ||
+          media?.mediaType === 'video' ||
+          Boolean(media?.image) ||
+          Boolean(media?.videoUrl)
+        if (!hasHeroMedia) {
+          issues.push('Profile image is missing')
+        }
+      }
       if (!pickNo(document.role)?.trim()) issues.push('Title / role (Norwegian) is missing')
       if (!pickForLang(document.role, 'en')?.trim()) {
         issues.push('Title / role (English) is missing')

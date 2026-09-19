@@ -104,7 +104,7 @@ export function formatBookingServicePrice(price: string): string {
 export function filterServicesForCaregiverWbActivities<
   T extends { apiActivityId?: number },
 >(services: T[], allowedWbActivityIds: Set<number>): T[] {
-  if (allowedWbActivityIds.size === 0) return services;
+  if (allowedWbActivityIds.size === 0) return [];
   return services.filter(
     (service) =>
       service.apiActivityId != null &&

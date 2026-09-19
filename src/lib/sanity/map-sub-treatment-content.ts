@@ -280,6 +280,7 @@ export function mapTreatmentToSubTreatmentContent(
     heroAvailability: treatment.heroAvailability,
     heroPrice: resolveHeroPrice(treatment.heroPrice, isEn),
     heroPriceLabel: resolveHeroPriceLabel(treatment, categoryId),
+    hideHeroPrice: treatment.hideHeroPrice,
     hideSeePriser: treatment.hideSeePriser,
     heroImage: resolvedHeroImage,
     heroImageAlt: treatment.heroImageAlt,

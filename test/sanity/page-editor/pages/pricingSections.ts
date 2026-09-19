@@ -44,7 +44,7 @@ export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig(
       icon: BoltIcon,
       fields: ['priceCategories'],
       notice:
-        'Sanity is the source of truth for the Pricing list. Metodika apiActivityId is optional booking identity only — lines without an ID still appear, without a booking button.',
+        'Sanity is the source of truth for the Pricing list. Edit Price categories → Subcategories → Price lines. Optional Metodika activity ID controls “Bestill time”. If old rows only appear on the website, run patch-pricing-merge-legacy-into-price-lines (see test/sanity) to move hidden legacy lines into Price lines.',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const cats = Array.isArray(document.priceCategories)
