@@ -24,7 +24,6 @@ import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpe
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
   moelvPasientskyClinicFromPageClinics,
-  pageClinicsForInlineProfileBooking,
   resolveSpecialistPageClinics,
   SPECIALIST_PAGE_FALLBACK_PHONE,
   type SpecialistPageClinic,
@@ -64,22 +63,20 @@ export function SpecialistInlineBookingBand({ specialist }: InlineBookingSection
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
     [specialist, sanityClinics],
   );
-  const inlineClinics = useMemo(
-    () => pageClinicsForInlineProfileBooking(pageClinics),
-    [pageClinics],
-  );
   const moelvPasientskyClinic = useMemo(
     () => moelvPasientskyClinicFromPageClinics(pageClinics),
     [pageClinics],
   );
+  const moelvOnlyProfileBooking =
+    Boolean(moelvPasientskyClinic) && pageClinics.length === 1;
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
     [specialist.bookingCategoryIds],
   );
 
   if (!specialistShowsProfileBookingButton(specialist, pageBooking)) return null;
-  if (moelvPasientskyClinic && inlineClinics.length === 0) return null;
-  if (bookingCategoryIds.length === 0 && inlineClinics.length === 0) return null;
+  if (moelvOnlyProfileBooking) return null;
+  if (bookingCategoryIds.length === 0 && pageClinics.length === 0) return null;
 
   return (
     <section
@@ -110,7 +107,7 @@ export function SpecialistInlineBookingBand({ specialist }: InlineBookingSection
             transition={{ duration: 0.5, delay: 0.1 }}
             className="md:col-span-8"
           >
-            <InlineBookingSection specialist={specialist} pageClinics={inlineClinics} />
+            <InlineBookingSection specialist={specialist} pageClinics={pageClinics} />
           </motion.div>
         </div>
       </div>
@@ -128,6 +125,7 @@ function InlineBookingSection({
   const locale = useLocaleParam();
   const isEn = locale === "en";
   const priserPath = useNavCmsPath("pricing") || "/priser";
+  const navigate = useNavigate();
   const pageBooking = useSpecialistPageBookingOptional();
   const [selectedClinic, setSelectedClinic] = useState<SpecialistPageClinic | null>(null);
 
@@ -138,6 +136,25 @@ function InlineBookingSection({
     }
     setSelectedClinic(null);
   }, [pageClinics, pageBooking?.bookingFocusKey]);
+
+  const handleSelectClinic = (clinic: SpecialistPageClinic) => {
+    if (clinic.kind === "pasientsky") {
+      trackBookingMenuStart({
+        entry_point: "specialist_page",
+        practitioner: specialist.name,
+        specialty: specialist.title || specialist.expertise?.[0]?.label || null,
+        clinic: clinic.label,
+      });
+      navigate(
+        bookingUrlForSpecialistContext({
+          specialistSlug: specialist.slug,
+          klinikk: clinic.slug,
+        }),
+      );
+      return;
+    }
+    setSelectedClinic(clinic);
+  };
 
   if (pageClinics.length === 0) {
     return (
@@ -156,7 +173,7 @@ function InlineBookingSection({
           clinics={pageClinics}
           prompt={clinicPrompt}
           isEn={isEn}
-          onSelect={setSelectedClinic}
+          onSelect={handleSelectClinic}
         />
       ) : selectedClinic ? (
         <div className="space-y-4">

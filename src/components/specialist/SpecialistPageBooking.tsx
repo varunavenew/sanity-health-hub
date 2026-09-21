@@ -89,6 +89,8 @@ export function SpecialistPageBookingProvider({
     () => moelvPasientskyClinicFromPageClinics(pageClinics),
     [pageClinics],
   );
+  const moelvOnlyBooking =
+    Boolean(moelvPasientskyClinic) && pageClinics.length === 1;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -105,10 +107,13 @@ export function SpecialistPageBookingProvider({
       entry_point: "specialist_page",
       practitioner: specialist.name,
       specialty: specialist.title || specialist.expertise?.[0]?.label || null,
-      clinic: moelvPasientskyClinic?.label ?? specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null,
+      clinic:
+        pageClinics.length === 1
+          ? (pageClinics[0]?.label ?? null)
+          : null,
     });
 
-    if (moelvPasientskyClinic) {
+    if (moelvOnlyBooking && moelvPasientskyClinic) {
       navigate(
         bookingUrlForSpecialistContext({
           specialistSlug: specialist.slug,
@@ -120,7 +125,7 @@ export function SpecialistPageBookingProvider({
 
     setBookingFocusKey((key) => key + 1);
     scrollToSpecialistBookingSection();
-  }, [specialist, moelvPasientskyClinic, navigate]);
+  }, [specialist, moelvOnlyBooking, moelvPasientskyClinic, navigate, pageClinics]);
 
   const scrollToBookingSteps = useCallback(() => {
     setBookingFocusKey((key) => key + 1);
