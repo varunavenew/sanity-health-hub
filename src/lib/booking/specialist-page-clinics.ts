@@ -36,6 +36,25 @@ export type SpecialistPageClinic =
   | SpecialistPagePasientskyClinic
   | SpecialistPagePhoneClinic;
 
+/** Moelv PatientSky branch — book via /booking iframe, not inline Metodika picker. */
+export function moelvPasientskyClinicFromPageClinics(
+  pageClinics: SpecialistPageClinic[],
+): SpecialistPagePasientskyClinic | undefined {
+  return pageClinics.find((clinic): clinic is SpecialistPagePasientskyClinic => {
+    if (clinic.kind !== "pasientsky") return false;
+    const slug = clinic.slug.toLowerCase();
+    const label = normalizeClinicLabelForCompare(clinic.label);
+    return slug.includes("moelv") || label.includes("moelv");
+  });
+}
+
+/** Inline profile booking band uses Metodika / phone only — not PatientSky Moelv. */
+export function pageClinicsForInlineProfileBooking(
+  pageClinics: SpecialistPageClinic[],
+): SpecialistPageClinic[] {
+  return pageClinics.filter((clinic) => clinic.kind !== "pasientsky");
+}
+
 function normalizeClinicKey(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";

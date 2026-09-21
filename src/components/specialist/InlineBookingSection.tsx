@@ -23,10 +23,13 @@ import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
+  moelvPasientskyClinicFromPageClinics,
+  pageClinicsForInlineProfileBooking,
   resolveSpecialistPageClinics,
   SPECIALIST_PAGE_FALLBACK_PHONE,
   type SpecialistPageClinic,
   type SpecialistPageMetodikaClinic,
+  type SpecialistPagePasientskyClinic,
   type SpecialistPagePhoneClinic,
 } from "@/lib/booking/specialist-page-clinics";
 import {
@@ -61,13 +64,22 @@ export function SpecialistInlineBookingBand({ specialist }: InlineBookingSection
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
     [specialist, sanityClinics],
   );
+  const inlineClinics = useMemo(
+    () => pageClinicsForInlineProfileBooking(pageClinics),
+    [pageClinics],
+  );
+  const moelvPasientskyClinic = useMemo(
+    () => moelvPasientskyClinicFromPageClinics(pageClinics),
+    [pageClinics],
+  );
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
     [specialist.bookingCategoryIds],
   );
 
   if (!specialistShowsProfileBookingButton(specialist, pageBooking)) return null;
-  if (bookingCategoryIds.length === 0 && pageClinics.length === 0) return null;
+  if (moelvPasientskyClinic && inlineClinics.length === 0) return null;
+  if (bookingCategoryIds.length === 0 && inlineClinics.length === 0) return null;
 
   return (
     <section
@@ -98,7 +110,7 @@ export function SpecialistInlineBookingBand({ specialist }: InlineBookingSection
             transition={{ duration: 0.5, delay: 0.1 }}
             className="md:col-span-8"
           >
-            <InlineBookingSection specialist={specialist} pageClinics={pageClinics} />
+            <InlineBookingSection specialist={specialist} pageClinics={inlineClinics} />
           </motion.div>
         </div>
       </div>
@@ -218,63 +230,6 @@ function ClinicPicker({
   );
 }
 
-function PasientskyBookingCta({
-  specialist,
-  clinic,
-  isEn,
-}: {
-  specialist: Specialist;
-  clinic: SpecialistPageClinic;
-  isEn: boolean;
-}) {
-  const navigate = useNavigate();
-  const title = /^cmedical\s/i.test(clinic.label)
-    ? clinic.label
-    : `CMedical ${clinic.label}`;
-  const continueLabel = isEn ? "Book appointment" : "Bestill time";
-  const description = isEn
-    ? "Continue to our booking page to choose an appointment time."
-    : "Fortsett til bestillingssiden for å velge time.";
-
-  const handleContinue = () => {
-    trackBookingMenuStart({
-      entry_point: "specialist_page",
-      practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
-      clinic: clinic.label,
-    });
-    navigate(
-      bookingUrlForSpecialistContext({
-        specialistSlug: specialist.slug,
-        klinikk: clinic.slug,
-      }),
-    );
-  };
-
-  return (
-    <div className="rounded-sm border border-white/15 bg-white/10 px-6 py-8 text-center">
-      <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white/70">
-        <MapPin className="h-5 w-5" aria-hidden="true" />
-      </div>
-      <p className="text-lg font-light text-white">{title}</p>
-      {clinic.address ? (
-        <p className="mt-2 text-sm font-light text-white/60">{clinic.address}</p>
-      ) : null}
-      <p className="mt-6 text-sm font-light text-white/70">{description}</p>
-      <Button
-        type="button"
-        variant="cta"
-        size="lg"
-        className="mt-6 gap-2 rounded-full px-8"
-        onClick={handleContinue}
-      >
-        {continueLabel}
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </Button>
-    </div>
-  );
-}
-
 function ClinicBookingBranch({
   specialist,
   clinic,
@@ -288,10 +243,6 @@ function ClinicBookingBranch({
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
 }) {
-  if (clinic.kind === "pasientsky") {
-    return <PasientskyBookingCta specialist={specialist} clinic={clinic} isEn={isEn} />;
-  }
-
   if (clinic.kind === "phone") {
     return <InlinePhoneClinic clinic={clinic} isEn={isEn} />;
   }
@@ -357,7 +308,7 @@ function InlineMetodikaCallUs({
   clinic,
   isEn,
 }: {
-  clinic: SpecialistPageMetodikaClinic;
+  clinic: SpecialistPageMetodikaClinic | SpecialistPagePasientskyClinic;
   isEn: boolean;
 }) {
   const phone = clinic.phone || SPECIALIST_PAGE_FALLBACK_PHONE;
@@ -387,7 +338,7 @@ function MetodikaTreatmentPicker({
   isEn,
 }: {
   specialist: Specialist;
-  clinic: SpecialistPageMetodikaClinic;
+  clinic: SpecialistPageMetodikaClinic | SpecialistPagePasientskyClinic;
   priserPath: string;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
@@ -558,7 +509,7 @@ function MetodikaTreatmentPicker({
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="border-t border-white/10">
+                  <div className="scrollbar-dark-subtle max-h-[min(28rem,50vh)] overflow-y-auto overscroll-y-contain border-t border-white/10 pr-1">
                     {category.services.map((service) => {
                       const activityId = service.apiActivityId;
                       const durationMinutes = resolveServiceDurationMinutes(service);

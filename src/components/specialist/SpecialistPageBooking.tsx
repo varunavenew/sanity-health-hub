@@ -13,7 +13,13 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 import { useClinics } from "@/hooks/useSanity";
 import { useSpecialistHasAvailableSlots } from "@/hooks/useSpecialistHasAvailableSlots";
-import { resolveSpecialistPageClinics } from "@/lib/booking/specialist-page-clinics";
+import {
+  moelvPasientskyClinicFromPageClinics,
+  resolveSpecialistPageClinics,
+} from "@/lib/booking/specialist-page-clinics";
+import { bookingUrlForSpecialistContext } from "@/lib/booking/specialist-booking";
+import { specialistHasOnlineProfileBooking } from "@/lib/sanity/specialist-cta";
+import { useNavigate } from "@/lib/router";
 
 export const SPECIALIST_INLINE_BOOKING_SECTION_ID = "specialist-inline-booking";
 export const SPECIALIST_INLINE_BOOKING_STEPS_ID = "specialist-inline-booking-steps";
@@ -41,6 +47,8 @@ type SpecialistPageBookingContextValue = {
   scrollToBookingSteps: () => void;
   /** Increments when the user opens booking — inline UI resets clinic selection. */
   bookingFocusKey: number;
+  /** True when Metodika/Pasientsky booking is set up on this profile. */
+  hasOnlineProfileBooking: boolean;
   /** False while checking Metodika/Pasientsky slot availability. */
   availabilityLoading: boolean;
   /** True when at least one online slot exists for this specialist. */
@@ -63,13 +71,24 @@ export function SpecialistPageBookingProvider({
   children: ReactNode;
 }) {
   const [bookingFocusKey, setBookingFocusKey] = useState(0);
-  const { data: sanityClinics = [] } = useClinics();
+  const { data: sanityClinics = [], isLoading: clinicsLoading } = useClinics();
   const pageClinics = useMemo(
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
     [specialist, sanityClinics],
   );
-  const { hasAvailableSlots, loading: availabilityLoading } =
+  const hasOnlineProfileBooking = useMemo(
+    () => specialistHasOnlineProfileBooking(specialist, pageClinics),
+    [specialist, pageClinics],
+  );
+  const { hasAvailableSlots, loading: slotsLoading } =
     useSpecialistHasAvailableSlots(specialist, pageClinics);
+  const availabilityLoading =
+    clinicsLoading || (!hasOnlineProfileBooking && slotsLoading);
+  const navigate = useNavigate();
+  const moelvPasientskyClinic = useMemo(
+    () => moelvPasientskyClinicFromPageClinics(pageClinics),
+    [pageClinics],
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -86,11 +105,22 @@ export function SpecialistPageBookingProvider({
       entry_point: "specialist_page",
       practitioner: specialist.name,
       specialty: specialist.title || specialist.expertise?.[0] || null,
-      clinic: specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null,
+      clinic: moelvPasientskyClinic?.label ?? specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null,
     });
+
+    if (moelvPasientskyClinic) {
+      navigate(
+        bookingUrlForSpecialistContext({
+          specialistSlug: specialist.slug,
+          klinikk: moelvPasientskyClinic.slug,
+        }),
+      );
+      return;
+    }
+
     setBookingFocusKey((key) => key + 1);
     scrollToSpecialistBookingSection();
-  }, [specialist]);
+  }, [specialist, moelvPasientskyClinic, navigate]);
 
   const scrollToBookingSteps = useCallback(() => {
     setBookingFocusKey((key) => key + 1);
@@ -102,6 +132,7 @@ export function SpecialistPageBookingProvider({
       scrollToBookingSection,
       scrollToBookingSteps,
       bookingFocusKey,
+      hasOnlineProfileBooking,
       availabilityLoading,
       hasAvailableSlots,
     }),
@@ -109,6 +140,7 @@ export function SpecialistPageBookingProvider({
       scrollToBookingSection,
       scrollToBookingSteps,
       bookingFocusKey,
+      hasOnlineProfileBooking,
       availabilityLoading,
       hasAvailableSlots,
     ],

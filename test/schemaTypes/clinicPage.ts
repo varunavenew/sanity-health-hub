@@ -506,6 +506,62 @@ export default {
           hidden: ({ parent }: { parent?: { method?: string } }) => parent?.method !== 'metodika',
         },
         {
+          name: 'pasientskyTimeslotMappings',
+          title: 'PatientSky timetype mappings',
+          description:
+            'Maps Metodika wbactivity ids (from booking step 1) to PatientSky timetype UUIDs for the embedded Moelv iframe.',
+          type: 'array',
+          hidden: ({ parent }: { parent?: { method?: string } }) =>
+            parent?.method !== 'pasientsky',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'metodikaActivityId',
+                  title: 'Metodika activity id',
+                  type: 'number',
+                  validation: (Rule: { required: () => { integer: () => { positive: () => unknown } } }) =>
+                    Rule.required().integer().positive(),
+                },
+                {
+                  name: 'timeslotTypeId',
+                  title: 'PatientSky timetype id',
+                  type: 'string',
+                  validation: (Rule: { required: () => unknown }) => Rule.required(),
+                },
+                {
+                  name: 'label',
+                  title: 'Label (reference)',
+                  type: 'string',
+                  readOnly: true,
+                },
+              ],
+              preview: {
+                select: {
+                  title: 'label',
+                  metodikaActivityId: 'metodikaActivityId',
+                  timeslotTypeId: 'timeslotTypeId',
+                },
+                prepare({
+                  title,
+                  metodikaActivityId,
+                  timeslotTypeId,
+                }: {
+                  title?: string;
+                  metodikaActivityId?: number;
+                  timeslotTypeId?: string;
+                }) {
+                  return {
+                    title: title || `Activity ${metodikaActivityId ?? '?'}`,
+                    subtitle: timeslotTypeId,
+                  };
+                },
+              },
+            },
+          ],
+        },
+        {
           name: 'externalBookingUrl',
           title: 'External booking URL',
           type: 'url',

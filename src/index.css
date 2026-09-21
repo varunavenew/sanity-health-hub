@@ -692,6 +692,27 @@ section > .container.py-14 {
     width: 0;
     height: 0;
   }
+
+  /** Dark panels — thin thumb, transparent track (specialist booking list, etc.) */
+  .scrollbar-dark-subtle {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.32) transparent;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.28);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255 255 255 / 0.45);
+  }
 }
 
 /* ===== Inline edit mode (auto-editable scope) =====

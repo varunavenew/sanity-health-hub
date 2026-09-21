@@ -6,11 +6,19 @@ import {
 } from "@/lib/sanity/published-docs";
 import { parseSortOrder, sortBySortOrder } from "@/lib/sortAlphabetical";
 
+export type PasientskyTimeslotMapping = {
+  metodikaActivityId: number;
+  timeslotTypeId: string;
+  label?: string;
+};
+
 export type SanityClinicBooking = {
   method?: "info" | "pasientsky" | "metodika" | "closed";
   serviceProviderId?: string;
   metodikaLocationId?: number;
   externalBookingUrl?: string;
+  /** Moelv: Metodika wbactivity id → PatientSky timetype UUID. */
+  pasientskyTimeslotMappings?: PasientskyTimeslotMapping[];
 };
 
 /** Majorstuen has one entrance — strip legacy "A og B" / "A and B" suffixes from CMS. */
@@ -87,6 +95,34 @@ export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicList
             typeof bookingRaw.externalBookingUrl === "string"
               ? bookingRaw.externalBookingUrl
               : undefined,
+          pasientskyTimeslotMappings: Array.isArray(bookingRaw.pasientskyTimeslotMappings)
+            ? bookingRaw.pasientskyTimeslotMappings
+                .map((entry) => {
+                  if (!entry || typeof entry !== "object") return null;
+                  const row = entry as Record<string, unknown>;
+                  const metodikaActivityId =
+                    typeof row.metodikaActivityId === "number"
+                      ? row.metodikaActivityId
+                      : Number(row.metodikaActivityId);
+                  const timeslotTypeId =
+                    typeof row.timeslotTypeId === "string"
+                      ? row.timeslotTypeId.trim()
+                      : "";
+                  const label =
+                    typeof row.label === "string" ? row.label.trim() : undefined;
+                  if (
+                    !Number.isFinite(metodikaActivityId) ||
+                    metodikaActivityId <= 0 ||
+                    !timeslotTypeId
+                  ) {
+                    return null;
+                  }
+                  return { metodikaActivityId, timeslotTypeId, label };
+                })
+                .filter(
+                  (row): row is PasientskyTimeslotMapping => row != null,
+                )
+            : undefined,
         }
       : undefined;
   const services = Array.isArray(c.services)

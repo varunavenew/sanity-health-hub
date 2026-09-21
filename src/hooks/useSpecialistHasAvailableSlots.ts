@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
-import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
-import { resolveSpecialistBookingCategoryIds } from "@/lib/booking/specialist-booking";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
 import type { SpecialistPageClinic } from "@/lib/booking/specialist-page-clinics";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
@@ -19,14 +17,8 @@ export function useSpecialistHasAvailableSlots(
   pageClinics: SpecialistPageClinic[],
   bookingApiBase: string = BOOKING_API_BASE,
 ): { hasAvailableSlots: boolean; loading: boolean } {
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
-  );
-  const { categories: metodikaCategories, loading: categoriesLoading } =
-    useSpecialistMetodikaBooking(bookingCategoryIds, bookingApiBase);
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
-  const { allowedIds, loading: wbActivitiesLoading } = useCaregiverWbActivities(
+  const { wbactivityIds, loading: wbActivitiesLoading } = useCaregiverWbActivities(
     caregiverUserId,
     bookingApiBase,
   );
@@ -40,19 +32,11 @@ export function useSpecialistHasAvailableSlots(
     [pageClinics],
   );
   const hasOnlineClinic = metodikaClinics.length > 0 || pasientskyClinics.length > 0;
-  const wbactivityIds = useMemo(() => {
-    const fromCategories = new Set<number>();
-    for (const category of metodikaCategories) {
-      for (const service of category.services) {
-        if (service.apiActivityId != null) {
-          fromCategories.add(service.apiActivityId);
-        }
-      }
-    }
-    return [...allowedIds]
-      .filter((id) => fromCategories.has(id))
-      .sort((a, b) => a - b);
-  }, [metodikaCategories, allowedIds]);
+  /** All Metodika treatments this caregiver may perform — not only profile category list. */
+  const metodikaWbActivityIds = useMemo(
+    () => [...wbactivityIds].sort((a, b) => a - b),
+    [wbactivityIds],
+  );
   const pasientskyCalendarId = useMemo(
     () => pasientskyCalendarIdForSpecialist(specialist),
     [specialist],
@@ -75,8 +59,8 @@ export function useSpecialistHasAvailableSlots(
     }
 
     if (metodikaClinics.length > 0) {
-      if (categoriesLoading || wbActivitiesLoading) return;
-      if (caregiverUserId == null || wbactivityIds.length === 0) {
+      if (wbActivitiesLoading) return;
+      if (caregiverUserId == null || metodikaWbActivityIds.length === 0) {
         setHasAvailableSlots(false);
         setLoading(false);
         return;
@@ -95,7 +79,7 @@ export function useSpecialistHasAvailableSlots(
             "locationIds",
             metodikaClinics.map((clinic) => clinic.apiLocationId).join(","),
           );
-          params.set("wbactivityIds", wbactivityIds.join(","));
+          params.set("wbactivityIds", metodikaWbActivityIds.join(","));
           if (caregiverUserId != null) {
             params.set("caregiverUserId", String(caregiverUserId));
           }
@@ -134,9 +118,8 @@ export function useSpecialistHasAvailableSlots(
     hasOnlineClinic,
     metodikaClinics,
     pasientskyClinics,
-    wbactivityIds,
+    metodikaWbActivityIds,
     caregiverUserId,
-    categoriesLoading,
     wbActivitiesLoading,
     pasientskyCalendarId,
     bookingApiBase,
