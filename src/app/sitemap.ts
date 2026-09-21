@@ -1,7 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { MetadataRoute } from "next";
-import { isProductionDeploy, siteUrl } from "@/lib/env";import { locales } from "@/lib/i18n/routing";
+import { headers } from "next/headers";
+import { siteUrl } from "@/lib/env";
+import { locales } from "@/lib/i18n/routing";
+import {
+  getHostFromHeaderBag,
+  isProductionSiteHost,
+} from "@/lib/seo/staging-crawl-block";
 import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
 import { sitemapPathsFromRouteIndex } from "@/lib/routing/resolve-route";
 import { NOINDEX_SEGMENTS } from "@/lib/seo/robots-paths";
@@ -58,12 +64,13 @@ function staticRouteLastModified(segment: string): Date {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Staging/preview must not expose crawlable URLs — production sitemap unchanged.
-  if (!isProductionDeploy()) {
+  const h = await headers();
+  if (!isProductionSiteHost(getHostFromHeaderBag(h))) {
     return [];
   }
 
-  const base = siteUrl();  const entries: MetadataRoute.Sitemap = [];
+  const base = siteUrl();
+  const entries: MetadataRoute.Sitemap = [];
   const seen = new Set<string>();
 
   let homepageLastModified: Date | undefined;
