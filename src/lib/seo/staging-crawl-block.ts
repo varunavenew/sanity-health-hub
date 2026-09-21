@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { isProductionDeploy, siteUrl } from "@/lib/env";
 
+// Noindex / crawl blocking is for staging and preview only — production deploys are unchanged.
+
 /**
  * Staging / preview / non-production deploys must never be indexed.
  * Production (VERCEL_ENV=production + cmedical.no) is the only indexable surface.
