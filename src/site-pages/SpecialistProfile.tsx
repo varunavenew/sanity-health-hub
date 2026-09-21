@@ -32,6 +32,7 @@ import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
+import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 

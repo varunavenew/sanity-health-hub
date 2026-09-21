@@ -8,9 +8,25 @@
  * Production:
  *   cd test && SANITY_DATASET_FORCE=production ALLOW_PRODUCTION_MIGRATION=true \
  *     npx tsx sanity/patch-gynekologi-segments-developer.ts
+ *
+ * Prefers repo-root `.env.local` SANITY_TOKEN when test/.env.local has a stale token.
  */
+import { config as loadEnv } from "dotenv";
+import path from "path";
 import { randomBytes } from "crypto";
-import { DATASET, PROJECT_ID, sanityClient } from "./config";
+
+const rootEnv = loadEnv({
+  path: path.join(process.cwd(), "..", ".env.local"),
+  override: false,
+});
+const rootToken = rootEnv.parsed?.SANITY_TOKEN?.trim();
+// Prefer root token — test/.env.local often has a stale/placeholder token
+if (rootToken) {
+  process.env.SANITY_TOKEN = rootToken;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { DATASET, PROJECT_ID, sanityClient } = require("./config") as typeof import("./config");
 
 const DOC_ID = "category-gynekologi";
 const DRY_RUN = process.env.DRY_RUN === "1";
