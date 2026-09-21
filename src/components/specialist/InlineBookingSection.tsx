@@ -18,7 +18,7 @@ import {
 } from "@/components/specialist/SpecialistPageBooking";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useClinics } from "@/hooks/useSanity";
-import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
+import { useSpecialistMetodikaBooking, type BookingCategoryFromApi } from "@/hooks/useBookingCategoryServices";
 import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import { formatDurationMinutes } from "@/lib/booking/duration";
@@ -129,6 +129,25 @@ function InlineBookingSection({
   const navigate = useNavigate();
   const pageBooking = useSpecialistPageBookingOptional();
   const [selectedClinic, setSelectedClinic] = useState<SpecialistPageClinic | null>(null);
+  const bookingCategoryIds = useMemo(
+    () => resolveSpecialistBookingCategoryIds(specialist),
+    [specialist.bookingCategoryIds],
+  );
+  const hasMetodikaClinic = pageClinics.some((clinic) => clinic.kind === "metodika");
+  const caregiverUserId = resolveBookingCaregiverUserId(specialist);
+  const { categories: metodikaCategories, loading: categoriesLoading } =
+    useSpecialistMetodikaBooking(
+      hasMetodikaClinic ? bookingCategoryIds : [],
+      BOOKING_API_BASE,
+    );
+  const {
+    allowedIds,
+    durationMinutesByActivityId,
+    loading: wbActivitiesLoading,
+  } = useCaregiverWbActivities(
+    hasMetodikaClinic ? caregiverUserId : undefined,
+    BOOKING_API_BASE,
+  );
 
   useEffect(() => {
     if (pageClinics.length === 1) {
@@ -195,6 +214,13 @@ function InlineBookingSection({
             priserPath={priserPath}
             ui={ui}
             isEn={isEn}
+            bookingCategoryIds={bookingCategoryIds}
+            metodikaCategories={metodikaCategories}
+            categoriesLoading={categoriesLoading}
+            allowedIds={allowedIds}
+            durationMinutesByActivityId={durationMinutesByActivityId}
+            wbActivitiesLoading={wbActivitiesLoading}
+            caregiverUserId={caregiverUserId}
           />
         </div>
       ) : null}
@@ -254,12 +280,26 @@ function ClinicBookingBranch({
   priserPath,
   ui,
   isEn,
+  bookingCategoryIds,
+  metodikaCategories,
+  categoriesLoading,
+  allowedIds,
+  durationMinutesByActivityId,
+  wbActivitiesLoading,
+  caregiverUserId,
 }: {
   specialist: Specialist;
   clinic: SpecialistPageClinic;
   priserPath: string;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
+  bookingCategoryIds: number[];
+  metodikaCategories: BookingCategoryFromApi[];
+  categoriesLoading: boolean;
+  allowedIds: Set<number>;
+  durationMinutesByActivityId: Map<number, number>;
+  wbActivitiesLoading: boolean;
+  caregiverUserId: number | undefined;
 }) {
   if (clinic.kind === "phone") {
     return <InlinePhoneClinic clinic={clinic} isEn={isEn} />;
@@ -280,6 +320,13 @@ function ClinicBookingBranch({
       priserPath={priserPath}
       ui={ui}
       isEn={isEn}
+      bookingCategoryIds={bookingCategoryIds}
+      metodikaCategories={metodikaCategories}
+      categoriesLoading={categoriesLoading}
+      allowedIds={allowedIds}
+      durationMinutesByActivityId={durationMinutesByActivityId}
+      wbActivitiesLoading={wbActivitiesLoading}
+      caregiverUserId={caregiverUserId}
     />
   );
 }
@@ -362,29 +409,29 @@ function MetodikaTreatmentPicker({
   priserPath,
   ui,
   isEn,
+  bookingCategoryIds,
+  metodikaCategories,
+  categoriesLoading,
+  allowedIds,
+  durationMinutesByActivityId,
+  wbActivitiesLoading,
+  caregiverUserId,
 }: {
   specialist: Specialist;
   clinic: SpecialistPageMetodikaClinic | SpecialistPagePasientskyClinic;
   priserPath: string;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
+  bookingCategoryIds: number[];
+  metodikaCategories: BookingCategoryFromApi[];
+  categoriesLoading: boolean;
+  allowedIds: Set<number>;
+  durationMinutesByActivityId: Map<number, number>;
+  wbActivitiesLoading: boolean;
+  caregiverUserId: number | undefined;
 }) {
   const dateLang = isEn ? "en" : "no";
   const navigate = useNavigate();
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
-  );
-  const { categories: metodikaCategories, loading } = useSpecialistMetodikaBooking(
-    bookingCategoryIds,
-    BOOKING_API_BASE,
-  );
-  const caregiverUserId = resolveBookingCaregiverUserId(specialist);
-  const {
-    allowedIds,
-    durationMinutesByActivityId,
-    loading: wbActivitiesLoading,
-  } = useCaregiverWbActivities(caregiverUserId, BOOKING_API_BASE);
   const caregiverCategories = useMemo(() => {
     const filtered = filterSpecialistBookingCategories(specialist, metodikaCategories);
     if (caregiverUserId == null || allowedIds.size === 0) return [];
@@ -401,7 +448,8 @@ function MetodikaTreatmentPicker({
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   const categories = caregiverCategories;
-  const isLoading = loading || wbActivitiesLoading;
+  const isLoading =
+    categoriesLoading || (wbActivitiesLoading && categories.length === 0);
 
   const resolveServiceDurationMinutes = (service: {
     apiActivityId?: number;

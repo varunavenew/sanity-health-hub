@@ -18,8 +18,10 @@ import {
   resolveSpecialistPageClinics,
 } from "@/lib/booking/specialist-page-clinics";
 import { bookingUrlForSpecialistContext } from "@/lib/booking/specialist-booking";
+import { prefetchSpecialistMetodikaBookingData } from "@/lib/booking/prefetch-specialist-metodika-booking";
 import { specialistHasOnlineProfileBooking } from "@/lib/sanity/specialist-cta";
-import { useNavigate } from "@/lib/router";
+import { useLocaleParam, useNavigate } from "@/lib/router";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const SPECIALIST_INLINE_BOOKING_SECTION_ID = "specialist-inline-booking";
 export const SPECIALIST_INLINE_BOOKING_STEPS_ID = "specialist-inline-booking-steps";
@@ -85,6 +87,8 @@ export function SpecialistPageBookingProvider({
   const availabilityLoading =
     clinicsLoading || (!hasOnlineProfileBooking && slotsLoading);
   const navigate = useNavigate();
+  const locale = useLocaleParam();
+  const queryClient = useQueryClient();
   const moelvPasientskyClinic = useMemo(
     () => moelvPasientskyClinicFromPageClinics(pageClinics),
     [pageClinics],
@@ -101,6 +105,14 @@ export function SpecialistPageBookingProvider({
     const timer = window.setTimeout(resetScroll, 0);
     return () => window.clearTimeout(timer);
   }, [specialist.slug]);
+
+  useEffect(() => {
+    prefetchSpecialistMetodikaBookingData(queryClient, {
+      specialist,
+      pageClinics,
+      locale,
+    });
+  }, [queryClient, specialist, pageClinics, locale]);
 
   const scrollToBookingSection = useCallback(() => {
     trackBookingMenuStart({
