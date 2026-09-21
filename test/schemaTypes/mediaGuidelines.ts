@@ -157,11 +157,12 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     height: 1500,
     aspectLabel: '4:5',
     orientation: 'portrait',
-    formats: 'JPG / WebP',
+    /** Matches CMedical specialist template (Erlend): portrait 4:5 delivery. */
+    formats: 'JPG eller PNG',
     maxBytes: MB(3),
     maxBytesLabel: '3 MB',
-    minWidth: 600,
-    minHeight: 750,
+    minWidth: 1200,
+    minHeight: 1500,
     tips: [
       'Head and shoulders clearly visible.',
       'Set the hotspot on the face.',
@@ -442,12 +443,8 @@ export function mediaDescription(
   }
 
   if (kind === 'specialist') {
-    return [
-      `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
-      `Aspect Ratio: ${g.aspectLabel}`,
-      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
-      'Set the hotspot on the face — the website keeps it in frame.',
-    ].join('\n')
+    // NO copy matches CMedical specialist template (Hero Media 1200×1500, 4:5).
+    return 'Portrett 4:5 — 1200 × 1500 px (minst 1200 px bredt). JPG eller PNG.'
   }
 
   if (kind === 'split') {
@@ -498,76 +495,84 @@ function orientationOf(width: number, height: number): 'landscape' | 'portrait' 
  * Soft validation for image fields (warnings, not hard blocks).
  * Fetches asset metadata from Sanity when available.
  */
-export function softImageRules(kind: Exclude<MediaGuidelineKind, 'video'>) {
+async function softCheckImage(
+  value: ImageAssetLike | undefined,
+  context: any,
+  kind: Exclude<MediaGuidelineKind, 'video'>,
+): Promise<true | string> {
   const g = MEDIA_GUIDELINES[kind]
-  return (Rule: any) =>
-    Rule.custom(async (value: ImageAssetLike | undefined, context: any) => {
-      const ref = value?.asset?._ref
-      if (!ref) return true
+  const ref = value?.asset?._ref
+  if (!ref) return true
 
-      try {
-        const client = context.getClient({apiVersion: '2024-01-01'})
-        const asset: AssetMeta | null = await client.fetch(
-          `*[_id == $id][0]{size, mimeType, metadata{dimensions{width,height}}}`,
-          {id: ref},
-        )
-        if (!asset) return true
+  try {
+    const client = context.getClient({apiVersion: '2024-01-01'})
+    const asset: AssetMeta | null = await client.fetch(
+      `*[_id == $id][0]{size, mimeType, metadata{dimensions{width,height}}}`,
+      {id: ref},
+    )
+    if (!asset) return true
 
-        const warnings: string[] = []
-        const w = asset.metadata?.dimensions?.width
-        const h = asset.metadata?.dimensions?.height
-        const size = asset.size
-        const mime = (asset.mimeType || '').toLowerCase()
+    const warnings: string[] = []
+    const w = asset.metadata?.dimensions?.width
+    const h = asset.metadata?.dimensions?.height
+    const size = asset.size
+    const mime = (asset.mimeType || '').toLowerCase()
 
-        if (g.accept && mime) {
-          const allowed = g.accept.split(',').map((a) => a.trim().toLowerCase())
-          const mimeOk =
-            allowed.includes(mime) ||
-            ((mime === 'image/jpeg' || mime === 'image/jpg') &&
-              allowed.some((a) => a === 'image/jpeg' || a === 'image/jpg'))
-          if (!mimeOk) {
-            warnings.push(`Preferred formats: ${g.formats}. Current: ${mime}.`)
-          }
-        }
-
-        if (typeof size === 'number' && size > g.maxBytes) {
-          warnings.push(
-            `File is ~${formatBytesLabel(size)} (recommended upload size up to ${g.maxBytesLabel}). Prefer a smaller export when visual quality is already good — Sanity will still optimize delivery automatically.`,
-          )
-        }
-
-        if (typeof w === 'number' && typeof h === 'number') {
-          if (g.minWidth && w < g.minWidth) {
-            warnings.push(`Width ${w}px is below recommended minimum ${g.minWidth}px.`)
-          }
-          if (g.minHeight && h < g.minHeight) {
-            warnings.push(`Height ${h}px is below recommended minimum ${g.minHeight}px.`)
-          }
-
-          const orient = orientationOf(w, h)
-          if (g.orientation === 'landscape' && orient === 'portrait') {
-            warnings.push(
-              `This looks like a portrait image (${w}×${h}). Recommended for this field: ${g.aspectLabel} landscape.`,
-            )
-          }
-          if (g.orientation === 'portrait' && orient === 'landscape') {
-            warnings.push(
-              `This looks like a landscape image (${w}×${h}). Recommended for this field: ${g.aspectLabel}.`,
-            )
-          }
-          if (g.orientation === 'square' && orient !== 'square') {
-            warnings.push(
-              `This image is ${w}×${h}. Recommended for this field: square (${g.aspectLabel}).`,
-            )
-          }
-        }
-
-        if (warnings.length === 0) return true
-        return warnings.join(' ')
-      } catch {
-        return true
+    if (g.accept && mime) {
+      const allowed = g.accept.split(',').map((a) => a.trim().toLowerCase())
+      const mimeOk =
+        allowed.includes(mime) ||
+        ((mime === 'image/jpeg' || mime === 'image/jpg') &&
+          allowed.some((a) => a === 'image/jpeg' || a === 'image/jpg'))
+      if (!mimeOk) {
+        warnings.push(`Preferred formats: ${g.formats}. Current: ${mime}.`)
       }
-    }).warning()
+    }
+
+    if (typeof size === 'number' && size > g.maxBytes) {
+      warnings.push(
+        `File is ~${formatBytesLabel(size)} (recommended upload size up to ${g.maxBytesLabel}). Prefer a smaller export when visual quality is already good — Sanity will still optimize delivery automatically.`,
+      )
+    }
+
+    if (typeof w === 'number' && typeof h === 'number') {
+      if (g.minWidth && w < g.minWidth) {
+        warnings.push(`Width ${w}px is below recommended minimum ${g.minWidth}px.`)
+      }
+      if (g.minHeight && h < g.minHeight) {
+        warnings.push(`Height ${h}px is below recommended minimum ${g.minHeight}px.`)
+      }
+
+      const orient = orientationOf(w, h)
+      if (g.orientation === 'landscape' && orient === 'portrait') {
+        warnings.push(
+          `This looks like a portrait image (${w}×${h}). Recommended for this field: ${g.aspectLabel} landscape.`,
+        )
+      }
+      if (g.orientation === 'portrait' && orient === 'landscape') {
+        warnings.push(
+          `This looks like a landscape image (${w}×${h}). Recommended for this field: ${g.aspectLabel}.`,
+        )
+      }
+      if (g.orientation === 'square' && orient !== 'square') {
+        warnings.push(
+          `This image is ${w}×${h}. Recommended for this field: square (${g.aspectLabel}).`,
+        )
+      }
+    }
+
+    if (warnings.length === 0) return true
+    return warnings.join(' ')
+  } catch {
+    return true
+  }
+}
+
+export function softImageRules(kind: Exclude<MediaGuidelineKind, 'video'>) {
+  return (Rule: any) =>
+    Rule.custom(async (value: ImageAssetLike | undefined, context: any) =>
+      softCheckImage(value, context, kind),
+    ).warning()
 }
 
 /** Soft validation for uploaded video files. */
