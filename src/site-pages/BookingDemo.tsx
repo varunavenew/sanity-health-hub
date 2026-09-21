@@ -754,6 +754,11 @@ const BookingDemo = () => {
     }
   }, [expandedCategory, bookingServices]);
 
+  // Warm wbactivities matrix as soon as a treatment is chosen (step 3 caregivers).
+  useEffect(() => {
+    prefetchWbActivityMatrix(bookingData.service?.apiActivityId);
+  }, [bookingData.service?.apiActivityId]);
+
   // wbfreetimes → rooms → locations: discovery (clinics + caregivers, 1 slot/day)
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
@@ -1427,6 +1432,12 @@ const BookingDemo = () => {
     [hasApiActivity, wbActivityMatrix, bookingData.category],
   );
 
+  useEffect(() => {
+    const clinic = bookingData.clinic;
+    if (!clinic || !isMetodikaClinic(clinic) || !wbActivityMatrix) return;
+    prefetchCaregiversForClinic(clinic);
+  }, [bookingData.clinic, wbActivityMatrix, prefetchCaregiversForClinic]);
+
   // Step 2: Metodika locations (enriched from Sanity) + Pasientsky / external from Sanity.
   // When a specialist is already chosen (e.g. ?spesialist=), only show clinics where they work.
   const availableClinics: BookingClinic[] = useMemo(() => {
@@ -1506,7 +1517,19 @@ const BookingDemo = () => {
       slotDurationMinutes: undefined,
       selectedSlot: undefined,
     });
-    setBookingCaregivers([]);
+
+    if (isMetodikaClinic(clinic) && wbActivityMatrix) {
+      const ids = caregiverIdsForWbActivityAtLocation(
+        wbActivityMatrix,
+        clinic.apiLocationId,
+      );
+      const specialty = bookingData.category ?? "";
+      const peeked = peekBookingUsersClient(ids, specialty);
+      setBookingCaregivers(peeked ?? []);
+    } else {
+      setBookingCaregivers([]);
+    }
+
     setWeekOffset(0);
     slotsByDayRef.current = {};
     setSlotsByDayKey({});
@@ -2209,6 +2232,9 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       type="button"
+                      onMouseEnter={() => {
+                        if (isMetodikaClinic(clinic)) prefetchCaregiversForClinic(clinic);
+                      }}
                       onClick={() => handleSelectClinic(clinic)}
                       className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
                     >
@@ -2243,11 +2269,7 @@ const BookingDemo = () => {
                 {copy.step3Subtitle}
               </p>
 
-              {hasApiActivity && caregiversLoading && (
-                <BookingStepLoader message={copy.step3Loading} variant="grid" />
-              )}
-
-              {/* Skip / Any specialist */}
+              {/* Skip / Any specialist — always visible; practitioners load in background */}
                 <button
                   onClick={() =>
                     setBookingData({
@@ -2273,6 +2295,21 @@ const BookingDemo = () => {
                 </div>
                 <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
               </button>
+
+              {hasApiActivity && caregiversLoading && caregiverIdsFromSlots.length > 0 && (
+                <div className="grid grid-cols-2 gap-3" aria-busy="true" aria-label={copy.step3Loading}>
+                  {[0, 1].map((slot) => (
+                    <div
+                      key={slot}
+                      className="flex flex-col items-center p-5 bg-brand-beige/20 border border-brand-dark/10 rounded-2xl animate-pulse"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-brand-beige/80 mb-3" />
+                      <div className="h-3 w-24 rounded bg-brand-beige/80" />
+                      <div className="mt-2 h-2 w-16 rounded bg-brand-beige/60" />
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {hasApiActivity &&
                 !caregiversLoading &&
