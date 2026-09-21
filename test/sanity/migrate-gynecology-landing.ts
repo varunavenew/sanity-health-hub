@@ -24,7 +24,10 @@ const GYN_ASSET_PATHS = {
   expertBekkenbunn: "hero/hero-pregnancy.jpg",
   expertOvergangsalder: "hero/cmedical-hero-2.jpg",
   expertVulva: "hero/kvinnehelse-hero.jpg",
-  expertUrogynekologi: "hero/hero-pregnancy.jpg",
+  expertFremfall: "hero/hero-pregnancy.jpg",
+  expertPmos: "hero/cmedical-hero-2.jpg",
+  expertPmsPmdd: "hero/kvinnehelse-hero.jpg",
+  expertBlodning: "hero/gynecology-hero.jpg",
 } as const;
 
 type SanityImageRef = {
@@ -223,23 +226,22 @@ const landingPageBase = {
       },
       {
         _key: "lp4",
-        id: "urogynekologi",
+        id: "fremfall",
         title: i18nString(
-          "Urogynekologi — fremfall og lekkasje",
-          "Urogynecology — prolapse and leakage",
+          "Fødselsskader — fremfall og urinlekkasje",
+          "Birth injuries — prolapse and urinary leakage",
         ),
         description: i18nText(
           "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
           "A feeling of heaviness in the pelvic area, prolapse or urinary leakage can occur at any life stage. We investigate and treat both conservatively and surgically.",
         ),
         tagLinks: [
-          tagLink("Urogynekologi", "Urogynecology", "/gynekologi/urogynekologi"),
-          tagLink("Vaginale fremfall", "Vaginal prolapse", "/gynekologi/vaginale-fremfall"),
+          tagLink("Fremfall", "Prolapse", "/gynekologi/vaginale-fremfall"),
           tagLink("Urininkontinens", "Urinary incontinence", "/gynekologi/urinlekkasje"),
-          tagLink("Tyngdefølelse i underlivet", "Pelvic heaviness", "/gynekologi/urogynekologi"),
+          tagLink("Tyngdefølelse i underlivet", "Pelvic heaviness", "/gynekologi/vaginale-fremfall"),
         ],
         ctaLabel: i18nString("Les mer", "Read more"),
-        href: "/gynekologi/urogynekologi",
+        href: "/gynekologi/vaginale-fremfall",
       },
       {
         _key: "lp5",
@@ -354,7 +356,7 @@ const landingPageBase = {
     areas: [
       {
         _key: "e1",
-        title: i18nString("Endometriose", "Endometriosis"),
+        title: i18nString("Endometriose og adenomyose", "Endometriosis and adenomyosis"),
         description: i18nText(
           "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
           "We are leaders in Northern Europe in endometriosis treatment with robot-assisted surgery — including complex cases.",
@@ -363,7 +365,7 @@ const landingPageBase = {
       },
       {
         _key: "e2",
-        title: i18nString("Fødselsskader og bekkenbunnshelse", "Birth injuries and pelvic floor health"),
+        title: i18nString("Urinlekkasje", "Urinary leakage"),
         description: i18nText(
           "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
           "From tears to urinary leakage — we treat through conversation and surgery when needed. You deserve to be heard.",
@@ -381,7 +383,7 @@ const landingPageBase = {
       },
       {
         _key: "e4",
-        title: i18nString("Vulvasmerter", "Vulvar pain"),
+        title: i18nString("Vulvalidelser og vulvodyni", "Vulvar disorders and vulvodynia"),
         description: i18nText(
           "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
           "Vulvar pain and discomfort is often overlooked. Here you meet specialists who understand — and find answers.",
@@ -390,12 +392,39 @@ const landingPageBase = {
       },
       {
         _key: "e5",
-        title: i18nString("Urogynekologi", "Urogynecology"),
+        title: i18nString("Fremfall", "Prolapse"),
         description: i18nText(
-          "Fremfall (prolaps) og urinlekkasje samlet – utredning og behandling.",
-          "Prolapse and urinary leakage — investigation and treatment in one place.",
+          "Vaginalt fremfall (prolaps) er når skjedeveggen, livmoren eller livmorhalsen synker ned i eller ut av skjeden.",
+          "Pelvic organ prolapse is when the vaginal wall, uterus or cervix descends into or out of the vagina.",
         ),
-        href: "/gynekologi/urogynekologi",
+        href: "/gynekologi/vaginale-fremfall",
+      },
+      {
+        _key: "e6",
+        title: i18nString("PMOS", "PMOS"),
+        description: i18nText(
+          "Hormonell ubalanse som påvirker syklus, hud, vekt og fertilitet — vi utreder og følger deg over tid.",
+          "Hormonal imbalance that affects cycle, skin, weight and fertility — we assess and follow you over time.",
+        ),
+        href: "/gynekologi/pmos",
+      },
+      {
+        _key: "e7",
+        title: i18nString("PMS / PMDD", "PMS / PMDD"),
+        description: i18nText(
+          "Når premenstruelle plager tar over hverdagen — vi tar det på alvor og tilbyr moderne behandling.",
+          "When premenstrual symptoms take over everyday life — we take it seriously and offer modern treatment.",
+        ),
+        href: "/gynekologi/pms-pmdd",
+      },
+      {
+        _key: "e8",
+        title: i18nString("Blødningsforstyrrelser", "Bleeding disorders"),
+        description: i18nText(
+          "Kraftige, uregelmessige eller mellomblødninger utredes for å finne årsaken — ofte finnes det enkel behandling.",
+          "Heavy, irregular or intermenstrual bleeding is investigated to find the cause — often with straightforward treatment.",
+        ),
+        href: "/gynekologi/blodningsforstyrrelser",
       },
     ],
   },
@@ -683,7 +712,10 @@ async function main() {
   let expertBekkenbunn: SanityImageRef | null = null;
   let expertOvergangsalder: SanityImageRef | null = null;
   let expertVulva: SanityImageRef | null = null;
-  let expertUrogynekologi: SanityImageRef | null = null;
+  let expertFremfall: SanityImageRef | null = null;
+  let expertPmos: SanityImageRef | null = null;
+  let expertPmsPmdd: SanityImageRef | null = null;
+  let expertBlodning: SanityImageRef | null = null;
 
   if (!DRY_RUN) {
     [
@@ -695,7 +727,10 @@ async function main() {
       expertBekkenbunn,
       expertOvergangsalder,
       expertVulva,
-      expertUrogynekologi,
+      expertFremfall,
+      expertPmos,
+      expertPmsPmdd,
+      expertBlodning,
     ] = await Promise.all([
       uploadVideo(GYN_ASSET_PATHS.heroVideo, "gynekologi-hero-video"),
       uploadImage(GYN_ASSET_PATHS.heroImage, "gynekologi-hero-fallback"),
@@ -705,7 +740,10 @@ async function main() {
       uploadImage(GYN_ASSET_PATHS.expertBekkenbunn, "gynekologi-expert-bekkenbunn"),
       uploadImage(GYN_ASSET_PATHS.expertOvergangsalder, "gynekologi-expert-overgangsalder"),
       uploadImage(GYN_ASSET_PATHS.expertVulva, "gynekologi-expert-vulva"),
-      uploadImage(GYN_ASSET_PATHS.expertUrogynekologi, "gynekologi-expert-urogynekologi"),
+      uploadImage(GYN_ASSET_PATHS.expertFremfall, "gynekologi-expert-fremfall"),
+      uploadImage(GYN_ASSET_PATHS.expertPmos, "gynekologi-expert-pmos"),
+      uploadImage(GYN_ASSET_PATHS.expertPmsPmdd, "gynekologi-expert-pms-pmdd"),
+      uploadImage(GYN_ASSET_PATHS.expertBlodning, "gynekologi-expert-blodning"),
     ]);
     console.log("");
   }
@@ -728,7 +766,10 @@ async function main() {
           e2: expertBekkenbunn,
           e3: expertOvergangsalder,
           e4: expertVulva,
-          e5: expertUrogynekologi,
+          e5: expertFremfall,
+          e6: expertPmos,
+          e7: expertPmsPmdd,
+          e8: expertBlodning,
         };
         const image = imageByKey[area._key] ?? null;
         return image
