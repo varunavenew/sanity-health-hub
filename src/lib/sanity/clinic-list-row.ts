@@ -119,9 +119,7 @@ export function normalizeClinicRow(c: Record<string, unknown>): SanityClinicList
                   }
                   return { metodikaActivityId, timeslotTypeId, label };
                 })
-                .filter(
-                  (row): row is PasientskyTimeslotMapping => row != null,
-                )
+                .filter((row) => row != null) as PasientskyTimeslotMapping[]
             : undefined,
         }
       : undefined;

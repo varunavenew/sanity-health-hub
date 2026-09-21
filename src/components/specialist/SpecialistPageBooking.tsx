@@ -104,7 +104,7 @@ export function SpecialistPageBookingProvider({
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: moelvPasientskyClinic?.label ?? specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null,
     });
 

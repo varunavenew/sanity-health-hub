@@ -1,6 +1,7 @@
 import type { SpecialistPageClinic } from "@/lib/booking/specialist-page-clinics";
 import { moelvPasientskyClinicFromPageClinics } from "@/lib/booking/specialist-page-clinics";
 import { specialistClinicConstraintKeys } from "@/lib/booking/filterClinicsForSpecialist";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 
 type SpecialistBookingFields = {
   showBookingButton?: boolean | null;
@@ -39,12 +40,7 @@ export function specialistShowsBookingButton(
   return specialist.showBookingButton !== false;
 }
 
-function specialistWorksAtMetodikaLocation(
-  specialist: SpecialistBookingFields & {
-    clinicRefs?: { slug?: string; label?: string }[];
-    clinics?: string[];
-  },
-): boolean {
+function specialistWorksAtMetodikaLocation(specialist: Specialist): boolean {
   const keys = specialistClinicConstraintKeys(specialist);
   return keys.some(
     (key) =>
@@ -56,10 +52,7 @@ function specialistWorksAtMetodikaLocation(
 
 /** Metodika clinic, Moelv Pasientsky, or CMS Metodika booking ids on the profile. */
 export function specialistHasOnlineProfileBooking(
-  specialist: SpecialistBookingFields & {
-    clinicRefs?: { slug?: string; label?: string }[];
-    clinics?: string[];
-  },
+  specialist: Specialist,
   pageClinics: SpecialistPageClinic[],
 ): boolean {
   if (moelvPasientskyClinicFromPageClinics(pageClinics)) return true;
