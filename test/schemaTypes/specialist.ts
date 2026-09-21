@@ -19,6 +19,7 @@ import {
   mediaDescription,
   mediaImageOptions,
 } from './mediaGuidelines'
+import mediaObject from './objects/media'
 
 const reqI18n = requiredNoEnI18n
 
@@ -149,12 +150,39 @@ export default {
     {
       name: 'heroMedia',
       title: 'Hero Media',
-      type: 'media',
+      // Inline the shared media fields so Image help text is specialist 4:5
+      // (shared `media` type always shows the generic 1600×900 hint).
+      type: 'object',
       group: 'general',
       description: mediaDescription(
         'specialist',
         'Preferred profile / hero media (Image or Video).',
       ),
+      fields: mediaObject.fields.map((field: {name: string; components?: unknown}) => {
+        if (field.name !== 'image') return field
+        const {components: _omit, ...rest} = field
+        return {
+          ...rest,
+          options: mediaImageOptions('specialist'),
+          description: mediaDescription('specialist'),
+          validation: composeImageValidation('specialist', (Rule: any) =>
+            Rule.custom(
+              (
+                value: unknown,
+                context: {parent?: {mediaType?: string}},
+              ) => {
+                if ((context.parent?.mediaType ?? 'image') !== 'image') return true
+                if ((value as {asset?: {_ref?: string}} | undefined)?.asset?._ref) {
+                  return true
+                }
+                return 'Image is required when Media Type is Image'
+              },
+            ),
+          ),
+        }
+      }),
+      validation: mediaObject.validation,
+      preview: mediaObject.preview,
     },
     {
       name: 'role',

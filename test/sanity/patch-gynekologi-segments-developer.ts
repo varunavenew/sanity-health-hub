@@ -1,14 +1,35 @@
 #!/usr/bin/env npx tsx
 /**
- * Developer-only: update Gynekologi life-phase segment cards to match
- * avenewdemo `/gynekologi` (NO verbatim + EN translations).
+ * Update Gynekologi life-phase segment cards (#296: urogyn → fremfall).
  *
+ * Developer:
  *   cd test && npx tsx sanity/patch-gynekologi-segments-developer.ts
+ *
+ * Production:
+ *   cd test && SANITY_DATASET_FORCE=production ALLOW_PRODUCTION_MIGRATION=true \
+ *     npx tsx sanity/patch-gynekologi-segments-developer.ts
+ *
+ * Prefers repo-root `.env.local` SANITY_TOKEN when test/.env.local has a stale token.
  */
+import { config as loadEnv } from "dotenv";
+import path from "path";
 import { randomBytes } from "crypto";
-import { DATASET, PROJECT_ID, sanityClient } from "./config";
+
+const rootEnv = loadEnv({
+  path: path.join(process.cwd(), "..", ".env.local"),
+  override: false,
+});
+const rootToken = rootEnv.parsed?.SANITY_TOKEN?.trim();
+// Prefer root token — test/.env.local often has a stale/placeholder token
+if (rootToken) {
+  process.env.SANITY_TOKEN = rootToken;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { DATASET, PROJECT_ID, sanityClient } = require("./config") as typeof import("./config");
 
 const DOC_ID = "category-gynekologi";
+const DRY_RUN = process.env.DRY_RUN === "1";
 
 type I18nItem = {
   _type: string;
@@ -101,23 +122,22 @@ const SEGMENTS = [
   },
   {
     _key: "lp4",
-    id: "urogynekologi",
+    id: "fremfall",
     title: i18nString(
-      "Urogynekologi — fremfall og lekkasje",
-      "Urogynecology — prolapse and leakage",
+      "Fødselsskader — fremfall og urinlekkasje",
+      "Birth injuries — prolapse and urinary leakage",
     ),
     description: i18nText(
       "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
       "A feeling of heaviness in the pelvic area, prolapse or urinary leakage can occur at any life stage. We investigate and treat both conservatively and surgically.",
     ),
     tagLinks: [
-      tagLink("Urogynekologi", "Urogynecology", "/gynekologi/urogynekologi"),
-      tagLink("Vaginale fremfall", "Vaginal prolapse", "/gynekologi/vaginale-fremfall"),
+      tagLink("Fremfall", "Prolapse", "/gynekologi/vaginale-fremfall"),
       tagLink("Urininkontinens", "Urinary incontinence", "/gynekologi/urinlekkasje"),
-      tagLink("Tyngdefølelse i underlivet", "Pelvic heaviness", "/gynekologi/urogynekologi"),
+      tagLink("Tyngdefølelse i underlivet", "Pelvic heaviness", "/gynekologi/vaginale-fremfall"),
     ],
     ctaLabel: i18nString("Les mer", "Read more"),
-    href: "/gynekologi/urogynekologi",
+    href: "/gynekologi/vaginale-fremfall",
   },
   {
     _key: "lp5",
@@ -145,15 +165,28 @@ async function main() {
   if (PROJECT_ID !== "9jhqpk3a") {
     throw new Error(`Refusing to run: unexpected projectId ${PROJECT_ID}`);
   }
-  if (DATASET !== "developer") {
-    throw new Error(`Refusing to run on dataset "${DATASET}". Developer only.`);
+  if (DATASET !== "developer" && DATASET !== "production") {
+    throw new Error(`Refusing to run on dataset "${DATASET}".`);
   }
+  if (DATASET === "production" && process.env.ALLOW_PRODUCTION_MIGRATION !== "true") {
+    throw new Error(
+      "Refusing production without ALLOW_PRODUCTION_MIGRATION=true. Use SANITY_DATASET_FORCE=production.",
+    );
+  }
+
+  console.log("▶ Gynekologi segments patch (#296)");
+  console.log(`  project=${PROJECT_ID} dataset=${DATASET} dryRun=${DRY_RUN}`);
 
   const exists = await sanityClient.fetch<string | null>(
     `*[_id==$id][0]._id`,
     { id: DOC_ID },
   );
   if (!exists) throw new Error(`Missing document ${DOC_ID}`);
+
+  if (DRY_RUN) {
+    console.log("DRY_RUN — no write");
+    return;
+  }
 
   await sanityClient
     .patch(DOC_ID)
@@ -179,7 +212,7 @@ async function main() {
     }
   }`, { id: DOC_ID });
 
-  console.log("✓ Patched gynekologi segments on developer");
+  console.log("✓ Patched gynekologi segments");
   console.log(JSON.stringify(verify, null, 2));
 }
 

@@ -557,6 +557,8 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleLine2")},
       layout,
+      mobileLayout,
+      desktopLayout,
       showReadMore,
       segments[]{
         id,

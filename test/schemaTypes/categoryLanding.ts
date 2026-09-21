@@ -529,7 +529,7 @@ export const categoryLandingPageField = {
         },
         {
           name: 'layout',
-          title: 'Display',
+          title: 'Display (legacy)',
           type: 'string',
           options: {
             list: [
@@ -539,15 +539,45 @@ export const categoryLandingPageField = {
             layout: 'radio',
           },
           initialValue: 'accordion',
-          // Website always uses LifePhasesCarousel today — keep for future / migration.
+          // Replaced by mobileLayout / desktopLayout — kept for existing documents.
           hidden: true,
+        },
+        {
+          name: 'mobileLayout',
+          title: 'Display (mobile)',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Horizontal cards (carousel)', value: 'carousel' },
+              { title: 'Accordion', value: 'accordion' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'carousel',
+          description:
+            'Carousel = swipe sideways cards. Accordion = expandable list. Default matches Fertilitet reference (carousel on mobile).',
+        },
+        {
+          name: 'desktopLayout',
+          title: 'Display (desktop)',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Accordion', value: 'accordion' },
+              { title: 'Horizontal cards (carousel)', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'accordion',
+          description:
+            'Accordion = expandable list. Carousel = horizontal scroll strip. Default matches Fertilitet reference (accordion on desktop).',
         },
         {
           name: 'showReadMore',
           title: 'Show “Les mer” on cards',
           type: 'boolean',
           description:
-            'When off, the Les mer / Read more link under each accordion card is hidden (keyword links still show). Match reference pages like Gynekologi.',
+            'When off, the Les mer / Read more link under each card is hidden (keyword links still show). Match reference pages like Gynekologi.',
           initialValue: true,
         },
         {

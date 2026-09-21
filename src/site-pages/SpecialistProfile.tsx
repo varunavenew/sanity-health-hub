@@ -35,7 +35,6 @@ import { specialistProfileBookingPending, specialistShowsProfileBookingButton } 
 import { Skeleton } from "@/components/ui/skeleton";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
-
 interface SpecialistProfileProps {
   isChatOpen: boolean;
 }
