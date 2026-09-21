@@ -79,9 +79,11 @@ export const IMAGE_WITH_FOCAL_PROJECTION = `{
 
 /**
  * Specialist portrait: display URL plus crop/hotspot/asset for the image URL builder.
+ * Dual-read legacy `photo` and preferred `heroMedia.image` — Studio hides `photo`
+ * once Hero Media is set, so a hero-only specialist must still resolve a URL.
  */
 export const SPECIALIST_PHOTO_PROJECTION = `
-  "image": photo.asset->url,
+  "image": coalesce(photo.asset->url, photo.asset._ref, heroMedia.image.asset->url, heroMedia.image.asset._ref),
   "imageHotspot": coalesce(photo.hotspot, heroMedia.image.hotspot),
   "imageCrop": coalesce(photo.crop, heroMedia.image.crop),
   "imageAssetRef": coalesce(photo.asset._ref, heroMedia.image.asset._ref)

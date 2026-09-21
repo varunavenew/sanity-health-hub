@@ -328,11 +328,27 @@ function mapSanitySpecialistCategories(
     }));
 }
 
+function specialistHasPortrait(raw: RawSanitySpecialist): boolean {
+  if (raw.image?.trim()) return true;
+  if (typeof raw.imageAssetRef === "string" && raw.imageAssetRef.trim()) return true;
+  if (!raw.heroMedia || typeof raw.heroMedia !== "object") return false;
+  const media = raw.heroMedia as {
+    mediaType?: unknown;
+    imageUrl?: unknown;
+    imageAssetRef?: unknown;
+    image?: unknown;
+  };
+  if (typeof media.imageUrl === "string" && media.imageUrl.trim()) return true;
+  if (typeof media.imageAssetRef === "string" && media.imageAssetRef.trim()) return true;
+  if (media.image) return true;
+  return media.mediaType === "video";
+}
+
 /** Mirrors CMS publish rules — Norwegian content is required for i18n fields. */
 export function isPublishableSanitySpecialist(raw: RawSanitySpecialist): boolean {
   if (!raw.name?.trim()) return false;
   if (!raw.slug?.trim()) return false;
-  if (!raw.image?.trim()) return false;
+  if (!specialistHasPortrait(raw)) return false;
   if (!pickNo(raw.role)) return false;
   if (!pickNo(raw.shortBio)) return false;
   if (!Array.isArray(raw.specialties) || raw.specialties.length === 0) return false;
