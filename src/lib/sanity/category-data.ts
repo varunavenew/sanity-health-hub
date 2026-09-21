@@ -136,8 +136,11 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     titleLine2: string;
+    /** @deprecated Prefer mobileLayout / desktopLayout. */
     layout: "accordion" | "grid";
-    /** When false, accordion/grid cards omit the Les mer link. Default true. */
+    mobileLayout: "carousel" | "accordion";
+    desktopLayout: "carousel" | "accordion";
+    /** When false, accordion/carousel cards omit the Les mer link. Default true. */
     showReadMore: boolean;
     segments: CategoryLandingSegment[];
   };
@@ -359,6 +362,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   });
 
   const segmentsLayout = asPlainString(segmentsSection.layout);
+  const segmentsMobileLayout = asPlainString(segmentsSection.mobileLayout);
+  const segmentsDesktopLayout = asPlainString(segmentsSection.desktopLayout);
   const journeySteps = ((journeySection.steps as unknown[]) || []).map((row) => {
     const s = row as Record<string, unknown>;
     return {
@@ -433,6 +438,9 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       title: asPlainString(segmentsSection.title),
       titleLine2: asPlainString(segmentsSection.titleLine2),
       layout: segmentsLayout === "accordion" ? "accordion" : "grid",
+      // Defaults match live Fertilitet reference: carousel mobile, accordion desktop.
+      mobileLayout: segmentsMobileLayout === "accordion" ? "accordion" : "carousel",
+      desktopLayout: segmentsDesktopLayout === "carousel" ? "carousel" : "accordion",
       // Undefined/missing = show (legacy content). Explicit false hides Les mer.
       showReadMore: segmentsSection.showReadMore !== false,
       segments,
