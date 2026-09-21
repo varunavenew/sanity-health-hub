@@ -26,6 +26,7 @@ import {
   moelvPasientskyClinicFromPageClinics,
   resolveSpecialistPageClinics,
   SPECIALIST_PAGE_FALLBACK_PHONE,
+  isMoelvPasientskyPageClinic,
   type SpecialistPageClinic,
   type SpecialistPageMetodikaClinic,
   type SpecialistPagePasientskyClinic,
@@ -138,7 +139,7 @@ function InlineBookingSection({
   }, [pageClinics, pageBooking?.bookingFocusKey]);
 
   const handleSelectClinic = (clinic: SpecialistPageClinic) => {
-    if (clinic.kind === "pasientsky") {
+    if (isMoelvPasientskyPageClinic(clinic)) {
       trackBookingMenuStart({
         entry_point: "specialist_page",
         practitioner: specialist.name,
@@ -262,6 +263,14 @@ function ClinicBookingBranch({
 }) {
   if (clinic.kind === "phone") {
     return <InlinePhoneClinic clinic={clinic} isEn={isEn} />;
+  }
+
+  if (clinic.kind !== "metodika") {
+    return (
+      <p className="py-4 text-sm font-light text-white/60">
+        {isEn ? "Online booking is not available for this clinic here." : "Online booking er ikke tilgjengelig for denne klinikken her."}
+      </p>
+    );
   }
 
   return (

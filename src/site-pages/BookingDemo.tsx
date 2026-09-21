@@ -82,6 +82,7 @@ import {
   filterClinicsForWbActivity,
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
+import { metodikaClinicFromSanityRow } from "@/lib/booking/booking-locked-clinic";
 import {
   fetchWbActivityMatrixClient,
   prefetchWbActivityMatrix,
@@ -992,6 +993,13 @@ const BookingDemo = () => {
         pendingKlinikkRef.current = null;
         return;
       }
+
+      const metodikaFromSanity = metodikaClinicFromSanityRow(sanityRow);
+      if (metodikaFromSanity && allowClinic(metodikaFromSanity)) {
+        setBookingData((prev) => ({ ...prev, clinic: metodikaFromSanity }));
+        pendingKlinikkRef.current = null;
+        return;
+      }
     }
 
     if (!bookingData.service?.apiActivityId) return;
@@ -1451,6 +1459,7 @@ const BookingDemo = () => {
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
+    if (pendingKlinikkRef.current?.trim()) return;
     if (!step2Ready) return;
     if (availableClinics.length !== 1) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;

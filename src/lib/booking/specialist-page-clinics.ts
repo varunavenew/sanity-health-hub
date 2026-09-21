@@ -40,12 +40,19 @@ export type SpecialistPageClinic =
 export function moelvPasientskyClinicFromPageClinics(
   pageClinics: SpecialistPageClinic[],
 ): SpecialistPagePasientskyClinic | undefined {
-  return pageClinics.find((clinic): clinic is SpecialistPagePasientskyClinic => {
-    if (clinic.kind !== "pasientsky") return false;
-    const slug = clinic.slug.toLowerCase();
-    const label = normalizeClinicLabelForCompare(clinic.label);
-    return slug.includes("moelv") || label.includes("moelv");
-  });
+  return pageClinics.find((clinic): clinic is SpecialistPagePasientskyClinic =>
+    isMoelvPasientskyPageClinic(clinic),
+  );
+}
+
+/** PatientSky Moelv only — other locations must use Metodika/phone branches. */
+export function isMoelvPasientskyPageClinic(
+  clinic: SpecialistPageClinic,
+): clinic is SpecialistPagePasientskyClinic {
+  if (clinic.kind !== "pasientsky") return false;
+  const slug = clinic.slug.toLowerCase();
+  const label = normalizeClinicLabelForCompare(clinic.label);
+  return slug.includes("moelv") || label.includes("moelv");
 }
 
 /** Inline profile booking band uses Metodika / phone only — not PatientSky Moelv. */
@@ -114,6 +121,15 @@ function resolvePageClinicKind(
   row: SanityClinicListRow,
   slug: string,
 ): SpecialistPageClinic["kind"] | null {
+  const slugLower = slug.toLowerCase();
+  if (
+    slugLower.includes("majorstuen") ||
+    slugLower.includes("majorstua") ||
+    slugLower.includes("bekkestua")
+  ) {
+    return "metodika";
+  }
+
   const method = row.booking?.method;
   if (method === "pasientsky" || method === "metodika") return method;
 
