@@ -146,9 +146,9 @@ const clinics: { slug: string; label: { no: string; en: string }; services: stri
     label: { no: "Oslo Majorstuen", en: "Oslo Majorstuen" },
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
-      "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
+      "psykolog", "sexolog", "gastrokirurg", "ortoped",
       "revmatolog", "urolog", "hudhelse", "areknuter", "sprengte-blodkar",
-      "fysioterapeut", "uroterapi", "osteopati", "robotkirurgi",
+      "uroterapi", "osteopati", "robotkirurgi",
       "endokrinolog", "overvektskirurgi",
     ],
   },

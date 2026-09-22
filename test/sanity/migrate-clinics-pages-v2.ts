@@ -170,9 +170,9 @@ const clinics: ClinicSource[] = [
     locationSearch: { lat: 59.9296, lng: 10.7118 },
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
-      "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
+      "psykolog", "sexolog", "gastrokirurg", "ortoped",
       "revmatolog", "urolog", "hudlege", "areknuter", "sprengte-blodkar",
-      "fysioterapeut", "uroterapi",
+      "uroterapi",
     ],
     sortOrder: 1,
     faqs: [
