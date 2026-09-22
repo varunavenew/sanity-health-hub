@@ -15,7 +15,7 @@ interface Props {
    * - "fill" — same hover invert as specialist expertise chips
    * - "dark" — outline on dark backgrounds
    */
-  variant?: "light" | "lightSolid" | "dark" | "fill";
+  variant?: "light" | "lightSolid" | "dark" | "fill" | "cta";
   size?: "default" | "lg";
   label?: string;
   /**
@@ -62,11 +62,13 @@ export const CallUsClinicPicker = ({
   if (!pending && callable.length === 0) return null;
 
   const buttonVariant =
-    variant === "dark"
-      ? "cta-outline-dark"
-      : variant === "fill"
-        ? "cta-outline-fill"
-        : "cta-outline";
+    variant === "cta"
+      ? "cta"
+      : variant === "dark"
+        ? "cta-outline-dark"
+        : variant === "fill"
+          ? "cta-outline-fill"
+          : "cta-outline";
   const solidLightClass =
     variant === "lightSolid"
       ? "bg-white border border-foreground/25 text-foreground hover:bg-foreground/[0.04] shadow-none"

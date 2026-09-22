@@ -13,16 +13,18 @@ const SpecialistProfileUiContext = createContext<ResolvedSpecialistProfileUi | n
 
 export function SpecialistProfileUiProvider({
   firstName,
+  name,
   profileUi,
   children,
 }: {
   firstName: string;
+  name: string;
   profileUi: SpecialistProfileUi;
   children: ReactNode;
 }) {
   const value = useMemo(
-    () => withProfileUiNames(profileUi, firstName),
-    [profileUi, firstName],
+    () => withProfileUiNames(profileUi, { firstName, name }),
+    [profileUi, firstName, name],
   );
 
   return (

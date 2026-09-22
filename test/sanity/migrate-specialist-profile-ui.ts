@@ -26,6 +26,10 @@ const profileUi = {
     'Choose a service and find a time that suits you. No referral needed.',
   ),
   heroCallUsLabel: i18nString('Ring oss', 'Call us'),
+  heroCallToBookLabel: i18nString(
+    'Ring oss for å bestille time hos {firstName}',
+    'Call us to book an appointment with {firstName}',
+  ),
   bioSectionTitle: i18nString('Om {firstName}', 'About {firstName}'),
   reviewsSectionTitle: i18nString('Hva pasientene sier', 'What patients say'),
   featuredServiceCtaLabel: i18nString('Se hele tjenesten', 'View full service'),

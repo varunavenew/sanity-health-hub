@@ -108,6 +108,26 @@ export function bookingClinicMatches(a: BookingClinic, b: BookingClinic): boolea
   return false;
 }
 
+/** Deep link ?locationId= — same Metodika clinic row, different room/campus id. */
+export function metodikaClinicWithLocationOverride(
+  clinic: BookingMetodikaClinic,
+  locationId: number | undefined,
+): BookingMetodikaClinic {
+  if (
+    locationId == null ||
+    !Number.isFinite(locationId) ||
+    locationId <= 0 ||
+    clinic.apiLocationId === locationId
+  ) {
+    return clinic;
+  }
+  return {
+    ...clinic,
+    apiLocationId: locationId,
+    id: `location-${locationId}`,
+  };
+}
+
 export function filterClinicsForLockedClinic(
   clinics: BookingClinic[],
   lockedClinic: BookingClinic,

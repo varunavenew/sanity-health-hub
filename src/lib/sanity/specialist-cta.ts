@@ -97,6 +97,23 @@ export function specialistProfileBookingPending(
   return Boolean(pageBooking?.availabilityLoading);
 }
 
+/**
+ * Hero fallback when online booking is enabled but no slots were found —
+ * show “Call us to book…” instead of hiding the booking CTA.
+ */
+export function specialistShowsProfileCallToBookButton(
+  specialist: SpecialistBookingFields,
+  pageBooking?: {
+    availabilityLoading?: boolean;
+    hasAvailableSlots?: boolean;
+  } | null,
+): boolean {
+  if (!specialistShowsBookingButton(specialist)) return false;
+  if (!pageBooking) return false;
+  if (pageBooking.availabilityLoading) return false;
+  return pageBooking.hasAvailableSlots !== true;
+}
+
 export function specialistShowsCallButton(specialist: {
   showCallButton?: boolean | null;
 }): boolean {

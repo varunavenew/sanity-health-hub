@@ -196,6 +196,8 @@ export function useSpecialistHasAvailableSlots(
     }
 
     let cancelled = false;
+    lastBookableSignature.current = "";
+    setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
     setLoading(true);
 
     void (async () => {
@@ -260,6 +262,7 @@ export function useSpecialistHasAvailableSlots(
     };
   }, [
     showBookingButton,
+    specialistSlug,
     pageClinics.length,
     pageClinicKey,
     hasOnlineClinic,

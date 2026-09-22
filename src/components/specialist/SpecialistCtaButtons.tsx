@@ -12,6 +12,7 @@ import {
   specialistProfileBookingPending,
   specialistShowsCallButton,
   specialistShowsProfileBookingButton,
+  specialistShowsProfileCallToBookButton,
 } from "@/lib/sanity/specialist-cta";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,8 @@ interface SpecialistCtaButtonsProps {
   specialist: Specialist;
   bookingLabel: string;
   callLabel: string;
+  /** Hero label when no online slots exist (supports `{firstName}` from profile UI). */
+  callToBookLabel: string;
   /** Mobile overlay sits on a dark photo; desktop split hero is a light panel. */
   surface: "mobile" | "desktop";
 }
@@ -103,17 +106,18 @@ export function SpecialistCtaButtons({
   specialist,
   bookingLabel,
   callLabel,
+  callToBookLabel,
   surface,
 }: SpecialistCtaButtonsProps) {
   const pageBooking = useSpecialistPageBookingOptional();
   const ui = useSpecialistProfileUi();
   const bookingPending = specialistProfileBookingPending(specialist, pageBooking);
   const showBooking = specialistShowsProfileBookingButton(specialist, pageBooking);
-  const showCall = specialistShowsCallButton(specialist);
-  const showCallHere =
-    surface === "desktop"
-      ? showCall
-      : showCall && !showBooking && !bookingPending;
+  const showCallToBook = specialistShowsProfileCallToBookButton(specialist, pageBooking);
+  const showGenericCall =
+    specialistShowsCallButton(specialist) &&
+    !showCallToBook &&
+    (surface === "desktop" ? true : !showBooking && !bookingPending);
 
   if (bookingPending) {
     return (
@@ -126,7 +130,7 @@ export function SpecialistCtaButtons({
           surface={surface}
           label={ui.bookingAvailabilityCheckingLabel}
         />
-        {surface === "desktop" && showCall ? (
+        {surface === "desktop" && showGenericCall ? (
           <CallUsClinicPicker
             variant="lightSolid"
             label={callLabel}
@@ -138,7 +142,7 @@ export function SpecialistCtaButtons({
     );
   }
 
-  if (!showBooking && !showCallHere) return null;
+  if (!showBooking && !showCallToBook && !showGenericCall) return null;
 
   if (surface === "mobile") {
     return (
@@ -154,7 +158,16 @@ export function SpecialistCtaButtons({
           </SpecialistBookNowButton>
         ) : null}
 
-        {showCallHere ? (
+        {showCallToBook ? (
+          <CallUsClinicPicker
+            variant="dark"
+            size="lg"
+            menuPlacement="top"
+            label={callToBookLabel}
+            specialist={specialist}
+            className="w-full h-12 rounded-full font-normal"
+          />
+        ) : showGenericCall ? (
           <CallUsClinicPicker
             variant="dark"
             size="lg"
@@ -181,7 +194,15 @@ export function SpecialistCtaButtons({
         </SpecialistBookNowButton>
       ) : null}
 
-      {showCallHere ? (
+      {showCallToBook ? (
+        <CallUsClinicPicker
+          variant="cta"
+          size="lg"
+          label={callToBookLabel}
+          specialist={specialist}
+          className="px-7 w-full sm:w-auto h-12 rounded-full font-normal shadow-none"
+        />
+      ) : showGenericCall ? (
         <CallUsClinicPicker
           variant="lightSolid"
           label={callLabel}

@@ -8,6 +8,8 @@ export type SpecialistProfileUi = {
   bookingSectionTitle: string;
   bookingSectionDescription: string;
   heroCallUsLabel: string;
+  /** Shown on the hero when no online slots exist (supports `{firstName}`). */
+  heroCallToBookLabel: string;
   bioSectionTitle: string;
   reviewsSectionTitle: string;
   featuredServiceCtaLabel: string;
@@ -21,25 +23,28 @@ export type SpecialistProfileUi = {
 
 export type SpecialistProfileUiVars = {
   firstName: string;
+  name: string;
 };
 
 export function interpolateProfileUi(
   template: string,
   vars: SpecialistProfileUiVars,
 ): string {
-  return template.replace(/\{firstName\}/g, vars.firstName);
+  return template
+    .replace(/\{firstName\}/g, vars.firstName)
+    .replace(/\{name\}/g, vars.name);
 }
 
 export function withProfileUiNames(
   ui: SpecialistProfileUi,
-  firstName: string,
+  vars: SpecialistProfileUiVars,
 ): SpecialistProfileUi & SpecialistProfileUiVars {
-  const vars = { firstName };
   return {
     ...ui,
     ...vars,
     bookingCtaLabel: interpolateProfileUi(ui.bookingCtaLabel, vars),
     bookingSectionTitle: interpolateProfileUi(ui.bookingSectionTitle, vars),
+    heroCallToBookLabel: interpolateProfileUi(ui.heroCallToBookLabel, vars),
     bioSectionTitle: interpolateProfileUi(ui.bioSectionTitle, vars),
   };
 }
@@ -55,6 +60,7 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingSectionDescription:
       "Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.",
     heroCallUsLabel: "Ring oss",
+    heroCallToBookLabel: "Ring oss for å bestille time hos {firstName}",
     bioSectionTitle: "Om {firstName}",
     reviewsSectionTitle: "Hva pasientene sier",
     featuredServiceCtaLabel: "Se hele tjenesten",
@@ -75,6 +81,7 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingSectionDescription:
       "Choose a service and find a time that suits you. No referral needed.",
     heroCallUsLabel: "Call us",
+    heroCallToBookLabel: "Call us to book an appointment with {firstName}",
     bioSectionTitle: "About {firstName}",
     reviewsSectionTitle: "What patients say",
     featuredServiceCtaLabel: "View full service",
@@ -100,6 +107,7 @@ const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
   "bookingSectionTitle",
   "bookingSectionDescription",
   "heroCallUsLabel",
+  "heroCallToBookLabel",
   "bioSectionTitle",
   "reviewsSectionTitle",
   "featuredServiceCtaLabel",

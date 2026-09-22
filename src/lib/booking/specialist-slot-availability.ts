@@ -1,6 +1,10 @@
-import { fetchBookingFreetimesList } from "@/lib/booking/upstream";
+import {
+  metodikaSlotBookableForProfile,
+  resolveMetodikaAvailabilitySlots,
+  type ResolvedMetodikaAvailabilitySlot,
+} from "@/lib/booking/resolve-metodika-availability-slots";
 
-const SLOT_CHECK_CONCURRENCY = 4;
+const SLOT_CHECK_CONCURRENCY = 2;
 
 function parseIdList(value: string | null): number[] {
   if (!value?.trim()) return [];
@@ -9,45 +13,21 @@ function parseIdList(value: string | null): number[] {
     .sort((a, b) => a - b);
 }
 
-function readCaregiverUserId(entry: unknown): number | undefined {
-  if (!entry || typeof entry !== "object") return undefined;
-  const row = entry as Record<string, unknown>;
-  const id = row["caregiver_user-id"] ?? row.caregiverUserId;
-  if (typeof id === "number" && Number.isFinite(id)) return id;
-  if (typeof id === "string" && id.trim()) {
-    const parsed = Number(id.trim());
-    return Number.isFinite(parsed) ? parsed : undefined;
-  }
-  return undefined;
-}
-
-function readStartDateTime(entry: unknown): string | undefined {
-  if (!entry || typeof entry !== "object") return undefined;
-  const start = (entry as Record<string, unknown>).startdatetime;
-  return typeof start === "string" && start.trim() ? start.trim() : undefined;
-}
-
 async function metodikaActivityHasSlot(
   wbactivityId: number,
   locationId: number,
   caregiverUserId: number,
   apiKey: string,
+  slotsByActivity: Map<number, ResolvedMetodikaAvailabilitySlot[]>,
 ): Promise<boolean> {
-  // Same query params as GET /api/booking/availability (location + caregiver).
-  const slots = await fetchBookingFreetimesList(wbactivityId, apiKey, {
-    locationId,
-    caregiverUserId,
-  });
-  const now = Date.now();
-  return slots.some((entry) => {
-    const start = readStartDateTime(entry);
-    if (!start) return false;
-    const ts = new Date(start).getTime();
-    if (!Number.isFinite(ts) || ts < now) return false;
-    const slotCaregiver = readCaregiverUserId(entry);
-    if (slotCaregiver == null) return true;
-    return slotCaregiver === caregiverUserId;
-  });
+  let slots = slotsByActivity.get(wbactivityId);
+  if (!slots) {
+    slots = await resolveMetodikaAvailabilitySlots(wbactivityId, apiKey);
+    slotsByActivity.set(wbactivityId, slots);
+  }
+  return slots.some((slot) =>
+    metodikaSlotBookableForProfile({ slot, locationId, caregiverUserId }),
+  );
 }
 
 export type MetodikaBookableActivityPair = {
@@ -74,12 +54,19 @@ export async function specialistMetodikaBookableActivityPairs(params: {
   }
 
   const bookable: MetodikaBookableActivityPair[] = [];
+  const slotsByActivity = new Map<number, ResolvedMetodikaAvailabilitySlot[]>();
 
   for (let index = 0; index < checks.length; index += SLOT_CHECK_CONCURRENCY) {
     const batch = checks.slice(index, index + SLOT_CHECK_CONCURRENCY);
     const results = await Promise.all(
       batch.map(({ wbactivityId, locationId }) =>
-        metodikaActivityHasSlot(wbactivityId, locationId, caregiverUserId, apiKey),
+        metodikaActivityHasSlot(
+          wbactivityId,
+          locationId,
+          caregiverUserId,
+          apiKey,
+          slotsByActivity,
+        ),
       ),
     );
     batch.forEach(({ wbactivityId, locationId }, batchIndex) => {

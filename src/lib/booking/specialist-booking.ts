@@ -156,6 +156,8 @@ export function bookingUrlForSpecialistContext(params: {
   aktivitetId?: number;
   /** Clinic slug when the specialist works at a known location. */
   klinikk?: string;
+  /** Metodika location id when slots are at a campus room other than CMS default. */
+  locationId?: number;
 }): string {
   const kategoriId = params.kategoriId ?? params.apiGroupId;
   const kategori =
@@ -168,6 +170,7 @@ export function bookingUrlForSpecialistContext(params: {
     tjeneste: params.tjeneste ? slugifyNo(params.tjeneste) : undefined,
     klinikk: params.klinikk,
     aktivitetId: params.aktivitetId,
+    locationId: params.locationId,
   });
 }
 

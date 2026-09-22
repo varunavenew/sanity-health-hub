@@ -16,6 +16,7 @@ import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
 import { SpecialistBookNowButton } from "@/components/specialist/SpecialistCtaButtons";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { SpecialistPageBookingProvider, useSpecialistPageBookingOptional } from "@/components/specialist/SpecialistPageBooking";
 import {
   SpecialistProfileUiProvider,
@@ -31,7 +32,11 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
-import { specialistProfileBookingPending, specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
+import {
+  specialistProfileBookingPending,
+  specialistShowsProfileBookingButton,
+  specialistShowsProfileCallToBookButton,
+} from "@/lib/sanity/specialist-cta";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 interface SpecialistProfileProps {
@@ -81,7 +86,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const firstName = specialist.name.split(" ")[0];
 
   return (
-    <SpecialistProfileUiProvider firstName={firstName} profileUi={profileUi}>
+    <SpecialistProfileUiProvider firstName={firstName} name={specialist.name} profileUi={profileUi}>
       <SpecialistPageBookingProvider specialist={specialist}>
         <SpecialistProfileBody
           isChatOpen={isChatOpen}
@@ -217,6 +222,16 @@ function SpecialistProfileBody({
             <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
             {ui.bookingCtaLabel}
           </SpecialistBookNowButton>
+        </div>
+      ) : specialistShowsProfileCallToBookButton(specialist, pageBooking) ? (
+        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+          <CallUsClinicPicker
+            variant="cta"
+            size="lg"
+            label={ui.heroCallToBookLabel}
+            specialist={specialist}
+            className="w-full rounded-2xl h-12 font-normal shadow-none"
+          />
         </div>
       ) : null}
     </PageLayout>

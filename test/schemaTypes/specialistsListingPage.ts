@@ -93,6 +93,11 @@ export default {
         ),
         profileUiStringField('heroCallUsLabel', 'Hero – call us'),
         profileUiStringField(
+          'heroCallToBookLabel',
+          'Hero – call to book (no slots)',
+          'Shown when no online times are available. E.g. \'Call us to book an appointment with {firstName}\'.',
+        ),
+        profileUiStringField(
           'bioSectionTitle',
           'Biography – heading',
           'E.g. \'About {firstName}\'.',

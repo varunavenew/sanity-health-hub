@@ -23,8 +23,8 @@ import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
-  bookableActivityIdsForMetodikaClinic,
   moelvPasientskyClinicFromPageClinics,
+  resolveMetodikaLocationIdForActivity,
   resolveSpecialistPageClinics,
   specialistPageClinicHasBookableOnlineSlots,
   metodikaPageClinicHasBookableSlots,
@@ -697,13 +697,15 @@ function MetodikaTreatmentPicker({
   caregiverUserId: number | undefined;
 }) {
   const pageBooking = useSpecialistPageBookingOptional();
-  const bookableAtClinic = useMemo(() => {
-    if (clinic.kind !== "metodika") return new Set<number>();
-    return bookableActivityIdsForMetodikaClinic(
-      clinic,
-      pageBooking?.metodikaBookableByLocation ?? new Map(),
-    );
-  }, [pageBooking?.metodikaBookableByLocation, clinic]);
+  const bookableMap = pageBooking?.metodikaBookableByLocation ?? new Map();
+
+  const activityBookableAtClinic = useMemo(() => {
+    if (clinic.kind !== "metodika") {
+      return (_wbactivityId: number) => false;
+    }
+    return (wbactivityId: number) =>
+      resolveMetodikaLocationIdForActivity(clinic, bookableMap, wbactivityId) != null;
+  }, [bookableMap, clinic]);
 
   const dateLang = isEn ? "en" : "no";
   const navigate = useNavigate();
@@ -719,7 +721,7 @@ function MetodikaTreatmentPicker({
         ).filter(
           (service) =>
             service.apiActivityId != null &&
-            bookableAtClinic.has(service.apiActivityId),
+            activityBookableAtClinic(service.apiActivityId),
         ),
       }))
       .filter((category) => category.services.length > 0);
@@ -728,7 +730,7 @@ function MetodikaTreatmentPicker({
     metodikaCategories,
     allowedIds,
     caregiverUserId,
-    bookableAtClinic,
+    activityBookableAtClinic,
   ]);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
@@ -791,6 +793,10 @@ function MetodikaTreatmentPicker({
     serviceName: string,
     apiActivityId: number,
   ) => {
+    const locationId =
+      clinic.kind === "metodika"
+        ? resolveMetodikaLocationIdForActivity(clinic, bookableMap, apiActivityId)
+        : undefined;
     navigate(
       bookingUrlForSpecialistContext({
         specialistSlug: specialist.slug,
@@ -799,6 +805,7 @@ function MetodikaTreatmentPicker({
         aktivitetId: apiActivityId,
         klinikk: clinic.slug,
         tjeneste: serviceName,
+        locationId,
       }),
     );
   };

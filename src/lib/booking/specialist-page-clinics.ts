@@ -88,6 +88,7 @@ export function specialistPageClinicHasBookableOnlineSlots(
   return false;
 }
 
+/** Metodika room ids for this profile clinic row (CMS + campus fallbacks). */
 export function metodikaClinicLocationIds(
   clinic: SpecialistPageMetodikaClinic,
 ): number[] {
@@ -96,6 +97,27 @@ export function metodikaClinicLocationIds(
       ? clinic.apiLocationIds
       : [clinic.apiLocationId];
   return [...new Set(ids.filter((id) => Number.isFinite(id) && id > 0))];
+}
+
+/**
+ * Metodika location to use in /booking for this activity — prefers CMS primary
+ * `apiLocationId`, then other campus ids (e.g. Majorstuen 10B).
+ */
+export function resolveMetodikaLocationIdForActivity(
+  clinic: SpecialistPageMetodikaClinic,
+  metodikaBookableByLocation: Map<number, Set<number>>,
+  wbactivityId: number,
+): number | undefined {
+  if (metodikaBookableByLocation.get(clinic.apiLocationId)?.has(wbactivityId)) {
+    return clinic.apiLocationId;
+  }
+  for (const locationId of metodikaClinicLocationIds(clinic)) {
+    if (locationId === clinic.apiLocationId) continue;
+    if (metodikaBookableByLocation.get(locationId)?.has(wbactivityId)) {
+      return locationId;
+    }
+  }
+  return undefined;
 }
 
 /** Treatments with freetime at any Metodika room for this clinic campus. */

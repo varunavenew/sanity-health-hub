@@ -82,7 +82,10 @@ import {
   filterClinicsForWbActivity,
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
-import { metodikaClinicFromSanityRow } from "@/lib/booking/booking-locked-clinic";
+import {
+  metodikaClinicFromSanityRow,
+  metodikaClinicWithLocationOverride,
+} from "@/lib/booking/booking-locked-clinic";
 import {
   fetchWbActivityMatrixClient,
   prefetchWbActivityMatrix,
@@ -966,14 +969,20 @@ const BookingDemo = () => {
     );
   }, [matrixMetodikaClinics, enrichedMetodikaClinics]);
 
-  // Prefill clinic from ?klinikk=
+  // Prefill clinic from ?klinikk= (+ optional ?locationId= from specialist profile)
   const pendingKlinikkRef = useRef<string | null>(null);
+  const pendingLocationIdRef = useRef<number | undefined>(undefined);
   useEffect(() => {
     pendingKlinikkRef.current = searchParams.get("klinikk");
+    const raw = searchParams.get("locationId");
+    const parsed = raw != null && raw.trim() !== "" ? Number(raw) : NaN;
+    pendingLocationIdRef.current =
+      Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
   }, [searchParams]);
 
   useEffect(() => {
     const klinikk = pendingKlinikkRef.current;
+    const locationOverride = pendingLocationIdRef.current;
     if (!klinikk || bookingData.clinic) return;
 
     const allowClinic = (clinic: BookingClinic) => {
@@ -1000,10 +1009,16 @@ const BookingDemo = () => {
       }
 
       const metodikaFromSanity = metodikaClinicFromSanityRow(sanityRow);
-      if (metodikaFromSanity && allowClinic(metodikaFromSanity)) {
-        setBookingData((prev) => ({ ...prev, clinic: metodikaFromSanity }));
-        pendingKlinikkRef.current = null;
-        return;
+      if (metodikaFromSanity) {
+        const withLocation = metodikaClinicWithLocationOverride(
+          metodikaFromSanity,
+          locationOverride,
+        );
+        if (allowClinic(withLocation)) {
+          setBookingData((prev) => ({ ...prev, clinic: withLocation }));
+          pendingKlinikkRef.current = null;
+          return;
+        }
       }
     }
 
@@ -1021,11 +1036,12 @@ const BookingDemo = () => {
     );
     const match = bySanitySlug ?? byId ?? bySlug;
     if (match) {
-      if (!allowClinic(match)) {
+      const withLocation = metodikaClinicWithLocationOverride(match, locationOverride);
+      if (!allowClinic(withLocation)) {
         pendingKlinikkRef.current = null;
         return;
       }
-      setBookingData((prev) => ({ ...prev, clinic: match }));
+      setBookingData((prev) => ({ ...prev, clinic: withLocation }));
       pendingKlinikkRef.current = null;
     }
   }, [
