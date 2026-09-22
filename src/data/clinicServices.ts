@@ -37,9 +37,9 @@ export const clinics: Clinic[] = [
     mapsUrl: "https://maps.google.com/?q=Sørkedalsveien+10+B+0369+Oslo",
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
-      "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
+      "psykolog", "sexolog", "gastrokirurg", "ortoped",
       "revmatolog", "urolog", "hudlege", "areknuter", "sprengte-blodkar",
-      "fysioterapeut", "uroterapi",
+      "uroterapi",
     ],
     detail: {
       description: "CMedical Majorstuen er vår hovedklinikk i Oslo, sentralt plassert i Sørkedalsveien 10 B. Her tilbyr vi det bredeste spekteret av spesialisthelsetjenester, fra gynekologi og fertilitet til ortopedi og urologi. Klinikken er moderne innredet med pasientkomfort i fokus.",
