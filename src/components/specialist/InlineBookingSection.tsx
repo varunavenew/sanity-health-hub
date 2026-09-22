@@ -26,6 +26,7 @@ import {
   moelvPasientskyClinicFromPageClinics,
   resolveSpecialistPageClinics,
   specialistPageClinicHasBookableOnlineSlots,
+  metodikaPageClinicHasBookableSlots,
   SPECIALIST_PAGE_FALLBACK_PHONE,
   isMoelvPasientskyPageClinic,
   type SpecialistPageClinic,
@@ -171,8 +172,14 @@ function InlineBookingSection({
     [bookableClinics],
   );
 
+  const isMultiClinicProfile = pageClinics.length > 1;
+
   useEffect(() => {
-    if (bookableClinics.length === 1) {
+    if (isMultiClinicProfile) {
+      setSelectedClinic((prev) => (prev?.kind === "metodika" ? prev : null));
+      return;
+    }
+    if (bookableClinics.length === 1 && bookableClinics[0].kind === "metodika") {
       setSelectedClinic((prev) =>
         prev?.id === bookableClinics[0].id ? prev : bookableClinics[0],
       );
@@ -184,7 +191,7 @@ function InlineBookingSection({
       }
       return null;
     });
-  }, [bookableClinicIdsKey, pageBooking?.bookingFocusKey]);
+  }, [bookableClinicIdsKey, pageBooking?.bookingFocusKey, isMultiClinicProfile]);
 
   const handleSelectClinic = (clinic: SpecialistPageClinic) => {
     if (isMoelvPasientskyPageClinic(clinic)) {
@@ -205,36 +212,57 @@ function InlineBookingSection({
     setSelectedClinic(clinic);
   };
 
-  if (bookableClinics.length === 0) {
-    if (pageBooking?.availabilityLoading) {
-      return (
-        <div className="flex items-center justify-center gap-2 py-8 text-white/60">
-          <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-          <span className="text-sm font-light">{ui.bookingLoadingLabel}</span>
-        </div>
-      );
-    }
+  if (
+    !isMultiClinicProfile &&
+    bookableClinics.length === 0 &&
+    !pageBooking?.availabilityLoading
+  ) {
     return (
       <p className="py-4 text-sm font-light text-white/60">{ui.bookingEmptyMessage}</p>
     );
   }
 
-  const showClinicPicker = bookableClinics.length > 1 && selectedClinic == null;
+  if (bookableClinics.length === 0 && pageBooking?.availabilityLoading) {
+    return (
+      <div className="flex items-center justify-center gap-2 py-8 text-white/60">
+        <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+        <span className="text-sm font-light">{ui.bookingLoadingLabel}</span>
+      </div>
+    );
+  }
+
+  const showClinicPicker = isMultiClinicProfile
+    ? selectedClinic?.kind !== "metodika"
+    : bookableClinics.length > 1 && selectedClinic == null;
   const clinicPrompt = isEn ? "Choose a clinic" : "Velg klinikk";
   const backLabel = isEn ? "Back" : "Tilbake";
 
   return (
     <div>
       {showClinicPicker ? (
-        <ClinicPicker
-          clinics={bookableClinics}
-          prompt={clinicPrompt}
-          isEn={isEn}
-          onSelect={handleSelectClinic}
-        />
+        isMultiClinicProfile ? (
+          <MultiClinicProfileClinicPicker
+            clinics={pageClinics}
+            availabilityLoading={Boolean(pageBooking?.availabilityLoading)}
+            metodikaBookableByLocation={
+              pageBooking?.metodikaBookableByLocation ?? new Map()
+            }
+            hasPasientskySlots={pageBooking?.hasPasientskySlots ?? false}
+            prompt={clinicPrompt}
+            isEn={isEn}
+            onSelect={handleSelectClinic}
+          />
+        ) : (
+          <ClinicPicker
+            clinics={bookableClinics}
+            prompt={clinicPrompt}
+            isEn={isEn}
+            onSelect={handleSelectClinic}
+          />
+        )
       ) : selectedClinic ? (
         <div className="space-y-4">
-          {bookableClinics.length > 1 ? (
+          {isMultiClinicProfile || bookableClinics.length > 1 ? (
             <button
               type="button"
               className="inline-flex items-center gap-1 text-sm font-light text-white/70 transition-colors hover:text-white"
@@ -306,6 +334,194 @@ function ClinicPicker({
             </span>
           </button>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/** Majorstuen + Moelv: show both clinics; Metodika rows without slots are informational only. */
+function MultiClinicProfileClinicPicker({
+  clinics,
+  availabilityLoading,
+  metodikaBookableByLocation,
+  hasPasientskySlots,
+  prompt,
+  isEn,
+  onSelect,
+}: {
+  clinics: SpecialistPageClinic[];
+  availabilityLoading: boolean;
+  metodikaBookableByLocation: Map<number, Set<number>>;
+  hasPasientskySlots: boolean;
+  prompt: string;
+  isEn: boolean;
+  onSelect: (clinic: SpecialistPageClinic) => void;
+}) {
+  const bookLabel = isEn ? "Book" : "Bestill";
+  const noSlotsMessage = (label: string) =>
+    isEn
+      ? `${label} has no available appointments online right now.`
+      : `${label} har ingen ledige timer på nett akkurat nå.`;
+
+  return (
+    <div className="space-y-3">
+      <p className="text-sm font-light text-white/70">{prompt}</p>
+      <div className="space-y-2">
+        {clinics.map((clinic) => {
+          if (clinic.kind === "metodika") {
+            const hasSlots =
+              !availabilityLoading &&
+              metodikaPageClinicHasBookableSlots(clinic, metodikaBookableByLocation);
+
+            if (availabilityLoading) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left"
+                >
+                  <span>
+                    <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                    {clinic.address ? (
+                      <span className="mt-0.5 block text-xs font-light text-white/60">
+                        {clinic.address}
+                      </span>
+                    ) : null}
+                  </span>
+                  <Loader2 className="h-4 w-4 animate-spin text-white/40" aria-hidden="true" />
+                </div>
+              );
+            }
+
+            if (!hasSlots) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="rounded-sm border border-white/10 bg-white/5 px-5 py-4 text-left"
+                  role="status"
+                >
+                  <span className="block text-sm font-normal text-white/80">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/50">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                  <p className="mt-2 text-xs font-light leading-relaxed text-white/55">
+                    {noSlotsMessage(clinic.label)}
+                  </p>
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={clinic.id}
+                type="button"
+                onClick={() => onSelect(clinic)}
+                className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left transition-colors hover:bg-white/15"
+              >
+                <span>
+                  <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/60">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-xs font-light text-white/50">{bookLabel}</span>
+              </button>
+            );
+          }
+
+          if (clinic.kind === "pasientsky") {
+            const moelvPasientsky = isMoelvPasientskyPageClinic(clinic);
+            const bookable =
+              !availabilityLoading &&
+              (moelvPasientsky || hasPasientskySlots);
+
+            if (availabilityLoading) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left"
+                >
+                  <span>
+                    <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                    {clinic.address ? (
+                      <span className="mt-0.5 block text-xs font-light text-white/60">
+                        {clinic.address}
+                      </span>
+                    ) : null}
+                  </span>
+                  <Loader2 className="h-4 w-4 animate-spin text-white/40" aria-hidden="true" />
+                </div>
+              );
+            }
+
+            if (!bookable) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="rounded-sm border border-white/10 bg-white/5 px-5 py-4 text-left"
+                  role="status"
+                >
+                  <span className="block text-sm font-normal text-white/80">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/50">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                  <p className="mt-2 text-xs font-light leading-relaxed text-white/55">
+                    {noSlotsMessage(clinic.label)}
+                  </p>
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={clinic.id}
+                type="button"
+                onClick={() => onSelect(clinic)}
+                className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left transition-colors hover:bg-white/15"
+              >
+                <span>
+                  <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/60">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-xs font-light text-white/50">{bookLabel}</span>
+              </button>
+            );
+          }
+
+          if (clinic.kind === "phone") {
+            return (
+              <button
+                key={clinic.id}
+                type="button"
+                onClick={() => onSelect(clinic)}
+                className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left transition-colors hover:bg-white/15"
+              >
+                <span>
+                  <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/60">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-xs font-light text-white/50">
+                  {isEn ? "Call" : "Ring"}
+                </span>
+              </button>
+            );
+          }
+
+          return null;
+        })}
       </div>
     </div>
   );

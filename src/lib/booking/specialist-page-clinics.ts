@@ -84,6 +84,13 @@ export function specialistPageClinicHasBookableOnlineSlots(
   return false;
 }
 
+export function metodikaPageClinicHasBookableSlots(
+  clinic: SpecialistPageMetodikaClinic,
+  metodikaBookableByLocation: Map<number, Set<number>>,
+): boolean {
+  return (metodikaBookableByLocation.get(clinic.apiLocationId)?.size ?? 0) > 0;
+}
+
 function normalizeClinicKey(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";
