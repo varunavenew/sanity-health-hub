@@ -9,16 +9,108 @@ import {
 const FOSTERMEDISIN_BOOKING_GROUP_ID =
   categoryPageIdToNumericId.graviditet ?? 10;
 
+const SITE_CATEGORY_TO_BOOKING_GROUP_IDS: Record<string, number[]> = {
+  fertilitet: [categoryPageIdToNumericId.fertilitet ?? 1].filter(Boolean),
+  gynekologi: [categoryPageIdToNumericId.gynekologi ?? 8].filter(Boolean),
+  urologi: [categoryPageIdToNumericId.urologi ?? 6].filter(Boolean),
+  ortopedi: [
+    categoryPageIdToNumericId.ortopedi ?? 17,
+    categoryPageIdToNumericId.handterapeut ?? 36,
+  ].filter(Boolean),
+};
+
+function normalizeRoleText(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+/** Infer Metodika activity groups from role text when CMS ids are missing. */
+function bookingGroupIdsFromRoleText(title?: string, subtitle?: string): number[] {
+  const text = normalizeRoleText(`${title ?? ""} ${subtitle ?? ""}`);
+  const ids = new Set<number>();
+
+  if (text.includes("gynekolog")) ids.add(categoryPageIdToNumericId.gynekologi ?? 8);
+  if (
+    text.includes("fertilitet") ||
+    text.includes("embryolog") ||
+    text.includes("sykepleier")
+  ) {
+    ids.add(categoryPageIdToNumericId.fertilitet ?? 1);
+  }
+  if (text.includes("urolog")) ids.add(categoryPageIdToNumericId.urologi ?? 6);
+  if (text.includes("ortoped") || text.includes("handkirurg")) {
+    ids.add(categoryPageIdToNumericId.ortopedi ?? 17);
+  }
+  if (text.includes("handterapeut")) ids.add(categoryPageIdToNumericId.handterapeut ?? 36);
+
+  return [...ids].filter((id) => Number.isFinite(id) && id > 0);
+}
+
+function finalizeBookingCategoryIds(ids: number[]): number[] {
+  return [...new Set(ids)]
+    .filter((id) => id !== FOSTERMEDISIN_BOOKING_GROUP_ID)
+    .sort((a, b) => a - b);
+}
+
 export function resolveSpecialistBookingCategoryIds(specialist: {
   bookingCategoryIds?: number[];
+  category?: string;
+  sanityCategories?: Array<{ slug?: string; categoryId?: string }>;
+  title?: string;
+  subtitle?: string;
 }): number[] {
   const fromSanity = specialist.bookingCategoryIds?.filter(
     (id) => typeof id === "number" && Number.isFinite(id) && id > 0,
   );
-  if (!fromSanity || fromSanity.length === 0) return [];
-  return [...new Set(fromSanity)]
-    .filter((id) => id !== FOSTERMEDISIN_BOOKING_GROUP_ID)
-    .sort((a, b) => a - b);
+  if (fromSanity && fromSanity.length > 0) {
+    return finalizeBookingCategoryIds(fromSanity);
+  }
+
+  const inferred = new Set<number>();
+  const categorySlugs = new Set<string>();
+  if (specialist.category?.trim()) {
+    categorySlugs.add(specialist.category.trim().toLowerCase());
+  }
+  for (const row of specialist.sanityCategories ?? []) {
+    if (row.slug?.trim()) categorySlugs.add(row.slug.trim().toLowerCase());
+    if (row.categoryId?.trim()) categorySlugs.add(row.categoryId.trim().toLowerCase());
+  }
+  for (const slug of categorySlugs) {
+    for (const id of SITE_CATEGORY_TO_BOOKING_GROUP_IDS[slug] ?? []) {
+      inferred.add(id);
+    }
+  }
+  for (const id of bookingGroupIdsFromRoleText(specialist.title, specialist.subtitle)) {
+    inferred.add(id);
+  }
+
+  return finalizeBookingCategoryIds([...inferred]);
+}
+
+/** wbactivity ids on the profile (Sanity groups × caregiver matrix) for slot probes. */
+export function profileWbActivityIdsForSpecialist<
+  T extends { apiGroupId: number; services: Array<{ apiActivityId?: number }> },
+>(
+  specialist: Parameters<typeof filterSpecialistBookingCategories>[0],
+  metodikaCategories: T[],
+  allowedIds: Set<number>,
+): number[] {
+  if (allowedIds.size === 0) return [];
+  const ids = new Set<number>();
+  for (const category of filterSpecialistBookingCategories(
+    specialist,
+    metodikaCategories,
+  )) {
+    for (const service of filterServicesForCaregiverWbActivities(
+      category.services,
+      allowedIds,
+    )) {
+      if (service.apiActivityId != null) ids.add(service.apiActivityId);
+    }
+  }
+  return [...ids].sort((a, b) => a - b);
 }
 
 export function isFetalMedicineBookingCategory(category: {

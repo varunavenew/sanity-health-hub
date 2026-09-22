@@ -13,7 +13,12 @@ function readCaregiverUserId(entry: unknown): number | undefined {
   if (!entry || typeof entry !== "object") return undefined;
   const row = entry as Record<string, unknown>;
   const id = row["caregiver_user-id"] ?? row.caregiverUserId;
-  return typeof id === "number" ? id : undefined;
+  if (typeof id === "number" && Number.isFinite(id)) return id;
+  if (typeof id === "string" && id.trim()) {
+    const parsed = Number(id.trim());
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+  return undefined;
 }
 
 function readStartDateTime(entry: unknown): string | undefined {
@@ -28,17 +33,20 @@ async function metodikaActivityHasSlot(
   caregiverUserId: number,
   apiKey: string,
 ): Promise<boolean> {
-  // Match BookingDemo step 4: discovery freetimes at location, then filter by caregiver.
+  // Same query params as GET /api/booking/availability (location + caregiver).
   const slots = await fetchBookingFreetimesList(wbactivityId, apiKey, {
     locationId,
+    caregiverUserId,
   });
   const now = Date.now();
   return slots.some((entry) => {
-    if (readCaregiverUserId(entry) !== caregiverUserId) return false;
     const start = readStartDateTime(entry);
     if (!start) return false;
     const ts = new Date(start).getTime();
-    return Number.isFinite(ts) && ts >= now;
+    if (!Number.isFinite(ts) || ts < now) return false;
+    const slotCaregiver = readCaregiverUserId(entry);
+    if (slotCaregiver == null) return true;
+    return slotCaregiver === caregiverUserId;
   });
 }
 

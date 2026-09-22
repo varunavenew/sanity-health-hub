@@ -74,7 +74,13 @@ export function SpecialistInlineBookingBand({ specialist }: InlineBookingSection
     Boolean(moelvPasientskyClinic) && pageClinics.length === 1;
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
+    [
+      specialist.bookingCategoryIds,
+      specialist.category,
+      specialist.title,
+      specialist.subtitle,
+      specialist.sanityCategories,
+    ],
   );
 
   if (!specialistShowsProfileBookingButton(specialist, pageBooking)) return null;
@@ -133,7 +139,13 @@ function InlineBookingSection({
   const [selectedClinic, setSelectedClinic] = useState<SpecialistPageClinic | null>(null);
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
+    [
+      specialist.bookingCategoryIds,
+      specialist.category,
+      specialist.title,
+      specialist.subtitle,
+      specialist.sanityCategories,
+    ],
   );
   const hasMetodikaClinic = pageClinics.some((clinic) => clinic.kind === "metodika");
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);

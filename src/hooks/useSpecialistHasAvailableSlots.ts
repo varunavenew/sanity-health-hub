@@ -8,6 +8,7 @@ import type { SpecialistPageClinic } from "@/lib/booking/specialist-page-clinics
 import {
   filterServicesForCaregiverWbActivities,
   filterSpecialistBookingCategories,
+  profileWbActivityIdsForSpecialist,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
@@ -57,7 +58,13 @@ export function useSpecialistHasAvailableSlots(
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
+    [
+      specialist.bookingCategoryIds,
+      specialist.category,
+      specialist.title,
+      specialist.subtitle,
+      specialist.sanityCategories,
+    ],
   );
 
   const pageClinicKey = useMemo(
@@ -104,21 +111,17 @@ export function useSpecialistHasAvailableSlots(
     if (!hasMetodikaClinic || caregiverUserId == null || allowedIds.size === 0) {
       return "";
     }
-    const ids = new Set<number>();
-    for (const category of filterSpecialistBookingCategories(
+    return profileWbActivityIdsForSpecialist(
       specialist,
       metodikaCategories,
-    )) {
-      for (const service of filterServicesForCaregiverWbActivities(
-        category.services,
-        allowedIds,
-      )) {
-        if (service.apiActivityId != null) ids.add(service.apiActivityId);
-      }
-    }
-    return [...ids].sort((a, b) => a - b).join(",");
+      allowedIds,
+    ).join(",");
   }, [
     specialist.bookingCategoryIds,
+    specialist.category,
+    specialist.title,
+    specialist.subtitle,
+    specialist.sanityCategories,
     metodikaCategories,
     allowedIdsKey,
     hasMetodikaClinic,
