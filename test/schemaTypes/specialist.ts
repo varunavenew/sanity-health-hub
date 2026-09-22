@@ -14,6 +14,7 @@ import {
   bookingActivityGroupList,
 } from './bookingActivityGroups'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import { DefaultOnBooleanInput } from '../sanity/components/DefaultOnBooleanInput'
 import {
   composeImageValidation,
   mediaDescription,
@@ -283,8 +284,9 @@ export default {
       type: 'boolean',
       group: 'general',
       initialValue: true,
+      components: { input: DefaultOnBooleanInput },
       description:
-        'Show the booking button on this specialist’s profile. The button stays visible but does not open booking if Metodika user ID or booking activity groups is empty.',
+        'On by default for every specialist. Turn off only if this profile should hide Book now. The website still checks available time slots before showing the button.',
     },
     {
       name: 'showCallButton',
@@ -292,8 +294,9 @@ export default {
       type: 'boolean',
       group: 'general',
       initialValue: true,
+      components: { input: DefaultOnBooleanInput },
       description:
-        'Show the call button on this specialist’s profile. Leave on unless this specialist should not show a call action.',
+        'On by default for every specialist. Turn off only if this profile should hide Call us.',
     },
 
     // ── Page Content ────────────────────────────────────────────────────────

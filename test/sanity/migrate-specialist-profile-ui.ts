@@ -30,6 +30,10 @@ const profileUi = {
   reviewsSectionTitle: i18nString('Hva pasientene sier', 'What patients say'),
   featuredServiceCtaLabel: i18nString('Se hele tjenesten', 'View full service'),
   bookingLoadingLabel: i18nString('Henter tjenester…', 'Loading services…'),
+  bookingAvailabilityCheckingLabel: i18nString(
+    'Sjekker ledige timer…',
+    'Checking availability…',
+  ),
   bookingEmptyMessage: i18nText(
     'Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.',
     'No bookable services are available right now. Try the booking page for the full overview.',

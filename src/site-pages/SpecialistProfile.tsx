@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
-import { Calendar } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
@@ -32,7 +32,6 @@ import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { specialistProfileBookingPending, specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
-import { Skeleton } from "@/components/ui/skeleton";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 interface SpecialistProfileProps {
@@ -199,7 +198,14 @@ function SpecialistProfileBody({
 
       {specialistProfileBookingPending(specialist, pageBooking) ? (
         <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <Skeleton className="h-12 w-full rounded-2xl" aria-hidden="true" />
+          <div
+            role="status"
+            aria-live="polite"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-muted text-sm font-normal text-muted-foreground"
+          >
+            <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
+            <span>{ui.bookingAvailabilityCheckingLabel}</span>
+          </div>
         </div>
       ) : specialistShowsProfileBookingButton(specialist, pageBooking) ? (
         <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">

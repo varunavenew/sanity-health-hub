@@ -1,18 +1,20 @@
 import type { ReactNode } from "react";
+import { Loader2 } from "lucide-react";
 
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Link, useLocaleParam } from "@/lib/router";
 import { resolveNavPath } from "@/lib/navigation/resolve-nav-label";
 import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useSpecialistPageBookingOptional } from "@/components/specialist/SpecialistPageBooking";
+import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import {
   specialistProfileBookingPending,
   specialistShowsCallButton,
   specialistShowsProfileBookingButton,
 } from "@/lib/sanity/specialist-cta";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { cn } from "@/lib/utils";
 
 interface SpecialistCtaButtonsProps {
   specialist: Specialist;
@@ -68,20 +70,27 @@ export function SpecialistBookNowButton({
   );
 }
 
-function SpecialistBookingButtonSkeleton({
+function SpecialistBookingAvailabilityPending({
   surface,
+  label,
 }: {
   surface: SpecialistCtaButtonsProps["surface"];
+  label: string;
 }) {
-  if (surface === "mobile") {
-    return <Skeleton className="h-12 w-full rounded-full bg-white/20" aria-hidden="true" />;
-  }
-
   return (
-    <Skeleton
-      className="h-12 w-full rounded-full sm:w-52 bg-foreground/10"
-      aria-hidden="true"
-    />
+    <div
+      role="status"
+      aria-live="polite"
+      className={cn(
+        "inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 text-sm font-normal",
+        surface === "mobile"
+          ? "w-full bg-white/20 text-white/80"
+          : "w-full sm:w-auto bg-foreground/10 text-foreground/55",
+      )}
+    >
+      <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
+      <span>{label}</span>
+    </div>
   );
 }
 
@@ -97,6 +106,7 @@ export function SpecialistCtaButtons({
   surface,
 }: SpecialistCtaButtonsProps) {
   const pageBooking = useSpecialistPageBookingOptional();
+  const ui = useSpecialistProfileUi();
   const bookingPending = specialistProfileBookingPending(specialist, pageBooking);
   const showBooking = specialistShowsProfileBookingButton(specialist, pageBooking);
   const showCall = specialistShowsCallButton(specialist);
@@ -112,7 +122,10 @@ export function SpecialistCtaButtons({
         aria-busy="true"
         aria-live="polite"
       >
-        <SpecialistBookingButtonSkeleton surface={surface} />
+        <SpecialistBookingAvailabilityPending
+          surface={surface}
+          label={ui.bookingAvailabilityCheckingLabel}
+        />
         {surface === "desktop" && showCall ? (
           <CallUsClinicPicker
             variant="lightSolid"

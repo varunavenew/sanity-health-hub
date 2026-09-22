@@ -73,6 +73,7 @@ const SPECIALIST_PROFILE_UI_GROQ = `
     ${i18nNestedString("profileUi", "reviewsSectionTitle")},
     ${i18nNestedString("profileUi", "featuredServiceCtaLabel")},
     ${i18nNestedString("profileUi", "bookingLoadingLabel")},
+    ${i18nNestedString("profileUi", "bookingAvailabilityCheckingLabel")},
     ${i18nNestedText("profileUi", "bookingEmptyMessage")},
     ${i18nNestedString("profileUi", "bookingViewAllLabel")},
     ${i18nNestedString("profileUi", "anonymousReviewLabel")}

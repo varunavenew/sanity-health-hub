@@ -100,6 +100,11 @@ export default {
         profileUiStringField('reviewsSectionTitle', 'Reviews - Headline'),
         profileUiStringField('featuredServiceCtaLabel', 'Featured service – link text'),
         profileUiStringField('bookingLoadingLabel', 'Booking - loading services'),
+        profileUiStringField(
+          'bookingAvailabilityCheckingLabel',
+          'Hero – checking availability',
+          'Shown on the grey Book button while time slots are loading. NO: Sjekker ledige timer… EN: Checking availability…',
+        ),
         profileUiTextField('bookingEmptyMessage', 'Booking - no services'),
         profileUiStringField('bookingViewAllLabel', 'Booking - view all services'),
         profileUiStringField('anonymousReviewLabel', 'Anonymous reviewer – name'),
