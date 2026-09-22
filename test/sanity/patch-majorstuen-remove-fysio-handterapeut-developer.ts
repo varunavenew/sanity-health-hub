@@ -3,8 +3,13 @@
  * #307 (Aina): Remove Fysioterapeut and Håndterapeut from Majorstuen clinic list.
  * Keeps Uroterapi (still no page — separate content ticket).
  *
+ * Developer:
+ *   cd test && DRY_RUN=1 npx tsx sanity/patch-majorstuen-remove-fysio-handterapeut-developer.ts
  *   cd test && npx tsx sanity/patch-majorstuen-remove-fysio-handterapeut-developer.ts
- *   DRY_RUN=1 npx tsx sanity/patch-majorstuen-remove-fysio-handterapeut-developer.ts
+ *
+ * Production (requires write token + explicit allow):
+ *   cd test && DRY_RUN=1 ALLOW_PRODUCTION_MIGRATION=true SANITY_DATASET_FORCE=production npx tsx sanity/patch-majorstuen-remove-fysio-handterapeut-developer.ts
+ *   cd test && ALLOW_PRODUCTION_MIGRATION=true SANITY_DATASET_FORCE=production npx tsx sanity/patch-majorstuen-remove-fysio-handterapeut-developer.ts
  */
 import { DATASET, sanityClient } from "./config";
 
@@ -59,10 +64,6 @@ function buildDescription(count: number, allLinked: boolean) {
 }
 
 async function run() {
-  if (DATASET !== "developer") {
-    throw new Error(`Refusing to run on dataset "${DATASET}" — developer only.`);
-  }
-
   const doc = await sanityClient.fetch<ClinicDoc | null>(
     `*[_id == $id][0]{ _id, services, servicesSection }`,
     { id: CLINIC_ID },
