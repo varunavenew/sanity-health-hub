@@ -42,16 +42,21 @@ async function metodikaActivityHasSlot(
   });
 }
 
-/** True when any caregiver treatment has freetime at a Metodika clinic location. */
-export async function specialistHasMetodikaSlots(params: {
+export type MetodikaBookableActivityPair = {
+  locationId: number;
+  wbactivityId: number;
+};
+
+/** Profile treatments (wbactivity × Metodika location) that have caregiver freetime. */
+export async function specialistMetodikaBookableActivityPairs(params: {
   wbactivityIds: number[];
   locationIds: number[];
   caregiverUserId?: number;
   apiKey: string;
-}): Promise<boolean> {
+}): Promise<MetodikaBookableActivityPair[]> {
   const { wbactivityIds, locationIds, caregiverUserId, apiKey } = params;
-  if (wbactivityIds.length === 0 || locationIds.length === 0) return false;
-  if (caregiverUserId == null) return false;
+  if (wbactivityIds.length === 0 || locationIds.length === 0) return [];
+  if (caregiverUserId == null) return [];
 
   const checks: Array<{ wbactivityId: number; locationId: number }> = [];
   for (const locationId of locationIds) {
@@ -60,6 +65,8 @@ export async function specialistHasMetodikaSlots(params: {
     }
   }
 
+  const bookable: MetodikaBookableActivityPair[] = [];
+
   for (let index = 0; index < checks.length; index += SLOT_CHECK_CONCURRENCY) {
     const batch = checks.slice(index, index + SLOT_CHECK_CONCURRENCY);
     const results = await Promise.all(
@@ -67,10 +74,25 @@ export async function specialistHasMetodikaSlots(params: {
         metodikaActivityHasSlot(wbactivityId, locationId, caregiverUserId, apiKey),
       ),
     );
-    if (results.some(Boolean)) return true;
+    batch.forEach(({ wbactivityId, locationId }, batchIndex) => {
+      if (results[batchIndex]) {
+        bookable.push({ locationId, wbactivityId });
+      }
+    });
   }
 
-  return false;
+  return bookable;
+}
+
+/** True when any caregiver treatment has freetime at a Metodika clinic location. */
+export async function specialistHasMetodikaSlots(params: {
+  wbactivityIds: number[];
+  locationIds: number[];
+  caregiverUserId?: number;
+  apiKey: string;
+}): Promise<boolean> {
+  const pairs = await specialistMetodikaBookableActivityPairs(params);
+  return pairs.length > 0;
 }
 
 type PasientskyCalendarRow = {

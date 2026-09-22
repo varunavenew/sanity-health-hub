@@ -19,7 +19,6 @@ import {
 } from "@/lib/booking/specialist-page-clinics";
 import { bookingUrlForSpecialistContext } from "@/lib/booking/specialist-booking";
 import { prefetchSpecialistMetodikaBookingData } from "@/lib/booking/prefetch-specialist-metodika-booking";
-import { specialistHasOnlineProfileBooking } from "@/lib/sanity/specialist-cta";
 import { useLocaleParam, useNavigate } from "@/lib/router";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -49,12 +48,14 @@ type SpecialistPageBookingContextValue = {
   scrollToBookingSteps: () => void;
   /** Increments when the user opens booking — inline UI resets clinic selection. */
   bookingFocusKey: number;
-  /** True when Metodika/Pasientsky booking is set up on this profile. */
-  hasOnlineProfileBooking: boolean;
   /** False while checking Metodika/Pasientsky slot availability. */
   availabilityLoading: boolean;
   /** True when at least one online slot exists for this specialist. */
   hasAvailableSlots: boolean;
+  /** Pasientsky calendar has bookable times (e.g. Moelv). */
+  hasPasientskySlots: boolean;
+  /** Metodika wbactivity ids with freetime at each clinic location id. */
+  metodikaBookableByLocation: Map<number, Set<number>>;
 };
 
 const SpecialistPageBookingContext =
@@ -78,14 +79,9 @@ export function SpecialistPageBookingProvider({
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
     [specialist, sanityClinics],
   );
-  const hasOnlineProfileBooking = useMemo(
-    () => specialistHasOnlineProfileBooking(specialist, pageClinics),
-    [specialist, pageClinics],
-  );
-  const { hasAvailableSlots, loading: slotsLoading } =
+  const { hasAvailableSlots, hasPasientskySlots, loading: slotsLoading, metodikaBookableByLocation } =
     useSpecialistHasAvailableSlots(specialist, pageClinics);
-  const availabilityLoading =
-    clinicsLoading || (!hasOnlineProfileBooking && slotsLoading);
+  const availabilityLoading = clinicsLoading || slotsLoading;
   const navigate = useNavigate();
   const locale = useLocaleParam();
   const queryClient = useQueryClient();
@@ -149,17 +145,19 @@ export function SpecialistPageBookingProvider({
       scrollToBookingSection,
       scrollToBookingSteps,
       bookingFocusKey,
-      hasOnlineProfileBooking,
       availabilityLoading,
       hasAvailableSlots,
+      hasPasientskySlots,
+      metodikaBookableByLocation,
     }),
     [
       scrollToBookingSection,
       scrollToBookingSteps,
       bookingFocusKey,
-      hasOnlineProfileBooking,
       availabilityLoading,
       hasAvailableSlots,
+      hasPasientskySlots,
+      metodikaBookableByLocation,
     ],
   );
 

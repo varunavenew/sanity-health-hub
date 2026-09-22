@@ -25,6 +25,7 @@ import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
   moelvPasientskyClinicFromPageClinics,
   resolveSpecialistPageClinics,
+  specialistPageClinicHasBookableOnlineSlots,
   SPECIALIST_PAGE_FALLBACK_PHONE,
   isMoelvPasientskyPageClinic,
   type SpecialistPageClinic,
@@ -149,13 +150,41 @@ function InlineBookingSection({
     BOOKING_API_BASE,
   );
 
+  const bookableClinics = useMemo(() => {
+    if (!pageBooking) return pageClinics;
+    return pageClinics.filter((clinic) =>
+      specialistPageClinicHasBookableOnlineSlots(clinic, {
+        availabilityLoading: pageBooking.availabilityLoading,
+        metodikaBookableByLocation: pageBooking.metodikaBookableByLocation,
+        hasPasientskySlots: pageBooking.hasPasientskySlots,
+      }),
+    );
+  }, [
+    pageClinics,
+    pageBooking?.availabilityLoading,
+    pageBooking?.hasPasientskySlots,
+    pageBooking?.metodikaBookableByLocation,
+  ]);
+
+  const bookableClinicIdsKey = useMemo(
+    () => bookableClinics.map((clinic) => clinic.id).join(","),
+    [bookableClinics],
+  );
+
   useEffect(() => {
-    if (pageClinics.length === 1) {
-      setSelectedClinic(pageClinics[0]);
+    if (bookableClinics.length === 1) {
+      setSelectedClinic((prev) =>
+        prev?.id === bookableClinics[0].id ? prev : bookableClinics[0],
+      );
       return;
     }
-    setSelectedClinic(null);
-  }, [pageClinics, pageBooking?.bookingFocusKey]);
+    setSelectedClinic((prev) => {
+      if (prev && bookableClinics.some((clinic) => clinic.id === prev.id)) {
+        return prev;
+      }
+      return null;
+    });
+  }, [bookableClinicIdsKey, pageBooking?.bookingFocusKey]);
 
   const handleSelectClinic = (clinic: SpecialistPageClinic) => {
     if (isMoelvPasientskyPageClinic(clinic)) {
@@ -176,13 +205,21 @@ function InlineBookingSection({
     setSelectedClinic(clinic);
   };
 
-  if (pageClinics.length === 0) {
+  if (bookableClinics.length === 0) {
+    if (pageBooking?.availabilityLoading) {
+      return (
+        <div className="flex items-center justify-center gap-2 py-8 text-white/60">
+          <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+          <span className="text-sm font-light">{ui.bookingLoadingLabel}</span>
+        </div>
+      );
+    }
     return (
       <p className="py-4 text-sm font-light text-white/60">{ui.bookingEmptyMessage}</p>
     );
   }
 
-  const showClinicPicker = pageClinics.length > 1 && selectedClinic == null;
+  const showClinicPicker = bookableClinics.length > 1 && selectedClinic == null;
   const clinicPrompt = isEn ? "Choose a clinic" : "Velg klinikk";
   const backLabel = isEn ? "Back" : "Tilbake";
 
@@ -190,14 +227,14 @@ function InlineBookingSection({
     <div>
       {showClinicPicker ? (
         <ClinicPicker
-          clinics={pageClinics}
+          clinics={bookableClinics}
           prompt={clinicPrompt}
           isEn={isEn}
           onSelect={handleSelectClinic}
         />
       ) : selectedClinic ? (
         <div className="space-y-4">
-          {pageClinics.length > 1 ? (
+          {bookableClinics.length > 1 ? (
             <button
               type="button"
               className="inline-flex items-center gap-1 text-sm font-light text-white/70 transition-colors hover:text-white"
@@ -430,6 +467,15 @@ function MetodikaTreatmentPicker({
   wbActivitiesLoading: boolean;
   caregiverUserId: number | undefined;
 }) {
+  const pageBooking = useSpecialistPageBookingOptional();
+  const bookableAtClinic = useMemo(() => {
+    if (clinic.kind !== "metodika") return new Set<number>();
+    return (
+      pageBooking?.metodikaBookableByLocation.get(clinic.apiLocationId) ??
+      new Set<number>()
+    );
+  }, [pageBooking?.metodikaBookableByLocation, clinic]);
+
   const dateLang = isEn ? "en" : "no";
   const navigate = useNavigate();
   const caregiverCategories = useMemo(() => {
@@ -441,15 +487,27 @@ function MetodikaTreatmentPicker({
         services: filterServicesForCaregiverWbActivities(
           category.services,
           allowedIds,
+        ).filter(
+          (service) =>
+            service.apiActivityId != null &&
+            bookableAtClinic.has(service.apiActivityId),
         ),
       }))
       .filter((category) => category.services.length > 0);
-  }, [specialist, metodikaCategories, allowedIds, caregiverUserId]);
+  }, [
+    specialist,
+    metodikaCategories,
+    allowedIds,
+    caregiverUserId,
+    bookableAtClinic,
+  ]);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   const categories = caregiverCategories;
   const isLoading =
-    categoriesLoading || (wbActivitiesLoading && categories.length === 0);
+    categoriesLoading ||
+    (wbActivitiesLoading && categories.length === 0) ||
+    Boolean(pageBooking?.availabilityLoading);
 
   const resolveServiceDurationMinutes = (service: {
     apiActivityId?: number;

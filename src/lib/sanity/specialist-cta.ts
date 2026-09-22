@@ -78,12 +78,10 @@ export function specialistShowsProfileBookingButton(
   pageBooking?: {
     availabilityLoading?: boolean;
     hasAvailableSlots?: boolean;
-    hasOnlineProfileBooking?: boolean;
   } | null,
 ): boolean {
   if (!specialistShowsBookingButton(specialist)) return false;
   if (!pageBooking) return true;
-  if (pageBooking.hasOnlineProfileBooking) return true;
   if (pageBooking.availabilityLoading) return false;
   return pageBooking.hasAvailableSlots === true;
 }
@@ -93,11 +91,9 @@ export function specialistProfileBookingPending(
   specialist: SpecialistBookingFields,
   pageBooking?: {
     availabilityLoading?: boolean;
-    hasOnlineProfileBooking?: boolean;
   } | null,
 ): boolean {
   if (!specialistShowsBookingButton(specialist)) return false;
-  if (pageBooking?.hasOnlineProfileBooking) return false;
   return Boolean(pageBooking?.availabilityLoading);
 }
 

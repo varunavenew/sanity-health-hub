@@ -62,6 +62,28 @@ export function pageClinicsForInlineProfileBooking(
   return pageClinics.filter((clinic) => clinic.kind !== "pasientsky");
 }
 
+/** After freetime probe — whether this clinic row should appear in the profile picker. */
+export function specialistPageClinicHasBookableOnlineSlots(
+  clinic: SpecialistPageClinic,
+  input: {
+    availabilityLoading: boolean;
+    metodikaBookableByLocation: Map<number, Set<number>>;
+    hasPasientskySlots: boolean;
+  },
+): boolean {
+  if (input.availabilityLoading) return true;
+  if (clinic.kind === "phone") return true;
+  if (clinic.kind === "metodika") {
+    return (
+      (input.metodikaBookableByLocation.get(clinic.apiLocationId)?.size ?? 0) > 0
+    );
+  }
+  if (clinic.kind === "pasientsky") {
+    return input.hasPasientskySlots;
+  }
+  return false;
+}
+
 function normalizeClinicKey(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";

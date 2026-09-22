@@ -7,6 +7,7 @@ import {
 } from "@/lib/booking/fetchCaregiverWbActivities.client";
 
 const STALE_MS = 5 * 60 * 1000;
+const EMPTY_WBACTIVITY_IDS: number[] = [];
 
 /** Metodika wbactivity ids + durations a caregiver may perform (from /wbactivities matrix). */
 export function useCaregiverWbActivities(
@@ -23,10 +24,12 @@ export function useCaregiverWbActivities(
     staleTime: STALE_MS,
   });
 
-  const wbactivityIds = caregiverUserId == null ? [] : (data?.wbactivityIds ?? []);
+  const wbactivityIds =
+    caregiverUserId == null ? EMPTY_WBACTIVITY_IDS : (data?.wbactivityIds ?? EMPTY_WBACTIVITY_IDS);
   const activities = caregiverUserId == null ? [] : (data?.activities ?? []);
 
-  const allowedIds = useMemo(() => new Set(wbactivityIds), [wbactivityIds]);
+  const allowedIdsKey = wbactivityIds.join(",");
+  const allowedIds = useMemo(() => new Set(wbactivityIds), [allowedIdsKey]);
 
   const durationMinutesByActivityId = useMemo(() => {
     const map = new Map<number, number>();
