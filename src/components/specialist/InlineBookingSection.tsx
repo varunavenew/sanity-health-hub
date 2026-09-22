@@ -23,6 +23,7 @@ import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
+  bookableActivityIdsForMetodikaClinic,
   moelvPasientskyClinicFromPageClinics,
   resolveSpecialistPageClinics,
   specialistPageClinicHasBookableOnlineSlots,
@@ -698,9 +699,9 @@ function MetodikaTreatmentPicker({
   const pageBooking = useSpecialistPageBookingOptional();
   const bookableAtClinic = useMemo(() => {
     if (clinic.kind !== "metodika") return new Set<number>();
-    return (
-      pageBooking?.metodikaBookableByLocation.get(clinic.apiLocationId) ??
-      new Set<number>()
+    return bookableActivityIdsForMetodikaClinic(
+      clinic,
+      pageBooking?.metodikaBookableByLocation ?? new Map(),
     );
   }, [pageBooking?.metodikaBookableByLocation, clinic]);
 

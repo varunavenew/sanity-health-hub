@@ -18,7 +18,10 @@ type SpecialistPageClinicBase = {
 
 export type SpecialistPageMetodikaClinic = SpecialistPageClinicBase & {
   kind: "metodika";
+  /** Primary Metodika location (CMS or first campus id). */
   apiLocationId: number;
+  /** Majorstuen is 10A + 10B in Metodika — probe every campus location. */
+  apiLocationIds: number[];
 };
 
 export type SpecialistPagePasientskyClinic = SpecialistPageClinicBase & {
@@ -74,9 +77,10 @@ export function specialistPageClinicHasBookableOnlineSlots(
   if (input.availabilityLoading) return true;
   if (clinic.kind === "phone") return true;
   if (clinic.kind === "metodika") {
-    return (
-      (input.metodikaBookableByLocation.get(clinic.apiLocationId)?.size ?? 0) > 0
-    );
+    return bookableActivityIdsForMetodikaClinic(
+      clinic,
+      input.metodikaBookableByLocation,
+    ).size > 0;
   }
   if (clinic.kind === "pasientsky") {
     return input.hasPasientskySlots;
@@ -84,11 +88,35 @@ export function specialistPageClinicHasBookableOnlineSlots(
   return false;
 }
 
+export function metodikaClinicLocationIds(
+  clinic: SpecialistPageMetodikaClinic,
+): number[] {
+  const ids =
+    clinic.apiLocationIds.length > 0
+      ? clinic.apiLocationIds
+      : [clinic.apiLocationId];
+  return [...new Set(ids.filter((id) => Number.isFinite(id) && id > 0))];
+}
+
+/** Treatments with freetime at any Metodika room for this clinic campus. */
+export function bookableActivityIdsForMetodikaClinic(
+  clinic: SpecialistPageMetodikaClinic,
+  metodikaBookableByLocation: Map<number, Set<number>>,
+): Set<number> {
+  const ids = new Set<number>();
+  for (const locationId of metodikaClinicLocationIds(clinic)) {
+    const atLocation = metodikaBookableByLocation.get(locationId);
+    if (!atLocation) continue;
+    for (const wbactivityId of atLocation) ids.add(wbactivityId);
+  }
+  return ids;
+}
+
 export function metodikaPageClinicHasBookableSlots(
   clinic: SpecialistPageMetodikaClinic,
   metodikaBookableByLocation: Map<number, Set<number>>,
 ): boolean {
-  return (metodikaBookableByLocation.get(clinic.apiLocationId)?.size ?? 0) > 0;
+  return bookableActivityIdsForMetodikaClinic(clinic, metodikaBookableByLocation).size > 0;
 }
 
 function normalizeClinicKey(value: string): string {
@@ -140,10 +168,9 @@ function inferKindFromSlug(
 }
 
 /** Known Metodika location ids when CMS still has method "info" (developer dataset). */
-const SLUG_METODIKA_LOCATION_FALLBACK: Readonly<Record<string, number>> = {
-  majorstuen: 1,
-  majorstua: 1,
-  bekkestua: 2,
+const SLUG_METODIKA_LOCATION_FALLBACK: Readonly<Record<string, number[]>> = {
+  majorstuen: [1, 2],
+  majorstua: [1, 2],
 };
 
 function resolvePageClinicKind(
@@ -171,18 +198,21 @@ function resolvePageClinicKind(
   return null;
 }
 
-function resolveMetodikaLocationId(
+function resolveMetodikaLocationIds(
   row: SanityClinicListRow,
   slug: string,
-): number | undefined {
+): number[] {
+  const ids = new Set<number>();
   const fromCms = row.booking?.metodikaLocationId;
   if (typeof fromCms === "number" && Number.isFinite(fromCms) && fromCms > 0) {
-    return fromCms;
+    ids.add(fromCms);
   }
-  for (const [key, id] of Object.entries(SLUG_METODIKA_LOCATION_FALLBACK)) {
-    if (slug.includes(key)) return id;
+  for (const [key, fallbackIds] of Object.entries(SLUG_METODIKA_LOCATION_FALLBACK)) {
+    if (slug.includes(key)) {
+      for (const id of fallbackIds) ids.add(id);
+    }
   }
-  return undefined;
+  return [...ids].sort((a, b) => a - b);
 }
 
 function clinicSortRank(slug: string): number {
@@ -219,9 +249,14 @@ function toPageClinic(row: SanityClinicListRow): SpecialistPageClinic | null {
   }
 
   if (inferred === "metodika") {
-    const apiLocationId = resolveMetodikaLocationId(row, slug);
-    if (typeof apiLocationId === "number" && Number.isFinite(apiLocationId)) {
-      return { ...base, kind: "metodika", apiLocationId };
+    const apiLocationIds = resolveMetodikaLocationIds(row, slug);
+    if (apiLocationIds.length > 0) {
+      return {
+        ...base,
+        kind: "metodika",
+        apiLocationId: apiLocationIds[0],
+        apiLocationIds,
+      };
     }
     const phone = base.phone || SPECIALIST_PAGE_FALLBACK_PHONE;
     return { ...base, kind: "phone", phone };

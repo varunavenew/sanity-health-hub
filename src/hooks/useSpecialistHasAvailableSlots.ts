@@ -77,9 +77,17 @@ export function useSpecialistHasAvailableSlots(
   );
 
   const metodikaLocationIdsKey = useMemo(() => {
-    return pageClinics
-      .filter((clinic) => clinic.kind === "metodika")
-      .map((clinic) => clinic.apiLocationId)
+    return [
+      ...new Set(
+        pageClinics.flatMap((clinic) =>
+          clinic.kind === "metodika"
+            ? clinic.apiLocationIds.length > 0
+              ? clinic.apiLocationIds
+              : [clinic.apiLocationId]
+            : [],
+        ),
+      ),
+    ]
       .sort((a, b) => a - b)
       .join(",");
   }, [pageClinicKey, pageClinics]);
