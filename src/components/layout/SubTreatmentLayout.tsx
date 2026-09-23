@@ -994,6 +994,7 @@ export const SubTreatmentLayout = ({
           <PageSectionsRenderer
             sections={specialistsSections}
             specialistsLayoutVariant="category"
+            bookingContext={c.booking}
           />
         ) : null;
       })()}

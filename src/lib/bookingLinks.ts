@@ -289,21 +289,24 @@ export function bookingUrlForPricingItem(params: {
  * Convenience: build URL from a specialist object.
  * Pre-selects category (so service step skips) and specialist.
  */
-export function bookingUrlForSpecialist(specialist: {
-  slug?: string;
-  category?: string;
-  clinicRefs?: Array<{ slug?: string; label?: string }>;
-  clinics?: string[];
-}): string {
+export function bookingUrlForSpecialist(
+  specialist: {
+    slug?: string;
+    category?: string;
+    clinicRefs?: Array<{ slug?: string; label?: string }>;
+    clinics?: string[];
+  },
+  options?: Pick<BookingLinkParams, "kategori" | "kategoriId" | "tjeneste">,
+): string {
   if (!specialist?.slug) return withBookingReturnContext("/booking");
   const bookingCategoryId = specialist.category
     ? specialistCategoryToBookingId[specialist.category]
     : undefined;
-  // We pass kategori as the *category-page* id (gynekologi, not gynekolog),
-  // because the prefill logic translates it back. Keeps URLs human-readable.
-  const kategori = bookingCategoryId
-    ? bookingIdToCategoryPage[bookingCategoryId]
-    : undefined;
+  // Page context (e.g. NIPT under Graviditet) wins over the specialist's
+  // primary category so the booking flow opens the treatment's group.
+  const kategori =
+    options?.kategori ||
+    (bookingCategoryId ? bookingIdToCategoryPage[bookingCategoryId] : undefined);
 
   let klinikk: string | undefined;
   const refs = specialist.clinicRefs?.filter((r) => r.slug?.trim() || r.label?.trim()) ?? [];
@@ -315,6 +318,8 @@ export function bookingUrlForSpecialist(specialist: {
 
   return buildBookingUrl({
     kategori,
+    kategoriId: options?.kategoriId,
+    tjeneste: options?.tjeneste,
     spesialist: specialist.slug,
     klinikk: klinikk || undefined,
   });

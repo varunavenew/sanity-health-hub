@@ -6,7 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
+import { bookingUrlForSpecialist, type BookingLinkParams } from "@/lib/bookingLinks";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -39,6 +39,8 @@ interface Props {
    * `category` — treatment-category reference: centered head, flush cards, footer text link.
    */
   layoutVariant?: "default" | "category";
+  /** Treatment-page booking group (e.g. NIPT → graviditet, not the specialist's gynekologi). */
+  bookingContext?: BookingLinkParams;
 }
 
 /**
@@ -58,6 +60,7 @@ export const SpecialistsScroller = ({
   seeAllHref = "/spesialister",
   seeAllLabel,
   layoutVariant = "default",
+  bookingContext,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -199,7 +202,7 @@ export const SpecialistsScroller = ({
 
         {filtered.length === 1 ? (
           <div className="page-shell">
-            <SpecialistFeature sp={filtered[0]} />
+            <SpecialistFeature sp={filtered[0]} bookingContext={bookingContext} />
             {seeAllLink ? <div className="mt-6 md:mt-8">{seeAllLink}</div> : null}
           </div>
         ) : (
@@ -323,7 +326,7 @@ export const SpecialistsScroller = ({
 
       {filtered.length === 1 ? (
         <div className="container mx-auto px-6 md:px-16">
-          <SpecialistFeature sp={filtered[0]} />
+          <SpecialistFeature sp={filtered[0]} bookingContext={bookingContext} />
         </div>
       ) : useScroller ? (
         <div className="relative">
@@ -441,14 +444,24 @@ const CategorySpecialistCard = ({
  * Editorial split layout when there is exactly one specialist for a service.
  * Name as heading, role as subtitle; bio + specialty list + CTA (demo treatment layout).
  */
-const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
+const SpecialistFeature = ({
+  sp,
+  bookingContext,
+}: {
+  sp: Specialist;
+  bookingContext?: BookingLinkParams;
+}) => {
   const { hotspot, crop } = resolveSpecialistImageFocal(sp);
   const bio = sp.bio ?? "";
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
   const firstName = sp.name.split(" ")[0] || sp.name;
   // Treatment editorial: job title only (e.g. "Gastrokirurg"), not "Category · Title".
   const roleLine = (sp.subtitle?.trim() || sp.title).trim();
-  const bookingHref = bookingUrlForSpecialist(sp);
+  const bookingHref = bookingUrlForSpecialist(sp, {
+    kategori: bookingContext?.kategori,
+    kategoriId: bookingContext?.kategoriId,
+    tjeneste: bookingContext?.tjeneste,
+  });
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
