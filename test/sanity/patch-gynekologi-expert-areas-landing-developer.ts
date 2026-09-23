@@ -132,7 +132,7 @@ const DESIRED: AreaInput[] = [
     descEn:
       "Hormonal imbalance that affects cycle, skin, weight and fertility — we assess and follow you over time.",
     href: "/gynekologi/pmos",
-    match: { titleIncludes: "PMOS", hrefIncludes: "pmos" },
+    match: { titleIncludes: "PMOS", hrefIncludes: "pcos" },
   },
   {
     _key: "e7",
@@ -178,13 +178,22 @@ function findExisting(areas: any[], desired: AreaInput): any | undefined {
     if (desired._key === "e2" && (t.includes("fødselsskader") || t.includes("bekkenbunn"))) {
       return true;
     }
+    // Ticket #416 — live card may still be titled PCOS while canonical NO slug is pmos.
+    if (desired._key === "e6" && (t.includes("pmos") || t.includes("pcos"))) {
+      return true;
+    }
     return false;
   });
   if (byTitle) return byTitle;
   const byHref = areas.find((a) => {
     const href = String(a?.href || "").toLowerCase();
     const needle = desired.match?.hrefIncludes?.toLowerCase();
-    return needle ? href.includes(needle) : false;
+    if (!needle) return false;
+    if (href.includes(needle)) return true;
+    if (desired._key === "e6" && (href.includes("pmos") || href.includes("pcos"))) {
+      return true;
+    }
+    return false;
   });
   return byHref;
 }

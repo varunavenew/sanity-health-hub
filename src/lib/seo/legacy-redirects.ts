@@ -332,6 +332,18 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   perm("/en/fertility/hormonforstyrrelser", "/en/gynecology/poi"),
   perm("/no/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
   perm("/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
+
+  // Ticket #416 — NO slug is `pmos`; EN slug is `pcos`. Alias soft-serve was 200.
+  perm("/no/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/nb/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/no/behandlinger/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/nb/behandlinger/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/behandlinger/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/en/gynecology/pmos", "/en/gynecology/pcos"),
+  perm("/en/gynekologi/pmos", "/en/gynecology/pcos"),
+  perm("/en/behandlinger/gynekologi/pmos", "/en/gynecology/pcos"),
+  perm("/en/behandlinger/gynecology/pmos", "/en/gynecology/pcos"),
   { source: "/en/careers", destination: "/en/career", permanent: true },
   {
     source: "/en/urology/testicle-and-scrotum",

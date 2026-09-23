@@ -157,7 +157,7 @@ const PATCHES: Array<{ id: string; items: SymptomDef[] }> = [
         symptomEn: "Irregular cycle or suspected PMOS",
         serviceNo: "PMOS-utredning",
         serviceEn: "PMOS investigation",
-        href: `${GYN}/pcos`,
+        href: `${GYN}/pmos`,
       },
       {
         key: "s6",

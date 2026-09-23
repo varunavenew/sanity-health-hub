@@ -31,6 +31,9 @@ export const SITEMAP_EXCLUDED_PATHS = new Set([
   "/no/gynekologi/hormonforstyrrelser",
   "/nb/gynekologi/hormonforstyrrelser",
   "/en/gynecology/hormonforstyrrelser",
+  "/no/gynekologi/pcos",
+  "/nb/gynekologi/pcos",
+  "/en/gynecology/pmos",
 ]);
 
 export function isSitemapExcludedSlug(slug: string | null | undefined): boolean {

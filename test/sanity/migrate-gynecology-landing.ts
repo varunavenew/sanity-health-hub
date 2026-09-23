@@ -175,7 +175,7 @@ const landingPageBase = {
         ),
         tagLinks: [
           tagLink("Prevensjonsveiledning", "Contraception counselling", "/gynekologi/undersokelse"),
-          tagLink("PMOS", "PMOS", "/gynekologi/pcos"),
+          tagLink("PMOS", "PMOS", "/gynekologi/pmos"),
           tagLink("POI", "POI", "/gynekologi/poi"),
           tagLink("PMS / PMDD", "PMS / PMDD", "/gynekologi/pms-pmdd"),
           tagLink("Blødningsforstyrrelser", "Bleeding disorders", "/gynekologi/blodningsforstyrrelser"),
@@ -463,7 +463,7 @@ const landingPageBase = {
         _key: "s5",
         symptom: i18nString("Uregelmessig syklus eller mistanke om PMOS", "Irregular cycle or suspected PMOS"),
         service: i18nString("PMOS-utredning", "PMOS investigation"),
-        href: "/gynekologi/pcos",
+        href: "/gynekologi/pmos",
       },
       {
         _key: "s6",
