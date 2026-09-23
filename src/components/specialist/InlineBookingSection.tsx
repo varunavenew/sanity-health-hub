@@ -718,11 +718,7 @@ function MetodikaTreatmentPicker({
         services: filterServicesForCaregiverWbActivities(
           category.services,
           allowedIds,
-        ).filter(
-          (service) =>
-            service.apiActivityId != null &&
-            activityBookableAtClinic(service.apiActivityId),
-        ),
+        ).filter((service) => service.apiActivityId != null),
       }))
       .filter((category) => category.services.length > 0);
   }, [
@@ -810,6 +806,13 @@ function MetodikaTreatmentPicker({
     );
   };
 
+  const slotsKnown = pageBooking != null && !pageBooking.availabilityLoading;
+
+  const serviceHasBookableSlots = (apiActivityId: number | undefined): boolean => {
+    if (apiActivityId == null) return false;
+    return activityBookableAtClinic(apiActivityId);
+  };
+
   const handleSelectService = (
     apiGroupId: number,
     categorySlug: string,
@@ -819,6 +822,7 @@ function MetodikaTreatmentPicker({
     apiActivityId?: number,
   ) => {
     if (apiActivityId == null) return;
+    if (!slotsKnown || !serviceHasBookableSlots(apiActivityId)) return;
 
     trackBookingMenuStart({
       entry_point: "specialist_page",
@@ -885,6 +889,45 @@ function MetodikaTreatmentPicker({
                         durationMinutes != null
                           ? formatDurationMinutes(durationMinutes, dateLang)
                           : undefined;
+                      const showNoSlots =
+                        slotsKnown &&
+                        activityId != null &&
+                        !serviceHasBookableSlots(activityId);
+
+                      const metaRow = (
+                        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium text-white/80">
+                          {durationLabel ? (
+                            <span className="inline-flex items-center gap-1.5">
+                              <Clock
+                                className="h-3.5 w-3.5 shrink-0 stroke-[1.5] text-white/70"
+                                aria-hidden="true"
+                              />
+                              <span>{durationLabel}</span>
+                            </span>
+                          ) : null}
+                          <span>{formatBookingServicePrice(service.price)}</span>
+                          {showNoSlots ? (
+                            <span className="text-white/50">{ui.bookingNoAvailableSlotsLabel}</span>
+                          ) : null}
+                        </div>
+                      );
+
+                      if (showNoSlots) {
+                        return (
+                          <div
+                            key={service.apiActivityId ?? service.name}
+                            className="flex w-full cursor-default items-center justify-between gap-4 border-b border-white/5 px-5 py-4 text-left last:border-b-0"
+                            aria-disabled="true"
+                          >
+                            <div className="min-w-0 flex-1">
+                              <p className="methodika-sentence-case truncate pr-4 text-sm font-normal text-white/70">
+                                {service.name}
+                              </p>
+                              {metaRow}
+                            </div>
+                          </div>
+                        );
+                      }
 
                       return (
                         <button
@@ -906,18 +949,7 @@ function MetodikaTreatmentPicker({
                             <p className="methodika-sentence-case truncate pr-4 text-sm font-normal text-white">
                               {service.name}
                             </p>
-                            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium text-white/80">
-                              {durationLabel ? (
-                                <span className="inline-flex items-center gap-1.5">
-                                  <Clock
-                                    className="h-3.5 w-3.5 shrink-0 stroke-[1.5] text-white/70"
-                                    aria-hidden="true"
-                                  />
-                                  <span>{durationLabel}</span>
-                                </span>
-                              ) : null}
-                              <span>{formatBookingServicePrice(service.price)}</span>
-                            </div>
+                            {metaRow}
                           </div>
                           <ArrowRight
                             className="h-4 w-4 shrink-0 text-white/40 transition-colors group-hover:text-white"

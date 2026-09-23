@@ -17,6 +17,8 @@ export type SpecialistProfileUi = {
   /** Hero Book-now pill while freetime is being checked. */
   bookingAvailabilityCheckingLabel: string;
   bookingEmptyMessage: string;
+  /** Inline treatment row when this service has no bookable times for the specialist. */
+  bookingNoAvailableSlotsLabel: string;
   bookingViewAllLabel: string;
   anonymousReviewLabel: string;
 };
@@ -68,6 +70,7 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingAvailabilityCheckingLabel: "Sjekker ledige timer…",
     bookingEmptyMessage:
       "Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.",
+    bookingNoAvailableSlotsLabel: "Ingen ledige timer",
     bookingViewAllLabel: "Se alle tjenester og priser",
     anonymousReviewLabel: "Anonym",
   },
@@ -89,6 +92,7 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingAvailabilityCheckingLabel: "Checking availability…",
     bookingEmptyMessage:
       "No bookable services are available right now. Try the booking page for the full overview.",
+    bookingNoAvailableSlotsLabel: "No available slots",
     bookingViewAllLabel: "See all services and prices",
     anonymousReviewLabel: "Anonymous",
   },
@@ -114,6 +118,7 @@ const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
   "bookingLoadingLabel",
   "bookingAvailabilityCheckingLabel",
   "bookingEmptyMessage",
+  "bookingNoAvailableSlotsLabel",
   "bookingViewAllLabel",
   "anonymousReviewLabel",
 ];

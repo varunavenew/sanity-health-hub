@@ -111,6 +111,11 @@ export default {
           'Shown on the grey Book button while time slots are loading. NO: Sjekker ledige timer… EN: Checking availability…',
         ),
         profileUiTextField('bookingEmptyMessage', 'Booking - no services'),
+        profileUiStringField(
+          'bookingNoAvailableSlotsLabel',
+          'Booking - no available slots',
+          'Shown on treatments with no online times for this specialist. NO: Ingen ledige timer. EN: No available slots.',
+        ),
         profileUiStringField('bookingViewAllLabel', 'Booking - view all services'),
         profileUiStringField('anonymousReviewLabel', 'Anonymous reviewer – name'),
       ],
