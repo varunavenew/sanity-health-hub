@@ -171,10 +171,10 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
         </div>
       </div>
 
-      {/* Desktop — split hero. 100% at ≤1920: 640px half-column. 90/80/75/60%
-          zoom: 3:2 of the full right half (Madeleine crop). */}
-      <div className="hidden lg:grid lg:grid-cols-2 lg:min-h-[640px]">
-        <div className="flex items-center page-edge-text-left py-12 lg:py-16">
+      {/* Desktop — 100%: full-bleed half-column. 90/80/70/60% zoom: image
+          width 70% / 60% / 50% / 45% so cream shows on the right. */}
+      <div className="specialist-hero-desktop hidden lg:grid">
+        <div className="specialist-hero-copy flex items-center page-edge-text-left py-12 lg:py-16">
           <div className="max-w-xl w-full">
             <motion.p
               aria-hidden="true"
@@ -253,11 +253,10 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
           </div>
         </div>
 
-        <div
-          data-hero-parallax=""
-          className="specialist-hero-photo split-media relative w-full min-h-0 bg-secondary/40"
-        >
-          <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
+        <div data-hero-parallax="" className="specialist-hero-photo-col">
+          <div className="specialist-hero-photo relative overflow-hidden bg-secondary/40">
+            <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full" />
+          </div>
         </div>
       </div>
 
