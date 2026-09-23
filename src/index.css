@@ -747,6 +747,19 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
+/* Zoomed-out desktop (90% ≈ 2133px, 80% ≈ 2400px, 75% ≈ 2560px, 60% ≈ 3200px
+   on a 1920 screen). Keep the 3:2 half-column crop as 100% at 1920 (960×640)
+   so the photo fills the right half with head + shoulders. 1920@100% stays
+   on the default 640px split. */
+@media (min-width: 2000px) {
+  .specialist-hero-photo {
+    height: auto;
+    min-height: 0;
+    align-self: auto;
+    aspect-ratio: 3 / 2;
+  }
+}
+
 /* Fill the column even when only min-height is set (stacked / zoomed viewports). */
 .split-media > * {
   position: absolute;

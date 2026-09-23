@@ -117,7 +117,7 @@ export type RawSanitySpecialist = {
     heading?: string;
     ctaLabel?: string;
     ctaPath?: string;
-    specialists?: RawSanitySpecialist[];
+    specialists?: RawSanitySpecialist[]; 
   };
   seo?: {
     metaTitle?: unknown;

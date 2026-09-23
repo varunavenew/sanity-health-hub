@@ -171,7 +171,8 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
         </div>
       </div>
 
-      {/* Desktop — split hero */}
+      {/* Desktop — split hero. 100% at ≤1920: 640px half-column. 90/80/75/60%
+          zoom: 3:2 of the full right half (Madeleine crop). */}
       <div className="hidden lg:grid lg:grid-cols-2 lg:min-h-[640px]">
         <div className="flex items-center page-edge-text-left py-12 lg:py-16">
           <div className="max-w-xl w-full">
@@ -254,7 +255,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
 
         <div
           data-hero-parallax=""
-          className="split-media relative w-full min-h-0 bg-secondary/40"
+          className="specialist-hero-photo split-media relative w-full min-h-0 bg-secondary/40"
         >
           <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
         </div>
