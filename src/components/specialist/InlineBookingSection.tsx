@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import {
   SPECIALIST_INLINE_BOOKING_SECTION_ID,
@@ -44,6 +45,7 @@ import {
 } from "@/lib/booking/specialist-booking";
 import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
+import { cn } from "@/lib/utils";
 import { Link, useLocaleParam, useNavigate } from "@/lib/router";
 import {
   trackBookingInit,
@@ -669,6 +671,23 @@ function InlineMetodikaCallUs({
   );
 }
 
+type ProfileBookingService = BookingCategoryFromApi["services"][number];
+
+/** Specialist inline list: bookable treatments first, then gray no-slot rows. */
+function sortProfileBookingServices(
+  services: ProfileBookingService[],
+  slotsKnown: boolean,
+  hasBookableSlots: (apiActivityId: number | undefined) => boolean,
+): ProfileBookingService[] {
+  if (!slotsKnown) return services;
+  return [...services].sort((a, b) => {
+    const aBookable = hasBookableSlots(a.apiActivityId);
+    const bBookable = hasBookableSlots(b.apiActivityId);
+    if (aBookable === bBookable) return 0;
+    return aBookable ? -1 : 1;
+  });
+}
+
 function MetodikaTreatmentPicker({
   specialist,
   clinic,
@@ -881,8 +900,12 @@ function MetodikaTreatmentPicker({
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="scrollbar-dark-subtle max-h-[min(28rem,50vh)] overflow-y-auto overscroll-y-contain border-t border-white/10 pr-1">
-                    {category.services.map((service) => {
+                  <div className="scrollbar-dark-subtle max-h-[min(28rem,50vh)] overflow-x-hidden overflow-y-auto overscroll-y-contain border-t border-white/10">
+                    {sortProfileBookingServices(
+                      category.services,
+                      slotsKnown,
+                      serviceHasBookableSlots,
+                    ).map((service) => {
                       const activityId = service.apiActivityId;
                       const durationMinutes = resolveServiceDurationMinutes(service);
                       const durationLabel =
@@ -895,20 +918,25 @@ function MetodikaTreatmentPicker({
                         !serviceHasBookableSlots(activityId);
 
                       const metaRow = (
-                        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium text-white/80">
+                        <div
+                          className={cn(
+                            "mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium",
+                            showNoSlots ? "text-white/35" : "text-white/80",
+                          )}
+                        >
                           {durationLabel ? (
                             <span className="inline-flex items-center gap-1.5">
                               <Clock
-                                className="h-3.5 w-3.5 shrink-0 stroke-[1.5] text-white/70"
+                                className={cn(
+                                  "h-3.5 w-3.5 shrink-0 stroke-[1.5]",
+                                  showNoSlots ? "text-white/30" : "text-white/70",
+                                )}
                                 aria-hidden="true"
                               />
                               <span>{durationLabel}</span>
                             </span>
                           ) : null}
                           <span>{formatBookingServicePrice(service.price)}</span>
-                          {showNoSlots ? (
-                            <span className="text-white/50">{ui.bookingNoAvailableSlotsLabel}</span>
-                          ) : null}
                         </div>
                       );
 
@@ -916,15 +944,23 @@ function MetodikaTreatmentPicker({
                         return (
                           <div
                             key={service.apiActivityId ?? service.name}
-                            className="flex w-full cursor-default items-center justify-between gap-4 border-b border-white/5 px-5 py-4 text-left last:border-b-0"
-                            aria-disabled="true"
+                            className="flex w-full min-w-0 items-center justify-between gap-3 border-b border-white/5 px-5 py-4 last:border-b-0"
                           >
-                            <div className="min-w-0 flex-1">
-                              <p className="methodika-sentence-case truncate pr-4 text-sm font-normal text-white/70">
+                            <div className="min-w-0 flex-1 opacity-60">
+                              <p className="methodika-sentence-case text-sm font-normal leading-snug text-white/45 break-words">
                                 {service.name}
                               </p>
                               {metaRow}
                             </div>
+                            <CallUsClinicPicker
+                              variant="lightSolid"
+                              size="default"
+                              specialist={specialist}
+                              label={ui.heroCallUsLabel}
+                              menuPlacement="top"
+                              menuAlign="end"
+                              className="shrink-0 whitespace-nowrap"
+                            />
                           </div>
                         );
                       }

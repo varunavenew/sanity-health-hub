@@ -25,6 +25,8 @@ interface Props {
   categoryId?: string;
   /** Open menu above the trigger (e.g. specialist mobile hero at page bottom). */
   menuPlacement?: "top" | "bottom";
+  /** Anchor dropdown to the trigger's right edge so it opens leftward (narrow panels). */
+  menuAlign?: "stretch" | "end";
   /** Limit to clinics this specialist works at (profile page). */
   specialist?: Specialist;
   className?: string;
@@ -40,6 +42,7 @@ export const CallUsClinicPicker = ({
   label,
   categoryId,
   menuPlacement = "bottom",
+  menuAlign = "stretch",
   specialist,
   className
 }: Props & { className?: string }) => {
@@ -100,7 +103,8 @@ export const CallUsClinicPicker = ({
       {open && (
         <div
           className={cn(
-            "absolute left-0 right-0 z-50 min-w-[260px] overflow-hidden rounded-lg border border-border bg-white shadow-xl",
+            "absolute z-50 min-w-[240px] max-w-[min(260px,calc(100vw-2rem))] overflow-hidden rounded-lg border border-border bg-white shadow-xl",
+            menuAlign === "end" ? "right-0 w-[260px]" : "left-0 right-0",
             menuPlacement === "top" ? "bottom-full mb-2" : "top-full mt-2",
           )}
         >
