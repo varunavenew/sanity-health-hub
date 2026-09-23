@@ -16,8 +16,8 @@ import {
 const WBACTIVITIES_FIELDS =
   "timelength,pricetype,supplementaryinformation,location";
 
-/** Specialist profile: server-side caregiver filter + duration only. */
-const WBACTIVITIES_CAREGIVER_FIELDS = "timelength";
+/** Specialist profile: server-side caregiver filter + duration + booking group. */
+const WBACTIVITIES_CAREGIVER_FIELDS = "timelength,wbactivitygroup-id";
 
 function wbactivitiesUrl(): string {
   return wbactivitiesListUrl({ fields: WBACTIVITIES_FIELDS });

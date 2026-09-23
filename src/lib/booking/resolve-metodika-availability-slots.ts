@@ -1,9 +1,13 @@
-import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
+import {
+  createLocationResolveCaches,
+  mapWithConcurrency,
+  type LocationResolveCaches,
+} from "@/lib/booking/resolveActivityLocations";
 import {
   BOOKING_URLS,
   bookingResourceUrl,
   fetchBookingFreetimesList,
-  fetchBookingResource,
+  fetchBookingResourceCached,
   unwrapList,
 } from "@/lib/booking/upstream";
 import type { BookingLocation } from "@/app/api/booking/locations/route";
@@ -49,6 +53,76 @@ function normalizeApiLocation(entry: unknown): BookingLocation | null {
   };
 }
 
+async function ensureRoomsAndLocationsInCache(
+  roomIds: number[],
+  apiKey: string,
+  caches: LocationResolveCaches,
+): Promise<void> {
+  const missingRooms = roomIds.filter((id) => !caches.roomById.has(id));
+  await Promise.all(
+    missingRooms.map(async (roomId) => {
+      try {
+        const url = bookingResourceUrl(BOOKING_URLS.rooms, roomId);
+        const payload = await fetchBookingResourceCached(url, apiKey);
+        const room = unwrapList(payload)
+          .map(normalizeApiRoom)
+          .find((item): item is BookingRoom => item !== null);
+        if (room && !room.deactivated) caches.roomById.set(roomId, room);
+      } catch {
+        /* skip */
+      }
+    }),
+  );
+
+  const locationIds = new Set<number>();
+  for (const roomId of roomIds) {
+    const room = caches.roomById.get(roomId);
+    if (room) locationIds.add(room.locationId);
+  }
+
+  const missingLocations = [...locationIds].filter(
+    (id) => !caches.locationById.has(id),
+  );
+  await Promise.all(
+    missingLocations.map(async (locationId) => {
+      try {
+        const url = bookingResourceUrl(BOOKING_URLS.locations, locationId);
+        const payload = await fetchBookingResourceCached(url, apiKey);
+        const location = unwrapList(payload)
+          .map(normalizeApiLocation)
+          .find((item): item is BookingLocation => item !== null);
+        if (location && !location.deactivated) {
+          caches.locationById.set(locationId, location);
+        }
+      } catch {
+        /* skip */
+      }
+    }),
+  );
+}
+
+function slotsFromRawFreetimes(
+  rawSlots: ApiFreeTime[],
+  caches: LocationResolveCaches,
+): ResolvedMetodikaAvailabilitySlot[] {
+  const slots: ResolvedMetodikaAvailabilitySlot[] = [];
+  for (const entry of rawSlots) {
+    const startDateTime = entry.startdatetime?.trim();
+    if (!startDateTime) continue;
+
+    const roomId = entry["room-id"] ?? entry.roomId;
+    const room = roomId != null ? caches.roomById.get(roomId) : undefined;
+    const location = room ? caches.locationById.get(room.locationId) : undefined;
+
+    slots.push({
+      startDateTime,
+      caregiverUserId: entry["caregiver_user-id"] ?? entry.caregiverUserId,
+      locationId: location?.id,
+    });
+  }
+  return slots;
+}
+
 /**
  * Same chain as GET /api/booking/availability (discovery — no location/caregiver query params).
  */
@@ -57,7 +131,6 @@ export async function resolveMetodikaAvailabilitySlots(
   apiKey: string,
 ): Promise<ResolvedMetodikaAvailabilitySlot[]> {
   const rawSlots = (await fetchBookingFreetimesList(wbactivityId, apiKey)) as ApiFreeTime[];
-
   const roomIds = [
     ...new Set(
       rawSlots
@@ -65,57 +138,9 @@ export async function resolveMetodikaAvailabilitySlots(
         .filter((id): id is number => typeof id === "number"),
     ),
   ];
-
-  const roomById = new Map<number, BookingRoom>();
-  await Promise.all(
-    roomIds.map(async (roomId) => {
-      try {
-        const url = bookingResourceUrl(BOOKING_URLS.rooms, roomId);
-        const payload = await fetchBookingResource(url, apiKey);
-        const room = unwrapList(payload)
-          .map(normalizeApiRoom)
-          .find((item): item is BookingRoom => item !== null);
-        if (room && !room.deactivated) roomById.set(roomId, room);
-      } catch {
-        /* skip */
-      }
-    }),
-  );
-
-  const locationIds = [...new Set([...roomById.values()].map((r) => r.locationId))];
-  const locationById = new Map<number, BookingLocation>();
-  await Promise.all(
-    locationIds.map(async (locationId) => {
-      try {
-        const url = bookingResourceUrl(BOOKING_URLS.locations, locationId);
-        const payload = await fetchBookingResource(url, apiKey);
-        const location = unwrapList(payload)
-          .map(normalizeApiLocation)
-          .find((item): item is BookingLocation => item !== null);
-        if (location && !location.deactivated) locationById.set(locationId, location);
-      } catch {
-        /* skip */
-      }
-    }),
-  );
-
-  const slots: ResolvedMetodikaAvailabilitySlot[] = [];
-  for (const entry of rawSlots) {
-    const startDateTime = entry.startdatetime?.trim();
-    if (!startDateTime) continue;
-
-    const roomId = entry["room-id"] ?? entry.roomId;
-    const room = roomId != null ? roomById.get(roomId) : undefined;
-    const location = room ? locationById.get(room.locationId) : undefined;
-
-    slots.push({
-      startDateTime,
-      caregiverUserId: entry["caregiver_user-id"] ?? entry.caregiverUserId,
-      locationId: location?.id,
-    });
-  }
-
-  return slots;
+  const caches = createLocationResolveCaches();
+  await ensureRoomsAndLocationsInCache(roomIds, apiKey, caches);
+  return slotsFromRawFreetimes(rawSlots, caches);
 }
 
 const DEFAULT_ACTIVITY_FREETIMES_CONCURRENCY = Number(
@@ -124,7 +149,10 @@ const DEFAULT_ACTIVITY_FREETIMES_CONCURRENCY = Number(
     8,
 );
 
-/** Parallel wbfreetimes → rooms → locations per wbactivity (caregiver profile slot probe). */
+/**
+ * Caregiver profile slot probe: parallel wbfreetimes per wbactivity, then one shared
+ * rooms/locations pass (Henrik — parallel activity freetimes, not sequential chains).
+ */
 export async function resolveMetodikaAvailabilitySlotsByActivityId(
   wbactivityIds: number[],
   apiKey: string,
@@ -133,12 +161,31 @@ export async function resolveMetodikaAvailabilitySlotsByActivityId(
   const unique = [...new Set(wbactivityIds)].filter((id) => id > 0);
   if (unique.length === 0) return new Map();
 
-  const entries = await mapWithConcurrency(unique, concurrency, async (id) => {
-    const slots = await resolveMetodikaAvailabilitySlots(id, apiKey);
-    return [id, slots] as const;
-  });
+  const freetimesByActivity = await mapWithConcurrency(
+    unique,
+    concurrency,
+    async (id) => {
+      const rawSlots = (await fetchBookingFreetimesList(id, apiKey)) as ApiFreeTime[];
+      return { id, rawSlots };
+    },
+  );
 
-  return new Map(entries);
+  const allRoomIds = new Set<number>();
+  for (const { rawSlots } of freetimesByActivity) {
+    for (const slot of rawSlots) {
+      const roomId = slot["room-id"] ?? slot.roomId;
+      if (typeof roomId === "number") allRoomIds.add(roomId);
+    }
+  }
+
+  const caches = createLocationResolveCaches();
+  await ensureRoomsAndLocationsInCache([...allRoomIds], apiKey, caches);
+
+  const map = new Map<number, ResolvedMetodikaAvailabilitySlot[]>();
+  for (const { id, rawSlots } of freetimesByActivity) {
+    map.set(id, slotsFromRawFreetimes(rawSlots, caches));
+  }
+  return map;
 }
 
 /** Matches BookingDemo step 4 `datesWithApiSlots` filtering for a preselected specialist. */

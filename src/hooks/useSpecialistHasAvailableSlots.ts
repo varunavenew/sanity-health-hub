@@ -9,6 +9,7 @@ import {
   filterServicesForCaregiverWbActivities,
   filterSpecialistBookingCategories,
   profileWbActivityIdsForSpecialist,
+  profileWbActivityIdsFromCaregiverMatrix,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
@@ -106,7 +107,8 @@ export function useSpecialistHasAvailableSlots(
       hasMetodikaClinic ? bookingCategoryIds : [],
       bookingApiBase,
     );
-  const { allowedIds, loading: wbActivitiesLoading } = useCaregiverWbActivities(
+  const { allowedIds, activities: caregiverActivities, loading: wbActivitiesLoading } =
+    useCaregiverWbActivities(
     hasMetodikaClinic ? caregiverUserId : undefined,
     bookingApiBase,
   );
@@ -119,6 +121,13 @@ export function useSpecialistHasAvailableSlots(
     if (!hasMetodikaClinic || caregiverUserId == null || allowedIds.size === 0) {
       return "";
     }
+    const fromMatrix = profileWbActivityIdsFromCaregiverMatrix(
+      specialist,
+      caregiverActivities,
+      allowedIds,
+    );
+    if (fromMatrix.length > 0) return fromMatrix.join(",");
+    if (categoriesLoading || metodikaCategories.length === 0) return "";
     return profileWbActivityIdsForSpecialist(
       specialist,
       metodikaCategories,
@@ -131,6 +140,8 @@ export function useSpecialistHasAvailableSlots(
     specialist.subtitle,
     specialist.sanityCategories,
     metodikaCategories,
+    categoriesLoading,
+    caregiverActivities,
     allowedIdsKey,
     hasMetodikaClinic,
     caregiverUserId,
@@ -150,7 +161,7 @@ export function useSpecialistHasAvailableSlots(
   const lastBookableSignature = useRef("");
 
   const metodikaPrerequisitesLoading =
-    hasMetodikaClinic && (categoriesLoading || wbActivitiesLoading);
+    hasMetodikaClinic && wbActivitiesLoading;
 
   useEffect(() => {
     const showsBooking = specialistShowsBookingButton({ showBookingButton });

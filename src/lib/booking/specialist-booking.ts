@@ -4,6 +4,7 @@ import {
   categoryPageIdToNumericId,
   slugifyNo,
 } from "@/lib/bookingLinks";
+import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 
 /** Metodika wbactivitygroup for «Fostermedisiner - graviditet». */
 const FOSTERMEDISIN_BOOKING_GROUP_ID =
@@ -109,6 +110,28 @@ export function profileWbActivityIdsForSpecialist<
     )) {
       if (service.apiActivityId != null) ids.add(service.apiActivityId);
     }
+  }
+  return [...ids].sort((a, b) => a - b);
+}
+
+/**
+ * Profile wbactivity ids from caregiver matrix + Sanity booking groups (no activity-groups API).
+ * Lets specialist-slots run in parallel with activity-groups on the client.
+ */
+export function profileWbActivityIdsFromCaregiverMatrix(
+  specialist: Parameters<typeof filterSpecialistBookingCategories>[0],
+  activities: WbActivityMatrixEntry[],
+  allowedIds: Set<number>,
+): number[] {
+  if (allowedIds.size === 0 || activities.length === 0) return [];
+  const allowedGroupIds = new Set(resolveSpecialistBookingCategoryIds(specialist));
+  const ids = new Set<number>();
+  for (const entry of activities) {
+    if (!allowedIds.has(entry.wbactivityId)) continue;
+    const groupId = entry.wbactivityGroupId;
+    if (groupId != null && !allowedGroupIds.has(groupId)) continue;
+    if (groupId === FOSTERMEDISIN_BOOKING_GROUP_ID) continue;
+    ids.add(entry.wbactivityId);
   }
   return [...ids].sort((a, b) => a - b);
 }

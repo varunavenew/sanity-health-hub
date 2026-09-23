@@ -43,5 +43,5 @@ export function useCaregiverWbActivities(
   const loading =
     caregiverUserId != null && (isLoading || (isFetching && wbactivityIds.length === 0));
 
-  return { wbactivityIds, allowedIds, loading, durationMinutesByActivityId };
+  return { wbactivityIds, allowedIds, activities, loading, durationMinutesByActivityId };
 }
