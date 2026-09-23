@@ -1,3 +1,4 @@
+import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
 import {
   BOOKING_URLS,
   bookingResourceUrl,
@@ -115,6 +116,29 @@ export async function resolveMetodikaAvailabilitySlots(
   }
 
   return slots;
+}
+
+const DEFAULT_ACTIVITY_FREETIMES_CONCURRENCY = Number(
+  process.env.BOOKING_SPECIALIST_SLOTS_FREETIMES_CONCURRENCY ||
+    process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT ||
+    8,
+);
+
+/** Parallel wbfreetimes → rooms → locations per wbactivity (caregiver profile slot probe). */
+export async function resolveMetodikaAvailabilitySlotsByActivityId(
+  wbactivityIds: number[],
+  apiKey: string,
+  concurrency = DEFAULT_ACTIVITY_FREETIMES_CONCURRENCY,
+): Promise<Map<number, ResolvedMetodikaAvailabilitySlot[]>> {
+  const unique = [...new Set(wbactivityIds)].filter((id) => id > 0);
+  if (unique.length === 0) return new Map();
+
+  const entries = await mapWithConcurrency(unique, concurrency, async (id) => {
+    const slots = await resolveMetodikaAvailabilitySlots(id, apiKey);
+    return [id, slots] as const;
+  });
+
+  return new Map(entries);
 }
 
 /** Matches BookingDemo step 4 `datesWithApiSlots` filtering for a preselected specialist. */

@@ -1,33 +1,13 @@
 import {
   metodikaSlotBookableForProfile,
-  resolveMetodikaAvailabilitySlots,
-  type ResolvedMetodikaAvailabilitySlot,
+  resolveMetodikaAvailabilitySlotsByActivityId,
 } from "@/lib/booking/resolve-metodika-availability-slots";
-
-const SLOT_CHECK_CONCURRENCY = 2;
 
 function parseIdList(value: string | null): number[] {
   if (!value?.trim()) return [];
   return [...new Set(value.split(",").map((part) => Number(part.trim())))]
     .filter((id) => Number.isFinite(id) && id > 0)
     .sort((a, b) => a - b);
-}
-
-async function metodikaActivityHasSlot(
-  wbactivityId: number,
-  locationId: number,
-  caregiverUserId: number,
-  apiKey: string,
-  slotsByActivity: Map<number, ResolvedMetodikaAvailabilitySlot[]>,
-): Promise<boolean> {
-  let slots = slotsByActivity.get(wbactivityId);
-  if (!slots) {
-    slots = await resolveMetodikaAvailabilitySlots(wbactivityId, apiKey);
-    slotsByActivity.set(wbactivityId, slots);
-  }
-  return slots.some((slot) =>
-    metodikaSlotBookableForProfile({ slot, locationId, caregiverUserId }),
-  );
 }
 
 export type MetodikaBookableActivityPair = {
@@ -46,34 +26,23 @@ export async function specialistMetodikaBookableActivityPairs(params: {
   if (wbactivityIds.length === 0 || locationIds.length === 0) return [];
   if (caregiverUserId == null) return [];
 
-  const checks: Array<{ wbactivityId: number; locationId: number }> = [];
-  for (const locationId of locationIds) {
-    for (const wbactivityId of wbactivityIds) {
-      checks.push({ wbactivityId, locationId });
-    }
-  }
+  const slotsByActivity = await resolveMetodikaAvailabilitySlotsByActivityId(
+    wbactivityIds,
+    apiKey,
+  );
 
   const bookable: MetodikaBookableActivityPair[] = [];
-  const slotsByActivity = new Map<number, ResolvedMetodikaAvailabilitySlot[]>();
-
-  for (let index = 0; index < checks.length; index += SLOT_CHECK_CONCURRENCY) {
-    const batch = checks.slice(index, index + SLOT_CHECK_CONCURRENCY);
-    const results = await Promise.all(
-      batch.map(({ wbactivityId, locationId }) =>
-        metodikaActivityHasSlot(
-          wbactivityId,
-          locationId,
-          caregiverUserId,
-          apiKey,
-          slotsByActivity,
-        ),
-      ),
-    );
-    batch.forEach(({ wbactivityId, locationId }, batchIndex) => {
-      if (results[batchIndex]) {
+  for (const locationId of locationIds) {
+    for (const wbactivityId of wbactivityIds) {
+      const slots = slotsByActivity.get(wbactivityId) ?? [];
+      if (
+        slots.some((slot) =>
+          metodikaSlotBookableForProfile({ slot, locationId, caregiverUserId }),
+        )
+      ) {
         bookable.push({ locationId, wbactivityId });
       }
-    });
+    }
   }
 
   return bookable;
