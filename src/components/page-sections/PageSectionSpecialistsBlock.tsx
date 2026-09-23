@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import type { BookingLinkParams } from "@/lib/bookingLinks";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { type PageSectionSpecialistsConfig } from "@/lib/sanity/page-sections";
 import type { SanitySpecialist } from "@/hooks/useSanity";
@@ -18,6 +19,7 @@ type Props = {
   config: PageSectionSpecialistsConfig;
   /** Treatment category landings use flush centered presentation. */
   layoutVariant?: "default" | "category";
+  bookingContext?: BookingLinkParams;
 };
 
 function resolveSpecialists(
@@ -74,6 +76,7 @@ function categoryHref(config: PageSectionSpecialistsConfig): string {
 export function PageSectionSpecialistsBlock({
   config,
   layoutVariant = "default",
+  bookingContext,
 }: Props) {
   const { t } = useTranslation();
   const { sorted: allSpecialists, isLoading } = useSpecialistsData();
@@ -125,6 +128,7 @@ export function PageSectionSpecialistsBlock({
         seeAllHref={seeAllHref}
         seeAllLabel={seeAllLabel}
         layoutVariant={layoutVariant}
+        bookingContext={bookingContext}
       />
     );
   }
