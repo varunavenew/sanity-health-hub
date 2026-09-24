@@ -29,6 +29,7 @@ export async function specialistMetodikaBookableActivityPairs(params: {
   const slotsByActivity = await resolveMetodikaAvailabilitySlotsByActivityId(
     wbactivityIds,
     apiKey,
+    caregiverUserId,
   );
 
   const bookable: MetodikaBookableActivityPair[] = [];

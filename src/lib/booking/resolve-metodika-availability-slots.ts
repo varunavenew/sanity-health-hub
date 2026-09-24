@@ -8,8 +8,10 @@ import {
   bookingResourceUrl,
   fetchBookingFreetimesList,
   fetchBookingResourceCached,
+  type FreetimesQueryOptions,
   unwrapList,
 } from "@/lib/booking/upstream";
+import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
 import type { BookingLocation } from "@/app/api/booking/locations/route";
 import type { BookingRoom } from "@/app/api/booking/rooms/route";
 
@@ -123,14 +125,47 @@ function slotsFromRawFreetimes(
   return slots;
 }
 
+/** Specialist profile: today → last day of next calendar month (Metodika search window). */
+export function profileWbfreetimesSearchRange(reference = new Date()): {
+  searchFromTime: string;
+  searchToTime: string;
+} {
+  const from = new Date(reference);
+  from.setHours(0, 0, 0, 0);
+  const to = new Date(from.getFullYear(), from.getMonth() + 2, 0);
+  return {
+    searchFromTime: metodikaSearchTime(from, false),
+    searchToTime: metodikaSearchTime(to, true),
+  };
+}
+
+/** Profile-only wbfreetimes query (not used on /booking step 4). */
+export function profileWbfreetimesQueryOptions(
+  caregiverUserId: number,
+  reference = new Date(),
+): FreetimesQueryOptions {
+  const { searchFromTime, searchToTime } = profileWbfreetimesSearchRange(reference);
+  return {
+    maxTimes: 1,
+    caregiverUserId,
+    searchFromTime,
+    searchToTime,
+  };
+}
+
 /**
- * Same chain as GET /api/booking/availability (discovery — no location/caregiver query params).
+ * Specialist profile slot probe: scoped wbfreetimes, then rooms → locations.
  */
 export async function resolveMetodikaAvailabilitySlots(
   wbactivityId: string | number,
   apiKey: string,
+  caregiverUserId: number,
 ): Promise<ResolvedMetodikaAvailabilitySlot[]> {
-  const rawSlots = (await fetchBookingFreetimesList(wbactivityId, apiKey)) as ApiFreeTime[];
+  const rawSlots = (await fetchBookingFreetimesList(
+    wbactivityId,
+    apiKey,
+    profileWbfreetimesQueryOptions(caregiverUserId),
+  )) as ApiFreeTime[];
   const roomIds = [
     ...new Set(
       rawSlots
@@ -156,16 +191,23 @@ const DEFAULT_ACTIVITY_FREETIMES_CONCURRENCY = Number(
 export async function resolveMetodikaAvailabilitySlotsByActivityId(
   wbactivityIds: number[],
   apiKey: string,
+  caregiverUserId: number,
   concurrency = DEFAULT_ACTIVITY_FREETIMES_CONCURRENCY,
 ): Promise<Map<number, ResolvedMetodikaAvailabilitySlot[]>> {
   const unique = [...new Set(wbactivityIds)].filter((id) => id > 0);
   if (unique.length === 0) return new Map();
 
+  const freetimesOptions = profileWbfreetimesQueryOptions(caregiverUserId);
+
   const freetimesByActivity = await mapWithConcurrency(
     unique,
     concurrency,
     async (id) => {
-      const rawSlots = (await fetchBookingFreetimesList(id, apiKey)) as ApiFreeTime[];
+      const rawSlots = (await fetchBookingFreetimesList(
+        id,
+        apiKey,
+        freetimesOptions,
+      )) as ApiFreeTime[];
       return { id, rawSlots };
     },
   );
