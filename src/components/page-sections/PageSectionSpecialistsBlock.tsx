@@ -12,8 +12,12 @@ import type { BookingLinkParams } from "@/lib/bookingLinks";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { type PageSectionSpecialistsConfig } from "@/lib/sanity/page-sections";
 import type { SanitySpecialist } from "@/hooks/useSanity";
-import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
+import {
+  pageSectionCategoryKey,
+  resolvePageSectionSpecialists,
+  specialistListIdentity,
+} from "@/lib/sanity/resolve-page-section-specialists";
 
 type Props = {
   config: PageSectionSpecialistsConfig;
@@ -22,46 +26,45 @@ type Props = {
   bookingContext?: BookingLinkParams;
 };
 
+function hydrateExplicitSpecialists(
+  config: PageSectionSpecialistsConfig,
+  all: Specialist[],
+): Specialist[] {
+  const raw = Array.isArray(config.specialists) ? config.specialists : [];
+  const seen = new Set<string>();
+  const explicit: Specialist[] = [];
+
+  for (const row of raw) {
+    const card = row as SanitySpecialist;
+    const fromAll = all.find(
+      (specialist) =>
+        (card.slug && specialist.slug === card.slug) ||
+        (card._id && specialistListIdentity(specialist) === specialistListIdentity(card)),
+    );
+    const specialist = fromAll ?? (card.slug ? (card as Specialist) : undefined);
+    if (!specialist?.slug) continue;
+    const key = specialistListIdentity(specialist);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    explicit.push(specialist);
+  }
+
+  return explicit;
+}
+
 function resolveSpecialists(
   config: PageSectionSpecialistsConfig,
   all: Specialist[],
 ): Specialist[] {
-  const mode = resolveSpecialistsDisplayMode(config.displayMode);
-  if (!mode) return [];
-
-  const hasExplicitLimit = typeof config.limit === "number" && config.limit > 0;
-  const limit = hasExplicitLimit ? config.limit : undefined;
-
-  if (mode === "manual") {
-    if (!config.specialists?.length) return [];
-    const slugs = config.specialists
-      .map((raw) => (raw as SanitySpecialist).slug)
-      .filter(Boolean);
-    // Manual picks are curated — show every selected specialist unless an
-    // explicit limit is set. Defaulting to 8 was hiding later entries
-    // (e.g. Thomas Thaulow on PMOS).
-    const list = slugs
-      .map((slug) => all.find((s) => s.slug === slug))
-      .filter((s): s is Specialist => Boolean(s));
-    return limit ? list.slice(0, limit) : list;
-  }
-
-  const categoryKey =
-    config.categorySlug ||
-    config.treatmentCategory?.categoryId ||
-    config.treatmentCategory?.slug;
-
-  if (mode === "category") {
-    if (!categoryKey) return [];
-    const list = all
-      .filter((s) => specialistMatchesCategory(s, categoryKey))
-      .sort((a, b) => a.name.localeCompare(b.name, "nb"));
-    return hasExplicitLimit ? list.slice(0, limit) : list;
-  }
-
-  // mode === "all" — only when explicitly stored.
-  // Demo treatment pages (e.g. NIPT) show the full carousel unless limit is set.
-  return hasExplicitLimit ? all.slice(0, limit) : all;
+  return resolvePageSectionSpecialists({
+    displayMode: config.displayMode,
+    explicit: hydrateExplicitSpecialists(config, all),
+    allSpecialists: all,
+    categoryKey: pageSectionCategoryKey(config),
+    limit: typeof config.limit === "number" && config.limit > 0 ? config.limit : undefined,
+    excluded: config.excludedSpecialists,
+    includeExplicitInCategory: config.includeIndividualSpecialists === true,
+  }).visible;
 }
 
 function categoryHref(config: PageSectionSpecialistsConfig): string {

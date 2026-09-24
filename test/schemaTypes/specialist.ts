@@ -14,6 +14,7 @@ import {
   bookingActivityGroupList,
 } from './bookingActivityGroups'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import { SpecialistTreatmentsInput } from '../sanity/components/SpecialistTreatmentsInput'
 import {
   composeImageValidation,
   mediaDescription,
@@ -233,6 +234,39 @@ export default {
       ],
       validation: (Rule: any) =>
         Rule.required().min(1).error('Select at least one treatment category'),
+    },
+    {
+      name: 'appearingOnTreatments',
+      title: 'Treatments',
+      type: 'array',
+      group: 'general',
+      description:
+        'Treatment pages that show this specialist. Add a treatment to show them there; remove it to take them off that page. The treatment pages are updated when you publish this specialist.',
+      of: [
+        {
+          type: 'reference',
+          weak: true,
+          to: [{type: 'treatment'}],
+          options: {
+            // Only published treatments: draft-only pages are not on the website yet.
+            filter: '!(_id in path("drafts.**"))',
+          },
+        },
+      ],
+      components: {
+        input: SpecialistTreatmentsInput,
+      },
+    },
+    {
+      // Last Treatments list known to match the treatment pages. Publish applies
+      // only the editor's changes since then. Managed by Studio.
+      name: 'treatmentsBaseline',
+      title: 'Treatments (last synced)',
+      type: 'array',
+      group: 'general',
+      of: [{type: 'string'}],
+      hidden: true,
+      readOnly: true,
     },
     {
       name: 'treatments',

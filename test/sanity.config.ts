@@ -36,6 +36,7 @@ import {createPublishPreservingOgImageAlt} from './sanity/actions/publishPreserv
 import {PublishTreatment} from './sanity/actions/publishTreatment'
 import {UnpublishTreatment} from './sanity/actions/unpublishTreatment'
 import {createSpecialistDeleteAction} from './sanity/actions/safeDeleteSpecialist'
+import {createPublishSpecialistTreatments} from './sanity/actions/publishSpecialistTreatments'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 import {deskStructure} from './sanity/deskStructure'
@@ -230,6 +231,10 @@ export default defineConfig({
         if (action.action !== 'publish') return action
         if (context.schemaType === 'treatment') {
           return createPublishPreservingOgImageAlt(PublishTreatment)
+        }
+        if (context.schemaType === 'specialist') {
+          // Treatments field changes reach the treatment pages on publish.
+          return createPublishPreservingOgImageAlt(createPublishSpecialistTreatments(action))
         }
         const inner = NAV_SYNC_PAGE_TYPES.has(context.schemaType)
           ? PublishWithNavSync

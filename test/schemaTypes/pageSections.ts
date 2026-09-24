@@ -22,16 +22,23 @@ const displayModeSpecialists = {
   type: 'string',
   title: 'Display',
   description:
-    'For Treatment Category pages, use Filter by category and select this category.',
+    'Who appears on the page. All specialists: the whole catalog, plus anyone added individually. Choose manually: only the individually selected specialists below.',
   options: {
+    // "Filter by category" was removed; existing bands were moved to Choose
+    // manually with the same people. The website still reads old values.
     list: [
       { title: 'All specialists', value: 'all' },
       { title: 'Choose manually', value: 'manual' },
-      { title: 'Filter by category', value: 'category' },
     ],
     layout: 'radio',
   },
   initialValue: 'all',
+  validation: (Rule: any) =>
+    Rule.custom((value: string | undefined) =>
+      value === 'category'
+        ? 'Filter by category is no longer available. Choose All specialists or Choose manually.'
+        : true,
+    ),
 }
 
 const displayModeArticles = {
@@ -79,12 +86,45 @@ export const pageSectionSpecialists = {
     },
     displayModeSpecialists,
     {
+      name: 'includeIndividualSpecialists',
+      title: 'Also show individually selected specialists',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'On: the category list plus the specialists you pick below (e.g. from other categories). Off: only the category list.',
+      hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
+        parent?.displayMode !== 'category',
+    },
+    {
       name: 'specialists',
       title: 'Specialists (manual selection)',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
+      // Only used by Choose manually. All specialists shows the whole catalog.
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
         parent?.displayMode !== 'manual',
+      validation: (Rule: any) =>
+        Rule.custom(
+          (
+            specialists: Array<{_ref?: string}> | undefined,
+            context: { parent?: { displayMode?: string; limit?: number } },
+          ) => {
+            if (context.parent?.displayMode !== 'manual') return true
+            const limit = context.parent?.limit
+            const count = Array.isArray(specialists) ? specialists.length : 0
+            if (typeof limit === 'number' && limit > 0 && count > limit) {
+              return 'More specialists than Max items. They will all still appear on the page.'
+            }
+            return true
+          },
+        ).warning(),
+    },
+    {
+      name: 'excludedSpecialists',
+      title: 'Hidden from this page',
+      type: 'array',
+      of: [{ type: 'reference', weak: true, to: [{ type: 'specialist' }] }],
+      hidden: true,
     },
     {
       name: 'treatmentCategory',

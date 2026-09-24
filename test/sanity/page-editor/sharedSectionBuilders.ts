@@ -147,7 +147,12 @@ export function specialistsBandSection(options?: SharedBandOptions): PageSection
           const owned = options?.getPageOwnedChips?.(document)
           return owned?.length ? owned : ['Not configured']
         }
-        return [specialistsDisplayModeChip(band.displayMode)]
+        const extras = Array.isArray(band.specialists) ? band.specialists.length : 0
+        const modeChip = specialistsDisplayModeChip(band.displayMode)
+        if (extras > 0 && band.displayMode !== 'manual') {
+          return [`${modeChip} · +${extras} added`]
+        }
+        return [modeChip]
       }),
   }
 }

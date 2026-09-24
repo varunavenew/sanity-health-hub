@@ -245,6 +245,7 @@ export const PAGE_SECTIONS_GROQ = `
     ${i18nPageSectionString("title")},
     ${i18nPageSectionText("description")},
     displayMode,
+    includeIndividualSpecialists,
     categorySlug,
     articleCategory,
     limit,
@@ -271,6 +272,7 @@ export const PAGE_SECTIONS_GROQ = `
       ${SPECIALIST_PHOTO_PROJECTION},
       "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
     },
+    "excludedSpecialists": excludedSpecialists[]->{ _id, ${localizedSlug} },
     "articles": articles[]->{
       _id,
       ${i18nStringLocale("title")},
