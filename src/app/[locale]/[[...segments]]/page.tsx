@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Index from "@/site-pages/Index";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HomepageHydration } from "@/components/providers/HomepageHydration";
@@ -23,6 +23,12 @@ import {
 } from "@/lib/routing/render-cms-route";
 import { hasTestContentSegment } from "@/lib/seo/test-content-slugs";
 import { redirectTreatmentIfNotCanonical } from "@/lib/routing/redirect-treatment-if-not-canonical";
+import {
+  ASSISTED_REPRODUCTION_SLUG_EN,
+  ASSISTERT_BEFRUKTNING_SLUG,
+  IVF_SECTION_ID,
+  isRetiredIvfSlug,
+} from "@/lib/sanity/ivf-canonical";
 
 type Props = {
   params: Promise<{ locale: string; segments?: string[] }>;
@@ -40,6 +46,23 @@ function rejectLegacySeLocale(locale: string) {
 
 function rejectTestContentSegments(segments: string[]) {
   if (hasTestContentSegment(segments)) notFound();
+}
+
+/** Ticket #417 — retired IVF slug → Assistert befruktning #ivf. */
+function redirectRetiredIvfPage(locale: string, segments: string[]) {
+  const rest = segments[0] === "behandlinger" ? segments.slice(1) : segments;
+  if (rest.length < 2) return;
+  const [categorySeg, slug] = rest;
+  if (!isRetiredIvfSlug(slug)) return;
+  if (!/^(fertilitet|fertility)$/i.test(categorySeg ?? "")) return;
+  const isEn = locale === "en";
+  const category = isEn ? "fertility" : categorySeg;
+  const destSlug = isEn
+    ? ASSISTED_REPRODUCTION_SLUG_EN
+    : ASSISTERT_BEFRUKTNING_SLUG;
+  permanentRedirect(
+    `/${locale}/${category}/${destSlug}#${IVF_SECTION_ID}`,
+  );
 }
 
 async function resolveCmsRouteCached(segments: string[], locale: string) {
@@ -65,6 +88,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, segments = [] } = await params;
   rejectLegacySeLocale(locale);
   rejectTestContentSegments(segments);
+  redirectRetiredIvfPage(locale, segments);
   if (segments.length === 0) return buildHomeMetadata(locale);
 
   const route = await resolveCmsRouteCached(segments, locale);
@@ -120,6 +144,7 @@ export default async function CmsOptionalCatchAllPage({ params }: Props) {
   if (segments.length === 0) return renderHomepage(locale);
 
   rejectTestContentSegments(segments);
+  redirectRetiredIvfPage(locale, segments);
 
   const route = await resolveCmsRouteCached(segments, locale);
   if (!route) notFound();

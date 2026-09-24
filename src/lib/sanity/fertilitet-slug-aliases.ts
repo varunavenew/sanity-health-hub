@@ -1,11 +1,11 @@
 /**
  * Tjenester → Fertilitet items, in reference (avenewdemo) order.
  * Audience pages stay routable but are not top-level nav.
+ * IVF is not a separate page — links 301 / rewrite to Assistert befruktning #ivf.
  */
 export const FERTILITET_NAV_TREATMENT_SLUGS = [
   "infertilitet",
   "assistert-befruktning",
-  "ivf",
   "fertilitetsutredning",
   "eggfrys",
   "donorbehandling",
@@ -19,6 +19,11 @@ export const FERTILITET_NAV_TREATMENT_SLUGS = [
 export const FERTILITET_SLUG_ALIASES: Record<string, string> = {
   nedfrysing: "eggfrys",
   "nedfrysing-av-egg": "eggfrys",
+  /**
+   * Content lookup only. Public `/…/ivf` URLs 301 to Assistert befruktning #ivf
+   * (see `ivf-canonical.ts` + `legacy-redirects.ts` / `src/proxy.ts`).
+   */
+  ivf: "assistert-befruktning",
   /** Demo short path → full Sanity slug. */
   "par-og-single": "assistert-befruktning-for-par-og-single",
   /**

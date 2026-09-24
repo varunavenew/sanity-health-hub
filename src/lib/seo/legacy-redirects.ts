@@ -347,6 +347,32 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   perm("/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
   perm("/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
 
+  // Ticket #417 — IVF is a section on Assistert befruktning (Aina option b / #330).
+  // Hash #ivf opens the IVF accordion; path alone is enough for SEO.
+  moved301("/fertilitet/ivf", "/no/fertilitet/assistert-befruktning#ivf"),
+  moved301("/behandlinger/fertilitet/ivf", "/no/fertilitet/assistert-befruktning#ivf"),
+  moved301("/no/fertilitet/ivf", "/no/fertilitet/assistert-befruktning#ivf"),
+  moved301("/nb/fertilitet/ivf", "/no/fertilitet/assistert-befruktning#ivf"),
+  moved301(
+    "/no/behandlinger/fertilitet/ivf",
+    "/no/fertilitet/assistert-befruktning#ivf",
+  ),
+  moved301(
+    "/nb/behandlinger/fertilitet/ivf",
+    "/no/fertilitet/assistert-befruktning#ivf",
+  ),
+  moved301("/en/fertility/ivf", "/en/fertility/assisted-reproduction#ivf"),
+  moved301("/en/fertilitet/ivf", "/en/fertility/assisted-reproduction#ivf"),
+  moved301(
+    "/en/behandlinger/fertility/ivf",
+    "/en/fertility/assisted-reproduction#ivf",
+  ),
+  moved301(
+    "/en/behandlinger/fertilitet/ivf",
+    "/en/fertility/assisted-reproduction#ivf",
+  ),
+
+
   // Ticket #416 — NO slug is `pmos`; EN slug is `pcos`. Alias soft-serve was 200.
   perm("/no/gynekologi/pcos", "/no/gynekologi/pmos"),
   perm("/nb/gynekologi/pcos", "/no/gynekologi/pmos"),

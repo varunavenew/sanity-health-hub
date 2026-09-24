@@ -13,6 +13,8 @@ export const SITEMAP_EXCLUDED_SLUGS = new Set([
   "procedure-reconstructive-surg",
   /** Ticket #185 — mixed hormone page 301s to /gynekologi/poi */
   "hormonforstyrrelser",
+  /** Ticket #417 — IVF 301s to Assistert befruktning #ivf */
+  "ivf",
 ]);
 
 /**
@@ -40,6 +42,11 @@ export const SITEMAP_EXCLUDED_PATHS = new Set([
   "/en/fertility/hysteroskopi",
   "/en/fertilitet/hysteroskopi",
   "/en/fertility/diagnostic-hysteroscopy",
+  /** Ticket #417 — IVF 301s to Assistert befruktning / assisted-reproduction */
+  "/no/fertilitet/ivf",
+  "/nb/fertilitet/ivf",
+  "/en/fertility/ivf",
+  "/en/fertilitet/ivf",
 ]);
 
 export function isSitemapExcludedSlug(slug: string | null | undefined): boolean {

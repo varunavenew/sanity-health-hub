@@ -8,6 +8,7 @@ import {
   proxyLegacySeRequest,
   readLegacySeOrigin,
 } from "@/lib/legacy-se-proxy";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 
 const LOCALE_PREFIX = new Set(locales);
 
@@ -79,6 +80,20 @@ function blodningTypoRedirect(request: NextRequest): NextResponse | null {
   return firstMatchingRedirect(request, BLODNING_TYPO_REDIRECTS);
 }
 
+/** Ticket #417 — retired IVF page → Assistert befruktning #ivf (preserves hash). */
+function ivfMigrationRedirect(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl;
+  const rewritten = rewriteRetiredIvfPath(pathname);
+  if (rewritten === pathname) return null;
+  const hashIdx = rewritten.indexOf("#");
+  const destPath = hashIdx >= 0 ? rewritten.slice(0, hashIdx) : rewritten;
+  const destHash = hashIdx >= 0 ? rewritten.slice(hashIdx + 1) : "";
+  const url = request.nextUrl.clone();
+  url.pathname = destPath;
+  if (destHash) url.hash = destHash;
+  return NextResponse.redirect(url, 301);
+}
+
 /** Only what's needed to render the 401 challenge itself — everything else is gated. */
 const GATE_BYPASS_RE = /^\/(_next\/|favicon\.ico$)/;
 
@@ -134,6 +149,9 @@ export async function proxy(request: NextRequest) {
   if (readLegacySeOrigin() && isLegacySeProxyPath(pathname)) {
     return proxyLegacySeRequest(request);
   }
+
+  const ivfRedirect = ivfMigrationRedirect(request);
+  if (ivfRedirect) return ivfRedirect;
 
   const hudlegeRedirect = hudlegeMigrationRedirect(request);
   if (hudlegeRedirect) return hudlegeRedirect;
