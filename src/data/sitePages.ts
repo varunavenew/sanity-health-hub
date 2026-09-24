@@ -59,7 +59,6 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/fertilitet/assistert-befruktning#ivf", name: "IVF", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/eggfrys", name: "Eggfrys", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/donorbehandling", name: "Donorbehandling", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/hysteroskopi", name: "Hysteroskopi (fert)", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/hyfosy", name: "Egglederundersøkelse (HyFoSy)", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/saedanalyse", name: "Sædanalyse", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/teamet", name: "Fertilitetsteamet", category: "Fertilitet – underbehandlinger" },

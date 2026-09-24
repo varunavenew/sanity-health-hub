@@ -91,7 +91,7 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Assistert befruktning med donor", path: "/behandlinger/fertilitet/donorbehandling" },
       { name: "Eggfrys", path: "/behandlinger/fertilitet/eggfrys" },
       { name: "Hormonforstyrrelser", path: "/gynekologi/poi" },
-      { name: "Hysteroskopi", path: "/behandlinger/fertilitet/hysteroskopi" },
+      { name: "Hysteroskopi", path: "/behandlinger/gynekologi/hysteroskopi" },
       { name: "Egglederundersøkelse (HyFoSy)", path: "/behandlinger/fertilitet/hyfosy" },
     ],
     faqs: [

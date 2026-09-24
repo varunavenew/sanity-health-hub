@@ -15,7 +15,7 @@ const NAV_TREATMENT_IDS = [
   "treatment-fertilitet-eggfrys",
   "treatment-fertilitet-donorbehandling",
   "treatment-fertilitet-assistert-befruktning-for-par-og-single",
-  "treatment-fertilitet-hysteroskopi",
+  // Ticket #415 — hysteroskopi only under gynekologi
   "treatment-fertilitet-hyfosy",
   "treatment-fertilitet-saedanalyse",
 ] as const;

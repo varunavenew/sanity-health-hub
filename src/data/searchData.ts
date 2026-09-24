@@ -56,7 +56,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Assistert befruktning med donor', path: '/behandlinger/fertilitet/donorbehandling', category: 'Fertilitet', keywords: ['donor', 'sæddonor', 'eggdonor'] },
   { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys', category: 'Fertilitet', keywords: ['fryse egg', 'bevare fertilitet', 'nedfrysning'] },
   { label: 'Hormonforstyrrelser', path: '/gynekologi/poi', category: 'Gynekologi', keywords: ['hormon', 'poi', 'pmos', 'pcos'] },
-  { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi', category: 'Fertilitet', keywords: ['kikkertundersøkelse', 'livmor'] },
+  { label: 'Hysteroskopi', path: '/behandlinger/gynekologi/hysteroskopi', category: 'Gynekologi', keywords: ['kikkertundersøkelse', 'livmor', 'office-hysteroskopi'] },
   { label: 'Egglederundersøkelse (HyFoSy)', path: '/behandlinger/fertilitet/hyfosy', category: 'Fertilitet', keywords: ['eggleder', 'hyfosy', 'hycosy', 'ultralyd'] },
 
   // Ortopedi

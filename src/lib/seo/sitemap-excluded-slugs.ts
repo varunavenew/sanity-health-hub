@@ -34,6 +34,12 @@ export const SITEMAP_EXCLUDED_PATHS = new Set([
   "/no/gynekologi/pcos",
   "/nb/gynekologi/pcos",
   "/en/gynecology/pmos",
+  /** Ticket #415 — fertilitet hysteroskopi 301s to gynekologi (keep gyn slug live) */
+  "/no/fertilitet/hysteroskopi",
+  "/nb/fertilitet/hysteroskopi",
+  "/en/fertility/hysteroskopi",
+  "/en/fertilitet/hysteroskopi",
+  "/en/fertility/diagnostic-hysteroscopy",
 ]);
 
 export function isSitemapExcludedSlug(slug: string | null | undefined): boolean {

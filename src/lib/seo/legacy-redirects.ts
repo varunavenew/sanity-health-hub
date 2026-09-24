@@ -333,6 +333,20 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   perm("/no/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
   perm("/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
 
+  // Ticket #415 — merge duplicate hysteroskopi; only under gynekologi (Aina 23 Sep).
+  perm("/no/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/nb/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/en/fertility/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/fertilitet/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/fertility/diagnostic-hysteroscopy", "/en/gynecology/hysteroskopi"),
+  perm("/no/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/nb/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/en/behandlinger/fertility/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/behandlinger/fertilitet/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/behandlinger/fertility/diagnostic-hysteroscopy", "/en/gynecology/hysteroskopi"),
+  perm("/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+
   // Ticket #416 — NO slug is `pmos`; EN slug is `pcos`. Alias soft-serve was 200.
   perm("/no/gynekologi/pcos", "/no/gynekologi/pmos"),
   perm("/nb/gynekologi/pcos", "/no/gynekologi/pmos"),

@@ -15,6 +15,7 @@ const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
 const uploadCache = new Map<string, string>();
 
 const FERT = "/fertilitet";
+const GYN = "/gynekologi";
 
 /** Local paths relative to src/assets — matches legacy Fertility.tsx imports where available. */
 const FERT_ASSET_PATHS = {
@@ -484,7 +485,7 @@ const landingPageBase = {
             _key: "sg1i6",
             title: i18nString("Hysteroskopi", "Hysteroscopy"),
             description: i18nString("Skånsom vurdering av livmorhulen", "Gentle assessment of the uterine cavity"),
-            href: `${FERT}/hysteroskopi`,
+            href: `${GYN}/hysteroskopi`,
           },
         ],
       },
