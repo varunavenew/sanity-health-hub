@@ -137,7 +137,6 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/other/robotassistert-kirurgi", "/no/urologi/robotassistert-kirurgi"),
   perm("/en/skin-health/hudpleieprodukter", "/no/ovrige/hudpleieprodukter"),
   perm("/en/specialists/carina-skeppner-tolvanen", "/en/specialists"),
-  perm("/en/specialists/henrik-michelsen-wahl", "/en/specialists"),
   perm("/en/specialists/line-jacob", "/en/specialists"),
   perm("/en/specialists/rebecca-ostlund", "/en/specialists"),
   perm("/no/karriere/markedskoordinator-prosjektleder", "/no/karriere"),
@@ -152,8 +151,6 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/nb/prisliste-for-ernaeringsfysiolog", "/nb/aktuelt/prisliste-for-ernaeringsfysiolog"),
   perm("/no/prisliste-for-hud", "/no/aktuelt/prisliste-for-hud"),
   perm("/nb/prisliste-for-hud", "/nb/aktuelt/prisliste-for-hud"),
-  perm("/no/spesialister/henrik-michelsen-wahl", "/no/spesialister"),
-  perm("/nb/spesialister/henrik-michelsen-wahl", "/no/spesialister"),
   perm("/no/spesialister/kristian-ophaug", "/no/spesialister"),
   perm("/nb/spesialister/kristian-ophaug", "/no/spesialister"),
 ];
@@ -230,7 +227,8 @@ const ROOT_ARTICLE_REDIRECTS: LegacyRedirect[] = [
 const EN_SPECIALIST_LISTING = "/en/specialists";
 /**
  * Live profiles — do not redirect to another doctor:
- * `/en/specialists/kjersti-margrete-finsrud`, `/en/specialists/lars-eldar-myrseth`.
+ * `/en/specialists/kjersti-margrete-finsrud`, `/en/specialists/lars-eldar-myrseth`,
+ * `/en/specialists/henrik-michelsen-wahl`.
  * Typo slug `cennet-akdeni` stays until Avenew publishes `cennet-akdeniz`.
  */
 const EN_SPECIALIST_REDIRECTS: LegacyRedirect[] = [
