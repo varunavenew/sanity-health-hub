@@ -27,6 +27,7 @@ import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
 import Services from "./pages/Services";
 import SpecialistProfile from "./pages/SpecialistProfile";
+import AshiAhmadProfile from "./pages/AshiAhmadProfile";
 import Specialists from "./pages/Specialists";
 import AboutSpecialists from "./pages/AboutSpecialists";
 import KvinnehelsePage from "./pages/themes/KvinnehelsePage";
@@ -226,6 +227,7 @@ const AppContent = () => {
         {/* Specialist routes */}
         <Route path="/om-spesialister" element={<AboutSpecialists isChatOpen={false} />} />
         <Route path="/spesialister" element={<Specialists isChatOpen={false} />} />
+        <Route path="/spesialister/ashi-ahmad" element={<AshiAhmadProfile isChatOpen={false} />} />
         <Route path="/spesialister/:slug" element={<SpecialistProfile isChatOpen={false} />} />
         {/* Booking demo */}
         <Route path="/booking" element={<BookingDemo />} />
