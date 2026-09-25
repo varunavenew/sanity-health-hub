@@ -10,6 +10,7 @@ import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel"
 import { FaqSection } from "@/components/layout/FaqSection";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatment } from "@/hooks/useSanity";
 import { getPortraitFocal } from "@/lib/specialistFocal";
