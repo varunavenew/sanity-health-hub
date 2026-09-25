@@ -96,23 +96,30 @@ const AshiTreatmentCards = () => {
   ];
 
   return (
-    <section className="bg-secondary/40 py-14 md:py-20 overflow-hidden">
-      <div className="page-shell mb-8 md:mb-12">
-        <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Dette hjelper Ashi deg med</h2>
-      </div>
-      <div className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-[var(--gutter)]">
-        {cards.map((card) => (
-          <Link key={card.title} to={card.to} className="w-[82vw] max-w-[340px] md:w-auto md:max-w-none md:basis-[calc((100%_-_48px_-_80px)/3)] basis-[82vw] shrink-0 snap-start bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden">
-            <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-              <img src={card.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
-            </div>
-            <div className="p-6 flex flex-col flex-1">
-              <h3 className="text-xl font-light text-foreground mb-3">{card.title}</h3>
-              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{card.text}</p>
-              <ReadMoreLink>Les mer</ReadMoreLink>
-            </div>
-          </Link>
-        ))}
+    <section className="bg-secondary/40 py-14 md:py-28">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-10 md:mb-14">Dette hjelper Ashi deg med</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
+            {cards.map((card) => (
+              <Link key={card.title} to={card.to} className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden">
+                <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div className="p-7 flex flex-col flex-1">
+                  <h3 className="text-xl font-light text-foreground mb-3">{card.title}</h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{card.text}</p>
+                  <ReadMoreLink>Les mer</ReadMoreLink>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
