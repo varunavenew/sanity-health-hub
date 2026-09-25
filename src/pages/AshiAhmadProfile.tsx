@@ -10,6 +10,7 @@ import { SpecialistCarousel } from "@/components/specialists/SpecialistCarousel"
 import { FaqSection } from "@/components/layout/FaqSection";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatment } from "@/hooks/useSanity";
 import { getPortraitFocal } from "@/lib/specialistFocal";
@@ -119,8 +120,8 @@ const AshiTreatmentCards = () => {
 
 const PregnancyFeature = () => (
   <section className="bg-brand-light">
-    <div className="grid md:grid-cols-2 min-h-[560px]">
-      <div className="flex items-center page-edge-text-left py-14 md:py-20">
+    <div className="grid md:grid-cols-2 md:h-[100svh]">
+      <div className="flex items-center page-edge-text-left py-14 md:py-0">
         <div className="max-w-xl">
           <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">Graviditet</h2>
           <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed mb-8">
@@ -129,9 +130,13 @@ const PregnancyFeature = () => (
           <ReadMoreLink to="/graviditet" tone="standalone">Se hele området</ReadMoreLink>
         </div>
       </div>
-      <div className="relative min-h-[420px] md:min-h-full">
-        <img src={FALLBACK_IMAGES.svangerskapsoppfolging} alt="Graviditetsoppfølging" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
-      </div>
+      <ParallaxImage
+        src={FALLBACK_IMAGES.svangerskapsoppfolging}
+        alt="Graviditetsoppfølging"
+        speed={0.18}
+        className="relative min-h-[420px] md:min-h-0 md:h-full overflow-hidden"
+        imgClassName="object-cover"
+      />
     </div>
   </section>
 );
