@@ -99,9 +99,9 @@ const AshiTreatmentCards = () => {
       <div className="page-shell mb-8 md:mb-12">
         <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Dette hjelper Ashi deg med</h2>
       </div>
-      <div className="flex md:grid md:grid-cols-4 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide px-[var(--gutter)] md:px-0 md:mx-auto md:max-w-[calc(100%-2*var(--gutter))]">
+      <div className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-[var(--gutter)]">
         {cards.map((card) => (
-          <Link key={card.title} to={card.to} className="w-[82vw] max-w-[340px] md:w-auto md:max-w-none shrink-0 snap-start bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden">
+          <Link key={card.title} to={card.to} className="w-[82vw] max-w-[340px] md:w-auto md:max-w-none md:basis-[calc((100%_-_48px_-_80px)/3)] basis-[82vw] shrink-0 snap-start bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden">
             <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
               <img src={card.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             </div>
