@@ -14,6 +14,7 @@ import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 import { useClinics } from "@/hooks/useSanity";
 import { useSpecialistHasAvailableSlots } from "@/hooks/useSpecialistHasAvailableSlots";
 import { resolveSpecialistPageClinics } from "@/lib/booking/specialist-page-clinics";
+import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 
 export const SPECIALIST_INLINE_BOOKING_SECTION_ID = "specialist-inline-booking";
 export const SPECIALIST_INLINE_BOOKING_STEPS_ID = "specialist-inline-booking-steps";
@@ -62,6 +63,23 @@ export function SpecialistPageBookingProvider({
   specialist: Specialist;
   children: ReactNode;
 }) {
+  if (!isSpecialistInlineBookingEnabled()) {
+    return <>{children}</>;
+  }
+  return (
+    <SpecialistPageBookingProviderActive specialist={specialist}>
+      {children}
+    </SpecialistPageBookingProviderActive>
+  );
+}
+
+function SpecialistPageBookingProviderActive({
+  specialist,
+  children,
+}: {
+  specialist: Specialist;
+  children: ReactNode;
+}) {
   const [bookingFocusKey, setBookingFocusKey] = useState(0);
   const { data: sanityClinics = [] } = useClinics();
   const pageClinics = useMemo(
@@ -85,7 +103,7 @@ export function SpecialistPageBookingProvider({
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null,
     });
     setBookingFocusKey((key) => key + 1);

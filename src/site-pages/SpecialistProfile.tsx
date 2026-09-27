@@ -33,8 +33,10 @@ import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import {
   specialistProfileBookingPending,
+  specialistShowsBookingButton,
   specialistShowsProfileBookingButton,
 } from "@/lib/sanity/specialist-cta";
+import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
@@ -201,22 +203,32 @@ function SpecialistProfileBody({
       />
       <SpecialistFAQBlock faqs={specialist.faqs} title={specialist.faqSectionTitle} />
 
-      {specialistProfileBookingPending(specialist, pageBooking) ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <Skeleton className="h-12 w-full rounded-2xl" aria-hidden="true" />
-        </div>
-      ) : specialistShowsProfileBookingButton(specialist, pageBooking) ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <SpecialistBookNowButton
-            specialist={specialist}
-            variant="default"
-            className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
-          >
-            <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-            {ui.bookingCtaLabel}
-          </SpecialistBookNowButton>
-        </div>
-      ) : null}
+      {(() => {
+        const inlineBooking = isSpecialistInlineBookingEnabled();
+        if (inlineBooking && specialistProfileBookingPending(specialist, pageBooking)) {
+          return (
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+              <Skeleton className="h-12 w-full rounded-2xl" aria-hidden="true" />
+            </div>
+          );
+        }
+        const showMobileBook = inlineBooking
+          ? specialistShowsProfileBookingButton(specialist, pageBooking)
+          : specialistShowsBookingButton(specialist);
+        if (!showMobileBook) return null;
+        return (
+          <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+            <SpecialistBookNowButton
+              specialist={specialist}
+              variant="default"
+              className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
+            >
+              <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
+              {ui.bookingCtaLabel}
+            </SpecialistBookNowButton>
+          </div>
+        );
+      })()}
     </PageLayout>
   );
 }

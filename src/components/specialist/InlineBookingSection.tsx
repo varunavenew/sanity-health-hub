@@ -37,6 +37,7 @@ import {
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
 import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
+import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
 import { Link, useLocaleParam, useNavigate } from "@/lib/router";
 import {
@@ -54,6 +55,11 @@ interface InlineBookingSectionProps {
 
 /** Brown booking band on specialist profiles — clinic first, then branch by system. */
 export function SpecialistInlineBookingBand({ specialist }: InlineBookingSectionProps) {
+  if (!isSpecialistInlineBookingEnabled()) return null;
+  return <SpecialistInlineBookingBandActive specialist={specialist} />;
+}
+
+function SpecialistInlineBookingBandActive({ specialist }: InlineBookingSectionProps) {
   const ui = useSpecialistProfileUi();
   const pageBooking = useSpecialistPageBookingOptional();
   const { data: sanityClinics = [] } = useClinics();
@@ -240,7 +246,7 @@ function PasientskyBookingCta({
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: clinic.label,
     });
     navigate(
@@ -504,7 +510,7 @@ function MetodikaTreatmentPicker({
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: clinic.label,
       category: categorySlug,
       service_name: serviceName,
@@ -629,7 +635,7 @@ function MetodikaTreatmentPicker({
               trackBookingMenuStart({
                 entry_point: "specialist_page",
                 practitioner: specialist.name,
-                specialty: specialist.title || specialist.expertise?.[0] || null,
+                specialty: specialist.title || specialist.expertise?.[0]?.label || null,
                 clinic: clinic.label,
               });
             }}

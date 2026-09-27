@@ -43,3 +43,16 @@ export function isAccessGateEnabled(): boolean {
   return !isProductionDeploy();
 }
 
+/**
+ * In-page specialist booking (brown band, clinic picker, Metodika treatments, slot probe).
+ *
+ * Set `NEXT_PUBLIC_SPECIALIST_INLINE_BOOKING=true` on staging/preview/local.
+ * Set `false` on Vercel Production (or rely on default: off on production deploy).
+ */
+export function isSpecialistInlineBookingEnabled(): boolean {
+  const raw = process.env.NEXT_PUBLIC_SPECIALIST_INLINE_BOOKING?.trim().toLowerCase();
+  if (raw === "true") return true;
+  if (raw === "false") return false;
+  return !isProductionDeploy();
+}
+
