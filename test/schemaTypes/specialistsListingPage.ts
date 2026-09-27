@@ -116,6 +116,11 @@ export default {
           'Booking - no available slots',
           'Shown on treatments with no online times for this specialist. NO: Ingen ledige timer. EN: No available slots.',
         ),
+        profileUiStringField(
+          'bookingCallToBookLabel',
+          'Booking - call to book (no online slots)',
+          'Treatment row call button when slots are unavailable. NO: Ring for å booke. EN: Call to book.',
+        ),
         profileUiStringField('bookingViewAllLabel', 'Booking - view all services'),
         profileUiStringField('anonymousReviewLabel', 'Anonymous reviewer – name'),
       ],

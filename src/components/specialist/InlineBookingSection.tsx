@@ -981,7 +981,8 @@ function MetodikaTreatmentPicker({
                               variant="lightSolid"
                               size="default"
                               specialist={specialist}
-                              label={ui.heroCallUsLabel}
+                              label={ui.bookingCallToBookLabel}
+                              directTelWhenSingleClinic
                               menuPlacement="top"
                               menuAlign="end"
                               className="shrink-0 whitespace-nowrap"

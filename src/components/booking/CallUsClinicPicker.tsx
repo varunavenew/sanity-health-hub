@@ -29,6 +29,8 @@ interface Props {
   menuAlign?: "stretch" | "end";
   /** Limit to clinics this specialist works at (profile page). */
   specialist?: Specialist;
+  /** One clinic: `tel:` link without chevron; two or more: dropdown with chevron. */
+  directTelWhenSingleClinic?: boolean;
   className?: string;
 }
 
@@ -44,6 +46,7 @@ export const CallUsClinicPicker = ({
   menuPlacement = "bottom",
   menuAlign = "stretch",
   specialist,
+  directTelWhenSingleClinic = false,
   className
 }: Props & { className?: string }) => {
   const navigate = useNavigate();
@@ -63,6 +66,13 @@ export const CallUsClinicPicker = ({
   // Nothing to call for this category — drop the CTA rather than open an empty
   // menu. Rendered while loading so the button does not flash out and back in.
   if (!pending && callable.length === 0) return null;
+
+  const displayLabel = label ?? t("booking.callUs");
+  const showClinicMenu = !directTelWhenSingleClinic || callable.length > 1;
+  const singleClinic =
+    directTelWhenSingleClinic && !pending && callable.length === 1
+      ? callable[0]
+      : null;
 
   const buttonVariant =
     variant === "cta"
@@ -86,21 +96,36 @@ export const CallUsClinicPicker = ({
     .filter(Boolean)
     .join(" ");
 
+  if (singleClinic) {
+    return (
+      <Button
+        variant={buttonVariant}
+        size={size}
+        className={cn(solidLightClass, className)}
+        asChild
+      >
+        <a href={`tel:${singleClinic.phone.replace(/\s/g, "")}`}>{displayLabel}</a>
+      </Button>
+    );
+  }
+
   return (
     <div className={["relative", widthOnWrapper].filter(Boolean).join(" ")} ref={ref}>
       <Button
         variant={buttonVariant}
         size={size}
         className={cn(solidLightClass, className)}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => showClinicMenu && setOpen((o) => !o)}
       >
-        {label ?? t("booking.callUs")}
-        <ChevronDown
-          className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
-        />
+        {displayLabel}
+        {showClinicMenu ? (
+          <ChevronDown
+            className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+          />
+        ) : null}
       </Button>
 
-      {open && (
+      {open && showClinicMenu && (
         <div
           className={cn(
             "absolute z-50 min-w-[240px] max-w-[min(260px,calc(100vw-2rem))] overflow-hidden rounded-lg border border-border bg-white shadow-xl",

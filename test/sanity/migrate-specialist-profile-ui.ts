@@ -43,6 +43,7 @@ const profileUi = {
     'No bookable services are available right now. Try the booking page for the full overview.',
   ),
   bookingNoAvailableSlotsLabel: i18nString('Ingen ledige timer', 'No available slots'),
+  bookingCallToBookLabel: i18nString('Ring for å booke', 'Call to book'),
   bookingViewAllLabel: i18nString('Se alle tjenester og priser', 'See all services and prices'),
   anonymousReviewLabel: i18nString('Anonym', 'Anonymous'),
 }

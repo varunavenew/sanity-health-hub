@@ -19,6 +19,8 @@ export type SpecialistProfileUi = {
   bookingEmptyMessage: string;
   /** Inline treatment row when this service has no bookable times for the specialist. */
   bookingNoAvailableSlotsLabel: string;
+  /** Call CTA on treatment rows without online slots (e.g. «Ring for å booke»). */
+  bookingCallToBookLabel: string;
   bookingViewAllLabel: string;
   anonymousReviewLabel: string;
 };
@@ -71,6 +73,7 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingEmptyMessage:
       "Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.",
     bookingNoAvailableSlotsLabel: "Ingen ledige timer",
+    bookingCallToBookLabel: "Ring for å booke",
     bookingViewAllLabel: "Se alle tjenester og priser",
     anonymousReviewLabel: "Anonym",
   },
@@ -93,6 +96,7 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingEmptyMessage:
       "No bookable services are available right now. Try the booking page for the full overview.",
     bookingNoAvailableSlotsLabel: "No available slots",
+    bookingCallToBookLabel: "Call to book",
     bookingViewAllLabel: "See all services and prices",
     anonymousReviewLabel: "Anonymous",
   },
@@ -119,6 +123,7 @@ const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
   "bookingAvailabilityCheckingLabel",
   "bookingEmptyMessage",
   "bookingNoAvailableSlotsLabel",
+  "bookingCallToBookLabel",
   "bookingViewAllLabel",
   "anonymousReviewLabel",
 ];
