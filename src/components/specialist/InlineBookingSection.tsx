@@ -240,7 +240,7 @@ function PasientskyBookingCta({
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: clinic.label,
     });
     navigate(
@@ -504,7 +504,7 @@ function MetodikaTreatmentPicker({
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0] || null,
+      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
       clinic: clinic.label,
       category: categorySlug,
       service_name: serviceName,
@@ -629,7 +629,7 @@ function MetodikaTreatmentPicker({
               trackBookingMenuStart({
                 entry_point: "specialist_page",
                 practitioner: specialist.name,
-                specialty: specialist.title || specialist.expertise?.[0] || null,
+                specialty: specialist.title || specialist.expertise?.[0]?.label || null,
                 clinic: clinic.label,
               });
             }}
