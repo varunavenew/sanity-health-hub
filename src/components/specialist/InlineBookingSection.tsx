@@ -25,6 +25,7 @@ import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpe
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
   moelvPasientskyClinicFromPageClinics,
+  metodikaClinicLocationIds,
   resolveMetodikaLocationIdForActivity,
   resolveSpecialistPageClinics,
   specialistPageClinicHasBookableOnlineSlots,
@@ -43,6 +44,8 @@ import {
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
+import { allowedWbActivityIdSetForCaregiverAtLocations } from "@/lib/booking/wbactivitiesMatrix";
+import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
 import { cn } from "@/lib/utils";
@@ -159,6 +162,7 @@ function InlineBookingSection({
     );
   const {
     allowedIds,
+    activities: caregiverActivities,
     durationMinutesByActivityId,
     loading: wbActivitiesLoading,
   } = useCaregiverWbActivities(
@@ -298,6 +302,7 @@ function InlineBookingSection({
             metodikaCategories={metodikaCategories}
             categoriesLoading={categoriesLoading}
             allowedIds={allowedIds}
+            caregiverActivities={caregiverActivities}
             durationMinutesByActivityId={durationMinutesByActivityId}
             wbActivitiesLoading={wbActivitiesLoading}
             caregiverUserId={caregiverUserId}
@@ -552,6 +557,7 @@ function ClinicBookingBranch({
   metodikaCategories,
   categoriesLoading,
   allowedIds,
+  caregiverActivities,
   durationMinutesByActivityId,
   wbActivitiesLoading,
   caregiverUserId,
@@ -565,6 +571,7 @@ function ClinicBookingBranch({
   metodikaCategories: BookingCategoryFromApi[];
   categoriesLoading: boolean;
   allowedIds: Set<number>;
+  caregiverActivities: WbActivityMatrixEntry[];
   durationMinutesByActivityId: Map<number, number>;
   wbActivitiesLoading: boolean;
   caregiverUserId: number | undefined;
@@ -592,6 +599,7 @@ function ClinicBookingBranch({
       metodikaCategories={metodikaCategories}
       categoriesLoading={categoriesLoading}
       allowedIds={allowedIds}
+      caregiverActivities={caregiverActivities}
       durationMinutesByActivityId={durationMinutesByActivityId}
       wbActivitiesLoading={wbActivitiesLoading}
       caregiverUserId={caregiverUserId}
@@ -698,6 +706,7 @@ function MetodikaTreatmentPicker({
   metodikaCategories,
   categoriesLoading,
   allowedIds,
+  caregiverActivities,
   durationMinutesByActivityId,
   wbActivitiesLoading,
   caregiverUserId,
@@ -711,6 +720,7 @@ function MetodikaTreatmentPicker({
   metodikaCategories: BookingCategoryFromApi[];
   categoriesLoading: boolean;
   allowedIds: Set<number>;
+  caregiverActivities: WbActivityMatrixEntry[];
   durationMinutesByActivityId: Map<number, number>;
   wbActivitiesLoading: boolean;
   caregiverUserId: number | undefined;
@@ -728,24 +738,39 @@ function MetodikaTreatmentPicker({
 
   const dateLang = isEn ? "en" : "no";
   const navigate = useNavigate();
+
+  const allowedIdsAtClinic = useMemo(() => {
+    if (caregiverUserId == null) return new Set<number>();
+    if (clinic.kind !== "metodika") return allowedIds;
+    return allowedWbActivityIdSetForCaregiverAtLocations(
+      caregiverActivities,
+      caregiverUserId,
+      metodikaClinicLocationIds(clinic),
+    );
+  }, [
+    allowedIds,
+    caregiverActivities,
+    caregiverUserId,
+    clinic,
+  ]);
+
   const caregiverCategories = useMemo(() => {
     const filtered = filterSpecialistBookingCategories(specialist, metodikaCategories);
-    if (caregiverUserId == null || allowedIds.size === 0) return [];
+    if (caregiverUserId == null || allowedIdsAtClinic.size === 0) return [];
     return filtered
       .map((category) => ({
         ...category,
         services: filterServicesForCaregiverWbActivities(
           category.services,
-          allowedIds,
+          allowedIdsAtClinic,
         ).filter((service) => service.apiActivityId != null),
       }))
       .filter((category) => category.services.length > 0);
   }, [
     specialist,
     metodikaCategories,
-    allowedIds,
+    allowedIdsAtClinic,
     caregiverUserId,
-    activityBookableAtClinic,
   ]);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 

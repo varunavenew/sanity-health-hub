@@ -5,6 +5,7 @@ import {
   locationIdsForCaregiverOnActivity,
   locationIdsForWbActivity,
   parseWbActivitiesMatrix,
+  wbactivityIdsForCaregiver,
   type WbActivityMatrixEntry,
 } from "@/lib/booking/wbactivitiesMatrix";
 import {
@@ -17,7 +18,7 @@ const WBACTIVITIES_FIELDS =
   "timelength,pricetype,supplementaryinformation,location";
 
 /** Specialist profile: server-side caregiver filter + duration + booking group. */
-const WBACTIVITIES_CAREGIVER_FIELDS = "timelength,wbactivitygroup-id";
+const WBACTIVITIES_CAREGIVER_FIELDS = "timelength,wbactivitygroup-id,location";
 
 function wbactivitiesUrl(): string {
   return wbactivitiesListUrl({ fields: WBACTIVITIES_FIELDS });
@@ -97,9 +98,10 @@ export async function GET(request: Request) {
         apiKey,
       );
       const activities = parseWbActivitiesMatrix(payload);
-      const wbactivityIds = activities
-        .map((entry) => entry.wbactivityId)
-        .sort((a, b) => a - b);
+      const hasLocationMatrix = activities.some((entry) => entry.locations.length > 0);
+      const wbactivityIds = hasLocationMatrix
+        ? wbactivityIdsForCaregiver(activities, caregiverUserId)
+        : activities.map((entry) => entry.wbactivityId).sort((a, b) => a - b);
       return NextResponse.json(
         {
           ok: true,

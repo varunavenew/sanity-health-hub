@@ -150,3 +150,37 @@ export function caregiverPerformsActivityAtLocation(
   if (!loc) return false;
   return loc.caregivers.some((cg) => cg.userId === caregiverUserId);
 }
+
+/** wbactivity ids the caregiver may perform at any of the given Metodika locations. */
+export function wbactivityIdsForCaregiverAtLocations(
+  matrix: WbActivityMatrixEntry[],
+  caregiverUserId: number,
+  locationIds: number[],
+): number[] {
+  const locSet = new Set(
+    locationIds.filter((id) => Number.isFinite(id) && id > 0),
+  );
+  if (locSet.size === 0) {
+    return wbactivityIdsForCaregiver(matrix, caregiverUserId);
+  }
+  const ids = new Set<number>();
+  for (const entry of matrix) {
+    const allowed = entry.locations.some(
+      (loc) =>
+        locSet.has(loc.locationId) &&
+        loc.caregivers.some((cg) => cg.userId === caregiverUserId),
+    );
+    if (allowed) ids.add(entry.wbactivityId);
+  }
+  return [...ids].sort((a, b) => a - b);
+}
+
+export function allowedWbActivityIdSetForCaregiverAtLocations(
+  matrix: WbActivityMatrixEntry[],
+  caregiverUserId: number,
+  locationIds: number[],
+): Set<number> {
+  return new Set(
+    wbactivityIdsForCaregiverAtLocations(matrix, caregiverUserId, locationIds),
+  );
+}
