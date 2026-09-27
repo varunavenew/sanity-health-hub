@@ -2,6 +2,7 @@
 
 import { Fragment, type ReactNode } from "react";
 import type { PageSection } from "@/lib/sanity/page-sections";
+import type { BookingLinkParams } from "@/lib/bookingLinks";
 import {
   ensurePageSectionKeys,
   filterMeaningfulPageSections,
@@ -25,6 +26,8 @@ type Props = {
   excludeTypes?: Array<PageSection["_type"]>;
   /** Passed through to specialists carousel (category landings use flush cards). */
   specialistsLayoutVariant?: "default" | "category";
+  /** Treatment booking group passed through to specialist name / book CTAs. */
+  bookingContext?: BookingLinkParams;
 };
 
 export function PageSectionsRenderer({
@@ -33,6 +36,7 @@ export function PageSectionsRenderer({
   beforeBookingCta,
   excludeTypes,
   specialistsLayoutVariant = "default",
+  bookingContext,
 }: Props) {
   if (!sections?.length) {
     return (
@@ -85,6 +89,7 @@ export function PageSectionsRenderer({
               <PageSectionSpecialistsBlock
                 config={section}
                 layoutVariant={specialistsLayoutVariant}
+                bookingContext={bookingContext}
               />
               {afterSpecialists}
             </Fragment>

@@ -749,6 +749,68 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
+/* Specialist desktop hero — half-column frame; image width steps with zoom. */
+@media (min-width: 1024px) {
+  .specialist-hero-desktop {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 640px;
+    align-items: stretch;
+  }
+
+  .specialist-hero-photo-col {
+    position: relative;
+    min-height: 640px;
+  }
+
+  .specialist-hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+
+  .specialist-hero-photo > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+  }
+}
+
+/* 90% zoom on 1920 ≈ 2133px */
+@media (min-width: 2000px) {
+  .specialist-hero-photo > * {
+    width: 70%;
+    right: auto;
+  }
+}
+
+/* 80% zoom on 1920 ≈ 2400px */
+@media (min-width: 2300px) {
+  .specialist-hero-photo > * {
+    width: 60%;
+    right: auto;
+  }
+}
+
+/* 70% zoom on 1920 ≈ 2743px */
+@media (min-width: 2650px) {
+  .specialist-hero-photo > * {
+    width: 50%;
+    right: auto;
+  }
+}
+
+/* 60% zoom on 1920 ≈ 3200px */
+@media (min-width: 3000px) {
+  .specialist-hero-photo > * {
+    width: 45%;
+    right: auto;
+  }
+}
+
 /* Fill the column even when only min-height is set (stacked / zoomed viewports). */
 .split-media > * {
   position: absolute;

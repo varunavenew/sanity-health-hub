@@ -114,7 +114,7 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
     related: [
       { title: "Endometriose", desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer for grundig vurdering.", href: "/behandlinger/gynekologi/endometriose" },
       { title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { title: "PMOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "PMOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pmos" },
     ],
     ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
@@ -360,11 +360,11 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
   },
 
   /* ───────────────────────── PMOS ───────────────────────── */
-  pcos: {
+  pmos: {
     seoTitle: "PMOS | CMedical — utredning og oppfølging",
     seoDescription:
       "Spesialisert utredning og oppfølging av PMOS (polycystisk ovariesyndrom) — gjennom alle faser av livet.",
-    canonical: "/behandlinger/gynekologi/pcos",
+    canonical: "/behandlinger/gynekologi/pmos",
     parent,
     title: "PMOS",
     heroTitle: <>PMOS er mer enn <span className="italic">cyster</span></>,
@@ -377,7 +377,7 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
       { title: "Langsiktig oppfølging", desc: "PMOS følger deg gjennom livet — vi gjør det også." },
     ],
     rating: "4,8 — Spesialister på kvinnehelse",
-    booking: { ...baseBooking, tjeneste: "pcos" },
+    booking: { ...baseBooking, tjeneste: "pmos" },
     primaryCtaLabel: "Bestill utredning",
     flowTitle: "Slik utreder vi PMOS",
     flow: [
@@ -546,7 +546,7 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
     ],
     promises: standardPromises,
     related: [
-      { title: "PMOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "PMOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pmos" },
       { title: "Overgangsalder", desc: "PMDD kan endre karakter mot perimenopausen — og kreve ny tilnærming.", href: "/behandlinger/gynekologi/overgangsalder" },
       { title: "Endometriose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
     ],
@@ -649,7 +649,7 @@ export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = 
     promises: standardPromises,
     related: [
       { title: "Endometriose", desc: "Endometriomer (sjokoladecyster) er en form for endometriose med egne behandlingsbehov.", href: "/behandlinger/gynekologi/endometriose" },
-      { title: "PMOS", desc: "Mange små cyster på eggstokkene kan være tegn på PMOS.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "PMOS", desc: "Mange små cyster på eggstokkene kan være tegn på PMOS.", href: "/behandlinger/gynekologi/pmos" },
       { title: "Robotassistert kirurgi", desc: "Skånsom kirurgi for komplekse eller store cyster.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Få vurdert en cyste hos spesialist",

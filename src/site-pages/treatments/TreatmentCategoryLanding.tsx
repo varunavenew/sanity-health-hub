@@ -513,32 +513,34 @@ function EmergencyNotice({
   );
 }
 
+type LifePhasesBreakpointLayout = "carousel" | "accordion";
+
 function LifePhasesCarousel({
   phases,
   variant: _variant = "default",
-  layout: _layout = "grid",
+  mobileLayout = "carousel",
+  desktopLayout = "accordion",
   showReadMore = true,
   emergencyNoticeText,
 }: {
   phases: LifePhase[];
   variant?: "default" | "fertility";
-  /**
-   * Kept for CMS compat. Demo always uses mobile snap cards + md+ accordion
-   * (avenewdemo `pd` LifePhases), so layout no longer forces accordion-only.
-   */
-  layout?: "grid" | "accordion";
+  /** CMS: carousel = horizontal snap cards; accordion = expandable list. */
+  mobileLayout?: LifePhasesBreakpointLayout;
+  desktopLayout?: LifePhasesBreakpointLayout;
   /** CMS toggle: hide Les mer under each card when false. */
   showReadMore?: boolean;
   /** Shown inside the Akutt skade eller smerte item (Ortopedi). */
   emergencyNoticeText?: string;
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+  const desktopScrollRef = useRef<HTMLDivElement>(null);
 
-  const accordion = (
+  const renderAccordion = (keyPrefix: string) => (
     <Accordion type="single" collapsible className="w-full">
       {phases.map((phase, index) => (
         <AccordionItem
-          key={`${phase.title}-${index}`}
+          key={`${keyPrefix}-${phase.title}-${index}`}
           value={phase.n || phase.title}
           className="border-b border-border/30"
         >
@@ -594,70 +596,89 @@ function LifePhasesCarousel({
     </Accordion>
   );
 
-  // Demo: mobile horizontal snap cards (w-[92%], next card peeks) → md+ accordion
+  const renderCarousel = (
+    scrollRef: React.RefObject<HTMLDivElement | null>,
+    keyPrefix: string,
+    edgeBleed: boolean,
+    arrowsVisibility: "mobile" | "desktop" | "all",
+  ) => (
+    <>
+      <div
+        ref={scrollRef}
+        className={
+          edgeBleed
+            ? "flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
+            : "flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+        }
+        style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+      >
+        {phases.map((phase, index) => (
+          <article
+            key={`${keyPrefix}-${phase.title}-${index}`}
+            className="shrink-0 w-[92%] snap-start bg-background rounded-sm border border-border/40 flex flex-col p-6"
+          >
+            <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
+              {phase.title}
+            </h3>
+            {phase.desc.trim() ? (
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
+                {phase.desc}
+              </p>
+            ) : null}
+            {phase.tags && phase.tags.length > 0 ? (
+              <div className="mb-4">
+                {phase.tags.map((tag, tagIndex) =>
+                  tag.href ? (
+                    <Link
+                      key={`${tag.label}-${tag.href}-${tagIndex}`}
+                      to={tag.href}
+                      className="flex items-center justify-between py-2 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
+                    >
+                      <span>{tag.label}</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+                    </Link>
+                  ) : (
+                    <div
+                      key={`${tag.label}-${tagIndex}`}
+                      className="py-2 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
+                    >
+                      {tag.label}
+                    </div>
+                  ),
+                )}
+              </div>
+            ) : null}
+            {showReadMore && phase.href && phase.cta ? (
+              <Link
+                to={phase.href}
+                className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
+              >
+                {phase.cta}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            ) : null}
+            {emergencyNoticeText && isAkuttSegment(phase.n, phase.title) ? (
+              <EmergencyNotice text={emergencyNoticeText} className="mt-3" />
+            ) : null}
+          </article>
+        ))}
+      </div>
+      <ScrollArrows scrollRef={scrollRef} visibility={arrowsVisibility} />
+    </>
+  );
+
   return (
     <>
       <div className="md:hidden">
-        <div
-          ref={scrollRef}
-          className="flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
-          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
-        >
-          {phases.map((phase, index) => (
-            <article
-              key={`${phase.title}-${index}`}
-              className="shrink-0 w-[92%] snap-start bg-background rounded-sm border border-border/40 flex flex-col p-6"
-            >
-              <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
-                {phase.title}
-              </h3>
-              {phase.desc.trim() ? (
-                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
-                  {phase.desc}
-                </p>
-              ) : null}
-              {phase.tags && phase.tags.length > 0 ? (
-                <div className="mb-4">
-                  {phase.tags.map((tag, tagIndex) =>
-                    tag.href ? (
-                      <Link
-                        key={`${tag.label}-${tag.href}-${tagIndex}`}
-                        to={tag.href}
-                        className="flex items-center justify-between py-2 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
-                      >
-                        <span>{tag.label}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
-                      </Link>
-                    ) : (
-                      <div
-                        key={`${tag.label}-${tagIndex}`}
-                        className="py-2 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
-                      >
-                        {tag.label}
-                      </div>
-                    ),
-                  )}
-                </div>
-              ) : null}
-              {showReadMore && phase.href && phase.cta ? (
-                <Link
-                  to={phase.href}
-                  className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
-                >
-                  {phase.cta}
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              ) : null}
-              {emergencyNoticeText && isAkuttSegment(phase.n, phase.title) ? (
-                <EmergencyNotice text={emergencyNoticeText} className="mt-3" />
-              ) : null}
-            </article>
-          ))}
-        </div>
-        <ScrollArrows scrollRef={scrollRef} />
+        {mobileLayout === "carousel"
+          ? renderCarousel(mobileScrollRef, "m", true, "mobile")
+          : renderAccordion("m")}
       </div>
-
-      <div className="hidden md:block">{accordion}</div>
+      <div className="hidden md:block">
+        {desktopLayout === "carousel"
+          ? renderCarousel(desktopScrollRef, "d", false, "desktop")
+          : renderAccordion("d")}
+      </div>
     </>
   );
 }
@@ -1149,7 +1170,8 @@ const TreatmentCategoryLanding = ({
               <LifePhasesCarousel
                 phases={segmentsSection.segments.map(segmentToLifePhase)}
                 variant={isFertility ? "fertility" : "default"}
-                layout={segmentsSection.layout}
+                mobileLayout={segmentsSection.mobileLayout}
+                desktopLayout={segmentsSection.desktopLayout}
                 showReadMore={segmentsSection.showReadMore}
                 emergencyNoticeText={accordionEmergencyNotice}
               />

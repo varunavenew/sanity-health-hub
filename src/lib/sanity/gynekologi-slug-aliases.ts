@@ -39,6 +39,11 @@ export const GYNEKOLOGI_SLUG_ALIASES: Record<string, string> = {
    * (vaginal tørrhet is a topic on that treatment).
    */
   "vaginal-torrhet": "vulvalidelser",
+  /**
+   * Locale slug aliases — lookup only. Non-canonical URLs 301 via
+   * `redirectTreatmentIfNotCanonical` + LEGACY_REDIRECTS (ticket #416).
+   * NO canonical is `pmos`; EN canonical is `pcos`.
+   */
   pcos: "pmos",
   pmos: "pcos",
   "multidisciplinary-team": "tverrfaglig",

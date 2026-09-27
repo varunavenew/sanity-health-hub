@@ -31,10 +31,13 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
-import { specialistProfileBookingPending, specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
+import {
+  specialistProfileBookingPending,
+  specialistShowsProfileBookingButton,
+} from "@/lib/sanity/specialist-cta";
 import { Skeleton } from "@/components/ui/skeleton";
-import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
+import { trackSpecialistView } from "@/lib/tracking/form-events";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;

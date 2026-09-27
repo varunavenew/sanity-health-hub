@@ -10,7 +10,7 @@ export const FERTILITET_NAV_TREATMENT_SLUGS = [
   "eggfrys",
   "donorbehandling",
   "assistert-befruktning-for-par-og-single",
-  "hysteroskopi",
+  // Ticket #415 — hysteroskopi lives only under gynekologi (301 from fert paths)
   "hyfosy",
   "saedanalyse",
 ] as const;
@@ -31,7 +31,6 @@ export const FERTILITET_SLUG_ALIASES: Record<string, string> = {
   "assisted-reproduction": "assistert-befruktning",
   "egg-freezing": "eggfrys",
   "donor-treatment": "donorbehandling",
-  "diagnostic-hysteroscopy": "hysteroskopi",
   egglederundersokelse: "hyfosy",
   hycosy: "hyfosy",
   "fallopian-tube-examination": "hyfosy",

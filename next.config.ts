@@ -167,15 +167,12 @@ const nextConfig: NextConfig = {
       { source: "/og-default.png", destination: "/og-default.jpg", permanent: true },
 
       // SEO audit redirects (batch 3 + 4) — before wildcards so exact paths win.
+      // Includes ticket #416 PCOS/PMOS locale canonicals (NO pcos→pmos, EN pmos→pcos).
       ...LEGACY_REDIRECTS,
 
       // Legacy singleton folders → CMS slug routes (defaults until Studio changes slugs).
       { source: "/:locale(nb|no)/tjenester-og-priser", destination: "/:locale/tjenester", permanent: true },
       { source: "/:locale(en)/tjenester-og-priser", destination: "/:locale/services", permanent: true },
-
-      // EN treatment slug changed to match the term English searchers use (PCOS, not the NO abbreviation PMOS).
-      { source: "/en/gynecology/pmos", destination: "/en/gynecology/pcos", permanent: true },
-      { source: "/en/behandlinger/gynekologi/pmos", destination: "/en/behandlinger/gynekologi/pcos", permanent: true },
 
       // Plastikkirurgi retired — CMedical does not offer plastic surgery.
       // Destination (/ovrige or /other) pending final SEO sign-off with Erlend.

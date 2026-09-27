@@ -295,7 +295,7 @@ const fertilitet: CategoryNewContent = {
     "Assistert befruktning med donor": "/behandlinger/fertilitet/donorbehandling",
     "Eggfrys": "/behandlinger/fertilitet/eggfrys",
     "Sædanalyse": "/behandlinger/fertilitet/saedanalyse",
-    "Hysteroskopi": "/behandlinger/fertilitet/hysteroskopi",
+    "Hysteroskopi": "/behandlinger/gynekologi/hysteroskopi",
     "Vårt team": "/behandlinger/fertilitet/teamet",
   },
   groups: [

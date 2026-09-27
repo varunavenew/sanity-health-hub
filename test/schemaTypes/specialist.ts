@@ -14,11 +14,13 @@ import {
   bookingActivityGroupList,
 } from './bookingActivityGroups'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
+import { SpecialistTreatmentsInput } from '../sanity/components/SpecialistTreatmentsInput'
 import {
   composeImageValidation,
   mediaDescription,
   mediaImageOptions,
 } from './mediaGuidelines'
+import mediaObject from './objects/media'
 
 const reqI18n = requiredNoEnI18n
 
@@ -149,12 +151,39 @@ export default {
     {
       name: 'heroMedia',
       title: 'Hero Media',
-      type: 'media',
+      // Inline the shared media fields so Image help text is specialist 4:5
+      // (shared `media` type always shows the generic 1600×900 hint).
+      type: 'object',
       group: 'general',
       description: mediaDescription(
         'specialist',
         'Preferred profile / hero media (Image or Video).',
       ),
+      fields: mediaObject.fields.map((field: {name: string; components?: unknown}) => {
+        if (field.name !== 'image') return field
+        const {components: _omit, ...rest} = field
+        return {
+          ...rest,
+          options: mediaImageOptions('specialist'),
+          description: mediaDescription('specialist'),
+          validation: composeImageValidation('specialist', (Rule: any) =>
+            Rule.custom(
+              (
+                value: unknown,
+                context: {parent?: {mediaType?: string}},
+              ) => {
+                if ((context.parent?.mediaType ?? 'image') !== 'image') return true
+                if ((value as {asset?: {_ref?: string}} | undefined)?.asset?._ref) {
+                  return true
+                }
+                return 'Image is required when Media Type is Image'
+              },
+            ),
+          ),
+        }
+      }),
+      validation: mediaObject.validation,
+      preview: mediaObject.preview,
     },
     {
       name: 'role',
@@ -180,13 +209,11 @@ export default {
       of: [
         {
           type: 'reference',
-          weak: true,
           to: [{ type: 'specialistTag' }],
         },
       ],
       description:
-        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones. Tags do not need to be published to be selected.',
-      validation: (Rule: any) =>
+      'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones.',      validation: (Rule: any) =>
         Rule.required()
           .min(1)
           .unique()
@@ -207,6 +234,39 @@ export default {
       ],
       validation: (Rule: any) =>
         Rule.required().min(1).error('Select at least one treatment category'),
+    },
+    {
+      name: 'appearingOnTreatments',
+      title: 'Treatments',
+      type: 'array',
+      group: 'general',
+      description:
+        'Treatment pages that show this specialist. Add a treatment to show them there; remove it to take them off that page. The treatment pages are updated when you publish this specialist.',
+      of: [
+        {
+          type: 'reference',
+          weak: true,
+          to: [{type: 'treatment'}],
+          options: {
+            // Only published treatments: draft-only pages are not on the website yet.
+            filter: '!(_id in path("drafts.**"))',
+          },
+        },
+      ],
+      components: {
+        input: SpecialistTreatmentsInput,
+      },
+    },
+    {
+      // Last Treatments list known to match the treatment pages. Publish applies
+      // only the editor's changes since then. Managed by Studio.
+      name: 'treatmentsBaseline',
+      title: 'Treatments (last synced)',
+      type: 'array',
+      group: 'general',
+      of: [{type: 'string'}],
+      hidden: true,
+      readOnly: true,
     },
     {
       name: 'treatments',

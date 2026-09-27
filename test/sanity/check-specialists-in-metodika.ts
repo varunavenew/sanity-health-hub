@@ -1,13 +1,11 @@
 #!/usr/bin/env npx tsx
 /**
- * Developer-only: match Sanity specialists to live Metodika caregivers
- * and store metodikaUserId so booking step 3 can load the CMS photo.
+ * Daily check: every Sanity specialist at a Metodika clinic must exist in
+ * Metodika. Moss (phone/info) and Moelv (pasientsky) are skipped on purpose.
  *
- * Only specialists at Metodika clinics (booking.method === "metodika") are
- * matched. Moss (phone/info) and Moelv (pasientsky) are skipped.
+ *   cd test && npx tsx sanity/check-specialists-in-metodika.ts
  *
- *   cd test && npx tsx sanity/patch-specialist-metodika-user-ids-developer.ts
- *   cd test && npx tsx sanity/patch-specialist-metodika-user-ids-developer.ts --write
+ * Exit code 1 if any in-scope specialist is missing from Metodika.
  */
 import { personNamesLooselyEqual } from "../../src/lib/booking/caregiverNameMatch";
 import { DATASET, sanityClient } from "./config";
@@ -16,7 +14,6 @@ import {
   fetchMetodikaCaregivers,
   type MetodikaUser,
 } from "./lib/metodika-caregivers";
-import { setSpecialistMetodikaUserId } from "./lib/patch-specialist";
 import {
   resolveMetodikaCheckScope,
   type SpecialistClinicBooking,
@@ -26,7 +23,6 @@ type SanitySpecialistRow = {
   _id: string;
   name?: string;
   metodikaUserId?: number;
-  image?: string;
   clinics?: SpecialistClinicBooking[];
 };
 
@@ -34,7 +30,6 @@ const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")
   _id,
   name,
   metodikaUserId,
-  "image": photo.asset->url,
   "clinics": clinics[]->{
     "label": coalesce(title[language == "no"][0].value, title[_key == "no"][0].value, title),
     "slug": coalesce(slug[language == "no"][0].value.current, slug[_key == "no"][0].value.current, slug.current),
@@ -53,8 +48,23 @@ function matchUser(
   return undefined;
 }
 
+function findInMetodika(
+  specialist: SanitySpecialistRow,
+  users: MetodikaUser[],
+): MetodikaUser | undefined {
+  if (
+    typeof specialist.metodikaUserId === "number" &&
+    specialist.metodikaUserId > 0
+  ) {
+    const byId = users.find((user) => user.id === specialist.metodikaUserId);
+    if (byId) return byId;
+  }
+  const name = specialist.name?.trim();
+  if (!name) return undefined;
+  return matchUser(name, users);
+}
+
 async function main() {
-  const write = process.argv.includes("--write");
   const apiKey = process.env.BOOKING_API_KEY?.trim();
   if (!apiKey) {
     throw new Error("Missing BOOKING_API_KEY");
@@ -64,20 +74,20 @@ async function main() {
     SPECIALISTS_QUERY,
   );
   const users = await fetchMetodikaCaregivers(apiKey);
+  const usersById = new Map(users.map((user) => [user.id, user]));
 
   console.log(`Dataset: ${DATASET}`);
   console.log(`Sanity specialists: ${specialists.length}`);
   console.log(`Metodika caregivers: ${users.length}`);
-  console.log(write ? "Mode: WRITE" : "Mode: dry-run (pass --write to patch)");
   console.log(
-    "Matching only specialists with clinicPage.booking.method === metodika",
+    "Comparing only specialists with clinicPage.booking.method === metodika",
   );
 
-  const usedUserIds = new Set<number>();
-  let matched = 0;
-  let unchanged = 0;
-  let unmatched = 0;
   let skipped = 0;
+  let ok = 0;
+  let missing = 0;
+  let staleIds = 0;
+  const missingNames: string[] = [];
 
   for (const specialist of specialists) {
     const name = specialist.name?.trim() || specialist._id;
@@ -94,35 +104,51 @@ async function main() {
       continue;
     }
 
-    const user = matchUser(name, users);
-    if (!user) {
-      unmatched += 1;
-      console.log(`  miss  ${name}`);
-      continue;
-    }
-    if (usedUserIds.has(user.id) && specialist.metodikaUserId !== user.id) {
-      unmatched += 1;
-      console.log(`  skip  ${name} — Metodika #${user.id} already assigned`);
-      continue;
-    }
-    usedUserIds.add(user.id);
-    if (specialist.metodikaUserId === user.id) {
-      unchanged += 1;
+    const storedId = specialist.metodikaUserId;
+    if (
+      typeof storedId === "number" &&
+      storedId > 0 &&
+      !usersById.has(storedId)
+    ) {
+      staleIds += 1;
       console.log(
-        `  keep  ${name} → #${user.id}${specialist.image ? "" : " (no photo)"}`,
+        `  warn  ${name} — Sanity metodikaUserId #${storedId} not in Metodika caregiver list`,
+      );
+    }
+
+    const user = findInMetodika(specialist, users);
+    if (!user) {
+      missing += 1;
+      missingNames.push(name);
+      const clinicLabels = scope.metodikaClinics
+        .map((c) => c.label || c.slug || "?")
+        .join(", ");
+      console.log(
+        `  missing from Metodika  ${name}${clinicLabels ? ` (${clinicLabels})` : ""}`,
       );
       continue;
     }
-    matched += 1;
-    console.log(`  set   ${name} → #${user.id} (${displayMetodikaUserName(user)})`);
-    if (write) {
-      await setSpecialistMetodikaUserId(specialist._id, user.id);
-    }
+
+    ok += 1;
+    const stored =
+      specialist.metodikaUserId === user.id
+        ? `metodikaUserId=#${user.id}`
+        : specialist.metodikaUserId
+          ? `matched #${user.id}, Sanity has #${specialist.metodikaUserId}`
+          : `matched #${user.id} (no metodikaUserId in Sanity)`;
+    console.log(`  ok  ${name} — ${stored}`);
   }
 
   console.log(
-    `Done. matched=${matched} unchanged=${unchanged} unmatched=${unmatched} skipped=${skipped}`,
+    `Done. ok=${ok} missing=${missing} skipped=${skipped} staleIds=${staleIds}`,
   );
+  if (missingNames.length > 0) {
+    console.log(`Missing: ${missingNames.join("; ")}`);
+  }
+
+  if (missing > 0 || staleIds > 0) {
+    process.exit(1);
+  }
 }
 
 main().catch((error) => {

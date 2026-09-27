@@ -591,7 +591,9 @@ const BookingDemo = () => {
       Number.isFinite(kategoriId) && kategoriId > 0
         ? categoryNumericIdToPageId[kategoriId]
         : undefined;
-    const effectiveKategori = kategori || kategoriFromNumericId;
+    // Numeric CMS group wins over the page-category slug so a treatment can
+    // book another activity group (e.g. 6-ukerskontroll → gynekologi).
+    const effectiveKategori = kategoriFromNumericId || kategori;
 
     if (
       !effectiveKategori &&
