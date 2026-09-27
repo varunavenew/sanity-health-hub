@@ -1,4 +1,4 @@
-import { runWithBookingUpstreamEnv } from "@/lib/booking/bookingUpstreamEnv";
+import { runWithBookingUpstreamEnv } from "@/lib/booking/bookingUpstreamEnv.server";
 import { GET as liveGet } from "@/app/api/booking/apt-available-times/route";
 
 /** TEST BFF → Laravel /api/test/v1/resources/aptavailabletimes */
