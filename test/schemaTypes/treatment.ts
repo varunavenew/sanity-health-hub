@@ -99,13 +99,6 @@ export default {
       group: 'pageContent',
     },
     {
-      name: 'pcTextSection',
-      title: 'Text section',
-      description: 'Optional text + points band.',
-      options: sectionCollapsed,
-      group: 'pageContent',
-    },
-    {
       name: 'pcRelated',
       title: 'Related treatments',
       description:
@@ -145,9 +138,9 @@ export default {
     },
     {
       name: 'ssAssemblers',
-      title: 'Specialists · Insurance · Articles · Booking CTA',
+      title: 'Specialists · Insurance · Booking CTA',
       description:
-        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library.',
+        'Website order is fixed: Specialists → Insurance → Booking CTA. FAQ is above. Select an Insurance Collection from the Content Library.',
       options: sectionCollapsed,
       group: 'sharedSections',
     },
@@ -176,20 +169,6 @@ export default {
       title: 'Overrides & booking',
       description:
         'Optional overrides and booking IDs. Leave empty when the website can use Category / defaults.',
-      options: sectionCollapsed,
-      group: 'advanced',
-    },
-    {
-      name: 'advancedNav',
-      title: 'Navigation (megamenu)',
-      description: 'Third-column links in the services megamenu. Not page body content.',
-      options: sectionCollapsed,
-      group: 'advanced',
-    },
-    {
-      name: 'advancedChrome',
-      title: 'UI chrome labels',
-      description: 'Rarely edited labels. Safe defaults apply when empty.',
       options: sectionCollapsed,
       group: 'advanced',
     },
@@ -734,48 +713,6 @@ export default {
       ],
     },
 
-    // Text section
-    {
-      name: 'textSection',
-      title: 'Content',
-      type: 'object',
-      group: 'pageContent',
-      fieldset: 'pcTextSection',
-      fields: [
-        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-        { name: 'lead', title: 'Ingress', type: 'internationalizedArrayText' },
-        {
-          name: 'points',
-          title: 'Points',
-          type: 'array',
-          of: [
-            {
-              name: 'textSectionPoint',
-              title: 'Point',
-              type: 'object',
-              fields: [
-                { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
-                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
-                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
-              ],
-              preview: {
-                select: { title: 'title', n: 'n', subtitle: 'desc' },
-                prepare({ title, n, subtitle }: any) {
-                  const prefix = pickStudioEn(n) ? `${pickStudioEn(n)}: ` : ''
-                  return {
-                    title: `${prefix}${pickStudioEn(title) || 'Untitled'}`,
-                    subtitle: pickStudioEn(subtitle),
-                  }
-                },
-              },
-            },
-          ],
-        },
-        { name: 'image', title: 'Image', type: 'image', options: mediaImageOptions('treatment'), description: mediaDescription('treatment'), validation: softImageRules('treatment') },
-        { name: 'imageAlt', title: 'Image alt', type: 'internationalizedArrayString' },
-      ],
-    },
-
     // Insurance (legacy Page Content — fallback until production verification)
     {
       name: 'insuranceEyebrow',
@@ -937,8 +874,14 @@ export default {
       group: 'sharedSections',
       fieldset: 'ssAssemblers',
       title: 'Website bands',
+      // Articles band is not used by any treatment — not offered here.
+      of: [
+        { type: 'pageSectionSpecialists' },
+        { type: 'pageSectionInsurance' },
+        { type: 'pageSectionBookingCta' },
+      ],
       description:
-        'Website order is fixed: Specialists → Insurance → Articles → Booking CTA. Dragging only changes Studio order. Select an Insurance Collection here — same workflow as Treatment Category.',
+        'Website order is fixed: Specialists → Insurance → Booking CTA. Dragging only changes Studio order. Select an Insurance Collection here — same workflow as Treatment Category.',
     },
 
     // ── SEO ─────────────────────────────────────────────────────────────────
@@ -1036,11 +979,13 @@ export default {
       description:
         'Optional Metodika wbactivity id to preselect a specific service in booking (e.g. digital consultation). When set, Step 2 opens directly if the activity resolves.',
     },
+    // Megamenu submenu + UI chrome labels: hidden in Studio, still stored and
+    // read by the frontend (safe defaults apply when empty).
     {
       name: 'subItems',
       title: 'Submenu items',
       group: 'advanced',
-      fieldset: 'advancedNav',
+      hidden: true,
       description:
         'Third column in the services megamenu. Leave empty if this treatment has no submenu links.',
       type: 'array',
@@ -1081,7 +1026,7 @@ export default {
       title: 'Themes aria label',
       type: 'internationalizedArrayString',
       group: 'advanced',
-      fieldset: 'advancedChrome',
+      hidden: true,
       description:
         'Legacy accessibility label for hero theme chips. Still read by the frontend with safe defaults.',
     },
@@ -1372,7 +1317,7 @@ export default {
       title: 'Breadcrumb — home',
       type: 'internationalizedArrayString',
       group: 'advanced',
-      fieldset: 'advancedChrome',
+      hidden: true,
       description: 'First breadcrumb segment (e.g. Home). Rarely changed.',
     },
     {
@@ -1380,7 +1325,7 @@ export default {
       title: 'Expert card — link text',
       type: 'internationalizedArrayString',
       group: 'advanced',
-      fieldset: 'advancedChrome',
+      hidden: true,
       description: 'Read more label on expert area cards. Defaults apply if empty.',
     },
     {
@@ -1388,14 +1333,14 @@ export default {
       title: 'Carousel — scroll left',
       type: 'internationalizedArrayString',
       group: 'advanced',
-      fieldset: 'advancedChrome',
+      hidden: true,
     },
     {
       name: 'scrollRightLabel',
       title: 'Carousel — scroll right',
       type: 'internationalizedArrayString',
       group: 'advanced',
-      fieldset: 'advancedChrome',
+      hidden: true,
     },
   ],
   orderings: [
