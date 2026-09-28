@@ -31,8 +31,9 @@ export const IMAGE_PRESET: Record<
   ImageDeliveryPreset,
   { widths: number[]; sizes: string; defaultWidth: number }
 > = {
+  /** Full-bleed (100vw, often parallax-scaled) — needs retina-desktop widths. */
   hero: {
-    widths: [960, 1280, 1600],
+    widths: [960, 1280, 1600, 1920, 2560, 3200],
     sizes: '100vw',
     defaultWidth: DEFAULT_CONTENT_WIDTH,
   },
