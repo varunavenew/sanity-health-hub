@@ -15,6 +15,7 @@ import {
   sortSpecialistsForListingPage,
   specialistListingClinicFilterLabels,
 } from "@/lib/sanity/specialist-listing-sort";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
@@ -77,7 +78,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
 
     const matches = specialists.filter((s) => {
       const categoryMatch =
-        wantCategory === "alle" || norm(s.category) === wantCategory;
+        wantCategory === "alle" || specialistMatchesCategory(s, wantCategory);
       if (!categoryMatch) return false;
 
       if (wantClinic === "alle") return true;

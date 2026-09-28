@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
@@ -206,8 +207,8 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { specialists } = useSpecialistsData();
   
-  const categorySpecialists = specialists.filter(
-    (specialist) => specialist.category === categoryId
+  const categorySpecialists = specialists.filter((specialist) =>
+    specialistMatchesCategory(specialist, categoryId),
   );
 
   const scroll = (direction: 'left' | 'right') => {

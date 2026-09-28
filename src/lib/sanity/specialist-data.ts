@@ -314,11 +314,17 @@ function mapSanitySpecialistCategories(
   lang: SanityLang,
 ): SpecialistSanityCategory[] {
   if (!Array.isArray(categories)) return [];
-  return categories
-    .filter((c) => c?.categoryId && c?.slug)
-    .map((c) => ({
-      categoryId: c.categoryId!,
-      slug: c.slug!,
+  const mapped: SpecialistSanityCategory[] = [];
+  for (const c of categories) {
+    const categoryId = typeof c?.categoryId === "string" ? c.categoryId.trim() : "";
+    const slug =
+      typeof c?.slug === "string" && c.slug.trim()
+        ? c.slug.trim()
+        : categoryId;
+    if (!categoryId && !slug) continue;
+    mapped.push({
+      categoryId: categoryId || slug,
+      slug: slug || categoryId,
       title: readLocalizedString(c.title, lang),
       categoryNumericId: c.categoryNumericId,
       heroImage: typeof c.heroImage === "string" ? c.heroImage : undefined,
@@ -326,7 +332,9 @@ function mapSanitySpecialistCategories(
         typeof c.description === "string" && c.description.trim()
           ? c.description.trim()
           : undefined,
-    }));
+    });
+  }
+  return mapped;
 }
 
 function specialistHasPortrait(raw: RawSanitySpecialist): boolean {
@@ -355,7 +363,11 @@ export function isPublishableSanitySpecialist(raw: RawSanitySpecialist): boolean
   if (!Array.isArray(raw.specialties) || raw.specialties.length === 0) return false;
   if (!raw.specialties.some((entry) => Boolean(pickSpecialtyNo(entry)))) return false;
   if (!Array.isArray(raw.categories) || raw.categories.length === 0) return false;
-  if (!raw.categories.some((c) => c?.categoryId && c?.slug)) return false;
+  if (!raw.categories.some((c) => {
+    const id = typeof c?.categoryId === "string" ? c.categoryId.trim() : "";
+    const slug = typeof c?.slug === "string" ? c.slug.trim() : "";
+    return Boolean(id || slug);
+  })) return false;
   const hasClinics =
     (Array.isArray(raw.clinics) && raw.clinics.length > 0) ||
     (Array.isArray(raw.clinicRefs) &&

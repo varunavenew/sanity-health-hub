@@ -153,7 +153,7 @@ export function behandlingerCategorySegment(
 export function specialistMatchesCategory(
   specialist: {
     category?: string;
-    sanityCategories?: Array<{ categoryId: string }>;
+    sanityCategories?: Array<{ categoryId: string; slug?: string }>;
   },
   categoryId: string,
 ): boolean {
@@ -166,8 +166,14 @@ export function specialistMatchesCategory(
     return true;
   }
   return (
-    specialist.sanityCategories?.some(
-      (c) => normalizeCategoryFilterKey(c.categoryId) === key,
-    ) ?? false
+    specialist.sanityCategories?.some((c) => {
+      const idKey = normalizeCategoryFilterKey(c.categoryId);
+      if (idKey === key) return true;
+      if (c.slug) {
+        const slugKey = normalizeCategoryFilterKey(c.slug);
+        if (slugKey === key) return true;
+      }
+      return false;
+    }) ?? false
   );
 }
