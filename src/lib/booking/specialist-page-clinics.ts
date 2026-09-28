@@ -193,6 +193,7 @@ function inferKindFromSlug(
 const SLUG_METODIKA_LOCATION_FALLBACK: Readonly<Record<string, number[]>> = {
   majorstuen: [1, 2],
   majorstua: [1, 2],
+  bekkestua: [3],
 };
 
 function resolvePageClinicKind(

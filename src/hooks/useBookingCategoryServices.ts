@@ -54,29 +54,26 @@ function matchApiCategory(
   );
 }
 
-/** Metodika categories + services filtered by specialist bookingCategoryIds from Sanity. */
+/** Metodika activity-groups catalog for specialist profile (filtering is done client-side). */
 export function useSpecialistMetodikaBooking(
-  bookingCategoryIds: number[],
+  enabled: boolean,
   _bookingApiBase: string = "/api/booking",
 ) {
   const locale = useLocaleParam();
   const { data: apiCategories = [], isLoading, isFetching } = useQuery({
     queryKey: bookingActivityGroupsQueryKey(locale),
     queryFn: () => fetchBookingActivityGroupsClient(locale),
-    enabled: bookingCategoryIds.length > 0,
+    enabled,
     staleTime: 5 * 60 * 1000,
   });
 
-  const categories = useMemo(() => {
-    const allowed = new Set(bookingCategoryIds);
-    return apiCategories
-      .filter((c) => allowed.has(c.apiGroupId))
-      .sort((a, b) => a.label.localeCompare(b.label, "nb"));
-  }, [apiCategories, bookingCategoryIds]);
+  const categories = useMemo(
+    () =>
+      [...apiCategories].sort((a, b) => a.label.localeCompare(b.label, "nb")),
+    [apiCategories],
+  );
 
-  const loading =
-    bookingCategoryIds.length > 0 &&
-    (isLoading || (isFetching && categories.length === 0));
+  const loading = enabled && (isLoading || (isFetching && categories.length === 0));
 
   return { categories, loading, fromApi: categories.length > 0 };
 }

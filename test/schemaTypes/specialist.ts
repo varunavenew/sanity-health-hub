@@ -269,6 +269,32 @@ export default {
       },
     },
     {
+      name: 'appearingOnTreatments',
+      title: 'Appearing on treatment pages',
+      type: 'array',
+      group: 'general',
+      hidden: true,
+      description:
+        'Treatment pages that list this specialist. Synced when you publish the specialist (Studio only).',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'treatment' }],
+          weak: true,
+        },
+      ],
+    },
+    {
+      name: 'treatmentsBaseline',
+      title: 'Treatments sync baseline',
+      type: 'array',
+      group: 'general',
+      hidden: true,
+      description:
+        'Internal baseline for treatment-page sync. Do not edit manually.',
+      of: [{ type: 'string' }],
+    },
+    {
       name: 'clinics',
       title: 'Clinics',
       type: 'array',
@@ -536,8 +562,7 @@ export default {
             layout: 'dropdown',
           },
           validation: (Rule: any) =>
-            Rule.required()
-              .integer()
+            Rule.integer()
               .custom((id: number) => {
                 if ((BOOKING_ACTIVITY_GROUP_IDS as readonly number[]).includes(id)) {
                   return true
@@ -547,7 +572,7 @@ export default {
         },
       ],
       description:
-        'Metodika wbactivitygroup IDs. Book now stays visible but does not open booking if this or Metodika user ID is empty.',
+        'Leave empty for automatic profile treatments from Metodika (recommended). If you add any group here, the website shows ONLY those groups on the specialist profile — not the full Metodika list.',
     },
     {
       name: 'sortOrder',

@@ -13,14 +13,13 @@ function hasPositiveId(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value) && value > 0;
 }
 
-/** Online booking works only when both Metodika user ID and activity groups are set. */
+/** Metodika online booking when caregiver id is set (groups come from Metodika on profile). */
 export function specialistHasOnlineBookingConfig(specialist: {
   metodikaUserId?: number | null;
   bookingCategoryIds?: number[] | null;
 }): boolean {
-  const hasMetodikaId = hasPositiveId(specialist.metodikaUserId);
-  const hasActivityGroups = (specialist.bookingCategoryIds ?? []).some(hasPositiveId);
-  return hasMetodikaId && hasActivityGroups;
+  void specialist.bookingCategoryIds;
+  return hasPositiveId(specialist.metodikaUserId);
 }
 
 /**

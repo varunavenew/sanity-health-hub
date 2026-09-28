@@ -501,7 +501,7 @@ export default {
           name: 'metodikaLocationId',
           title: 'Metodika location ID',
           description:
-            'Metodika `location-id` for this clinic (only when Method = Metodika). Recommended for correct linking in booking step 2.',
+            'Metodika `location-id` for this clinic (Bekkestua = 3, Majorstuen = 1). Shown only when Method = Metodika.',
           type: 'number',
           hidden: ({ parent }: { parent?: { method?: string } }) => parent?.method !== 'metodika',
         },

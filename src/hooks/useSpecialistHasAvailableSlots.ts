@@ -6,11 +6,8 @@ import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpeci
 import type { MetodikaBookableActivityPair } from "@/lib/booking/specialist-slot-availability";
 import type { SpecialistPageClinic } from "@/lib/booking/specialist-page-clinics";
 import {
-  filterServicesForCaregiverWbActivities,
-  filterSpecialistBookingCategories,
   profileWbActivityIdsForSpecialist,
   profileWbActivityIdsFromCaregiverMatrix,
-  resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -58,16 +55,6 @@ export function useSpecialistHasAvailableSlots(
   const specialistSlug = specialist.slug;
   const showBookingButton = specialist.showBookingButton;
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [
-      specialist.bookingCategoryIds,
-      specialist.category,
-      specialist.title,
-      specialist.subtitle,
-      specialist.sanityCategories,
-    ],
-  );
 
   const pageClinicKey = useMemo(
     () =>
@@ -102,17 +89,16 @@ export function useSpecialistHasAvailableSlots(
   const hasMetodikaClinic = metodikaLocationIdsKey.length > 0;
   const hasPasientskyClinic = pasientskyServiceProviderId.length > 0;
   const hasOnlineClinic = hasMetodikaClinic || hasPasientskyClinic;
+  const metodikaCatalogEnabled =
+    hasMetodikaClinic && caregiverUserId != null;
 
   const { categories: metodikaCategories, loading: categoriesLoading } =
-    useSpecialistMetodikaBooking(
-      hasMetodikaClinic ? bookingCategoryIds : [],
-      bookingApiBase,
-    );
+    useSpecialistMetodikaBooking(metodikaCatalogEnabled, bookingApiBase);
   const { allowedIds, activities: caregiverActivities, loading: wbActivitiesLoading } =
     useCaregiverWbActivities(
-    hasMetodikaClinic ? caregiverUserId : undefined,
-    bookingApiBase,
-  );
+      hasMetodikaClinic ? caregiverUserId : undefined,
+      bookingApiBase,
+    );
   const pageMetodikaLocationIds = useMemo(() => {
     if (metodikaLocationIdsKey.length === 0) return [];
     return metodikaLocationIdsKey.split(",").map((part) => Number(part));
@@ -160,10 +146,6 @@ export function useSpecialistHasAvailableSlots(
     ).join(",");
   }, [
     specialist.bookingCategoryIds,
-    specialist.category,
-    specialist.title,
-    specialist.subtitle,
-    specialist.sanityCategories,
     metodikaCategories,
     categoriesLoading,
     caregiverActivities,

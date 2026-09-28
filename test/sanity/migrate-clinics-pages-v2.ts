@@ -250,7 +250,7 @@ const clinics: ClinicSource[] = [
         en: "Step-free access to the clinic.",
       },
     },
-    booking: { method: "metodika", metodikaLocationId: 2 },
+    booking: { method: "metodika", metodikaLocationId: 3 },
     locationSearch: { lat: 59.9214, lng: 10.5259 },
     services: ["gynekolog", "hudlege"],
     sortOrder: 2,

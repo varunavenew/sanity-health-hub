@@ -6,10 +6,6 @@ import {
 } from "@/lib/bookingLinks";
 import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 
-/** Metodika wbactivitygroup for «Fostermedisiner - graviditet». */
-const FOSTERMEDISIN_BOOKING_GROUP_ID =
-  categoryPageIdToNumericId.graviditet ?? 10;
-
 const SITE_CATEGORY_TO_BOOKING_GROUP_IDS: Record<string, number[]> = {
   fertilitet: [categoryPageIdToNumericId.fertilitet ?? 1].filter(Boolean),
   gynekologi: [categoryPageIdToNumericId.gynekologi ?? 8].filter(Boolean),
@@ -50,9 +46,27 @@ function bookingGroupIdsFromRoleText(title?: string, subtitle?: string): number[
 }
 
 function finalizeBookingCategoryIds(ids: number[]): number[] {
-  return [...new Set(ids)]
-    .filter((id) => id !== FOSTERMEDISIN_BOOKING_GROUP_ID)
-    .sort((a, b) => a - b);
+  return [...new Set(ids)].filter((id) => Number.isFinite(id) && id > 0).sort((a, b) => a - b);
+}
+
+/** True when editors explicitly set Advanced → Booking activity groups in Sanity. */
+export function hasManualBookingCategoryOverride(specialist: {
+  bookingCategoryIds?: number[];
+}): boolean {
+  return (specialist.bookingCategoryIds ?? []).some(
+    (id) => typeof id === "number" && Number.isFinite(id) && id > 0,
+  );
+}
+
+/** Manual override ids only (no role/category inference). */
+export function manualBookingCategoryIds(specialist: {
+  bookingCategoryIds?: number[];
+}): number[] {
+  if (!hasManualBookingCategoryOverride(specialist)) return [];
+  const fromSanity = specialist.bookingCategoryIds!.filter(
+    (id) => typeof id === "number" && Number.isFinite(id) && id > 0,
+  );
+  return finalizeBookingCategoryIds(fromSanity);
 }
 
 export function resolveSpecialistBookingCategoryIds(specialist: {
@@ -62,11 +76,9 @@ export function resolveSpecialistBookingCategoryIds(specialist: {
   title?: string;
   subtitle?: string;
 }): number[] {
-  const fromSanity = specialist.bookingCategoryIds?.filter(
-    (id) => typeof id === "number" && Number.isFinite(id) && id > 0,
-  );
-  if (fromSanity && fromSanity.length > 0) {
-    return finalizeBookingCategoryIds(fromSanity);
+  const manual = manualBookingCategoryIds(specialist);
+  if (manual.length > 0) {
+    return manual;
   }
 
   const inferred = new Set<number>();
@@ -92,7 +104,12 @@ export function resolveSpecialistBookingCategoryIds(specialist: {
 
 /** wbactivity ids on the profile (Sanity groups × caregiver matrix) for slot probes. */
 export function profileWbActivityIdsForSpecialist<
-  T extends { apiGroupId: number; services: Array<{ apiActivityId?: number }> },
+  T extends {
+    apiGroupId: number;
+    id?: string;
+    clinicServiceId?: string;
+    services: Array<{ apiActivityId?: number }>;
+  },
 >(
   specialist: Parameters<typeof filterSpecialistBookingCategories>[0],
   metodikaCategories: T[],
@@ -100,10 +117,10 @@ export function profileWbActivityIdsForSpecialist<
 ): number[] {
   if (allowedIds.size === 0) return [];
   const ids = new Set<number>();
-  for (const category of filterSpecialistBookingCategories(
-    specialist,
-    metodikaCategories,
-  )) {
+  const categories = hasManualBookingCategoryOverride(specialist)
+    ? filterSpecialistBookingCategories(specialist, metodikaCategories)
+    : metodikaCategories;
+  for (const category of categories) {
     for (const service of filterServicesForCaregiverWbActivities(
       category.services,
       allowedIds,
@@ -124,18 +141,28 @@ export function profileWbActivityIdsFromCaregiverMatrix(
   allowedIds: Set<number>,
 ): number[] {
   if (allowedIds.size === 0 || activities.length === 0) return [];
-  const allowedGroupIds = new Set(resolveSpecialistBookingCategoryIds(specialist));
+  const manualOverride = hasManualBookingCategoryOverride(specialist);
+  const allowedGroupIds = manualOverride
+    ? new Set(manualBookingCategoryIds(specialist))
+    : null;
   const ids = new Set<number>();
   for (const entry of activities) {
     if (!allowedIds.has(entry.wbactivityId)) continue;
     const groupId = entry.wbactivityGroupId;
-    if (groupId != null && !allowedGroupIds.has(groupId)) continue;
-    if (groupId === FOSTERMEDISIN_BOOKING_GROUP_ID) continue;
+    if (
+      manualOverride &&
+      allowedGroupIds &&
+      groupId != null &&
+      !allowedGroupIds.has(groupId)
+    ) {
+      continue;
+    }
     ids.add(entry.wbactivityId);
   }
   return [...ids].sort((a, b) => a - b);
 }
 
+/** Match Metodika «Graviditet» / fostermedisiner activity group (booking URLs, sorting). */
 export function isFetalMedicineBookingCategory(category: {
   id?: string;
   clinicServiceId?: string;
@@ -151,7 +178,6 @@ export function isFetalMedicineBookingCategory(category: {
   );
 }
 
-/** Never show «Fostermedisiner - graviditet» on specialist profile booking. */
 export function filterSpecialistBookingCategories<
   T extends { apiGroupId: number; id?: string; clinicServiceId?: string },
 >(
@@ -161,11 +187,46 @@ export function filterSpecialistBookingCategories<
   categories: T[],
 ): T[] {
   const allowedIds = new Set(resolveSpecialistBookingCategoryIds(specialist));
-  return categories.filter((category) => {
-    if (!allowedIds.has(category.apiGroupId)) return false;
-    if (isFetalMedicineBookingCategory(category)) return false;
-    return true;
-  });
+  return categories.filter((category) => allowedIds.has(category.apiGroupId));
+}
+
+/**
+ * Profile Metodika picker: group services by activity-groups catalog, filtered by
+ * caregiver + selected clinic (wbactivities matrix). Manual Sanity group ids apply
+ * only when Advanced → Booking activity groups is explicitly set.
+ */
+export function filterProfileBookingCategories<
+  T extends {
+    apiGroupId: number;
+    label: string;
+    id?: string;
+    clinicServiceId?: string;
+    services: Array<{ apiActivityId?: number }>;
+  },
+>(
+  specialist: { bookingCategoryIds?: number[] },
+  categories: T[],
+  allowedIdsAtClinic: Set<number>,
+): T[] {
+  if (allowedIdsAtClinic.size === 0) return [];
+
+  const manualGroupIds = hasManualBookingCategoryOverride(specialist)
+    ? new Set(manualBookingCategoryIds(specialist))
+    : null;
+
+  const result: T[] = [];
+  for (const category of categories) {
+    if (manualGroupIds && !manualGroupIds.has(category.apiGroupId)) continue;
+
+    const services = filterServicesForCaregiverWbActivities(
+      category.services,
+      allowedIdsAtClinic,
+    );
+    if (services.length === 0) continue;
+    result.push({ ...category, services });
+  }
+
+  return result.sort((a, b) => a.label.localeCompare(b.label, "nb"));
 }
 
 export function bookingUrlForSpecialistContext(params: {

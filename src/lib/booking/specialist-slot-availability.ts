@@ -1,7 +1,5 @@
-import {
-  metodikaSlotBookableForProfile,
-  resolveMetodikaAvailabilitySlotsByActivityId,
-} from "@/lib/booking/resolve-metodika-availability-slots";
+import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
+import { fetchBookingFreetimesList } from "@/lib/booking/upstream";
 
 function parseIdList(value: string | null): number[] {
   if (!value?.trim()) return [];
@@ -15,6 +13,47 @@ export type MetodikaBookableActivityPair = {
   wbactivityId: number;
 };
 
+const SLOT_CHECK_CONCURRENCY = Number(
+  process.env.BOOKING_SPECIALIST_SLOTS_FREETIMES_CONCURRENCY || 4,
+);
+
+function readCaregiverUserId(entry: unknown): number | undefined {
+  if (!entry || typeof entry !== "object") return undefined;
+  const row = entry as Record<string, unknown>;
+  const id = row["caregiver_user-id"] ?? row.caregiverUserId;
+  return typeof id === "number" ? id : undefined;
+}
+
+function readStartDateTime(entry: unknown): string | undefined {
+  if (!entry || typeof entry !== "object") return undefined;
+  const start = (entry as Record<string, unknown>).startdatetime;
+  return typeof start === "string" && start.trim() ? start.trim() : undefined;
+}
+
+/**
+ * Profile slot probe — same as legacy site / BookingDemo step 4:
+ * wbfreetimes scoped with location-id + caregiver, not maxTimes=1 without location.
+ */
+async function metodikaActivityHasCaregiverSlotAtLocation(
+  wbactivityId: number,
+  locationId: number,
+  caregiverUserId: number,
+  apiKey: string,
+): Promise<boolean> {
+  const slots = await fetchBookingFreetimesList(wbactivityId, apiKey, {
+    locationId,
+    caregiverUserId,
+  });
+  const now = Date.now();
+  return slots.some((entry) => {
+    if (readCaregiverUserId(entry) !== caregiverUserId) return false;
+    const start = readStartDateTime(entry);
+    if (!start) return false;
+    const ts = new Date(start).getTime();
+    return Number.isFinite(ts) && ts >= now;
+  });
+}
+
 /** Profile treatments (wbactivity × Metodika location) that have caregiver freetime. */
 export async function specialistMetodikaBookableActivityPairs(params: {
   wbactivityIds: number[];
@@ -26,27 +65,28 @@ export async function specialistMetodikaBookableActivityPairs(params: {
   if (wbactivityIds.length === 0 || locationIds.length === 0) return [];
   if (caregiverUserId == null) return [];
 
-  const slotsByActivity = await resolveMetodikaAvailabilitySlotsByActivityId(
-    wbactivityIds,
-    apiKey,
-    caregiverUserId,
-  );
-
-  const bookable: MetodikaBookableActivityPair[] = [];
+  const checks: MetodikaBookableActivityPair[] = [];
   for (const locationId of locationIds) {
     for (const wbactivityId of wbactivityIds) {
-      const slots = slotsByActivity.get(wbactivityId) ?? [];
-      if (
-        slots.some((slot) =>
-          metodikaSlotBookableForProfile({ slot, locationId, caregiverUserId }),
-        )
-      ) {
-        bookable.push({ locationId, wbactivityId });
-      }
+      checks.push({ locationId, wbactivityId });
     }
   }
 
-  return bookable;
+  const results = await mapWithConcurrency(
+    checks,
+    SLOT_CHECK_CONCURRENCY,
+    async (pair) => {
+      const ok = await metodikaActivityHasCaregiverSlotAtLocation(
+        pair.wbactivityId,
+        pair.locationId,
+        caregiverUserId,
+        apiKey,
+      );
+      return ok ? pair : null;
+    },
+  );
+
+  return results.filter((pair): pair is MetodikaBookableActivityPair => pair != null);
 }
 
 /** True when any caregiver treatment has freetime at a Metodika clinic location. */
