@@ -153,41 +153,19 @@ export function studioLocaleToContentLang(localeId: string | undefined | null): 
 }
 
 /**
- * Active Studio UI language → content lang for previews.
- * Reads `sanity-locale:{projectId}:{source}` from localStorage (same as Sanity i18n).
- * Defaults to English when unset (matches Studio UI default).
+ * Content language for Studio previews (list rows, array items, references).
+ *
+ * Always Norwegian: editors see content in NO regardless of the Studio UI
+ * (admin chrome) language. English is only used as a fallback when NO is empty.
  */
 export function getStudioContentLanguage(): StudioContentLang {
-  if (typeof window === 'undefined') return 'en'
-  try {
-    const projectId =
-      process.env.SANITY_STUDIO_API_PROJECT_ID?.trim() ||
-      process.env.SANITY_STUDIO_PROJECT_ID?.trim() ||
-      process.env.SANITY_PROJECT_ID?.trim()
-    const sourceName = 'default'
-    if (projectId) {
-      const stored = window.localStorage.getItem(`sanity-locale:${projectId}:${sourceName}`)
-      if (stored) return studioLocaleToContentLang(stored)
-    }
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i)
-      if (key?.startsWith('sanity-locale:')) {
-        const stored = window.localStorage.getItem(key)
-        if (stored) return studioLocaleToContentLang(stored)
-      }
-    }
-  } catch {
-    // ignore storage access errors
-  }
-  return 'en'
+  return 'no'
 }
 
 /**
  * Studio-only preview string from internationalized-array (or plain string).
  *
- * Preferred order follows the active Studio UI language:
- * - EN Studio → EN → NO → first available
- * - NO Studio → NO → EN → first available
+ * Preferred order: NO → EN → first available.
  *
  * Does not affect website / GROQ.
  */
