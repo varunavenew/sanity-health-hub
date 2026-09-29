@@ -116,14 +116,17 @@ function splitFodselsnummer(raw: string): {
   return { digits, dd, mm, yyyy, rest };
 }
 
+/** Metodika POST /webaccounts `gender` (OpenAPI: `"male"` | `"female"`). */
+export type MetodikaWebAccountGender = "male" | "female";
+
 /**
- * Metodika `gender` on POST /webaccounts: 9th digit odd → 1 (male), even → 0 (female).
+ * Metodika `gender` on POST /webaccounts: 9th digit odd → `"male"`, even → `"female"`.
  * Call only after `isValidFodselsnummer` / `assertValidPersonalnumberForWebAccount`.
  */
-export function metodikaGenderFromFodselsnummer(raw: string): 0 | 1 {
+export function metodikaGenderFromFodselsnummer(raw: string): MetodikaWebAccountGender {
   const digits = personalNumberDigits(raw);
   const ninth = Number(digits[8]);
-  return ninth % 2 === 1 ? 1 : 0;
+  return ninth % 2 === 1 ? "male" : "female";
 }
 
 /**
