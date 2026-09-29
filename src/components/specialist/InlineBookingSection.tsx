@@ -10,14 +10,12 @@ import {
   Phone,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import {
   SPECIALIST_INLINE_BOOKING_SECTION_ID,
   useSpecialistPageBookingOptional,
 } from "@/components/specialist/SpecialistPageBooking";
-import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useClinics } from "@/hooks/useSanity";
 import { useSpecialistMetodikaBooking, type BookingCategoryFromApi } from "@/hooks/useBookingCategoryServices";
 import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
@@ -47,7 +45,7 @@ import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
 import { cn } from "@/lib/utils";
-import { Link, useLocaleParam, useNavigate } from "@/lib/router";
+import { useLocaleParam, useNavigate } from "@/lib/router";
 import {
   trackBookingInit,
   trackBookingUnavailable,
@@ -127,7 +125,6 @@ function InlineBookingSection({
   const ui = useSpecialistProfileUi();
   const locale = useLocaleParam();
   const isEn = locale === "en";
-  const priserPath = useNavCmsPath("pricing") || "/priser";
   const navigate = useNavigate();
   const pageBooking = useSpecialistPageBookingOptional();
   const [selectedClinic, setSelectedClinic] = useState<SpecialistPageClinic | null>(null);
@@ -272,7 +269,6 @@ function InlineBookingSection({
           <ClinicBookingBranch
             specialist={specialist}
             clinic={selectedClinic}
-            priserPath={priserPath}
             ui={ui}
             isEn={isEn}
             metodikaCategories={metodikaCategories}
@@ -526,7 +522,6 @@ function MultiClinicProfileClinicPicker({
 function ClinicBookingBranch({
   specialist,
   clinic,
-  priserPath,
   ui,
   isEn,
   metodikaCategories,
@@ -539,7 +534,6 @@ function ClinicBookingBranch({
 }: {
   specialist: Specialist;
   clinic: SpecialistPageClinic;
-  priserPath: string;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
   metodikaCategories: BookingCategoryFromApi[];
@@ -566,7 +560,6 @@ function ClinicBookingBranch({
     <MetodikaTreatmentPicker
       specialist={specialist}
       clinic={clinic}
-      priserPath={priserPath}
       ui={ui}
       isEn={isEn}
       metodikaCategories={metodikaCategories}
@@ -638,10 +631,10 @@ function InlineMetodikaCallUs({
   const label = isEn ? "Call us and we will help you" : "Ring oss så hjelper vi deg";
 
   return (
-    <div className="mt-4 border-t border-white/10 pt-4 text-center">
+    <div className="mt-4 border-t border-white/10 px-5 pt-4 text-left">
       <a
         href={telHref}
-        className="inline-flex items-center justify-center gap-2 text-sm font-light text-white/70 underline-offset-4 transition-colors hover:text-white hover:underline"
+        className="inline-flex items-center gap-2 text-sm font-light text-white/70 underline-offset-4 transition-colors hover:text-white hover:underline"
       >
         <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
         <span>
@@ -672,7 +665,6 @@ function sortProfileBookingServices(
 function MetodikaTreatmentPicker({
   specialist,
   clinic,
-  priserPath,
   ui,
   isEn,
   metodikaCategories,
@@ -685,7 +677,6 @@ function MetodikaTreatmentPicker({
 }: {
   specialist: Specialist;
   clinic: SpecialistPageMetodikaClinic | SpecialistPagePasientskyClinic;
-  priserPath: string;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
   metodikaCategories: BookingCategoryFromApi[];
@@ -991,29 +982,6 @@ function MetodikaTreatmentPicker({
       </div>
 
       <InlineMetodikaCallUs clinic={clinic} isEn={isEn} />
-
-      <div className="mt-6">
-        <Button
-          variant="outline"
-          className="rounded-full border-brand-mid bg-brand-mid text-sm font-light text-brand-dark hover:bg-brand-mid/80"
-          asChild
-        >
-          <Link
-            to={priserPath}
-            onClick={() => {
-              trackBookingMenuStart({
-                entry_point: "specialist_page",
-                practitioner: specialist.name,
-                specialty: specialist.title || specialist.expertise?.[0]?.label || null,
-                clinic: clinic.label,
-              });
-            }}
-          >
-            {ui.bookingViewAllLabel}
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
-      </div>
     </div>
   );
 }
