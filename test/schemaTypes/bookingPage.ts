@@ -35,6 +35,7 @@ export default {
   icon: CalendarIcon,
   groups: [
     { name: 'general', title: 'General', default: true },
+    { name: 'emptyStates', title: 'Empty states & icons' },
     { name: 'step1', title: 'Step 1 – Service' },
     { name: 'step2', title: 'Step 2 – Clinic' },
     { name: 'step3', title: 'Step 3 - Practitioner' },
@@ -82,7 +83,7 @@ export default {
       name: 'emptyStateIconKey',
       title: 'Empty state icon',
       type: 'string',
-      group: 'general',
+      group: 'emptyStates',
       description:
         'Icon above the message in booking empty states. Choose «None» to hide it (unless an image below is set).',
       options: {
@@ -95,7 +96,7 @@ export default {
       name: 'emptyStateIconImage',
       title: 'Empty state icon image (optional)',
       type: 'image',
-      group: 'general',
+      group: 'emptyStates',
       description:
         'When set, replaces the icon key above in all booking empty states. Prefer SVG or PNG ~48×48.',
       options: mediaImageOptions('card'),
@@ -105,7 +106,7 @@ export default {
       name: 'emptyStateCallButtonIconKey',
       title: 'Empty state call button icon',
       type: 'string',
-      group: 'general',
+      group: 'emptyStates',
       description:
         'Small icon on the dark «call us» button. Choose «None» for text-only button.',
       options: {
@@ -287,6 +288,7 @@ export default {
     i18n('step5LabelService', 'Label: Service', 'step5'),
     i18n('step5LabelPrice', 'Label: Price', 'step5'),
     i18n('step5LabelClinic', 'Label: Clinic', 'step5'),
+    i18n('step5LabelAddress', 'Label: Address', 'step5'),
     i18n('step5LabelDuration', 'Label: Duration', 'step5'),
     i18n('step5LabelDate', 'Label: Date', 'step5'),
     i18n('step5LabelTime', 'Label: Time', 'step5'),
@@ -327,6 +329,7 @@ export default {
     i18n('successMessageSmsEmail', 'Confirmation (SMS and email)', 'success'),
     i18n('successLabelTreatment', 'Label: Treatment', 'success'),
     i18n('successLabelClinic', 'Label: Clinic', 'success'),
+    i18n('successLabelAddress', 'Label: Address', 'success'),
     i18n('successClinicPrefix', 'Clinic prefix', 'success', 'E.g. \'CMedical – \''),
     i18n('successLabelDateTime', 'Label: Date and time', 'success'),
     i18n('successLabelSpecialist', 'Label: Specialist', 'success'),

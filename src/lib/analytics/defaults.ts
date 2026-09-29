@@ -2,6 +2,7 @@ import {
   DEFAULT_CONSENT_HEAD_SCRIPT,
   resolveConsentHeadScript,
   stripDuplicateConsentFromGtmScript,
+  unwrapInlineScriptContent,
 } from "@/lib/analytics/consent-script";
 
 export { DEFAULT_CONSENT_HEAD_SCRIPT } from "@/lib/analytics/consent-script";
@@ -65,14 +66,14 @@ export function resolveGoogleAnalyticsSettings(
 ): GoogleAnalyticsSettingsResolved {
   const gtmContainerId = pickLang(raw?.gtmContainerId, lang) || DEFAULT_GTM_CONTAINER_ID;
   const consentHeadScript = resolveConsentHeadScript(pickLang(raw?.consentHeadScript, lang));
-  const rawGtmHead = pickLang(raw?.gtmHeadScript, lang);
+  const rawGtmHead = unwrapInlineScriptContent(pickLang(raw?.gtmHeadScript, lang));
   const gtmHeadScript = rawGtmHead
     ? stripDuplicateConsentFromGtmScript(rawGtmHead) || buildGtmHeadScript(gtmContainerId)
     : buildGtmHeadScript(gtmContainerId);
+  const cookiebotRaw = pickLang(raw?.cookiebotHeadScript, lang);
+  const cookiebotHeadScript = cookiebotRaw ? cookiebotRaw.trim() : undefined;
   const gtmBodyNoscriptHtml =
     pickLang(raw?.gtmBodyNoscript, lang) || buildGtmBodyNoscriptHtml(gtmContainerId);
-  const cookiebotHeadScript = pickLang(raw?.cookiebotHeadScript, lang) || undefined;
-
   return {
     enabled: raw?.enabled !== false,
     gtmContainerId,

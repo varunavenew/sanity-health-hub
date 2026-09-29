@@ -71,6 +71,7 @@ export type BookingPageCopy = {
   step5LabelService: string;
   step5LabelPrice: string;
   step5LabelClinic: string;
+  step5LabelAddress: string;
   step5LabelDuration: string;
   step5LabelDate: string;
   step5LabelTime: string;
@@ -109,6 +110,7 @@ export type BookingPageCopy = {
   successMessageSmsEmail: string;
   successLabelTreatment: string;
   successLabelClinic: string;
+  successLabelAddress: string;
   successClinicPrefix: string;
   successLabelDateTime: string;
   successLabelSpecialist: string;
@@ -192,6 +194,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step5LabelService: "Tjeneste",
   step5LabelPrice: "Pris",
   step5LabelClinic: "Klinikk",
+  step5LabelAddress: "Adresse",
   step5LabelDuration: "Varighet",
   step5LabelDate: "Dato",
   step5LabelTime: "Tid",
@@ -234,7 +237,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   successMessageSmsEmail: "Du vil motta en bekreftelse på SMS og e-post.",
   successLabelTreatment: "Behandling",
   successLabelClinic: "Klinikk",
-  successClinicPrefix: "CMedical – ",
+  successLabelAddress: "Adresse",
+  successClinicPrefix: "",
   successLabelDateTime: "Dato og tid",
   successLabelSpecialist: "Behandler",
   successBackHome: "Tilbake til forsiden",
@@ -322,6 +326,7 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   step5LabelService: "Service",
   step5LabelPrice: "Price",
   step5LabelClinic: "Clinic",
+  step5LabelAddress: "Address",
   step5LabelDuration: "Duration",
   step5LabelDate: "Date",
   step5LabelTime: "Time",
@@ -364,7 +369,8 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   successMessageSmsEmail: "You will receive a confirmation by SMS and email.",
   successLabelTreatment: "Treatment",
   successLabelClinic: "Clinic",
-  successClinicPrefix: "CMedical – ",
+  successLabelAddress: "Address",
+  successClinicPrefix: "",
   successLabelDateTime: "Date and time",
   successLabelSpecialist: "Practitioner",
   successBackHome: "Back to homepage",

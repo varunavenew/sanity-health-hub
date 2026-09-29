@@ -15,6 +15,11 @@ import {
   isFodselsnummerReadyForSubmit,
 } from "@/lib/booking/booking-validation";
 import { minutesToLengthTime } from "@/lib/booking/duration";
+import {
+  bookingConfirmationClinicAddress,
+  bookingConfirmationClinicName,
+  shouldHideBookingClinicAddress,
+} from "@/lib/booking/booking-confirmation-clinic";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import {
   formatBookingLongDate,
@@ -202,6 +207,26 @@ export function SpecialistMetodikaAvailability({
 
   const phone = clinic.phone || SPECIALIST_PAGE_FALLBACK_PHONE;
   const days = useMemo(() => upcomingDays(7), []);
+
+  const hideClinicAddress = shouldHideBookingClinicAddress({
+    serviceName: selectedService?.name,
+    servicePrice: selectedService?.price,
+  });
+  const confirmationClinicName = useMemo(
+    () =>
+      bookingConfirmationClinicName({
+        preferredName: clinic.label,
+      }),
+    [clinic.label],
+  );
+  const confirmationClinicAddress = useMemo(
+    () =>
+      bookingConfirmationClinicAddress({
+        fallbackAddress: clinic.address,
+        isDigital: hideClinicAddress,
+      }),
+    [clinic.address, hideClinicAddress],
+  );
 
   useEffect(() => {
     trackBookingInit("metodika");
@@ -492,11 +517,28 @@ export function SpecialistMetodikaAvailability({
         <p className="text-sm font-light text-muted-foreground">
           {formData.email.trim() ? copy.successMessageSmsEmail : copy.successMessageSms}
         </p>
-        <p className="text-sm font-light text-foreground">
-          {selectedService.name}
-          <br />
-          {clinic.label} · {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
-        </p>
+        <div className="space-y-2 text-left text-sm font-light text-foreground">
+          <div className="flex justify-between gap-4 border-b border-border/30 py-2">
+            <span className="text-muted-foreground">{copy.successLabelTreatment}</span>
+            <span className="font-normal text-right">{selectedService.name}</span>
+          </div>
+          <div className="flex justify-between gap-4 border-b border-border/30 py-2">
+            <span className="text-muted-foreground">{copy.successLabelClinic}</span>
+            <span className="font-normal text-right">{confirmationClinicName}</span>
+          </div>
+          {confirmationClinicAddress && (
+            <div className="flex justify-between gap-4 border-b border-border/30 py-2">
+              <span className="text-muted-foreground">{copy.successLabelAddress}</span>
+              <span className="font-normal text-right">{confirmationClinicAddress}</span>
+            </div>
+          )}
+          <div className="flex justify-between gap-4 py-2">
+            <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
+            <span className="font-normal text-right">
+              {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
+            </span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -512,10 +554,26 @@ export function SpecialistMetodikaAvailability({
           {copy.backLabel}
         </button>
         <p className="text-sm font-light text-foreground">
-          {selectedService.name} · {clinic.label}
-          <br />
-          {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
+          {selectedService.name}
         </p>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <div>
+            <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelClinic}</span>
+            <p className="font-normal text-foreground">{confirmationClinicName}</p>
+          </div>
+          {confirmationClinicAddress && (
+            <div>
+              <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelAddress}</span>
+              <p className="font-normal text-foreground">{confirmationClinicAddress}</p>
+            </div>
+          )}
+          <div className={confirmationClinicAddress ? "" : "col-span-2"}>
+            <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelDate}</span>
+            <p className="font-normal text-foreground">
+              {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
+            </p>
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="sp-firstName" className="text-sm text-foreground/70">

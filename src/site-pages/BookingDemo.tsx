@@ -17,6 +17,11 @@ import {
 } from "date-fns";
 import { formatDurationMinutes, localizeDurationLabel, minutesToLengthTime } from "@/lib/booking/duration";
 import {
+  bookingConfirmationClinicAddress,
+  bookingConfirmationClinicName,
+  shouldHideBookingClinicAddress,
+} from "@/lib/booking/booking-confirmation-clinic";
+import {
   bookingDateFnsLocale,
   formatBookingLongDate,
   formatBookingMonthShort,
@@ -440,6 +445,29 @@ const BookingDemo = () => {
     }
     return sanityClinics.find((row) => row.id === clinic.id);
   }, [bookingData.clinic, sanityClinics]);
+
+  const hideClinicAddress = shouldHideBookingClinicAddress({
+    serviceName: bookingData.service?.name,
+    servicePrice: bookingData.service?.price,
+  });
+
+  const confirmationClinicName = useMemo(
+    () =>
+      bookingConfirmationClinicName({
+        clinic: bookingData.clinic,
+        sanityClinic: selectedSanityClinic,
+      }),
+    [bookingData.clinic, selectedSanityClinic],
+  );
+
+  const confirmationClinicAddress = useMemo(
+    () =>
+      bookingConfirmationClinicAddress({
+        sanityClinic: selectedSanityClinic,
+        isDigital: hideClinicAddress,
+      }),
+    [hideClinicAddress, selectedSanityClinic],
+  );
 
   const isSanityManagedBooking =
     bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
@@ -1728,8 +1756,14 @@ const BookingDemo = () => {
               </div>
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelClinic}</span>
-                <span className="font-medium">{copy.successClinicPrefix}{bookingData.clinic?.label}</span>
+                <span className="font-medium text-right max-w-[60%]">{confirmationClinicName}</span>
               </div>
+              {confirmationClinicAddress && (
+                <div className="flex justify-between py-2 border-b border-border/30">
+                  <span className="text-muted-foreground">{copy.successLabelAddress}</span>
+                  <span className="font-medium text-right max-w-[60%]">{confirmationClinicAddress}</span>
+                </div>
+              )}
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
                 <span className="font-medium">{bookingData.date && formatBookingShortDate(bookingData.date, locale)} kl. {bookingData.time}</span>
@@ -2624,8 +2658,14 @@ const BookingDemo = () => {
                   </div>
                   <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelClinic}</span>
-                    <p className="font-normal text-brand-dark">{bookingData.clinic?.label}</p>
+                    <p className="font-normal text-brand-dark">{confirmationClinicName}</p>
                   </div>
+                  {confirmationClinicAddress && (
+                    <div className="flex flex-col gap-1 min-w-0">
+                      <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelAddress}</span>
+                      <p className="font-normal text-brand-dark">{confirmationClinicAddress}</p>
+                    </div>
+                  )}
                   {bookingData.slotDurationMinutes != null && (
                     <div className="flex flex-col gap-1 min-w-0">
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
