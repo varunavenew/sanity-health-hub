@@ -140,6 +140,11 @@ export function SpecialistMetodikaAvailability({
   const dateLang: BookingDateLang = locale === "en" ? "en" : "no";
   const { data: bookingPage } = useBookingPage();
   const copy = bookingPage ?? defaultBookingPageCopyForLang(dateLang);
+  const emptyStateIconProps = {
+    iconKey: copy.emptyStateIconKey,
+    iconUrl: copy.emptyStateIconUrl,
+    callButtonIconKey: copy.emptyStateCallButtonIconKey,
+  };
 
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
@@ -471,6 +476,7 @@ export function SpecialistMetodikaAvailability({
   if (bookingCategoryIds.length === 0 || services.length === 0) {
     return (
       <FriendlyEmpty
+        {...emptyStateIconProps}
         title={copy.step4NotOnlineTitle}
         message={copy.step4NotOnlineMessage}
         phone={phone}
@@ -710,6 +716,7 @@ export function SpecialistMetodikaAvailability({
         <>
           {!hintsLoading && hintDays.size === 0 ? (
             <FriendlyEmpty
+              {...emptyStateIconProps}
               title={copy.step4NoSlotsTitle}
               message={copy.step4NoSlotsMessage}
               phone={phone}
@@ -764,6 +771,7 @@ export function SpecialistMetodikaAvailability({
                   </div>
                 ) : visibleSlots.length === 0 ? (
                   <FriendlyEmpty
+                    {...emptyStateIconProps}
                     title={copy.step4NoSlotsTitle}
                     message={copy.step4NoSlotsMessage}
                     phone={phone}

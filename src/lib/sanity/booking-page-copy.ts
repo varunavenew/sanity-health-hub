@@ -18,6 +18,12 @@ export type BookingPageCopy = {
   supportPhoneLabel: string;
   /** Footer under every booking step. Use `{{phone}}` for the clickable number. */
   supportFooterText: string;
+  /** Lucide / CMedical icon key for FriendlyEmpty states (`getIcon`). */
+  emptyStateIconKey: string;
+  /** Optional CMS image override for empty-state icon. */
+  emptyStateIconUrl?: string;
+  /** Icon on the «call us» pill in empty states; `none` hides it. */
+  emptyStateCallButtonIconKey: string;
   step1Heading: string;
   step1HeadingFiltered: string;
   step1ShowAllServices: string;
@@ -131,6 +137,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   supportPhoneLabel: "Ring oss så hjelper vi deg",
   supportFooterText:
     "Hvis du opplever utfordringer med nettbestilling, er du velkommen til å ringe oss på {{phone}}.\nVi er tilgjengelige fra 08:00 – 20:00 alle hverdager.",
+  emptyStateIconKey: "heart-handshake",
+  emptyStateCallButtonIconKey: "phone",
   step1Heading: "Velg tjeneste",
   step1HeadingFiltered: "Velg tjeneste innen {{category}}",
   step1ShowAllServices: "Vis alle tjenester",
@@ -259,6 +267,8 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   supportPhoneLabel: "Call us and we will help",
   supportFooterText:
     "If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.",
+  emptyStateIconKey: "heart-handshake",
+  emptyStateCallButtonIconKey: "phone",
   step1Heading: "Choose a service",
   step1HeadingFiltered: "Choose a service within {{category}}",
   step1ShowAllServices: "Show all services",
@@ -420,10 +430,16 @@ export function resolveBookingPageCopy(
 
   for (const key of Object.keys(DEFAULT_BOOKING_PAGE_COPY) as (keyof BookingPageCopy)[]) {
     if (key === "step1CategoryClinicBadges") continue;
+    if (key === "emptyStateIconUrl") continue;
     const value = cms[key];
     if (typeof value === "string" && value.trim()) {
       merged[key] = value.trim();
     }
+  }
+
+  const iconUrl = cms.emptyStateIconUrl;
+  if (typeof iconUrl === "string" && iconUrl.trim()) {
+    merged.emptyStateIconUrl = iconUrl.trim();
   }
 
   return merged;

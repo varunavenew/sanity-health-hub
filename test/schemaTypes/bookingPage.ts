@@ -7,6 +7,12 @@ import {
   mediaImageOptions,
   softImageRules,
 } from './mediaGuidelines'
+import {
+  BOOKING_CALL_BUTTON_ICON_DEFAULT,
+  BOOKING_CALL_BUTTON_ICON_OPTIONS,
+  BOOKING_EMPTY_STATE_ICON_DEFAULT,
+  BOOKING_EMPTY_STATE_ICON_OPTIONS,
+} from './bookingEmptyStateIcons'
 
 const i18n = (
   name: string,
@@ -72,6 +78,42 @@ export default {
       'Shown under every booking step. Use {{phone}} for the clickable number.',
       'internationalizedArrayText',
     ),
+    {
+      name: 'emptyStateIconKey',
+      title: 'Empty state icon',
+      type: 'string',
+      group: 'general',
+      description:
+        'Icon above the message in booking empty states. Choose «None» to hide it (unless an image below is set).',
+      options: {
+        list: [...BOOKING_EMPTY_STATE_ICON_OPTIONS],
+        layout: 'dropdown',
+      },
+      initialValue: BOOKING_EMPTY_STATE_ICON_DEFAULT,
+    },
+    {
+      name: 'emptyStateIconImage',
+      title: 'Empty state icon image (optional)',
+      type: 'image',
+      group: 'general',
+      description:
+        'When set, replaces the icon key above in all booking empty states. Prefer SVG or PNG ~48×48.',
+      options: mediaImageOptions('card'),
+      validation: softImageRules('card'),
+    },
+    {
+      name: 'emptyStateCallButtonIconKey',
+      title: 'Empty state call button icon',
+      type: 'string',
+      group: 'general',
+      description:
+        'Small icon on the dark «call us» button. Choose «None» for text-only button.',
+      options: {
+        list: [...BOOKING_CALL_BUTTON_ICON_OPTIONS],
+        layout: 'dropdown',
+      },
+      initialValue: BOOKING_CALL_BUTTON_ICON_DEFAULT,
+    },
 
     i18n('step1Heading', 'Heading', 'step1'),
     i18n(
@@ -228,6 +270,11 @@ export default {
 
     i18n('step4Heading', 'Heading', 'step4'),
     i18n('step4SelectedDayLabel', '\'Selected day\' label', 'step4'),
+    i18n('step4NoDaysLabel', 'Calendar – no days hint', 'step4'),
+    i18n('step4TodayLabel', 'Calendar – today label', 'step4', 'Short label under today’s date, e.g. «I dag».'),
+    i18n('step4PickTimeLabel', 'Time picker heading', 'step4', 'E.g. «Velg en tid».'),
+    i18n('step4DurationPrefix', 'Duration prefix', 'step4', 'Shown before minutes, e.g. «Varighet» 45 min.'),
+    i18n('step4LoadingTimes', 'Loading times text', 'step4'),
     i18n('step4NotOnlineTitle', 'Not online – title', 'step4'),
     i18n('step4NotOnlineMessage', 'Not online - message', 'step4', undefined, 'internationalizedArrayText'),
     i18n('step4NoDaysTitle', 'No days – title', 'step4'),

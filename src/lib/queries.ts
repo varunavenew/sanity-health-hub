@@ -1282,6 +1282,11 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step3EmptyFetchTitle",
   "step4Heading",
   "step4SelectedDayLabel",
+  "step4NoDaysLabel",
+  "step4TodayLabel",
+  "step4PickTimeLabel",
+  "step4DurationPrefix",
+  "step4LoadingTimes",
   "step4NotOnlineTitle",
   "step4NoDaysTitle",
   "step4NoSlotsTitle",
@@ -1357,6 +1362,9 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}]
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
   step2EmptyPhone,
+  emptyStateIconKey,
+  emptyStateCallButtonIconKey,
+  "emptyStateIconUrl": emptyStateIconImage.asset->url,
   step1CategoryClinicBadges[]{
     categoryKeys,
     badges[]{

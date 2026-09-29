@@ -306,6 +306,11 @@ const BookingDemo = () => {
   const { specialists } = useSpecialistsData();
   const { data: bookingPageData = defaultBookingPageCopyForLang(locale) } = useBookingPage();
   const copy = bookingPageData;
+  const emptyStateIconProps = {
+    iconKey: copy.emptyStateIconKey,
+    iconUrl: copy.emptyStateIconUrl,
+    callButtonIconKey: copy.emptyStateCallButtonIconKey,
+  };
   const bookingGeoSummary = bookingPageData.geoSummary;
   const { data: sanityClinics = [] } = useClinics();
   const {
@@ -1956,6 +1961,7 @@ const BookingDemo = () => {
 
               {!servicesLoading && bookingServices.length === 0 && (
                 <FriendlyEmpty
+                  {...emptyStateIconProps}
                   title={copy.step1EmptyTitle}
                   message={copy.step1EmptyMessage}
                   phone={copy.supportPhone}
@@ -2123,6 +2129,7 @@ const BookingDemo = () => {
 
               {step2Ready && availableClinics.length === 0 && (
                 <FriendlyEmpty
+                  {...emptyStateIconProps}
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
                   phone={copy.step2EmptyPhone}
@@ -2206,6 +2213,7 @@ const BookingDemo = () => {
                 step3Caregivers.length === 0 &&
                 caregiverIdsFromSlots.length === 0 && (
                   <FriendlyEmpty
+                    {...emptyStateIconProps}
                     title={copy.step3EmptyNoCaregiversTitle}
                     message={copy.step3EmptyNoCaregiversMessage}
                     phone={copy.supportPhone}
@@ -2218,6 +2226,7 @@ const BookingDemo = () => {
                 step3Caregivers.length === 0 &&
                 caregiverIdsFromSlots.length > 0 && (
                   <FriendlyEmpty
+                    {...emptyStateIconProps}
                     title={copy.step3EmptyFetchTitle}
                     message={copy.step3EmptyFetchMessage}
                     phone={copy.supportPhone}
@@ -2387,6 +2396,7 @@ const BookingDemo = () => {
                     />
                   ) : step4NoBookableDays ? (
                     <FriendlyEmpty
+                      {...emptyStateIconProps}
                       title={copy.step4NoDaysTitle}
                       message={copy.step4NoDaysMessage}
                       phone={copy.supportPhone}
@@ -2498,6 +2508,7 @@ const BookingDemo = () => {
 
                   {!hasApiActivity ? (
                     <FriendlyEmpty
+                      {...emptyStateIconProps}
                       title={copy.step4NotOnlineTitle}
                       message={copy.step4NotOnlineMessage}
                       phone={copy.supportPhone}
@@ -2565,6 +2576,7 @@ const BookingDemo = () => {
                     )
                   ) : (
                     <FriendlyEmpty
+                      {...emptyStateIconProps}
                       title={copy.step4NoSlotsTitle}
                       message={copy.step4NoSlotsMessage}
                       phone={copy.supportPhone}
