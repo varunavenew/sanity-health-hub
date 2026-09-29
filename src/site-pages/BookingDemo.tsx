@@ -19,7 +19,9 @@ import { formatDurationMinutes, localizeDurationLabel, minutesToLengthTime } fro
 import {
   bookingConfirmationClinicAddress,
   bookingConfirmationClinicName,
+  pickDefaultBookingClinicForRemoteService,
   shouldHideBookingClinicAddress,
+  shouldSkipBookingClinicSelectionStep,
 } from "@/lib/booking/booking-confirmation-clinic";
 import {
   bookingDateFnsLocale,
@@ -447,6 +449,11 @@ const BookingDemo = () => {
   }, [bookingData.clinic, sanityClinics]);
 
   const hideClinicAddress = shouldHideBookingClinicAddress({
+    serviceName: bookingData.service?.name,
+    servicePrice: bookingData.service?.price,
+  });
+
+  const skipClinicSelectionStep = shouldSkipBookingClinicSelectionStep({
     serviceName: bookingData.service?.name,
     servicePrice: bookingData.service?.price,
   });
@@ -1438,21 +1445,33 @@ const BookingDemo = () => {
     matrixMetodikaClinics.length > 0 ||
     clinicsAvailabilityReady;
 
-  // Auto-select when exactly one clinic is available (once per service; not after "Tilbake")
+  // Auto-select clinic: remote services → default location (BT-11b); physical → single option only
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
     if (!step2Ready) return;
-    if (availableClinics.length !== 1) return;
+    if (availableClinics.length === 0) return;
+
+    let clinicToSelect: BookingClinic | undefined;
+    if (skipClinicSelectionStep) {
+      clinicToSelect = pickDefaultBookingClinicForRemoteService(
+        availableClinics,
+        sanityClinics,
+      );
+    } else if (availableClinics.length === 1) {
+      clinicToSelect = availableClinics[0];
+    } else {
+      return;
+    }
+
+    if (!clinicToSelect) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;
 
     autoSelectedClinicActivityRef.current = activityId;
-    const onlyClinic = availableClinics[0];
-    prefetchCaregiversForClinic(onlyClinic);
+    prefetchCaregiversForClinic(clinicToSelect);
     setBookingData((prev) => ({
       ...prev,
-      clinic: onlyClinic,
-      // Keep preselected specialist when auto-picking their only clinic
+      clinic: clinicToSelect,
       specialist: prev.specialist,
       specialistChosen: prev.specialistChosen,
     }));
@@ -1461,6 +1480,8 @@ const BookingDemo = () => {
     bookingData.clinic,
     step2Ready,
     availableClinics,
+    skipClinicSelectionStep,
+    sanityClinics,
     prefetchCaregiversForClinic,
   ]);
 
@@ -1697,6 +1718,7 @@ const BookingDemo = () => {
       setBookingData({});
       setExpandedCategory(null);
     } else if (step === 'clinic') {
+      autoSelectedClinicActivityRef.current = null;
       setBookingData({
         ...bookingData,
         clinic: undefined,
@@ -2145,8 +2167,35 @@ const BookingDemo = () => {
               </div>
               )}
             </motion.div>
+          ) : !bookingData.clinic && skipClinicSelectionStep ? (
+            <motion.div
+              key="step2-remote"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4"
+            >
+              {bookingData.service?.apiActivityId && !step2Ready && (
+                <BookingStepLoader message={copy.step2Loading} />
+              )}
+              {step2Ready && availableClinics.length === 0 && (
+                <FriendlyEmpty
+                  {...emptyStateIconProps}
+                  title={copy.step2EmptyTitle}
+                  message={copy.step2EmptyMessage}
+                  phone={copy.step2EmptyPhone}
+                  phoneLabel={copy.step2EmptyButtonLabel}
+                />
+              )}
+              {step2Ready &&
+                availableClinics.length > 0 &&
+                !bookingData.clinic && (
+                  <BookingStepLoader message={copy.step2Loading} />
+                )}
+            </motion.div>
           ) : !bookingData.clinic ? (
-            /* Step 2: Select Clinic */
+            /* Step 2: Select Clinic (physical / in-clinic services) */
             <motion.div
               key="step2"
               initial={{ opacity: 0, y: 20 }}
