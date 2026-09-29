@@ -515,9 +515,6 @@ const BookingDemo = () => {
   const trackedStepRef = useRef<number | null>(null);
   const bookingInitTracked = useRef(false);
   const deepLinkMenuStartTracked = useRef(false);
-  /** After empty-clinic «Bestill time», skip URL service prefill so the user can pick another service. */
-  const skipServicePrefillRef = useRef(false);
-
   useEffect(() => {
     if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
     bookingInitTracked.current = true;
@@ -568,8 +565,6 @@ const BookingDemo = () => {
   // Jumps to the first unfilled step so users coming from a specific
   // page never have to start over.
   useEffect(() => {
-    // After "Bestill time" on the empty-clinic state, do not re-lock the non-bookable service.
-    if (skipServicePrefillRef.current) return;
     // Clinic may already be set from ?klinikk= (Pasientsky/Moelv) before this runs —
     // still allow service/specialist prefill. Only skip once service is chosen.
     if (bookingData.service) return;
@@ -1325,22 +1320,6 @@ const BookingDemo = () => {
 
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */
   const autoSelectedClinicActivityRef = useRef<number | null>(null);
-
-  const handleBookAnotherWay = () => {
-    skipServicePrefillRef.current = true;
-    autoSelectedClinicActivityRef.current = null;
-    setClinicsAvailabilityReady(false);
-    setBookingData({});
-    setExpandedCategory(null);
-    setFilterToCategoryId(null);
-
-    const next = new URLSearchParams(searchParams.toString());
-    for (const key of ["aktivitetId", "tjeneste", "tjenesteValg"]) {
-      next.delete(key);
-    }
-    const qs = next.toString();
-    navigate(qs ? `${pathname}?${qs}` : pathname, { replace: true });
-  };
 
   const handleSelectService = (
     categoryId: string,
@@ -2148,8 +2127,6 @@ const BookingDemo = () => {
                   message={copy.step2EmptyMessage}
                   phone={copy.step2EmptyPhone}
                   phoneLabel={copy.step2EmptyButtonLabel}
-                  secondaryLabel={copy.step2EmptyBookLabel}
-                  onSecondaryClick={handleBookAnotherWay}
                 />
               )}
 
@@ -2414,8 +2391,6 @@ const BookingDemo = () => {
                       message={copy.step4NoDaysMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
-                      secondaryLabel={copy.step2EmptyBookLabel}
-                      onSecondaryClick={handleBookAnotherWay}
                     />
                   ) : (
                   <AnimatePresence mode="wait" initial={false}>
@@ -2527,8 +2502,6 @@ const BookingDemo = () => {
                       message={copy.step4NotOnlineMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
-                      secondaryLabel={copy.step2EmptyBookLabel}
-                      onSecondaryClick={handleBookAnotherWay}
                     />
                   ) : timesLoading && availableSlots.length === 0 ? (
                     <BookingStepLoader
@@ -2596,8 +2569,6 @@ const BookingDemo = () => {
                       message={copy.step4NoSlotsMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
-                      secondaryLabel={copy.step2EmptyBookLabel}
-                      onSecondaryClick={handleBookAnotherWay}
                     />
                   )}
                 </div>
