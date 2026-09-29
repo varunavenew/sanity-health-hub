@@ -21,7 +21,6 @@ import type {PageEditorConfig, PageSectionDefinition} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip} from '../documentMeta'
 import {
-  articlesBandSection,
   bookingCtaBandSection,
   faqCollectionSection,
   i18nPreview,
@@ -165,24 +164,6 @@ function treatmentSections(): PageSectionDefinition[] {
         }),
     },
     {
-      id: 'textSection',
-      title: 'Text section',
-      description: 'Optional text + points band. Leave empty to hide on the website.',
-      icon: DocumentTextIcon,
-      fields: ['textSection'],
-      getChips: (doc) =>
-        chipsFromDocument(doc, Boolean(doc), (document) => {
-          const band = document.textSection as Record<string, unknown> | undefined
-          if (!band) return []
-          const has =
-            Boolean(i18nPreview(band.title)) ||
-            Boolean(i18nPreview(band.lead)) ||
-            (countArray(band.points) ?? 0) > 0 ||
-            Boolean(band.image)
-          return has ? ['Configured'] : []
-        }),
-    },
-    {
       ...faqCollectionSection({
         titleField: 'faqSectionTitle',
         collectionField: 'faqCollection',
@@ -190,12 +171,6 @@ function treatmentSections(): PageSectionDefinition[] {
       fields: ['faqSectionTitle', 'faqCollection'],
       description:
         'FAQ Collection from Content Library. Leave empty to hide on the website.',
-    },
-    {
-      ...articlesBandSection({
-        pageOwnedNotice:
-          'Only the Articles band for this treatment. Other shared bands have their own cards.',
-      }),
     },
     {
       id: 'midCta',
@@ -291,13 +266,7 @@ function treatmentSections(): PageSectionDefinition[] {
       fields: [
         'sortOrder',
         'parentCategoryLabel',
-        'subItems',
-        'expertReadMoreLabel',
-        'homeBreadcrumbLabel',
         'srOnlyTitle',
-        'themesAriaLabel',
-        'scrollLeftLabel',
-        'scrollRightLabel',
         'bookingService',
         'subtitle',
         'eyebrow',

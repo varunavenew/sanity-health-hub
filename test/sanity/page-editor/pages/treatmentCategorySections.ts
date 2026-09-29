@@ -268,6 +268,102 @@ function treatmentCategorySections(): PageSectionDefinition[] {
   ]
 }
 
+/*
+ * Website render order — mirrors src/site-pages/treatments/TreatmentCategoryLanding.tsx
+ * (DEFAULT_ORDER / FERTILITY_ORDER / PREGNANCY_ORDER + landingPage.sectionOrder merge)
+ * and PageSectionsRenderer (shared bands). Keep in sync when the website order changes.
+ */
+const DEFAULT_ORDER = [
+  'segments', 'why', 'audiences', 'expertAreas',
+  'symptoms', 'services', 'support', 'results',
+  'reviews', 'spotlight', 'journey',
+]
+const FERTILITY_ORDER = [
+  'segments', 'why', 'audiences', 'expertAreas',
+  'symptoms', 'services', 'support', 'results',
+  'reviews', 'spotlight', 'specialists', 'journey',
+]
+const PREGNANCY_ORDER = [
+  'segments', 'faq', 'why', 'expertAreas', 'services',
+  'results', 'reviews', 'spotlight', 'specialists', 'journey',
+]
+
+/** Copy of src/lib/ui/merge-section-order.ts (Studio build cannot import src/). */
+function mergeSectionOrder(
+  cmsOrder: string[] | null | undefined,
+  fallback: string[],
+  extraAllowed: string[] = [],
+): string[] {
+  const allowed = new Set([...fallback, ...extraAllowed])
+  const cms = (cmsOrder ?? []).filter(
+    (key, index, arr) => allowed.has(key) && arr.indexOf(key) === index,
+  )
+  if (!cms.length) return [...fallback]
+
+  const cmsKeys = new Set(cms)
+  const result: string[] = []
+  let cmsIdx = 0
+  for (const key of fallback) {
+    if (cmsKeys.has(key)) {
+      if (cmsIdx < cms.length) result.push(cms[cmsIdx++])
+    } else {
+      result.push(key)
+    }
+  }
+  while (cmsIdx < cms.length) {
+    if (!result.includes(cms[cmsIdx])) result.push(cms[cmsIdx])
+    cmsIdx++
+  }
+  return result
+}
+
+const BAND_SECTION_IDS: Record<string, string> = {
+  pageSectionInsurance: 'insurance',
+  pageSectionBookingCta: 'bookingCta',
+}
+
+/** Card order matching how the website renders this category document. */
+function websiteSectionOrder(document: Record<string, unknown> | undefined): string[] {
+  const landing = document?.landingPage as {sectionOrder?: unknown} | undefined
+  const cmsOrder = Array.isArray(landing?.sectionOrder)
+    ? landing.sectionOrder.filter((key): key is string => typeof key === 'string')
+    : []
+  const categoryId =
+    (typeof document?.categoryId === 'string' && document.categoryId) ||
+    String(document?._id || '').replace(/^drafts\./, '').replace(/^category-/, '')
+  const template =
+    categoryId === 'graviditet' || categoryId === 'pregnancy'
+      ? PREGNANCY_ORDER
+      : categoryId === 'fertilitet' || categoryId === 'fertility'
+        ? FERTILITY_ORDER
+        : DEFAULT_ORDER
+
+  const order = mergeSectionOrder(cmsOrder, template, ['specialists', 'faq'])
+  const ids = ['hero']
+  if (order.includes('specialists')) {
+    ids.push(...order)
+  } else {
+    // Specialists band + Journey follow the body loop on the website.
+    ids.push(...order.filter((key) => key !== 'journey'), 'specialists', 'journey')
+  }
+
+  // Remaining shared bands keep the document's pageSections order.
+  const bands = Array.isArray(document?.pageSections)
+    ? (document.pageSections as {_type?: string}[])
+    : []
+  for (const band of bands) {
+    const id = band?._type ? BAND_SECTION_IDS[band._type] : undefined
+    if (id && !ids.includes(id)) ids.push(id)
+  }
+  for (const id of ['insurance', 'bookingCta']) if (!ids.includes(id)) ids.push(id)
+
+  // Sections this category's website order never renders (e.g. FAQ outside
+  // Pregnancy, Audience/Support on Pregnancy) sit after the page body.
+  for (const id of [...DEFAULT_ORDER, 'faq']) if (!ids.includes(id)) ids.push(id)
+  ids.push('general', 'seo', 'advanced')
+  return ids
+}
+
 export type TreatmentCategoryEditorOptions = {
   /** Desk / section-list title (e.g. Fertility, Pregnancy). */
   title: string
@@ -282,6 +378,7 @@ export function createTreatmentCategoryPageEditorConfig(
     subtitle: 'Edit the page section by section - same order as the website.',
     defaultSectionId: 'hero',
     sections: treatmentCategorySections(),
+    getSectionOrder: websiteSectionOrder,
   })
 }
 
