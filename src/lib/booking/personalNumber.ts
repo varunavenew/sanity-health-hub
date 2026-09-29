@@ -117,6 +117,16 @@ function splitFodselsnummer(raw: string): {
 }
 
 /**
+ * Metodika `gender` on POST /webaccounts: 9th digit odd → 1 (male), even → 0 (female).
+ * Call only after `isValidFodselsnummer` / `assertValidPersonalnumberForWebAccount`.
+ */
+export function metodikaGenderFromFodselsnummer(raw: string): 0 | 1 {
+  const digits = personalNumberDigits(raw);
+  const ninth = Number(digits[8]);
+  return ninth % 2 === 1 ? 1 : 0;
+}
+
+/**
  * Metodika webaccount `birthdate` — ISO `YYYY-MM-DD` derived from fødselsnummer.
  * Required so patient card Fødselsdato is not 00.00.0000 (Convene payment chain).
  */
