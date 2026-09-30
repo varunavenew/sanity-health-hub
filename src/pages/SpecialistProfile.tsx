@@ -16,7 +16,7 @@ import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { useSpecialistsData, type Specialist } from "@/hooks/useSpecialistsData";
 import { useFaqs, useTreatmentCategory, useTreatmentsByIds } from "@/hooks/useSanity";
 import { getPortraitFocal } from "@/lib/specialistFocal";
-import { SPECIALIST_PROFILE_DATA } from "@/data/specialistProfileData";
+import { SPECIALIST_PROFILE_DATA, NOT_BOOKABLE } from "@/data/specialistProfileData";
 import { staticTreatmentCard, type ProfileTreatmentCard } from "@/lib/specialistTreatmentFallback";
 import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";

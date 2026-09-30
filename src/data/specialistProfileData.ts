@@ -1,3 +1,30 @@
+/**
+ * Specialists who are NOT bookable online (no Metodika ID or no free times).
+ * Hero and sticky CTA show "Ring for å bestille time" + phone, and the
+ * booking section is hidden for them.
+ */
+export const NOT_BOOKABLE = new Set([
+  "are-haukaen-stodle",
+  "ashwin-reddy",
+  "audun-dybvik-bohn",
+  "cennet-akdeniz",
+  "christina-krassny",
+  "erik-berg",
+  "gilbert-moatshe",
+  "helen-antonsen-heyler",
+  "henrik-michelsen-wahl",
+  "kristin-floberghagen",
+  "kristinn-eiriksson",
+  "lars-eldar-myrseth",
+  "mia-kitter",
+  "nabeel-yousaf-khan",
+  "ragnhild-oydna-stoen",
+  "sigrid-grimkelsrud",
+  "tea-berge",
+  "thor-brevik",
+  "tom-henry-sundoen",
+]);
+
 export const SPECIALIST_PROFILE_DATA: Record<string, { expertise: string; treatments: string[] }> = {
  "alenka-bindas": { "expertise": "Gynekolog · Spesialist", "treatments": ["treatment-gynekologi-undersokelse","treatment-gynekologi-celleforandringer","treatment-gynekologi-urinlekkasje"] },
  "andreas-edenberg": { "expertise": "Gastrokirurg · Spesialist", "treatments": ["treatment-flere-fagomrader-gastrokirurgi","treatment-flere-fagomrader-sleeve-gastrektomi"] },
