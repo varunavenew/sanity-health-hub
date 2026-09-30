@@ -85,6 +85,10 @@ export interface Specialist {
   experience?: string;
   languages?: string[];
   clinics?: string[];
+  /** From Sanity `bookingEnabled`. Undefined (static fallback) = bookable. */
+  bookingEnabled?: boolean;
+  /** Sanity category slugs in document order. */
+  categorySlugs?: string[];
 }
 
 export const specialists: Specialist[] = [

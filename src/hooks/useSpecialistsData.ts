@@ -37,6 +37,8 @@ export const useSpecialistsData = () => {
         education: s.education,
         languages: s.languages,
         clinics: s.clinics,
+        bookingEnabled: s.bookingEnabled,
+        categorySlugs: (s as any).categories?.map((c: any) => c?.slug).filter(Boolean),
       }))
     : staticSpecialists;
 
