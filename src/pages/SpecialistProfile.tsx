@@ -127,6 +127,11 @@ const ProfileHero = ({ specialist, meta, bookable, onBook }: { specialist: Speci
   );
 };
 
+/** Card-title overrides when the fallback/Sanity title repeats the area block title. */
+const CARD_TITLE_OVERRIDES: Record<string, string> = {
+  "treatment-gynekologi-graviditet": "Graviditetsoppfølging",
+};
+
 const useTreatmentCards = (ids: string[]) => {
   const { data, isLoading } = useTreatmentsByIds(ids);
   return useMemo(() => {
@@ -139,13 +144,13 @@ const useTreatmentCards = (ids: string[]) => {
       if (t?.title && t?.slug) {
         cards.push({
           id,
-          title: t.title,
+          title: CARD_TITLE_OVERRIDES[id] ?? t.title,
           text: t.description || t.heroDescription || fallback?.text || "",
           image: t.heroImage || fallback?.image,
           to: `/behandlinger/${normalizeCategory(t.categorySlug)}/${t.slug}`,
         });
       } else if (fallback) {
-        cards.push(fallback);
+        cards.push({ ...fallback, title: CARD_TITLE_OVERRIDES[id] ?? fallback.title });
       } else {
         missing.push(id);
       }
@@ -283,7 +288,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   }
 
   const firstName = specialist.name.split(" ")[0];
-  const bookable = specialist.bookingEnabled !== false;
+  const bookable = specialist.bookingEnabled !== false && !NOT_BOOKABLE.has(slug);
   const meta = profileData?.expertise ?? [specialist.title, specialist.subtitle].filter(Boolean).join(" · ");
 
   const staticArea = STATIC_AREAS[areaSlug];
