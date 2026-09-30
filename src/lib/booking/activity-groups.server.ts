@@ -8,7 +8,9 @@ export async function fetchBookingActivityGroupsServer(lang: "no" | "en" = "no")
   if (!apiKey) return [];
 
   try {
-    return await buildBookingActivityGroupsCatalog(apiKey);
+    return await buildBookingActivityGroupsCatalog(apiKey, {
+      includeApiPrices: true,
+    });
   } catch (error) {
     console.error("[booking/activity-groups/server] error:", error);
     return [];

@@ -17,7 +17,7 @@ import { SplitHero } from "@/components/layout/SplitHero";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
-import { bookingUrlForPricingItem, slugifyNo } from "@/lib/bookingLinks";
+import { bookingUrlForPricingItem } from "@/lib/bookingLinks";
 import {
   parsePriceFromLabel,
   trackBookingMenuStart,
@@ -39,8 +39,9 @@ import {
   cmsCopyOrI18n,
   localizePricingText,
 } from "@/lib/pricing/pricing-i18n";
-import { mergeLegacyItemsIntoSubcategories } from "@/lib/pricing/merge-legacy-price-lines";
+import { buildPricingPageCategories } from "@/lib/pricing/resolve-pricing-catalog";
 import { syncI18nLanguage } from "@/lib/i18n/sync-language";
+import { usePricingMetodikaCatalog } from "@/hooks/usePricingMetodikaCatalog";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -158,183 +159,6 @@ function formatDisplayPrice(price: string, locale: "no" | "en"): string {
   return locale === "en" ? `from ${formatted},-` : `fra ${formatted},-`;
 }
 
-function mapSanityPriceItem(raw: {
-  name?: string;
-  price?: number;
-  priceLabel?: string;
-  note?: string;
-  source?: string;
-  apiActivityId?: number;
-}): PriceItem | null {
-  const name = raw?.name?.trim();
-  if (!name) return null;
-  const source: "metodika" | "cmedical" =
-    raw.source === "metodika" ? "metodika" : "cmedical";
-  const apiActivityId =
-    typeof raw.apiActivityId === "number" && raw.apiActivityId > 0
-      ? raw.apiActivityId
-      : undefined;
-  const priceLabel = raw.priceLabel?.trim();
-  const price =
-    priceLabel ||
-    (typeof raw.price === "number" ? `${raw.price},-` : "");
-  // Booking CTA only for explicit Metodika-origin lines with a valid activity id.
-  const bookable = source === "metodika" && apiActivityId != null;
-  return {
-    name,
-    price,
-    duration: raw.note?.trim() ?? "",
-    source,
-    apiActivityId: source === "metodika" ? apiActivityId : undefined,
-    bookable,
-  };
-}
-
-function resolveSubcategoryLearnMorePath(
-  sub: {
-    linkToCategoryPage?: boolean;
-    treatmentRef?: {
-      slug?: string;
-      categorySlug?: string;
-      categoryId?: string;
-    } | null;
-  },
-  bookingCategorySlug: string,
-  locale: "no" | "en",
-): string | null {
-  const treatmentSlug = String(sub.treatmentRef?.slug ?? "").trim();
-  if (treatmentSlug) {
-    const routeKey =
-      normalizeCategoryRouteKey(
-        String(
-          sub.treatmentRef?.categoryId ||
-            sub.treatmentRef?.categorySlug ||
-            bookingCategorySlug,
-        ),
-      ) || bookingCategorySlug;
-    // Prefer parent pricing category for known top-level booking slugs so a
-    // mis-linked treatment.category cannot break Fertilitet → /fertilitet/…
-    const segmentSource =
-      bookingCategorySlug && bookingCategorySlug !== "flere-fagomrader"
-        ? normalizeCategoryRouteKey(bookingCategorySlug) || routeKey
-        : routeKey;
-    const segment = behandlingerCategorySegment(
-      segmentSource === "annet" ? FLERE_FAGOMRADER_CATEGORY_ID : segmentSource,
-      locale,
-    );
-    return `/${segment}/${treatmentSlug}`;
-  }
-
-  if (sub.linkToCategoryPage) {
-    const key =
-      normalizeCategoryRouteKey(bookingCategorySlug) || bookingCategorySlug;
-    if (key === FLERE_FAGOMRADER_CATEGORY_ID || key === "annet") {
-      return `/${behandlingerCategorySegment(FLERE_FAGOMRADER_CATEGORY_ID, locale)}`;
-    }
-    return categoryLandingPath(key, locale);
-  }
-
-  return null;
-}
-
-/** Map CMS priceCategories → UI model. Sanity is the list source of truth. */
-function mapSanityPriceCategories(
-  rawCategories: unknown,
-  locale: "no" | "en",
-): PriceCategory[] {
-  if (!Array.isArray(rawCategories)) return [];
-
-  return rawCategories
-    .map((raw: any, index: number) => {
-      const label = localizePricingText(
-        String(raw?.categoryName ?? "").trim(),
-        locale,
-      );
-      if (!label) return null;
-
-      const bookingCategorySlug =
-        String(raw?.bookingCategorySlug ?? raw?.categoryRef?.slug ?? "").trim() ||
-        slugifyNo(label);
-
-      const rawLegacyLines = Array.isArray(raw?.items) ? raw.items : [];
-      const subsWithLegacy =
-        Array.isArray(raw?.subcategories) && raw.subcategories.length > 0
-          ? mergeLegacyItemsIntoSubcategories(
-              raw.subcategories,
-              rawLegacyLines,
-              (line) => String(line?.name ?? "").trim(),
-            )
-          : Array.isArray(raw?.subcategories)
-            ? raw.subcategories
-            : [];
-
-      const fromSubs: PriceSubcategory[] = subsWithLegacy
-            .map((sub: any) => {
-              const subLabel =
-                localizePricingText(String(sub?.label ?? "").trim(), locale) ||
-                label;
-              const items = (Array.isArray(sub?.items) ? sub.items : [])
-                .map(mapSanityPriceItem)
-                .filter((item: PriceItem | null): item is PriceItem => item != null)
-                .map((item) => ({
-                  ...item,
-                  name: localizePricingText(item.name, locale),
-                  duration: localizePricingText(item.duration, locale),
-                  price: localizePricingText(item.price, locale),
-                }));
-              if (items.length === 0) return null;
-              return {
-                label: subLabel,
-                learnMorePath: resolveSubcategoryLearnMorePath(
-                  sub,
-                  bookingCategorySlug,
-                  locale,
-                ),
-                items,
-              };
-            })
-            .filter(Boolean);
-
-      // Legacy flat items → single subcategory when no subcategories exist
-      const legacyItems =
-        subsWithLegacy.length === 0
-          ? rawLegacyLines
-              .map(mapSanityPriceItem)
-              .filter((item: PriceItem | null): item is PriceItem => item != null)
-              .map((item) => ({
-                ...item,
-                name: localizePricingText(item.name, locale),
-                duration: localizePricingText(item.duration, locale),
-                price: localizePricingText(item.price, locale),
-              }))
-          : [];
-
-      const subcategories =
-        fromSubs.length > 0
-          ? (fromSubs as PriceSubcategory[])
-          : legacyItems.length > 0
-            ? [
-                {
-                  label,
-                  learnMorePath: null,
-                  items: legacyItems,
-                },
-              ]
-            : [];
-
-      if (subcategories.length === 0) return null;
-
-      return {
-        id: `${slugifyNo(label) || "cat"}-${index}`,
-        label,
-        bookingCategorySlug,
-        path: `/${bookingCategorySlug}`,
-        subcategories,
-      } satisfies PriceCategory;
-    })
-    .filter((c): c is PriceCategory => c != null);
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
@@ -362,6 +186,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
   durationByActivityIdRef.current = durationByActivityId;
   const { sorted: allSpecialists } = useSpecialistsData();
   const { data: sanityPricing, isLoading: pricingQueryLoading } = usePricingPage();
+  const {
+    data: metodikaCategories = [],
+    isLoading: metodikaCatalogLoading,
+  } = usePricingMetodikaCatalog(locale);
   const routeLocale: "no" | "en" = locale === "en" ? "en" : "no";
   const specialistsConfig = sanityPricing?.specialistsSection;
   const specialists = useMemo(
@@ -392,12 +220,18 @@ const Priser = ({ isChatOpen }: PageProps) => {
   );
   const specialistsSeeAllHref = specialistsConfig?.seeAllHref?.trim() || "/om-oss";
 
-  const pricingLoading = pricingQueryLoading;
+  const pricingListLoading = pricingQueryLoading || metodikaCatalogLoading;
+  const heroReady = Boolean(sanityPricing) || !pricingQueryLoading;
   const categoriesFromCms = useMemo(
-    () => mapSanityPriceCategories(sanityPricing?.priceCategories, routeLocale),
-    [sanityPricing?.priceCategories, routeLocale],
+    () =>
+      buildPricingPageCategories(
+        sanityPricing?.priceCategories,
+        metodikaCategories,
+        routeLocale,
+      ),
+    [sanityPricing?.priceCategories, metodikaCategories, routeLocale],
   );
-  const hasCmsPrices = !pricingLoading && categoriesFromCms.length > 0;
+  const hasCmsPrices = !pricingListLoading && categoriesFromCms.length > 0;
 
   const faqs = useMemo(() => {
     const rows = (sanityPricing?.faqs ?? []) as Array<{
@@ -531,6 +365,51 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const inFlightIds = new Set<number>();
     const FREETIMES_CHUNK = 8;
 
+    async function fetchDurationChunk(
+      chunk: number[],
+    ): Promise<
+      Array<
+        | { id: number; status: "ready"; label: string }
+        | { id: number; status: "none" }
+      >
+    > {
+      const out: Array<
+        | { id: number; status: "ready"; label: string }
+        | { id: number; status: "none" }
+      > = [];
+      try {
+        const res = await fetch(
+          `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
+        );
+        const json = (await res.json()) as {
+          ok?: boolean;
+          byActivityId?: Record<string, { durationMinutes?: number }[]>;
+          slots?: { durationMinutes?: number }[];
+        };
+
+        for (const id of chunk) {
+          const slots =
+            json.byActivityId?.[String(id)] ??
+            (chunk.length === 1 && Array.isArray(json.slots) ? json.slots : []);
+          const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
+          if (mins == null) {
+            out.push({ id, status: "none" });
+          } else {
+            out.push({
+              id,
+              status: "ready",
+              label: formatDurationMinutes(mins, locale === "en" ? "en" : "no"),
+            });
+          }
+        }
+      } catch {
+        for (const id of chunk) {
+          out.push({ id, status: "none" });
+        }
+      }
+      return out;
+    }
+
     async function loadDurationsForIds(idsToFetch: number[]) {
       if (idsToFetch.length === 0) return;
 
@@ -542,47 +421,18 @@ const Priser = ({ isChatOpen }: PageProps) => {
         return next;
       });
 
-      const results: Array<
-        | { id: number; status: "ready"; label: string }
-        | { id: number; status: "none" }
-      > = [];
-
-      try {
-        for (let i = 0; i < idsToFetch.length; i += FREETIMES_CHUNK) {
-          if (cancelled) return;
-          const chunk = idsToFetch.slice(i, i + FREETIMES_CHUNK);
-          const res = await fetch(
-            `/api/booking/freetimes?wbactivityIds=${chunk.join(",")}`,
-          );
-          const json = (await res.json()) as {
-            ok?: boolean;
-            byActivityId?: Record<string, { durationMinutes?: number }[]>;
-            slots?: { durationMinutes?: number }[];
-          };
-
-          for (const id of chunk) {
-            const slots =
-              json.byActivityId?.[String(id)] ??
-              (chunk.length === 1 && Array.isArray(json.slots) ? json.slots : []);
-            const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
-            if (mins == null) {
-              results.push({ id, status: "none" });
-            } else {
-              results.push({
-                id,
-                status: "ready",
-                label: formatDurationMinutes(mins, locale === "en" ? "en" : "no"),
-              });
-            }
-          }
-        }
-      } catch {
-        for (const id of idsToFetch) {
-          if (!results.some((r) => r.id === id)) {
-            results.push({ id, status: "none" });
-          }
-        }
+      const chunks: number[][] = [];
+      for (let i = 0; i < idsToFetch.length; i += FREETIMES_CHUNK) {
+        chunks.push(idsToFetch.slice(i, i + FREETIMES_CHUNK));
       }
+
+      const chunkResults = await Promise.all(
+        chunks.map((chunk) => {
+          if (cancelled) return Promise.resolve([]);
+          return fetchDurationChunk(chunk);
+        }),
+      );
+      const results = chunkResults.flat();
 
       if (cancelled) return;
 
@@ -599,28 +449,34 @@ const Priser = ({ isChatOpen }: PageProps) => {
       });
     }
 
+    function idsNeedingDuration(category: PriceCategory): number[] {
+      const activityIds = category.subcategories
+        .flatMap((sub) => sub.items)
+        .filter(
+          (item) =>
+            item.bookable &&
+            !item.duration?.trim() &&
+            typeof item.apiActivityId === "number",
+        )
+        .map((item) => item.apiActivityId as number);
+
+      return activityIds.filter((id) => {
+        const cached = durationByActivityIdRef.current[id];
+        return cached?.status !== "ready" && cached?.status !== "none";
+      });
+    }
+
     async function loadAllCategories() {
-      // Resolve the first (above-the-fold) category first, then the rest.
-      for (const category of sortedCategories) {
-        if (cancelled) return;
-        // Only fetch Metodika duration for bookable Metodika lines when CMS note is empty.
-        const activityIds = category.subcategories
-          .flatMap((sub) => sub.items)
-          .filter(
-            (item) =>
-              item.bookable &&
-              !item.duration?.trim() &&
-              typeof item.apiActivityId === "number",
-          )
-          .map((item) => item.apiActivityId as number);
+      if (sortedCategories.length === 0) return;
 
-        const idsToFetch = activityIds.filter((id) => {
-          const cached = durationByActivityIdRef.current[id];
-          return cached?.status !== "ready" && cached?.status !== "none";
-        });
+      const [first, ...rest] = sortedCategories;
+      await loadDurationsForIds(idsNeedingDuration(first));
+      if (cancelled || rest.length === 0) return;
 
-        await loadDurationsForIds(idsToFetch);
-      }
+      const restIds = [
+        ...new Set(rest.flatMap((category) => idsNeedingDuration(category))),
+      ];
+      void loadDurationsForIds(restIds);
     }
 
     void loadAllCategories();
@@ -781,6 +637,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
         })}
       />
+      {heroReady ? (
       <SplitHero
         title={pageTitle}
         description={pageSubtitle}
@@ -798,11 +655,16 @@ const Priser = ({ isChatOpen }: PageProps) => {
         secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
         footnote={t("pricing.disclaimer")}
       />
+      ) : (
+        <div className="py-16 md:py-24 bg-background">
+          <div className="page-shell h-48 rounded-[var(--radius)] bg-muted animate-pulse" />
+        </div>
+      )}
 
       {/* Price List Section — layout matches avenewdemo /priser */}
       <section id="prisliste" className="py-16 md:py-24 bg-background">
         <div className="page-shell">
-          {pricingLoading && (
+          {pricingListLoading && (
             <div>
               <div className="flex flex-col items-center justify-center py-20 gap-4">
                 <div className="w-10 h-10 rounded-full border-2 border-foreground/10 border-t-foreground animate-spin" />
@@ -822,7 +684,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
             </div>
           )}
 
-          {!pricingLoading && !hasCmsPrices && (
+          {!pricingListLoading && !hasCmsPrices && (
             <p className="text-center text-destructive font-light py-8">
               {t("pricing.loadError")}
             </p>

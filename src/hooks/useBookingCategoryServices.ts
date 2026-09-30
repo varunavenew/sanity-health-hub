@@ -68,7 +68,7 @@ export function useSpecialistMetodikaBooking(
     async function load() {
       setLoading(true);
       try {
-        const res = await fetch(`${bookingApiBase}/activity-groups`);
+        const res = await fetch(`${bookingApiBase}/activity-groups?prices=api`);
         const json = (await res.json()) as ActivityGroupsResponse;
         if (cancelled) return;
 
@@ -126,7 +126,7 @@ export function useSpecialistBookingCategories(
     async function load() {
       setLoading(true);
       try {
-        const res = await fetch("/api/booking/activity-groups");
+        const res = await fetch("/api/booking/activity-groups?prices=api");
         const json = (await res.json()) as ActivityGroupsResponse;
         if (cancelled) return;
 
@@ -185,7 +185,7 @@ export function useBookingCategoryServices(clinicServiceId: string) {
 
     async function load() {
       try {
-        const res = await fetch("/api/booking/activity-groups");
+        const res = await fetch("/api/booking/activity-groups?prices=api");
         const json = (await res.json()) as ActivityGroupsResponse;
         if (cancelled) return;
 
