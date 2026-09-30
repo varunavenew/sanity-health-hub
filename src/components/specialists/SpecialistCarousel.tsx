@@ -33,6 +33,8 @@ interface Props {
   className?: string;
   /** Render without the <section>/header wrapper. */
   bare?: boolean;
+  /** Center the cards horizontally when they don't fill the row. */
+  centerFew?: boolean;
 }
 
 /**
@@ -56,6 +58,7 @@ export const SpecialistCarousel = ({
   seeAllLabel,
   className = "pt-10 md:pt-14 pb-14 md:pb-16 bg-secondary/30 overflow-hidden",
   bare = false,
+  centerFew = false,
 }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
@@ -90,8 +93,9 @@ export const SpecialistCarousel = ({
   const body = isStatic ? (
     <>
       <div className="page-shell">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div className={centerFew ? "flex justify-center" : "grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"}>
           {items.map((sp, i) => (
+            <div key={sp.slug} className={centerFew ? "w-[260px] md:w-[300px]" : "contents"}>
             <SpecialistCard
               key={sp.slug}
               sp={sp}
@@ -99,6 +103,7 @@ export const SpecialistCarousel = ({
               onEnter={() => setHovered(i)}
               onLeave={() => setHovered(null)}
             />
+            </div>
           ))}
         </div>
       </div>
@@ -110,7 +115,7 @@ export const SpecialistCarousel = ({
     <>
       <div
         ref={scrollRef}
-        className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
+        className={`flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)] ${centerFew ? "[justify-content:safe_center] pr-[var(--gutter)]" : ""}`}
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",

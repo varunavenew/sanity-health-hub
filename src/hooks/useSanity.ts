@@ -775,3 +775,21 @@ export const useSocialPosts = () => {
     staleTime: 5 * 60 * 1000,
   });
 };
+
+// ─── Treatments by _id (specialist profile cards) ───────────────────
+export const TREATMENTS_BY_IDS_QUERY = `*[_type == "treatment" && _id in $ids]{
+  _id, title, description, heroDescription,
+  "heroImage": coalesce(heroImage.asset->url, heroMedia.image.asset->url),
+  "slug": slug.current,
+  "categorySlug": coalesce(category->categoryId, category->slug.current)
+}`;
+
+export const useTreatmentsByIds = (ids: string[]) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatmentsByIds", ids.join(","), lang],
+    queryFn: () => fetchSanity<any[]>(TREATMENTS_BY_IDS_QUERY, { ids }, lang),
+    enabled: ids.length > 0,
+    staleTime: 5 * 60 * 1000,
+  });
+};
