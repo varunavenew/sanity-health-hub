@@ -10,6 +10,10 @@ import {
   sanityClinicDisplayTagsForCategory,
   validateSanityClinicBookingConfig,
 } from "@/lib/booking/sanityBookingClinic";
+import {
+  groupMajorstuenMetodikaClinics,
+  mergeMajorstuenStep1DisplayTags,
+} from "@/lib/booking/majorstuen-location-group";
 
 export type BookingStep1ClinicBadge = {
   badgeKey: string;
@@ -148,7 +152,9 @@ export function step1ClinicDisplayTagsForCategory(
     return sanityClinicDisplayTagsForCategory(sanityClinics, categoryId, categoryApiSlug);
   }
 
-  return group.badges.map((badge) => toDisplayTag(badge, sanityClinics));
+  return mergeMajorstuenStep1DisplayTags(
+    group.badges.map((badge) => toDisplayTag(badge, sanityClinics)),
+  );
 }
 
 /**
@@ -211,7 +217,9 @@ export function metodikaClinicsFromStep1BadgesForCategory(
     });
   }
 
-  return result.sort((a, b) => a.label.localeCompare(b.label, "nb"));
+  return groupMajorstuenMetodikaClinics(
+    result.sort((a, b) => a.label.localeCompare(b.label, "nb")),
+  );
 }
 
 /** Unique step 1 badges across all configured categories (for «Alle klinikker»). */
@@ -235,5 +243,7 @@ export function allStep1ClinicDisplayTags(
     }
   }
 
-  return [...byKey.values()].sort((a, b) => a.sortOrder - b.sortOrder);
+  return mergeMajorstuenStep1DisplayTags(
+    [...byKey.values()].sort((a, b) => a.sortOrder - b.sortOrder),
+  );
 }

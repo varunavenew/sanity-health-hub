@@ -39,8 +39,13 @@ import {
   formatBookingServicePrice,
   resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
+import {
+  effectiveMetodikaLocationIdsForBooking,
+  slotMatchesMetodikaClinic,
+} from "@/lib/booking/majorstuen-location-group";
 import type { SpecialistPageMetodikaClinic } from "@/lib/booking/specialist-page-clinics";
 import { SPECIALIST_PAGE_FALLBACK_PHONE } from "@/lib/booking/specialist-page-clinics";
+import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import {
   defaultBookingPageCopyForLang,
   splitTemplateLink,
@@ -183,6 +188,33 @@ export function SpecialistMetodikaAvailability({
   }, [specialist, metodikaCategories, allowedIds]);
 
   const [selectedService, setSelectedService] = useState<FlatService | null>(null);
+  const { activity: wbActivityMatrix } = useWbActivityMatrix(
+    selectedService?.apiActivityId,
+  );
+
+  const metodikaClinicForSlots = useMemo(
+    () => ({
+      id: clinic.id,
+      label: clinic.label,
+      apiLocationId: clinic.apiLocationId,
+      apiLocationIds: clinic.apiLocationIds,
+      bookingSystem: "metodika" as const,
+    }),
+    [clinic],
+  );
+
+  const bookingLocationIds = useMemo(
+    () =>
+      effectiveMetodikaLocationIdsForBooking(
+        metodikaClinicForSlots,
+        wbActivityMatrix,
+        caregiverUserId,
+      ),
+    [metodikaClinicForSlots, wbActivityMatrix, caregiverUserId],
+  );
+
+  const bookingLocationIdsKey = bookingLocationIds.join(",");
+
   const [hintSlots, setHintSlots] = useState<BookingAvailabilitySlot[]>([]);
   const [hintsLoading, setHintsLoading] = useState(false);
   const [activityTypeId, setActivityTypeId] = useState<number | null>(null);
@@ -248,7 +280,7 @@ export function SpecialistMetodikaAvailability({
     setSelectedSlot(null);
     setIsSubmitted(false);
     setSubmitError(null);
-  }, [selectedService?.apiActivityId, clinic.apiLocationId]);
+  }, [selectedService?.apiActivityId, bookingLocationIdsKey]);
 
   useEffect(() => {
     const activityId = selectedService?.apiActivityId;
@@ -259,23 +291,41 @@ export function SpecialistMetodikaAvailability({
 
     async function loadHints() {
       try {
-        const params = new URLSearchParams({
-          wbactivityId: String(activityId),
-          locationId: String(clinic.apiLocationId),
-        });
-        if (caregiverUserId != null) {
-          params.set("caregiverUserId", String(caregiverUserId));
+        const locationIds =
+          bookingLocationIds.length > 0 ? bookingLocationIds : [clinic.apiLocationId];
+        const merged: BookingAvailabilitySlot[] = [];
+        let resolvedActivityTypeId: number | undefined;
+
+        for (const locationId of locationIds) {
+          const params = new URLSearchParams({
+            wbactivityId: String(activityId),
+            locationId: String(locationId),
+          });
+          if (caregiverUserId != null) {
+            params.set("caregiverUserId", String(caregiverUserId));
+          }
+          const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
+          const json = (await res.json()) as {
+            ok?: boolean;
+            slots?: BookingAvailabilitySlot[];
+            activityTypeId?: number;
+          };
+          if (cancelled) return;
+          if (res.ok && json.ok && Array.isArray(json.slots)) {
+            merged.push(...json.slots);
+          }
+          if (typeof json.activityTypeId === "number") {
+            resolvedActivityTypeId = json.activityTypeId;
+          }
         }
-        const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
-        const json = (await res.json()) as {
-          ok?: boolean;
-          slots?: BookingAvailabilitySlot[];
-          activityTypeId?: number;
-        };
-        if (cancelled) return;
-        setHintSlots(res.ok && json.ok && Array.isArray(json.slots) ? json.slots : []);
-        if (typeof json.activityTypeId === "number") {
-          setActivityTypeId(json.activityTypeId);
+
+        merged.sort(
+          (a, b) =>
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+        );
+        setHintSlots(merged);
+        if (resolvedActivityTypeId != null) {
+          setActivityTypeId(resolvedActivityTypeId);
         }
       } catch {
         if (!cancelled) setHintSlots([]);
@@ -288,7 +338,14 @@ export function SpecialistMetodikaAvailability({
     return () => {
       cancelled = true;
     };
-  }, [selectedService?.apiActivityId, clinic.apiLocationId, caregiverUserId, bookingApiBase]);
+  }, [
+    selectedService?.apiActivityId,
+    bookingLocationIdsKey,
+    caregiverUserId,
+    bookingApiBase,
+    clinic.apiLocationId,
+    bookingLocationIds,
+  ]);
 
   useEffect(() => {
     const activityId = selectedService?.apiActivityId;
@@ -302,25 +359,43 @@ export function SpecialistMetodikaAvailability({
 
     async function loadDay() {
       try {
-        const params = new URLSearchParams({
-          wbactivityId: String(activityId),
-          locationId: String(clinic.apiLocationId),
-          searchFromTime: metodikaSearchTime(selectedDate, false),
-          searchToTime: metodikaSearchTime(selectedDate, true),
-        });
-        if (caregiverUserId != null) {
-          params.set("caregiverUserId", String(caregiverUserId));
+        const locationIds =
+          bookingLocationIds.length > 0 ? bookingLocationIds : [clinic.apiLocationId];
+        const merged: BookingAvailabilitySlot[] = [];
+        let resolvedActivityTypeId: number | undefined;
+
+        for (const locationId of locationIds) {
+          const params = new URLSearchParams({
+            wbactivityId: String(activityId),
+            locationId: String(locationId),
+            searchFromTime: metodikaSearchTime(selectedDate, false),
+            searchToTime: metodikaSearchTime(selectedDate, true),
+          });
+          if (caregiverUserId != null) {
+            params.set("caregiverUserId", String(caregiverUserId));
+          }
+          const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
+          const json = (await res.json()) as {
+            ok?: boolean;
+            slots?: BookingAvailabilitySlot[];
+            activityTypeId?: number;
+          };
+          if (cancelled) return;
+          if (res.ok && json.ok && Array.isArray(json.slots)) {
+            merged.push(...json.slots);
+          }
+          if (typeof json.activityTypeId === "number") {
+            resolvedActivityTypeId = json.activityTypeId;
+          }
         }
-        const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
-        const json = (await res.json()) as {
-          ok?: boolean;
-          slots?: BookingAvailabilitySlot[];
-          activityTypeId?: number;
-        };
-        if (cancelled) return;
-        setDaySlots(res.ok && json.ok && Array.isArray(json.slots) ? json.slots : []);
-        if (typeof json.activityTypeId === "number") {
-          setActivityTypeId(json.activityTypeId);
+
+        merged.sort(
+          (a, b) =>
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+        );
+        setDaySlots(merged);
+        if (resolvedActivityTypeId != null) {
+          setActivityTypeId(resolvedActivityTypeId);
         }
       } catch {
         if (!cancelled) setDaySlots([]);
@@ -333,16 +408,28 @@ export function SpecialistMetodikaAvailability({
     return () => {
       cancelled = true;
     };
-  }, [selectedDate, selectedService?.apiActivityId, clinic.apiLocationId, caregiverUserId, bookingApiBase]);
+  }, [
+    selectedDate,
+    selectedService?.apiActivityId,
+    bookingLocationIdsKey,
+    caregiverUserId,
+    bookingApiBase,
+    clinic.apiLocationId,
+    bookingLocationIds,
+  ]);
 
   const hintDays = useMemo(() => {
     const keys = new Set<string>();
+    const clinicForFilter = {
+      ...metodikaClinicForSlots,
+      apiLocationIds: bookingLocationIds,
+    };
     for (const slot of hintSlots) {
-      if (slot.locationId != null && slot.locationId !== clinic.apiLocationId) continue;
+      if (!slotMatchesMetodikaClinic(slot, clinicForFilter)) continue;
       keys.add(parseSlotDay(slot.startDateTime));
     }
     return keys;
-  }, [hintSlots, clinic.apiLocationId]);
+  }, [hintSlots, metodikaClinicForSlots, bookingLocationIds]);
 
   useEffect(() => {
     if (!initialService || selectedDate || hintDays.size === 0) return;

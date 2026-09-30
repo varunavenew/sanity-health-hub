@@ -4,7 +4,10 @@ import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import { resolveSpecialistBookingCategoryIds } from "@/lib/booking/specialist-booking";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
-import type { SpecialistPageClinic } from "@/lib/booking/specialist-page-clinics";
+import type {
+  SpecialistPageClinic,
+  SpecialistPageMetodikaClinic,
+} from "@/lib/booking/specialist-page-clinics";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
@@ -91,10 +94,17 @@ export function useSpecialistHasAvailableSlots(
         const params = new URLSearchParams();
 
         if (metodikaClinics.length > 0) {
-          params.set(
-            "locationIds",
-            metodikaClinics.map((clinic) => clinic.apiLocationId).join(","),
-          );
+          const locationIds = [
+            ...new Set(
+              metodikaClinics.flatMap((clinic) => {
+                const m = clinic as SpecialistPageMetodikaClinic;
+                return m.apiLocationIds?.length
+                  ? m.apiLocationIds
+                  : [m.apiLocationId];
+              }),
+            ),
+          ];
+          params.set("locationIds", locationIds.join(","));
           params.set("wbactivityIds", wbactivityIds.join(","));
           if (caregiverUserId != null) {
             params.set("caregiverUserId", String(caregiverUserId));

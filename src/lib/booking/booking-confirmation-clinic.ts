@@ -2,6 +2,11 @@ import {
   type BookingClinic,
   isMetodikaClinic,
 } from "@/lib/booking/mapApiLocation";
+import {
+  MAJORSTUEN_GROUP_CLINIC_ID,
+  clinicCoversMetodikaLocation,
+  metodikaLocationIdsForClinic,
+} from "@/lib/booking/majorstuen-location-group";
 import type { SanityClinicListRow } from "@/lib/sanity/clinic-list-row";
 
 /** True when the booked service is a digital/video appointment (hide clinic address). */
@@ -59,15 +64,25 @@ export function pickDefaultBookingClinicForRemoteService(
     )
     .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999));
 
+  const groupedMajorstuen = pool.find(
+    (clinic) => isMetodikaClinic(clinic) && clinic.id === MAJORSTUEN_GROUP_CLINIC_ID,
+  );
+  if (groupedMajorstuen) return groupedMajorstuen;
+
   for (const row of sanityMetodika) {
     const locationId = row.booking!.metodikaLocationId!;
     const match = pool.find(
-      (clinic) => isMetodikaClinic(clinic) && clinic.apiLocationId === locationId,
+      (clinic) =>
+        isMetodikaClinic(clinic) && clinicCoversMetodikaLocation(clinic, locationId),
     );
     if (match) return match;
   }
 
-  const majorstuenTenA = pool.find((clinic) => /10\s*a\b/i.test(clinic.label));
+  const majorstuenTenA = pool.find(
+    (clinic) =>
+      isMetodikaClinic(clinic) &&
+      metodikaLocationIdsForClinic(clinic).some((id) => id === 1),
+  );
   if (majorstuenTenA) return majorstuenTenA;
 
   const sorted = [...pool].sort((a, b) => {
