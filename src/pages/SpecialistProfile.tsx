@@ -324,7 +324,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const carouselCategory: string = overrideArea
     ? (byCategory(overrideArea as any).length > 0 ? overrideArea : "gynekologi")
     : specialist.category;
-  const related = byCategory(carouselCategory).filter((s) => s.slug !== specialist.slug);
+  const related = byCategory(carouselCategory as any).filter((s) => s.slug !== specialist.slug);
   const categoryLabel = (STATIC_AREAS[carouselCategory]?.title || carouselCategory).toLowerCase();
   const scrollToBooking = () => bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
