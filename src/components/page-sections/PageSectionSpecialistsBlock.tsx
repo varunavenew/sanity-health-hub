@@ -42,7 +42,7 @@ function hydrateExplicitSpecialists(
         (card._id && specialistListIdentity(specialist) === specialistListIdentity(card)),
     );
     const specialist = fromAll ?? (card.slug ? (card as Specialist) : undefined);
-    if (!specialist?.slug) continue;
+    if (!specialist?.slug?.trim() || !specialist.name?.trim()) continue;
     const key = specialistListIdentity(specialist);
     if (!key || seen.has(key)) continue;
     seen.add(key);

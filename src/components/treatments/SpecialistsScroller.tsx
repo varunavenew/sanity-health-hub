@@ -12,11 +12,23 @@ import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 
+/** Minimum data to show a specialist card (role line may still be empty). */
+function isListableSpecialist(sp: Specialist | undefined): sp is Specialist {
+  return Boolean(sp?.slug?.trim() && sp?.name?.trim());
+}
+
+/** Job title for treatment feature layout — never throws on missing CMS fields. */
+function specialistJobLine(sp: Specialist): string {
+  return (sp.subtitle?.trim() || sp.title?.trim() || "").trim();
+}
+
 function specialistRoleLine(sp: Specialist): string {
-  if (sp.subtitle && sp.subtitle !== sp.title) {
-    return `${sp.title} · ${sp.subtitle}`;
+  const title = sp.title?.trim() ?? "";
+  const subtitle = sp.subtitle?.trim() ?? "";
+  if (subtitle && subtitle !== title) {
+    return title ? `${title} · ${subtitle}` : subtitle;
   }
-  return sp.title;
+  return title;
 }
 
 interface Props {
@@ -101,7 +113,7 @@ export const SpecialistsScroller = ({
       );
     }
 
-    return result;
+    return result.filter(isListableSpecialist);
   }, [specialists, category, filter, fallbackCategory, itemsOverride]);
 
   const [progressPct, setProgressPct] = useState(0);
@@ -456,7 +468,7 @@ const SpecialistFeature = ({
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
   const firstName = sp.name.split(" ")[0] || sp.name;
   // Treatment editorial: job title only (e.g. "Gastrokirurg"), not "Category · Title".
-  const roleLine = (sp.subtitle?.trim() || sp.title).trim();
+  const roleLine = specialistJobLine(sp);
   const bookingHref = bookingUrlForSpecialist(sp, {
     kategori: bookingContext?.kategori,
     kategoriId: bookingContext?.kategoriId,
