@@ -56,7 +56,7 @@ const STATIC_AREAS: Record<string, AreaInfo> = {
 };
 
 /** Per-specialist overrides (approved Ashi demo). */
-const AREA_OVERRIDE: Record<string, string> = { "ashi-ahmad": "graviditet", "ida-waagsbo-bjorntvedt": "gynekologi" };
+const AREA_OVERRIDE: Record<string, string> = { "ashi-ahmad": "graviditet", "ida-waagsbo-bjorntvedt": "gynekologi", "jeanette-follestad": "fertilitet", "line-fusdahl-hulleberg": "fertilitet" };
 
 type HardcodedService = { name: string; price: string; duration: string };
 const BOOKING_OVERRIDE: Record<string, { kategori: string; services: HardcodedService[] }> = {
@@ -318,8 +318,14 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     : area;
   const shownCards = featureFirstCard ? cards.slice(1) : cards;
 
-  const related = byCategory(specialist.category).filter((s) => s.slug !== specialist.slug);
-  const categoryLabel = (STATIC_AREAS[firstCategory]?.title || specialist.category).toLowerCase();
+  // Carousel follows AREA_OVERRIDE when present; «graviditet» has no specialist
+  // group, so fall back to gynekologi (Ashi keeps showing gynecologists).
+  const overrideArea = AREA_OVERRIDE[slug];
+  const carouselCategory: string = overrideArea
+    ? (byCategory(overrideArea as any).length > 0 ? overrideArea : "gynekologi")
+    : specialist.category;
+  const related = byCategory(carouselCategory as any).filter((s) => s.slug !== specialist.slug);
+  const categoryLabel = (STATIC_AREAS[carouselCategory]?.title || carouselCategory).toLowerCase();
   const scrollToBooking = () => bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
