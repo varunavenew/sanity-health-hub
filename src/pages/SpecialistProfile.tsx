@@ -321,8 +321,8 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   // Carousel follows AREA_OVERRIDE when present; «graviditet» has no specialist
   // group, so fall back to gynekologi (Ashi keeps showing gynecologists).
   const overrideArea = AREA_OVERRIDE[slug];
-  const carouselCategory = overrideArea
-    ? (byCategory(overrideArea).length > 0 ? overrideArea : "gynekologi")
+  const carouselCategory: string = overrideArea
+    ? (byCategory(overrideArea as any).length > 0 ? overrideArea : "gynekologi")
     : specialist.category;
   const related = byCategory(carouselCategory).filter((s) => s.slug !== specialist.slug);
   const categoryLabel = (STATIC_AREAS[carouselCategory]?.title || carouselCategory).toLowerCase();
