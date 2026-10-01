@@ -16,7 +16,7 @@ import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { useSpecialistsData, type Specialist } from "@/hooks/useSpecialistsData";
 import { useFaqs, useTreatmentCategory, useTreatmentsByIds } from "@/hooks/useSanity";
 import { getPortraitFocal } from "@/lib/specialistFocal";
-import { SPECIALIST_PROFILE_DATA, NOT_BOOKABLE } from "@/data/specialistProfileData";
+import { SPECIALIST_PROFILE_DATA, NOT_BOOKABLE, PROFILE_SLUG_ALIASES } from "@/data/specialistProfileData";
 import { staticTreatmentCard, type ProfileTreatmentCard } from "@/lib/specialistTreatmentFallback";
 import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
@@ -56,7 +56,7 @@ const STATIC_AREAS: Record<string, AreaInfo> = {
 };
 
 /** Per-specialist overrides (approved Ashi demo). */
-const AREA_OVERRIDE: Record<string, string> = { "ashi-ahmad": "graviditet" };
+const AREA_OVERRIDE: Record<string, string> = { "ashi-ahmad": "graviditet", "ida-waagsbo-bjorntvedt": "gynekologi" };
 
 type HardcodedService = { name: string; price: string; duration: string };
 const BOOKING_OVERRIDE: Record<string, { kategori: string; services: HardcodedService[] }> = {
@@ -130,6 +130,9 @@ const ProfileHero = ({ specialist, meta, bookable, onBook }: { specialist: Speci
 /** Card-title overrides when the fallback/Sanity title repeats the area block title. */
 const CARD_TITLE_OVERRIDES: Record<string, string> = {
   "treatment-gynekologi-graviditet": "Graviditetsoppfølging",
+  "treatment-gynekologi-kirurgi": "Gynekologisk kirurgi",
+  "treatment-flere-fagomrader-sleeve-gastrektomi": "Sleeve gastrektomi",
+  "treatment-fertilitet-eggfrys": "Eggfrys",
 };
 
 const useTreatmentCards = (ids: string[]) => {
@@ -186,14 +189,14 @@ const TreatmentCards = ({ firstName, cards }: { firstName: string; cards: Profil
   </section>
 );
 
-const AreaBlock = ({ area }: { area: AreaInfo }) => (
+const AreaBlock = ({ area, linkLabel = "Se hele området" }: { area: AreaInfo; linkLabel?: string }) => (
   <section className="bg-brand-light">
     <div className="grid md:grid-cols-2 md:h-[100svh]">
       <div className="flex items-center page-edge-text-left py-14 md:py-0">
         <div className="max-w-xl">
           <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">{area.title}</h2>
           <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed mb-8">{area.description}</p>
-          <ReadMoreLink to={area.href} tone="standalone">Se hele området</ReadMoreLink>
+          <ReadMoreLink to={area.href} tone="standalone">{linkLabel}</ReadMoreLink>
         </div>
       </div>
       <ParallaxImage src={area.image} alt={area.title} speed={0.18} className="relative min-h-[420px] md:min-h-0 md:h-full overflow-hidden" imgClassName="object-cover" />
@@ -266,7 +269,8 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const bookingRef = useRef<HTMLDivElement>(null);
   const { findBySlug, byCategory } = useSpecialistsData();
   const specialist = findBySlug(slug);
-  const profileData = SPECIALIST_PROFILE_DATA[slug];
+  const profileSlug = PROFILE_SLUG_ALIASES[slug] ?? slug;
+  const profileData = SPECIALIST_PROFILE_DATA[profileSlug];
   const treatmentIds = useMemo(() => profileData?.treatments ?? [], [profileData]);
   const { cards } = useTreatmentCards(treatmentIds);
 
@@ -288,7 +292,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   }
 
   const firstName = specialist.name.split(" ")[0];
-  const bookable = specialist.bookingEnabled !== false && !NOT_BOOKABLE.has(slug);
+  const bookable = specialist.bookingEnabled !== false && !NOT_BOOKABLE.has(profileSlug);
   const meta = profileData?.expertise ?? [specialist.title, specialist.subtitle].filter(Boolean).join(" · ");
 
   const staticArea = STATIC_AREAS[areaSlug];
@@ -303,6 +307,16 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
           href: staticArea?.href || `/behandlinger/${areaSlug}`,
         }
       : null;
+
+  // «Flere fagområder»: the first treatment card takes the area-block slot.
+  const featureFirstCard = !AREA_OVERRIDE[slug] && areaSlug === "flere-fagomrader";
+  const firstCard = featureFirstCard ? cards[0] : undefined;
+  const shownArea: AreaInfo | null = featureFirstCard
+    ? firstCard
+      ? { slug: areaSlug, title: firstCard.title, description: firstCard.text, image: firstCard.image || "", href: firstCard.to }
+      : null
+    : area;
+  const shownCards = featureFirstCard ? cards.slice(1) : cards;
 
   const related = byCategory(specialist.category).filter((s) => s.slug !== specialist.slug);
   const categoryLabel = (STATIC_AREAS[firstCategory]?.title || specialist.category).toLowerCase();
@@ -331,13 +345,13 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       />
       <ProfileHero specialist={specialist} meta={meta} bookable={bookable} onBook={scrollToBooking} />
       <SpecialistBio specialist={specialist} />
-      {cards.length > 0 && <TreatmentCards firstName={firstName} cards={cards} />}
-      {area && <AreaBlock area={area} />}
+      {shownCards.length > 0 && <TreatmentCards firstName={firstName} cards={shownCards} />}
+      {shownArea && <AreaBlock area={shownArea} linkLabel={featureFirstCard ? `Les mer om ${shownArea.title}` : undefined} />}
       {bookable && <BookingSection specialist={specialist} bookingRef={bookingRef} />}
       <SpecialistReviews specialist={specialist} />
       <SpecialistCarousel
         specialists={related}
-        title={`Andre spesialister innen ${categoryLabel}`}
+        title={featureFirstCard ? "Andre spesialister hos CMedical" : `Andre spesialister innen ${categoryLabel}`}
         description=""
         seeAllHref={`/spesialister?kategori=${specialist.category}`}
         seeAllLabel="Se alle spesialister"

@@ -3,6 +3,12 @@
  * Hero and sticky CTA show "Ring for å bestille time" + phone, and the
  * booking section is hidden for them.
  */
+/** App slug → SPECIALIST_PROFILE_DATA (Sanity) slug, where they differ. */
+export const PROFILE_SLUG_ALIASES: Record<string, string> = {
+  "gunnar-dalen": "per-gunnar-dalen",
+  "cennet-akdeni": "cennet-akdeniz",
+};
+
 export const NOT_BOOKABLE = new Set([
   "are-haukaen-stodle",
   "ashwin-reddy",
