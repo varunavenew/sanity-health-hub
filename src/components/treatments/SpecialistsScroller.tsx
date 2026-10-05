@@ -57,7 +57,7 @@ interface Props {
 
 /**
  * Unified specialists scroller. Matches the home SpecialistsSection layout
- * (clinic tag top-left, name + role overlaid on image, expertise line under
+ * (clinic tag top-left, name + role overlaid on image
  * each card) with responsive layouts: 1 → editorial feature, 2–3 → grid,
  * 4+ → horizontal carousel.
  */
@@ -356,7 +356,7 @@ export const SpecialistsScroller = ({
                 key={sp.slug}
                 className="flex-shrink-0 w-[300px] snap-start"
               >
-                <SpecialistCard sp={sp} showExpertise profileLabel={undefined} />
+                <SpecialistCard sp={sp} profileLabel={undefined} />
               </div>
             ))}
             <Link
@@ -385,7 +385,7 @@ export const SpecialistsScroller = ({
         <div className="container mx-auto px-6 md:px-16">
           <div className={`grid gap-6 ${gridClass}`}>
             {filtered.map((sp) => (
-              <SpecialistCard key={sp.slug} sp={sp} showExpertise />
+              <SpecialistCard key={sp.slug} sp={sp} />
             ))}
           </div>
         </div>
@@ -517,20 +517,6 @@ const SpecialistFeature = ({
             </p>
           ) : null}
 
-          {sp.expertise && sp.expertise.length > 0 ? (
-            <div className="border-t border-brand-dark/15">
-              <ul className="divide-y divide-brand-dark/10">
-                {sp.expertise.map((item) => (
-                  <li
-                    key={item.label}
-                    className="py-3 text-sm font-light text-foreground"
-                  >
-                    {item.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </div>
 
         <div className="mt-10">
@@ -547,12 +533,10 @@ const SpecialistFeature = ({
 const SpecialistCard = ({
   sp,
   flush = false,
-  showExpertise = true,
   profileLabel,
 }: {
   sp: Specialist;
   flush?: boolean;
-  showExpertise?: boolean;
   profileLabel?: string;
 }) => {
   const { hotspot, crop } = resolveSpecialistImageFocal(sp);
@@ -598,11 +582,6 @@ const SpecialistCard = ({
       </div>
     </div>
 
-    {showExpertise && sp.expertise && sp.expertise.length > 0 ? (
-      <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">
-        {sp.expertise.map((tag) => tag.label).join(", ")}
-      </p>
-    ) : null}
   </Link>
   );
 };

@@ -13,33 +13,6 @@ interface SpecialistHeroProps {
   specialist: Specialist;
 }
 
-const expertiseChipClass =
-  "inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-transparent";
-
-const expertiseChipLinkClass =
-  `${expertiseChipClass} hover:border-foreground/60 hover:bg-foreground/[0.03] transition-colors`;
-
-function ExpertiseChip({
-  label,
-  href,
-  className,
-  linkClassName,
-}: {
-  label: string;
-  href?: string;
-  className: string;
-  linkClassName: string;
-}) {
-  if (href) {
-    return (
-      <Link to={href} className={linkClassName}>
-        {label}
-      </Link>
-    );
-  }
-  return <span className={className}>{label}</span>;
-}
-
 const SPECIALIST_MOBILE_HERO_GRADIENT =
   "linear-gradient(to top, rgba(24, 4, 4, 0.94) 0%, rgba(66, 51, 42, 0.88) 22%, rgba(66, 51, 42, 0.72) 40%, rgba(66, 51, 42, 0.48) 58%, rgba(66, 51, 42, 0.24) 78%, rgba(66, 51, 42, 0.1) 100%)";
 
@@ -135,25 +108,6 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
             ))}
           </motion.p>
 
-          {specialist.expertise && specialist.expertise.length > 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4"
-            >
-              {specialist.expertise.map((tag) => (
-                <ExpertiseChip
-                  key={tag.label}
-                  label={tag.label}
-                  href={tag.href}
-                  className="text-sm font-light text-white"
-                  linkClassName="text-sm font-light text-white underline-offset-4 hover:underline"
-                />
-              ))}
-            </motion.div>
-          ) : null}
-
           {specialistHasHeroCtas(specialist) ? (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -216,25 +170,6 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
                 </span>
               ))}
             </motion.p>
-
-            {specialist.expertise && specialist.expertise.length > 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="flex flex-wrap items-center gap-1.5 mb-8"
-              >
-                {specialist.expertise.map((tag) => (
-                  <ExpertiseChip
-                    key={tag.label}
-                    label={tag.label}
-                    href={tag.href}
-                    className={expertiseChipClass}
-                    linkClassName={expertiseChipLinkClass}
-                  />
-                ))}
-              </motion.div>
-            ) : null}
 
             {specialistHasHeroCtas(specialist) ? (
               <motion.div

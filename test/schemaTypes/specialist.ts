@@ -201,25 +201,6 @@ export default {
       description: 'Optional. E.g. Robot surgeon, Specialist (NO + EN).',
     },
     {
-      name: 'specialties',
-      title: 'Expertise / specialties',
-      type: 'array',
-      group: 'general',
-      options: { layout: 'list' },
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'specialistTag' }],
-        },
-      ],
-      description:
-      'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones.',      validation: (Rule: any) =>
-        Rule.required()
-          .min(1)
-          .unique()
-          .error('Select at least one specialty tag'),
-    },
-    {
       name: 'categories',
       title: 'Treatment categories',
       type: 'array',
@@ -609,10 +590,6 @@ export default {
       if (!pickNo(document.role)?.trim()) issues.push('Title / role (Norwegian) is missing')
       if (!pickForLang(document.role, 'en')?.trim()) {
         issues.push('Title / role (English) is missing')
-      }
-      const specialties = document.specialties as unknown[] | undefined
-      if (!Array.isArray(specialties) || specialties.length === 0) {
-        issues.push('At least one specialty tag must be selected')
       }
       const categories = document.categories as unknown[] | undefined
       if (!Array.isArray(categories) || categories.length === 0) {

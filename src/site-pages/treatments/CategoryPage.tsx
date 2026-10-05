@@ -280,7 +280,6 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
                 </p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground font-normal px-1 mt-1.5">{specialist.expertise.map((tag) => tag.label).join(', ')}</p>
           </Link>
         ))}
         

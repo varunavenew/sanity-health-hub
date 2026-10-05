@@ -28,7 +28,6 @@ import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { siteUrl } from "@/lib/env";
 import { assetSrc } from "@/lib/media";
 import type { Specialist } from "@/lib/sanity/specialist-types";
-import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import {
@@ -143,17 +142,17 @@ function SpecialistProfileBody({
       null;
     trackSpecialistView({
       specialist_name: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
+      specialty: specialist.title || null,
       clinic: clinicLabel,
     });
-  }, [specialist.slug, specialist.name, specialist.title, specialist.expertise, specialist.clinicRefs, specialist.clinics]);
+  }, [specialist.slug, specialist.name, specialist.title, specialist.clinicRefs, specialist.clinics]);
 
   const physicianJsonLd = {
     "@context": "https://schema.org",
     "@type": "Physician",
     name: specialist.name,
     jobTitle: specialist.title,
-    medicalSpecialty: specialistExpertiseLabels(specialist.expertise),
+    medicalSpecialty: specialist.title ? [specialist.title] : [],
     ...(shareImageUrl ? { image: shareImageUrl } : {}),
     worksFor: {
       "@type": "MedicalClinic",

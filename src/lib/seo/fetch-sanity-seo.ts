@@ -256,7 +256,6 @@ export async function fetchSpecialistSeo(
       name?: string;
       role?: string;
       shortBio?: string;
-      expertise?: string[];
       image?: string;
       heroMedia?: unknown;
     })
@@ -274,24 +273,10 @@ export async function fetchSpecialistSeo(
   });
   if (raw == null || !isPublishableSanitySpecialist(raw as RawSanitySpecialist)) return null;
   const doc = normalizeI18n(raw, lang) as Record<string, unknown>;
-  const specialties = doc.specialties;
-  const expertise = Array.isArray(specialties)
-    ? specialties
-        .map((entry) => {
-          if (typeof entry === "string") return entry;
-          if (entry && typeof entry === "object" && "label" in entry) {
-            const label = (entry as { label?: unknown }).label;
-            return typeof label === "string" ? label : "";
-          }
-          return "";
-        })
-        .filter(Boolean)
-    : [];
   return {
     name: typeof doc.name === "string" ? doc.name : undefined,
     role: typeof doc.role === "string" ? doc.role : undefined,
     shortBio: typeof doc.shortBio === "string" ? doc.shortBio : undefined,
-    expertise,
     image: typeof doc.image === "string" ? doc.image : undefined,
     heroMedia: doc.heroMedia,
     seo: doc.seo as DocWithSeo["seo"],

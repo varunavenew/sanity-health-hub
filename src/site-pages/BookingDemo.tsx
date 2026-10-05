@@ -3048,20 +3048,6 @@ const BookingDemo = () => {
                       {selectedSpecialistInfo.title}
                     </p>
 
-                    {!isBookingCaregiver(selectedSpecialistInfo) &&
-                      selectedSpecialistInfo.expertise &&
-                      selectedSpecialistInfo.expertise.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          {selectedSpecialistInfo.expertise.map((exp, idx) => (
-                            <span
-                              key={idx}
-                              className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
-                            >
-                              {exp.label}
-                            </span>
-                          ))}
-                        </div>
-                      )}
                   </div>
                 </div>
               </div>

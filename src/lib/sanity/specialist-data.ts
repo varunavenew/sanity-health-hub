@@ -1,4 +1,4 @@
-import type { Specialist, SpecialistClinicRef, SpecialistExpertiseTag, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
+import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveCmsMedia, type ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
@@ -67,7 +67,6 @@ export type RawSanitySpecialist = {
   heroMedia?: unknown;
   role?: unknown;
   subtitle?: unknown;
-  specialties?: unknown;
   shortBio?: unknown;
   education?: unknown;
   languages?: string[];
@@ -167,42 +166,6 @@ function readSpecialtyLabel(entry: unknown): unknown {
     return (entry as { label?: unknown }).label;
   }
   return entry;
-}
-
-function readSpecialtyHref(entry: unknown): unknown {
-  if (entry && typeof entry === "object" && "href" in entry) {
-    return (entry as { href?: unknown }).href;
-  }
-  return undefined;
-}
-
-function pickSpecialtyNo(entry: unknown): string {
-  return pickNo(readSpecialtyLabel(entry));
-}
-
-/** Href is a path/URL, not translatable text — locale fallback only, no keyword translation. */
-function readLocalizedHref(value: unknown, lang: SanityLang): string {
-  if (typeof value === "string") return value.trim();
-  if (!Array.isArray(value)) return "";
-  const entries = value as I18nValueItem[];
-  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
-  if (typeof matchLang === "string" && matchLang.trim()) return matchLang.trim();
-  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
-  if (typeof matchNo === "string" && matchNo.trim()) return matchNo.trim();
-  const first = entries[0]?.value;
-  return typeof first === "string" ? first.trim() : "";
-}
-
-function mapExpertiseTags(value: unknown, lang: SanityLang): SpecialistExpertiseTag[] {
-  if (!Array.isArray(value)) return [];
-  const tags: SpecialistExpertiseTag[] = [];
-  for (const entry of value) {
-    const label = readLocalizedString(readSpecialtyLabel(entry), lang);
-    if (!label) continue;
-    const href = readLocalizedHref(readSpecialtyHref(entry), lang);
-    tags.push(href ? { label, href } : { label });
-  }
-  return tags;
 }
 
 function readEducation(value: unknown, lang: SanityLang): string | undefined {
@@ -360,8 +323,6 @@ export function isPublishableSanitySpecialist(raw: RawSanitySpecialist): boolean
   if (!specialistHasPortrait(raw)) return false;
   if (!pickNo(raw.role)) return false;
   if (!pickNo(raw.shortBio)) return false;
-  if (!Array.isArray(raw.specialties) || raw.specialties.length === 0) return false;
-  if (!raw.specialties.some((entry) => Boolean(pickSpecialtyNo(entry)))) return false;
   if (!Array.isArray(raw.categories) || raw.categories.length === 0) return false;
   if (!raw.categories.some((c) => {
     const id = typeof c?.categoryId === "string" ? c.categoryId.trim() : "";
@@ -423,10 +384,9 @@ export function mapSanitySpecialistRow(
 
   const bio = readLocalizedString(raw.shortBio, lang);
   const title = readLocalizedString(raw.role, lang);
-  const expertise = mapExpertiseTags(raw.specialties, lang);
   const bookingCategoryIds = normalizeBookingCategoryIds(raw.bookingCategoryIds);
 
-  if (!bio || !title || expertise.length === 0) return null;
+  if (!bio || !title) return null;
 
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
@@ -454,7 +414,7 @@ export function mapSanitySpecialistRow(
     heroMedia: media || undefined,
     title,
     subtitle: readLocalizedString(raw.subtitle, lang) || undefined,
-    expertise,
+    expertise: [],
     bio,
     bioBody: mapBioBody(raw.bio),
     education: readEducation(raw.education, lang),
