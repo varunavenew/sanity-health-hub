@@ -78,6 +78,10 @@
     --brand-warm: 30 31.6% 92.5%;
     --brand-mid: 25 23% 74%;
     --brand-beige: 30 31.6% 92.5%;
+    /* Specialist profile: treatment cards + category highlight (demo taupe) */
+    /* Demo area block (#F2ECE6) */
+    --brand-light: 32 33% 93.5%;
+    --brand-profile-section: 32 28% 84%;
     --brand-terracotta: 18 48% 44%;
     --footer-bg: #140c0c;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
@@ -683,6 +687,10 @@ section > .container.py-14 {
 
 /* Hide native scrollbar for horizontal card carousels — dots handle indication */
 @layer utilities {
+  .bg-brand-profile {
+    background-color: hsl(var(--brand-profile-section));
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

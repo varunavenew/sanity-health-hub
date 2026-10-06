@@ -1,5 +1,13 @@
 import type { ImageRef } from "@/lib/media";
 
+export interface SpecialistProfileTreatmentCard {
+  title: string;
+  description: string;
+  href: string;
+  image?: string;
+  imageAlt?: string;
+}
+
 /** Linked treatmentCategory from Sanity (Tilknyttede kategorier). */
 export interface SpecialistSanityCategory {
   categoryId: string;
@@ -85,6 +93,10 @@ export interface Specialist {
   clinicRefs?: SpecialistClinicRef[];
   /** Categories linked in Sanity Studio — drives inline booking section. */
   sanityCategories?: SpecialistSanityCategory[];
+  /** Optional highlight band — defaults to first category when unset. */
+  featuredCategory?: SpecialistSanityCategory;
+  /** «Dette hjelper … deg med» treatment cards on the profile. */
+  profileTreatments?: SpecialistProfileTreatmentCard[];
   /** CMS toggles. Unset on existing documents — treat as true until Aina turns them off. */
   showBookingButton?: boolean;
   showCallButton?: boolean;

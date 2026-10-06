@@ -239,6 +239,32 @@ export default {
       },
     },
     {
+      name: 'profileTreatments',
+      title: 'Profile treatment cards',
+      type: 'array',
+      group: 'general',
+      description:
+        'Treatments shown in the «Dette hjelper … deg med» grid on the specialist profile. Order matches the website.',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'treatment' }],
+          options: {
+            filter: '!(_id in path("drafts.**")) && coalesce(hideFromWebsite, false) != true && (pageRole != "team" || !defined(pageRole))',
+          },
+        },
+      ],
+    },
+    {
+      name: 'featuredCategory',
+      title: 'Highlighted category',
+      type: 'reference',
+      to: [{ type: 'treatmentCategory' }],
+      group: 'general',
+      description:
+        'Optional. Two-column band below the treatment cards (e.g. Graviditet). Defaults to the first Treatment category when empty.',
+    },
+    {
       // Last Treatments list known to match the treatment pages. Publish applies
       // only the editor's changes since then. Managed by Studio.
       name: 'treatmentsBaseline',
