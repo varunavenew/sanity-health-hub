@@ -12,7 +12,6 @@ import { SpecialistInlineBookingBand } from "@/components/specialist/InlineBooki
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
 import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
-import { SpecialistProfileTreatments } from "@/components/specialist/SpecialistProfileTreatments";
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
@@ -188,7 +187,6 @@ function SpecialistProfileBody({
       />
       <SpecialistHero specialist={specialist} />
       <SpecialistBio specialist={specialist} />
-      <SpecialistProfileTreatments specialist={specialist} />
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
 

@@ -1,10 +1,10 @@
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { AssetImg } from "@/components/AssetImg";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import type { Specialist } from "@/lib/sanity/specialist-types";
-import "./specialist-profile-demo.css";
 
 function featuredServiceHref(
   categoryId: string,
@@ -22,37 +22,57 @@ interface SpecialistFeaturedServiceProps {
 export const SpecialistFeaturedService = ({ specialist }: SpecialistFeaturedServiceProps) => {
   const ui = useSpecialistProfileUi();
   const servicesPath = useNavCmsPath("services");
-  const category = specialist.featuredCategory ?? specialist.sanityCategories?.[0];
+  const category = specialist.sanityCategories?.[0];
   if (!category?.title) return null;
-  if (!specialist.featuredCategory && !(specialist.profileTreatments?.length)) {
-    return null;
-  }
 
   const href = featuredServiceHref(category.categoryId, category.slug, servicesPath);
   const hasContent = Boolean(category.title) && Boolean(category.heroImage);
   if (!hasContent) return null;
 
   return (
-    <section className="area-block">
-      <div className="area-block__grid">
-        <div className="area-block__text">
-          <div className="area-block__text-inner">
-            <h2 className="area-block__title">{category.title}</h2>
+    <section className="bg-brand-light py-16 md:py-24 border-t border-foreground/10">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
+              {category.title}
+            </h2>
             {category.description ? (
-              <p className="area-block__description">{category.description}</p>
+              <p className="text-base md:text-lg text-foreground/75 font-light leading-relaxed mb-6 max-w-md whitespace-pre-line">
+                {category.description}
+              </p>
             ) : null}
-            <Link to={href} className="area-block__link">
+            <Link
+              to={href}
+              className="inline-flex items-center gap-2 text-sm font-normal text-foreground border-b border-foreground pb-1 hover:gap-3 transition-all"
+            >
               {ui.featuredServiceCtaLabel}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-          </div>
-        </div>
+          </motion.div>
 
-        {category.heroImage ? (
-          <div className="split-media area-block__image">
-            <AssetImg src={category.heroImage} alt={category.title} loading="lazy" />
-          </div>
-        ) : null}
+          {category.heroImage ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative aspect-[4/3] overflow-hidden rounded-sm"
+            >
+              <AssetImg
+                src={category.heroImage}
+                alt={category.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+              />
+            </motion.div>
+          ) : null}
+        </div>
       </div>
     </section>
   );

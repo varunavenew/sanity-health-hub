@@ -1,12 +1,8 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+export default {
   darkMode: ["class"],
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     container: {
@@ -18,14 +14,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: [
-          "ABC Ginto Normal",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "sans-serif",
-        ],
-        serif: ["Georgia", "Times New Roman", "Times", "serif"],
+        sans: ['ABC Ginto Normal', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        serif: ['Georgia', 'Times New Roman', 'Times', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -39,8 +29,6 @@ module.exports = {
           warm: "hsl(var(--brand-warm))",
           mid: "hsl(var(--brand-mid))",
           beige: "hsl(var(--brand-beige))",
-          light: "hsl(var(--brand-light))",
-          profile: "hsl(var(--brand-profile-section))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -82,6 +70,10 @@ module.exports = {
         },
       },
       borderRadius: {
+        /* Én felles radius for hele profilen — matcher Urologi-pillen.
+           sm/md er litt mindre varianter; xl/2xl/3xl kollapser til samme
+           verdi så ALLE knapper, kort og bokser får identisk avrunding.
+           rounded-full beholdes for sirkler (avatarer, ikoner). */
         sm: "var(--radius)",
         md: "var(--radius)",
         lg: "var(--radius)",
@@ -98,7 +90,7 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        float: {
+        "float": {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-20px)" },
         },
@@ -150,7 +142,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        float: "float 6s ease-in-out infinite",
+        "float": "float 6s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "slide-up": "slide-up 0.5s ease-out forwards",
         "slide-down": "slide-down 0.5s ease-out forwards",
@@ -158,7 +150,7 @@ module.exports = {
         "scale-in": "scale-in 0.3s ease-out",
         "scale-up": "scale-up 0.4s ease-out forwards",
         "scroll-left": "scroll-left 120s linear infinite",
-        marquee: "marquee 40s linear infinite",
+        "marquee": "marquee 40s linear infinite",
         "word-float": "word-float 4s ease-in-out forwards",
         "word-float-slow": "word-float-slow 8s ease-in-out forwards",
         "underline-expand": "underline-expand 1s ease-out 0.5s forwards",
@@ -166,4 +158,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config;

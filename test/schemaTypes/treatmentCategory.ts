@@ -170,22 +170,6 @@ export default {
       validation: reqI18n('Category name'),
     },
     {
-      name: 'profileHighlightTitle',
-      title: 'Specialist profile — highlight title',
-      type: 'internationalizedArrayString',
-      group: 'general',
-      description:
-        'Optional short title in the highlighted category band on specialist profiles (e.g. «Graviditet»). Falls back to category name.',
-    },
-    {
-      name: 'profileHighlightIntro',
-      title: 'Specialist profile — highlight intro',
-      type: 'internationalizedArrayText',
-      group: 'general',
-      description:
-        'Paragraph shown next to the image on specialist profiles when this category is highlighted. Falls back to landing hero ingress, then AI summary.',
-    },
-    {
       ...i18nSlugFieldFromTitle('title', {
         description:
           'URL Slug (NO) and URL Slug (EN). Fills from Category name while typing when empty or still auto-synced. Manual edits are kept — later name changes will not overwrite them.',
