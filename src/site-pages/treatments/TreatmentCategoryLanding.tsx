@@ -1019,7 +1019,6 @@ const TreatmentCategoryLanding = ({
   const noticePlacement = emergencyNoticePlacement(categoryId);
   const emergencyNoticeText = resolveEmergencyNoticeText(
     siteSettings?.emergencyNoticeText,
-    sanityLang === "en" ? "en" : "no",
   );
   const accordionEmergencyNotice =
     noticePlacement === "akutt-accordion" ? emergencyNoticeText : undefined;
