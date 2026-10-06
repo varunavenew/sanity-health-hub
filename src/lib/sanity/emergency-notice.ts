@@ -3,13 +3,6 @@ import {
   normalizeCategoryRouteKey,
 } from "@/lib/sanity/category-keys";
 
-/** Default NO copy — Marte user test #60 / Aina 7 Sep. Edit in Site Settings. */
-export const DEFAULT_EMERGENCY_NOTICE_NO =
-  "Ved livstruende akutte behov — ring 113.";
-
-export const DEFAULT_EMERGENCY_NOTICE_EN =
-  "In life-threatening emergencies — call 113.";
-
 export type EmergencyNoticePlacement = "akutt-accordion" | "hero" | null;
 
 /**
@@ -27,15 +20,11 @@ export function emergencyNoticePlacement(
   return null;
 }
 
+/** Site Settings text only — empty field hides the notice. */
 export function resolveEmergencyNoticeText(
   cmsText: string | null | undefined,
-  lang: "no" | "en",
-): string {
-  const fromCms = cmsText?.trim();
-  if (fromCms) return fromCms;
-  return lang === "en"
-    ? DEFAULT_EMERGENCY_NOTICE_EN
-    : DEFAULT_EMERGENCY_NOTICE_NO;
+): string | undefined {
+  return cmsText?.trim() || undefined;
 }
 
 export function isAkuttSegment(id?: string, title?: string): boolean {
