@@ -9,6 +9,12 @@ import {
   resolveBookingCategoryKeys,
   sanityManagedClinicFromSanity,
 } from "@/lib/booking/sanityBookingClinic";
+import {
+  MAJORSTUEN_GROUP_CLINIC_ID,
+  clinicCoversMetodikaLocation,
+  isMajorstuenClinicLabel,
+  metodikaClinicsShareMajorstuenGroup,
+} from "@/lib/booking/majorstuen-location-group";
 
 export function categoryOfferedAtClinic(
   clinicServices: string[] | undefined,
@@ -56,11 +62,20 @@ function findEnrichedMetodikaClinic(
 ): BookingMetodikaClinic | undefined {
   const locationId = sanityClinic.booking?.metodikaLocationId;
   if (typeof locationId === "number" && locationId > 0) {
-    const byId = enrichedMetodikaClinics.find((clinic) => clinic.apiLocationId === locationId);
+    const byId = enrichedMetodikaClinics.find((clinic) =>
+      clinicCoversMetodikaLocation(clinic, locationId),
+    );
     if (byId) return byId;
   }
 
   const normalizedSanity = normalizeClinicLabelForCompare(sanityClinic.label);
+  if (isMajorstuenClinicLabel(sanityClinic.label)) {
+    const grouped = enrichedMetodikaClinics.find(
+      (clinic) => clinic.id === MAJORSTUEN_GROUP_CLINIC_ID,
+    );
+    if (grouped) return grouped;
+  }
+
   return enrichedMetodikaClinics.find((clinic) => {
     const normalizedApi = normalizeClinicLabelForCompare(clinic.label);
     return (
@@ -103,6 +118,8 @@ export function bookingClinicMatches(a: BookingClinic, b: BookingClinic): boolea
   if (a.bookingSystem !== b.bookingSystem) return false;
   if (a.id === b.id) return true;
   if (isMetodikaClinic(a) && isMetodikaClinic(b)) {
+    if (a.id === b.id) return true;
+    if (metodikaClinicsShareMajorstuenGroup(a, b)) return true;
     return a.apiLocationId === b.apiLocationId;
   }
   return false;

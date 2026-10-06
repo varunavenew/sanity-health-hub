@@ -6,11 +6,20 @@ export function bookingActivityGroupsQueryKey(locale: string) {
   return [...BOOKING_ACTIVITY_GROUPS_QUERY_KEY, locale] as const;
 }
 
+/** Metodika catalog with `resolveActivityPrice` + itemprices fallback (same as `/no/priser`). */
+export async function fetchBookingActivityGroupsWithApiPricesClient(
+  locale: string,
+): Promise<BookingCategoryFromApi[]> {
+  return fetchBookingActivityGroupsClient(locale);
+}
+
 export async function fetchBookingActivityGroupsClient(
   locale: string,
 ): Promise<BookingCategoryFromApi[]> {
   const lang = locale === "en" ? "en" : "no";
-  const res = await fetch(`/api/booking/activity-groups?locale=${lang}`);
+  const res = await fetch(
+    `/api/booking/activity-groups?locale=${lang}&prices=api`,
+  );
   const json = (await res.json()) as {
     ok?: boolean;
     categories?: BookingCategoryFromApi[];

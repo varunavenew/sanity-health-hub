@@ -67,13 +67,24 @@ export const PageSectionListPane: UserComponent = (props) => {
   const ready = Boolean(publishedId) && editState.ready
 
   const sections = config?.sections || []
+  const getSectionOrder = config?.getSectionOrder
 
   const cards = useMemo(() => {
-    return sections.map((section) => ({
+    let ordered = sections
+    if (getSectionOrder && ready) {
+      const order = getSectionOrder(document)
+      const rank = (id: string) => {
+        const index = order.indexOf(id)
+        return index === -1 ? order.length : index
+      }
+      // Array.prototype.sort is stable — unlisted sections keep config order.
+      ordered = [...sections].sort((a, b) => rank(a.id) - rank(b.id))
+    }
+    return ordered.map((section) => ({
       section,
       chips: resolveChips(section, document, ready),
     }))
-  }, [document, ready, sections])
+  }, [document, ready, sections, getSectionOrder])
 
   const sectionCount = cards.length
 

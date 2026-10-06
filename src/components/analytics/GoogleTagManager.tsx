@@ -1,4 +1,8 @@
 import Script from "next/script";
+import {
+  parseExternalScriptTag,
+  unwrapInlineScriptContent,
+} from "@/lib/analytics/consent-script";
 import type { GoogleAnalyticsSettingsResolved } from "@/lib/analytics/defaults";
 import { resolveGoogleAnalyticsSettings } from "@/lib/analytics/defaults";
 
@@ -16,9 +20,11 @@ export function GoogleConsentDefault({ settings }: Props) {
   if (!cfg.enabled) return null;
 
   return (
-    <Script id="google-consent-default" strategy="beforeInteractive">
-      {cfg.consentHeadScript}
-    </Script>
+    <Script
+      id="google-consent-default"
+      strategy="beforeInteractive"
+      dangerouslySetInnerHTML={{ __html: cfg.consentHeadScript }}
+    />
   );
 }
 
@@ -27,10 +33,24 @@ export function GoogleCookiebotHead({ settings }: Props) {
   const cfg = resolved(settings);
   if (!cfg.enabled || !cfg.cookiebotHeadScript) return null;
 
+  const external = parseExternalScriptTag(cfg.cookiebotHeadScript);
+  if (external) {
+    return (
+      <Script
+        id={external.scriptId ?? "cookiebot-head"}
+        src={external.src}
+        strategy="beforeInteractive"
+      />
+    );
+  }
+
+  const inline = unwrapInlineScriptContent(cfg.cookiebotHeadScript);
   return (
-    <Script id="cookiebot-head" strategy="beforeInteractive">
-      {cfg.cookiebotHeadScript}
-    </Script>
+    <Script
+      id="cookiebot-head"
+      strategy="beforeInteractive"
+      dangerouslySetInnerHTML={{ __html: inline }}
+    />
   );
 }
 
@@ -42,9 +62,11 @@ export function GoogleTagManagerHead({ settings }: Props) {
   return (
     <>
       {/* Google Tag Manager */}
-      <Script id="google-tag-manager" strategy="beforeInteractive">
-        {cfg.gtmHeadScript}
-      </Script>
+      <Script
+        id="google-tag-manager"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: cfg.gtmHeadScript }}
+      />
       {/* End Google Tag Manager */}
     </>
   );

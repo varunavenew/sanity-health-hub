@@ -14,6 +14,7 @@ import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import {
   categoryNewContent,
@@ -38,8 +39,11 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
   }, [content]);
 
   const categorySpecialists = useMemo(
-    () => specialists.filter((s) => s.category === categoryId).slice(0, 4),
-    [specialists, categoryId]
+    () =>
+      specialists
+        .filter((s) => specialistMatchesCategory(s, categoryId))
+        .slice(0, 4),
+    [specialists, categoryId],
   );
 
   if (!content) {

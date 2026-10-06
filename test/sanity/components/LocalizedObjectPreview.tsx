@@ -1,11 +1,11 @@
 /**
- * Studio list/array preview that follows the active Studio UI language.
+ * Studio list/array preview for internationalized fields (Norwegian-first).
  * Expects prepare() to pass through raw i18n fields as `i18nTitle` / `i18nSubtitle`.
  */
-import {type PreviewProps, useCurrentLocale} from 'sanity'
+import {type PreviewProps} from 'sanity'
 import {
+  getStudioContentLanguage,
   resolveLocalizedPreview,
-  studioLocaleToContentLang,
   truncatePreview,
 } from '../../schemaTypes/i18n'
 
@@ -16,8 +16,7 @@ export type LocalizedObjectPreviewProps = PreviewProps & {
 }
 
 export function LocalizedObjectPreview(props: LocalizedObjectPreviewProps) {
-  const locale = useCurrentLocale()
-  const lang = studioLocaleToContentLang(locale?.id)
+  const lang = getStudioContentLanguage()
 
   const fallback = props.i18nFallback?.trim() || 'Untitled'
   const hasRawTitle = 'i18nTitle' in props

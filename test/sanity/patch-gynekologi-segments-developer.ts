@@ -71,7 +71,7 @@ const SEGMENTS = [
     ),
     tagLinks: [
       tagLink("Prevensjonsveiledning", "Contraception counselling", "/gynekologi/undersokelse"),
-      tagLink("PMOS", "PMOS", "/gynekologi/pcos"),
+      tagLink("PMOS", "PMOS", "/gynekologi/pmos"),
       tagLink("POI", "POI", "/gynekologi/poi"),
       tagLink("PMS / PMDD", "PMS / PMDD", "/gynekologi/pms-pmdd"),
       tagLink("Blødningsforstyrrelser", "Bleeding disorders", "/gynekologi/blodningsforstyrrelser"),

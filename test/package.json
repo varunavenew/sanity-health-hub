@@ -10,6 +10,8 @@
     "build": "npx sanity build",
     "deploy": "npx sanity deploy",
     "deploy:production": "node scripts/deploy-studio-production.cjs",
+    "check:specialists-metodika": "tsx sanity/check-specialists-in-metodika.ts",
+    "check:specialists-metodika:production": "cross-env SANITY_DATASET_FORCE=production ALLOW_PRODUCTION_MIGRATION=true tsx sanity/check-specialists-in-metodika.ts",
     "patch:en-decode-entities:dry": "cross-env DRY_RUN=1 tsx sanity/patch-en-decode-html-entities.ts",
     "patch:en-decode-entities": "tsx sanity/patch-en-decode-html-entities.ts",
     "patch:en-decode-entities:production:dry": "cross-env SANITY_DATASET_FORCE=production ALLOW_PRODUCTION_MIGRATION=true DRY_RUN=1 tsx sanity/patch-en-decode-html-entities.ts",

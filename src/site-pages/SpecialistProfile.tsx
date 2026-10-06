@@ -12,6 +12,7 @@ import { SpecialistInlineBookingBand } from "@/components/specialist/InlineBooki
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
 import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
+import { SpecialistProfileTreatments } from "@/components/specialist/SpecialistProfileTreatments";
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
@@ -29,14 +30,15 @@ import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { siteUrl } from "@/lib/env";
 import { assetSrc } from "@/lib/media";
 import type { Specialist } from "@/lib/sanity/specialist-types";
-import { specialistExpertiseLabels } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 import {
   specialistProfileBookingPending,
+  specialistShowsBookingButton,
   specialistShowsProfileBookingButton,
   specialistShowsProfileCallToBookButton,
 } from "@/lib/sanity/specialist-cta";
+import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
 import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 interface SpecialistProfileProps {
@@ -141,17 +143,17 @@ function SpecialistProfileBody({
       null;
     trackSpecialistView({
       specialist_name: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
+      specialty: specialist.title || null,
       clinic: clinicLabel,
     });
-  }, [specialist.slug, specialist.name, specialist.title, specialist.expertise, specialist.clinicRefs, specialist.clinics]);
+  }, [specialist.slug, specialist.name, specialist.title, specialist.clinicRefs, specialist.clinics]);
 
   const physicianJsonLd = {
     "@context": "https://schema.org",
     "@type": "Physician",
     name: specialist.name,
     jobTitle: specialist.title,
-    medicalSpecialty: specialistExpertiseLabels(specialist.expertise),
+    medicalSpecialty: specialist.title ? [specialist.title] : [],
     ...(shareImageUrl ? { image: shareImageUrl } : {}),
     worksFor: {
       "@type": "MedicalClinic",
@@ -186,6 +188,7 @@ function SpecialistProfileBody({
       />
       <SpecialistHero specialist={specialist} />
       <SpecialistBio specialist={specialist} />
+      <SpecialistProfileTreatments specialist={specialist} />
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
 
@@ -201,39 +204,54 @@ function SpecialistProfileBody({
       />
       <SpecialistFAQBlock faqs={specialist.faqs} title={specialist.faqSectionTitle} />
 
-      {specialistProfileBookingPending(specialist, pageBooking) ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <div
-            role="status"
-            aria-live="polite"
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-muted text-sm font-normal text-muted-foreground"
-          >
-            <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
-            <span>{ui.bookingAvailabilityCheckingLabel}</span>
-          </div>
-        </div>
-      ) : specialistShowsProfileBookingButton(specialist, pageBooking) ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <SpecialistBookNowButton
-            specialist={specialist}
-            variant="default"
-            className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
-          >
-            <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-            {ui.bookingCtaLabel}
-          </SpecialistBookNowButton>
-        </div>
-      ) : specialistShowsProfileCallToBookButton(specialist, pageBooking) ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-          <CallUsClinicPicker
-            variant="cta"
-            size="lg"
-            label={ui.heroCallToBookLabel}
-            specialist={specialist}
-            className="w-full rounded-2xl h-12 font-normal shadow-none"
-          />
-        </div>
-      ) : null}
+      {(() => {
+        const inlineBooking = isSpecialistInlineBookingEnabled();
+        if (inlineBooking && specialistProfileBookingPending(specialist, pageBooking)) {
+          return (
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+              <div
+                role="status"
+                aria-live="polite"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-muted text-sm font-normal text-muted-foreground"
+              >
+                <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
+                <span>{ui.bookingAvailabilityCheckingLabel}</span>
+              </div>
+            </div>
+          );
+        }
+        const showMobileBook = inlineBooking
+          ? specialistShowsProfileBookingButton(specialist, pageBooking)
+          : specialistShowsBookingButton(specialist);
+        if (showMobileBook) {
+          return (
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+              <SpecialistBookNowButton
+                specialist={specialist}
+                variant="default"
+                className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
+              >
+                <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
+                {ui.bookingCtaLabel}
+              </SpecialistBookNowButton>
+            </div>
+          );
+        }
+        if (inlineBooking && specialistShowsProfileCallToBookButton(specialist, pageBooking)) {
+          return (
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+              <CallUsClinicPicker
+                variant="cta"
+                size="lg"
+                label={ui.heroCallToBookLabel}
+                specialist={specialist}
+                className="w-full rounded-2xl h-12 font-normal shadow-none"
+              />
+            </div>
+          );
+        }
+        return null;
+      })()}
     </PageLayout>
   );
 }

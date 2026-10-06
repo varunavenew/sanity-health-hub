@@ -3,7 +3,9 @@ import { isBookingCaregiver } from "@/lib/booking/bookingCaregiver";
 import {
   isMetodikaClinic,
   type BookingClinic,
+  type BookingMetodikaClinic,
 } from "@/lib/booking/mapApiLocation";
+import { metodikaLocationIdsForClinic } from "@/lib/booking/majorstuen-location-group";
 import { normalizeClinicLabelForCompare } from "@/lib/booking/sanityBookingClinic";
 import { slugifyNo } from "@/lib/bookingLinks";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -108,9 +110,25 @@ function filterMetodikaClinicsByLocationIds<T extends BookingClinic>(
 ): T[] {
   if (locationIds.length === 0) return [];
   const allowed = new Set(locationIds);
-  return clinics.filter(
-    (clinic) => isMetodikaClinic(clinic) && allowed.has(clinic.apiLocationId),
-  );
+  return clinics.filter((clinic) => {
+    if (!isMetodikaClinic(clinic)) return false;
+    return metodikaLocationIdsForClinic(clinic).some((id) => allowed.has(id));
+  });
+}
+
+export function filterGroupedMetodikaClinicLocationIds(
+  clinic: BookingMetodikaClinic,
+  allowedLocationIds: number[],
+): BookingMetodikaClinic {
+  const allowed = new Set(allowedLocationIds);
+  const ids = metodikaLocationIdsForClinic(clinic).filter((id) => allowed.has(id));
+  if (ids.length === 0) return clinic;
+  if (ids.length === metodikaLocationIdsForClinic(clinic).length) return clinic;
+  return {
+    ...clinic,
+    apiLocationIds: ids,
+    apiLocationId: ids[0]!,
+  };
 }
 
 /**
@@ -157,18 +175,22 @@ export function filterClinicsForPreselectedSpecialist<T extends BookingClinic>(
       ? clinics.filter(
           (clinic) =>
             isMetodikaClinic(clinic) &&
-            locationIdsFromSlots.has(clinic.apiLocationId),
+            metodikaLocationIdsForClinic(clinic).some((id) =>
+              locationIdsFromSlots.has(id),
+            ),
         )
       : null;
 
   if (bySanity && bySlots) {
     const slotIds = new Set<number>();
     for (const clinic of bySlots) {
-      if (isMetodikaClinic(clinic)) slotIds.add(clinic.apiLocationId);
+      if (isMetodikaClinic(clinic)) {
+        for (const id of metodikaLocationIdsForClinic(clinic)) slotIds.add(id);
+      }
     }
     const intersection = bySanity.filter((clinic) => {
       if (!isMetodikaClinic(clinic)) return true;
-      return slotIds.has(clinic.apiLocationId);
+      return metodikaLocationIdsForClinic(clinic).some((id) => slotIds.has(id));
     });
     // Prefer intersection; if empty (e.g. Pasientsky-only Sanity clinic), keep Sanity list.
     return intersection.length > 0 ? intersection : bySanity;

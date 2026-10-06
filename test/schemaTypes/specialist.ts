@@ -15,6 +15,7 @@ import {
 } from './bookingActivityGroups'
 import { AutoSlugFromTitleInput } from '../sanity/components/AutoSlugFromTitleInput'
 import { DefaultOnBooleanInput } from '../sanity/components/DefaultOnBooleanInput'
+import { SpecialistTreatmentsInput } from '../sanity/components/SpecialistTreatmentsInput'
 import {
   composeImageValidation,
   mediaDescription,
@@ -201,27 +202,6 @@ export default {
       description: 'Optional. E.g. Robot surgeon, Specialist (NO + EN).',
     },
     {
-      name: 'specialties',
-      title: 'Expertise / specialties',
-      type: 'array',
-      group: 'general',
-      options: { layout: 'list' },
-      of: [
-        {
-          type: 'reference',
-          weak: true,
-          to: [{ type: 'specialistTag' }],
-        },
-      ],
-      description:
-        'Reusable tags from Content Library → Specialist Tags. Each tag can link to a page. Create new tags here or pick existing ones. Tags do not need to be published to be selected.',
-      validation: (Rule: any) =>
-        Rule.required()
-          .min(1)
-          .unique()
-          .error('Select at least one specialty tag'),
-    },
-    {
       name: 'categories',
       title: 'Treatment categories',
       type: 'array',
@@ -236,6 +216,65 @@ export default {
       ],
       validation: (Rule: any) =>
         Rule.required().min(1).error('Select at least one treatment category'),
+    },
+    {
+      name: 'appearingOnTreatments',
+      title: 'Treatments',
+      type: 'array',
+      group: 'general',
+      description:
+        'Treatment pages that show this specialist. Add a treatment to show them there; remove it to take them off that page. The treatment pages are updated when you publish this specialist.',
+      of: [
+        {
+          type: 'reference',
+          weak: true,
+          to: [{type: 'treatment'}],
+          options: {
+            // Only published treatments: draft-only pages are not on the website yet.
+            filter: '!(_id in path("drafts.**"))',
+          },
+        },
+      ],
+      components: {
+        input: SpecialistTreatmentsInput,
+      },
+    },
+    {
+      name: 'profileTreatments',
+      title: 'Profile treatment cards',
+      type: 'array',
+      group: 'general',
+      description:
+        'Treatments shown in the «Dette hjelper … deg med» grid on the specialist profile. Order matches the website.',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'treatment' }],
+          options: {
+            filter: '!(_id in path("drafts.**")) && coalesce(hideFromWebsite, false) != true && (pageRole != "team" || !defined(pageRole))',
+          },
+        },
+      ],
+    },
+    {
+      name: 'featuredCategory',
+      title: 'Highlighted category',
+      type: 'reference',
+      to: [{ type: 'treatmentCategory' }],
+      group: 'general',
+      description:
+        'Optional. Two-column band below the treatment cards (e.g. Graviditet). Defaults to the first Treatment category when empty.',
+    },
+    {
+      // Last Treatments list known to match the treatment pages. Publish applies
+      // only the editor's changes since then. Managed by Studio.
+      name: 'treatmentsBaseline',
+      title: 'Treatments (last synced)',
+      type: 'array',
+      group: 'general',
+      of: [{type: 'string'}],
+      hidden: true,
+      readOnly: true,
     },
     {
       name: 'treatments',
@@ -605,10 +644,6 @@ export default {
       if (!pickNo(document.role)?.trim()) issues.push('Title / role (Norwegian) is missing')
       if (!pickForLang(document.role, 'en')?.trim()) {
         issues.push('Title / role (English) is missing')
-      }
-      const specialties = document.specialties as unknown[] | undefined
-      if (!Array.isArray(specialties) || specialties.length === 0) {
-        issues.push('At least one specialty tag must be selected')
       }
       const categories = document.categories as unknown[] | undefined
       if (!Array.isArray(categories) || categories.length === 0) {

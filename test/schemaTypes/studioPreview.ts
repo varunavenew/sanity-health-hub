@@ -1,8 +1,8 @@
 /**
  * Studio-only preview labels.
  *
- * Localized strings follow the active Studio UI language
- * (EN → NO → first, or NO → EN → first). See resolveLocalizedPreview.
+ * Localized strings resolve Norwegian-first (NO → EN → first),
+ * independent of the Studio UI language. See resolveLocalizedPreview.
  * Does NOT affect website rendering (frontend GROQ / pickNo / $lang unchanged).
  */
 import {
@@ -13,7 +13,7 @@ import {
 
 /** Resolve internationalized (or plain) values for Studio list rows. */
 export function pickStudioEn(value: unknown): string {
-  // Name kept for call-site stability; resolution follows Studio UI language.
+  // Name kept for call-site stability; resolution is Norwegian-first.
   return resolveLocalizedPreview(value)
 }
 

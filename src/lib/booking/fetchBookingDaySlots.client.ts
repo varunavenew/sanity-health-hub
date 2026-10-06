@@ -89,3 +89,62 @@ export async function fetchBookingDaySlotsClient(
   inFlight.set(key, promise);
   return promise;
 }
+
+export function mergeBookingDaySlots(
+  batches: NormalizedFreeTimeSlot[][],
+): NormalizedFreeTimeSlot[] {
+  const seen = new Set<string>();
+  const merged: NormalizedFreeTimeSlot[] = [];
+  for (const slots of batches) {
+    for (const slot of slots) {
+      const dedupeKey = [
+        slot.startDateTime,
+        slot.roomId ?? "",
+        slot.caregiverUserId ?? "",
+        slot.locationId ?? "",
+      ].join("|");
+      if (seen.has(dedupeKey)) continue;
+      seen.add(dedupeKey);
+      merged.push(slot);
+    }
+  }
+  return merged.sort(
+    (a, b) =>
+      new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+  );
+}
+
+/** Fetch day slots for one or more Metodika location ids (e.g. Majorstuen 10A + 10B). */
+export async function fetchBookingDaySlotsForLocations(
+  request: Omit<DaySlotsRequest, "locationId"> & { locationIds: number[] },
+): Promise<NormalizedFreeTimeSlot[]> {
+  const unique = [...new Set(request.locationIds.filter((id) => id > 0))];
+  if (unique.length === 0) return [];
+  if (unique.length === 1) {
+    return fetchBookingDaySlotsClient({
+      ...request,
+      locationId: unique[0]!,
+    });
+  }
+
+  const batches = await Promise.all(
+    unique.map((locationId) =>
+      fetchBookingDaySlotsClient({ ...request, locationId }),
+    ),
+  );
+  return mergeBookingDaySlots(batches);
+}
+
+export function peekBookingDaySlotsForLocations(
+  request: Omit<DaySlotsRequest, "locationId"> & { locationIds: number[] },
+): NormalizedFreeTimeSlot[] | undefined {
+  const unique = [...new Set(request.locationIds.filter((id) => id > 0))];
+  if (unique.length === 0) return undefined;
+  const batches: NormalizedFreeTimeSlot[][] = [];
+  for (const locationId of unique) {
+    const slots = peekBookingDaySlotsClient({ ...request, locationId });
+    if (!slots) return undefined;
+    batches.push(slots);
+  }
+  return unique.length === 1 ? batches[0] : mergeBookingDaySlots(batches);
+}

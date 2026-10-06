@@ -99,4 +99,10 @@ export type PageEditorConfig = {
   sections: PageSectionDefinition[]
   /** Section id selected when the editor opens. */
   defaultSectionId?: string
+  /**
+   * Optional per-document card order (section ids) for the section list pane.
+   * Use when the website render order depends on document data.
+   * Sections not listed keep their `sections` order after the listed ones.
+   */
+  getSectionOrder?: (document: Record<string, unknown> | undefined) => string[]
 }

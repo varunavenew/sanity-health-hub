@@ -53,12 +53,6 @@ const specialistClinicRefsGroq = `"clinicRefs": clinics[]->{
   ${localizedSlug}
 }`;
 
-/** Dual-read: specialistTag references or legacy inline specialtyItem objects. */
-const specialistSpecialtiesGroq = `"specialties": specialties[]{
-  "label": coalesce(@->label, label),
-  "href": coalesce(@->href, href)
-}`;
-
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
     ${i18nNestedString("profileUi", "notFoundTitle")},
@@ -73,6 +67,8 @@ const SPECIALIST_PROFILE_UI_GROQ = `
     ${i18nNestedString("profileUi", "bioSectionTitle")},
     ${i18nNestedString("profileUi", "reviewsSectionTitle")},
     ${i18nNestedString("profileUi", "featuredServiceCtaLabel")},
+    ${i18nNestedString("profileUi", "treatmentsSectionTitle")},
+    ${i18nNestedString("profileUi", "treatmentCardReadMoreLabel")},
     ${i18nNestedString("profileUi", "bookingLoadingLabel")},
     ${i18nNestedString("profileUi", "bookingAvailabilityCheckingLabel")},
     ${i18nNestedText("profileUi", "bookingEmptyMessage")},
@@ -176,11 +172,55 @@ const legacyFaqsRefsProjection = `"faqs": faqs[]->{
 const localizedGoogleReviewRow = `_id, author, rating, source, ${i18nText('text')}, date`;
 
 /** Treatment category fields used on specialist profile featured-service block. */
+const specialistTreatmentCardProjection = `
+  _id,
+  pageRole,
+  hideFromWebsite,
+  ${i18nString("title")},
+  ${i18nText("description")},
+  ${i18nText("heroDescription")},
+  "heroImage": coalesce(heroImage.asset->url, heroMedia.image.asset->url),
+  ${i18nString("heroImageAlt")},
+  "path": "/" + coalesce(
+    categories[0]->slug[language == $lang][0].value.current,
+    categories[0]->slug[_key == $lang][0].value.current,
+    categories[0]->slug[language == "no"][0].value.current,
+    categories[0]->slug[_key == "no"][0].value.current,
+    category->slug[language == $lang][0].value.current,
+    category->slug[_key == $lang][0].value.current,
+    category->slug[language == "no"][0].value.current,
+    category->slug[_key == "no"][0].value.current
+  ) + "/" + coalesce(
+    slug[language == $lang][0].value.current,
+    slug[_key == $lang][0].value.current,
+    slug[language == "no"][0].value.current,
+    slug[_key == "no"][0].value.current
+  )
+`;
+
 const specialistCategoryProjection = `
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "heroImage": heroImage.asset->url,
+  "heroImage": coalesce(
+    heroMedia.image.asset->url,
+    homepageCardImage.asset->url,
+    heroImage.asset->url
+  ),
+  "profileTitle": coalesce(
+    profileHighlightTitle[language == $lang][0].value,
+    profileHighlightTitle[_key == $lang][0].value,
+    profileHighlightTitle[language == "no"][0].value,
+    profileHighlightTitle[_key == "no"][0].value,
+    title[language == $lang][0].value,
+    title[_key == $lang][0].value,
+    title[language == "no"][0].value,
+    title[_key == "no"][0].value
+  ),
   "description": coalesce(
+    profileHighlightIntro[language == $lang][0].value,
+    profileHighlightIntro[_key == $lang][0].value,
+    profileHighlightIntro[language == "no"][0].value,
+    profileHighlightIntro[_key == "no"][0].value,
     landingPage.hero.body[language == $lang][0].value,
     landingPage.hero.body[_key == $lang][0].value,
     landingPage.hero.body[language == "no"][0].value,
@@ -249,6 +289,7 @@ export const PAGE_SECTIONS_GROQ = `
     ${i18nPageSectionString("title")},
     ${i18nPageSectionText("description")},
     displayMode,
+    includeIndividualSpecialists,
     categorySlug,
     articleCategory,
     limit,
@@ -268,13 +309,14 @@ export const PAGE_SECTIONS_GROQ = `
     },
     "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
     "specialists": specialists[]->{
-      _id, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
+      _id, name, role, subtitle, shortBio, education, languages, bookingEnabled,
       ${specialistCtaTogglesGroq},
       "clinics": clinics[]->title,
       ${localizedSlug},
       ${SPECIALIST_PHOTO_PROJECTION},
       "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
     },
+    "excludedSpecialists": excludedSpecialists[]->{ _id, ${localizedSlug} },
     "articles": articles[]->{
       _id,
       ${i18nStringLocale("title")},
@@ -434,7 +476,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
 }`;
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
-  _id, _createdAt, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
+  _id, _createdAt, name, role, subtitle, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
   ${specialistClinicRefsGroq},
@@ -447,7 +489,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
 }`;
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")) && ${slugMatchesParam("slug")}][0]{
-  _id, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
+  _id, name, role, subtitle, shortBio, education, languages, bookingEnabled,
   ${specialistCtaTogglesGroq},
   metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
   ${specialistClinicRefsGroq},
@@ -456,6 +498,11 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   ${SPECIALIST_PHOTO_PROJECTION},
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
+  "featuredCategory": featuredCategory->{ ${specialistCategoryProjection} },
+  "profileTreatments": profileTreatments[
+    coalesce(@->hideFromWebsite, false) != true
+    && (@->pageRole != "team" || !defined(@->pageRole))
+  ]->{ ${specialistTreatmentCardProjection} },
   ${i18nStringLocale("faqSectionTitle")},
   "faqCollection": faqCollection->{
     _id,
@@ -479,7 +526,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
     ${i18nStringLocale("ctaLabel")},
     ctaPath,
     "specialists": specialists[]->{
-      _id, name, role, subtitle, ${specialistSpecialtiesGroq}, shortBio, education, languages, bookingEnabled,
+      _id, name, role, subtitle, shortBio, education, languages, bookingEnabled,
       ${specialistCtaTogglesGroq},
       metodikaUserId, pasientskyCalendarId, bookingCategoryIds, sortOrder,
       ${specialistClinicRefsGroq},
@@ -834,8 +881,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTre
   },
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
-    ${SPECIALIST_PHOTO_PROJECTION},
-    ${specialistSpecialtiesGroq}
+    ${SPECIALIST_PHOTO_PROJECTION}
   },
   ${i18nStringLocale('homeBreadcrumbLabel')},
   ${i18nStringLocale('srOnlyTitle')},
@@ -1284,6 +1330,11 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step3EmptyFetchTitle",
   "step4Heading",
   "step4SelectedDayLabel",
+  "step4NoDaysLabel",
+  "step4TodayLabel",
+  "step4PickTimeLabel",
+  "step4DurationPrefix",
+  "step4LoadingTimes",
   "step4NotOnlineTitle",
   "step4NoDaysTitle",
   "step4NoSlotsTitle",
@@ -1292,6 +1343,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step5LabelService",
   "step5LabelPrice",
   "step5LabelClinic",
+  "step5LabelAddress",
   "step5LabelDuration",
   "step5LabelDate",
   "step5LabelTime",
@@ -1324,6 +1376,7 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "successMessageSmsEmail",
   "successLabelTreatment",
   "successLabelClinic",
+  "successLabelAddress",
   "successClinicPrefix",
   "successLabelDateTime",
   "successLabelSpecialist",
@@ -1359,6 +1412,9 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage" && ${publishedOnly}]
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
   step2EmptyPhone,
+  emptyStateIconKey,
+  emptyStateCallButtonIconKey,
+  "emptyStateIconUrl": emptyStateIconImage.asset->url,
   step1CategoryClinicBadges[]{
     categoryKeys,
     badges[]{

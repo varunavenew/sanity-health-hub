@@ -1,6 +1,6 @@
 // Schema: Pricing Page
 import {PricingIcon} from './icons'
-import {i18nSlugFieldFromTitle, requiredNoEnSeo} from './i18n'
+import {i18nSlugFieldFromTitle, pickNo, requiredNoEnSeo} from './i18n'
 import {pickStudioEn} from './studioPreview'
 import {geoSummaryField} from './geoSummary'
 import {pageSectionsFieldForGroup} from './pageSections'
@@ -23,6 +23,136 @@ const PRICING_SHARED_SECTIONS = [
   'pageSectionInsurance',
   'pageSectionArticles',
 ] as const
+
+/** Structure list preview for price lines — must not show stale Sanity prices for Metodika rows. */
+function preparePricingPriceLinePreview(values: {
+  title?: unknown
+  subtitle?: unknown
+  priceLabel?: unknown
+  apiActivityId?: unknown
+  source?: unknown
+}): {title: string; subtitle: string} {
+  const source = values.source
+  const apiActivityId =
+    typeof values.apiActivityId === 'number' && values.apiActivityId > 0
+      ? values.apiActivityId
+      : null
+  const isCmedicalExplicit = source === 'cmedical' || source === 'sanity'
+  const isMetodikaSlot =
+    !isCmedicalExplicit &&
+    (apiActivityId != null || source === 'metodika')
+
+  if (isMetodikaSlot) {
+    return {
+      title:
+        apiActivityId != null
+          ? `Bookable online · Metodika #${apiActivityId}`
+          : 'Bookable online · set Metodika wbactivity id',
+      subtitle: 'Order in Sanity · name and price from Metodika',
+    }
+  }
+
+  const title = pickStudioEn(values.title) || 'Unnamed'
+  const label = pickStudioEn(values.priceLabel)
+  const numericPrice =
+    typeof values.subtitle === 'number' && Number.isFinite(values.subtitle)
+      ? `${values.subtitle} kr`
+      : ''
+  const pricePart = label || numericPrice || 'No price set'
+
+  return {
+    title,
+    subtitle: `Sanity-only · not bookable · ${pricePart}`,
+  }
+}
+
+const PRICING_PRICE_LINE_PREVIEW = {
+  select: {
+    title: 'name',
+    subtitle: 'price',
+    priceLabel: 'priceLabel',
+    apiActivityId: 'apiActivityId',
+    source: 'source',
+  },
+  prepare: preparePricingPriceLinePreview,
+}
+
+type PriceLineParent = {source?: string; apiActivityId?: number}
+
+/** Sanity-only fields hidden when this row is a bookable Metodika slot (wbactivity id set). */
+function hideSanityOnlyPriceFields(parent?: PriceLineParent): boolean {
+  if (parent?.source === 'cmedical' || parent?.source === 'sanity') {
+    return false
+  }
+  if (parent?.source === 'metodika') return true
+  return typeof parent?.apiActivityId === 'number' && parent.apiActivityId > 0
+}
+
+function isSanityOnlyPriceLine(parent?: PriceLineParent): boolean {
+  return !hideSanityOnlyPriceFields(parent)
+}
+
+/**
+ * Bookable online: set Metodika wbactivity id (order slot). Leave id empty for Sanity-only lines.
+ * Legacy `source` field is kept hidden for old documents; not shown in Studio.
+ */
+function pricingPriceLineObjectFields() {
+  return [
+    {
+      name: 'apiActivityId',
+      title: 'Metodika wbactivity id (bookable online)',
+      type: 'number',
+      description:
+        'When set: this row is bookable on /priser — name and price come from Metodika; only order is edited here. Leave empty for Sanity-only treatments (name and price below).',
+    },
+    {
+      name: 'name',
+      title: 'Treatment',
+      type: 'internationalizedArrayString',
+      description: 'Sanity-only rows (no wbactivity id). Not used when id is set above.',
+      hidden: ({parent}: {parent?: PriceLineParent}) =>
+        hideSanityOnlyPriceFields(parent),
+      validation: (Rule: any) =>
+        Rule.custom((value: unknown, context: {parent?: PriceLineParent}) => {
+          if (!isSanityOnlyPriceLine(context.parent)) return true
+          if (!pickNo(value)?.trim()) {
+            return 'Treatment name is required when wbactivity id is empty'
+          }
+          return true
+        }),
+    },
+    {
+      name: 'price',
+      title: 'Price (NOK)',
+      type: 'number',
+      description: 'Sanity-only rows.',
+      hidden: ({parent}: {parent?: PriceLineParent}) =>
+        hideSanityOnlyPriceFields(parent),
+    },
+    {
+      name: 'priceLabel',
+      title: 'Price display',
+      type: 'internationalizedArrayString',
+      description: 'Sanity-only (e.g. "fra 2.100,-").',
+      hidden: ({parent}: {parent?: PriceLineParent}) =>
+        hideSanityOnlyPriceFields(parent),
+    },
+    {
+      name: 'note',
+      title: 'Duration / note',
+      type: 'internationalizedArrayString',
+      description:
+        'Sanity-only: duration or note. With wbactivity id: optional duration override on /priser (price still from Metodika).',
+    },
+    {
+      name: 'source',
+      title: 'Data source (legacy)',
+      type: 'string',
+      hidden: () => true,
+      readOnly: true,
+    },
+  ]
+}
 
 export default {
   name: 'pricingPage',
@@ -96,7 +226,7 @@ export default {
       type: 'array',
       group: 'content',
       description:
-        'CMS source of truth for the Pricing page list. Keep both Metodika (bookable) and CMedical (design-only) lines. Same treatment in both sources is stored once with source=metodika. “Bestill time” only appears on Metodika lines.',
+        'Structure and order for /priser. Metodika rows: only wbactivity id in Sanity (no treatment name or price in CMS). CMedical rows: full Sanity name/price (not bookable online).',
       of: [
         {
           type: 'object',
@@ -151,94 +281,12 @@ export default {
                       title: 'Price lines',
                       type: 'array',
                       description:
-                        'Editable list shown on /priser. Add, remove, or change rows here — the website uses only this list (not legacy data).',
+                        'Ordered lines. Metodika: choose Metodika + wbactivity id only. CMedical: name, price, note (not bookable online).',
                       of: [
                         {
                           type: 'object',
-                          fields: [
-                            {
-                              name: 'name',
-                              title: 'Treatment',
-                              type: 'internationalizedArrayString',
-                            },
-                            {name: 'price', title: 'Price (NOK)', type: 'number'},
-                            {
-                              name: 'priceLabel',
-                              title: 'Price display',
-                              type: 'internationalizedArrayString',
-                              description: 'E.g. "fra 2.100,-"',
-                            },
-                            {
-                              name: 'note',
-                              title: 'Duration / note',
-                              type: 'internationalizedArrayString',
-                            },
-                            {
-                              name: 'source',
-                              title: 'Data source',
-                              type: 'string',
-                              options: {
-                                list: [
-                                  {title: 'Metodika', value: 'metodika'},
-                                  {title: 'CMedical', value: 'cmedical'},
-                                ],
-                                layout: 'radio',
-                              },
-                              initialValue: 'cmedical',
-                              validation: (Rule: any) =>
-                                Rule.required().custom((value: unknown) =>
-                                  value === 'metodika' ||
-                                  value === 'cmedical' ||
-                                  value === 'sanity'
-                                    ? true
-                                    : 'Choose metodika or cmedical',
-                                ),
-                              description:
-                                'Metodika = bookable online (shows “Bestill time”). CMedical = design/CMS-only line (phone consults, packages, fees) with no booking button. Legacy “sanity” is treated as CMedical.',
-                            },
-                            {
-                              name: 'apiActivityId',
-                              title: 'Metodika activity ID',
-                              type: 'number',
-                              description:
-                                'Optional Metodika wbactivity id. Required for booking when source is Metodika. Leave empty for Sanity-only lines — the line still appears on the Pricing page without “Bestill time”.',
-                              hidden: ({parent}: {parent?: {source?: string}}) =>
-                                parent?.source !== 'metodika',
-                            },
-                          ],
-                          preview: {
-                            select: {
-                              title: 'name',
-                              subtitle: 'price',
-                              priceLabel: 'priceLabel',
-                              apiActivityId: 'apiActivityId',
-                              source: 'source',
-                            },
-                            prepare({title, subtitle, priceLabel, apiActivityId, source}: any) {
-                              const label = pickStudioEn(priceLabel)
-                              const isMetodika = source === 'metodika'
-                              const bookable =
-                                isMetodika &&
-                                typeof apiActivityId === 'number' &&
-                                apiActivityId > 0
-                              const origin =
-                                source === 'metodika'
-                                  ? 'metodika'
-                                  : source === 'cmedical' || source === 'sanity'
-                                    ? 'cmedical'
-                                    : 'source?'
-                              const booking = bookable
-                                ? ` · bookable #${apiActivityId}`
-                                : ' · not bookable'
-                              return {
-                                title: pickStudioEn(title) || 'Unnamed',
-                                subtitle:
-                                  (label || (subtitle != null ? `${subtitle} kr` : '')) +
-                                  ` · ${origin}` +
-                                  booking,
-                              }
-                            },
-                          },
+                          fields: pricingPriceLineObjectFields(),
+                          preview: PRICING_PRICE_LINE_PREVIEW,
                         },
                       ],
                     },
@@ -263,28 +311,8 @@ export default {
               of: [
                 {
                   type: 'object',
-                  fields: [
-                    {name: 'name', title: 'Treatment', type: 'internationalizedArrayString'},
-                    {name: 'price', title: 'Price (NOK)', type: 'number'},
-                    {
-                      name: 'priceLabel',
-                      title: 'Price display',
-                      type: 'internationalizedArrayString',
-                    },
-                    {name: 'note', title: 'Note', type: 'internationalizedArrayString'},
-                    {
-                      name: 'source',
-                      title: 'Data source',
-                      type: 'string',
-                      options: {
-                        list: [
-                          {title: 'Metodika', value: 'metodika'},
-                          {title: 'Sanity only', value: 'sanity'},
-                        ],
-                      },
-                    },
-                    {name: 'apiActivityId', title: 'Metodika activity ID', type: 'number'},
-                  ],
+                  fields: pricingPriceLineObjectFields(),
+                  preview: PRICING_PRICE_LINE_PREVIEW,
                 },
               ],
             },

@@ -7,37 +7,13 @@ import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import { specialistHasHeroCtas } from "@/lib/sanity/specialist-cta";
 import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-types";
-import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
+import {
+  resolveSpecialistImageFocal,
+  specialistHeroObjectPosition,
+} from "@/lib/sanity/specialist-data";
 
 interface SpecialistHeroProps {
   specialist: Specialist;
-}
-
-const expertiseChipClass =
-  "inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-transparent";
-
-const expertiseChipLinkClass =
-  `${expertiseChipClass} hover:border-foreground/60 hover:bg-foreground/[0.03] transition-colors`;
-
-function ExpertiseChip({
-  label,
-  href,
-  className,
-  linkClassName,
-}: {
-  label: string;
-  href?: string;
-  className: string;
-  linkClassName: string;
-}) {
-  if (href) {
-    return (
-      <Link to={href} className={linkClassName}>
-        {label}
-      </Link>
-    );
-  }
-  return <span className={className}>{label}</span>;
 }
 
 const SPECIALIST_MOBILE_HERO_GRADIENT =
@@ -66,6 +42,7 @@ function SpecialistHeroMedia({
       src={specialist.image}
       hotspot={hotspot}
       crop={crop}
+      objectPosition={specialistHeroObjectPosition(hotspot, crop)}
       alt={specialist.name}
       className={className}
       loading="eager"
@@ -135,25 +112,6 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
             ))}
           </motion.p>
 
-          {specialist.expertise && specialist.expertise.length > 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4"
-            >
-              {specialist.expertise.map((tag) => (
-                <ExpertiseChip
-                  key={tag.label}
-                  label={tag.label}
-                  href={tag.href}
-                  className="text-sm font-light text-white"
-                  linkClassName="text-sm font-light text-white underline-offset-4 hover:underline"
-                />
-              ))}
-            </motion.div>
-          ) : null}
-
           {specialistHasHeroCtas(specialist) ? (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -172,9 +130,10 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
         </div>
       </div>
 
-      {/* Desktop — split hero */}
-      <div className="hidden lg:grid lg:grid-cols-2 lg:min-h-[640px]">
-        <div className="flex items-center page-edge-text-left py-12 lg:py-16">
+      {/* Desktop — 100%: full-bleed half-column. 90/80/70/60% zoom: image
+          width 70% / 60% / 50% / 45% so cream shows on the right. */}
+      <div className="specialist-hero-desktop hidden lg:grid">
+        <div className="specialist-hero-copy flex items-center page-edge-text-left py-12 lg:py-16">
           <div className="max-w-xl w-full">
             <motion.p
               aria-hidden="true"
@@ -217,25 +176,6 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
               ))}
             </motion.p>
 
-            {specialist.expertise && specialist.expertise.length > 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="flex flex-wrap items-center gap-1.5 mb-8"
-              >
-                {specialist.expertise.map((tag) => (
-                  <ExpertiseChip
-                    key={tag.label}
-                    label={tag.label}
-                    href={tag.href}
-                    className={expertiseChipClass}
-                    linkClassName={expertiseChipLinkClass}
-                  />
-                ))}
-              </motion.div>
-            ) : null}
-
             {specialistHasHeroCtas(specialist) ? (
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
@@ -254,11 +194,10 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
           </div>
         </div>
 
-        <div
-          data-hero-parallax=""
-          className="split-media relative isolate w-full min-h-[420px] bg-secondary/40 lg:min-h-0"
-        >
-          <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full w-full" />
+        <div data-hero-parallax="" className="specialist-hero-photo-col">
+          <div className="specialist-hero-photo relative overflow-hidden bg-secondary/40">
+            <SpecialistHeroMedia specialist={specialist} className="absolute inset-0 h-full" />
+          </div>
         </div>
       </div>
 

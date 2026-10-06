@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
@@ -91,7 +92,7 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Assistert befruktning med donor", path: "/behandlinger/fertilitet/donorbehandling" },
       { name: "Eggfrys", path: "/behandlinger/fertilitet/eggfrys" },
       { name: "Hormonforstyrrelser", path: "/gynekologi/poi" },
-      { name: "Hysteroskopi", path: "/behandlinger/fertilitet/hysteroskopi" },
+      { name: "Hysteroskopi", path: "/behandlinger/gynekologi/hysteroskopi" },
       { name: "Egglederundersøkelse (HyFoSy)", path: "/behandlinger/fertilitet/hyfosy" },
     ],
     faqs: [
@@ -206,8 +207,8 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { specialists } = useSpecialistsData();
   
-  const categorySpecialists = specialists.filter(
-    (specialist) => specialist.category === categoryId
+  const categorySpecialists = specialists.filter((specialist) =>
+    specialistMatchesCategory(specialist, categoryId),
   );
 
   const scroll = (direction: 'left' | 'right') => {
@@ -279,7 +280,6 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
                 </p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground font-normal px-1 mt-1.5">{specialist.expertise.map((tag) => tag.label).join(', ')}</p>
           </Link>
         ))}
         

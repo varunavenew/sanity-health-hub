@@ -40,11 +40,11 @@ export const pricingPageEditorConfig: PageEditorConfig = definePageEditorConfig(
       id: 'pricing',
       title: 'Pricing',
       description:
-        'CMS price list (categories, subcategories, prices). Optional Metodika activity ID controls “Bestill time”.',
+        'Price list structure and order. Metodika rows: placement + activity id only (live price from Metodika). CMedical rows: full Sanity price.',
       icon: BoltIcon,
       fields: ['priceCategories'],
       notice:
-        'Sanity is the source of truth for the Pricing list. Edit Price categories → Subcategories → Price lines. Optional Metodika activity ID controls “Bestill time”. If old rows only appear on the website, run patch-pricing-merge-legacy-into-price-lines (see test/sanity) to move hidden legacy lines into Price lines.',
+        'Set Metodika wbactivity id for bookable online rows (order only; name/price from Metodika). Leave id empty and fill treatment + price for Sanity-only rows (not bookable).',
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
           const cats = Array.isArray(document.priceCategories)

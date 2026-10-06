@@ -1,6 +1,7 @@
 import {
   extractBirthdateIsoFromPersonnummer,
   formatPatientNumberForLookup,
+  metodikaGenderFromFodselsnummer,
 } from "@/lib/booking/personalNumber";
 import { assertValidPersonalnumberForWebAccount } from "@/lib/booking/booking-validation";
 import { normalizeNorwegianMobileForMetodika } from "@/lib/booking/phoneMobile";
@@ -34,6 +35,7 @@ export function buildWebAccountCreateBody(
     lastname: customer.lastname,
     patientnumber,
     birthdate,
+    gender: metodikaGenderFromFodselsnummer(customer.personalnumber),
     email: customer.email,
     phonemobile,
     smsallowed: true,

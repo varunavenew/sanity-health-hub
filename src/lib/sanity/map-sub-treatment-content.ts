@@ -15,8 +15,21 @@ import {
 import { stripBehandlingerPrefix } from "@/lib/navigation/coerce-path";
 import { reasonAnchorId, rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 import type { Specialist } from "@/lib/sanity/specialist-types";
-import type { BookingLinkParams } from "@/lib/bookingLinks";
+import {
+  categoryNumericIdToPageId,
+  categoryPageIdToNumericId,
+  type BookingLinkParams,
+} from "@/lib/bookingLinks";
 import { FERTILITETSUTREDNING_BOOKING_OPTIONS } from "@/lib/booking/resolve-booking-service";
+
+/**
+ * Page slug → Metodika activity group when the treatment lives under one
+ * category landing but must book another (e.g. postnatal check → Gynekolog).
+ * CMS `bookingCategoryId` still wins when set.
+ */
+const BOOKING_CATEGORY_OVERRIDE_BY_SLUG: Record<string, number> = {
+  "6-ukerskontroll": categoryPageIdToNumericId.gynekologi,
+};
 
 /**
  * Walks the `treatment.parentTreatment` chain (immediate parent first) and returns
@@ -75,8 +88,16 @@ function buildTreatmentBookingParams(
   categoryId: string,
   treatmentSlug: string,
 ): BookingLinkParams {
-  const kategori = normalizeCategoryFilterKey(categoryId);
-  const bookingCategoryId = treatment.bookingCategoryId;
+  const pageKategori = normalizeCategoryFilterKey(categoryId);
+  const bookingCategoryId =
+    typeof treatment.bookingCategoryId === "number" && treatment.bookingCategoryId > 0
+      ? treatment.bookingCategoryId
+      : BOOKING_CATEGORY_OVERRIDE_BY_SLUG[treatmentSlug];
+  const mappedKategori =
+    typeof bookingCategoryId === "number"
+      ? categoryNumericIdToPageId[bookingCategoryId]
+      : undefined;
+  const kategori = mappedKategori ?? pageKategori;
   const bookingActivityId = treatment.bookingActivityId;
   const cmsOptions = (treatment.bookingServiceOptions ?? [])
     .map((value) => value.trim())
@@ -99,6 +120,9 @@ function buildTreatmentBookingParams(
       params.tjenesteValg = options;
     } else if (options.length === 1) {
       params.tjeneste = options[0];
+    } else {
+      const single = treatment.bookingService?.trim();
+      if (single) params.tjeneste = single;
     }
     return params;
   }

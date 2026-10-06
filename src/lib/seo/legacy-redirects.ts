@@ -137,7 +137,6 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/en/other/robotassistert-kirurgi", "/no/urologi/robotassistert-kirurgi"),
   perm("/en/skin-health/hudpleieprodukter", "/no/ovrige/hudpleieprodukter"),
   perm("/en/specialists/carina-skeppner-tolvanen", "/en/specialists"),
-  perm("/en/specialists/henrik-michelsen-wahl", "/en/specialists"),
   perm("/en/specialists/line-jacob", "/en/specialists"),
   perm("/en/specialists/rebecca-ostlund", "/en/specialists"),
   perm("/no/karriere/markedskoordinator-prosjektleder", "/no/karriere"),
@@ -152,8 +151,6 @@ export const PENDING_REDIRECTS_BATCH_4: LegacyRedirect[] = [
   perm("/nb/prisliste-for-ernaeringsfysiolog", "/nb/aktuelt/prisliste-for-ernaeringsfysiolog"),
   perm("/no/prisliste-for-hud", "/no/aktuelt/prisliste-for-hud"),
   perm("/nb/prisliste-for-hud", "/nb/aktuelt/prisliste-for-hud"),
-  perm("/no/spesialister/henrik-michelsen-wahl", "/no/spesialister"),
-  perm("/nb/spesialister/henrik-michelsen-wahl", "/no/spesialister"),
   perm("/no/spesialister/kristian-ophaug", "/no/spesialister"),
   perm("/nb/spesialister/kristian-ophaug", "/no/spesialister"),
 ];
@@ -230,7 +227,8 @@ const ROOT_ARTICLE_REDIRECTS: LegacyRedirect[] = [
 const EN_SPECIALIST_LISTING = "/en/specialists";
 /**
  * Live profiles — do not redirect to another doctor:
- * `/en/specialists/kjersti-margrete-finsrud`, `/en/specialists/lars-eldar-myrseth`.
+ * `/en/specialists/kjersti-margrete-finsrud`, `/en/specialists/lars-eldar-myrseth`,
+ * `/en/specialists/henrik-michelsen-wahl`.
  * Typo slug `cennet-akdeni` stays until Avenew publishes `cennet-akdeniz`.
  */
 const EN_SPECIALIST_REDIRECTS: LegacyRedirect[] = [
@@ -332,6 +330,32 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   perm("/en/fertility/hormonforstyrrelser", "/en/gynecology/poi"),
   perm("/no/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
   perm("/behandlinger/fertilitet/hormonforstyrrelser", "/no/gynekologi/poi"),
+
+  // Ticket #415 — merge duplicate hysteroskopi; only under gynekologi (Aina 23 Sep).
+  perm("/no/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/nb/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/en/fertility/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/fertilitet/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/fertility/diagnostic-hysteroscopy", "/en/gynecology/hysteroskopi"),
+  perm("/no/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/nb/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/en/behandlinger/fertility/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/behandlinger/fertilitet/hysteroskopi", "/en/gynecology/hysteroskopi"),
+  perm("/en/behandlinger/fertility/diagnostic-hysteroscopy", "/en/gynecology/hysteroskopi"),
+  perm("/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+  perm("/behandlinger/fertilitet/hysteroskopi", "/no/gynekologi/hysteroskopi"),
+
+  // Ticket #416 — NO slug is `pmos`; EN slug is `pcos`. Alias soft-serve was 200.
+  perm("/no/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/nb/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/no/behandlinger/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/nb/behandlinger/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/behandlinger/gynekologi/pcos", "/no/gynekologi/pmos"),
+  perm("/en/gynecology/pmos", "/en/gynecology/pcos"),
+  perm("/en/gynekologi/pmos", "/en/gynecology/pcos"),
+  perm("/en/behandlinger/gynekologi/pmos", "/en/gynecology/pcos"),
+  perm("/en/behandlinger/gynecology/pmos", "/en/gynecology/pcos"),
   { source: "/en/careers", destination: "/en/career", permanent: true },
   {
     source: "/en/urology/testicle-and-scrotum",

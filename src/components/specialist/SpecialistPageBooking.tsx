@@ -19,6 +19,7 @@ import {
 } from "@/lib/booking/specialist-page-clinics";
 import { bookingUrlForSpecialistContext } from "@/lib/booking/specialist-booking";
 import { prefetchSpecialistMetodikaBookingData } from "@/lib/booking/prefetch-specialist-metodika-booking";
+import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 import { useLocaleParam, useNavigate } from "@/lib/router";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -73,6 +74,23 @@ export function SpecialistPageBookingProvider({
   specialist: Specialist;
   children: ReactNode;
 }) {
+  if (!isSpecialistInlineBookingEnabled()) {
+    return <>{children}</>;
+  }
+  return (
+    <SpecialistPageBookingProviderActive specialist={specialist}>
+      {children}
+    </SpecialistPageBookingProviderActive>
+  );
+}
+
+function SpecialistPageBookingProviderActive({
+  specialist,
+  children,
+}: {
+  specialist: Specialist;
+  children: ReactNode;
+}) {
   const [bookingFocusKey, setBookingFocusKey] = useState(0);
   const { data: sanityClinics = [], isLoading: clinicsLoading } = useClinics();
   const pageClinics = useMemo(
@@ -118,7 +136,7 @@ export function SpecialistPageBookingProvider({
       clinic:
         pageClinics.length === 1
           ? (pageClinics[0]?.label ?? null)
-          : null,
+          : (specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null),
     });
 
     if (moelvOnlyBooking && moelvPasientskyClinic) {

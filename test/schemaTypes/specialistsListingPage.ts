@@ -104,6 +104,12 @@ export default {
         ),
         profileUiStringField('reviewsSectionTitle', 'Reviews - Headline'),
         profileUiStringField('featuredServiceCtaLabel', 'Featured service – link text'),
+        profileUiStringField(
+          'treatmentsSectionTitle',
+          'Profile treatments – heading',
+          'E.g. «Dette hjelper {firstName} deg med».',
+        ),
+        profileUiStringField('treatmentCardReadMoreLabel', 'Profile treatment card – link text'),
         profileUiStringField('bookingLoadingLabel', 'Booking - loading services'),
         profileUiStringField(
           'bookingAvailabilityCheckingLabel',

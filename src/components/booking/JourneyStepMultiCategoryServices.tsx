@@ -28,7 +28,7 @@ export function JourneyStepMultiCategoryServices() {
 
     async function load() {
       try {
-        const res = await fetch("/api/booking/activity-groups");
+        const res = await fetch("/api/booking/activity-groups?prices=api");
         const json = (await res.json()) as ActivityGroupsResponse;
         if (cancelled) return;
 

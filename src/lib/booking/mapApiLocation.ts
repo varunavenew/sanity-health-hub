@@ -10,7 +10,13 @@ export type CategoryClinicTag = {
 export type BookingMetodikaClinic = {
   id: string;
   label: string;
+  /** Primary Metodika location id (lowest in group when merged). */
   apiLocationId: number;
+  /**
+   * When set, UI shows one clinic (e.g. Majorstuen) backed by multiple Metodika locations.
+   * Availability/booking still use each real location id and roomId per slot.
+   */
+  apiLocationIds?: number[];
   bookingSystem: "metodika";
   /** Sanity clinic slug/id when matched from CMS (for display + deep links). */
   sanityClinicId?: string;
@@ -69,6 +75,27 @@ export function apiLocationToClinic(
     id: `location-${apiLocation.locationId}`,
     label: apiLocation.name,
     apiLocationId: apiLocation.locationId,
+    bookingSystem: "metodika",
+  };
+}
+
+/** LIVE Metodika labels when CMS has no metodikaLocationId row (e.g. developer dataset). */
+const METODIKA_LOCATION_FALLBACK_LABELS: Record<number, string> = {
+  1: "Majorstuen 10A",
+  2: "Majorstuen 10B",
+  3: "Bekkestua",
+};
+
+/** Step-2 option from wbactivities matrix location id alone (no Sanity metodika row required). */
+export function metodikaClinicFromLocationId(
+  locationId: number,
+): BookingMetodikaClinic {
+  return {
+    id: `location-${locationId}`,
+    label:
+      METODIKA_LOCATION_FALLBACK_LABELS[locationId] ??
+      `Location ${locationId}`,
+    apiLocationId: locationId,
     bookingSystem: "metodika",
   };
 }

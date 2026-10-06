@@ -20,13 +20,7 @@ const DRY_RUN = process.env.DRY_RUN === '1'
 const ROOT_CATEGORY_A: Record<string, string[]> = {
   homepage: ['heroImage'],
   article: ['pinned', 'featured'],
-  bookingPage: [
-    'step4DurationPrefix',
-    'step4LoadingTimes',
-    'step4NoDaysLabel',
-    'step4PickTimeLabel',
-    'step4TodayLabel',
-  ],
+  bookingPage: [],
   newsPage: [
     'filterAllLabel',
     'filterArticlesLabel',

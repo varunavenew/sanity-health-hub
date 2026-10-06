@@ -1,3 +1,29 @@
+/** Strip `<script>` wrappers editors paste from GTM / Cookiebot docs. */
+export function unwrapInlineScriptContent(raw: string): string {
+  let script = raw.trim();
+  if (!/^<script[\s>]/i.test(script)) return script;
+
+  while (/^<script[\s>]/i.test(script)) {
+    script = script.replace(/^<script(?:\s[^>]*)?>\s*/i, "");
+    script = script.replace(/\s*<\/script>\s*$/i, "");
+    script = script.trim();
+  }
+
+  return script;
+}
+
+/** Cookiebot-style external snippet: `<script src="…" …></script>`. */
+export function parseExternalScriptTag(
+  raw: string,
+): { src: string; scriptId?: string } | null {
+  const trimmed = raw.trim();
+  const srcMatch = trimmed.match(/\ssrc=["']([^"']+)["']/i);
+  if (!srcMatch?.[1]) return null;
+  if (!/^<script[\s>]/i.test(trimmed)) return null;
+  const idMatch = trimmed.match(/\sid=["']([^"']+)["']/i);
+  return { src: srcMatch[1], scriptId: idMatch?.[1] };
+}
+
 /** Fallback when Sanity consentHeadScript is empty or invalid — denied-by-default per SEO brief. */
 export const DEFAULT_CONSENT_HEAD_SCRIPT = `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -22,7 +48,7 @@ gtag('set', 'url_passthrough', true);`;
 
 /** Use CMS consent script when present; fall back to denied-by-default only if missing/invalid. */
 export function resolveConsentHeadScript(cmsScript?: string | null): string {
-  const trimmed = cmsScript?.trim();
+  const trimmed = unwrapInlineScriptContent(cmsScript?.trim() ?? "");
   if (!trimmed) return DEFAULT_CONSENT_HEAD_SCRIPT;
   if (!looksLikeConsentHeadScript(trimmed)) return DEFAULT_CONSENT_HEAD_SCRIPT;
   return trimmed;

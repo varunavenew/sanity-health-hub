@@ -17,7 +17,11 @@ export type PageSectionSpecialistsConfig = {
   title?: string;
   description?: string;
   displayMode?: "all" | "manual" | "category";
+  /** Filter by category: also show the individually selected specialists. */
+  includeIndividualSpecialists?: boolean;
   specialists?: SanitySpecialist[];
+  /** Rule matches hidden on this page (Category / All). */
+  excludedSpecialists?: Array<{ _id?: string; slug?: string }>;
   treatmentCategory?: { categoryId?: string; slug?: string };
   categorySlug?: string;
   seeAllLabel?: string;
@@ -147,8 +151,14 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           description: str(block.description),
           // Stored value only — never invent "all" for missing displayMode.
           displayMode,
+          includeIndividualSpecialists: block.includeIndividualSpecialists === true,
           specialists: Array.isArray(block.specialists)
             ? (block.specialists as SanitySpecialist[])
+            : [],
+          excludedSpecialists: Array.isArray(block.excludedSpecialists)
+            ? (block.excludedSpecialists as Array<{ _id?: string; slug?: string } | null>).filter(
+                (row): row is { _id?: string; slug?: string } => Boolean(row),
+              )
             : [],
           treatmentCategory: block.treatmentCategory as PageSectionSpecialistsConfig["treatmentCategory"],
           categorySlug: str(block.categorySlug) || undefined,

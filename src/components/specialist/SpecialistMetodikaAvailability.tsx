@@ -15,6 +15,11 @@ import {
   isFodselsnummerReadyForSubmit,
 } from "@/lib/booking/booking-validation";
 import { minutesToLengthTime } from "@/lib/booking/duration";
+import {
+  bookingConfirmationClinicAddress,
+  bookingConfirmationClinicName,
+  shouldHideBookingClinicAddress,
+} from "@/lib/booking/booking-confirmation-clinic";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import {
   formatBookingLongDate,
@@ -33,13 +38,16 @@ import {
   formatBookingServicePrice,
 } from "@/lib/booking/specialist-booking";
 import {
-  allowedWbActivityIdSetForCaregiverAtLocations,
-} from "@/lib/booking/wbactivitiesMatrix";
+  effectiveMetodikaLocationIdsForBooking,
+  slotMatchesMetodikaClinic,
+} from "@/lib/booking/majorstuen-location-group";
+import { allowedWbActivityIdSetForCaregiverAtLocations } from "@/lib/booking/wbactivitiesMatrix";
 import {
   metodikaClinicLocationIds,
   SPECIALIST_PAGE_FALLBACK_PHONE,
   type SpecialistPageMetodikaClinic,
 } from "@/lib/booking/specialist-page-clinics";
+import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import {
   defaultBookingPageCopyForLang,
   splitTemplateLink,
@@ -144,6 +152,11 @@ export function SpecialistMetodikaAvailability({
   const dateLang: BookingDateLang = locale === "en" ? "en" : "no";
   const { data: bookingPage } = useBookingPage();
   const copy = bookingPage ?? defaultBookingPageCopyForLang(dateLang);
+  const emptyStateIconProps = {
+    iconKey: copy.emptyStateIconKey,
+    iconUrl: copy.emptyStateIconUrl,
+    callButtonIconKey: copy.emptyStateCallButtonIconKey,
+  };
 
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
   const metodikaCatalogEnabled = caregiverUserId != null;
@@ -183,6 +196,33 @@ export function SpecialistMetodikaAvailability({
   }, [specialist, metodikaCategories, allowedIdsAtClinic]);
 
   const [selectedService, setSelectedService] = useState<FlatService | null>(null);
+  const { activity: wbActivityMatrix } = useWbActivityMatrix(
+    selectedService?.apiActivityId,
+  );
+
+  const metodikaClinicForSlots = useMemo(
+    () => ({
+      id: clinic.id,
+      label: clinic.label,
+      apiLocationId: clinic.apiLocationId,
+      apiLocationIds: clinic.apiLocationIds,
+      bookingSystem: "metodika" as const,
+    }),
+    [clinic],
+  );
+
+  const bookingLocationIds = useMemo(
+    () =>
+      effectiveMetodikaLocationIdsForBooking(
+        metodikaClinicForSlots,
+        wbActivityMatrix,
+        caregiverUserId,
+      ),
+    [metodikaClinicForSlots, wbActivityMatrix, caregiverUserId],
+  );
+
+  const bookingLocationIdsKey = bookingLocationIds.join(",");
+
   const [hintSlots, setHintSlots] = useState<BookingAvailabilitySlot[]>([]);
   const [hintsLoading, setHintsLoading] = useState(false);
   const [activityTypeId, setActivityTypeId] = useState<number | null>(null);
@@ -208,6 +248,26 @@ export function SpecialistMetodikaAvailability({
   const phone = clinic.phone || SPECIALIST_PAGE_FALLBACK_PHONE;
   const days = useMemo(() => upcomingDays(7), []);
 
+  const hideClinicAddress = shouldHideBookingClinicAddress({
+    serviceName: selectedService?.name,
+    servicePrice: selectedService?.price,
+  });
+  const confirmationClinicName = useMemo(
+    () =>
+      bookingConfirmationClinicName({
+        preferredName: clinic.label,
+      }),
+    [clinic.label],
+  );
+  const confirmationClinicAddress = useMemo(
+    () =>
+      bookingConfirmationClinicAddress({
+        fallbackAddress: clinic.address,
+        isDigital: hideClinicAddress,
+      }),
+    [clinic.address, hideClinicAddress],
+  );
+
   useEffect(() => {
     trackBookingInit("metodika");
   }, [clinic.id]);
@@ -228,7 +288,7 @@ export function SpecialistMetodikaAvailability({
     setSelectedSlot(null);
     setIsSubmitted(false);
     setSubmitError(null);
-  }, [selectedService?.apiActivityId, clinic.apiLocationId]);
+  }, [selectedService?.apiActivityId, bookingLocationIdsKey]);
 
   useEffect(() => {
     const activityId = selectedService?.apiActivityId;
@@ -239,23 +299,41 @@ export function SpecialistMetodikaAvailability({
 
     async function loadHints() {
       try {
-        const params = new URLSearchParams({
-          wbactivityId: String(activityId),
-          locationId: String(clinic.apiLocationId),
-        });
-        if (caregiverUserId != null) {
-          params.set("caregiverUserId", String(caregiverUserId));
+        const locationIds =
+          bookingLocationIds.length > 0 ? bookingLocationIds : [clinic.apiLocationId];
+        const merged: BookingAvailabilitySlot[] = [];
+        let resolvedActivityTypeId: number | undefined;
+
+        for (const locationId of locationIds) {
+          const params = new URLSearchParams({
+            wbactivityId: String(activityId),
+            locationId: String(locationId),
+          });
+          if (caregiverUserId != null) {
+            params.set("caregiverUserId", String(caregiverUserId));
+          }
+          const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
+          const json = (await res.json()) as {
+            ok?: boolean;
+            slots?: BookingAvailabilitySlot[];
+            activityTypeId?: number;
+          };
+          if (cancelled) return;
+          if (res.ok && json.ok && Array.isArray(json.slots)) {
+            merged.push(...json.slots);
+          }
+          if (typeof json.activityTypeId === "number") {
+            resolvedActivityTypeId = json.activityTypeId;
+          }
         }
-        const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
-        const json = (await res.json()) as {
-          ok?: boolean;
-          slots?: BookingAvailabilitySlot[];
-          activityTypeId?: number;
-        };
-        if (cancelled) return;
-        setHintSlots(res.ok && json.ok && Array.isArray(json.slots) ? json.slots : []);
-        if (typeof json.activityTypeId === "number") {
-          setActivityTypeId(json.activityTypeId);
+
+        merged.sort(
+          (a, b) =>
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+        );
+        setHintSlots(merged);
+        if (resolvedActivityTypeId != null) {
+          setActivityTypeId(resolvedActivityTypeId);
         }
       } catch {
         if (!cancelled) setHintSlots([]);
@@ -268,7 +346,14 @@ export function SpecialistMetodikaAvailability({
     return () => {
       cancelled = true;
     };
-  }, [selectedService?.apiActivityId, clinic.apiLocationId, caregiverUserId, bookingApiBase]);
+  }, [
+    selectedService?.apiActivityId,
+    bookingLocationIdsKey,
+    caregiverUserId,
+    bookingApiBase,
+    clinic.apiLocationId,
+    bookingLocationIds,
+  ]);
 
   useEffect(() => {
     const activityId = selectedService?.apiActivityId;
@@ -282,25 +367,43 @@ export function SpecialistMetodikaAvailability({
 
     async function loadDay() {
       try {
-        const params = new URLSearchParams({
-          wbactivityId: String(activityId),
-          locationId: String(clinic.apiLocationId),
-          searchFromTime: metodikaSearchTime(selectedDate, false),
-          searchToTime: metodikaSearchTime(selectedDate, true),
-        });
-        if (caregiverUserId != null) {
-          params.set("caregiverUserId", String(caregiverUserId));
+        const locationIds =
+          bookingLocationIds.length > 0 ? bookingLocationIds : [clinic.apiLocationId];
+        const merged: BookingAvailabilitySlot[] = [];
+        let resolvedActivityTypeId: number | undefined;
+
+        for (const locationId of locationIds) {
+          const params = new URLSearchParams({
+            wbactivityId: String(activityId),
+            locationId: String(locationId),
+            searchFromTime: metodikaSearchTime(selectedDate, false),
+            searchToTime: metodikaSearchTime(selectedDate, true),
+          });
+          if (caregiverUserId != null) {
+            params.set("caregiverUserId", String(caregiverUserId));
+          }
+          const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
+          const json = (await res.json()) as {
+            ok?: boolean;
+            slots?: BookingAvailabilitySlot[];
+            activityTypeId?: number;
+          };
+          if (cancelled) return;
+          if (res.ok && json.ok && Array.isArray(json.slots)) {
+            merged.push(...json.slots);
+          }
+          if (typeof json.activityTypeId === "number") {
+            resolvedActivityTypeId = json.activityTypeId;
+          }
         }
-        const res = await fetch(`${bookingApiBase}/availability?${params.toString()}`);
-        const json = (await res.json()) as {
-          ok?: boolean;
-          slots?: BookingAvailabilitySlot[];
-          activityTypeId?: number;
-        };
-        if (cancelled) return;
-        setDaySlots(res.ok && json.ok && Array.isArray(json.slots) ? json.slots : []);
-        if (typeof json.activityTypeId === "number") {
-          setActivityTypeId(json.activityTypeId);
+
+        merged.sort(
+          (a, b) =>
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+        );
+        setDaySlots(merged);
+        if (resolvedActivityTypeId != null) {
+          setActivityTypeId(resolvedActivityTypeId);
         }
       } catch {
         if (!cancelled) setDaySlots([]);
@@ -313,16 +416,28 @@ export function SpecialistMetodikaAvailability({
     return () => {
       cancelled = true;
     };
-  }, [selectedDate, selectedService?.apiActivityId, clinic.apiLocationId, caregiverUserId, bookingApiBase]);
+  }, [
+    selectedDate,
+    selectedService?.apiActivityId,
+    bookingLocationIdsKey,
+    caregiverUserId,
+    bookingApiBase,
+    clinic.apiLocationId,
+    bookingLocationIds,
+  ]);
 
   const hintDays = useMemo(() => {
     const keys = new Set<string>();
+    const clinicForFilter = {
+      ...metodikaClinicForSlots,
+      apiLocationIds: bookingLocationIds,
+    };
     for (const slot of hintSlots) {
-      if (slot.locationId != null && slot.locationId !== clinic.apiLocationId) continue;
+      if (!slotMatchesMetodikaClinic(slot, clinicForFilter)) continue;
       keys.add(parseSlotDay(slot.startDateTime));
     }
     return keys;
-  }, [hintSlots, clinic.apiLocationId]);
+  }, [hintSlots, metodikaClinicForSlots, bookingLocationIds]);
 
   useEffect(() => {
     if (!initialService || selectedDate || hintDays.size === 0) return;
@@ -481,6 +596,7 @@ export function SpecialistMetodikaAvailability({
   if (caregiverUserId == null || services.length === 0) {
     return (
       <FriendlyEmpty
+        {...emptyStateIconProps}
         title={copy.step4NotOnlineTitle}
         message={copy.step4NotOnlineMessage}
         phone={phone}
@@ -496,11 +612,28 @@ export function SpecialistMetodikaAvailability({
         <p className="text-sm font-light text-muted-foreground">
           {formData.email.trim() ? copy.successMessageSmsEmail : copy.successMessageSms}
         </p>
-        <p className="text-sm font-light text-foreground">
-          {selectedService.name}
-          <br />
-          {clinic.label} · {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
-        </p>
+        <div className="space-y-2 text-left text-sm font-light text-foreground">
+          <div className="flex justify-between gap-4 border-b border-border/30 py-2">
+            <span className="text-muted-foreground">{copy.successLabelTreatment}</span>
+            <span className="font-normal text-right">{selectedService.name}</span>
+          </div>
+          <div className="flex justify-between gap-4 border-b border-border/30 py-2">
+            <span className="text-muted-foreground">{copy.successLabelClinic}</span>
+            <span className="font-normal text-right">{confirmationClinicName}</span>
+          </div>
+          {confirmationClinicAddress && (
+            <div className="flex justify-between gap-4 border-b border-border/30 py-2">
+              <span className="text-muted-foreground">{copy.successLabelAddress}</span>
+              <span className="font-normal text-right">{confirmationClinicAddress}</span>
+            </div>
+          )}
+          <div className="flex justify-between gap-4 py-2">
+            <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
+            <span className="font-normal text-right">
+              {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
+            </span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -516,10 +649,26 @@ export function SpecialistMetodikaAvailability({
           {copy.backLabel}
         </button>
         <p className="text-sm font-light text-foreground">
-          {selectedService.name} · {clinic.label}
-          <br />
-          {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
+          {selectedService.name}
         </p>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <div>
+            <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelClinic}</span>
+            <p className="font-normal text-foreground">{confirmationClinicName}</p>
+          </div>
+          {confirmationClinicAddress && (
+            <div>
+              <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelAddress}</span>
+              <p className="font-normal text-foreground">{confirmationClinicAddress}</p>
+            </div>
+          )}
+          <div className={confirmationClinicAddress ? "" : "col-span-2"}>
+            <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelDate}</span>
+            <p className="font-normal text-foreground">
+              {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
+            </p>
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="sp-firstName" className="text-sm text-foreground/70">
@@ -720,6 +869,7 @@ export function SpecialistMetodikaAvailability({
         <>
           {!hintsLoading && hintDays.size === 0 ? (
             <FriendlyEmpty
+              {...emptyStateIconProps}
               title={copy.step4NoSlotsTitle}
               message={copy.step4NoSlotsMessage}
               phone={phone}
@@ -774,6 +924,7 @@ export function SpecialistMetodikaAvailability({
                   </div>
                 ) : visibleSlots.length === 0 ? (
                   <FriendlyEmpty
+                    {...emptyStateIconProps}
                     title={copy.step4NoSlotsTitle}
                     message={copy.step4NoSlotsMessage}
                     phone={phone}

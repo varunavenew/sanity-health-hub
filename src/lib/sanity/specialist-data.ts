@@ -1,4 +1,17 @@
-import type { Specialist, SpecialistClinicRef, SpecialistExpertiseTag, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
+import type {
+  Specialist,
+  SpecialistClinicRef,
+  SpecialistFaq,
+  SpecialistPatientReview,
+  SpecialistProfileTreatmentCard,
+  SpecialistRelatedSection,
+  SpecialistSanityCategory,
+} from "@/lib/sanity/specialist-types";
+import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
+import {
+  isRelatedServiceEligible,
+  isTreatmentVisibleOnWebsite,
+} from "@/lib/sanity/treatment-page-role";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { resolveCmsMedia, type ResolvedCmsMedia } from "@/lib/sanity/media-dual-read";
@@ -67,7 +80,6 @@ export type RawSanitySpecialist = {
   heroMedia?: unknown;
   role?: unknown;
   subtitle?: unknown;
-  specialties?: unknown;
   shortBio?: unknown;
   education?: unknown;
   languages?: string[];
@@ -76,10 +88,11 @@ export type RawSanitySpecialist = {
   showBookingButton?: boolean;
   showCallButton?: boolean;
   bio?: unknown;
-  categories?: Array<{
+    categories?: Array<{
     categoryId?: string;
     slug?: string;
     title?: unknown;
+    profileTitle?: unknown;
     categoryNumericId?: number;
     description?: string;
     quickInfoItems?: Array<{ text?: string }>;
@@ -118,7 +131,7 @@ export type RawSanitySpecialist = {
     heading?: string;
     ctaLabel?: string;
     ctaPath?: string;
-    specialists?: RawSanitySpecialist[];
+    specialists?: RawSanitySpecialist[]; 
   };
   seo?: {
     metaTitle?: unknown;
@@ -127,6 +140,17 @@ export type RawSanitySpecialist = {
     noIndex?: boolean;
   };
   geoSummary?: unknown;
+  featuredCategory?: RawSanitySpecialist["categories"] extends (infer U)[] ? U : never;
+  profileTreatments?: Array<{
+    title?: unknown;
+    description?: unknown;
+    heroDescription?: unknown;
+    path?: string;
+    heroImage?: string;
+    heroImageAlt?: unknown;
+    pageRole?: string;
+    hideFromWebsite?: boolean;
+  }>;
 };
 
 function pickNo(value: unknown): string {
@@ -167,42 +191,6 @@ function readSpecialtyLabel(entry: unknown): unknown {
     return (entry as { label?: unknown }).label;
   }
   return entry;
-}
-
-function readSpecialtyHref(entry: unknown): unknown {
-  if (entry && typeof entry === "object" && "href" in entry) {
-    return (entry as { href?: unknown }).href;
-  }
-  return undefined;
-}
-
-function pickSpecialtyNo(entry: unknown): string {
-  return pickNo(readSpecialtyLabel(entry));
-}
-
-/** Href is a path/URL, not translatable text — locale fallback only, no keyword translation. */
-function readLocalizedHref(value: unknown, lang: SanityLang): string {
-  if (typeof value === "string") return value.trim();
-  if (!Array.isArray(value)) return "";
-  const entries = value as I18nValueItem[];
-  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
-  if (typeof matchLang === "string" && matchLang.trim()) return matchLang.trim();
-  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
-  if (typeof matchNo === "string" && matchNo.trim()) return matchNo.trim();
-  const first = entries[0]?.value;
-  return typeof first === "string" ? first.trim() : "";
-}
-
-function mapExpertiseTags(value: unknown, lang: SanityLang): SpecialistExpertiseTag[] {
-  if (!Array.isArray(value)) return [];
-  const tags: SpecialistExpertiseTag[] = [];
-  for (const entry of value) {
-    const label = readLocalizedString(readSpecialtyLabel(entry), lang);
-    if (!label) continue;
-    const href = readLocalizedHref(readSpecialtyHref(entry), lang);
-    tags.push(href ? { label, href } : { label });
-  }
-  return tags;
 }
 
 function readEducation(value: unknown, lang: SanityLang): string | undefined {
@@ -309,24 +297,70 @@ function mapBioBody(value: unknown): unknown[] | undefined {
   return Array.isArray(value) && value.length > 0 ? value : undefined;
 }
 
+function firstPlainParagraph(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return "";
+  return trimmed.split(/\n\n+/).map((p) => p.trim()).find(Boolean) ?? trimmed;
+}
+
+function mapProfileTreatmentCards(
+  rows: RawSanitySpecialist["profileTreatments"],
+  lang: SanityLang,
+): SpecialistProfileTreatmentCard[] {
+  if (!Array.isArray(rows)) return [];
+  const cards: SpecialistProfileTreatmentCard[] = [];
+  for (const row of rows) {
+    if (!row || typeof row !== "object") continue;
+    if (!isRelatedServiceEligible(row.pageRole)) continue;
+    if (!isTreatmentVisibleOnWebsite(row.hideFromWebsite)) continue;
+    const title = readLocalizedString(row.title, lang);
+    const intro =
+      readLocalizedString(row.description, lang) ||
+      readLocalizedString(row.heroDescription, lang);
+    const description = firstPlainParagraph(intro);
+    const path = typeof row.path === "string" ? row.path.trim() : "";
+    const href = path ? rewriteRetiredIvfPath(path) : "";
+    if (!title || !href) continue;
+    const imageAlt = readLocalizedString(row.heroImageAlt, lang) || title;
+    cards.push({
+      title,
+      description,
+      href,
+      image: typeof row.heroImage === "string" ? row.heroImage : undefined,
+      imageAlt,
+    });
+  }
+  return cards;
+}
+
 function mapSanitySpecialistCategories(
   categories: RawSanitySpecialist["categories"],
   lang: SanityLang,
 ): SpecialistSanityCategory[] {
   if (!Array.isArray(categories)) return [];
-  return categories
-    .filter((c) => c?.categoryId && c?.slug)
-    .map((c) => ({
-      categoryId: c.categoryId!,
-      slug: c.slug!,
-      title: readLocalizedString(c.title, lang),
+  const mapped: SpecialistSanityCategory[] = [];
+  for (const c of categories) {
+    const categoryId = typeof c?.categoryId === "string" ? c.categoryId.trim() : "";
+    const slug =
+      typeof c?.slug === "string" && c.slug.trim()
+        ? c.slug.trim()
+        : categoryId;
+    if (!categoryId && !slug) continue;
+    mapped.push({
+      categoryId: categoryId || slug,
+      slug: slug || categoryId,
+      title:
+        readLocalizedString(c.profileTitle, lang) ||
+        readLocalizedString(c.title, lang),
       categoryNumericId: c.categoryNumericId,
       heroImage: typeof c.heroImage === "string" ? c.heroImage : undefined,
       description:
         typeof c.description === "string" && c.description.trim()
           ? c.description.trim()
           : undefined,
-    }));
+    });
+  }
+  return mapped;
 }
 
 function specialistHasPortrait(raw: RawSanitySpecialist): boolean {
@@ -352,10 +386,12 @@ export function isPublishableSanitySpecialist(raw: RawSanitySpecialist): boolean
   if (!specialistHasPortrait(raw)) return false;
   if (!pickNo(raw.role)) return false;
   if (!pickNo(raw.shortBio)) return false;
-  if (!Array.isArray(raw.specialties) || raw.specialties.length === 0) return false;
-  if (!raw.specialties.some((entry) => Boolean(pickSpecialtyNo(entry)))) return false;
   if (!Array.isArray(raw.categories) || raw.categories.length === 0) return false;
-  if (!raw.categories.some((c) => c?.categoryId && c?.slug)) return false;
+  if (!raw.categories.some((c) => {
+    const id = typeof c?.categoryId === "string" ? c.categoryId.trim() : "";
+    const slug = typeof c?.slug === "string" ? c.slug.trim() : "";
+    return Boolean(id || slug);
+  })) return false;
   const hasClinics =
     (Array.isArray(raw.clinics) && raw.clinics.length > 0) ||
     (Array.isArray(raw.clinicRefs) &&
@@ -403,6 +439,34 @@ export function resolveSpecialistImageFocal(specialist: {
   };
 }
 
+/** No hotspot: studio portraits put the head in the top ~10–55%; leaves room above and below. */
+const SPECIALIST_HERO_DEFAULT_POSITION = "50% 15%";
+
+/**
+ * Portrait hero framing: anchor to the TOP of the Sanity hotspot box (in the
+ * cropped frame), not its center. Wide hero boxes show ~half a portrait's
+ * height, so centering cut heads off when editors left the default hotspot.
+ * No hotspot → SPECIALIST_HERO_DEFAULT_POSITION.
+ */
+export function specialistHeroObjectPosition(
+  hotspot: SanityHotspot | MediaFocalPoint | null | undefined,
+  crop: SanityCrop | null | undefined,
+): string {
+  if (!hotspot || typeof hotspot.x !== "number" || typeof hotspot.y !== "number") {
+    return SPECIALIST_HERO_DEFAULT_POSITION;
+  }
+  const height = "height" in hotspot && typeof hotspot.height === "number" ? hotspot.height : 0;
+  const top = crop?.top ?? 0;
+  const left = crop?.left ?? 0;
+  const frameH = 1 - top - (crop?.bottom ?? 0);
+  const frameW = 1 - left - (crop?.right ?? 0);
+  if (frameH <= 0 || frameW <= 0) return SPECIALIST_HERO_DEFAULT_POSITION;
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+  const x = clamp((hotspot.x - left) / frameW);
+  const y = clamp((hotspot.y - height / 2 - top) / frameH);
+  return `${Math.round(x * 1000) / 10}% ${Math.round(y * 1000) / 10}%`;
+}
+
 export function mapSanitySpecialistRow(
   raw: RawSanitySpecialist,
   lang: SanityLang,
@@ -411,10 +475,9 @@ export function mapSanitySpecialistRow(
 
   const bio = readLocalizedString(raw.shortBio, lang);
   const title = readLocalizedString(raw.role, lang);
-  const expertise = mapExpertiseTags(raw.specialties, lang);
   const bookingCategoryIds = normalizeBookingCategoryIds(raw.bookingCategoryIds);
 
-  if (!bio || !title || expertise.length === 0) return null;
+  if (!bio || !title) return null;
 
   const seoTitle = readLocalizedString(raw.seo?.metaTitle, lang);
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
@@ -442,7 +505,7 @@ export function mapSanitySpecialistRow(
     heroMedia: media || undefined,
     title,
     subtitle: readLocalizedString(raw.subtitle, lang) || undefined,
-    expertise,
+    expertise: [],
     bio,
     bioBody: mapBioBody(raw.bio),
     education: readEducation(raw.education, lang),
@@ -451,6 +514,14 @@ export function mapSanitySpecialistRow(
     clinicRefs,
     category: resolveSpecialistPrimaryCategory(raw.categories) as Specialist["category"],
     sanityCategories: mapSanitySpecialistCategories(raw.categories, lang),
+    featuredCategory: (() => {
+      const mapped = mapSanitySpecialistCategories(
+        raw.featuredCategory ? [raw.featuredCategory as NonNullable<RawSanitySpecialist["categories"]>[number]] : [],
+        lang,
+      );
+      return mapped[0];
+    })(),
+    profileTreatments: mapProfileTreatmentCards(raw.profileTreatments, lang),
     showBookingButton: raw.showBookingButton !== false,
     showCallButton: raw.showCallButton !== false,
     metodikaUserId:

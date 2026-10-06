@@ -43,9 +43,12 @@ import {
 import { allowedWbActivityIdSetForCaregiverAtLocations } from "@/lib/booking/wbactivitiesMatrix";
 import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
+import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
 import { cn } from "@/lib/utils";
-import { useLocaleParam, useNavigate } from "@/lib/router";
+import { Link, useLocaleParam, useNavigate } from "@/lib/router";
+import { Button } from "@/components/ui/button";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import {
   trackBookingInit,
   trackBookingUnavailable,
@@ -61,6 +64,11 @@ interface InlineBookingSectionProps {
 
 /** Brown booking band on specialist profiles — clinic first, then branch by system. */
 export function SpecialistInlineBookingBand({ specialist }: InlineBookingSectionProps) {
+  if (!isSpecialistInlineBookingEnabled()) return null;
+  return <SpecialistInlineBookingBandActive specialist={specialist} />;
+}
+
+function SpecialistInlineBookingBandActive({ specialist }: InlineBookingSectionProps) {
   const ui = useSpecialistProfileUi();
   const pageBooking = useSpecialistPageBookingOptional();
   const { data: sanityClinics = [] } = useClinics();
@@ -688,6 +696,7 @@ function MetodikaTreatmentPicker({
   caregiverUserId: number | undefined;
 }) {
   const pageBooking = useSpecialistPageBookingOptional();
+  const priserPath = useNavCmsPath("pricing");
   const bookableMap = pageBooking?.metodikaBookableByLocation ?? new Map();
 
   const activityBookableAtClinic = useMemo(() => {
@@ -982,6 +991,29 @@ function MetodikaTreatmentPicker({
       </div>
 
       <InlineMetodikaCallUs clinic={clinic} isEn={isEn} />
+
+      <div className="mt-6">
+        <Button
+          variant="outline"
+          className="rounded-full border-brand-mid bg-brand-mid text-sm font-light text-brand-dark hover:bg-brand-mid/80"
+          asChild
+        >
+          <Link
+            to={priserPath}
+            onClick={() => {
+              trackBookingMenuStart({
+                entry_point: "specialist_page",
+                practitioner: specialist.name,
+                specialty: specialist.title || specialist.expertise?.[0]?.label || null,
+                clinic: clinic.label,
+              });
+            }}
+          >
+            {ui.bookingViewAllLabel}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

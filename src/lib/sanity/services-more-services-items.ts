@@ -8,7 +8,7 @@ export type MoreServicesListItem = {
 export const FLERE_TJENESTER_MORE_SERVICES: MoreServicesListItem[] = [
   { titleNo: "Endokrinologi", titleEn: "Endocrinology", slug: "endokrinologi" },
   { titleNo: "Ernæringsfysiolog", titleEn: "Clinical nutritionist", slug: "ernaringsfysiolog" },
-  { titleNo: "Hudhelse", titleEn: "Skin health", slug: "hudhelse" },
+  { titleNo: "Hudlege", titleEn: "Skin health", slug: "hudhelse" },
   {
     titleNo: "Mage- og tarmlidelser (Gastrokirurgi)",
     titleEn: "Stomach and intestinal conditions (GI surgery)",

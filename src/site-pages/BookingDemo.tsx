@@ -17,6 +17,13 @@ import {
 } from "date-fns";
 import { formatDurationMinutes, localizeDurationLabel, minutesToLengthTime } from "@/lib/booking/duration";
 import {
+  bookingConfirmationClinicAddress,
+  bookingConfirmationClinicName,
+  pickDefaultBookingClinicForRemoteService,
+  shouldHideBookingClinicAddress,
+  shouldSkipBookingClinicSelectionStep,
+} from "@/lib/booking/booking-confirmation-clinic";
+import {
   bookingDateFnsLocale,
   formatBookingLongDate,
   formatBookingMonthShort,
@@ -53,7 +60,7 @@ import {
 import {
   auditSanityMetodikaClinicMappings,
   enrichMetodikaClinicWithSanity,
-  findSanityClinicForMetodikaLocation,
+  findSanityClinicForMetodikaBookingClinic,
   findSanityClinicBySlugOrId,
   findSanityManagedClinicBySlug,
   isPlaceholderMetodikaLocationLabel,
@@ -63,7 +70,6 @@ import {
   sanityManagedClinicsForCategory,
 } from "@/lib/booking/sanityBookingClinic";
 import {
-  allStep1ClinicDisplayTags,
   step1ClinicDisplayTagsForCategory,
 } from "@/lib/sanity/booking-page-step1-clinics";
 import {
@@ -90,7 +96,10 @@ import {
   fetchWbActivityMatrixClient,
   prefetchWbActivityMatrix,
 } from "@/lib/booking/fetchWbActivityMatrix.client";
-import { caregiverIdsForWbActivityAtLocation } from "@/lib/booking/wbactivitiesMatrix";
+import {
+  caregiverIdsForWbActivityAtLocation,
+  locationIdsForWbActivity,
+} from "@/lib/booking/wbactivitiesMatrix";
 import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
 import { resolvePasientskyTimeslotTypeId } from "@/lib/booking/pasientskyTimeslotMapping";
@@ -124,9 +133,18 @@ import {
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
 import {
-  fetchBookingDaySlotsClient,
-  peekBookingDaySlotsClient,
+  fetchBookingDaySlotsForLocations,
+  peekBookingDaySlotsForLocations,
 } from "@/lib/booking/fetchBookingDaySlots.client";
+import {
+  filterGroupedMetodikaClinicLocationIds,
+} from "@/lib/booking/filterClinicsForSpecialist";
+import {
+  groupMajorstuenMetodikaClinics,
+  MAJORSTUEN_GROUP_CLINIC_ID,
+  metodikaLocationIdsForClinic,
+  selectedMetodikaLocationIdsFromClinic,
+} from "@/lib/booking/majorstuen-location-group";
 import {
   fetchBookingUsersClient,
   peekBookingUsersClient,
@@ -249,6 +267,16 @@ type ApiFreeTimeSlot = {
   locationName?: string;
 };
 
+function apiSlotMatchesLocationIds(
+  slot: { locationId?: number },
+  locationIds: number[] | undefined,
+): boolean {
+  if (locationIds == null) return true;
+  if (locationIds.length === 0) return false;
+  if (slot.locationId == null) return true;
+  return locationIds.includes(slot.locationId);
+}
+
 type SelectedBookingSlot = {
   startDateTime: string;
   time: string;
@@ -311,6 +339,11 @@ const BookingDemo = () => {
   const { specialists } = useSpecialistsData();
   const { data: bookingPageData = defaultBookingPageCopyForLang(locale) } = useBookingPage();
   const copy = bookingPageData;
+  const emptyStateIconProps = {
+    iconKey: copy.emptyStateIconKey,
+    iconUrl: copy.emptyStateIconUrl,
+    callButtonIconKey: copy.emptyStateCallButtonIconKey,
+  };
   const bookingGeoSummary = bookingPageData.geoSummary;
   const { data: sanityClinics = [] } = useClinics();
   const {
@@ -337,11 +370,6 @@ const BookingDemo = () => {
       /* ignore */
     }
   }, [searchParams]);
-
-  const allStep1ClinicTags = useMemo(
-    () => allStep1ClinicDisplayTags(bookingPageData.step1CategoryClinicBadges, sanityClinics),
-    [bookingPageData.step1CategoryClinicBadges, sanityClinics],
-  );
 
   const today = useMemo(() => {
     const date = new Date();
@@ -410,10 +438,9 @@ const BookingDemo = () => {
   const enrichedMetodikaClinics = useMemo(
     () =>
       apiBookingClinics.map((metodika) => {
-        const sanity = findSanityClinicForMetodikaLocation(
+        const sanity = findSanityClinicForMetodikaBookingClinic(
           sanityClinics,
-          metodika.apiLocationId,
-          metodika.label,
+          metodika,
         );
         return enrichMetodikaClinicWithSanity(metodika, sanity);
       }),
@@ -460,6 +487,34 @@ const BookingDemo = () => {
       bookingData.clinic &&
       pasientskySpecialist &&
       !bookingData.service,
+  );
+
+  const hideClinicAddress = shouldHideBookingClinicAddress({
+    serviceName: bookingData.service?.name,
+    servicePrice: bookingData.service?.price,
+  });
+
+  const skipClinicSelectionStep = shouldSkipBookingClinicSelectionStep({
+    serviceName: bookingData.service?.name,
+    servicePrice: bookingData.service?.price,
+  });
+
+  const confirmationClinicName = useMemo(
+    () =>
+      bookingConfirmationClinicName({
+        clinic: bookingData.clinic,
+        sanityClinic: selectedSanityClinic,
+      }),
+    [bookingData.clinic, selectedSanityClinic],
+  );
+
+  const confirmationClinicAddress = useMemo(
+    () =>
+      bookingConfirmationClinicAddress({
+        sanityClinic: selectedSanityClinic,
+        isDigital: hideClinicAddress,
+      }),
+    [hideClinicAddress, selectedSanityClinic],
   );
 
   const isSanityManagedBooking =
@@ -536,9 +591,6 @@ const BookingDemo = () => {
   const trackedStepRef = useRef<number | null>(null);
   const bookingInitTracked = useRef(false);
   const deepLinkMenuStartTracked = useRef(false);
-  /** After empty-clinic «Bestill time», skip URL service prefill so the user can pick another service. */
-  const skipServicePrefillRef = useRef(false);
-
   useEffect(() => {
     if (bookingInitTracked.current || isPasientskyBooking || isExternalBooking) return;
     bookingInitTracked.current = true;
@@ -589,8 +641,6 @@ const BookingDemo = () => {
   // Jumps to the first unfilled step so users coming from a specific
   // page never have to start over.
   useEffect(() => {
-    // After "Bestill time" on the empty-clinic state, do not re-lock the non-bookable service.
-    if (skipServicePrefillRef.current) return;
     // Clinic may already be set from ?klinikk= (Pasientsky/Moelv) before this runs —
     // still allow service/specialist prefill. Only skip once service is chosen.
     if (bookingData.service) return;
@@ -612,7 +662,9 @@ const BookingDemo = () => {
       Number.isFinite(kategoriId) && kategoriId > 0
         ? categoryNumericIdToPageId[kategoriId]
         : undefined;
-    const effectiveKategori = kategori || kategoriFromNumericId;
+    // Numeric CMS group wins over the page-category slug so a treatment can
+    // book another activity group (e.g. 6-ukerskontroll → gynekologi).
+    const effectiveKategori = kategoriFromNumericId || kategori;
 
     if (
       !effectiveKategori &&
@@ -792,11 +844,13 @@ const BookingDemo = () => {
 
         if (res.ok && json.ok && Array.isArray(json.slots)) {
           setApiFreeTimeSlots(json.slots);
-          const mappedClinics = Array.isArray(json.locations)
-            ? json.locations
-                .map(apiLocationToClinic)
-                .filter((clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label))
-            : [];
+          const mappedClinics = groupMajorstuenMetodikaClinics(
+            Array.isArray(json.locations)
+              ? json.locations
+                  .map(apiLocationToClinic)
+                  .filter((clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label))
+              : [],
+          );
           setApiBookingClinics(mappedClinics);
           setAvailabilityFromApi(mappedClinics.length > 0);
           setBookingData((prev) => ({
@@ -829,12 +883,30 @@ const BookingDemo = () => {
     };
   }, [bookingData.service?.apiActivityId]);
 
+  const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
+
+  const { activity: wbActivityMatrix } = useWbActivityMatrix(
+    bookingData.service?.apiActivityId,
+  );
+
+  const selectedCaregiverUserId = resolveBookingCaregiverUserId(
+    bookingData.specialist,
+  );
+
+  const selectedMetodikaLocationIds = useMemo(
+    () =>
+      selectedMetodikaLocationIdsFromClinic(
+        bookingData.clinic,
+        wbActivityMatrix,
+        selectedCaregiverUserId,
+      ),
+    [bookingData.clinic, wbActivityMatrix, selectedCaregiverUserId],
+  );
+
   const slotsFetchContextKey = [
     bookingData.service?.apiActivityId ?? "",
-    bookingData.clinic && "apiLocationId" in (bookingData.clinic ?? {})
-      ? (bookingData.clinic as BookingMetodikaClinic).apiLocationId
-      : "",
-    resolveBookingCaregiverUserId(bookingData.specialist) ?? "",
+    selectedMetodikaLocationIds?.join("+") ?? "",
+    selectedCaregiverUserId ?? "",
   ].join(":");
 
   // Clear per-day slot cache when service, clinic, or specialist changes
@@ -848,20 +920,21 @@ const BookingDemo = () => {
   const prefetchDaySlots = useCallback(
     (date: Date) => {
       const activityId = bookingData.service?.apiActivityId;
-      const selectedLocationId =
-        bookingData.clinic && "apiLocationId" in bookingData.clinic
-          ? bookingData.clinic.apiLocationId
-          : undefined;
-      if (!activityId || selectedLocationId == null) return;
+      const locationIds = selectedMetodikaLocationIdsFromClinic(
+        bookingData.clinic,
+        wbActivityMatrix,
+        resolveBookingCaregiverUserId(bookingData.specialist),
+      );
+      if (!activityId || !locationIds?.length) return;
 
       const key = dayKey(date);
       if (slotsByDayRef.current[key]) return;
 
       const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
-      void fetchBookingDaySlotsClient({
+      void fetchBookingDaySlotsForLocations({
         wbactivityId: activityId,
         date,
-        locationId: selectedLocationId,
+        locationIds,
         caregiverUserId: caregiverUserId ?? undefined,
       }).then((slots) => {
         if (slotsByDayRef.current[key]) return;
@@ -869,22 +942,24 @@ const BookingDemo = () => {
         setSlotsByDayKey((prev) => (prev[key] ? prev : { ...prev, [key]: slots }));
       });
     },
-    [bookingData.service?.apiActivityId, bookingData.clinic, bookingData.specialist],
+    [
+      bookingData.service?.apiActivityId,
+      bookingData.clinic,
+      bookingData.specialist,
+      wbActivityMatrix,
+    ],
   );
 
   // Fetch alltimes for the selected day — fast /api/booking/day-slots
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
+    const locationIds = selectedMetodikaLocationIds;
 
     if (
       currentStep !== 4 ||
       !selectedDate ||
       !activityId ||
-      selectedLocationId == null
+      !locationIds?.length
     ) {
       setTimesLoading(false);
       return;
@@ -897,11 +972,11 @@ const BookingDemo = () => {
       return;
     }
 
-    const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
-    const peeked = peekBookingDaySlotsClient({
+    const caregiverUserId = selectedCaregiverUserId;
+    const peeked = peekBookingDaySlotsForLocations({
       wbactivityId: activityId,
       date: selectedDate,
-      locationId: selectedLocationId,
+      locationIds,
       caregiverUserId: caregiverUserId ?? undefined,
     });
     if (peeked) {
@@ -915,10 +990,10 @@ const BookingDemo = () => {
     let cancelled = false;
     setTimesLoading(true);
 
-    void fetchBookingDaySlotsClient({
+    void fetchBookingDaySlotsForLocations({
       wbactivityId: activityId,
       date: selectedDate,
-      locationId: selectedLocationId,
+      locationIds,
       caregiverUserId: caregiverUserId ?? undefined,
     })
       .then((slots) => {
@@ -944,29 +1019,35 @@ const BookingDemo = () => {
     currentStep,
     selectedDate,
     bookingData.service?.apiActivityId,
-    bookingData.clinic && "apiLocationId" in (bookingData.clinic ?? {})
-      ? (bookingData.clinic as BookingMetodikaClinic).apiLocationId
-      : undefined,
-    bookingData.specialist,
+    selectedMetodikaLocationIds,
+    selectedCaregiverUserId,
     slotsFetchContextKey,
   ]);
 
-  const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
-
-  const { activity: wbActivityMatrix } = useWbActivityMatrix(
-    bookingData.service?.apiActivityId,
-  );
-
   const matrixMetodikaClinics = useMemo(
-    () => metodikaClinicsFromMatrix(sanityClinics, wbActivityMatrix),
-    [sanityClinics, wbActivityMatrix],
+    () =>
+      metodikaClinicsFromMatrix(
+        sanityClinics,
+        wbActivityMatrix,
+        bookingData.categoryId,
+        bookingData.categoryApiSlug,
+      ),
+    [
+      sanityClinics,
+      wbActivityMatrix,
+      bookingData.categoryId,
+      bookingData.categoryApiSlug,
+    ],
   );
 
   const metodikaClinicsForStep2 = useMemo(() => {
-    if (matrixMetodikaClinics.length > 0) return matrixMetodikaClinics;
-    return enrichedMetodikaClinics.filter(
-      (clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label),
-    );
+    const raw =
+      matrixMetodikaClinics.length > 0
+        ? matrixMetodikaClinics
+        : enrichedMetodikaClinics.filter(
+            (clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label),
+          );
+    return groupMajorstuenMetodikaClinics(raw);
   }, [matrixMetodikaClinics, enrichedMetodikaClinics]);
 
   // Prefill clinic from ?klinikk= (+ optional ?locationId= from specialist profile)
@@ -1025,16 +1106,24 @@ const BookingDemo = () => {
     if (!bookingData.service?.apiActivityId) return;
     if (!availabilityFromApi || enrichedMetodikaClinics.length === 0) return;
 
+    const metodikaOptions = metodikaClinicsForStep2.length
+      ? metodikaClinicsForStep2
+      : groupMajorstuenMetodikaClinics(enrichedMetodikaClinics);
+
     const bySanitySlug = sanityRow
-      ? enrichedMetodikaClinics.find((c) => c.sanityClinicId === sanityRow.id)
+      ? metodikaOptions.find((c) => c.sanityClinicId === sanityRow.id)
       : undefined;
-    const byId = enrichedMetodikaClinics.find(
+    const byGroupId =
+      klinikk.replace(/-/g, "").includes("majorstuen")
+        ? metodikaOptions.find((c) => c.id === MAJORSTUEN_GROUP_CLINIC_ID)
+        : undefined;
+    const byId = metodikaOptions.find(
       (c) => c.id === klinikk || c.id === `location-${klinikk}`,
     );
-    const bySlug = enrichedMetodikaClinics.find((c) =>
+    const bySlug = metodikaOptions.find((c) =>
       c.label.toLowerCase().includes(klinikk.replace(/-/g, " ")),
     );
-    const match = bySanitySlug ?? byId ?? bySlug;
+    const match = bySanitySlug ?? byGroupId ?? byId ?? bySlug;
     if (match) {
       const withLocation = metodikaClinicWithLocationOverride(match, locationOverride);
       if (!allowClinic(withLocation)) {
@@ -1047,6 +1136,7 @@ const BookingDemo = () => {
   }, [
     availabilityFromApi,
     enrichedMetodikaClinics,
+    metodikaClinicsForStep2,
     bookingData.clinic,
     bookingData.service?.apiActivityId,
     bookingData.specialist,
@@ -1082,10 +1172,6 @@ const BookingDemo = () => {
     selectedSanityClinic,
   ]);
 
-  const selectedCaregiverUserId = resolveBookingCaregiverUserId(
-    bookingData.specialist,
-  );
-
   const caregiverByUserId = useMemo(() => {
     const map = new Map<number, BookingCaregiver>();
     for (const caregiver of bookingCaregivers) {
@@ -1096,32 +1182,33 @@ const BookingDemo = () => {
 
   const caregiverIdsFromSlots = useMemo(() => {
     if (!hasApiActivity) return [];
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
+    const locationIds = selectedMetodikaLocationIds;
 
-    if (wbActivityMatrix && selectedLocationId != null) {
-      const fromMatrix = caregiverIdsForWbActivityAtLocation(
-        wbActivityMatrix,
-        selectedLocationId,
-      );
-      if (fromMatrix.length > 0) return fromMatrix;
+    if (wbActivityMatrix && locationIds?.length) {
+      const fromMatrix = new Set<number>();
+      for (const locationId of locationIds) {
+        for (const id of caregiverIdsForWbActivityAtLocation(
+          wbActivityMatrix,
+          locationId,
+        )) {
+          fromMatrix.add(id);
+        }
+      }
+      if (fromMatrix.size > 0) return [...fromMatrix].sort((a, b) => a - b);
     }
 
     const ids = new Set<number>();
     for (const slot of apiFreeTimeSlots) {
-      if (
-        selectedLocationId != null &&
-        slot.locationId != null &&
-        slot.locationId !== selectedLocationId
-      ) {
-        continue;
-      }
+      if (!apiSlotMatchesLocationIds(slot, locationIds)) continue;
       if (slot.caregiverUserId != null) ids.add(slot.caregiverUserId);
     }
     return [...ids].sort((a, b) => a - b);
-  }, [hasApiActivity, apiFreeTimeSlots, bookingData.clinic, wbActivityMatrix]);
+  }, [
+    hasApiActivity,
+    apiFreeTimeSlots,
+    selectedMetodikaLocationIds,
+    wbActivityMatrix,
+  ]);
 
   useEffect(() => {
     if (!hasApiActivity || caregiverIdsFromSlots.length === 0) {
@@ -1162,21 +1249,12 @@ const BookingDemo = () => {
     : specialists;
 
   const datesWithApiSlots = useMemo(() => {
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
+    const locationIds = selectedMetodikaLocationIds;
     const keys = new Set<string>();
 
     const addFromSlots = (slots: ApiFreeTimeSlot[]) => {
       for (const slot of slots) {
-        if (
-          selectedLocationId != null &&
-          slot.locationId != null &&
-          slot.locationId !== selectedLocationId
-        ) {
-          continue;
-        }
+        if (!apiSlotMatchesLocationIds(slot, locationIds)) continue;
         if (
           selectedCaregiverUserId != null &&
           slot.caregiverUserId != null &&
@@ -1191,13 +1269,15 @@ const BookingDemo = () => {
     addFromSlots(apiFreeTimeSlots);
 
     for (const [key, slots] of Object.entries(slotsByDayKey)) {
-      if (slots.length > 0) keys.add(key);
+      if (slots.some((slot) => apiSlotMatchesLocationIds(slot, locationIds))) {
+        keys.add(key);
+      }
     }
 
     return keys;
   }, [
     apiFreeTimeSlots,
-    bookingData.clinic,
+    selectedMetodikaLocationIds,
     selectedCaregiverUserId,
     slotsByDayKey,
   ]);
@@ -1234,11 +1314,7 @@ const BookingDemo = () => {
   // Prefetch day slots so step 4 times appear instantly from cache.
   useEffect(() => {
     if (currentStep < 3 || !hasApiActivity || !clinicsAvailabilityReady) return;
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
-    if (selectedLocationId == null) return;
+    if (!selectedMetodikaLocationIds?.length) return;
 
     bookableDates.slice(0, 3).forEach(prefetchDaySlots);
     visibleDates.forEach((date) => {
@@ -1255,18 +1331,14 @@ const BookingDemo = () => {
     datesWithApiSlots,
     today,
     prefetchDaySlots,
-    bookingData.clinic,
+    selectedMetodikaLocationIds,
   ]);
 
   // Pick first API day with slots when entering step 4 (no static default date)
   useEffect(() => {
     if (currentStep !== 4 || !hasApiActivity) return;
 
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
-    if (selectedLocationId != null && !clinicsAvailabilityReady) return;
+    if (selectedMetodikaLocationIds?.length && !clinicsAvailabilityReady) return;
 
     const initKey = slotsFetchContextKey;
     if (
@@ -1299,6 +1371,7 @@ const BookingDemo = () => {
     datesWithApiSlots,
     slotsFetchContextKey,
     prefetchDaySlots,
+    selectedMetodikaLocationIds,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
@@ -1320,18 +1393,10 @@ const BookingDemo = () => {
   const availableSlots = useMemo((): DisplayTimeSlot[] => {
     if (!selectedDate || !hasApiActivity) return [];
 
-    const selectedLocationId =
-      bookingData.clinic && "apiLocationId" in bookingData.clinic
-        ? bookingData.clinic.apiLocationId
-        : undefined;
+    const locationIds = selectedMetodikaLocationIds;
 
     return selectedDaySlots
-      .filter(
-        (slot) =>
-          selectedLocationId == null ||
-          slot.locationId == null ||
-          slot.locationId === selectedLocationId,
-      )
+      .filter((slot) => apiSlotMatchesLocationIds(slot, locationIds))
       .filter(
         (slot) =>
           selectedCaregiverUserId == null ||
@@ -1354,9 +1419,7 @@ const BookingDemo = () => {
     selectedDate,
     selectedDaySlots,
     hasApiActivity,
-    bookingData.clinic && "apiLocationId" in bookingData.clinic
-      ? bookingData.clinic.apiLocationId
-      : undefined,
+    selectedMetodikaLocationIds,
     selectedCaregiverUserId,
   ]);
 
@@ -1375,22 +1438,6 @@ const BookingDemo = () => {
 
   /** Prevents re-auto-selecting clinic after user goes back from step 3. */
   const autoSelectedClinicActivityRef = useRef<number | null>(null);
-
-  const handleBookAnotherWay = () => {
-    skipServicePrefillRef.current = true;
-    autoSelectedClinicActivityRef.current = null;
-    setClinicsAvailabilityReady(false);
-    setBookingData({});
-    setExpandedCategory(null);
-    setFilterToCategoryId(null);
-
-    const next = new URLSearchParams(searchParams.toString());
-    for (const key of ["aktivitetId", "tjeneste", "tjenesteValg"]) {
-      next.delete(key);
-    }
-    const qs = next.toString();
-    navigate(qs ? `${pathname}?${qs}` : pathname, { replace: true });
-  };
 
   const handleSelectService = (
     categoryId: string,
@@ -1438,12 +1485,17 @@ const BookingDemo = () => {
   const prefetchCaregiversForClinic = useCallback(
     (clinic: BookingClinic) => {
       if (!hasApiActivity || !wbActivityMatrix || !isMetodikaClinic(clinic)) return;
-      const ids = caregiverIdsForWbActivityAtLocation(
-        wbActivityMatrix,
-        clinic.apiLocationId,
-      );
-      if (ids.length === 0) return;
-      void fetchBookingUsersClient(ids, bookingData.category ?? undefined);
+      const ids = new Set<number>();
+      for (const locationId of metodikaLocationIdsForClinic(clinic)) {
+        for (const id of caregiverIdsForWbActivityAtLocation(
+          wbActivityMatrix,
+          locationId,
+        )) {
+          ids.add(id);
+        }
+      }
+      if (ids.size === 0) return;
+      void fetchBookingUsersClient([...ids], bookingData.category ?? undefined);
     },
     [hasApiActivity, wbActivityMatrix, bookingData.category],
   );
@@ -1458,7 +1510,15 @@ const BookingDemo = () => {
   // When a specialist is already chosen (e.g. ?spesialist=), only show clinics where they work.
   const availableClinics: BookingClinic[] = useMemo(() => {
     const metodika = bookingData.service?.apiActivityId ? metodikaClinicsForStep2 : [];
-    const metodikaForActivity = filterClinicsForWbActivity(metodika, wbActivityMatrix);
+    const metodikaForActivity = groupMajorstuenMetodikaClinics(
+      filterClinicsForWbActivity(metodika, wbActivityMatrix).map((clinic) => {
+        if (!isMetodikaClinic(clinic) || !wbActivityMatrix) return clinic;
+        return filterGroupedMetodikaClinicLocationIds(
+          clinic,
+          locationIdsForWbActivity(wbActivityMatrix),
+        );
+      }),
+    );
     const merged = mergeMetodikaAndSanityClinics(metodikaForActivity, sanityManagedClinicOptions);
     if (!bookingData.specialistChosen || !bookingData.specialist) return merged;
     return filterClinicsForPreselectedSpecialist(
@@ -1482,22 +1542,34 @@ const BookingDemo = () => {
     matrixMetodikaClinics.length > 0 ||
     clinicsAvailabilityReady;
 
-  // Auto-select when exactly one clinic is available (once per service; not after "Tilbake")
+  // Auto-select clinic: remote services → default location (BT-11b); physical → single option only
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
     if (pendingKlinikkRef.current?.trim()) return;
     if (!step2Ready) return;
-    if (availableClinics.length !== 1) return;
+    if (availableClinics.length === 0) return;
+
+    let clinicToSelect: BookingClinic | undefined;
+    if (skipClinicSelectionStep) {
+      clinicToSelect = pickDefaultBookingClinicForRemoteService(
+        availableClinics,
+        sanityClinics,
+      );
+    } else if (availableClinics.length === 1) {
+      clinicToSelect = availableClinics[0];
+    } else {
+      return;
+    }
+
+    if (!clinicToSelect) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;
 
     autoSelectedClinicActivityRef.current = activityId;
-    const onlyClinic = availableClinics[0];
-    prefetchCaregiversForClinic(onlyClinic);
+    prefetchCaregiversForClinic(clinicToSelect);
     setBookingData((prev) => ({
       ...prev,
-      clinic: onlyClinic,
-      // Keep preselected specialist when auto-picking their only clinic
+      clinic: clinicToSelect,
       specialist: prev.specialist,
       specialistChosen: prev.specialistChosen,
     }));
@@ -1506,6 +1578,8 @@ const BookingDemo = () => {
     bookingData.clinic,
     step2Ready,
     availableClinics,
+    skipClinicSelectionStep,
+    sanityClinics,
     prefetchCaregiversForClinic,
   ]);
 
@@ -1754,6 +1828,7 @@ const BookingDemo = () => {
       setBookingData({});
       setExpandedCategory(null);
     } else if (step === 'clinic') {
+      autoSelectedClinicActivityRef.current = null;
       setBookingData({
         ...bookingData,
         clinic: undefined,
@@ -1813,8 +1888,14 @@ const BookingDemo = () => {
               </div>
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelClinic}</span>
-                <span className="font-medium">{copy.successClinicPrefix}{bookingData.clinic?.label}</span>
+                <span className="font-medium text-right max-w-[60%]">{confirmationClinicName}</span>
               </div>
+              {confirmationClinicAddress && (
+                <div className="flex justify-between py-2 border-b border-border/30">
+                  <span className="text-muted-foreground">{copy.successLabelAddress}</span>
+                  <span className="font-medium text-right max-w-[60%]">{confirmationClinicAddress}</span>
+                </div>
+              )}
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
                 <span className="font-medium">{bookingData.date && formatBookingShortDate(bookingData.date, locale)} kl. {bookingData.time}</span>
@@ -2066,6 +2147,7 @@ const BookingDemo = () => {
 
               {!servicesLoading && bookingServices.length === 0 && (
                 <FriendlyEmpty
+                  {...emptyStateIconProps}
                   title={copy.step1EmptyTitle}
                   message={copy.step1EmptyMessage}
                   phone={copy.supportPhone}
@@ -2080,10 +2162,6 @@ const BookingDemo = () => {
                   .sort(sortBookingCategories)
                   .map((category) => {
                     const clinicsForCategory = step1ClinicTagsByCategoryId[category.id] ?? [];
-                    const showAlleKlinikker =
-                      clinicsForCategory.length > 0 &&
-                      allStep1ClinicTags.length > 0 &&
-                      clinicsForCategory.length === allStep1ClinicTags.length;
                     const visibleServices = hasServiceChoice
                       ? filterServicesByOptions(category.services, serviceChoiceSlugs)
                       : category.services;
@@ -2112,20 +2190,15 @@ const BookingDemo = () => {
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
                               {!isExpanded &&
-                                (showAlleKlinikker ? (
-                                  <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
-                                    {copy.step1AllClinicsBadge}
+                                clinicsForCategory.length > 0 &&
+                                clinicsForCategory.map((clinic) => (
+                                  <span
+                                    key={clinic.tagKey}
+                                    className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
+                                  >
+                                    {clinic.label}
                                   </span>
-                                ) : clinicsForCategory.length > 0 ? (
-                                  clinicsForCategory.map((clinic) => (
-                                    <span
-                                      key={clinic.tagKey}
-                                      className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
-                                    >
-                                      {clinic.label}
-                                    </span>
-                                  ))
-                                ) : null)}
+                                ))}
                             </div>
                             <ChevronDown
                               className={cn(
@@ -2215,8 +2288,35 @@ const BookingDemo = () => {
               </div>
               )}
             </motion.div>
+          ) : !bookingData.clinic && skipClinicSelectionStep ? (
+            <motion.div
+              key="step2-remote"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4"
+            >
+              {bookingData.service?.apiActivityId && !step2Ready && (
+                <BookingStepLoader message={copy.step2Loading} />
+              )}
+              {step2Ready && availableClinics.length === 0 && (
+                <FriendlyEmpty
+                  {...emptyStateIconProps}
+                  title={copy.step2EmptyTitle}
+                  message={copy.step2EmptyMessage}
+                  phone={copy.step2EmptyPhone}
+                  phoneLabel={copy.step2EmptyButtonLabel}
+                />
+              )}
+              {step2Ready &&
+                availableClinics.length > 0 &&
+                !bookingData.clinic && (
+                  <BookingStepLoader message={copy.step2Loading} />
+                )}
+            </motion.div>
           ) : !bookingData.clinic ? (
-            /* Step 2: Select Clinic */
+            /* Step 2: Select Clinic (physical / in-clinic services) */
             <motion.div
               key="step2"
               initial={{ opacity: 0, y: 20 }}
@@ -2233,12 +2333,11 @@ const BookingDemo = () => {
 
               {step2Ready && availableClinics.length === 0 && (
                 <FriendlyEmpty
+                  {...emptyStateIconProps}
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
                   phone={copy.step2EmptyPhone}
                   phoneLabel={copy.step2EmptyButtonLabel}
-                  secondaryLabel={copy.step2EmptyBookLabel}
-                  onSecondaryClick={handleBookAnotherWay}
                 />
               )}
 
@@ -2332,6 +2431,7 @@ const BookingDemo = () => {
                 step3Caregivers.length === 0 &&
                 caregiverIdsFromSlots.length === 0 && (
                   <FriendlyEmpty
+                    {...emptyStateIconProps}
                     title={copy.step3EmptyNoCaregiversTitle}
                     message={copy.step3EmptyNoCaregiversMessage}
                     phone={copy.supportPhone}
@@ -2344,6 +2444,7 @@ const BookingDemo = () => {
                 step3Caregivers.length === 0 &&
                 caregiverIdsFromSlots.length > 0 && (
                   <FriendlyEmpty
+                    {...emptyStateIconProps}
                     title={copy.step3EmptyFetchTitle}
                     message={copy.step3EmptyFetchMessage}
                     phone={copy.supportPhone}
@@ -2513,12 +2614,11 @@ const BookingDemo = () => {
                     />
                   ) : step4NoBookableDays ? (
                     <FriendlyEmpty
+                      {...emptyStateIconProps}
                       title={copy.step4NoDaysTitle}
                       message={copy.step4NoDaysMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
-                      secondaryLabel={copy.step2EmptyBookLabel}
-                      onSecondaryClick={handleBookAnotherWay}
                     />
                   ) : (
                   <AnimatePresence mode="wait" initial={false}>
@@ -2626,12 +2726,11 @@ const BookingDemo = () => {
 
                   {!hasApiActivity ? (
                     <FriendlyEmpty
+                      {...emptyStateIconProps}
                       title={copy.step4NotOnlineTitle}
                       message={copy.step4NotOnlineMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
-                      secondaryLabel={copy.step2EmptyBookLabel}
-                      onSecondaryClick={handleBookAnotherWay}
                     />
                   ) : timesLoading && availableSlots.length === 0 ? (
                     <BookingStepLoader
@@ -2695,12 +2794,11 @@ const BookingDemo = () => {
                     )
                   ) : (
                     <FriendlyEmpty
+                      {...emptyStateIconProps}
                       title={copy.step4NoSlotsTitle}
                       message={copy.step4NoSlotsMessage}
                       phone={copy.supportPhone}
                       phoneLabel={copy.supportPhoneLabel}
-                      secondaryLabel={copy.step2EmptyBookLabel}
-                      onSecondaryClick={handleBookAnotherWay}
                     />
                   )}
                 </div>
@@ -2744,8 +2842,14 @@ const BookingDemo = () => {
                   </div>
                   <div className="flex flex-col gap-1 min-w-0">
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelClinic}</span>
-                    <p className="font-normal text-brand-dark">{bookingData.clinic?.label}</p>
+                    <p className="font-normal text-brand-dark">{confirmationClinicName}</p>
                   </div>
+                  {confirmationClinicAddress && (
+                    <div className="flex flex-col gap-1 min-w-0">
+                      <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelAddress}</span>
+                      <p className="font-normal text-brand-dark">{confirmationClinicAddress}</p>
+                    </div>
+                  )}
                   {bookingData.slotDurationMinutes != null && (
                     <div className="flex flex-col gap-1 min-w-0">
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
@@ -3049,20 +3153,6 @@ const BookingDemo = () => {
                       {selectedSpecialistInfo.title}
                     </p>
 
-                    {!isBookingCaregiver(selectedSpecialistInfo) &&
-                      selectedSpecialistInfo.expertise &&
-                      selectedSpecialistInfo.expertise.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          {selectedSpecialistInfo.expertise.map((exp, idx) => (
-                            <span
-                              key={idx}
-                              className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
-                            >
-                              {exp.label}
-                            </span>
-                          ))}
-                        </div>
-                      )}
                   </div>
                 </div>
               </div>

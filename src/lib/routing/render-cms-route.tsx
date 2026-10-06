@@ -38,6 +38,7 @@ import Karriere from "@/site-pages/Karriere";
 import KarriereDetail from "@/site-pages/KarriereDetail";
 import Personvern from "@/site-pages/Personvern";
 import Aapenhetsloven2025 from "@/site-pages/Aapenhetsloven2025";
+import { renderHydratedPricingPage } from "@/lib/routing/render-pricing-page";
 import Priser from "@/site-pages/Priser";
 import Services from "@/site-pages/Services";
 import SpecialistProfile from "@/site-pages/SpecialistProfile";
@@ -177,6 +178,9 @@ export async function renderCmsRoute(
     case "listing": {
       const handler = SINGLETON_HANDLERS[route.documentType as SingletonPageType];
       if (!handler) return null;
+      if (route.documentType === "pricingPage") {
+        return renderHydratedPricingPage(locale);
+      }
       const { Component } = handler;
       if (SSR_SINGLETON_TYPES.has(route.documentType as SingletonPageType)) {
         const queryClient = new QueryClient();

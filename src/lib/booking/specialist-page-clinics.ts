@@ -1,4 +1,8 @@
 import { specialistClinicConstraintKeys } from "@/lib/booking/filterClinicsForSpecialist";
+import {
+  MAJORSTUEN_DISPLAY_LABEL,
+  MAJORSTUEN_METODIKA_LOCATION_IDS,
+} from "@/lib/booking/majorstuen-location-group";
 import { normalizeClinicLabelForCompare } from "@/lib/booking/sanityBookingClinic";
 import { slugifyNo } from "@/lib/bookingLinks";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
@@ -274,9 +278,14 @@ function toPageClinic(row: SanityClinicListRow): SpecialistPageClinic | null {
   if (inferred === "metodika") {
     const apiLocationIds = resolveMetodikaLocationIds(row, slug);
     if (apiLocationIds.length > 0) {
+      const isMajorstuen =
+        slug.includes("majorstuen") ||
+        slug.includes("majorstua") ||
+        normalizeClinicLabelForCompare(row.label) === "majorstuen";
       return {
         ...base,
         kind: "metodika",
+        label: isMajorstuen ? MAJORSTUEN_DISPLAY_LABEL : base.label,
         apiLocationId: apiLocationIds[0],
         apiLocationIds,
       };
@@ -321,12 +330,36 @@ export function resolveSpecialistPageClinics(
     .filter((clinic): clinic is SpecialistPageClinic => clinic != null);
 
   const seen = new Set<string>();
-  return mapped
-    .filter((clinic) => {
-      const key = clinic.slug || clinic.id;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .sort((a, b) => clinicSortRank(a.slug) - clinicSortRank(b.slug));
+  const deduped = mapped.filter((clinic) => {
+    const key = clinic.slug || clinic.id;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  const majorstuenMetodika = deduped.filter(
+    (c): c is SpecialistPageMetodikaClinic =>
+      c.kind === "metodika" &&
+      (c.slug.includes("majorstuen") ||
+        c.slug.includes("majorstua") ||
+        c.label === MAJORSTUEN_DISPLAY_LABEL),
+  );
+  const majorstuenIds = new Set(majorstuenMetodika.map((c) => c.id));
+  const others = deduped.filter((c) => !majorstuenIds.has(c.id));
+
+  if (majorstuenMetodika.length <= 1) {
+    return deduped.sort((a, b) => clinicSortRank(a.slug) - clinicSortRank(b.slug));
+  }
+
+  const mergedMajorstuen: SpecialistPageMetodikaClinic = {
+    ...majorstuenMetodika[0],
+    label: MAJORSTUEN_DISPLAY_LABEL,
+    slug: "majorstuen",
+    apiLocationId: MAJORSTUEN_METODIKA_LOCATION_IDS[0],
+    apiLocationIds: [...MAJORSTUEN_METODIKA_LOCATION_IDS],
+  };
+
+  return [...others, mergedMajorstuen].sort(
+    (a, b) => clinicSortRank(a.slug) - clinicSortRank(b.slug),
+  );
 }

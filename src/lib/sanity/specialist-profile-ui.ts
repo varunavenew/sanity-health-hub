@@ -13,6 +13,8 @@ export type SpecialistProfileUi = {
   bioSectionTitle: string;
   reviewsSectionTitle: string;
   featuredServiceCtaLabel: string;
+  treatmentsSectionTitle: string;
+  treatmentCardReadMoreLabel: string;
   bookingLoadingLabel: string;
   /** Hero Book-now pill while freetime is being checked. */
   bookingAvailabilityCheckingLabel: string;
@@ -50,6 +52,7 @@ export function withProfileUiNames(
     bookingSectionTitle: interpolateProfileUi(ui.bookingSectionTitle, vars),
     heroCallToBookLabel: interpolateProfileUi(ui.heroCallToBookLabel, vars),
     bioSectionTitle: interpolateProfileUi(ui.bioSectionTitle, vars),
+    treatmentsSectionTitle: interpolateProfileUi(ui.treatmentsSectionTitle, vars),
   };
 }
 
@@ -67,7 +70,9 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     heroCallToBookLabel: "Ring oss for å bestille time hos {firstName}",
     bioSectionTitle: "Om {firstName}",
     reviewsSectionTitle: "Hva pasientene sier",
-    featuredServiceCtaLabel: "Se hele tjenesten",
+    featuredServiceCtaLabel: "Se hele området",
+    treatmentsSectionTitle: "Dette hjelper {firstName} deg med",
+    treatmentCardReadMoreLabel: "Les mer",
     bookingLoadingLabel: "Henter tjenester…",
     bookingAvailabilityCheckingLabel: "Sjekker ledige timer…",
     bookingEmptyMessage:
@@ -90,7 +95,9 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     heroCallToBookLabel: "Call us to book an appointment with {firstName}",
     bioSectionTitle: "About {firstName}",
     reviewsSectionTitle: "What patients say",
-    featuredServiceCtaLabel: "View full service",
+    featuredServiceCtaLabel: "View full area",
+    treatmentsSectionTitle: "This is how {firstName} can help you",
+    treatmentCardReadMoreLabel: "Read more",
     bookingLoadingLabel: "Loading services…",
     bookingAvailabilityCheckingLabel: "Checking availability…",
     bookingEmptyMessage:
@@ -119,6 +126,8 @@ const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
   "bioSectionTitle",
   "reviewsSectionTitle",
   "featuredServiceCtaLabel",
+  "treatmentsSectionTitle",
+  "treatmentCardReadMoreLabel",
   "bookingLoadingLabel",
   "bookingAvailabilityCheckingLabel",
   "bookingEmptyMessage",

@@ -6,17 +6,29 @@ import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { bookingUrlForSpecialist } from "@/lib/bookingLinks";
+import { bookingUrlForSpecialist, type BookingLinkParams } from "@/lib/bookingLinks";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
 
+/** Minimum data to show a specialist card (role line may still be empty). */
+function isListableSpecialist(sp: Specialist | undefined): sp is Specialist {
+  return Boolean(sp?.slug?.trim() && sp?.name?.trim());
+}
+
+/** Job title for treatment feature layout — never throws on missing CMS fields. */
+function specialistJobLine(sp: Specialist): string {
+  return (sp.subtitle?.trim() || sp.title?.trim() || "").trim();
+}
+
 function specialistRoleLine(sp: Specialist): string {
-  if (sp.subtitle && sp.subtitle !== sp.title) {
-    return `${sp.title} · ${sp.subtitle}`;
+  const title = sp.title?.trim() ?? "";
+  const subtitle = sp.subtitle?.trim() ?? "";
+  if (subtitle && subtitle !== title) {
+    return title ? `${title} · ${subtitle}` : subtitle;
   }
-  return sp.title;
+  return title;
 }
 
 interface Props {
@@ -39,11 +51,13 @@ interface Props {
    * `category` — treatment-category reference: centered head, flush cards, footer text link.
    */
   layoutVariant?: "default" | "category";
+  /** Treatment-page booking group (e.g. NIPT → graviditet, not the specialist's gynekologi). */
+  bookingContext?: BookingLinkParams;
 }
 
 /**
  * Unified specialists scroller. Matches the home SpecialistsSection layout
- * (clinic tag top-left, name + role overlaid on image, expertise line under
+ * (clinic tag top-left, name + role overlaid on image
  * each card) with responsive layouts: 1 → editorial feature, 2–3 → grid,
  * 4+ → horizontal carousel.
  */
@@ -58,6 +72,7 @@ export const SpecialistsScroller = ({
   seeAllHref = "/spesialister",
   seeAllLabel,
   layoutVariant = "default",
+  bookingContext,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -98,7 +113,7 @@ export const SpecialistsScroller = ({
       );
     }
 
-    return result;
+    return result.filter(isListableSpecialist);
   }, [specialists, category, filter, fallbackCategory, itemsOverride]);
 
   const [progressPct, setProgressPct] = useState(0);
@@ -199,7 +214,7 @@ export const SpecialistsScroller = ({
 
         {filtered.length === 1 ? (
           <div className="page-shell">
-            <SpecialistFeature sp={filtered[0]} />
+            <SpecialistFeature sp={filtered[0]} bookingContext={bookingContext} />
             {seeAllLink ? <div className="mt-6 md:mt-8">{seeAllLink}</div> : null}
           </div>
         ) : (
@@ -323,7 +338,7 @@ export const SpecialistsScroller = ({
 
       {filtered.length === 1 ? (
         <div className="container mx-auto px-6 md:px-16">
-          <SpecialistFeature sp={filtered[0]} />
+          <SpecialistFeature sp={filtered[0]} bookingContext={bookingContext} />
         </div>
       ) : useScroller ? (
         <div className="relative">
@@ -341,7 +356,7 @@ export const SpecialistsScroller = ({
                 key={sp.slug}
                 className="flex-shrink-0 w-[300px] snap-start"
               >
-                <SpecialistCard sp={sp} showExpertise profileLabel={undefined} />
+                <SpecialistCard sp={sp} profileLabel={undefined} />
               </div>
             ))}
             <Link
@@ -370,7 +385,7 @@ export const SpecialistsScroller = ({
         <div className="container mx-auto px-6 md:px-16">
           <div className={`grid gap-6 ${gridClass}`}>
             {filtered.map((sp) => (
-              <SpecialistCard key={sp.slug} sp={sp} showExpertise />
+              <SpecialistCard key={sp.slug} sp={sp} />
             ))}
           </div>
         </div>
@@ -441,14 +456,24 @@ const CategorySpecialistCard = ({
  * Editorial split layout when there is exactly one specialist for a service.
  * Name as heading, role as subtitle; bio + specialty list + CTA (demo treatment layout).
  */
-const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
+const SpecialistFeature = ({
+  sp,
+  bookingContext,
+}: {
+  sp: Specialist;
+  bookingContext?: BookingLinkParams;
+}) => {
   const { hotspot, crop } = resolveSpecialistImageFocal(sp);
   const bio = sp.bio ?? "";
   const shortBio = bio ? bio.split("\n\n")[0].slice(0, 280) : "";
   const firstName = sp.name.split(" ")[0] || sp.name;
   // Treatment editorial: job title only (e.g. "Gastrokirurg"), not "Category · Title".
-  const roleLine = (sp.subtitle?.trim() || sp.title).trim();
-  const bookingHref = bookingUrlForSpecialist(sp);
+  const roleLine = specialistJobLine(sp);
+  const bookingHref = bookingUrlForSpecialist(sp, {
+    kategori: bookingContext?.kategori,
+    kategoriId: bookingContext?.kategoriId,
+    tjeneste: bookingContext?.tjeneste,
+  });
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
@@ -492,20 +517,6 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
             </p>
           ) : null}
 
-          {sp.expertise && sp.expertise.length > 0 ? (
-            <div className="border-t border-brand-dark/15">
-              <ul className="divide-y divide-brand-dark/10">
-                {sp.expertise.map((item) => (
-                  <li
-                    key={item.label}
-                    className="py-3 text-sm font-light text-foreground"
-                  >
-                    {item.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </div>
 
         <div className="mt-10">
@@ -522,12 +533,10 @@ const SpecialistFeature = ({ sp }: { sp: Specialist }) => {
 const SpecialistCard = ({
   sp,
   flush = false,
-  showExpertise = true,
   profileLabel,
 }: {
   sp: Specialist;
   flush?: boolean;
-  showExpertise?: boolean;
   profileLabel?: string;
 }) => {
   const { hotspot, crop } = resolveSpecialistImageFocal(sp);
@@ -573,11 +582,6 @@ const SpecialistCard = ({
       </div>
     </div>
 
-    {showExpertise && sp.expertise && sp.expertise.length > 0 ? (
-      <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">
-        {sp.expertise.map((tag) => tag.label).join(", ")}
-      </p>
-    ) : null}
   </Link>
   );
 };

@@ -78,6 +78,10 @@
     --brand-warm: 30 31.6% 92.5%;
     --brand-mid: 25 23% 74%;
     --brand-beige: 30 31.6% 92.5%;
+    /* Specialist profile: treatment cards + category highlight (demo taupe) */
+    /* Demo area block (#F2ECE6) */
+    --brand-light: 32 33% 93.5%;
+    --brand-profile-section: 32 28% 84%;
     --brand-terracotta: 18 48% 44%;
     --footer-bg: #140c0c;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
@@ -683,6 +687,10 @@ section > .container.py-14 {
 
 /* Hide native scrollbar for horizontal card carousels — dots handle indication */
 @layer utilities {
+  .bg-brand-profile {
+    background-color: hsl(var(--brand-profile-section));
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -767,6 +775,70 @@ body.cm-edit-mode [data-editable-scope] {
     min-height: 0;
     height: 100%;
     align-self: stretch;
+  }
+}
+
+/* Specialist desktop hero — half-column frame; image width steps with zoom. */
+@media (min-width: 1024px) {
+  /* Frame height tracks the half-column width (≈0.92:1) so a 2:3 portrait
+     shows ~60% of its height — head plus space above and below. */
+  .specialist-hero-desktop {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: clamp(640px, min(46vw, 92svh), 960px);
+    align-items: stretch;
+  }
+
+  .specialist-hero-photo-col {
+    position: relative;
+    min-height: clamp(640px, min(46vw, 92svh), 960px);
+  }
+
+  .specialist-hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+
+  .specialist-hero-photo > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+  }
+}
+
+/* 90% zoom on 1920 ≈ 2133px */
+@media (min-width: 2000px) {
+  .specialist-hero-photo > * {
+    width: 70%;
+    right: auto;
+  }
+}
+
+/* 80% zoom on 1920 ≈ 2400px */
+@media (min-width: 2300px) {
+  .specialist-hero-photo > * {
+    width: 60%;
+    right: auto;
+  }
+}
+
+/* 70% zoom on 1920 ≈ 2743px */
+@media (min-width: 2650px) {
+  .specialist-hero-photo > * {
+    width: 50%;
+    right: auto;
+  }
+}
+
+/* 60% zoom on 1920 ≈ 3200px */
+@media (min-width: 3000px) {
+  .specialist-hero-photo > * {
+    width: 45%;
+    right: auto;
   }
 }
 

@@ -18,6 +18,12 @@ export type BookingPageCopy = {
   supportPhoneLabel: string;
   /** Footer under every booking step. Use `{{phone}}` for the clickable number. */
   supportFooterText: string;
+  /** Lucide / CMedical icon key for FriendlyEmpty states (`getIcon`). */
+  emptyStateIconKey: string;
+  /** Optional CMS image override for empty-state icon. */
+  emptyStateIconUrl?: string;
+  /** Icon on the «call us» pill in empty states; `none` hides it. */
+  emptyStateCallButtonIconKey: string;
   step1Heading: string;
   step1HeadingFiltered: string;
   step1ShowAllServices: string;
@@ -65,6 +71,7 @@ export type BookingPageCopy = {
   step5LabelService: string;
   step5LabelPrice: string;
   step5LabelClinic: string;
+  step5LabelAddress: string;
   step5LabelDuration: string;
   step5LabelDate: string;
   step5LabelTime: string;
@@ -103,6 +110,7 @@ export type BookingPageCopy = {
   successMessageSmsEmail: string;
   successLabelTreatment: string;
   successLabelClinic: string;
+  successLabelAddress: string;
   successClinicPrefix: string;
   successLabelDateTime: string;
   successLabelSpecialist: string;
@@ -131,6 +139,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   supportPhoneLabel: "Ring oss så hjelper vi deg",
   supportFooterText:
     "Hvis du opplever utfordringer med nettbestilling, er du velkommen til å ringe oss på {{phone}}.\nVi er tilgjengelige fra 08:00 – 20:00 alle hverdager.",
+  emptyStateIconKey: "heart-handshake",
+  emptyStateCallButtonIconKey: "phone",
   step1Heading: "Velg tjeneste",
   step1HeadingFiltered: "Velg tjeneste innen {{category}}",
   step1ShowAllServices: "Vis alle tjenester",
@@ -184,6 +194,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step5LabelService: "Tjeneste",
   step5LabelPrice: "Pris",
   step5LabelClinic: "Klinikk",
+  step5LabelAddress: "Adresse",
   step5LabelDuration: "Varighet",
   step5LabelDate: "Dato",
   step5LabelTime: "Tid",
@@ -226,7 +237,8 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   successMessageSmsEmail: "Du vil motta en bekreftelse på SMS og e-post.",
   successLabelTreatment: "Behandling",
   successLabelClinic: "Klinikk",
-  successClinicPrefix: "CMedical – ",
+  successLabelAddress: "Adresse",
+  successClinicPrefix: "",
   successLabelDateTime: "Dato og tid",
   successLabelSpecialist: "Behandler",
   successBackHome: "Tilbake til forsiden",
@@ -259,6 +271,8 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   supportPhoneLabel: "Call us and we will help",
   supportFooterText:
     "If you experience any challenges with online booking, you are welcome to call us at {{phone}}.\nWe are available from 08:00 – 20:00 every weekday.",
+  emptyStateIconKey: "heart-handshake",
+  emptyStateCallButtonIconKey: "phone",
   step1Heading: "Choose a service",
   step1HeadingFiltered: "Choose a service within {{category}}",
   step1ShowAllServices: "Show all services",
@@ -312,6 +326,7 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   step5LabelService: "Service",
   step5LabelPrice: "Price",
   step5LabelClinic: "Clinic",
+  step5LabelAddress: "Address",
   step5LabelDuration: "Duration",
   step5LabelDate: "Date",
   step5LabelTime: "Time",
@@ -354,7 +369,8 @@ const DEFAULT_BOOKING_PAGE_COPY_EN: BookingPageCopy = {
   successMessageSmsEmail: "You will receive a confirmation by SMS and email.",
   successLabelTreatment: "Treatment",
   successLabelClinic: "Clinic",
-  successClinicPrefix: "CMedical – ",
+  successLabelAddress: "Address",
+  successClinicPrefix: "",
   successLabelDateTime: "Date and time",
   successLabelSpecialist: "Practitioner",
   successBackHome: "Back to homepage",
@@ -420,10 +436,16 @@ export function resolveBookingPageCopy(
 
   for (const key of Object.keys(DEFAULT_BOOKING_PAGE_COPY) as (keyof BookingPageCopy)[]) {
     if (key === "step1CategoryClinicBadges") continue;
+    if (key === "emptyStateIconUrl") continue;
     const value = cms[key];
     if (typeof value === "string" && value.trim()) {
       merged[key] = value.trim();
     }
+  }
+
+  const iconUrl = cms.emptyStateIconUrl;
+  if (typeof iconUrl === "string" && iconUrl.trim()) {
+    merged.emptyStateIconUrl = iconUrl.trim();
   }
 
   return merged;
