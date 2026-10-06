@@ -7,7 +7,10 @@ import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import { specialistHasHeroCtas } from "@/lib/sanity/specialist-cta";
 import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-types";
-import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
+import {
+  resolveSpecialistImageFocal,
+  specialistHeroObjectPosition,
+} from "@/lib/sanity/specialist-data";
 
 interface SpecialistHeroProps {
   specialist: Specialist;
@@ -39,6 +42,7 @@ function SpecialistHeroMedia({
       src={specialist.image}
       hotspot={hotspot}
       crop={crop}
+      objectPosition={specialistHeroObjectPosition(hotspot, crop)}
       alt={specialist.name}
       className={className}
       loading="eager"

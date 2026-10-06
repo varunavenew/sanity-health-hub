@@ -759,15 +759,17 @@ body.cm-edit-mode [data-editable-scope] {
 
 /* Specialist desktop hero — half-column frame; image width steps with zoom. */
 @media (min-width: 1024px) {
+  /* Frame height tracks the half-column width (≈0.92:1) so a 2:3 portrait
+     shows ~60% of its height — head plus space above and below. */
   .specialist-hero-desktop {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    min-height: 640px;
+    min-height: clamp(640px, min(46vw, 92svh), 960px);
     align-items: stretch;
   }
 
   .specialist-hero-photo-col {
     position: relative;
-    min-height: 640px;
+    min-height: clamp(640px, min(46vw, 92svh), 960px);
   }
 
   .specialist-hero-photo {
