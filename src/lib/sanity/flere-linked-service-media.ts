@@ -243,6 +243,13 @@ export function resolveFlereLinkedServicePath(
     href = `/${match[1]}/${match[3]}`;
   }
 
+  const nutritionParent = href.match(
+    /^\/(ovrige|other)\/(ernaeringsfysiolog|ernaringsfysiolog|dietitian)\/([^/]+)$/i,
+  );
+  if (nutritionParent) {
+    href = `/${nutritionParent[1]}/${nutritionParent[3]}`;
+  }
+
   return href;
 }
 

@@ -20,6 +20,10 @@ export const FLERE_FAGOMRADER_SLUG_ALIASES: Record<string, string> = {
   physician: "hudlege",
   "skin-health": "hudhelse",
   dietitian: "ernaeringsfysiolog",
+  /** Nutrition expert-area cards (EN marketing slugs). */
+  pregnancy: "pregnancy-ernaering",
+  fertility: "fertility-nutrition",
+  menopause: "menopause-nutrition",
   "digestive-system-surg-procedure": "gastrokirurgi",
   "med-osteopathic": "osteopati",
   "obesity-surgery": "overvektskirurgi",
