@@ -452,8 +452,7 @@ export function mediaDescription(
     return [
       'Portrait 20:27 — 1600 × 2160 px',
       'Fills the side column at 1920×1080 / 100% zoom (800 × 1080 CSS, 2× retina).',
-      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`,
-    ].join('\n')
+      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`    ].join('\n')
   }
 
   if (kind === 'article') {
