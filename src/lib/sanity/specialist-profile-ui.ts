@@ -11,6 +11,8 @@ export type SpecialistProfileUi = {
   bioSectionTitle: string;
   reviewsSectionTitle: string;
   featuredServiceCtaLabel: string;
+  treatmentsSectionTitle: string;
+  treatmentCardReadMoreLabel: string;
   bookingLoadingLabel: string;
   bookingEmptyMessage: string;
   bookingViewAllLabel: string;
@@ -39,6 +41,7 @@ export function withProfileUiNames(
     bookingCtaLabel: interpolateProfileUi(ui.bookingCtaLabel, vars),
     bookingSectionTitle: interpolateProfileUi(ui.bookingSectionTitle, vars),
     bioSectionTitle: interpolateProfileUi(ui.bioSectionTitle, vars),
+    treatmentsSectionTitle: interpolateProfileUi(ui.treatmentsSectionTitle, vars),
   };
 }
 
@@ -55,7 +58,9 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     heroCallUsLabel: "Ring oss",
     bioSectionTitle: "Om {firstName}",
     reviewsSectionTitle: "Hva pasientene sier",
-    featuredServiceCtaLabel: "Se hele tjenesten",
+    featuredServiceCtaLabel: "Se hele området",
+    treatmentsSectionTitle: "Dette hjelper {firstName} deg med",
+    treatmentCardReadMoreLabel: "Les mer",
     bookingLoadingLabel: "Henter tjenester…",
     bookingEmptyMessage:
       "Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.",
@@ -74,7 +79,9 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     heroCallUsLabel: "Call us",
     bioSectionTitle: "About {firstName}",
     reviewsSectionTitle: "What patients say",
-    featuredServiceCtaLabel: "View full service",
+    featuredServiceCtaLabel: "View full area",
+    treatmentsSectionTitle: "This is how {firstName} can help you",
+    treatmentCardReadMoreLabel: "Read more",
     bookingLoadingLabel: "Loading services…",
     bookingEmptyMessage:
       "No bookable services are available right now. Try the booking page for the full overview.",
@@ -99,6 +106,8 @@ const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
   "bioSectionTitle",
   "reviewsSectionTitle",
   "featuredServiceCtaLabel",
+  "treatmentsSectionTitle",
+  "treatmentCardReadMoreLabel",
   "bookingLoadingLabel",
   "bookingEmptyMessage",
   "bookingViewAllLabel",

@@ -66,6 +66,8 @@ const SPECIALIST_PROFILE_UI_GROQ = `
     ${i18nNestedString("profileUi", "bioSectionTitle")},
     ${i18nNestedString("profileUi", "reviewsSectionTitle")},
     ${i18nNestedString("profileUi", "featuredServiceCtaLabel")},
+    ${i18nNestedString("profileUi", "treatmentsSectionTitle")},
+    ${i18nNestedString("profileUi", "treatmentCardReadMoreLabel")},
     ${i18nNestedString("profileUi", "bookingLoadingLabel")},
     ${i18nNestedText("profileUi", "bookingEmptyMessage")},
     ${i18nNestedString("profileUi", "bookingViewAllLabel")},
@@ -166,11 +168,55 @@ const legacyFaqsRefsProjection = `"faqs": faqs[]->{
 const localizedGoogleReviewRow = `_id, author, rating, source, ${i18nText('text')}, date`;
 
 /** Treatment category fields used on specialist profile featured-service block. */
+const specialistTreatmentCardProjection = `
+  _id,
+  pageRole,
+  hideFromWebsite,
+  ${i18nString("title")},
+  ${i18nText("description")},
+  ${i18nText("heroDescription")},
+  "heroImage": coalesce(heroImage.asset->url, heroMedia.image.asset->url),
+  ${i18nString("heroImageAlt")},
+  "path": "/" + coalesce(
+    categories[0]->slug[language == $lang][0].value.current,
+    categories[0]->slug[_key == $lang][0].value.current,
+    categories[0]->slug[language == "no"][0].value.current,
+    categories[0]->slug[_key == "no"][0].value.current,
+    category->slug[language == $lang][0].value.current,
+    category->slug[_key == $lang][0].value.current,
+    category->slug[language == "no"][0].value.current,
+    category->slug[_key == "no"][0].value.current
+  ) + "/" + coalesce(
+    slug[language == $lang][0].value.current,
+    slug[_key == $lang][0].value.current,
+    slug[language == "no"][0].value.current,
+    slug[_key == "no"][0].value.current
+  )
+`;
+
 const specialistCategoryProjection = `
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "heroImage": heroImage.asset->url,
+  "heroImage": coalesce(
+    heroMedia.image.asset->url,
+    homepageCardImage.asset->url,
+    heroImage.asset->url
+  ),
+  "profileTitle": coalesce(
+    profileHighlightTitle[language == $lang][0].value,
+    profileHighlightTitle[_key == $lang][0].value,
+    profileHighlightTitle[language == "no"][0].value,
+    profileHighlightTitle[_key == "no"][0].value,
+    title[language == $lang][0].value,
+    title[_key == $lang][0].value,
+    title[language == "no"][0].value,
+    title[_key == "no"][0].value
+  ),
   "description": coalesce(
+    profileHighlightIntro[language == $lang][0].value,
+    profileHighlightIntro[_key == $lang][0].value,
+    profileHighlightIntro[language == "no"][0].value,
+    profileHighlightIntro[_key == "no"][0].value,
     landingPage.hero.body[language == $lang][0].value,
     landingPage.hero.body[_key == $lang][0].value,
     landingPage.hero.body[language == "no"][0].value,
@@ -448,6 +494,11 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   ${SPECIALIST_PHOTO_PROJECTION},
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
+  "featuredCategory": featuredCategory->{ ${specialistCategoryProjection} },
+  "profileTreatments": appearingOnTreatments[
+    coalesce(@->hideFromWebsite, false) != true
+    && (@->pageRole != "team" || !defined(@->pageRole))
+  ]->{ ${specialistTreatmentCardProjection} },
   ${i18nStringLocale("faqSectionTitle")},
   "faqCollection": faqCollection->{
     _id,
