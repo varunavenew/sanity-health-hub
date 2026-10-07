@@ -21,6 +21,8 @@ import {
   resolveNewsFilterOptions,
 } from "@/lib/news/category-labels";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { articleHeroNeedsContain } from "@/lib/sanity/image-url";
+import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 interface ArticlePageProps {
@@ -39,6 +41,7 @@ function ArticleMobileHero({
   date,
   dateLocale,
   swipeDownLabel,
+  contain,
 }: {
   image?: string;
   imageAlt: string;
@@ -51,6 +54,7 @@ function ArticleMobileHero({
   date?: string;
   dateLocale: string;
   swipeDownLabel: string;
+  contain: boolean;
 }) {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -91,7 +95,13 @@ function ArticleMobileHero({
   }, []);
 
   return (
-    <div ref={heroRef} className="article-mobile-hero relative min-h-[100svh] overflow-hidden bg-brand-dark lg:hidden">
+    <div
+      ref={heroRef}
+      className={cn(
+        "article-mobile-hero relative min-h-[100svh] overflow-hidden bg-brand-dark lg:hidden",
+        contain && "article-hero-media--contain",
+      )}
+    >
       {image ? (
         <div
           ref={imageRef}
@@ -252,6 +262,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     );
   }
 
+  const heroNeedsContain = articleHeroNeedsContain(article?.image);
+
   if (!article) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
@@ -330,6 +342,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           date={article.date}
           dateLocale={dateLocale}
           swipeDownLabel={swipeDownLabel}
+          contain={heroNeedsContain}
         />
 
         <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero">
@@ -370,18 +383,24 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
             </div>
           </div>
           {article.image ? (
-            <div className="article-hero-media split-media bg-brand-dark" data-hero-parallax="">
+            <div
+              className={cn(
+                "split-media bg-brand-dark",
+                heroNeedsContain && "article-hero-media article-hero-media--contain",
+              )}
+              data-hero-parallax=""
+            >
               <ResponsiveImage
                 src={article.image}
                 alt={sanityArticle?.imageAlt || article.title}
                 variant="hero"
                 hotspot={article.imageHotspot}
                 crop={article.imageCrop}
-                imageWidth={1600}
+                imageWidth={heroNeedsContain ? 1600 : 1920}
                 loading="eager"
-                width={1600}
-                height={900}
-                className="h-auto w-full"
+                width={heroNeedsContain ? 1600 : 1920}
+                height={heroNeedsContain ? 900 : 2160}
+                className={heroNeedsContain ? "h-auto w-full" : "h-full w-full"}
               />
             </div>
           ) : (

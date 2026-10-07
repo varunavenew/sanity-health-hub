@@ -832,17 +832,17 @@ body.cm-edit-mode [data-editable-scope] {
 }
 
 /*
- * Article heroes are 16:9. The split column is tall (~50vw × 100vh), so
- * cover crops left/right. Contain keeps the full image; dark column fills gaps.
+ * Article hero contain — only when the file is not 8:9 (960×1080 / 1920×2160).
+ * Matching files fill the column with the default cover rules (no extra crop).
  */
-.article-hero.split-hero .article-hero-media {
+.article-hero.split-hero .article-hero-media--contain {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.article-hero.split-hero .article-hero-media > *,
-.article-hero.split-hero .article-hero-media img {
+.article-hero.split-hero .article-hero-media--contain > *,
+.article-hero.split-hero .article-hero-media--contain img {
   position: relative;
   inset: auto;
   width: 100%;
@@ -851,7 +851,7 @@ body.cm-edit-mode [data-editable-scope] {
   object-fit: contain;
 }
 
-.article-mobile-hero img.cm-media--hero {
+.article-mobile-hero.article-hero-media--contain img.cm-media--hero {
   object-fit: contain;
   width: 100%;
   height: 100%;

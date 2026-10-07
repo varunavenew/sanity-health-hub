@@ -182,6 +182,39 @@ function parseSanityImagePath(url: string): {
   }
 }
 
+/** Pixel size encoded in a Sanity CDN URL or `image-{id}-{w}x{h}-{ext}` ref. */
+export function sanityImagePixelSize(
+  urlOrRef: string | null | undefined,
+): { width: number; height: number } | null {
+  if (!urlOrRef) return null;
+  if (urlOrRef.startsWith("http")) {
+    const parsed = parseSanityImagePath(urlOrRef);
+    return parsed ? { width: parsed.width, height: parsed.height } : null;
+  }
+  const asset = urlOrRef.match(/-(\d+)x(\d+)(?:-[a-z0-9]+)?$/i);
+  if (!asset) return null;
+  const width = Number(asset[1]);
+  const height = Number(asset[2]);
+  if (!width || !height) return null;
+  return { width, height };
+}
+
+/** Desktop article hero column at 1920×1080 / 100% zoom. */
+export const ARTICLE_HERO_COLUMN = { width: 960, height: 1080 } as const;
+
+const ARTICLE_HERO_RATIO =
+  ARTICLE_HERO_COLUMN.width / ARTICLE_HERO_COLUMN.height;
+
+/**
+ * True when the file is not 8:9 (960×1080 / 1920×2160). Those images need
+ * object-fit contain so the tall split column does not crop the sides.
+ */
+export function articleHeroNeedsContain(src?: string | null): boolean {
+  const size = sanityImagePixelSize(src);
+  if (!size || size.height <= 0) return true;
+  return Math.abs(size.width / size.height - ARTICLE_HERO_RATIO) > 0.02;
+}
+
 /**
  * Apply Sanity fractional crop as a `rect` query on a CDN URL.
  */

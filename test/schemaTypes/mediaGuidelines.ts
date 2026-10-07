@@ -228,19 +228,19 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
   article: {
     title: 'Article Images',
     emoji: '📸',
-    width: 1600,
-    height: 900,
-    aspectLabel: '16:9',
-    orientation: 'landscape',
+    width: 1920,
+    height: 2160,
+    aspectLabel: '8:9 portrait',
+    orientation: 'portrait',
     formats: 'JPG / WebP',
     maxBytes: MB(4),
     maxBytesLabel: '4 MB',
-    minWidth: 1000,
-    minHeight: 560,
+    minWidth: 960,
+    minHeight: 1080,
     tips: [
-      'Works as both listing thumbnail and article hero.',
-      'Set the hotspot on the face or main subject — the website keeps it in frame.',
-      'Add descriptive alt text.',
+      'Upload 1920×2160 (8:9). That matches the article desktop hero column with no crop.',
+      'Do not upload landscape 16:9 — the hero column is taller than it is wide.',
+      'Set the hotspot on the face or main subject for mobile and listing cards.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -453,6 +453,14 @@ export function mediaDescription(
       'Portrait 20:27 — 1600 × 2160 px',
       'Fills the side column at 1920×1080 / 100% zoom (800 × 1080 CSS, 2× retina).',
       `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`,
+    ].join('\n')
+  }
+
+  if (kind === 'article') {
+    return [
+      'Portrait 8:9 — 1920 × 2160 px',
+      'Fills the article hero column at 1920×1080 / 100% zoom (960 × 1080 CSS, 2× retina).',
+      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape 16:9.`,
     ].join('\n')
   }
 
