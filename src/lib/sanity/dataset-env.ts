@@ -37,6 +37,15 @@ function readRawDataset(): string | undefined {
   return undefined;
 }
 
+/** Staging Vercel deploys may intentionally use the developer Sanity dataset. */
+function allowDeveloperDatasetOnVercelProduction(): boolean {
+  if (process.env.SANITY_ALLOW_DEVELOPER_ON_VERCEL?.trim() === "true") {
+    return true;
+  }
+  const branch = process.env.VERCEL_GIT_COMMIT_REF?.trim().toLowerCase();
+  return branch === "staging";
+}
+
 function readRawProjectId(): string | undefined {
   const projectId =
     process.env.NEXT_PUBLIC_SANITY_PROJECT_ID?.trim() ||
@@ -82,13 +91,20 @@ export function requireSanityDataset(): SanityDatasetName {
     );
   }
 
-  if (onVercelProduction && dataset !== "production") {
+  if (
+    onVercelProduction &&
+    dataset !== "production" &&
+    !allowDeveloperDatasetOnVercelProduction()
+  ) {
     throw new Error(
       [
         "Vercel production must use the production dataset.",
         "",
         `Currently configured: "${dataset}"`,
         "Set SANITY_DATASET=production and NEXT_PUBLIC_SANITY_DATASET=production in Vercel.",
+        "",
+        "For a staging site on the developer dataset:",
+        "  deploy the staging branch, or set SANITY_ALLOW_DEVELOPER_ON_VERCEL=true.",
       ].join("\n"),
     );
   }
