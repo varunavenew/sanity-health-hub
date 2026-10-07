@@ -1,9 +1,14 @@
 /**
  * Fail-fast Sanity dataset / project resolution for the Next.js app.
- * Never silently defaults to a dataset — env must be explicit.
+ * Local development requires explicit env. On Vercel, missing values fall
+ * back to this workspace's public project id and the production dataset so
+ * `next.config` can load when dashboard env vars were never added.
  */
 
 export type SanityDatasetName = "developer" | "production";
+
+/** Public Sanity project id for this CMedical workspace (not a secret). */
+export const CMEDICAL_SANITY_PROJECT_ID = "9jhqpk3a";
 
 const MISSING_DATASET_ERROR = [
   "SANITY_DATASET is not configured.",
@@ -16,10 +21,31 @@ const MISSING_DATASET_ERROR = [
   "or in Vercel Environment Variables (production).",
 ].join("\n");
 
+function onVercel(): boolean {
+  return Boolean(process.env.VERCEL);
+}
+
 function readRawDataset(): string | undefined {
-  const fromPublic = process.env.NEXT_PUBLIC_SANITY_DATASET?.trim();
-  const fromPrivate = process.env.SANITY_DATASET?.trim();
-  return fromPublic || fromPrivate || undefined;
+  const dataset =
+    process.env.NEXT_PUBLIC_SANITY_DATASET?.trim() ||
+    process.env.SANITY_DATASET?.trim() ||
+    process.env.SANITY_STUDIO_DATASET?.trim() ||
+    process.env.SANITY_STUDIO_API_DATASET?.trim();
+  if (dataset) return dataset;
+  // Vercel production/preview must hit the live CMS when dashboard env is unset.
+  if (onVercel()) return "production";
+  return undefined;
+}
+
+function readRawProjectId(): string | undefined {
+  const projectId =
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID?.trim() ||
+    process.env.SANITY_PROJECT_ID?.trim() ||
+    process.env.SANITY_STUDIO_PROJECT_ID?.trim() ||
+    process.env.SANITY_STUDIO_API_PROJECT_ID?.trim();
+  if (projectId) return projectId;
+  if (onVercel()) return CMEDICAL_SANITY_PROJECT_ID;
+  return undefined;
 }
 
 export function requireSanityDataset(): SanityDatasetName {
@@ -71,9 +97,7 @@ export function requireSanityDataset(): SanityDatasetName {
 }
 
 export function requireSanityProjectId(): string {
-  const projectId =
-    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID?.trim() ||
-    process.env.SANITY_PROJECT_ID?.trim();
+  const projectId = readRawProjectId();
   if (!projectId) {
     throw new Error(
       [

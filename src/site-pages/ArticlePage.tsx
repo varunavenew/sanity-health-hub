@@ -21,6 +21,8 @@ import {
   resolveNewsFilterOptions,
 } from "@/lib/news/category-labels";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { articleHeroNeedsContain } from "@/lib/sanity/image-url";
+import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 interface ArticlePageProps {
@@ -39,6 +41,7 @@ function ArticleMobileHero({
   date,
   dateLocale,
   swipeDownLabel,
+  contain,
 }: {
   image?: string;
   imageAlt: string;
@@ -51,6 +54,7 @@ function ArticleMobileHero({
   date?: string;
   dateLocale: string;
   swipeDownLabel: string;
+  contain: boolean;
 }) {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -71,7 +75,7 @@ function ArticleMobileHero({
       );
       overlay.style.transform = `translate3d(0px, ${progress * 56}px, 0px)`;
       if (imageEl) {
-        imageEl.style.transform = `translate3d(0px, ${progress * 36}px, 0px) scale(${1 + progress * 0.06})`;
+        imageEl.style.transform = `translate3d(0px, ${progress * 24}px, 0px)`;
       }
     };
 
@@ -91,7 +95,13 @@ function ArticleMobileHero({
   }, []);
 
   return (
-    <div ref={heroRef} className="relative min-h-[100svh] overflow-hidden lg:hidden">
+    <div
+      ref={heroRef}
+      className={cn(
+        "article-mobile-hero relative min-h-[100svh] overflow-hidden bg-brand-dark lg:hidden",
+        contain && "article-hero-media--contain",
+      )}
+    >
       {image ? (
         <div
           ref={imageRef}
@@ -104,11 +114,11 @@ function ArticleMobileHero({
             variant="hero"
             hotspot={imageHotspot}
             crop={imageCrop}
-            imageWidth={1200}
+            imageWidth={1600}
             loading="eager"
-            width={1200}
-            height={1800}
-            className="h-[115%] w-full"
+            width={1600}
+            height={900}
+            className="h-full w-full"
           />
         </div>
       ) : null}
@@ -252,6 +262,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     );
   }
 
+  const heroNeedsContain = articleHeroNeedsContain(article?.image);
+
   if (!article) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
@@ -330,9 +342,10 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           date={article.date}
           dateLocale={dateLocale}
           swipeDownLabel={swipeDownLabel}
+          contain={heroNeedsContain}
         />
 
-        <div className="hidden lg:grid lg:grid-cols-2 split-hero">
+        <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero">
           <div className="flex items-center px-16 lg:px-20 pt-32 pb-20">
             <div className="w-full max-w-xl">
               <Link
@@ -370,18 +383,24 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
             </div>
           </div>
           {article.image ? (
-            <div className="split-media bg-secondary/40">
+            <div
+              className={cn(
+                "split-media bg-brand-dark",
+                heroNeedsContain && "article-hero-media article-hero-media--contain",
+              )}
+              data-hero-parallax=""
+            >
               <ResponsiveImage
                 src={article.image}
                 alt={sanityArticle?.imageAlt || article.title}
                 variant="hero"
                 hotspot={article.imageHotspot}
                 crop={article.imageCrop}
-                imageWidth={1600}
+                imageWidth={heroNeedsContain ? 1600 : 1920}
                 loading="eager"
-                width={1600}
-                height={1800}
-                className="h-full w-full"
+                width={heroNeedsContain ? 1600 : 1920}
+                height={heroNeedsContain ? 900 : 2160}
+                className={heroNeedsContain ? "h-auto w-full" : "h-full w-full"}
               />
             </div>
           ) : (
