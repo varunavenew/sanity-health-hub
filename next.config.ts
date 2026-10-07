@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { loadEnvConfig } from "@next/env";
 import path from "path";
 import webpack from "webpack";
 import {
@@ -7,7 +8,12 @@ import {
 } from "./src/lib/sanity/dataset-env";
 import { LEGACY_REDIRECTS } from "./src/lib/seo/legacy-redirects";
 
-// Fail fast — never bake a silent dataset default into the client bundle.
+// Next 16 compiles next.config.ts before its own .env loader. Load here so
+// SANITY_* from .env.local is visible when this file is evaluated.
+loadEnvConfig(path.join(__dirname));
+
+// Fail fast locally — never bake a silent dataset default into the client bundle.
+// On Vercel, dataset-env falls back to production / the CMedical project id.
 // Startup banner is logged once from src/instrumentation.ts.
 const sanityProjectId = requireSanityProjectId();
 const sanityDataset = requireSanityDataset();

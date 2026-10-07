@@ -780,17 +780,15 @@ body.cm-edit-mode [data-editable-scope] {
 
 /* Specialist desktop hero — half-column frame; image width steps with zoom. */
 @media (min-width: 1024px) {
-  /* Frame height tracks the half-column width (≈0.92:1) so a 2:3 portrait
-     shows ~60% of its height — head plus space above and below. */
   .specialist-hero-desktop {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    min-height: clamp(640px, min(46vw, 92svh), 960px);
+    min-height: 640px;
     align-items: stretch;
   }
 
   .specialist-hero-photo-col {
     position: relative;
-    min-height: clamp(640px, min(46vw, 92svh), 960px);
+    min-height: 640px;
   }
 
   .specialist-hero-photo {
@@ -860,6 +858,52 @@ body.cm-edit-mode [data-editable-scope] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/*
+ * Article hero contain — only when the file is not 8:9 (960×1080 / 1920×2160).
+ * Matching files fill the column with the default cover rules (no extra crop).
+ */
+.article-hero.split-hero .article-hero-media--contain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-hero.split-hero .article-hero-media--contain > *,
+.article-hero.split-hero .article-hero-media--contain img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.article-mobile-hero.article-hero-media--contain img.cm-media--hero {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Category "why" contain — only when the file is not 20:27 (800×1080 / 1600×2160).
+ * Matching files fill the column with the default cover rules (no letterbox).
+ */
+.split-section .why-split-media--contain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-section .why-split-media--contain > *,
+.split-section .why-split-media--contain img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 /* Stacked split heroes (Contact, Priser, Insurance, …) — image on top on mobile */

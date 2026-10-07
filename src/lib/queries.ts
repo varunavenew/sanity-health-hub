@@ -499,7 +499,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
   "featuredCategory": featuredCategory->{ ${specialistCategoryProjection} },
-  "profileTreatments": profileTreatments[
+  "profileTreatments": appearingOnTreatments[
     coalesce(@->hideFromWebsite, false) != true
     && (@->pageRole != "team" || !defined(@->pageRole))
   ]->{ ${specialistTreatmentCardProjection} },

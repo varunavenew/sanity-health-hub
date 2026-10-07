@@ -439,34 +439,6 @@ export function resolveSpecialistImageFocal(specialist: {
   };
 }
 
-/** No hotspot: studio portraits put the head in the top ~10–55%; leaves room above and below. */
-const SPECIALIST_HERO_DEFAULT_POSITION = "50% 15%";
-
-/**
- * Portrait hero framing: anchor to the TOP of the Sanity hotspot box (in the
- * cropped frame), not its center. Wide hero boxes show ~half a portrait's
- * height, so centering cut heads off when editors left the default hotspot.
- * No hotspot → SPECIALIST_HERO_DEFAULT_POSITION.
- */
-export function specialistHeroObjectPosition(
-  hotspot: SanityHotspot | MediaFocalPoint | null | undefined,
-  crop: SanityCrop | null | undefined,
-): string {
-  if (!hotspot || typeof hotspot.x !== "number" || typeof hotspot.y !== "number") {
-    return SPECIALIST_HERO_DEFAULT_POSITION;
-  }
-  const height = "height" in hotspot && typeof hotspot.height === "number" ? hotspot.height : 0;
-  const top = crop?.top ?? 0;
-  const left = crop?.left ?? 0;
-  const frameH = 1 - top - (crop?.bottom ?? 0);
-  const frameW = 1 - left - (crop?.right ?? 0);
-  if (frameH <= 0 || frameW <= 0) return SPECIALIST_HERO_DEFAULT_POSITION;
-  const clamp = (v: number) => Math.min(1, Math.max(0, v));
-  const x = clamp((hotspot.x - left) / frameW);
-  const y = clamp((hotspot.y - height / 2 - top) / frameH);
-  return `${Math.round(x * 1000) / 10}% ${Math.round(y * 1000) / 10}%`;
-}
-
 export function mapSanitySpecialistRow(
   raw: RawSanitySpecialist,
   lang: SanityLang,
