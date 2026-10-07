@@ -1221,15 +1221,19 @@ const TreatmentCategoryLanding = ({
                 ) : null}
               </div>
             </div>
-            <div className="lg:col-span-5 split-media bg-secondary/40" data-hero-parallax="">
+            <div
+              className="why-split-media lg:col-span-5 split-media bg-secondary/40"
+              data-hero-parallax=""
+            >
               {whySection.image ? (
                 <AssetImg
                   src={whySection.image}
                   alt={whySection.imageAlt}
                   hotspot={whySection.imageHotspot}
+                  crop={whySection.imageCrop}
                   loading="lazy"
                   sizes="(max-width: 1023px) 100vw, 42vw"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="h-auto w-full"
                 />
               ) : null}
             </div>

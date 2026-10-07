@@ -831,6 +831,53 @@ body.cm-edit-mode [data-editable-scope] {
   object-fit: cover;
 }
 
+/*
+ * Article heroes are 16:9. The split column is tall (~50vw × 100vh), so
+ * cover crops left/right. Contain keeps the full image; dark column fills gaps.
+ */
+.article-hero.split-hero .article-hero-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-hero.split-hero .article-hero-media > *,
+.article-hero.split-hero .article-hero-media img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.article-mobile-hero img.cm-media--hero {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Category "why" split (Fertilitet team photo, etc.): the column is ~42vw × 100vh.
+ * Cover crops landscape group photos on the sides at 100% zoom. Contain keeps
+ * the full image; the column background fills any leftover space.
+ */
+.split-section .why-split-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-section .why-split-media > *,
+.split-section .why-split-media img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
 /* Stacked split heroes (Contact, Priser, Insurance, …) — image on top on mobile */
 @media (max-width: 1023px) {
   .split-hero-image-first {
