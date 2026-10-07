@@ -215,6 +215,22 @@ export function articleHeroNeedsContain(src?: string | null): boolean {
   return Math.abs(size.width / size.height - ARTICLE_HERO_RATIO) > 0.02;
 }
 
+/** Desktop category “why” column at 1920×1080 / 100% zoom (5/12 width). */
+export const WHY_SPLIT_COLUMN = { width: 800, height: 1080 } as const;
+
+const WHY_SPLIT_RATIO = WHY_SPLIT_COLUMN.width / WHY_SPLIT_COLUMN.height;
+
+/**
+ * True when the file is not 20:27 (800×1080 / 1600×2160). Those images need
+ * object-fit contain so the tall why column does not crop the sides.
+ * Matching files use the default cover fill (no letterbox).
+ */
+export function whySplitNeedsContain(src?: string | null): boolean {
+  const size = sanityImagePixelSize(src);
+  if (!size || size.height <= 0) return true;
+  return Math.abs(size.width / size.height - WHY_SPLIT_RATIO) > 0.02;
+}
+
 /**
  * Apply Sanity fractional crop as a `rect` query on a CDN URL.
  */

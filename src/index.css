@@ -858,18 +858,17 @@ body.cm-edit-mode [data-editable-scope] {
 }
 
 /*
- * Category "why" split (Fertilitet team photo, etc.): the column is ~42vw × 100vh.
- * Cover crops landscape group photos on the sides at 100% zoom. Contain keeps
- * the full image; the column background fills any leftover space.
+ * Category "why" contain — only when the file is not 20:27 (800×1080 / 1600×2160).
+ * Matching files fill the column with the default cover rules (no letterbox).
  */
-.split-section .why-split-media {
+.split-section .why-split-media--contain {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.split-section .why-split-media > *,
-.split-section .why-split-media img {
+.split-section .why-split-media--contain > *,
+.split-section .why-split-media--contain img {
   position: relative;
   inset: auto;
   width: 100%;

@@ -61,7 +61,11 @@ import {
 } from "@/lib/sanity/media-dual-read";
 import { assetSrc } from "@/lib/media";
 import blurSkinMid from "@/assets/blur-skin-mid.jpg";
-import { optimizeBackgroundImageUrl } from "@/lib/sanity/image-url";
+import {
+  optimizeBackgroundImageUrl,
+  whySplitNeedsContain,
+} from "@/lib/sanity/image-url";
+import { cn } from "@/lib/utils";
 
 export type TreatmentCategoryLandingProps = CategoryLandingPageProps & {
   categoryId: string;
@@ -974,6 +978,8 @@ const TreatmentCategoryLanding = ({
     sectionOrder,
   } = landing;
 
+  const whyNeedsContain = whySplitNeedsContain(whySection.image);
+
   const showEntryPrice =
     !hero.hideEntryPrice &&
     Boolean(hero.entryPriceLabel && hero.entryPriceValue);
@@ -1222,7 +1228,10 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             <div
-              className="why-split-media lg:col-span-5 split-media bg-secondary/40"
+              className={cn(
+                "why-split-media lg:col-span-5 split-media bg-secondary/40",
+                whyNeedsContain && "why-split-media--contain",
+              )}
               data-hero-parallax=""
             >
               {whySection.image ? (
@@ -1233,7 +1242,10 @@ const TreatmentCategoryLanding = ({
                   crop={whySection.imageCrop}
                   loading="lazy"
                   sizes="(max-width: 1023px) 100vw, 42vw"
-                  className="h-auto w-full"
+                  imageWidth={1600}
+                  width={1600}
+                  height={whyNeedsContain ? 900 : 2160}
+                  className={whyNeedsContain ? "h-auto w-full" : "h-full w-full"}
                 />
               ) : null}
             </div>
