@@ -449,7 +449,7 @@ export function mediaDescription(
 
   if (kind === 'split') {
     return [
-      'Portrait 20:27 — 700 × 1080 px',
+      'Portrait 20:27 — 800 × 1080 px',
       'Fills the side column at 100% zoom.',
       `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`,
     ].join('\n')
