@@ -90,7 +90,7 @@ export default {
       name: 'pcReviews',
       title: 'Patient reviews (Gold Stars)',
       description:
-        'Optional clinic-filtered Gold Stars widgets. Leave empty to show the same site-wide reviews as the homepage. Paste clinic-specific slider/badge IDs here to filter this clinic only.',
+        'Reviews band for this clinic only. Set the Gold Stars location ID (86 = Majorstuen, 87 = Bekkestua) or clinic-specific widget IDs. Leave empty to hide the band — clinics never show other clinics’ reviews.',
       options: sectionCollapsed,
       group: 'pageContent',
     },
@@ -417,7 +417,7 @@ export default {
           title: 'Slider widget ID',
           type: 'string',
           description:
-            'Optional. Gold Stars `emr-simple-slider` widget-id for this clinic. Empty uses the site-wide slider (homepage).',
+            'Optional. Gold Stars `emr-simple-slider` widget-id for this clinic.',
           validation: (Rule: any) =>
             Rule.regex(GOLD_STARS_WIDGET_ID_PATTERN, { name: 'widget ID' }).warning(
               'Expected a widget ID like 6137cba4-0791-45ec-9cab-6ea667442f9a',
@@ -428,7 +428,7 @@ export default {
           title: 'Badge widget ID',
           type: 'string',
           description:
-            'Optional. Gold Stars `emr-simple-badge` widget-id for this clinic. Empty uses the site-wide badge (homepage).',
+            'Optional. Gold Stars `emr-simple-badge` widget-id for this clinic.',
           validation: (Rule: any) =>
             Rule.regex(GOLD_STARS_WIDGET_ID_PATTERN, { name: 'widget ID' }).warning(
               'Expected a widget ID like 45aa8e9e-3c4b-4d42-961b-338b9d45244e',

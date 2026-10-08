@@ -3,8 +3,6 @@
 import type { ReactNode } from "react";
 import { GoldStarsReviewSlider } from "@/components/ReviewPixel/GoldStarsReviewSlider";
 import { GoldStarsReviewBadge } from "@/components/ReviewPixel/GoldStarsReviewBadge";
-import { DEFAULT_GOLD_STARS_BADGE_WIDGET_ID } from "@/components/ReviewPixel/gold-stars-badge-config";
-import { DEFAULT_GOLD_STARS_WIDGET_ID } from "@/components/ReviewPixel/gold-stars-slider-config";
 import { useGoldStarsLocationReviews } from "@/components/ReviewPixel/useGoldStarsLocationReviews";
 
 export type ClinicReviews = {
@@ -28,7 +26,7 @@ interface ClinicReviewsSectionProps {
  *    No average is computed from that feed: the slider widget only returns 4–5 star
  *    reviews, so it would overstate the rating. The badge shows only when the clinic
  *    has its own badge widget ID (correct numbers from Gold Stars).
- * 3. Neither set — the same site-wide slider/badge as the homepage.
+ * 3. Neither set — no band. Clinics never show the site-wide (all clinics) reviews.
  */
 export function ClinicReviewsSection({ reviews, heading }: ClinicReviewsSectionProps) {
   const useLocationFilter = !reviews?.sliderWidgetId && typeof reviews?.locationId === "number";
@@ -51,14 +49,17 @@ export function ClinicReviewsSection({ reviews, heading }: ClinicReviewsSectionP
     );
   }
 
-  const sliderWidgetId = reviews?.sliderWidgetId || DEFAULT_GOLD_STARS_WIDGET_ID;
-  const badgeWidgetId = reviews?.badgeWidgetId || DEFAULT_GOLD_STARS_BADGE_WIDGET_ID;
+  if (!reviews?.sliderWidgetId) return null;
 
   return (
     <ReviewsBand
       title={title}
-      badge={<GoldStarsReviewBadge widgetId={badgeWidgetId} variant="light" className="w-fit" />}
-      slider={<GoldStarsReviewSlider widgetId={sliderWidgetId} />}
+      badge={
+        reviews.badgeWidgetId ? (
+          <GoldStarsReviewBadge widgetId={reviews.badgeWidgetId} variant="light" className="w-fit" />
+        ) : null
+      }
+      slider={<GoldStarsReviewSlider widgetId={reviews.sliderWidgetId} />}
     />
   );
 }
