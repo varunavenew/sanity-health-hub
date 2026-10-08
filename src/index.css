@@ -749,17 +749,20 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
-/* Specialist desktop hero — half-column frame; image width steps with zoom. */
+/* Specialist desktop hero — half-column frame; image width steps with zoom.
+   Height follows the viewport (640–880px) so portrait photos aren't cropped
+   into a wide strip that cuts off the top of the head. */
 @media (min-width: 1024px) {
   .specialist-hero-desktop {
+    --specialist-hero-height: clamp(640px, 100svh, 880px);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    min-height: 640px;
+    min-height: var(--specialist-hero-height);
     align-items: stretch;
   }
 
   .specialist-hero-photo-col {
     position: relative;
-    min-height: 640px;
+    min-height: var(--specialist-hero-height);
   }
 
   .specialist-hero-photo {
