@@ -1229,7 +1229,7 @@ const TreatmentCategoryLanding = ({
             </div>
             <div
               className={cn(
-                "why-split-media lg:col-span-5 split-media bg-secondary/40",
+                "why-split-media lg:col-span-5 split-media bg-background",
                 whyNeedsContain && "why-split-media--contain",
               )}
               data-hero-parallax=""
