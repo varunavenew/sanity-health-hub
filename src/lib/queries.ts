@@ -1624,6 +1624,12 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
+  "reviews": {
+    ${i18nNestedString("reviews", "heading")},
+    "sliderWidgetId": reviews.sliderWidgetId,
+    "badgeWidgetId": reviews.badgeWidgetId,
+    "locationId": reviews.goldStarsLocationId
+  },
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
   "primaryImage": primaryImage.asset->url,
   "gallery": gallery[]{

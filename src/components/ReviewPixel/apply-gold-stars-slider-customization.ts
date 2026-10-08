@@ -3,12 +3,33 @@ import {
   GOLD_STARS_SLIDER_MAX_LINES,
   GOLD_STARS_SLIDER_SPEED_PX_S,
 } from "./gold-stars-slider-config";
+import type { GoldStarsReview } from "./gold-stars-reviews-api";
 
 type EmrReviewVm = {
   openReadMoreModal?: (review: unknown) => void;
   reviews?: unknown[];
+  loading?: boolean;
+  meta?: Record<string, unknown> | null;
   $children?: EmrReviewVm[];
 };
+
+export type GoldStarsSliderCustomizationOptions = {
+  /** Pre-filtered reviews (e.g. one clinic's `location_id`) to show instead of the widget's own feed. */
+  reviews?: GoldStarsReview[];
+};
+
+/**
+ * Replace the widget's loaded reviews with our filtered list once its first
+ * fetch has finished. Clearing `next_cursor` stops it paging in other
+ * locations' reviews. Returns true once the swap is done.
+ */
+function injectReviews(root: ShadowRoot, reviews: GoldStarsReview[]): boolean {
+  const vm = getVm(root);
+  if (!vm || vm.loading || !Array.isArray(vm.reviews) || vm.reviews.length === 0) return false;
+  vm.reviews = reviews;
+  if (vm.meta) vm.meta = { ...vm.meta, next_cursor: null };
+  return true;
+}
 
 function buildGoldStarsSliderCss(maxLines: number): string {
   return [
@@ -241,14 +262,25 @@ function apply(root: ShadowRoot): boolean {
   return true;
 }
 
-export function setupGoldStarsSliderCustomization(el: HTMLElement): () => void {
+export function setupGoldStarsSliderCustomization(
+  el: HTMLElement,
+  options: GoldStarsSliderCustomizationOptions = {},
+): () => void {
   let tries = 0;
+  // Without a filtered list there is nothing to swap in.
+  let injected = !options.reviews;
   let observer: MutationObserver | null = null;
   let pendingTimeout: number | null = null;
 
   const intervalId = window.setInterval(() => {
     tries += 1;
     const root = el.shadowRoot;
+    if (root && !injected && options.reviews) {
+      // Style only after the swap so Vue re-renders the cards before `apply` restructures them.
+      injected = injectReviews(root, options.reviews);
+      if (!injected && tries > 120) window.clearInterval(intervalId);
+      return;
+    }
     if (root && apply(root)) {
       window.clearInterval(intervalId);
 

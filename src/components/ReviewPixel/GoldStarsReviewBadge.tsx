@@ -49,7 +49,7 @@ export function GoldStarsReviewBadge({
         style={variantStyle[variant]}
         aria-label="Patient rating"
       >
-        <emr-simple-badge widget-id={widgetId} />
+        <emr-simple-badge key={widgetId} widget-id={widgetId} />
       </div>
     </>
   );

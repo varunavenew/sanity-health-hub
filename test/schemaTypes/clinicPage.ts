@@ -23,6 +23,8 @@ const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label}
 
 const sectionCollapsed = { collapsible: true, collapsed: true } as const
 
+const GOLD_STARS_WIDGET_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 /** Avoid Studio GroupSelect crashes: skip validation when booking method does not apply. */
 function whenBookingMethod(method: string, validate: (rule: any) => any) {
   return (rule: any, context: { parent?: { method?: string }; hidden?: boolean }) => {
@@ -81,6 +83,14 @@ export default {
       name: 'pcGallery',
       title: 'Gallery',
       description: 'Extra interior images (“Fra klinikken” strip). Optional.',
+      options: sectionCollapsed,
+      group: 'pageContent',
+    },
+    {
+      name: 'pcReviews',
+      title: 'Patient reviews (Gold Stars)',
+      description:
+        'Optional clinic-filtered Gold Stars widgets. Leave empty to show the same site-wide reviews as the homepage. Paste clinic-specific slider/badge IDs here to filter this clinic only.',
       options: sectionCollapsed,
       group: 'pageContent',
     },
@@ -376,6 +386,53 @@ export default {
               },
             },
           ],
+        },
+      ],
+    },
+
+    {
+      name: 'reviews',
+      title: 'Patient reviews',
+      type: 'object',
+      group: 'pageContent',
+      fieldset: 'pcReviews',
+      options: { collapsible: false },
+      fields: [
+        {
+          name: 'heading',
+          title: 'Heading',
+          type: 'internationalizedArrayString',
+          description: 'Optional. Defaults to “Hva pasientene sier om CMedical <clinic>”.',
+        },
+        {
+          name: 'goldStarsLocationId',
+          title: 'Gold Stars location ID',
+          type: 'number',
+          description:
+            'Shows only this clinic’s reviews from the site-wide feed. Known IDs: 86 = Majorstuen, 87 = Bekkestua. Ignored when a clinic-specific Slider widget ID is set. If the location has no reviews, the band is hidden. The rating badge only shows if Badge widget ID is also set.',
+          validation: (Rule: any) => Rule.integer().positive(),
+        },
+        {
+          name: 'sliderWidgetId',
+          title: 'Slider widget ID',
+          type: 'string',
+          description:
+            'Optional. Gold Stars `emr-simple-slider` widget-id for this clinic. Empty uses the site-wide slider (homepage).',
+          validation: (Rule: any) =>
+            Rule.regex(GOLD_STARS_WIDGET_ID_PATTERN, { name: 'widget ID' }).warning(
+              'Expected a widget ID like 6137cba4-0791-45ec-9cab-6ea667442f9a',
+            ),
+        },
+        {
+          name: 'badgeWidgetId',
+          title: 'Badge widget ID',
+          type: 'string',
+          description:
+            'Optional. Gold Stars `emr-simple-badge` widget-id for this clinic. Empty uses the site-wide badge (homepage).',
+          validation: (Rule: any) =>
+            Rule.regex(GOLD_STARS_WIDGET_ID_PATTERN, { name: 'widget ID' }).warning(
+              'Expected a widget ID like 45aa8e9e-3c4b-4d42-961b-338b9d45244e',
+            ),
         },
       ],
     },
