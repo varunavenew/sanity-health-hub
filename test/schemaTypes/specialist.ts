@@ -282,32 +282,6 @@ export default {
       },
     },
     {
-      name: 'appearingOnTreatments',
-      title: 'Appearing on treatment pages',
-      type: 'array',
-      group: 'general',
-      hidden: true,
-      description:
-        'Treatment pages that list this specialist. Synced when you publish the specialist (Studio only).',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'treatment' }],
-          weak: true,
-        },
-      ],
-    },
-    {
-      name: 'treatmentsBaseline',
-      title: 'Treatments sync baseline',
-      type: 'array',
-      group: 'general',
-      hidden: true,
-      description:
-        'Internal baseline for treatment-page sync. Do not edit manually.',
-      of: [{ type: 'string' }],
-    },
-    {
       name: 'clinics',
       title: 'Clinics',
       type: 'array',
@@ -539,7 +513,7 @@ export default {
       fieldset: 'advancedBooking',
       initialValue: true,
       description:
-        'Studio list indicator (🚫 when off). Website booking still uses booking category numbers below.',
+        'Off = this specialist cannot be booked on the website (profile button, in-page form, and booking wizard). Studio list also shows 🚫.',
     },
     {
       name: 'metodikaUserId',

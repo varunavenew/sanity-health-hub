@@ -88,6 +88,7 @@ import {
   filterClinicsForWbActivity,
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
+import { specialistAllowsWebsiteBooking } from "@/lib/sanity/specialist-cta";
 import {
   metodikaClinicFromSanityRow,
   metodikaClinicWithLocationOverride,
@@ -708,7 +709,9 @@ const BookingDemo = () => {
     // If specialist is given but no category, derive from the specialist's category
     let resolvedSpecialist: Specialist | undefined;
     if (spesialistSlug && !bookingData.specialist) {
-      resolvedSpecialist = specialists.find((s) => s.slug === spesialistSlug);
+      resolvedSpecialist = specialists.find(
+        (s) => s.slug === spesialistSlug && specialistAllowsWebsiteBooking(s),
+      );
       if (
         resolvedSpecialist &&
         !resolvedCategoryListId &&
@@ -789,7 +792,9 @@ const BookingDemo = () => {
   useEffect(() => {
     const spesialistSlug = searchParams.get("spesialist");
     if (!spesialistSlug || bookingData.specialist || specialists.length === 0) return;
-    const match = specialists.find((s) => s.slug === spesialistSlug);
+    const match = specialists.find(
+      (s) => s.slug === spesialistSlug && specialistAllowsWebsiteBooking(s),
+    );
     if (!match) return;
     setBookingData((prev) => ({
       ...prev,
@@ -1244,9 +1249,14 @@ const BookingDemo = () => {
     };
   }, [hasApiActivity, caregiverIdsFromSlots, bookingData.category]);
 
-  const step3Caregivers: (Specialist | BookingCaregiver)[] = hasApiActivity
-    ? bookingCaregivers
-    : specialists;
+  const step3Caregivers: (Specialist | BookingCaregiver)[] = (
+    hasApiActivity ? bookingCaregivers : specialists
+  ).filter((person) => {
+    const sanity = isBookingCaregiver(person)
+      ? resolveSanitySpecialistForCaregiver(person, specialists)
+      : person;
+    return !sanity || specialistAllowsWebsiteBooking(sanity);
+  });
 
   const datesWithApiSlots = useMemo(() => {
     const locationIds = selectedMetodikaLocationIds;

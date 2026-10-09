@@ -98,6 +98,7 @@ export interface Specialist {
   /** «Dette hjelper … deg med» treatment cards on the profile. */
   profileTreatments?: SpecialistProfileTreatmentCard[];
   /** CMS toggles. Unset on existing documents — treat as true until Aina turns them off. */
+  bookingEnabled?: boolean;
   showBookingButton?: boolean;
   showCallButton?: boolean;
   /** Metodika caregiver / user id — used to attach this photo in the booking wizard. */

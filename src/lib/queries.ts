@@ -46,7 +46,7 @@ const i18nNestedText = (parent: string, field: string) =>
   `"${field}": coalesce(${parent}.${field}[language == $lang][0].value, ${parent}.${field}[_key == $lang][0].value, ${parent}.${field}[language == "no"][0].value, ${parent}.${field}[_key == "no"][0].value, ${parent}.${field})`;
 
 /** Unset toggles default to on so existing specialists keep current CTAs. */
-const specialistCtaTogglesGroq = `"showBookingButton": coalesce(showBookingButton, true), "showCallButton": coalesce(showCallButton, true)`;
+const specialistCtaTogglesGroq = `"bookingEnabled": coalesce(bookingEnabled, true), "showBookingButton": coalesce(showBookingButton, true), "showCallButton": coalesce(showCallButton, true)`;
 
 const specialistClinicRefsGroq = `"clinicRefs": clinics[]->{
   "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),

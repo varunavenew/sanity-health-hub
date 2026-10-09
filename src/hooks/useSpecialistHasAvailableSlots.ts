@@ -53,6 +53,7 @@ export function useSpecialistHasAvailableSlots(
   metodikaBookableByLocation: Map<number, Set<number>>;
 } {
   const specialistSlug = specialist.slug;
+  const bookingEnabled = specialist.bookingEnabled;
   const showBookingButton = specialist.showBookingButton;
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
 
@@ -171,7 +172,10 @@ export function useSpecialistHasAvailableSlots(
     hasMetodikaClinic && wbActivitiesLoading;
 
   useEffect(() => {
-    const showsBooking = specialistShowsBookingButton({ showBookingButton });
+    const showsBooking = specialistShowsBookingButton({
+      bookingEnabled,
+      showBookingButton,
+    });
 
     if (!showsBooking) {
       setHasAvailableSlots(false);
@@ -279,6 +283,7 @@ export function useSpecialistHasAvailableSlots(
       cancelled = true;
     };
   }, [
+    bookingEnabled,
     showBookingButton,
     specialistSlug,
     pageClinics.length,
@@ -298,7 +303,7 @@ export function useSpecialistHasAvailableSlots(
   const effectiveLoading =
     loading ||
     (hasMetodikaClinic &&
-      specialistShowsBookingButton({ showBookingButton }) &&
+      specialistShowsBookingButton({ bookingEnabled, showBookingButton }) &&
       pageClinics.length > 0 &&
       metodikaPrerequisitesLoading);
 

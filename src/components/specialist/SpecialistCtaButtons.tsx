@@ -99,8 +99,9 @@ function SpecialistBookingAvailabilityPending({
 
 /**
  * Booking + Call pair for specialist profiles. Visibility comes from Sanity
- * `showBookingButton` / `showCallButton`. On the profile, Book now opens
- * in-page booking (this doctor's clinics) and does not navigate to /booking.
+ * `bookingEnabled` / `showBookingButton` / `showCallButton`. On the profile,
+ * Book now opens in-page booking (this doctor's clinics) and does not
+ * navigate to /booking.
  */
 export function SpecialistCtaButtons({
   specialist,

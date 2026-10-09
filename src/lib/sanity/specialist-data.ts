@@ -85,6 +85,7 @@ export type RawSanitySpecialist = {
   languages?: string[];
   clinics?: unknown;
   clinicRefs?: Array<{ label?: string; slug?: string }>;
+  bookingEnabled?: boolean;
   showBookingButton?: boolean;
   showCallButton?: boolean;
   bio?: unknown;
@@ -494,6 +495,7 @@ export function mapSanitySpecialistRow(
       return mapped[0];
     })(),
     profileTreatments: mapProfileTreatmentCards(raw.profileTreatments, lang),
+    bookingEnabled: raw.bookingEnabled !== false,
     showBookingButton: raw.showBookingButton !== false,
     showCallButton: raw.showCallButton !== false,
     metodikaUserId:

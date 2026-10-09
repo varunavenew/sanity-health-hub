@@ -4,6 +4,7 @@ import { specialistClinicConstraintKeys } from "@/lib/booking/filterClinicsForSp
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
 type SpecialistBookingFields = {
+  bookingEnabled?: boolean | null;
   showBookingButton?: boolean | null;
   metodikaUserId?: number | null;
   bookingCategoryIds?: number[] | null;
@@ -32,11 +33,24 @@ export function specialistCanOpenPageBooking(
   return specialistShowsBookingButton(specialist);
 }
 
+/**
+ * Advanced → Booking enabled. Unset means bookable (same as the old profile).
+ * Off removes this specialist from website booking, not only the Studio 🚫 list.
+ */
+export function specialistAllowsWebsiteBooking(
+  specialist: Pick<SpecialistBookingFields, "bookingEnabled">,
+): boolean {
+  return specialist.bookingEnabled !== false;
+}
+
 /** Unset CMS toggles keep current website behaviour (both buttons visible). */
 export function specialistShowsBookingButton(
   specialist: SpecialistBookingFields,
 ): boolean {
-  return specialist.showBookingButton !== false;
+  return (
+    specialistAllowsWebsiteBooking(specialist) &&
+    specialist.showBookingButton !== false
+  );
 }
 
 function specialistWorksAtMetodikaLocation(specialist: Specialist): boolean {
