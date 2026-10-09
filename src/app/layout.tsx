@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { isProductionDeploy, siteUrl } from "@/lib/env";
+import { siteUrl } from "@/lib/env";
+import {
+  PRODUCTION_ROBOTS_METADATA,
+  STAGING_ROBOTS_METADATA,
+} from "@/lib/seo/staging-crawl-block";
+import { shouldBlockSearchEngineIndexing } from "@/lib/seo/staging-crawl-block.server";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@/lib/seo/defaults";
 import {
   GoogleConsentDefault,
@@ -11,7 +16,7 @@ import {
 import { fetchGoogleAnalyticsSettings } from "@/lib/sanity/google-analytics.server";
 import "./globals.css";
 
-export const metadata: Metadata = {
+const rootLayoutMetadataBase: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
     default: "CMedical - Skandinavias ledende helhetskonsept",
@@ -19,12 +24,6 @@ export const metadata: Metadata = {
   },
   description:
     "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
-  // Default for any route without its own `generateMetadata` — must not
-  // leak `index, follow` on staging/preview deploys just because a page
-  // doesn't set an explicit robots directive.
-  robots: isProductionDeploy()
-    ? { index: true, follow: true }
-    : { index: false, follow: false },
   openGraph: {
     siteName: "CMedical",
     type: "website",
@@ -36,8 +35,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [DEFAULT_OG_IMAGE],
   },
-  // Favicons: square CM mark assets in /public (not the landscape OG image).
-  // SVG first for crisp HiDPI tabs; PNG/ICO fallbacks for older browsers.
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -50,6 +47,15 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
 };
+
+/** Host-aware robots default — preview/staging hosts must never leak index,follow. */
+export async function generateMetadata(): Promise<Metadata> {
+  const block = await shouldBlockSearchEngineIndexing();
+  return {
+    ...rootLayoutMetadataBase,
+    robots: block ? STAGING_ROBOTS_METADATA : PRODUCTION_ROBOTS_METADATA,
+  };
+}
 
 export default async function RootLayout({
   children,

@@ -21,7 +21,11 @@ const GROUPS_URL =
 const ACTIVITIES_URL =
   process.env.BOOKING_ACTIVITIES_URL || wbactivitiesListUrl();
 
-const DEFAULT_CONCURRENCY = Number(process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY || 2);
+const DEFAULT_CONCURRENCY = Number(
+  process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY ||
+    process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT ||
+    8,
+);
 
 interface ApiGroup {
   id?: number;
@@ -68,8 +72,8 @@ function mergeLocations(
 
 /**
  * GET — locations per booking category (from wbfreetimes → rooms → locations).
- * Query: `categoryId` — only resolve clinics for one category (serial activity calls).
- * Query: `serial=1` — resolve activities one-by-one (default when categoryId is set).
+ * Query: `categoryId` — only resolve clinics for one category (activities still fetched in parallel).
+ * Query: `serial=1` — resolve activities one-by-one (opt-in throttle).
  *
  * Response: { ok, byCategoryId, allLocations }
  */
@@ -86,7 +90,6 @@ export async function GET(request: Request) {
   const filterCategoryId = searchParams.get("categoryId")?.trim() || undefined;
   const serial =
     searchParams.get("serial") === "1" ||
-    filterCategoryId != null ||
     process.env.BOOKING_CATEGORY_CLINICS_SERIAL === "1";
   const concurrency = serial ? 1 : DEFAULT_CONCURRENCY;
 

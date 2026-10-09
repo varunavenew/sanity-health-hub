@@ -118,6 +118,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
                 specialist={specialist}
                 bookingLabel={ui.bookingCtaLabel}
                 callLabel={ui.heroCallUsLabel}
+                callToBookLabel={ui.heroCallToBookLabel}
                 surface="mobile"
               />
             </motion.div>
@@ -181,6 +182,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
                   specialist={specialist}
                   bookingLabel={ui.bookingCtaLabel}
                   callLabel={ui.heroCallUsLabel}
+                  callToBookLabel={ui.heroCallToBookLabel}
                   surface="desktop"
                 />
               </motion.div>

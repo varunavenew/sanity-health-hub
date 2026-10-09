@@ -1,7 +1,10 @@
 "use client";
 
 import { trackBookingCompleted, trackBookingInit } from "@/lib/tracking/booking-analytics";
-import { matchPasientskyCalendarId } from "@/lib/booking/pasientskyCalendarMatch";
+import {
+  matchPasientskyCalendarId,
+  pasientskyCalendarMatchCandidateNames,
+} from "@/lib/booking/pasientskyCalendarMatch";
 import {
   asMessageRecord,
   coercePasientskyMessageData,
@@ -11,6 +14,7 @@ import {
   stringifyPasientskyDebugPayload,
 } from "@/lib/booking/pasientskyIframeMessages";
 import { track } from "@/lib/tracking";
+import { resolvePasientskyTimeslotTypeId } from "@/lib/booking/pasientskyTimeslotMapping";
 import { cn } from "@/lib/utils";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 
@@ -20,8 +24,16 @@ interface Props {
   calendarId?: string;
   /** Sanity specialist name — used to resolve Behandler when calendarId is missing. */
   specialistName?: string;
+  /** e.g. Karkirurg — combined with name for Pasientsky calendar labels. */
+  specialistTitle?: string;
   /** Stored on specialist in Sanity when editors set a Pasientsky calendar id. */
   specialistCalendarId?: string;
+  /** Pasientsky timetype / timeslot type id when mapped from selected service. */
+  timeslotTypeId?: string;
+  /** Metodika wbactivity id — resolves timetype when timeslotTypeId prop is omitted. */
+  metodikaActivityId?: number;
+  /** Service label — used with activity id for timetype mapping fallback. */
+  serviceName?: string;
   className?: string;
 }
 
@@ -42,7 +54,11 @@ export const PatientskyIframe: FC<Props> = ({
   serviceProviderId,
   calendarId,
   specialistName,
+  specialistTitle,
   specialistCalendarId,
+  timeslotTypeId,
+  metodikaActivityId,
+  serviceName,
   className,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -98,8 +114,14 @@ export const PatientskyIframe: FC<Props> = ({
               Boolean(row.name.trim()),
           )
           .map((row) => ({ id: row.id.trim(), name: row.name.trim() }));
+        const matchNames = pasientskyCalendarMatchCandidateNames({
+          name: specialistName,
+          title: specialistTitle,
+        });
         setResolvedCalendarId(
-          matchPasientskyCalendarId(calendars, specialistName) ?? undefined,
+          matchPasientskyCalendarId(calendars, matchNames[0], {
+            alternateNames: matchNames.slice(1),
+          }) ?? undefined,
         );
       } catch {
         if (!cancelled) setResolvedCalendarId(undefined);
@@ -111,7 +133,13 @@ export const PatientskyIframe: FC<Props> = ({
     return () => {
       cancelled = true;
     };
-  }, [calendarId, serviceProviderId, specialistCalendarId, specialistName]);
+  }, [
+    calendarId,
+    serviceProviderId,
+    specialistCalendarId,
+    specialistName,
+    specialistTitle,
+  ]);
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
@@ -153,6 +181,16 @@ export const PatientskyIframe: FC<Props> = ({
     return () => window.removeEventListener("message", handleMessage);
   }, [iframeBaseUrl, specialistName]);
 
+  const resolvedTimeslotTypeId = useMemo(() => {
+    const explicit = timeslotTypeId?.trim();
+    if (explicit) return explicit;
+    if (metodikaActivityId == null) return undefined;
+    return resolvePasientskyTimeslotTypeId({
+      metodikaActivityId,
+      serviceName,
+    });
+  }, [timeslotTypeId, metodikaActivityId, serviceName]);
+
   const url = useMemo(() => {
     if (!iframeBaseUrl || !calendarLookupDone) return null;
     const nextUrl = new URL("/embedded/planner/booking", iframeBaseUrl);
@@ -160,8 +198,19 @@ export const PatientskyIframe: FC<Props> = ({
     if (resolvedCalendarId) {
       nextUrl.searchParams.set("calendarId", resolvedCalendarId);
     }
+    const timeslot = resolvedTimeslotTypeId?.trim();
+    if (timeslot) {
+      // PatientSky embed reads `timeslotTypeId` from the query string (see SSR bootstrap JSON).
+      nextUrl.searchParams.set("timeslotTypeId", timeslot);
+    }
     return nextUrl;
-  }, [calendarLookupDone, iframeBaseUrl, resolvedCalendarId, serviceProviderId]);
+  }, [
+    calendarLookupDone,
+    iframeBaseUrl,
+    resolvedCalendarId,
+    resolvedTimeslotTypeId,
+    serviceProviderId,
+  ]);
 
   if (!iframeBaseUrl) {
     return (
@@ -181,7 +230,7 @@ export const PatientskyIframe: FC<Props> = ({
 
   return (
     <iframe
-      key={`${serviceProviderId}-${resolvedCalendarId ?? "all"}`}
+      key={`${serviceProviderId}-${resolvedCalendarId ?? "all"}-${resolvedTimeslotTypeId ?? ""}`}
       className={cn("w-full min-h-screen", className)}
       src={url.toString()}
       ref={iframeRef}

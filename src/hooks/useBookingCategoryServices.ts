@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   clinicServiceIdForCategoryPage,
 } from "@/lib/bookingLinks";
+import {
+  bookingActivityGroupsQueryKey,
+  fetchBookingActivityGroupsClient,
+} from "@/lib/booking/fetchActivityGroups.client";
+import { useLocaleParam } from "@/lib/router";
 import type { SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 
 export type BookingCategoryService = {
@@ -48,68 +54,28 @@ function matchApiCategory(
   );
 }
 
-/** Metodika categories + services filtered by specialist bookingCategoryIds from Sanity. */
+/** Metodika activity-groups catalog for specialist profile (filtering is done client-side). */
 export function useSpecialistMetodikaBooking(
-  bookingCategoryIds: number[],
-  bookingApiBase: string = "/api/booking",
+  enabled: boolean,
+  _bookingApiBase: string = "/api/booking",
 ) {
-  const [apiCategories, setApiCategories] = useState<BookingCategoryFromApi[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [fromApi, setFromApi] = useState(false);
+  const locale = useLocaleParam();
+  const { data: apiCategories = [], isLoading, isFetching } = useQuery({
+    queryKey: bookingActivityGroupsQueryKey(locale),
+    queryFn: () => fetchBookingActivityGroupsClient(locale),
+    enabled,
+    staleTime: 5 * 60 * 1000,
+  });
 
-  const idsKey = useMemo(
-    () => [...bookingCategoryIds].sort((a, b) => a - b).join(","),
-    [bookingCategoryIds],
+  const categories = useMemo(
+    () =>
+      [...apiCategories].sort((a, b) => a.label.localeCompare(b.label, "nb")),
+    [apiCategories],
   );
 
-  useEffect(() => {
-    let cancelled = false;
+  const loading = enabled && (isLoading || (isFetching && categories.length === 0));
 
-    async function load() {
-      setLoading(true);
-      try {
-        const res = await fetch(`${bookingApiBase}/activity-groups?prices=api`);
-        const json = (await res.json()) as ActivityGroupsResponse;
-        if (cancelled) return;
-
-        if (res.ok && json.ok && Array.isArray(json.categories)) {
-          setApiCategories(json.categories);
-          setFromApi(true);
-        } else {
-          setApiCategories([]);
-          setFromApi(false);
-        }
-      } catch {
-        if (!cancelled) {
-          setApiCategories([]);
-          setFromApi(false);
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    if (!bookingCategoryIds.length) {
-      setApiCategories([]);
-      setFromApi(false);
-      setLoading(false);
-      return;
-    }
-
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, [idsKey, bookingCategoryIds.length, bookingApiBase]);
-
-  const categories = useMemo(() => {
-    const allowed = new Set(bookingCategoryIds);
-    return apiCategories
-      .filter((c) => allowed.has(c.apiGroupId))
-      .sort((a, b) => a.label.localeCompare(b.label, "nb"));
-  }, [apiCategories, bookingCategoryIds]);
-
-  return { categories, loading, fromApi };
+  return { categories, loading, fromApi: categories.length > 0 };
 }
 
 /** Loads Metodika services for each Sanity-linked category on a specialist. */

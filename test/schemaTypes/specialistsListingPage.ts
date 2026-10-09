@@ -93,6 +93,11 @@ export default {
         ),
         profileUiStringField('heroCallUsLabel', 'Hero – call us'),
         profileUiStringField(
+          'heroCallToBookLabel',
+          'Hero – call to book (no slots)',
+          'Shown when no online times are available. E.g. \'Call us to book an appointment with {firstName}\'.',
+        ),
+        profileUiStringField(
           'bioSectionTitle',
           'Biography – heading',
           'E.g. \'About {firstName}\'.',
@@ -100,7 +105,22 @@ export default {
         profileUiStringField('reviewsSectionTitle', 'Reviews - Headline'),
         profileUiStringField('featuredServiceCtaLabel', 'Featured service – link text'),
         profileUiStringField('bookingLoadingLabel', 'Booking - loading services'),
+        profileUiStringField(
+          'bookingAvailabilityCheckingLabel',
+          'Hero – checking availability',
+          'Shown on the grey Book button while time slots are loading. NO: Sjekker ledige timer… EN: Checking availability…',
+        ),
         profileUiTextField('bookingEmptyMessage', 'Booking - no services'),
+        profileUiStringField(
+          'bookingNoAvailableSlotsLabel',
+          'Booking - no available slots',
+          'Shown on treatments with no online times for this specialist. NO: Ingen ledige timer. EN: No available slots.',
+        ),
+        profileUiStringField(
+          'bookingCallToBookLabel',
+          'Booking - call to book (no online slots)',
+          'Treatment row call button when slots are unavailable. NO: Ring for å booke. EN: Call to book.',
+        ),
         profileUiStringField('bookingViewAllLabel', 'Booking - view all services'),
         profileUiStringField('anonymousReviewLabel', 'Anonymous reviewer – name'),
       ],

@@ -213,6 +213,8 @@ function bookingCacheKey(url: string, apiKey: string): string {
 
 export interface FreetimesQueryOptions {
   version?: number;
+  /** Metodika `maxtimes` — profile availability probe uses 1. */
+  maxTimes?: number;
   queryMode?: "alltimes";
   useInterval?: boolean;
   searchFromTime?: string;
@@ -230,6 +232,9 @@ export function freetimesUrlFor(
 
   if (options?.version != null) {
     params.set("version", String(options.version));
+  }
+  if (options?.maxTimes != null) {
+    params.set("maxtimes", String(options.maxTimes));
   }
   if (options?.queryMode) {
     params.set("querymode", options.queryMode);

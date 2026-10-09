@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
-import { Calendar } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
@@ -12,10 +12,12 @@ import { SpecialistInlineBookingBand } from "@/components/specialist/InlineBooki
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
 import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
+import { SpecialistProfileTreatments } from "@/components/specialist/SpecialistProfileTreatments";
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
 import { SpecialistBookNowButton } from "@/components/specialist/SpecialistCtaButtons";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { SpecialistPageBookingProvider, useSpecialistPageBookingOptional } from "@/components/specialist/SpecialistPageBooking";
 import {
   SpecialistProfileUiProvider,
@@ -34,12 +36,11 @@ import {
   specialistProfileBookingPending,
   specialistShowsBookingButton,
   specialistShowsProfileBookingButton,
+  specialistShowsProfileCallToBookButton,
 } from "@/lib/sanity/specialist-cta";
 import { isSpecialistInlineBookingEnabled } from "@/lib/env";
-import { Skeleton } from "@/components/ui/skeleton";
-import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 import { trackSpecialistView } from "@/lib/tracking/form-events";
-
+import { resolveRelatedSpecialistsForProfile } from "@/lib/sanity/related-specialists";
 interface SpecialistProfileProps {
   isChatOpen: boolean;
 }
@@ -87,7 +88,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const firstName = specialist.name.split(" ")[0];
 
   return (
-    <SpecialistProfileUiProvider firstName={firstName} profileUi={profileUi}>
+    <SpecialistProfileUiProvider firstName={firstName} name={specialist.name} profileUi={profileUi}>
       <SpecialistPageBookingProvider specialist={specialist}>
         <SpecialistProfileBody
           isChatOpen={isChatOpen}
@@ -187,6 +188,7 @@ function SpecialistProfileBody({
       />
       <SpecialistHero specialist={specialist} />
       <SpecialistBio specialist={specialist} />
+      <SpecialistProfileTreatments specialist={specialist} />
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />
 
@@ -207,26 +209,48 @@ function SpecialistProfileBody({
         if (inlineBooking && specialistProfileBookingPending(specialist, pageBooking)) {
           return (
             <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-              <Skeleton className="h-12 w-full rounded-2xl" aria-hidden="true" />
+              <div
+                role="status"
+                aria-live="polite"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-muted text-sm font-normal text-muted-foreground"
+              >
+                <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
+                <span>{ui.bookingAvailabilityCheckingLabel}</span>
+              </div>
             </div>
           );
         }
         const showMobileBook = inlineBooking
           ? specialistShowsProfileBookingButton(specialist, pageBooking)
           : specialistShowsBookingButton(specialist);
-        if (!showMobileBook) return null;
-        return (
-          <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
-            <SpecialistBookNowButton
-              specialist={specialist}
-              variant="default"
-              className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
-            >
-              <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-              {ui.bookingCtaLabel}
-            </SpecialistBookNowButton>
-          </div>
-        );
+        if (showMobileBook) {
+          return (
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+              <SpecialistBookNowButton
+                specialist={specialist}
+                variant="default"
+                className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
+              >
+                <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
+                {ui.bookingCtaLabel}
+              </SpecialistBookNowButton>
+            </div>
+          );
+        }
+        if (inlineBooking && specialistShowsProfileCallToBookButton(specialist, pageBooking)) {
+          return (
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
+              <CallUsClinicPicker
+                variant="cta"
+                size="lg"
+                label={ui.heroCallToBookLabel}
+                specialist={specialist}
+                className="w-full rounded-2xl h-12 font-normal shadow-none"
+              />
+            </div>
+          );
+        }
+        return null;
       })()}
     </PageLayout>
   );

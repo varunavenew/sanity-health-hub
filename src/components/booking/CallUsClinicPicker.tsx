@@ -15,7 +15,7 @@ interface Props {
    * - "fill" — same hover invert as specialist expertise chips
    * - "dark" — outline on dark backgrounds
    */
-  variant?: "light" | "lightSolid" | "dark" | "fill";
+  variant?: "light" | "lightSolid" | "dark" | "fill" | "cta";
   size?: "default" | "lg";
   label?: string;
   /**
@@ -25,8 +25,12 @@ interface Props {
   categoryId?: string;
   /** Open menu above the trigger (e.g. specialist mobile hero at page bottom). */
   menuPlacement?: "top" | "bottom";
+  /** Anchor dropdown to the trigger's right edge so it opens leftward (narrow panels). */
+  menuAlign?: "stretch" | "end";
   /** Limit to clinics this specialist works at (profile page). */
   specialist?: Specialist;
+  /** One clinic: `tel:` link without chevron; two or more: dropdown with chevron. */
+  directTelWhenSingleClinic?: boolean;
   className?: string;
 }
 
@@ -40,7 +44,9 @@ export const CallUsClinicPicker = ({
   label,
   categoryId,
   menuPlacement = "bottom",
+  menuAlign = "stretch",
   specialist,
+  directTelWhenSingleClinic = false,
   className
 }: Props & { className?: string }) => {
   const navigate = useNavigate();
@@ -61,12 +67,21 @@ export const CallUsClinicPicker = ({
   // menu. Rendered while loading so the button does not flash out and back in.
   if (!pending && callable.length === 0) return null;
 
+  const displayLabel = label ?? t("booking.callUs");
+  const showClinicMenu = !directTelWhenSingleClinic || callable.length > 1;
+  const singleClinic =
+    directTelWhenSingleClinic && !pending && callable.length === 1
+      ? callable[0]
+      : null;
+
   const buttonVariant =
-    variant === "dark"
-      ? "cta-outline-dark"
-      : variant === "fill"
-        ? "cta-outline-fill"
-        : "cta-outline";
+    variant === "cta"
+      ? "cta"
+      : variant === "dark"
+        ? "cta-outline-dark"
+        : variant === "fill"
+          ? "cta-outline-fill"
+          : "cta-outline";
   const solidLightClass =
     variant === "lightSolid"
       ? "bg-white border border-foreground/25 text-foreground hover:bg-foreground/[0.04] shadow-none"
@@ -81,24 +96,40 @@ export const CallUsClinicPicker = ({
     .filter(Boolean)
     .join(" ");
 
+  if (singleClinic) {
+    return (
+      <Button
+        variant={buttonVariant}
+        size={size}
+        className={cn(solidLightClass, className)}
+        asChild
+      >
+        <a href={`tel:${singleClinic.phone.replace(/\s/g, "")}`}>{displayLabel}</a>
+      </Button>
+    );
+  }
+
   return (
     <div className={["relative", widthOnWrapper].filter(Boolean).join(" ")} ref={ref}>
       <Button
         variant={buttonVariant}
         size={size}
         className={cn(solidLightClass, className)}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => showClinicMenu && setOpen((o) => !o)}
       >
-        {label ?? t("booking.callUs")}
-        <ChevronDown
-          className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
-        />
+        {displayLabel}
+        {showClinicMenu ? (
+          <ChevronDown
+            className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+          />
+        ) : null}
       </Button>
 
-      {open && (
+      {open && showClinicMenu && (
         <div
           className={cn(
-            "absolute left-0 right-0 z-50 min-w-[260px] overflow-hidden rounded-lg border border-border bg-white shadow-xl",
+            "absolute z-50 min-w-[240px] max-w-[min(260px,calc(100vw-2rem))] overflow-hidden rounded-lg border border-border bg-white shadow-xl",
+            menuAlign === "end" ? "right-0 w-[260px]" : "left-0 right-0",
             menuPlacement === "top" ? "bottom-full mb-2" : "top-full mt-2",
           )}
         >

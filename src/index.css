@@ -78,6 +78,10 @@
     --brand-warm: 30 31.6% 92.5%;
     --brand-mid: 25 23% 74%;
     --brand-beige: 30 31.6% 92.5%;
+    /* Specialist profile: treatment cards + category highlight (demo taupe) */
+    /* Demo area block (#F2ECE6) */
+    --brand-light: 32 33% 93.5%;
+    --brand-profile-section: 32 28% 84%;
     --brand-terracotta: 18 48% 44%;
     --footer-bg: #140c0c;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
@@ -683,6 +687,10 @@ section > .container.py-14 {
 
 /* Hide native scrollbar for horizontal card carousels — dots handle indication */
 @layer utilities {
+  .bg-brand-profile {
+    background-color: hsl(var(--brand-profile-section));
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -691,6 +699,27 @@ section > .container.py-14 {
     display: none;
     width: 0;
     height: 0;
+  }
+
+  /** Dark panels — thin thumb, transparent track (specialist booking list, etc.) */
+  .scrollbar-dark-subtle {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.32) transparent;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.28);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
+  .scrollbar-dark-subtle::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255 255 255 / 0.45);
   }
 }
 
@@ -749,17 +778,20 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
-/* Specialist desktop hero — half-column frame; image width steps with zoom. */
+/* Specialist desktop hero — half-column frame; image width steps with zoom.
+   Height follows the viewport (640–880px) so portrait photos aren't cropped
+   into a wide strip that cuts off the top of the head. */
 @media (min-width: 1024px) {
   .specialist-hero-desktop {
+    --specialist-hero-height: clamp(640px, 100svh, 880px);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    min-height: 640px;
+    min-height: var(--specialist-hero-height);
     align-items: stretch;
   }
 
   .specialist-hero-photo-col {
     position: relative;
-    min-height: 640px;
+    min-height: var(--specialist-hero-height);
   }
 
   .specialist-hero-photo {
@@ -829,6 +861,59 @@ body.cm-edit-mode [data-editable-scope] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/*
+ * Article hero contain — only when the file is not 8:9 (960×1080 / 1920×2160).
+ * Matching files fill the column with the default cover rules (no extra crop).
+ */
+.article-hero.split-hero .article-hero-media--contain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-hero.split-hero .article-hero-media--contain > *,
+.article-hero.split-hero .article-hero-media--contain img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.article-mobile-hero.article-hero-media--contain img.cm-media--hero {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Category "why" side image: leftover column matches the left text background.
+ * The photo never grows past 1080px (the 1920×1080 / 100% zoom box).
+ * Contain only when the file is not 20:27 (800×1080).
+ */
+.split-section .why-split-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(var(--background));
+}
+
+.split-section .why-split-media > *,
+.split-section .why-split-media img {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-height: 1080px;
+  object-fit: cover;
+}
+
+.split-section .why-split-media--contain > *,
+.split-section .why-split-media--contain img {
+  object-fit: contain;
 }
 
 /* Stacked split heroes (Contact, Priser, Insurance, …) — image on top on mobile */

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { appLocaleFromParam, buildPageMetadata } from "@/lib/seo/metadata-builders";
+import { appLocaleFromParam } from "@/lib/seo/metadata-builders";
+import { buildPageMetadata } from "@/lib/seo/metadata-builders.server";
 import { plainMetaString, resolveMetaStrings, resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import {
   resolveSeoShareImageFromPage,
@@ -94,7 +95,7 @@ export async function buildHomeMetadata(locale: string): Promise<Metadata> {
     heroBanner: (data as PageHeroFields | null)?.heroBanner,
   });
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: { nbPath: "/no", enPath: "/en" },
     title,
@@ -113,7 +114,7 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
   const seo = data?.seo;
   const { title, description } = resolveMetaStrings(seo, lang, CONTACT_FALLBACK);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("contactPage"),
     title,
@@ -168,7 +169,7 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
   });
   const ogImage = pageOgImage(seo, data as PageHeroFields | undefined);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("privacyPolicyPage"),
     title,
@@ -197,7 +198,7 @@ export async function buildOpennessActMetadata(locale: string): Promise<Metadata
   });
   const ogImage = pageOgImage(seo);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("opennessActPage"),
     title,
@@ -216,7 +217,7 @@ export async function buildAboutMetadata(locale: string): Promise<Metadata> {
   const seo = data?.seo;
   const { title, description } = resolveMetaStrings(seo, lang, ABOUT_FALLBACK);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("aboutPage"),
     title,
@@ -248,7 +249,7 @@ export async function buildInsuranceMetadata(locale: string): Promise<Metadata> 
   const seo = data?.seo;
   const { title, description } = resolveMetaStrings(seo, lang, INSURANCE_FALLBACK);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("insurancePage"),
     title,
@@ -268,7 +269,7 @@ export async function buildNewsMetadata(locale: string): Promise<Metadata> {
   const title = plainMetaString(seo?.metaTitle, "", sanityLang);
   const description = plainMetaString(seo?.metaDescription, "", sanityLang);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("newsPage"),
     title,
@@ -288,7 +289,7 @@ export async function buildSpecialistsAboutMetadata(locale: string): Promise<Met
   const title = plainMetaString(seo?.metaTitle, "", sanityLang);
   const description = plainMetaString(seo?.metaDescription, "", sanityLang);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("specialistsPage"),
     title,
@@ -309,7 +310,7 @@ export async function buildServicesMetadata(locale: string): Promise<Metadata> {
   const title = plainMetaString(seo?.metaTitle, "", sanityLang);
   const description = plainMetaString(seo?.metaDescription, "", sanityLang);
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths,
     title,
@@ -337,7 +338,7 @@ export async function buildPricingMetadata(locale: string): Promise<Metadata> {
   const resolvedTitle = title || pageTitle;
   const resolvedDescription = description || pageIntro;
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("pricingPage"),
     title: resolvedTitle,
@@ -375,7 +376,7 @@ export async function buildSpecialistsListingMetadata(
     SPECIALISTS_LISTING_FALLBACK,
   );
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("specialistsListingPage"),
     title,
@@ -413,7 +414,7 @@ export async function buildClinicsListingMetadata(
     CLINICS_LISTING_FALLBACK,
   );
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("clinicsPage"),
     title,
@@ -466,7 +467,7 @@ export async function buildGuideMetadata(locale: string): Promise<Metadata> {
     // guidePage slug not yet in CMS
   }
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths,
     title: resolvedTitle,
@@ -518,7 +519,7 @@ export async function buildRobotkirurgiMetadata(locale: string): Promise<Metadat
     // robotkirurgiPage slug not yet in CMS
   }
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths,
     title: resolvedTitle,
@@ -554,7 +555,7 @@ export async function buildBookingMetadata(locale: string): Promise<Metadata> {
   const geoDescription =
     typeof data?.geoSummary === "string" ? data.geoSummary.trim() : "";
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths: { nbPath: "/no/booking", enPath: "/en/booking" },
     title: pageTitle,
@@ -590,7 +591,7 @@ export async function buildKarriereListingMetadata(
     return {};
   }
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths,
     title,

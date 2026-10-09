@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-
+import {
+  shouldBlockSearchEngineIndexingOnClient,
+  STAGING_X_ROBOTS_TAG,
+} from "@/lib/seo/staging-crawl-block";
 type ClientDocumentHead = {
   title: string;
   description: string;
@@ -53,13 +56,15 @@ export function useClientDocumentHead(spec: ClientDocumentHead | null) {
     upsertLink("alternate", spec.canonical, "en");
     upsertLink("alternate", spec.canonical, "x-default");
 
-    if (spec.noIndex) {
+    const blockRobots = spec.noIndex || shouldBlockSearchEngineIndexingOnClient();
+    if (blockRobots) {
+      const robotsValue = STAGING_X_ROBOTS_TAG;
       for (const name of ["robots", "googlebot"]) {
         document.head.querySelectorAll(`meta[name="${name}"]`).forEach((node) => {
-          (node as HTMLMetaElement).content = "noindex, nofollow";
+          (node as HTMLMetaElement).content = robotsValue;
         });
       }
-      upsertMeta("name", "robots", "noindex, nofollow");
+      upsertMeta("name", "robots", robotsValue);
     }
 
     upsertMeta("property", "og:title", spec.ogTitle);

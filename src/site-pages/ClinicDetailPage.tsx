@@ -20,6 +20,7 @@ import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { SpecialistCarousel } from "@/components/SpecialistCarousel";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { ClinicReviewsSection, type ClinicReviews } from "@/components/clinic/ClinicReviewsSection";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { resolveCmsMedia } from "@/lib/sanity/media-dual-read";
 import { buildClinicServiceLinks, resolveClinicServiceRows } from "@/lib/sanity/clinic-service-links";
@@ -70,6 +71,7 @@ type MergedClinic = {
   primaryImage?: string;
   email?: string;
   treatments?: Array<{ slug: string; title?: string; categorySlug?: string }>;
+  reviews?: ClinicReviews;
 };
 
 interface ClinicDetailPageProps {
@@ -126,6 +128,24 @@ function normalizeServicesSection(
   };
 }
 
+function normalizeClinicReviews(raw: unknown, lang: "no" | "en"): ClinicReviews | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const row = raw as Record<string, unknown>;
+  const readId = (value: unknown) => (typeof value === "string" ? value.trim() : "");
+  const sliderWidgetId = readId(row.sliderWidgetId);
+  const badgeWidgetId = readId(row.badgeWidgetId);
+  const locationId =
+    typeof row.locationId === "number" && Number.isInteger(row.locationId) ? row.locationId : undefined;
+  const heading = plainMetaString(row.heading, "", lang).trim();
+  if (!heading && !sliderWidgetId && !badgeWidgetId && locationId === undefined) return undefined;
+  return {
+    ...(heading ? { heading } : {}),
+    ...(sliderWidgetId ? { sliderWidgetId } : {}),
+    ...(badgeWidgetId ? { badgeWidgetId } : {}),
+    ...(locationId !== undefined ? { locationId } : {}),
+  };
+}
+
 function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no" | "en"): MergedClinic {
   const label = plainMetaString(raw.label ?? raw.title, "Klinikk", lang);
   const description = plainMetaString(raw.description, "", lang);
@@ -173,6 +193,7 @@ function mergeSanityClinic(raw: Record<string, unknown>, slug: string, lang: "no
     treatments: Array.isArray(raw.treatments)
       ? (raw.treatments as MergedClinic["treatments"])
       : undefined,
+    reviews: normalizeClinicReviews(raw.reviews, lang),
   };
 }
 
@@ -532,6 +553,15 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           </div>
         </section>
       ) : null}
+
+      <ClinicReviewsSection
+        reviews={clinic.reviews}
+        heading={
+          sanityLang === "en"
+            ? `What patients say about CMedical ${clinic.label}`
+            : `Hva pasientene sier om CMedical ${clinic.label}`
+        }
+      />
 
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">

@@ -1,6 +1,5 @@
+import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
 import { fetchBookingFreetimesList } from "@/lib/booking/upstream";
-
-const SLOT_CHECK_CONCURRENCY = 4;
 
 function parseIdList(value: string | null): number[] {
   if (!value?.trim()) return [];
@@ -8,6 +7,15 @@ function parseIdList(value: string | null): number[] {
     .filter((id) => Number.isFinite(id) && id > 0)
     .sort((a, b) => a - b);
 }
+
+export type MetodikaBookableActivityPair = {
+  locationId: number;
+  wbactivityId: number;
+};
+
+const SLOT_CHECK_CONCURRENCY = Number(
+  process.env.BOOKING_SPECIALIST_SLOTS_FREETIMES_CONCURRENCY || 4,
+);
 
 function readCaregiverUserId(entry: unknown): number | undefined {
   if (!entry || typeof entry !== "object") return undefined;
@@ -22,15 +30,19 @@ function readStartDateTime(entry: unknown): string | undefined {
   return typeof start === "string" && start.trim() ? start.trim() : undefined;
 }
 
-async function metodikaActivityHasSlot(
+/**
+ * Profile slot probe — same as legacy site / BookingDemo step 4:
+ * wbfreetimes scoped with location-id + caregiver, not maxTimes=1 without location.
+ */
+async function metodikaActivityHasCaregiverSlotAtLocation(
   wbactivityId: number,
   locationId: number,
   caregiverUserId: number,
   apiKey: string,
 ): Promise<boolean> {
-  // Match BookingDemo step 4: discovery freetimes at location, then filter by caregiver.
   const slots = await fetchBookingFreetimesList(wbactivityId, apiKey, {
     locationId,
+    caregiverUserId,
   });
   const now = Date.now();
   return slots.some((entry) => {
@@ -42,6 +54,41 @@ async function metodikaActivityHasSlot(
   });
 }
 
+/** Profile treatments (wbactivity × Metodika location) that have caregiver freetime. */
+export async function specialistMetodikaBookableActivityPairs(params: {
+  wbactivityIds: number[];
+  locationIds: number[];
+  caregiverUserId?: number;
+  apiKey: string;
+}): Promise<MetodikaBookableActivityPair[]> {
+  const { wbactivityIds, locationIds, caregiverUserId, apiKey } = params;
+  if (wbactivityIds.length === 0 || locationIds.length === 0) return [];
+  if (caregiverUserId == null) return [];
+
+  const checks: MetodikaBookableActivityPair[] = [];
+  for (const locationId of locationIds) {
+    for (const wbactivityId of wbactivityIds) {
+      checks.push({ locationId, wbactivityId });
+    }
+  }
+
+  const results = await mapWithConcurrency(
+    checks,
+    SLOT_CHECK_CONCURRENCY,
+    async (pair) => {
+      const ok = await metodikaActivityHasCaregiverSlotAtLocation(
+        pair.wbactivityId,
+        pair.locationId,
+        caregiverUserId,
+        apiKey,
+      );
+      return ok ? pair : null;
+    },
+  );
+
+  return results.filter((pair): pair is MetodikaBookableActivityPair => pair != null);
+}
+
 /** True when any caregiver treatment has freetime at a Metodika clinic location. */
 export async function specialistHasMetodikaSlots(params: {
   wbactivityIds: number[];
@@ -49,28 +96,8 @@ export async function specialistHasMetodikaSlots(params: {
   caregiverUserId?: number;
   apiKey: string;
 }): Promise<boolean> {
-  const { wbactivityIds, locationIds, caregiverUserId, apiKey } = params;
-  if (wbactivityIds.length === 0 || locationIds.length === 0) return false;
-  if (caregiverUserId == null) return false;
-
-  const checks: Array<{ wbactivityId: number; locationId: number }> = [];
-  for (const locationId of locationIds) {
-    for (const wbactivityId of wbactivityIds) {
-      checks.push({ wbactivityId, locationId });
-    }
-  }
-
-  for (let index = 0; index < checks.length; index += SLOT_CHECK_CONCURRENCY) {
-    const batch = checks.slice(index, index + SLOT_CHECK_CONCURRENCY);
-    const results = await Promise.all(
-      batch.map(({ wbactivityId, locationId }) =>
-        metodikaActivityHasSlot(wbactivityId, locationId, caregiverUserId, apiKey),
-      ),
-    );
-    if (results.some(Boolean)) return true;
-  }
-
-  return false;
+  const pairs = await specialistMetodikaBookableActivityPairs(params);
+  return pairs.length > 0;
 }
 
 type PasientskyCalendarRow = {

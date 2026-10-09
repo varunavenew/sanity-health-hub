@@ -9,6 +9,7 @@
 //   &aktivitetId=9              — Metodika wbactivity id (preferred for pricing Step 2)
 //   &spesialist=dr-hansen       — pre-selects a specialist (slug)
 //   &klinikk=majorstuen         — pre-selects a clinic
+//   &locationId=2               — Metodika location (when slots are not at CMS default)
 //
 // All params are optional. BookingDemo will jump to the first unfilled step.
 
@@ -22,6 +23,8 @@ export interface BookingLinkParams {
   aktivitetId?: number;
   spesialist?: string;   // specialist slug
   klinikk?: string;      // clinic id (majorstuen, bekkestua, moss, moelv)
+  /** Metodika location id — aligns step 4 with profile freetime probe (e.g. Majorstuen 10B). */
+  locationId?: number;
 }
 
 /**
@@ -251,6 +254,13 @@ export function buildBookingUrl(
   }
   if (params.spesialist) sp.set("spesialist", params.spesialist);
   if (params.klinikk) sp.set("klinikk", params.klinikk);
+  if (
+    params.locationId != null &&
+    Number.isFinite(params.locationId) &&
+    params.locationId > 0
+  ) {
+    sp.set("locationId", String(params.locationId));
+  }
   const qs = sp.toString();
   const base = qs ? `/booking?${qs}` : "/booking";
   if (options?.withReturnContext === false) return base;

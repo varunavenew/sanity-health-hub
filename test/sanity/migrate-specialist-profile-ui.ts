@@ -26,14 +26,24 @@ const profileUi = {
     'Choose a service and find a time that suits you. No referral needed.',
   ),
   heroCallUsLabel: i18nString('Ring oss', 'Call us'),
+  heroCallToBookLabel: i18nString(
+    'Ring oss for å bestille time hos {firstName}',
+    'Call us to book an appointment with {firstName}',
+  ),
   bioSectionTitle: i18nString('Om {firstName}', 'About {firstName}'),
   reviewsSectionTitle: i18nString('Hva pasientene sier', 'What patients say'),
   featuredServiceCtaLabel: i18nString('Se hele tjenesten', 'View full service'),
   bookingLoadingLabel: i18nString('Henter tjenester…', 'Loading services…'),
+  bookingAvailabilityCheckingLabel: i18nString(
+    'Sjekker ledige timer…',
+    'Checking availability…',
+  ),
   bookingEmptyMessage: i18nText(
     'Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.',
     'No bookable services are available right now. Try the booking page for the full overview.',
   ),
+  bookingNoAvailableSlotsLabel: i18nString('Ingen ledige timer', 'No available slots'),
+  bookingCallToBookLabel: i18nString('Ring for å booke', 'Call to book'),
   bookingViewAllLabel: i18nString('Se alle tjenester og priser', 'See all services and prices'),
   anonymousReviewLabel: i18nString('Anonym', 'Anonymous'),
 }

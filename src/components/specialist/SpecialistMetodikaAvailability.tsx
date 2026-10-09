@@ -34,17 +34,19 @@ import {
   stripNorwegianMobileInputForField,
 } from "@/lib/booking/phoneMobile";
 import {
-  filterServicesForCaregiverWbActivities,
-  filterSpecialistBookingCategories,
+  filterProfileBookingCategories,
   formatBookingServicePrice,
-  resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
 import {
   effectiveMetodikaLocationIdsForBooking,
   slotMatchesMetodikaClinic,
 } from "@/lib/booking/majorstuen-location-group";
-import type { SpecialistPageMetodikaClinic } from "@/lib/booking/specialist-page-clinics";
-import { SPECIALIST_PAGE_FALLBACK_PHONE } from "@/lib/booking/specialist-page-clinics";
+import { allowedWbActivityIdSetForCaregiverAtLocations } from "@/lib/booking/wbactivitiesMatrix";
+import {
+  metodikaClinicLocationIds,
+  SPECIALIST_PAGE_FALLBACK_PHONE,
+  type SpecialistPageMetodikaClinic,
+} from "@/lib/booking/specialist-page-clinics";
 import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import {
   defaultBookingPageCopyForLang,
@@ -156,24 +158,30 @@ export function SpecialistMetodikaAvailability({
     callButtonIconKey: copy.emptyStateCallButtonIconKey,
   };
 
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist],
-  );
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
+  const metodikaCatalogEnabled = caregiverUserId != null;
   const { categories: metodikaCategories, loading: categoriesLoading } =
-    useSpecialistMetodikaBooking(bookingCategoryIds, bookingApiBase);
-  const { allowedIds, loading: matrixLoading } =
+    useSpecialistMetodikaBooking(metodikaCatalogEnabled, bookingApiBase);
+  const { allowedIds, activities: caregiverActivities, loading: matrixLoading } =
     useCaregiverWbActivities(caregiverUserId, bookingApiBase);
 
+  const allowedIdsAtClinic = useMemo(() => {
+    if (caregiverUserId == null) return allowedIds;
+    return allowedWbActivityIdSetForCaregiverAtLocations(
+      caregiverActivities,
+      caregiverUserId,
+      metodikaClinicLocationIds(clinic),
+    );
+  }, [allowedIds, caregiverActivities, caregiverUserId, clinic]);
+
   const services = useMemo((): FlatService[] => {
-    const filtered = filterSpecialistBookingCategories(specialist, metodikaCategories);
-    const withCaregiver = filtered.map((category) => ({
-      ...category,
-      services: filterServicesForCaregiverWbActivities(category.services, allowedIds),
-    }));
+    const profileCategories = filterProfileBookingCategories(
+      specialist,
+      metodikaCategories,
+      allowedIdsAtClinic,
+    );
     const flat: FlatService[] = [];
-    for (const category of withCaregiver) {
+    for (const category of profileCategories) {
       for (const service of category.services) {
         if (service.apiActivityId == null) continue;
         flat.push({
@@ -185,7 +193,7 @@ export function SpecialistMetodikaAvailability({
       }
     }
     return flat;
-  }, [specialist, metodikaCategories, allowedIds]);
+  }, [specialist, metodikaCategories, allowedIdsAtClinic]);
 
   const [selectedService, setSelectedService] = useState<FlatService | null>(null);
   const { activity: wbActivityMatrix } = useWbActivityMatrix(
@@ -585,7 +593,7 @@ export function SpecialistMetodikaAvailability({
     );
   }
 
-  if (bookingCategoryIds.length === 0 || services.length === 0) {
+  if (caregiverUserId == null || services.length === 0) {
     return (
       <FriendlyEmpty
         {...emptyStateIconProps}

@@ -1,6 +1,11 @@
-import { isProductionDeploy, siteUrl } from "@/lib/env";
+import { siteUrl } from "@/lib/env";
 import { AI_CRAWLER_USER_AGENTS } from "@/lib/seo/ai-crawler-user-agents";
 import { robotsDisallowPaths } from "@/lib/seo/robots-paths";
+import {
+  applyStagingCrawlBlockHeaders,
+  getHostFromHeaderBag,
+  isProductionSiteHost,
+} from "@/lib/seo/staging-crawl-block";
 
 export const dynamic = "force-dynamic";
 
@@ -13,14 +18,20 @@ export const dynamic = "force-dynamic";
  * crawler gets its own `User-agent:` line, followed by a single shared
  * Allow/Disallow set, instead of the same list repeated once per crawler.
  */
-export async function GET() {
-  const host = siteUrl();
+export async function GET(request: Request) {
+  const host = getHostFromHeaderBag(new Headers(request.headers));
+  const productionHost = isProductionSiteHost(host);
 
-  if (!isProductionDeploy()) {
-    return new Response("User-agent: *\nDisallow: /\n", {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
+  if (!productionHost) {
+    const headers = new Headers({
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
     });
+    applyStagingCrawlBlockHeaders(headers, host);
+    return new Response("User-agent: *\nDisallow: /\n", { headers });
   }
+
+  const hostOrigin = siteUrl();
 
   const disallow = robotsDisallowPaths();
   const disallowLines = disallow.map((path) => `Disallow: ${path}`).join("\n");
@@ -35,8 +46,8 @@ export async function GET() {
       "Allow: /",
       disallowLines,
       "",
-      `Sitemap: ${host}/sitemap.xml`,
-      `Host: ${host}`,
+      `Sitemap: ${hostOrigin}/sitemap.xml`,
+      `Host: ${hostOrigin}`,
     ].join("\n") + "\n";
 
   return new Response(body, {

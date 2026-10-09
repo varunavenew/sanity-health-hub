@@ -89,6 +89,10 @@ import {
   resolveBookingCaregiverUserId,
 } from "@/lib/booking/filterClinicsForSpecialist";
 import {
+  metodikaClinicFromSanityRow,
+  metodikaClinicWithLocationOverride,
+} from "@/lib/booking/booking-locked-clinic";
+import {
   fetchWbActivityMatrixClient,
   prefetchWbActivityMatrix,
 } from "@/lib/booking/fetchWbActivityMatrix.client";
@@ -98,6 +102,7 @@ import {
 } from "@/lib/booking/wbactivitiesMatrix";
 import { useWbActivityMatrix } from "@/hooks/useWbActivityMatrix";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
+import { resolvePasientskyTimeslotTypeId } from "@/lib/booking/pasientskyTimeslotMapping";
 import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
@@ -460,8 +465,29 @@ const BookingDemo = () => {
     if (isMetodikaClinic(clinic) && clinic.sanityClinicId) {
       return sanityClinics.find((row) => row.id === clinic.sanityClinicId);
     }
-    return sanityClinics.find((row) => row.id === clinic.id);
+    return (
+      sanityClinics.find((row) => row.id === clinic.id) ??
+      sanityClinics.find((row) => row.slug === clinic.id) ??
+      (isPasientskyClinic(clinic)
+        ? sanityClinics.find((row) => row.booking?.method === "pasientsky")
+        : undefined)
+    );
   }, [bookingData.clinic, sanityClinics]);
+
+  const pasientskySpecialist = useMemo(() => {
+    if (bookingData.specialist) return bookingData.specialist;
+    const slug = searchParams.get("spesialist");
+    if (!slug) return undefined;
+    return specialists.find((s) => s.slug === slug);
+  }, [bookingData.specialist, searchParams, specialists]);
+
+  /** Moelv + linked specialist from profile — skip Metodika service step, open PatientSky. */
+  const pasientskyDirectIframe = Boolean(
+    isPasientskyBooking &&
+      bookingData.clinic &&
+      pasientskySpecialist &&
+      !bookingData.service,
+  );
 
   const hideClinicAddress = shouldHideBookingClinicAddress({
     serviceName: bookingData.service?.name,
@@ -494,23 +520,20 @@ const BookingDemo = () => {
   const isSanityManagedBooking =
     bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
 
-  /** Pasientsky (e.g. Moelv): 3 steps with service, 2 steps for direct ?klinikk= links. */
-  const pasientskyTotalSteps = bookingData.service ? 3 : 2;
+  /** Pasientsky (Moelv): always 3 steps — tjeneste → klinikk → bestill (iframe). */
+  const pasientskyTotalSteps = 3;
 
   const totalSteps = isPasientskyBooking ? pasientskyTotalSteps : 5;
 
   const stepNameByIndex = useMemo(() => {
     const pasientskyBookLabel = "Bestill";
     if (isPasientskyBooking) {
-      if (bookingData.service) {
-        return [
-          null,
-          copy.stepLabelService,
-          copy.stepLabelClinic,
-          pasientskyBookLabel,
-        ] as const;
-      }
-      return [null, copy.stepLabelClinic, pasientskyBookLabel] as const;
+      return [
+        null,
+        copy.stepLabelService,
+        copy.stepLabelClinic,
+        pasientskyBookLabel,
+      ] as const;
     }
     return [
       null,
@@ -520,18 +543,17 @@ const BookingDemo = () => {
       copy.stepLabelTime,
       copy.stepLabelConfirm,
     ] as const;
-  }, [copy, isPasientskyBooking, bookingData.service]);
+  }, [copy, isPasientskyBooking]);
 
   const stepProgressLabel = (step: number) =>
     fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
 
   const currentStep = useMemo(() => {
     if (isPasientskyBooking) {
-      if (bookingData.service) {
-        if (!bookingData.clinic) return 2;
-        return 3;
-      }
-      return 2;
+      if (pasientskyDirectIframe) return 3;
+      if (!bookingData.service) return 1;
+      if (!bookingData.clinic) return 2;
+      return 3;
     }
     if (!bookingData.service) return 1;
     if (!bookingData.clinic) return 2;
@@ -544,18 +566,17 @@ const BookingDemo = () => {
     bookingData.specialistChosen,
     bookingData.time,
     isPasientskyBooking,
+    pasientskyDirectIframe,
   ]);
 
   const isFirstAvailableFlow = Boolean(bookingData.firstAvailableFlow);
 
   const progressAriaLabels = useMemo(() => {
     if (isPasientskyBooking) {
-      return bookingData.service
-        ? (["tjeneste", "klinikk", "bestill"] as const)
-        : (["klinikk", "bestill"] as const);
+      return ["tjeneste", "klinikk", "bestill"] as const;
     }
     return ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
-  }, [isPasientskyBooking, bookingData.service]);
+  }, [isPasientskyBooking]);
 
   const progressStepNumbers = useMemo(
     () => Array.from({ length: totalSteps }, (_, i) => i + 1),
@@ -787,6 +808,11 @@ const BookingDemo = () => {
       prefetchWbActivityMatrix(id);
     }
   }, [expandedCategory, bookingServices]);
+
+  // Warm wbactivities matrix as soon as a treatment is chosen (step 3 caregivers).
+  useEffect(() => {
+    prefetchWbActivityMatrix(bookingData.service?.apiActivityId);
+  }, [bookingData.service?.apiActivityId]);
 
   // wbfreetimes → rooms → locations: discovery (clinics + caregivers, 1 slot/day)
   useEffect(() => {
@@ -1024,14 +1050,20 @@ const BookingDemo = () => {
     return groupMajorstuenMetodikaClinics(raw);
   }, [matrixMetodikaClinics, enrichedMetodikaClinics]);
 
-  // Prefill clinic from ?klinikk=
+  // Prefill clinic from ?klinikk= (+ optional ?locationId= from specialist profile)
   const pendingKlinikkRef = useRef<string | null>(null);
+  const pendingLocationIdRef = useRef<number | undefined>(undefined);
   useEffect(() => {
     pendingKlinikkRef.current = searchParams.get("klinikk");
+    const raw = searchParams.get("locationId");
+    const parsed = raw != null && raw.trim() !== "" ? Number(raw) : NaN;
+    pendingLocationIdRef.current =
+      Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
   }, [searchParams]);
 
   useEffect(() => {
     const klinikk = pendingKlinikkRef.current;
+    const locationOverride = pendingLocationIdRef.current;
     if (!klinikk || bookingData.clinic) return;
 
     const allowClinic = (clinic: BookingClinic) => {
@@ -1055,6 +1087,19 @@ const BookingDemo = () => {
         setBookingData((prev) => ({ ...prev, clinic: managed }));
         pendingKlinikkRef.current = null;
         return;
+      }
+
+      const metodikaFromSanity = metodikaClinicFromSanityRow(sanityRow);
+      if (metodikaFromSanity) {
+        const withLocation = metodikaClinicWithLocationOverride(
+          metodikaFromSanity,
+          locationOverride,
+        );
+        if (allowClinic(withLocation)) {
+          setBookingData((prev) => ({ ...prev, clinic: withLocation }));
+          pendingKlinikkRef.current = null;
+          return;
+        }
       }
     }
 
@@ -1080,11 +1125,12 @@ const BookingDemo = () => {
     );
     const match = bySanitySlug ?? byGroupId ?? byId ?? bySlug;
     if (match) {
-      if (!allowClinic(match)) {
+      const withLocation = metodikaClinicWithLocationOverride(match, locationOverride);
+      if (!allowClinic(withLocation)) {
         pendingKlinikkRef.current = null;
         return;
       }
-      setBookingData((prev) => ({ ...prev, clinic: match }));
+      setBookingData((prev) => ({ ...prev, clinic: withLocation }));
       pendingKlinikkRef.current = null;
     }
   }, [
@@ -1112,13 +1158,19 @@ const BookingDemo = () => {
     }
   }, [searchParams, sanityClinics, bookingData.clinic, bookingData.service]);
 
-  // Prefer URL specialist for Pasientsky Behandler preselect (covers race with ?klinikk=).
-  const pasientskySpecialist = useMemo(() => {
-    if (bookingData.specialist) return bookingData.specialist;
-    const slug = searchParams.get("spesialist");
-    if (!slug) return undefined;
-    return specialists.find((s) => s.slug === slug);
-  }, [bookingData.specialist, searchParams, specialists]);
+  const pasientskyTimeslotTypeId = useMemo(() => {
+    if (!isPasientskyBooking || !bookingData.service?.apiActivityId) return undefined;
+    return resolvePasientskyTimeslotTypeId({
+      clinic: selectedSanityClinic,
+      metodikaActivityId: bookingData.service.apiActivityId,
+      serviceName: bookingData.service.name,
+    });
+  }, [
+    isPasientskyBooking,
+    bookingData.service?.apiActivityId,
+    bookingData.service?.name,
+    selectedSanityClinic,
+  ]);
 
   const caregiverByUserId = useMemo(() => {
     const map = new Map<number, BookingCaregiver>();
@@ -1448,6 +1500,12 @@ const BookingDemo = () => {
     [hasApiActivity, wbActivityMatrix, bookingData.category],
   );
 
+  useEffect(() => {
+    const clinic = bookingData.clinic;
+    if (!clinic || !isMetodikaClinic(clinic) || !wbActivityMatrix) return;
+    prefetchCaregiversForClinic(clinic);
+  }, [bookingData.clinic, wbActivityMatrix, prefetchCaregiversForClinic]);
+
   // Step 2: Metodika locations (enriched from Sanity) + Pasientsky / external from Sanity.
   // When a specialist is already chosen (e.g. ?spesialist=), only show clinics where they work.
   const availableClinics: BookingClinic[] = useMemo(() => {
@@ -1488,6 +1546,7 @@ const BookingDemo = () => {
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
+    if (pendingKlinikkRef.current?.trim()) return;
     if (!step2Ready) return;
     if (availableClinics.length === 0) return;
 
@@ -1548,7 +1607,19 @@ const BookingDemo = () => {
       slotDurationMinutes: undefined,
       selectedSlot: undefined,
     });
-    setBookingCaregivers([]);
+
+    if (isMetodikaClinic(clinic) && wbActivityMatrix) {
+      const ids = caregiverIdsForWbActivityAtLocation(
+        wbActivityMatrix,
+        clinic.apiLocationId,
+      );
+      const specialty = bookingData.category ?? "";
+      const peeked = peekBookingUsersClient(ids, specialty);
+      setBookingCaregivers(peeked ?? []);
+    } else {
+      setBookingCaregivers([]);
+    }
+
     setWeekOffset(0);
     slotsByDayRef.current = {};
     setSlotsByDayKey({});
@@ -1850,9 +1921,13 @@ const BookingDemo = () => {
   }
 
   const progressBackTarget = isPasientskyBooking
-    ? bookingData.clinic
+    ? pasientskyDirectIframe
       ? ("clinic" as const)
-      : ("category" as const)
+      : !bookingData.service
+        ? ("category" as const)
+        : bookingData.clinic
+          ? ("clinic" as const)
+          : ("category" as const)
     : isSanityManagedBooking
       ? bookingData.service
         ? ("clinic" as const)
@@ -1903,7 +1978,10 @@ const BookingDemo = () => {
               ) : (
                 <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
               )}
-              <span className="text-xs font-normal text-brand-dark">
+              <span className={cn(
+                "text-xs text-brand-dark",
+                currentStep === totalSteps ? "font-medium" : "font-normal",
+              )}>
                 {stepNameByIndex[currentStep]}
               </span>
             </div>
@@ -1933,10 +2011,10 @@ const BookingDemo = () => {
                     aria-label={`Steg ${step}: ${labels[step - 1]}`}
                     aria-current={isActive ? "step" : undefined}
                     className={cn(
-                      "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
-                      isActive && "bg-brand-dark",
-                      isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
-                      !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed",
+                      "flex-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
+                      isActive ? "h-1 bg-brand-dark" : "h-1 bg-brand-dark/10",
+                      isDone && "hover:bg-brand-dark/20 cursor-pointer",
+                      !isDone && !isActive && "cursor-not-allowed",
                     )}
                   />
                 );
@@ -1945,7 +2023,8 @@ const BookingDemo = () => {
           </div>
         )}
         {/* Persistent Summary Banner */}
-        {bookingData.service && !isExternalBooking && (
+        {((bookingData.service && !isExternalBooking) ||
+          (pasientskyDirectIframe && !isExternalBooking)) && (
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
@@ -1962,16 +2041,22 @@ const BookingDemo = () => {
                   <span className="font-normal text-brand-dark">{bookingData.clinic.label}</span>
                 </div>
               )}
-              {bookingData.specialist && (
+              {(bookingData.specialist ?? pasientskySpecialist) && (
                 <div>
                   <span className="text-brand-dark/60 text-xs">{copy.summarySpecialistLabel} </span>
-                  <span className="font-normal text-brand-dark">{bookingData.specialist.name}</span>
+                  <span className="font-normal text-brand-dark">
+                    {(bookingData.specialist ?? pasientskySpecialist)?.name}
+                  </span>
                 </div>
               )}
             </div>
           </div>
         )}
-        {isSanityManagedBooking && !isExternalBooking && !bookingData.service && bookingData.clinic && (
+        {isSanityManagedBooking &&
+          !isExternalBooking &&
+          !pasientskyDirectIframe &&
+          !bookingData.service &&
+          bookingData.clinic && (
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div>
               <span className="text-brand-dark/60 text-xs">{copy.summaryClinicLabel} </span>
@@ -1981,7 +2066,10 @@ const BookingDemo = () => {
         )}
 
         <AnimatePresence mode="wait">
-          {isPasientskyBooking && bookingData.clinic && isPasientskyClinic(bookingData.clinic) ? (
+          {isPasientskyBooking &&
+          bookingData.clinic &&
+          (bookingData.service || pasientskyDirectIframe) &&
+          isPasientskyClinic(bookingData.clinic) ? (
             <motion.div
               key="pasientsky"
               initial={{ opacity: 0, y: 20 }}
@@ -1992,11 +2080,14 @@ const BookingDemo = () => {
             >
               <PatientskyIframe
                 serviceProviderId={bookingData.clinic.serviceProviderId}
-                calendarId={bookingData.clinic.calendarId}
                 specialistName={pasientskySpecialist?.name}
+                specialistTitle={pasientskySpecialist?.title}
                 specialistCalendarId={pasientskyCalendarIdForSpecialist(
                   pasientskySpecialist,
                 )}
+                timeslotTypeId={pasientskyTimeslotTypeId}
+                metodikaActivityId={bookingData.service?.apiActivityId}
+                serviceName={bookingData.service?.name}
               />
             </motion.div>
           ) : isExternalBooking &&
@@ -2256,6 +2347,9 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       type="button"
+                      onMouseEnter={() => {
+                        if (isMetodikaClinic(clinic)) prefetchCaregiversForClinic(clinic);
+                      }}
                       onClick={() => handleSelectClinic(clinic)}
                       className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
                     >
@@ -2290,11 +2384,7 @@ const BookingDemo = () => {
                 {copy.step3Subtitle}
               </p>
 
-              {hasApiActivity && caregiversLoading && (
-                <BookingStepLoader message={copy.step3Loading} variant="grid" />
-              )}
-
-              {/* Skip / Any specialist */}
+              {/* Skip / Any specialist — always visible; practitioners load in background */}
                 <button
                   onClick={() =>
                     setBookingData({
@@ -2320,6 +2410,21 @@ const BookingDemo = () => {
                 </div>
                 <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
               </button>
+
+              {hasApiActivity && caregiversLoading && caregiverIdsFromSlots.length > 0 && (
+                <div className="grid grid-cols-2 gap-3" aria-busy="true" aria-label={copy.step3Loading}>
+                  {[0, 1].map((slot) => (
+                    <div
+                      key={slot}
+                      className="flex flex-col items-center p-5 bg-brand-beige/20 border border-brand-dark/10 rounded-2xl animate-pulse"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-brand-beige/80 mb-3" />
+                      <div className="h-3 w-24 rounded bg-brand-beige/80" />
+                      <div className="mt-2 h-2 w-16 rounded bg-brand-beige/60" />
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {hasApiActivity &&
                 !caregiversLoading &&

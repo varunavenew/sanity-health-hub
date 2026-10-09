@@ -10,36 +10,45 @@ import {
   Phone,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import {
   SPECIALIST_INLINE_BOOKING_SECTION_ID,
   useSpecialistPageBookingOptional,
 } from "@/components/specialist/SpecialistPageBooking";
-import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useClinics } from "@/hooks/useSanity";
-import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
+import { useSpecialistMetodikaBooking, type BookingCategoryFromApi } from "@/hooks/useBookingCategoryServices";
 import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import {
+  moelvPasientskyClinicFromPageClinics,
+  metodikaClinicLocationIds,
+  resolveMetodikaLocationIdForActivity,
   resolveSpecialistPageClinics,
+  specialistPageClinicHasBookableOnlineSlots,
+  metodikaPageClinicHasBookableSlots,
   SPECIALIST_PAGE_FALLBACK_PHONE,
+  isMoelvPasientskyPageClinic,
   type SpecialistPageClinic,
   type SpecialistPageMetodikaClinic,
+  type SpecialistPagePasientskyClinic,
   type SpecialistPagePhoneClinic,
 } from "@/lib/booking/specialist-page-clinics";
 import {
   bookingUrlForSpecialistContext,
-  filterServicesForCaregiverWbActivities,
-  filterSpecialistBookingCategories,
+  filterProfileBookingCategories,
   formatBookingServicePrice,
-  resolveSpecialistBookingCategoryIds,
 } from "@/lib/booking/specialist-booking";
+import { allowedWbActivityIdSetForCaregiverAtLocations } from "@/lib/booking/wbactivitiesMatrix";
+import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 import { specialistShowsProfileBookingButton } from "@/lib/sanity/specialist-cta";
 import { isSpecialistInlineBookingEnabled } from "@/lib/env";
 import { bookingSupportTelHref } from "@/lib/sanity/booking-page-copy";
+import { cn } from "@/lib/utils";
 import { Link, useLocaleParam, useNavigate } from "@/lib/router";
+import { Button } from "@/components/ui/button";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import {
   trackBookingInit,
   trackBookingUnavailable,
@@ -67,13 +76,16 @@ function SpecialistInlineBookingBandActive({ specialist }: InlineBookingSectionP
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
     [specialist, sanityClinics],
   );
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
+  const moelvPasientskyClinic = useMemo(
+    () => moelvPasientskyClinicFromPageClinics(pageClinics),
+    [pageClinics],
   );
+  const moelvOnlyProfileBooking =
+    Boolean(moelvPasientskyClinic) && pageClinics.length === 1;
 
   if (!specialistShowsProfileBookingButton(specialist, pageBooking)) return null;
-  if (bookingCategoryIds.length === 0 && pageClinics.length === 0) return null;
+  if (moelvOnlyProfileBooking) return null;
+  if (pageClinics.length === 0) return null;
 
   return (
     <section
@@ -121,40 +133,137 @@ function InlineBookingSection({
   const ui = useSpecialistProfileUi();
   const locale = useLocaleParam();
   const isEn = locale === "en";
-  const priserPath = useNavCmsPath("pricing") || "/priser";
+  const navigate = useNavigate();
   const pageBooking = useSpecialistPageBookingOptional();
   const [selectedClinic, setSelectedClinic] = useState<SpecialistPageClinic | null>(null);
+  const hasMetodikaClinic = pageClinics.some((clinic) => clinic.kind === "metodika");
+  const caregiverUserId = resolveBookingCaregiverUserId(specialist);
+  const metodikaCatalogEnabled =
+    hasMetodikaClinic && caregiverUserId != null;
+  const { categories: metodikaCategories, loading: categoriesLoading } =
+    useSpecialistMetodikaBooking(metodikaCatalogEnabled, BOOKING_API_BASE);
+  const {
+    allowedIds,
+    activities: caregiverActivities,
+    durationMinutesByActivityId,
+    loading: wbActivitiesLoading,
+  } = useCaregiverWbActivities(
+    hasMetodikaClinic ? caregiverUserId : undefined,
+    BOOKING_API_BASE,
+  );
+
+  const bookableClinics = useMemo(() => {
+    if (!pageBooking) return pageClinics;
+    return pageClinics.filter((clinic) =>
+      specialistPageClinicHasBookableOnlineSlots(clinic, {
+        availabilityLoading: pageBooking.availabilityLoading,
+        metodikaBookableByLocation: pageBooking.metodikaBookableByLocation,
+        hasPasientskySlots: pageBooking.hasPasientskySlots,
+      }),
+    );
+  }, [
+    pageClinics,
+    pageBooking?.availabilityLoading,
+    pageBooking?.hasPasientskySlots,
+    pageBooking?.metodikaBookableByLocation,
+  ]);
+
+  const bookableClinicIdsKey = useMemo(
+    () => bookableClinics.map((clinic) => clinic.id).join(","),
+    [bookableClinics],
+  );
+
+  const isMultiClinicProfile = pageClinics.length > 1;
 
   useEffect(() => {
-    if (pageClinics.length === 1) {
-      setSelectedClinic(pageClinics[0]);
+    if (isMultiClinicProfile) {
+      setSelectedClinic((prev) => (prev?.kind === "metodika" ? prev : null));
       return;
     }
-    setSelectedClinic(null);
-  }, [pageClinics, pageBooking?.bookingFocusKey]);
+    if (bookableClinics.length === 1 && bookableClinics[0].kind === "metodika") {
+      setSelectedClinic((prev) =>
+        prev?.id === bookableClinics[0].id ? prev : bookableClinics[0],
+      );
+      return;
+    }
+    setSelectedClinic((prev) => {
+      if (prev && bookableClinics.some((clinic) => clinic.id === prev.id)) {
+        return prev;
+      }
+      return null;
+    });
+  }, [bookableClinicIdsKey, pageBooking?.bookingFocusKey, isMultiClinicProfile]);
 
-  if (pageClinics.length === 0) {
+  const handleSelectClinic = (clinic: SpecialistPageClinic) => {
+    if (isMoelvPasientskyPageClinic(clinic)) {
+      trackBookingMenuStart({
+        entry_point: "specialist_page",
+        practitioner: specialist.name,
+        specialty: specialist.title || specialist.expertise?.[0]?.label || null,
+        clinic: clinic.label,
+      });
+      navigate(
+        bookingUrlForSpecialistContext({
+          specialistSlug: specialist.slug,
+          klinikk: clinic.slug,
+        }),
+      );
+      return;
+    }
+    setSelectedClinic(clinic);
+  };
+
+  if (
+    !isMultiClinicProfile &&
+    bookableClinics.length === 0 &&
+    !pageBooking?.availabilityLoading
+  ) {
     return (
       <p className="py-4 text-sm font-light text-white/60">{ui.bookingEmptyMessage}</p>
     );
   }
 
-  const showClinicPicker = pageClinics.length > 1 && selectedClinic == null;
+  if (bookableClinics.length === 0 && pageBooking?.availabilityLoading) {
+    return (
+      <div className="flex items-center justify-center gap-2 py-8 text-white/60">
+        <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+        <span className="text-sm font-light">{ui.bookingLoadingLabel}</span>
+      </div>
+    );
+  }
+
+  const showClinicPicker = isMultiClinicProfile
+    ? selectedClinic?.kind !== "metodika"
+    : bookableClinics.length > 1 && selectedClinic == null;
   const clinicPrompt = isEn ? "Choose a clinic" : "Velg klinikk";
   const backLabel = isEn ? "Back" : "Tilbake";
 
   return (
     <div>
       {showClinicPicker ? (
-        <ClinicPicker
-          clinics={pageClinics}
-          prompt={clinicPrompt}
-          isEn={isEn}
-          onSelect={setSelectedClinic}
-        />
+        isMultiClinicProfile ? (
+          <MultiClinicProfileClinicPicker
+            clinics={pageClinics}
+            availabilityLoading={Boolean(pageBooking?.availabilityLoading)}
+            metodikaBookableByLocation={
+              pageBooking?.metodikaBookableByLocation ?? new Map()
+            }
+            hasPasientskySlots={pageBooking?.hasPasientskySlots ?? false}
+            prompt={clinicPrompt}
+            isEn={isEn}
+            onSelect={handleSelectClinic}
+          />
+        ) : (
+          <ClinicPicker
+            clinics={bookableClinics}
+            prompt={clinicPrompt}
+            isEn={isEn}
+            onSelect={handleSelectClinic}
+          />
+        )
       ) : selectedClinic ? (
         <div className="space-y-4">
-          {pageClinics.length > 1 ? (
+          {isMultiClinicProfile || bookableClinics.length > 1 ? (
             <button
               type="button"
               className="inline-flex items-center gap-1 text-sm font-light text-white/70 transition-colors hover:text-white"
@@ -168,9 +277,15 @@ function InlineBookingSection({
           <ClinicBookingBranch
             specialist={specialist}
             clinic={selectedClinic}
-            priserPath={priserPath}
             ui={ui}
             isEn={isEn}
+            metodikaCategories={metodikaCategories}
+            categoriesLoading={categoriesLoading}
+            allowedIds={allowedIds}
+            caregiverActivities={caregiverActivities}
+            durationMinutesByActivityId={durationMinutesByActivityId}
+            wbActivitiesLoading={wbActivitiesLoading}
+            caregiverUserId={caregiverUserId}
           />
         </div>
       ) : null}
@@ -224,59 +339,190 @@ function ClinicPicker({
   );
 }
 
-function PasientskyBookingCta({
-  specialist,
-  clinic,
+/** Majorstuen + Moelv: show both clinics; Metodika rows without slots are informational only. */
+function MultiClinicProfileClinicPicker({
+  clinics,
+  availabilityLoading,
+  metodikaBookableByLocation,
+  hasPasientskySlots,
+  prompt,
   isEn,
+  onSelect,
 }: {
-  specialist: Specialist;
-  clinic: SpecialistPageClinic;
+  clinics: SpecialistPageClinic[];
+  availabilityLoading: boolean;
+  metodikaBookableByLocation: Map<number, Set<number>>;
+  hasPasientskySlots: boolean;
+  prompt: string;
   isEn: boolean;
+  onSelect: (clinic: SpecialistPageClinic) => void;
 }) {
-  const navigate = useNavigate();
-  const title = /^cmedical\s/i.test(clinic.label)
-    ? clinic.label
-    : `CMedical ${clinic.label}`;
-  const continueLabel = isEn ? "Book appointment" : "Bestill time";
-  const description = isEn
-    ? "Continue to our booking page to choose an appointment time."
-    : "Fortsett til bestillingssiden for å velge time.";
-
-  const handleContinue = () => {
-    trackBookingMenuStart({
-      entry_point: "specialist_page",
-      practitioner: specialist.name,
-      specialty: specialist.title || specialist.expertise?.[0]?.label || null,
-      clinic: clinic.label,
-    });
-    navigate(
-      bookingUrlForSpecialistContext({
-        specialistSlug: specialist.slug,
-        klinikk: clinic.slug,
-      }),
-    );
-  };
+  const bookLabel = isEn ? "Book" : "Bestill";
+  const noSlotsMessage = (label: string) =>
+    isEn
+      ? `${label} has no available appointments online right now.`
+      : `${label} har ingen ledige timer på nett akkurat nå.`;
 
   return (
-    <div className="rounded-sm border border-white/15 bg-white/10 px-6 py-8 text-center">
-      <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white/70">
-        <MapPin className="h-5 w-5" aria-hidden="true" />
+    <div className="space-y-3">
+      <p className="text-sm font-light text-white/70">{prompt}</p>
+      <div className="space-y-2">
+        {clinics.map((clinic) => {
+          if (clinic.kind === "metodika") {
+            const hasSlots =
+              !availabilityLoading &&
+              metodikaPageClinicHasBookableSlots(clinic, metodikaBookableByLocation);
+
+            if (availabilityLoading) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left"
+                >
+                  <span>
+                    <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                    {clinic.address ? (
+                      <span className="mt-0.5 block text-xs font-light text-white/60">
+                        {clinic.address}
+                      </span>
+                    ) : null}
+                  </span>
+                  <Loader2 className="h-4 w-4 animate-spin text-white/40" aria-hidden="true" />
+                </div>
+              );
+            }
+
+            if (!hasSlots) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="rounded-sm border border-white/10 bg-white/5 px-5 py-4 text-left"
+                  role="status"
+                >
+                  <span className="block text-sm font-normal text-white/80">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/50">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                  <p className="mt-2 text-xs font-light leading-relaxed text-white/55">
+                    {noSlotsMessage(clinic.label)}
+                  </p>
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={clinic.id}
+                type="button"
+                onClick={() => onSelect(clinic)}
+                className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left transition-colors hover:bg-white/15"
+              >
+                <span>
+                  <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/60">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-xs font-light text-white/50">{bookLabel}</span>
+              </button>
+            );
+          }
+
+          if (clinic.kind === "pasientsky") {
+            const moelvPasientsky = isMoelvPasientskyPageClinic(clinic);
+            const bookable =
+              !availabilityLoading &&
+              (moelvPasientsky || hasPasientskySlots);
+
+            if (availabilityLoading) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left"
+                >
+                  <span>
+                    <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                    {clinic.address ? (
+                      <span className="mt-0.5 block text-xs font-light text-white/60">
+                        {clinic.address}
+                      </span>
+                    ) : null}
+                  </span>
+                  <Loader2 className="h-4 w-4 animate-spin text-white/40" aria-hidden="true" />
+                </div>
+              );
+            }
+
+            if (!bookable) {
+              return (
+                <div
+                  key={clinic.id}
+                  className="rounded-sm border border-white/10 bg-white/5 px-5 py-4 text-left"
+                  role="status"
+                >
+                  <span className="block text-sm font-normal text-white/80">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/50">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                  <p className="mt-2 text-xs font-light leading-relaxed text-white/55">
+                    {noSlotsMessage(clinic.label)}
+                  </p>
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={clinic.id}
+                type="button"
+                onClick={() => onSelect(clinic)}
+                className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left transition-colors hover:bg-white/15"
+              >
+                <span>
+                  <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/60">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-xs font-light text-white/50">{bookLabel}</span>
+              </button>
+            );
+          }
+
+          if (clinic.kind === "phone") {
+            return (
+              <button
+                key={clinic.id}
+                type="button"
+                onClick={() => onSelect(clinic)}
+                className="flex w-full items-center justify-between rounded-sm border border-white/15 bg-white/10 px-5 py-4 text-left transition-colors hover:bg-white/15"
+              >
+                <span>
+                  <span className="block text-sm font-normal text-white">{clinic.label}</span>
+                  {clinic.address ? (
+                    <span className="mt-0.5 block text-xs font-light text-white/60">
+                      {clinic.address}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-xs font-light text-white/50">
+                  {isEn ? "Call" : "Ring"}
+                </span>
+              </button>
+            );
+          }
+
+          return null;
+        })}
       </div>
-      <p className="text-lg font-light text-white">{title}</p>
-      {clinic.address ? (
-        <p className="mt-2 text-sm font-light text-white/60">{clinic.address}</p>
-      ) : null}
-      <p className="mt-6 text-sm font-light text-white/70">{description}</p>
-      <Button
-        type="button"
-        variant="cta"
-        size="lg"
-        className="mt-6 gap-2 rounded-full px-8"
-        onClick={handleContinue}
-      >
-        {continueLabel}
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </Button>
     </div>
   );
 }
@@ -284,31 +530,53 @@ function PasientskyBookingCta({
 function ClinicBookingBranch({
   specialist,
   clinic,
-  priserPath,
   ui,
   isEn,
+  metodikaCategories,
+  categoriesLoading,
+  allowedIds,
+  caregiverActivities,
+  durationMinutesByActivityId,
+  wbActivitiesLoading,
+  caregiverUserId,
 }: {
   specialist: Specialist;
   clinic: SpecialistPageClinic;
-  priserPath: string;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
+  metodikaCategories: BookingCategoryFromApi[];
+  categoriesLoading: boolean;
+  allowedIds: Set<number>;
+  caregiverActivities: WbActivityMatrixEntry[];
+  durationMinutesByActivityId: Map<number, number>;
+  wbActivitiesLoading: boolean;
+  caregiverUserId: number | undefined;
 }) {
-  if (clinic.kind === "pasientsky") {
-    return <PasientskyBookingCta specialist={specialist} clinic={clinic} isEn={isEn} />;
-  }
-
   if (clinic.kind === "phone") {
     return <InlinePhoneClinic clinic={clinic} isEn={isEn} />;
+  }
+
+  if (clinic.kind !== "metodika") {
+    return (
+      <p className="py-4 text-sm font-light text-white/60">
+        {isEn ? "Online booking is not available for this clinic here." : "Online booking er ikke tilgjengelig for denne klinikken her."}
+      </p>
+    );
   }
 
   return (
     <MetodikaTreatmentPicker
       specialist={specialist}
       clinic={clinic}
-      priserPath={priserPath}
       ui={ui}
       isEn={isEn}
+      metodikaCategories={metodikaCategories}
+      categoriesLoading={categoriesLoading}
+      allowedIds={allowedIds}
+      caregiverActivities={caregiverActivities}
+      durationMinutesByActivityId={durationMinutesByActivityId}
+      wbActivitiesLoading={wbActivitiesLoading}
+      caregiverUserId={caregiverUserId}
     />
   );
 }
@@ -363,7 +631,7 @@ function InlineMetodikaCallUs({
   clinic,
   isEn,
 }: {
-  clinic: SpecialistPageMetodikaClinic;
+  clinic: SpecialistPageMetodikaClinic | SpecialistPagePasientskyClinic;
   isEn: boolean;
 }) {
   const phone = clinic.phone || SPECIALIST_PAGE_FALLBACK_PHONE;
@@ -371,10 +639,10 @@ function InlineMetodikaCallUs({
   const label = isEn ? "Call us and we will help you" : "Ring oss så hjelper vi deg";
 
   return (
-    <div className="mt-4 border-t border-white/10 pt-4 text-center">
+    <div className="mt-4 border-t border-white/10 px-5 pt-4 text-left">
       <a
         href={telHref}
-        className="inline-flex items-center justify-center gap-2 text-sm font-light text-white/70 underline-offset-4 transition-colors hover:text-white hover:underline"
+        className="inline-flex items-center gap-2 text-sm font-light text-white/70 underline-offset-4 transition-colors hover:text-white hover:underline"
       >
         <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
         <span>
@@ -385,52 +653,94 @@ function InlineMetodikaCallUs({
   );
 }
 
+type ProfileBookingService = BookingCategoryFromApi["services"][number];
+
+/** Specialist inline list: bookable treatments first, then gray no-slot rows. */
+function sortProfileBookingServices(
+  services: ProfileBookingService[],
+  slotsKnown: boolean,
+  hasBookableSlots: (apiActivityId: number | undefined) => boolean,
+): ProfileBookingService[] {
+  if (!slotsKnown) return services;
+  return [...services].sort((a, b) => {
+    const aBookable = hasBookableSlots(a.apiActivityId);
+    const bBookable = hasBookableSlots(b.apiActivityId);
+    if (aBookable === bBookable) return 0;
+    return aBookable ? -1 : 1;
+  });
+}
+
 function MetodikaTreatmentPicker({
   specialist,
   clinic,
-  priserPath,
   ui,
   isEn,
+  metodikaCategories,
+  categoriesLoading,
+  allowedIds,
+  caregiverActivities,
+  durationMinutesByActivityId,
+  wbActivitiesLoading,
+  caregiverUserId,
 }: {
   specialist: Specialist;
-  clinic: SpecialistPageMetodikaClinic;
-  priserPath: string;
+  clinic: SpecialistPageMetodikaClinic | SpecialistPagePasientskyClinic;
   ui: ReturnType<typeof useSpecialistProfileUi>;
   isEn: boolean;
+  metodikaCategories: BookingCategoryFromApi[];
+  categoriesLoading: boolean;
+  allowedIds: Set<number>;
+  caregiverActivities: WbActivityMatrixEntry[];
+  durationMinutesByActivityId: Map<number, number>;
+  wbActivitiesLoading: boolean;
+  caregiverUserId: number | undefined;
 }) {
+  const pageBooking = useSpecialistPageBookingOptional();
+  const priserPath = useNavCmsPath("pricing");
+  const bookableMap = pageBooking?.metodikaBookableByLocation ?? new Map();
+
+  const activityBookableAtClinic = useMemo(() => {
+    if (clinic.kind !== "metodika") {
+      return (_wbactivityId: number) => false;
+    }
+    return (wbactivityId: number) =>
+      resolveMetodikaLocationIdForActivity(clinic, bookableMap, wbactivityId) != null;
+  }, [bookableMap, clinic]);
+
   const dateLang = isEn ? "en" : "no";
   const navigate = useNavigate();
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
-  );
-  const { categories: metodikaCategories, loading } = useSpecialistMetodikaBooking(
-    bookingCategoryIds,
-    BOOKING_API_BASE,
-  );
-  const caregiverUserId = resolveBookingCaregiverUserId(specialist);
-  const {
+
+  const allowedIdsAtClinic = useMemo(() => {
+    if (caregiverUserId == null) return new Set<number>();
+    if (clinic.kind !== "metodika") return allowedIds;
+    return allowedWbActivityIdSetForCaregiverAtLocations(
+      caregiverActivities,
+      caregiverUserId,
+      metodikaClinicLocationIds(clinic),
+    );
+  }, [
     allowedIds,
-    durationMinutesByActivityId,
-    loading: wbActivitiesLoading,
-  } = useCaregiverWbActivities(caregiverUserId, BOOKING_API_BASE);
-  const caregiverCategories = useMemo(() => {
-    const filtered = filterSpecialistBookingCategories(specialist, metodikaCategories);
-    if (caregiverUserId == null || allowedIds.size === 0) return [];
-    return filtered
-      .map((category) => ({
-        ...category,
-        services: filterServicesForCaregiverWbActivities(
-          category.services,
-          allowedIds,
-        ),
-      }))
-      .filter((category) => category.services.length > 0);
-  }, [specialist, metodikaCategories, allowedIds, caregiverUserId]);
+    caregiverActivities,
+    caregiverUserId,
+    clinic,
+  ]);
+
+  const caregiverCategories = useMemo(
+    () =>
+      filterProfileBookingCategories(
+        specialist,
+        metodikaCategories,
+        allowedIdsAtClinic,
+      ),
+    [specialist, metodikaCategories, allowedIdsAtClinic],
+  );
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
   const categories = caregiverCategories;
-  const isLoading = loading || wbActivitiesLoading;
+  const isLoading =
+    categoriesLoading ||
+    (wbActivitiesLoading && categories.length === 0) ||
+    Boolean(pageBooking?.availabilityLoading);
 
   const resolveServiceDurationMinutes = (service: {
     apiActivityId?: number;
@@ -441,7 +751,7 @@ function MetodikaTreatmentPicker({
     return durationMinutesByActivityId.get(service.apiActivityId);
   };
 
-  if (bookingCategoryIds.length === 0) {
+  if (caregiverUserId == null) {
     return (
       <InlinePhoneClinic
         clinic={{
@@ -485,6 +795,10 @@ function MetodikaTreatmentPicker({
     serviceName: string,
     apiActivityId: number,
   ) => {
+    const locationId =
+      clinic.kind === "metodika"
+        ? resolveMetodikaLocationIdForActivity(clinic, bookableMap, apiActivityId)
+        : undefined;
     navigate(
       bookingUrlForSpecialistContext({
         specialistSlug: specialist.slug,
@@ -493,8 +807,16 @@ function MetodikaTreatmentPicker({
         aktivitetId: apiActivityId,
         klinikk: clinic.slug,
         tjeneste: serviceName,
+        locationId,
       }),
     );
+  };
+
+  const slotsKnown = pageBooking != null && !pageBooking.availabilityLoading;
+
+  const serviceHasBookableSlots = (apiActivityId: number | undefined): boolean => {
+    if (apiActivityId == null) return false;
+    return activityBookableAtClinic(apiActivityId);
   };
 
   const handleSelectService = (
@@ -506,6 +828,7 @@ function MetodikaTreatmentPicker({
     apiActivityId?: number,
   ) => {
     if (apiActivityId == null) return;
+    if (!slotsKnown || !serviceHasBookableSlots(apiActivityId)) return;
 
     trackBookingMenuStart({
       entry_point: "specialist_page",
@@ -564,14 +887,71 @@ function MetodikaTreatmentPicker({
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="border-t border-white/10">
-                    {category.services.map((service) => {
+                  <div className="scrollbar-dark-subtle max-h-[min(28rem,50vh)] overflow-x-hidden overflow-y-auto overscroll-y-contain border-t border-white/10">
+                    {sortProfileBookingServices(
+                      category.services,
+                      slotsKnown,
+                      serviceHasBookableSlots,
+                    ).map((service) => {
                       const activityId = service.apiActivityId;
                       const durationMinutes = resolveServiceDurationMinutes(service);
                       const durationLabel =
                         durationMinutes != null
                           ? formatDurationMinutes(durationMinutes, dateLang)
                           : undefined;
+                      const showNoSlots =
+                        slotsKnown &&
+                        activityId != null &&
+                        !serviceHasBookableSlots(activityId);
+
+                      const metaRow = (
+                        <div
+                          className={cn(
+                            "mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium",
+                            showNoSlots ? "text-white/35" : "text-white/80",
+                          )}
+                        >
+                          {durationLabel ? (
+                            <span className="inline-flex items-center gap-1.5">
+                              <Clock
+                                className={cn(
+                                  "h-3.5 w-3.5 shrink-0 stroke-[1.5]",
+                                  showNoSlots ? "text-white/30" : "text-white/70",
+                                )}
+                                aria-hidden="true"
+                              />
+                              <span>{durationLabel}</span>
+                            </span>
+                          ) : null}
+                          <span>{formatBookingServicePrice(service.price)}</span>
+                        </div>
+                      );
+
+                      if (showNoSlots) {
+                        return (
+                          <div
+                            key={service.apiActivityId ?? service.name}
+                            className="flex w-full min-w-0 items-center justify-between gap-3 border-b border-white/5 px-5 py-4 last:border-b-0"
+                          >
+                            <div className="min-w-0 flex-1 opacity-60">
+                              <p className="methodika-sentence-case text-sm font-normal leading-snug text-white/45 break-words">
+                                {service.name}
+                              </p>
+                              {metaRow}
+                            </div>
+                            <CallUsClinicPicker
+                              variant="lightSolid"
+                              size="default"
+                              specialist={specialist}
+                              label={ui.bookingCallToBookLabel}
+                              directTelWhenSingleClinic
+                              menuPlacement="top"
+                              menuAlign="end"
+                              className="shrink-0 whitespace-nowrap"
+                            />
+                          </div>
+                        );
+                      }
 
                       return (
                         <button
@@ -593,18 +973,7 @@ function MetodikaTreatmentPicker({
                             <p className="methodika-sentence-case truncate pr-4 text-sm font-normal text-white">
                               {service.name}
                             </p>
-                            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium text-white/80">
-                              {durationLabel ? (
-                                <span className="inline-flex items-center gap-1.5">
-                                  <Clock
-                                    className="h-3.5 w-3.5 shrink-0 stroke-[1.5] text-white/70"
-                                    aria-hidden="true"
-                                  />
-                                  <span>{durationLabel}</span>
-                                </span>
-                              ) : null}
-                              <span>{formatBookingServicePrice(service.price)}</span>
-                            </div>
+                            {metaRow}
                           </div>
                           <ArrowRight
                             className="h-4 w-4 shrink-0 text-white/40 transition-colors group-hover:text-white"

@@ -14,29 +14,13 @@ import {
   unwrapList,
 } from "@/lib/booking/upstream";
 
-const DEFAULT_CONCURRENCY = 8;
+const USERS_LIST_CACHE_TTL_MS = 5 * 60 * 1000;
 
-async function mapWithConcurrency<T, R>(
-  items: T[],
-  concurrency: number,
-  fn: (item: T) => Promise<R>,
-): Promise<R[]> {
-  if (items.length === 0) return [];
-  const results = new Array<R>(items.length);
-  let index = 0;
-
-  async function worker() {
-    while (index < items.length) {
-      const current = index++;
-      results[current] = await fn(items[current]);
-    }
-  }
-
-  await Promise.all(
-    Array.from({ length: Math.min(concurrency, items.length) }, () => worker()),
-  );
-  return results;
-}
+let usersByIdCache: {
+  expiresAt: number;
+  byId: Map<number, Record<string, unknown>>;
+} | null = null;
+let usersByIdInFlight: Promise<Map<number, Record<string, unknown>>> | null = null;
 
 function parseIdsParam(raw: string | null): number[] {
   if (!raw?.trim()) return [];
@@ -48,6 +32,67 @@ function parseIdsParam(raw: string | null): number[] {
         .filter((id) => Number.isFinite(id) && id > 0),
     ),
   ];
+}
+
+function indexUsersPayload(payload: unknown): Map<number, Record<string, unknown>> {
+  const byId = new Map<number, Record<string, unknown>>();
+  for (const entry of unwrapList(payload)) {
+    if (!entry || typeof entry !== "object") continue;
+    const row = entry as Record<string, unknown>;
+    const rawId = row.id;
+    const id = typeof rawId === "number" ? rawId : Number(rawId);
+    if (!Number.isFinite(id) || id <= 0) continue;
+    byId.set(id, row);
+  }
+  return byId;
+}
+
+/** One upstream list call — step 3 used to N× fetch users/{id}. */
+async function loadMetodikaUsersById(
+  apiKey: string,
+): Promise<Map<number, Record<string, unknown>>> {
+  const now = Date.now();
+  if (usersByIdCache && usersByIdCache.expiresAt > now) {
+    return usersByIdCache.byId;
+  }
+  if (usersByIdInFlight) return usersByIdInFlight;
+
+  usersByIdInFlight = (async () => {
+    const payload = await fetchBookingResourceCached(BOOKING_URLS.users, apiKey);
+    const byId = indexUsersPayload(payload);
+    usersByIdCache = { byId, expiresAt: Date.now() + USERS_LIST_CACHE_TTL_MS };
+    return byId;
+  })().finally(() => {
+    usersByIdInFlight = null;
+  });
+
+  return usersByIdInFlight;
+}
+
+async function fetchUserById(
+  apiKey: string,
+  userId: number,
+): Promise<Record<string, unknown> | null> {
+  const url = bookingResourceUrl(BOOKING_URLS.users, userId);
+  const payload = await fetchBookingResourceCached(url, apiKey);
+  const entry = unwrapList(payload)[0];
+  return entry && typeof entry === "object"
+    ? (entry as Record<string, unknown>)
+    : null;
+}
+
+function caregiverFromEntry(
+  entry: Record<string, unknown>,
+  specialty: string | undefined,
+  portraits: Awaited<ReturnType<typeof fetchSanityCaregiverPortraits>>,
+): BookingCaregiver | null {
+  const caregiver = normalizeBookingCaregiver(entry, specialty);
+  if (!caregiver) return null;
+  const sanityImage = resolveSanityCaregiverImage(portraits, {
+    apiUserId: caregiver.apiUserId,
+    name: caregiver.name,
+  });
+  return sanityImage ? { ...caregiver, image: sanityImage } : caregiver;
 }
 
 /**
@@ -76,28 +121,25 @@ export async function GET(request: Request) {
   const specialty = searchParams.get("specialty")?.trim();
 
   try {
-    const portraits = await fetchSanityCaregiverPortraits();
-    const caregivers = await mapWithConcurrency(ids, DEFAULT_CONCURRENCY, async (userId) => {
-      try {
-        const url = bookingResourceUrl(BOOKING_URLS.users, userId);
-        const payload = await fetchBookingResourceCached(url, apiKey);
-        const entries = unwrapList(payload);
-        const entry = entries[0];
-        if (!entry || typeof entry !== "object") return null;
-        const caregiver = normalizeBookingCaregiver(
-          entry as Record<string, unknown>,
-          specialty || undefined,
-        );
-        if (!caregiver) return null;
-        const sanityImage = resolveSanityCaregiverImage(portraits, {
-          apiUserId: caregiver.apiUserId,
-          name: caregiver.name,
-        });
-        return sanityImage ? { ...caregiver, image: sanityImage } : caregiver;
-      } catch {
-        return null;
-      }
-    });
+    const [portraits, usersById] = await Promise.all([
+      fetchSanityCaregiverPortraits(),
+      loadMetodikaUsersById(apiKey),
+    ]);
+
+    const caregivers = await Promise.all(
+      ids.map(async (userId) => {
+        let entry = usersById.get(userId);
+        if (!entry) {
+          try {
+            entry = (await fetchUserById(apiKey, userId)) ?? undefined;
+          } catch {
+            return null;
+          }
+        }
+        if (!entry) return null;
+        return caregiverFromEntry(entry, specialty || undefined, portraits);
+      }),
+    );
 
     const users = caregivers
       .filter((item): item is BookingCaregiver => item !== null)

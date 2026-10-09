@@ -129,24 +129,24 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
   },
   /**
    * Tall split-column images (Why choose us side image, similar full-height panels).
-   * Desktop fills ~5/12 viewport width × 100vh (≈3:4). Mobile is a shorter ~1:1 crop of the same file.
+   * Desktop column is 5/12 viewport × 100vh = 800×1080 at 1920×1080 / 100% zoom (20:27).
    */
   split: {
     title: 'Split column images',
     emoji: '🖼️',
-    width: 1200,
-    height: 1600,
-    aspectLabel: '3:4 desktop · ~1:1 mobile',
+    width: 800,
+    height: 1080,
+    aspectLabel: '20:27 portrait',
     orientation: 'portrait',
     formats: 'JPG / WebP',
     maxBytes: MB(4),
     maxBytesLabel: '4 MB',
-    minWidth: 750,
-    minHeight: 1000,
+    minWidth: 800,
+    minHeight: 1080,
     tips: [
-      'Upload a real 3:4 portrait file of the group, or leave a landscape photo uncropped.',
-      'Do not use Studio crop presets (3:4 / Square) on a landscape photo — they zoom in on the website.',
-      'Set the hotspot on the group so faces stay in frame.',
+      'Upload a 20:27 portrait (800×1080). That matches the column with no crop.',
+      'Do not upload landscape or use a landscape crop — the column is taller than it is wide.',
+      'Set the hotspot on the group so faces stay in frame on mobile.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -227,19 +227,19 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
   article: {
     title: 'Article Images',
     emoji: '📸',
-    width: 1600,
-    height: 900,
-    aspectLabel: '16:9',
-    orientation: 'landscape',
+    width: 1920,
+    height: 2160,
+    aspectLabel: '8:9 portrait',
+    orientation: 'portrait',
     formats: 'JPG / WebP',
     maxBytes: MB(4),
     maxBytesLabel: '4 MB',
-    minWidth: 1000,
-    minHeight: 560,
+    minWidth: 960,
+    minHeight: 1080,
     tips: [
-      'Works as both listing thumbnail and article hero.',
-      'Set the hotspot on the face or main subject — the website keeps it in frame.',
-      'Add descriptive alt text.',
+      'Upload 1920×2160 (8:9). That matches the article desktop hero column with no crop.',
+      'Do not upload landscape 16:9 — the hero column is taller than it is wide.',
+      'Set the hotspot on the face or main subject for mobile and listing cards.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -449,10 +449,17 @@ export function mediaDescription(
 
   if (kind === 'split') {
     return [
-      `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
-      'Desktop: 3:4 portrait · Mobile: ~1:1 crop of the same image',
-      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
-      'Upload a portrait file. Do not use the 3:4 crop preset on a landscape photo — that zooms in.',
+      'Portrait 20:27 — 800 × 1080 px',
+      'Fills the side column at 100% zoom.',
+      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`,
+    ].join('\n')
+  }
+
+  if (kind === 'article') {
+    return [
+      'Portrait 20:27 — 960 × 1080 px',
+      'Fills the article hero column at 100% zoom (960 × 1080 CSS, 2× retina).',
+      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape 16:9.`,
     ].join('\n')
   }
 

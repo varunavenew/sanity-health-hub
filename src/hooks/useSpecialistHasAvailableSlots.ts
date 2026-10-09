@@ -1,122 +1,239 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCaregiverWbActivities } from "@/hooks/useCaregiverWbActivities";
 import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
 import { resolveBookingCaregiverUserId } from "@/lib/booking/filterClinicsForSpecialist";
-import { resolveSpecialistBookingCategoryIds } from "@/lib/booking/specialist-booking";
 import { pasientskyCalendarIdForSpecialist } from "@/lib/booking/pasientskySpecialist";
-import type {
-  SpecialistPageClinic,
-  SpecialistPageMetodikaClinic,
-} from "@/lib/booking/specialist-page-clinics";
+import type { MetodikaBookableActivityPair } from "@/lib/booking/specialist-slot-availability";
+import type { SpecialistPageClinic } from "@/lib/booking/specialist-page-clinics";
+import {
+  profileWbActivityIdsForSpecialist,
+  profileWbActivityIdsFromCaregiverMatrix,
+} from "@/lib/booking/specialist-booking";
 import { specialistShowsBookingButton } from "@/lib/sanity/specialist-cta";
 import type { Specialist } from "@/lib/sanity/specialist-types";
+import { allowedWbActivityIdSetForCaregiverAtLocations } from "@/lib/booking/wbactivitiesMatrix";
 
 const BOOKING_API_BASE = "/api/booking";
+const EMPTY_BOOKABLE_MAP = new Map<number, Set<number>>();
+
+function bookableIdsByLocation(
+  pairs: MetodikaBookableActivityPair[],
+): Map<number, Set<number>> {
+  const map = new Map<number, Set<number>>();
+  for (const { locationId, wbactivityId } of pairs) {
+    let ids = map.get(locationId);
+    if (!ids) {
+      ids = new Set();
+      map.set(locationId, ids);
+    }
+    ids.add(wbactivityId);
+  }
+  return map;
+}
+
+function bookableMapSignature(map: Map<number, Set<number>>): string {
+  const parts: string[] = [];
+  for (const [locationId, ids] of [...map.entries()].sort((a, b) => a[0] - b[0])) {
+    parts.push(`${locationId}:${[...ids].sort((a, b) => a - b).join(".")}`);
+  }
+  return parts.join("|");
+}
 
 /**
- * True when the specialist has at least one online bookable slot
- * (Metodika freetime or Pasientsky calendar) for any linked treatment.
+ * Metodika freetime + Pasientsky calendar probe for specialist profile booking CTAs.
  */
 export function useSpecialistHasAvailableSlots(
   specialist: Specialist,
   pageClinics: SpecialistPageClinic[],
   bookingApiBase: string = BOOKING_API_BASE,
-): { hasAvailableSlots: boolean; loading: boolean } {
-  const bookingCategoryIds = useMemo(
-    () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds],
-  );
-  const { categories: metodikaCategories, loading: categoriesLoading } =
-    useSpecialistMetodikaBooking(bookingCategoryIds, bookingApiBase);
+): {
+  hasAvailableSlots: boolean;
+  hasPasientskySlots: boolean;
+  loading: boolean;
+  metodikaBookableByLocation: Map<number, Set<number>>;
+} {
+  const specialistSlug = specialist.slug;
+  const showBookingButton = specialist.showBookingButton;
   const caregiverUserId = resolveBookingCaregiverUserId(specialist);
-  const { allowedIds, loading: wbActivitiesLoading } = useCaregiverWbActivities(
-    caregiverUserId,
-    bookingApiBase,
+
+  const pageClinicKey = useMemo(
+    () =>
+      pageClinics
+        .map((clinic) => `${clinic.id}:${clinic.kind}`)
+        .sort()
+        .join(","),
+    [pageClinics],
   );
 
-  const metodikaClinics = useMemo(
-    () => pageClinics.filter((clinic) => clinic.kind === "metodika"),
-    [pageClinics],
+  const metodikaLocationIdsKey = useMemo(() => {
+    return [
+      ...new Set(
+        pageClinics.flatMap((clinic) =>
+          clinic.kind === "metodika"
+            ? clinic.apiLocationIds.length > 0
+              ? clinic.apiLocationIds
+              : [clinic.apiLocationId]
+            : [],
+        ),
+      ),
+    ]
+      .sort((a, b) => a - b)
+      .join(",");
+  }, [pageClinicKey, pageClinics]);
+
+  const pasientskyServiceProviderId = useMemo(() => {
+    const clinic = pageClinics.find((row) => row.kind === "pasientsky");
+    return clinic?.kind === "pasientsky" ? clinic.serviceProviderId : "";
+  }, [pageClinicKey, pageClinics]);
+
+  const hasMetodikaClinic = metodikaLocationIdsKey.length > 0;
+  const hasPasientskyClinic = pasientskyServiceProviderId.length > 0;
+  const hasOnlineClinic = hasMetodikaClinic || hasPasientskyClinic;
+  const metodikaCatalogEnabled =
+    hasMetodikaClinic && caregiverUserId != null;
+
+  const { categories: metodikaCategories, loading: categoriesLoading } =
+    useSpecialistMetodikaBooking(metodikaCatalogEnabled, bookingApiBase);
+  const { allowedIds, activities: caregiverActivities, loading: wbActivitiesLoading } =
+    useCaregiverWbActivities(
+      hasMetodikaClinic ? caregiverUserId : undefined,
+      bookingApiBase,
+    );
+  const pageMetodikaLocationIds = useMemo(() => {
+    if (metodikaLocationIdsKey.length === 0) return [];
+    return metodikaLocationIdsKey.split(",").map((part) => Number(part));
+  }, [metodikaLocationIdsKey]);
+
+  const allowedIdsAtPageLocations = useMemo(() => {
+    if (caregiverUserId == null) return allowedIds;
+    if (pageMetodikaLocationIds.length === 0) return allowedIds;
+    return allowedWbActivityIdSetForCaregiverAtLocations(
+      caregiverActivities,
+      caregiverUserId,
+      pageMetodikaLocationIds,
+    );
+  }, [
+    allowedIds,
+    caregiverActivities,
+    caregiverUserId,
+    pageMetodikaLocationIds,
+  ]);
+
+  const allowedIdsAtPageLocationsKey = useMemo(
+    () => [...allowedIdsAtPageLocations].sort((a, b) => a - b).join(","),
+    [allowedIdsAtPageLocations],
   );
-  const pasientskyClinics = useMemo(
-    () => pageClinics.filter((clinic) => clinic.kind === "pasientsky"),
-    [pageClinics],
-  );
-  const hasOnlineClinic = metodikaClinics.length > 0 || pasientskyClinics.length > 0;
-  const wbactivityIds = useMemo(() => {
-    const fromCategories = new Set<number>();
-    for (const category of metodikaCategories) {
-      for (const service of category.services) {
-        if (service.apiActivityId != null) {
-          fromCategories.add(service.apiActivityId);
-        }
-      }
+
+  const profileWbActivityIdsKey = useMemo(() => {
+    if (
+      !hasMetodikaClinic ||
+      caregiverUserId == null ||
+      allowedIdsAtPageLocations.size === 0
+    ) {
+      return "";
     }
-    return [...allowedIds]
-      .filter((id) => fromCategories.has(id))
-      .sort((a, b) => a - b);
-  }, [metodikaCategories, allowedIds]);
+    const fromMatrix = profileWbActivityIdsFromCaregiverMatrix(
+      specialist,
+      caregiverActivities,
+      allowedIdsAtPageLocations,
+    );
+    if (fromMatrix.length > 0) return fromMatrix.join(",");
+    if (categoriesLoading || metodikaCategories.length === 0) return "";
+    return profileWbActivityIdsForSpecialist(
+      specialist,
+      metodikaCategories,
+      allowedIdsAtPageLocations,
+    ).join(",");
+  }, [
+    specialist.bookingCategoryIds,
+    metodikaCategories,
+    categoriesLoading,
+    caregiverActivities,
+    allowedIdsAtPageLocationsKey,
+    hasMetodikaClinic,
+    caregiverUserId,
+  ]);
+
   const pasientskyCalendarId = useMemo(
     () => pasientskyCalendarIdForSpecialist(specialist),
     [specialist],
   );
 
   const [hasAvailableSlots, setHasAvailableSlots] = useState(false);
+  const [hasPasientskySlots, setHasPasientskySlots] = useState(false);
+  const [metodikaBookableByLocation, setMetodikaBookableByLocation] = useState<
+    Map<number, Set<number>>
+  >(() => EMPTY_BOOKABLE_MAP);
   const [loading, setLoading] = useState(true);
+  const lastBookableSignature = useRef("");
+
+  const metodikaPrerequisitesLoading =
+    hasMetodikaClinic && wbActivitiesLoading;
 
   useEffect(() => {
-    if (!specialistShowsBookingButton(specialist)) {
+    const showsBooking = specialistShowsBookingButton({ showBookingButton });
+
+    if (!showsBooking) {
       setHasAvailableSlots(false);
+      setHasPasientskySlots(false);
+      lastBookableSignature.current = "";
+      setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
       setLoading(false);
       return;
     }
 
     if (pageClinics.length === 0 || !hasOnlineClinic) {
       setHasAvailableSlots(false);
+      setHasPasientskySlots(false);
+      lastBookableSignature.current = "";
+      setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
       setLoading(false);
       return;
     }
 
-    if (metodikaClinics.length > 0) {
-      if (categoriesLoading || wbActivitiesLoading) return;
-      if (caregiverUserId == null || wbactivityIds.length === 0) {
+    if (metodikaPrerequisitesLoading) return;
+
+    if (hasMetodikaClinic && profileWbActivityIdsKey.length === 0) {
+      if (!hasPasientskyClinic) {
         setHasAvailableSlots(false);
+        setHasPasientskySlots(false);
+        lastBookableSignature.current = "";
+        setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
         setLoading(false);
         return;
       }
     }
 
+    if (hasMetodikaClinic && caregiverUserId == null && !hasPasientskyClinic) {
+      setHasAvailableSlots(false);
+      setHasPasientskySlots(false);
+      lastBookableSignature.current = "";
+      setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
+      setLoading(false);
+      return;
+    }
+
     let cancelled = false;
+    lastBookableSignature.current = "";
+    setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
     setLoading(true);
 
     void (async () => {
       try {
         const params = new URLSearchParams();
 
-        if (metodikaClinics.length > 0) {
-          const locationIds = [
-            ...new Set(
-              metodikaClinics.flatMap((clinic) => {
-                const m = clinic as SpecialistPageMetodikaClinic;
-                return m.apiLocationIds?.length
-                  ? m.apiLocationIds
-                  : [m.apiLocationId];
-              }),
-            ),
-          ];
-          params.set("locationIds", locationIds.join(","));
-          params.set("wbactivityIds", wbactivityIds.join(","));
-          if (caregiverUserId != null) {
-            params.set("caregiverUserId", String(caregiverUserId));
-          }
+        if (
+          hasMetodikaClinic &&
+          caregiverUserId != null &&
+          profileWbActivityIdsKey.length > 0
+        ) {
+          params.set("locationIds", metodikaLocationIdsKey);
+          params.set("wbactivityIds", profileWbActivityIdsKey);
+          params.set("caregiverUserId", String(caregiverUserId));
         }
 
-        const pasientskyClinic = pasientskyClinics[0];
-        if (pasientskyClinic) {
-          params.set(
-            "pasientskyServiceProviderId",
-            pasientskyClinic.serviceProviderId,
-          );
+        if (hasPasientskyClinic) {
+          params.set("pasientskyServiceProviderId", pasientskyServiceProviderId);
           if (pasientskyCalendarId) {
             params.set("pasientskyCalendarId", pasientskyCalendarId);
           }
@@ -125,11 +242,34 @@ export function useSpecialistHasAvailableSlots(
         const res = await fetch(
           `${bookingApiBase}/specialist-slots?${params.toString()}`,
         );
-        const json = (await res.json()) as { ok?: boolean; hasSlots?: boolean };
+        const json = (await res.json()) as {
+          ok?: boolean;
+          hasSlots?: boolean;
+          pasientsky?: boolean;
+          metodikaBookable?: MetodikaBookableActivityPair[];
+        };
         if (cancelled) return;
+
+        const pairs = Array.isArray(json.metodikaBookable)
+          ? json.metodikaBookable
+          : [];
+        const nextMap = bookableIdsByLocation(pairs);
+        const signature = bookableMapSignature(nextMap);
+        if (signature !== lastBookableSignature.current) {
+          lastBookableSignature.current = signature;
+          setMetodikaBookableByLocation(nextMap);
+        }
+
+        const pasientskySlots = Boolean(json.pasientsky);
+        setHasPasientskySlots(pasientskySlots);
         setHasAvailableSlots(Boolean(res.ok && json.ok && json.hasSlots));
       } catch {
-        if (!cancelled) setHasAvailableSlots(false);
+        if (!cancelled) {
+          setHasAvailableSlots(false);
+          setHasPasientskySlots(false);
+          lastBookableSignature.current = "";
+          setMetodikaBookableByLocation(EMPTY_BOOKABLE_MAP);
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -139,18 +279,33 @@ export function useSpecialistHasAvailableSlots(
       cancelled = true;
     };
   }, [
-    specialist,
+    showBookingButton,
+    specialistSlug,
     pageClinics.length,
+    pageClinicKey,
     hasOnlineClinic,
-    metodikaClinics,
-    pasientskyClinics,
-    wbactivityIds,
+    hasMetodikaClinic,
+    hasPasientskyClinic,
+    metodikaLocationIdsKey,
+    profileWbActivityIdsKey,
     caregiverUserId,
-    categoriesLoading,
-    wbActivitiesLoading,
+    metodikaPrerequisitesLoading,
     pasientskyCalendarId,
+    pasientskyServiceProviderId,
     bookingApiBase,
   ]);
 
-  return { hasAvailableSlots, loading };
+  const effectiveLoading =
+    loading ||
+    (hasMetodikaClinic &&
+      specialistShowsBookingButton({ showBookingButton }) &&
+      pageClinics.length > 0 &&
+      metodikaPrerequisitesLoading);
+
+  return {
+    hasAvailableSlots,
+    hasPasientskySlots,
+    loading: effectiveLoading,
+    metodikaBookableByLocation,
+  };
 }

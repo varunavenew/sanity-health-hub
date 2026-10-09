@@ -8,37 +8,51 @@ export type SpecialistProfileUi = {
   bookingSectionTitle: string;
   bookingSectionDescription: string;
   heroCallUsLabel: string;
+  /** Shown on the hero when no online slots exist (supports `{firstName}`). */
+  heroCallToBookLabel: string;
   bioSectionTitle: string;
   reviewsSectionTitle: string;
   featuredServiceCtaLabel: string;
+  treatmentsSectionTitle: string;
+  treatmentCardReadMoreLabel: string;
   bookingLoadingLabel: string;
+  /** Hero Book-now pill while freetime is being checked. */
+  bookingAvailabilityCheckingLabel: string;
   bookingEmptyMessage: string;
+  /** Inline treatment row when this service has no bookable times for the specialist. */
+  bookingNoAvailableSlotsLabel: string;
+  /** Call CTA on treatment rows without online slots (e.g. «Ring for å booke»). */
+  bookingCallToBookLabel: string;
   bookingViewAllLabel: string;
   anonymousReviewLabel: string;
 };
 
 export type SpecialistProfileUiVars = {
   firstName: string;
+  name: string;
 };
 
 export function interpolateProfileUi(
   template: string,
   vars: SpecialistProfileUiVars,
 ): string {
-  return template.replace(/\{firstName\}/g, vars.firstName);
+  return template
+    .replace(/\{firstName\}/g, vars.firstName)
+    .replace(/\{name\}/g, vars.name);
 }
 
 export function withProfileUiNames(
   ui: SpecialistProfileUi,
-  firstName: string,
+  vars: SpecialistProfileUiVars,
 ): SpecialistProfileUi & SpecialistProfileUiVars {
-  const vars = { firstName };
   return {
     ...ui,
     ...vars,
     bookingCtaLabel: interpolateProfileUi(ui.bookingCtaLabel, vars),
     bookingSectionTitle: interpolateProfileUi(ui.bookingSectionTitle, vars),
+    heroCallToBookLabel: interpolateProfileUi(ui.heroCallToBookLabel, vars),
     bioSectionTitle: interpolateProfileUi(ui.bioSectionTitle, vars),
+    treatmentsSectionTitle: interpolateProfileUi(ui.treatmentsSectionTitle, vars),
   };
 }
 
@@ -53,12 +67,18 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingSectionDescription:
       "Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.",
     heroCallUsLabel: "Ring oss",
+    heroCallToBookLabel: "Ring oss for å bestille time hos {firstName}",
     bioSectionTitle: "Om {firstName}",
     reviewsSectionTitle: "Hva pasientene sier",
-    featuredServiceCtaLabel: "Se hele tjenesten",
+    featuredServiceCtaLabel: "Se hele området",
+    treatmentsSectionTitle: "Dette hjelper {firstName} deg med",
+    treatmentCardReadMoreLabel: "Les mer",
     bookingLoadingLabel: "Henter tjenester…",
+    bookingAvailabilityCheckingLabel: "Sjekker ledige timer…",
     bookingEmptyMessage:
       "Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.",
+    bookingNoAvailableSlotsLabel: "Ingen ledige timer",
+    bookingCallToBookLabel: "Ring for å booke",
     bookingViewAllLabel: "Se alle tjenester og priser",
     anonymousReviewLabel: "Anonym",
   },
@@ -72,12 +92,18 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     bookingSectionDescription:
       "Choose a service and find a time that suits you. No referral needed.",
     heroCallUsLabel: "Call us",
+    heroCallToBookLabel: "Call us to book an appointment with {firstName}",
     bioSectionTitle: "About {firstName}",
     reviewsSectionTitle: "What patients say",
-    featuredServiceCtaLabel: "View full service",
+    featuredServiceCtaLabel: "View full area",
+    treatmentsSectionTitle: "This is how {firstName} can help you",
+    treatmentCardReadMoreLabel: "Read more",
     bookingLoadingLabel: "Loading services…",
+    bookingAvailabilityCheckingLabel: "Checking availability…",
     bookingEmptyMessage:
       "No bookable services are available right now. Try the booking page for the full overview.",
+    bookingNoAvailableSlotsLabel: "No available slots",
+    bookingCallToBookLabel: "Call to book",
     bookingViewAllLabel: "See all services and prices",
     anonymousReviewLabel: "Anonymous",
   },
@@ -96,11 +122,17 @@ const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
   "bookingSectionTitle",
   "bookingSectionDescription",
   "heroCallUsLabel",
+  "heroCallToBookLabel",
   "bioSectionTitle",
   "reviewsSectionTitle",
   "featuredServiceCtaLabel",
+  "treatmentsSectionTitle",
+  "treatmentCardReadMoreLabel",
   "bookingLoadingLabel",
+  "bookingAvailabilityCheckingLabel",
   "bookingEmptyMessage",
+  "bookingNoAvailableSlotsLabel",
+  "bookingCallToBookLabel",
   "bookingViewAllLabel",
   "anonymousReviewLabel",
 ];

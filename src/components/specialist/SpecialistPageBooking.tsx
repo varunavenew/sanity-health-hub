@@ -13,8 +13,15 @@ import type { Specialist } from "@/lib/sanity/specialist-types";
 import { trackBookingMenuStart } from "@/lib/tracking/seo-events";
 import { useClinics } from "@/hooks/useSanity";
 import { useSpecialistHasAvailableSlots } from "@/hooks/useSpecialistHasAvailableSlots";
-import { resolveSpecialistPageClinics } from "@/lib/booking/specialist-page-clinics";
+import {
+  moelvPasientskyClinicFromPageClinics,
+  resolveSpecialistPageClinics,
+} from "@/lib/booking/specialist-page-clinics";
+import { bookingUrlForSpecialistContext } from "@/lib/booking/specialist-booking";
+import { prefetchSpecialistMetodikaBookingData } from "@/lib/booking/prefetch-specialist-metodika-booking";
 import { isSpecialistInlineBookingEnabled } from "@/lib/env";
+import { useLocaleParam, useNavigate } from "@/lib/router";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const SPECIALIST_INLINE_BOOKING_SECTION_ID = "specialist-inline-booking";
 export const SPECIALIST_INLINE_BOOKING_STEPS_ID = "specialist-inline-booking-steps";
@@ -46,6 +53,10 @@ type SpecialistPageBookingContextValue = {
   availabilityLoading: boolean;
   /** True when at least one online slot exists for this specialist. */
   hasAvailableSlots: boolean;
+  /** Pasientsky calendar has bookable times (e.g. Moelv). */
+  hasPasientskySlots: boolean;
+  /** Metodika wbactivity ids with freetime at each clinic location id. */
+  metodikaBookableByLocation: Map<number, Set<number>>;
 };
 
 const SpecialistPageBookingContext =
@@ -81,13 +92,23 @@ function SpecialistPageBookingProviderActive({
   children: ReactNode;
 }) {
   const [bookingFocusKey, setBookingFocusKey] = useState(0);
-  const { data: sanityClinics = [] } = useClinics();
+  const { data: sanityClinics = [], isLoading: clinicsLoading } = useClinics();
   const pageClinics = useMemo(
     () => resolveSpecialistPageClinics(specialist, sanityClinics),
     [specialist, sanityClinics],
   );
-  const { hasAvailableSlots, loading: availabilityLoading } =
+  const { hasAvailableSlots, hasPasientskySlots, loading: slotsLoading, metodikaBookableByLocation } =
     useSpecialistHasAvailableSlots(specialist, pageClinics);
+  const availabilityLoading = clinicsLoading || slotsLoading;
+  const navigate = useNavigate();
+  const locale = useLocaleParam();
+  const queryClient = useQueryClient();
+  const moelvPasientskyClinic = useMemo(
+    () => moelvPasientskyClinicFromPageClinics(pageClinics),
+    [pageClinics],
+  );
+  const moelvOnlyBooking =
+    Boolean(moelvPasientskyClinic) && pageClinics.length === 1;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -99,16 +120,38 @@ function SpecialistPageBookingProviderActive({
     return () => window.clearTimeout(timer);
   }, [specialist.slug]);
 
+  useEffect(() => {
+    prefetchSpecialistMetodikaBookingData(queryClient, {
+      specialist,
+      pageClinics,
+      locale,
+    });
+  }, [queryClient, specialist, pageClinics, locale]);
+
   const scrollToBookingSection = useCallback(() => {
     trackBookingMenuStart({
       entry_point: "specialist_page",
       practitioner: specialist.name,
       specialty: specialist.title || specialist.expertise?.[0]?.label || null,
-      clinic: specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null,
+      clinic:
+        pageClinics.length === 1
+          ? (pageClinics[0]?.label ?? null)
+          : (specialist.clinicRefs?.[0]?.label ?? specialist.clinics?.[0] ?? null),
     });
+
+    if (moelvOnlyBooking && moelvPasientskyClinic) {
+      navigate(
+        bookingUrlForSpecialistContext({
+          specialistSlug: specialist.slug,
+          klinikk: moelvPasientskyClinic.slug,
+        }),
+      );
+      return;
+    }
+
     setBookingFocusKey((key) => key + 1);
     scrollToSpecialistBookingSection();
-  }, [specialist]);
+  }, [specialist, moelvOnlyBooking, moelvPasientskyClinic, navigate, pageClinics]);
 
   const scrollToBookingSteps = useCallback(() => {
     setBookingFocusKey((key) => key + 1);
@@ -122,6 +165,8 @@ function SpecialistPageBookingProviderActive({
       bookingFocusKey,
       availabilityLoading,
       hasAvailableSlots,
+      hasPasientskySlots,
+      metodikaBookableByLocation,
     }),
     [
       scrollToBookingSection,
@@ -129,6 +174,8 @@ function SpecialistPageBookingProviderActive({
       bookingFocusKey,
       availabilityLoading,
       hasAvailableSlots,
+      hasPasientskySlots,
+      metodikaBookableByLocation,
     ],
   );
 

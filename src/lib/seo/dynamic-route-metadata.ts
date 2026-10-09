@@ -4,7 +4,7 @@ import {
   appLocaleFromParam,
   buildPageMetadata,
   type LocalizedPaths,
-} from "@/lib/seo/metadata-builders";
+} from "@/lib/seo/metadata-builders.server";
 import { resolveSeoShareImageUrl } from "@/lib/seo/resolve-seo-share-image";
 import { resolveMetaStrings, resolveOgImageAlt, type SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
@@ -23,7 +23,7 @@ import { fetchThemeLocalizedPaths, pathsForDetailBySlug, pathsForCategorySlug, p
 import { categorySlugForFetch } from "@/lib/sanity/category-keys";
 import { isNotFoundError } from "@/lib/navigation/is-not-found-error";
 
-function metadataFromSeo(
+async function metadataFromSeo(
   locale: string,
   paths: LocalizedPaths,
   seo: SanitySeoFields | undefined,
@@ -39,7 +39,7 @@ function metadataFromSeo(
     portraitImageUrl?: string | null;
     fallbackOgImageAlt?: string;
   },
-): Metadata {
+): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const { title, description } = resolveMetaStrings(seo, lang, fallbacks);
   const ogImage = resolveSeoShareImageUrl({
@@ -49,7 +49,7 @@ function metadataFromSeo(
     portraitImageUrl: opts?.portraitImageUrl,
   });
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths,
     title,
@@ -71,7 +71,7 @@ export async function buildArticleMetadata(
     const doc = await fetchArticleSeo(slug, sanityLang);
     if (!doc) notFound();
     const paths = await pathsForDetailBySlug("articles", "newsPage", slug, sanityLang);
-    return metadataFromSeo(
+    return await metadataFromSeo(
       locale,
       paths,
       doc?.seo,
@@ -95,7 +95,7 @@ export async function buildArticleMetadata(
     if (isNotFoundError(err)) throw err;
     const isEn = locale === "en";
     const base = `/${locale}/aktuelt/${slug}`;
-    return buildPageMetadata({
+    return await buildPageMetadata({
       locale,
       paths: { nbPath: base, enPath: base },
       title: isEn ? "News | CMedical" : "Aktuelt | CMedical",
@@ -116,7 +116,7 @@ export async function buildTreatmentCategoryMetadata(
   const doc = await fetchTreatmentCategorySeo(categorySlug, sanityLang);
   if (!doc) notFound();
   const title = doc.title || categorySlug;
-  return metadataFromSeo(
+  return await metadataFromSeo(
     locale,
     paths,
     doc?.seo,
@@ -151,7 +151,7 @@ export async function buildTreatmentMetadata(
     if (!doc) notFound();
     const title = doc.title || treatmentSlug;
     const category = doc.parentCategory || categorySlug;
-    return metadataFromSeo(
+    return await metadataFromSeo(
       locale,
       paths,
       doc?.seo,
@@ -192,7 +192,7 @@ export async function buildThemePageMetadata(
     ? await fetchThemeLocalizedPaths(publicUrlSlug)
     : await fetchThemeLocalizedPaths(themeQuerySlug);
   const title = doc?.title || themeQuerySlug;
-  return metadataFromSeo(
+  return await metadataFromSeo(
     locale,
     paths,
     doc?.seo,
@@ -219,7 +219,7 @@ export async function buildClinicianGuidePageMetadata(
   const doc = await fetchClinicianGuidePageSeo(slug, sanityLang);
   const paths: LocalizedPaths = { nbPath: `/no/${slug}`, enPath: `/en/${slug}` };
   const title = doc?.title || slug;
-  return metadataFromSeo(
+  return await metadataFromSeo(
     locale,
     paths,
     doc?.seo,
@@ -247,7 +247,7 @@ export async function buildSpecialistMetadata(
   const paths = await pathsForDetailBySlug("specialists", "specialistsListingPage", slug, sanityLang);
 
   if (!doc?.seo?.metaTitle?.trim() || !doc?.seo?.metaDescription?.trim()) {
-    return buildPageMetadata({
+    return await buildPageMetadata({
       locale,
       paths,
       title: lang === "en" ? "Specialist not found" : "Spesialist ikke funnet",
@@ -267,7 +267,7 @@ export async function buildSpecialistMetadata(
     },
   };
 
-  return metadataFromSeo(locale, paths, doc.seo, cmsSeo, {
+  return await metadataFromSeo(locale, paths, doc.seo, cmsSeo, {
     portraitImageUrl: doc.image,
     heroMedia: doc.heroMedia,
     fallbackOgImageAlt: doc.name,
@@ -284,7 +284,7 @@ export async function buildClinicMetadata(
   const label = doc?.label || slug;
   const paths = await pathsForDetailBySlug("clinics", "clinicsPage", slug, sanityLang);
 
-  return metadataFromSeo(
+  return await metadataFromSeo(
     locale,
     paths,
     doc?.seo,
@@ -331,7 +331,7 @@ export async function buildJobListingMetadata(
     return {};
   }
 
-  return buildPageMetadata({
+  return await buildPageMetadata({
     locale,
     paths,
     title,

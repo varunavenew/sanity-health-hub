@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import {
   parseSpecialistSlotsQuery,
-  specialistHasMetodikaSlots,
   specialistHasPasientskySlots,
+  specialistMetodikaBookableActivityPairs,
 } from "@/lib/booking/specialist-slot-availability";
 import { getBookingApiKey } from "@/lib/booking/upstream";
 
@@ -25,6 +25,7 @@ export async function GET(request: Request) {
 
   try {
     let hasMetodikaSlots = false;
+    let metodikaBookable: { locationId: number; wbactivityId: number }[] | undefined;
     let hasPasientskySlots = false;
 
     if (hasMetodikaQuery) {
@@ -35,12 +36,13 @@ export async function GET(request: Request) {
           { status: 500 },
         );
       }
-      hasMetodikaSlots = await specialistHasMetodikaSlots({
+      metodikaBookable = await specialistMetodikaBookableActivityPairs({
         wbactivityIds: query.wbactivityIds,
         locationIds: query.locationIds,
         caregiverUserId: query.caregiverUserId,
         apiKey,
       });
+      hasMetodikaSlots = metodikaBookable.length > 0;
     }
 
     if (hasPasientskyQuery && query.pasientskyServiceProviderId) {
@@ -57,6 +59,7 @@ export async function GET(request: Request) {
         ok: true,
         hasSlots,
         metodika: hasMetodikaQuery ? hasMetodikaSlots : undefined,
+        metodikaBookable: hasMetodikaQuery ? metodikaBookable : undefined,
         pasientsky: hasPasientskyQuery ? hasPasientskySlots : undefined,
       },
       {
