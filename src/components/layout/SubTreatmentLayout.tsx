@@ -541,7 +541,7 @@ export const SubTreatmentLayout = ({
           </p>
         </div>
 
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-hero">
+        <div className="flex flex-col-reverse lg:grid split-hero-desktop">
           <div className="flex items-center page-edge-text-left py-10 lg:py-20">
             <div className="max-w-xl w-full">
             <PageBreadcrumb items={breadcrumbItems} className="hidden lg:flex mb-6" />
@@ -643,20 +643,22 @@ export const SubTreatmentLayout = ({
             </div>
           </div>
 
-          {resolvedHero || c.heroVideo || heroMediaUrl ? (
-            <SplitHeroMedia
-              className="split-media bg-secondary/40"
-              media={resolvedHero}
-              video={!resolvedHero ? c.heroVideo : undefined}
-              src={!resolvedHero ? heroMediaUrl : undefined}
-              alt={c.heroImageAlt || ""}
-              loading="eager"
-            />
-          ) : (
-            <div className="split-media bg-secondary/40">
-              <div className="absolute inset-0 bg-secondary" />
-            </div>
-          )}
+          <div className="split-hero-photo-col">
+            {resolvedHero || c.heroVideo || heroMediaUrl ? (
+              <SplitHeroMedia
+                className="split-hero-photo split-media bg-secondary/40"
+                media={resolvedHero}
+                video={!resolvedHero ? c.heroVideo : undefined}
+                src={!resolvedHero ? heroMediaUrl : undefined}
+                alt={c.heroImageAlt || ""}
+                loading="eager"
+              />
+            ) : (
+              <div className="split-hero-photo split-media bg-secondary/40">
+                <div className="absolute inset-0 bg-secondary" />
+              </div>
+            )}
+          </div>
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>

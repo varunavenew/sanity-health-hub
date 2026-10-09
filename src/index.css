@@ -778,15 +778,25 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
-/* Specialist desktop hero — half-column frame; image width steps with zoom.
-   Height follows the viewport (640–880px) so portrait photos aren't cropped
-   into a wide strip that cuts off the top of the head. */
+/* Desktop split hero: half-column frame. Specialist height is capped so
+   portraits are not cropped into a wide strip. Treatment/category use the
+   full viewport so the image panel is 100vh. */
 @media (min-width: 1024px) {
+  .specialist-hero-desktop,
+  .split-hero-desktop {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
   .specialist-hero-desktop {
     --specialist-hero-height: clamp(640px, 100svh, 880px);
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     min-height: var(--specialist-hero-height);
-    align-items: stretch;
+  }
+
+  .split-hero-desktop {
+    --split-hero-height: 100vh;
+    --split-hero-height: 100svh;
+    min-height: var(--split-hero-height);
   }
 
   .specialist-hero-photo-col {
@@ -794,7 +804,13 @@ body.cm-edit-mode [data-editable-scope] {
     min-height: var(--specialist-hero-height);
   }
 
-  .specialist-hero-photo {
+  .split-hero-photo-col {
+    position: relative;
+    min-height: var(--split-hero-height);
+  }
+
+  .specialist-hero-photo,
+  .split-hero-photo {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -802,44 +818,13 @@ body.cm-edit-mode [data-editable-scope] {
     background: transparent;
   }
 
-  .specialist-hero-photo > * {
+  .specialist-hero-photo > *,
+  .split-hero-photo > * {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     transform-origin: center center;
-  }
-}
-
-/* 90% zoom on 1920 ≈ 2133px */
-@media (min-width: 2000px) {
-  .specialist-hero-photo > * {
-    width: 70%;
-    right: auto;
-  }
-}
-
-/* 80% zoom on 1920 ≈ 2400px */
-@media (min-width: 2300px) {
-  .specialist-hero-photo > * {
-    width: 60%;
-    right: auto;
-  }
-}
-
-/* 70% zoom on 1920 ≈ 2743px */
-@media (min-width: 2650px) {
-  .specialist-hero-photo > * {
-    width: 50%;
-    right: auto;
-  }
-}
-
-/* 60% zoom on 1920 ≈ 3200px */
-@media (min-width: 3000px) {
-  .specialist-hero-photo > * {
-    width: 45%;
-    right: auto;
   }
 }
 
@@ -850,6 +835,43 @@ body.cm-edit-mode [data-editable-scope] {
   width: 100%;
   height: 100%;
   transform-origin: center center;
+}
+
+/* After `.split-media > *` so treatment/category photos shrink like specialist. */
+@media (min-width: 2000px) {
+  .specialist-hero-photo > *,
+  .split-hero-photo > *,
+  .split-hero-photo.split-media > * {
+    width: 70%;
+    right: auto;
+  }
+}
+
+@media (min-width: 2300px) {
+  .specialist-hero-photo > *,
+  .split-hero-photo > *,
+  .split-hero-photo.split-media > * {
+    width: 60%;
+    right: auto;
+  }
+}
+
+@media (min-width: 2650px) {
+  .specialist-hero-photo > *,
+  .split-hero-photo > *,
+  .split-hero-photo.split-media > * {
+    width: 50%;
+    right: auto;
+  }
+}
+
+@media (min-width: 3000px) {
+  .specialist-hero-photo > *,
+  .split-hero-photo > *,
+  .split-hero-photo.split-media > * {
+    width: 45%;
+    right: auto;
+  }
 }
 
 .split-hero .split-media img,

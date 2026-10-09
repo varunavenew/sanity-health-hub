@@ -1751,7 +1751,7 @@ const TreatmentCategoryLanding = ({
           </div>
           <div
             className={`flex flex-col-reverse ${
-              hasHeroMedia ? "lg:grid lg:grid-cols-2 split-hero" : ""
+              hasHeroMedia ? "lg:grid split-hero-desktop" : ""
             }`}
           >
             <div className="flex items-center page-edge-text-left py-16">
@@ -1815,12 +1815,14 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <SplitHeroMedia
-                className="split-media bg-secondary/40 order-1 lg:order-none"
-                media={heroMedia}
-                alt={hero.heroImageAlt}
-                loading="eager"
-              />
+              <div className="split-hero-photo-col order-1 lg:order-none">
+                <SplitHeroMedia
+                  className="split-hero-photo split-media bg-secondary/40"
+                  media={heroMedia}
+                  alt={hero.heroImageAlt}
+                  loading="eager"
+                />
+              </div>
             ) : null}
           </div>
           <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
