@@ -129,14 +129,13 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
   },
   /**
    * Tall split-column images (Why choose us side image, similar full-height panels).
-   * Desktop column is 5/12 viewport × 100vh = 800×1080 CSS at 1920×1080 / 100% zoom
-   * (20:27). Recommended upload is 2x that box so the photo fills without cover/contain.
+   * Desktop column is 5/12 viewport × 100vh = 800×1080 at 1920×1080 / 100% zoom (20:27).
    */
   split: {
     title: 'Split column images',
     emoji: '🖼️',
-    width: 1600,
-    height: 2160,
+    width: 800,
+    height: 1080,
     aspectLabel: '20:27 portrait',
     orientation: 'portrait',
     formats: 'JPG / WebP',
@@ -145,7 +144,7 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     minWidth: 800,
     minHeight: 1080,
     tips: [
-      'Upload a 20:27 portrait (1600×2160). That matches the column with no crop.',
+      'Upload a 20:27 portrait (800×1080). That matches the column with no crop.',
       'Do not upload landscape or use a landscape crop — the column is taller than it is wide.',
       'Set the hotspot on the group so faces stay in frame on mobile.',
     ],
@@ -450,15 +449,16 @@ export function mediaDescription(
 
   if (kind === 'split') {
     return [
-      'Portrait 20:27 — 1600 × 2160 px',
-      'Fills the side column at 1920×1080 / 100% zoom (800 × 1080 CSS, 2× retina).',
-      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`    ].join('\n')
+      'Portrait 20:27 — 800 × 1080 px',
+      'Fills the side column at 100% zoom.',
+      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`,
+    ].join('\n')
   }
 
   if (kind === 'article') {
     return [
-      'Portrait 8:9 — 1920 × 2160 px',
-      'Fills the article hero column at 1920×1080 / 100% zoom (960 × 1080 CSS, 2× retina).',
+      'Portrait 20:27 — 960 × 1080 px',
+      'Fills the article hero column at 100% zoom (960 × 1080 CSS, 2× retina).',
       `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape 16:9.`,
     ].join('\n')
   }

@@ -778,17 +778,20 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
-/* Specialist desktop hero — half-column frame; image width steps with zoom. */
+/* Specialist desktop hero — half-column frame; image width steps with zoom.
+   Height follows the viewport (640–880px) so portrait photos aren't cropped
+   into a wide strip that cuts off the top of the head. */
 @media (min-width: 1024px) {
   .specialist-hero-desktop {
+    --specialist-hero-height: clamp(640px, 100svh, 880px);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    min-height: 640px;
+    min-height: var(--specialist-hero-height);
     align-items: stretch;
   }
 
   .specialist-hero-photo-col {
     position: relative;
-    min-height: 640px;
+    min-height: var(--specialist-hero-height);
   }
 
   .specialist-hero-photo {
@@ -887,22 +890,29 @@ body.cm-edit-mode [data-editable-scope] {
 }
 
 /*
- * Category "why" contain — only when the file is not 20:27 (800×1080 / 1600×2160).
- * Matching files fill the column with the default cover rules (no letterbox).
+ * Category "why" side image: leftover column matches the left text background.
+ * The photo never grows past 1080px (the 1920×1080 / 100% zoom box).
+ * Contain only when the file is not 20:27 (800×1080).
  */
-.split-section .why-split-media--contain {
+.split-section .why-split-media {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: hsl(var(--background));
 }
 
-.split-section .why-split-media--contain > *,
-.split-section .why-split-media--contain img {
+.split-section .why-split-media > *,
+.split-section .why-split-media img {
   position: relative;
   inset: auto;
   width: 100%;
   height: auto;
-  max-height: 100%;
+  max-height: 1080px;
+  object-fit: cover;
+}
+
+.split-section .why-split-media--contain > *,
+.split-section .why-split-media--contain img {
   object-fit: contain;
 }
 
