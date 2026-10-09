@@ -433,21 +433,46 @@ export function mapTreatmentDocument(
         .filter(Boolean)
         .map((item) => {
           const r = item as Record<string, unknown>;
+          const linked = (r.linked as Record<string, unknown> | undefined) || {};
+          if (
+            linked.pageRole != null &&
+            (!isRelatedServiceEligible(asPlainString(linked.pageRole)) ||
+              !isTreatmentVisibleOnWebsite(
+                typeof linked.hideFromWebsite === "boolean"
+                  ? linked.hideFromWebsite
+                  : undefined,
+              ))
+          ) {
+            return null;
+          }
+          const path =
+            asPlainString(linked.path) || asPlainString(r.path);
           return {
-            title: asPlainString(r.title),
-            desc: asPlainString(r.desc),
-            path: asPlainString(r.path),
+            title:
+              asPlainString(r.cardTitle) ||
+              asPlainString(r.title) ||
+              asPlainString(linked.title),
+            desc:
+              asPlainString(r.cardDescription) ||
+              asPlainString(r.desc) ||
+              asPlainString(linked.description) ||
+              asPlainString(linked.heroDescription),
+            path,
             image:
               asPlainString(r.image) ||
-              relatedImageBySlug.get(pathSlug(asPlainString(r.path))) ||
+              asPlainString(linked.image) ||
+              relatedImageBySlug.get(pathSlug(path)) ||
               relatedImageBySlug.get(
-                resolveFertilitetTreatmentSlug(pathSlug(asPlainString(r.path))),
+                resolveFertilitetTreatmentSlug(pathSlug(path)),
               ) ||
               undefined,
-            imageAlt: asPlainString(r.imageAlt) || undefined,
+            imageAlt:
+              asPlainString(r.imageAlt) ||
+              asPlainString(linked.heroImageAlt) ||
+              undefined,
           };
         })
-        .filter((i) => i.title && i.path);
+        .filter((i): i is NonNullable<typeof i> => Boolean(i?.title && i.path));
       if (items.length === 0) return undefined;
       return {
         title: asPlainString(ea.title) || undefined,

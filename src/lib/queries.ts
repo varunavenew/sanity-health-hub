@@ -860,7 +860,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTre
   ${i18nTextLocale('description')},
   ${i18nTextLocale('geoSummary')},
   "heroMedia": heroMedia${MEDIA_OBJECT_PROJECTION},
-  "heroImage": heroImage.asset->url,
+  "heroImage": coalesce(heroMedia.image.asset->url, heroImage.asset->url),
   ${i18nStringLocale('heroImageAlt')},
   ${localizedParentCategory},
   ${localizedRouteParentSlug},
@@ -982,18 +982,41 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTre
     ${i18nStringLocale('title')},
     ${i18nTextLocale('description')},
     items[]{
+      ${i18nStringLocale('cardTitle')},
+      ${i18nTextLocale('cardDescription')},
       ${i18nStringLocale('title')},
       ${i18nTextLocale('desc')},
       path,
       ${i18nStringLocale('imageAlt')},
       "ownImage": image.asset->url,
+      "linked": treatment->{
+        pageRole,
+        hideFromWebsite,
+        ${i18nStringLocale('title')},
+        ${i18nTextLocale('description')},
+        ${i18nTextLocale('heroDescription')},
+        ${i18nStringLocale('heroImageAlt')},
+        "path": "/" + coalesce(
+          categories[0]->slug[language == $lang][0].value.current,
+          categories[0]->slug[_key == $lang][0].value.current,
+          category->slug[language == $lang][0].value.current,
+          category->slug[_key == $lang][0].value.current
+        ) + "/" + coalesce(
+          slug[language == $lang][0].value.current,
+          slug[_key == $lang][0].value.current
+        ),
+        "image": coalesce(heroImage.asset->url, heroMedia.image.asset->url)
+      },
       "pathParts": array::compact(string::split(coalesce(path, ""), "/")),
     }{
+      cardTitle,
+      cardDescription,
       title,
       desc,
       path,
       imageAlt,
       ownImage,
+      linked,
       "linkedCategory": select(
         pathParts[-2] == "urology" => "urologi",
         pathParts[-2] == "gynecology" => "gynekologi",
@@ -1006,12 +1029,16 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${publishedTre
         [pathParts[-1]]
       )
     }{
+      cardTitle,
+      cardDescription,
       title,
       desc,
       path,
       imageAlt,
+      linked,
       "image": coalesce(
         ownImage,
+        linked.image,
         *[_type == "treatment" && ${publishedTreatmentFilter} && (
           slug[language == $lang][0].value.current in ^.linkedSlugAliases
           || slug[_key == $lang][0].value.current in ^.linkedSlugAliases
