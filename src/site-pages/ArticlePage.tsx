@@ -212,6 +212,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         date: a.date,
         category: normalizeCategory(a.category),
         externalUrl: a.externalUrl,
+        contentFormat: a.contentFormat,
       }))
       .filter((a) => a.slug && a.slug !== article.slug);
 

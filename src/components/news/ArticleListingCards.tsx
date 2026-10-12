@@ -1,38 +1,12 @@
-import { Calendar, FileText, MessageSquare, Mic, Video } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Link } from "@/lib/router";
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { MediaChip } from "@/components/ui/MediaChip";
 import { ReadMoreLink } from "@/components/ui/ReadMoreLink";
+import { ArticleFormatBadge } from "@/components/news/ArticleFormatBadge";
 import type { Article } from "@/data/articles";
 
-export type ListingArticle = Article & {
-  mediaType?: "article" | "video" | "podcast" | "post";
-};
-
-const MEDIA_META: Record<
-  NonNullable<ListingArticle["mediaType"]>,
-  { Icon: typeof FileText; label: string }
-> = {
-  article: { Icon: FileText, label: "Artikkel" },
-  video: { Icon: Video, label: "Video" },
-  podcast: { Icon: Mic, label: "Podcast" },
-  post: { Icon: MessageSquare, label: "Innlegg" },
-};
-
-function MediaBadge({ type }: { type?: ListingArticle["mediaType"] }) {
-  const meta = MEDIA_META[type ?? "article"];
-  const Icon = meta.Icon;
-
-  return (
-    <div
-      className="absolute top-3 right-3 w-8 h-8 rounded-full bg-brand-dark/80 backdrop-blur-sm text-white flex items-center justify-center"
-      aria-label={meta.label}
-      title={meta.label}
-    >
-      <Icon className="w-4 h-4" strokeWidth={1.5} />
-    </div>
-  );
-}
+export type ListingArticle = Article;
 
 export function ArticleCard({
   article,
@@ -69,7 +43,7 @@ export function ArticleCard({
         <div className="absolute top-3 left-3">
           <MediaChip>{categoryLabel}</MediaChip>
         </div>
-        <MediaBadge type={article.mediaType} />
+        <ArticleFormatBadge format={article.contentFormat} />
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
         <Calendar className="w-3 h-3" />
@@ -117,7 +91,7 @@ export function FeaturedCard({
           className="w-full h-full group-hover:scale-105 transition-transform duration-700"
         />
       </div>
-      <MediaBadge type={article.mediaType} />
+      <ArticleFormatBadge format={article.contentFormat} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
         <MediaChip tone="light" className="mb-2">

@@ -17,6 +17,7 @@ import { resolveOgImageAlt } from "@/lib/seo/seo-fields";
 import { NewsSocialPlatformSection } from "@/components/news/NewsSocialPlatformSection";
 import { NewsInstagramSection } from "@/components/news/NewsInstagramSection";
 import { resolveArticleCategoryLabel, resolveNewsFilterOptions } from "@/lib/news/category-labels";
+import { resolveArticleContentFormat } from "@/lib/news/content-format";
 import {
   ArticleCard,
   FeaturedCard,
@@ -37,7 +38,7 @@ type RawArticle = {
   date?: string;
   category?: string;
   externalUrl?: string;
-  mediaType?: ListingArticle["mediaType"];
+  contentFormat?: string | null;
 };
 
 const mapRawArticle = (a: RawArticle): ListingArticle | null => {
@@ -52,7 +53,7 @@ const mapRawArticle = (a: RawArticle): ListingArticle | null => {
     date: a.date || "",
     category: normalizeCategory(a.category || ""),
     externalUrl: a.externalUrl,
-    mediaType: a.mediaType,
+    contentFormat: resolveArticleContentFormat(a.contentFormat),
   };
 };
 
@@ -117,7 +118,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         date: a.date,
         category: normalizeCategory(a.category),
         externalUrl: a.externalUrl,
-        mediaType: (a as { mediaType?: ListingArticle["mediaType"] }).mediaType,
+        contentFormat: resolveArticleContentFormat(a.contentFormat),
       }))
       .filter((a) => {
         if (!a.slug || seen.has(a.slug)) return false;

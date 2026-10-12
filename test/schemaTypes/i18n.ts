@@ -2,6 +2,15 @@
  * Shared helpers for sanity-plugin-internationalized-array fields.
  */
 import {LocalizedObjectPreview} from '../sanity/components/LocalizedObjectPreview'
+import {slugForLang, slugifyForUrl, validateNoEnUrlSlug} from './urlSlug'
+
+export {
+  URL_SLUG_PATTERN,
+  URL_SLUG_PATTERN_MESSAGE,
+  isValidUrlSlug,
+  slugifyForUrl,
+  validateNoEnUrlSlug,
+} from './urlSlug'
 
 export function pickNo(value: unknown): string {
   if (Array.isArray(value)) {
@@ -61,13 +70,6 @@ export function requiredNoEnI18n(label: string) {
     })
 }
 
-function slugForLang(value: unknown, lang: string): string {
-  if (!Array.isArray(value)) return ''
-  const entry = value.find((x: any) => (x.language || x._key) === lang)
-  const current = entry?.value?.current ?? entry?.value
-  return typeof current === 'string' ? current.trim() : ''
-}
-
 /** Sanity validation: localized slug must exist for NO and EN. */
 export function requiredNoEnSlug() {
   return (Rule: any) =>
@@ -76,6 +78,11 @@ export function requiredNoEnSlug() {
       if (!slugForLang(value, 'en')) return 'URL slug (English) is required'
       return true
     })
+}
+
+/** Sanity validation: NO + EN slugs required, and each must match URL_SLUG_PATTERN. */
+export function requiredNoEnUrlSlug() {
+  return (Rule: any) => Rule.custom((value: unknown) => validateNoEnUrlSlug(value))
 }
 
 function hasLangBlockContent(value: unknown, lang: string): boolean {
@@ -350,30 +357,7 @@ type SlugFieldOverrides = {
   title?: string
   group?: string
   description?: string
-}
-
-/**
- * URL slugify used by Studio Generate (and matching migration scripts).
- * Examples: "Kne & Hofte" → "kne-hofte", "Women's Health" → "womens-health"
- */
-export function slugifyForUrl(input: string, maxLength = 96): string {
-  const cleaned = input
-    .toString()
-    .trim()
-    .toLowerCase()
-    .replace(/æ/g, 'ae')
-    .replace(/ø/g, 'o')
-    .replace(/å/g, 'a')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    // Drop apostrophes so "Women's" → "womens" (not "women-s")
-    .replace(/[''`´]/g, '')
-
-  const slug = cleaned
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-
-  return slug.slice(0, maxLength)
+  validation?: (Rule: any) => any
 }
 
 /**
@@ -401,7 +385,7 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
       slugify: (input: string) => slugifyForUrl(input, 96),
       maxLength: 96,
     },
-    validation: requiredNoEnSlug(),
+    validation: overrides.validation ?? requiredNoEnSlug(),
   }
 }
 
