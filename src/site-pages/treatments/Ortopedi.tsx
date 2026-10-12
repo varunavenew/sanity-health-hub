@@ -216,12 +216,14 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-full">
-            <AssetImg
-              src={ortopediHero}
-              alt="Ortopedi hos CMedical"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+          <div className="split-hero-photo-col relative min-h-[420px] lg:min-h-full">
+            <div className="split-hero-photo relative overflow-hidden h-full min-h-[420px]">
+              <AssetImg
+                src={ortopediHero}
+                alt="Ortopedi hos CMedical"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
