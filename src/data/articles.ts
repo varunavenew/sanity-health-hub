@@ -3,6 +3,7 @@ import {
   normalizeArticleCategory,
 } from "@/lib/news/article-categories";
 import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
+import type { ArticleContentFormat } from "@/lib/news/content-format";
 
 export interface Article {
   slug: string;
@@ -14,6 +15,7 @@ export interface Article {
   date: string;
   category: string;
   externalUrl?: string;
+  contentFormat?: ArticleContentFormat;
 }
 
 export const filterCategories = ["Alle", ...ARTICLE_CATEGORIES];

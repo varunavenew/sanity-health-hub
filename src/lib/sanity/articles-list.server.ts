@@ -6,6 +6,10 @@ import { pickImageFocal } from "@/lib/sanity/media-dual-read";
 import { cmsImageSrc } from "@/lib/sanity/image-url";
 import { normalizeI18nStrict } from "@/lib/sanity/normalize-i18n";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
+import {
+  resolveArticleContentFormat,
+  type ArticleContentFormat,
+} from "@/lib/news/content-format";
 
 export type ListingArticleRow = {
   _id?: string;
@@ -18,7 +22,7 @@ export type ListingArticleRow = {
   date: string;
   category: string;
   externalUrl?: string;
-  mediaType?: string;
+  contentFormat?: ArticleContentFormat;
 };
 
 /** Server-side articles list for RSC hydration (mirrors `useArticles`). */
@@ -42,6 +46,7 @@ export async function fetchArticlesListData(
       category: normalizeArticleCategory(
         typeof a.category === "string" ? a.category : "Nytt fra oss",
       ),
+      contentFormat: resolveArticleContentFormat(a.contentFormat),
     } as ListingArticleRow;
   });
 }

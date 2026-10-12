@@ -9,6 +9,7 @@ import { normalizeCategory, type Article } from "@/data/articles";
 import type { PageSectionArticlesConfig } from "@/lib/sanity/page-sections";
 import { resolveArticlesDisplayMode } from "@/lib/sanity/specialists-display-mode";
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
+import { ArticleFormatBadge } from "@/components/news/ArticleFormatBadge";
 import { resolveArticleCategoryLabel } from "@/lib/news/category-labels";
 
 function formatDate(dateStr: string) {
@@ -49,6 +50,7 @@ function ArticleGridCard({ article }: { article: Article }) {
             {displayCategory(article.category)}
           </span>
         </div>
+        <ArticleFormatBadge format={article.contentFormat} />
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
         <Calendar className="w-3 h-3" />
@@ -83,6 +85,7 @@ function resolveArticles(config: PageSectionArticlesConfig, all: Article[]): Art
         date: a.date,
         category: a.category,
         externalUrl: a.externalUrl,
+        contentFormat: a.contentFormat,
       }),
     );
   }
@@ -123,6 +126,7 @@ export function PageSectionArticlesBlock({ config }: Props) {
       imageCrop: a.imageCrop,
       date: a.date,
       category: normalizeCategory(a.category),
+      contentFormat: a.contentFormat,
     }));
     return resolveArticles(config, mapped);
   }, [config, allArticles]);
@@ -181,6 +185,7 @@ export function PageSectionArticlesBlock({ config }: Props) {
                 )}
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+              <ArticleFormatBadge format={featured.contentFormat} />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span className="inline-block bg-white/15 text-white text-xs px-2.5 py-0.5 rounded-full mb-2">
                   {displayCategory(featured.category)}

@@ -28,6 +28,10 @@ import { LISTING_SORT_SETTINGS_QUERY } from "@/lib/queries";
 import { mapHomepageDocument, mapHomepageSpecialistsSection } from "@/lib/sanity/homepage-data";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
 import {
+  resolveArticleContentFormat,
+  type ArticleContentFormat,
+} from "@/lib/news/content-format";
+import {
   resolveBookingPageCopy,
   type BookingPageCopy,
 } from "@/lib/sanity/booking-page-copy";
@@ -992,6 +996,7 @@ export interface SanityArticle {
   date: string;
   category: string;
   externalUrl?: string;
+  contentFormat?: ArticleContentFormat;
   body?: any[];
   pageSections?: PageSection[];
   seo?: {
@@ -1019,6 +1024,7 @@ export const useArticles = () => {
         ...pickImageFocal(a),
         date: a.date || "",
         category: normalizeArticleCategory(a.category || "Nytt fra oss"),
+        contentFormat: resolveArticleContentFormat(a.contentFormat),
       })) as SanityArticle[];
     },
     staleTime: 5 * 60 * 1000,

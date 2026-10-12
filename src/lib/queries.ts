@@ -324,7 +324,8 @@ export const PAGE_SECTIONS_GROQ = `
       ${i18nTextLocale("excerpt")},
       ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
       "date": publishedAt,
-      category
+      category,
+      contentFormat
     },
     ${pageSectionInsuranceBodyProjection},
     "insuranceCollection": insuranceCollection->{
@@ -389,6 +390,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage" && ${publishedOnly}][0]{
     ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
     "date": publishedAt,
     category,
+    contentFormat,
   },
   resultsStatsSection{
     ${i18nString("title")},
@@ -1307,6 +1309,7 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
     ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
     "date": publishedAt,
     category,
+    contentFormat,
   },
   "featuredArticles": featuredArticles[]->{
     _id,
@@ -1316,6 +1319,7 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage" && ${publishedOnly}][0]{
     ${ARTICLE_PRIMARY_IMAGE_PROJECTION},
     "date": publishedAt,
     category,
+    contentFormat,
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -1927,6 +1931,7 @@ export const ARTICLES_QUERY = `*[_type == "article" && ${publishedOnly}] | order
   "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value),
   "date": publishedAt,
   category,
+  contentFormat,
 }`;
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${publishedOnly} && ${slugMatchesParam("slug")}][0]{
