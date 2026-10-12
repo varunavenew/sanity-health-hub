@@ -332,7 +332,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           swipeDownLabel={swipeDownLabel}
         />
 
-        <div className="hidden lg:grid lg:grid-cols-2 split-hero">
+        <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero split-hero-desktop">
           <div className="flex items-center px-16 lg:px-20 pt-32 pb-20">
             <div className="w-full max-w-xl">
               <Link

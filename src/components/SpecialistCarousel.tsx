@@ -5,6 +5,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight, MapPin } from "lucide-react";
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { useCarouselFitAlign } from "@/hooks/useCarouselFitAlign";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { resolveSpecialistImageFocal } from "@/lib/sanity/specialist-data";
@@ -87,6 +88,8 @@ export const SpecialistCarousel = ({
     return result;
   }, [provided, allSpecialists, category, filter, fallbackCategory]);
 
+  useCarouselFitAlign(scrollRef, items.length);
+
   if (items.length === 0) return null;
 
   const ctaLabel = seeAllLabel ?? "Se alle spesialister";
@@ -125,7 +128,7 @@ export const SpecialistCarousel = ({
     <>
       <div
         ref={scrollRef}
-        className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
+        className="carousel-track flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -153,27 +156,29 @@ export const SpecialistCarousel = ({
     </>
   );
 
-  if (bare) return body;
+  if (bare) return <div className="carousel-shell">{body}</div>;
 
   return (
     <section className={className}>
-      {(title || description) && (
-        <div className="page-shell">
-          <div className="section-head">
-            {title ? (
-              <h2 className="text-2xl md:text-3xl font-light text-foreground lg:col-span-5">
-                {title}
-              </h2>
-            ) : null}
-            {description ? (
-              <p className="section-lead text-muted-foreground font-light lg:col-span-6 lg:mt-0">
-                {description}
-              </p>
-            ) : null}
+      <div className="carousel-shell">
+        {(title || description) && (
+          <div className="page-shell">
+            <div className="section-head">
+              {title ? (
+                <h2 className="text-2xl md:text-3xl font-light text-foreground lg:col-span-5">
+                  {title}
+                </h2>
+              ) : null}
+              {description ? (
+                <p className="section-lead text-muted-foreground font-light lg:col-span-6 lg:mt-0">
+                  {description}
+                </p>
+              ) : null}
+            </div>
           </div>
-        </div>
-      )}
-      {body}
+        )}
+        {body}
+      </div>
     </section>
   );
 };

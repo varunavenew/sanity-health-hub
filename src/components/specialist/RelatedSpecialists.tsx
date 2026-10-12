@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useCarouselFitAlign } from "@/hooks/useCarouselFitAlign";
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "@/lib/router";
@@ -34,6 +35,7 @@ export const RelatedSpecialists = ({
 }: RelatedSpecialistsProps) => {
   const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
+  useCarouselFitAlign(scrollRef, specialists.length);
 
   if (specialists.length === 0) return null;
 
@@ -55,6 +57,7 @@ export const RelatedSpecialists = ({
 
   return (
     <section className="py-16 md:py-24 bg-background overflow-hidden">
+      <div className="carousel-shell">
       <div className="container mx-auto px-6 md:px-16">
         {showHeader ? (
           <motion.div
@@ -80,7 +83,7 @@ export const RelatedSpecialists = ({
 
       <div
         ref={scrollRef}
-        className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-6 md:pl-16 pr-6 md:pr-16"
+        className="carousel-track flex gap-2 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-6 md:pl-16 pr-6 md:pr-16"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -115,6 +118,7 @@ export const RelatedSpecialists = ({
         prevLabel={isEn ? "Previous" : "Forrige"}
         nextLabel={isEn ? "Next" : "Neste"}
       />
+      </div>
     </section>
   );
 };

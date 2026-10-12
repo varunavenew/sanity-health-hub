@@ -78,7 +78,7 @@ export const SplitHero = ({
       <div
         className={
           hasImage
-            ? "flex flex-col lg:grid lg:grid-cols-2 split-hero split-hero-image-first"
+            ? "flex flex-col lg:grid lg:grid-cols-2 split-hero split-hero-desktop split-hero-image-first"
             : "flex flex-col"
         }
       >
@@ -148,12 +148,14 @@ export const SplitHero = ({
 
         {/* Right: image */}
         {hasImage ? (
-          <SplitHeroMedia
-            src={imageSrc}
-            alt={imageAlt || title || ""}
-            hotspot={imageHotspot}
-            className="split-media order-1 lg:order-2"
-          />
+          <div className="split-hero-photo-col order-1 lg:order-2">
+            <SplitHeroMedia
+              src={imageSrc}
+              alt={imageAlt || title || ""}
+              hotspot={imageHotspot}
+              className="split-hero-photo split-media h-full"
+            />
+          </div>
         ) : null}
       </div>
       {hasText || hasImage ? (

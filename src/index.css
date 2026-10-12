@@ -222,6 +222,15 @@
     padding-right: var(--gutter);
   }
 
+  /*
+   * Ticket #419 — large-screen shell (min-width: 1920px).
+   * Below that, display:contents so 390 / 1440 layouts are unchanged.
+   * At 1920px+ the wrapper uses the same max-width and gutters as the nav.
+   */
+  .carousel-shell {
+    display: contents;
+  }
+
   /* Split-screen tekstkolonne: bilde går kant-i-kant på motsatt side,
      tekst starter på samme x som logoen. */
   .page-edge-text-left {
@@ -747,7 +756,9 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
-/* Specialist desktop hero — half-column frame; image width steps with zoom. */
+/* Desktop split hero: half-column frame. Specialist height is capped so
+   portraits are not cropped into a wide strip. Treatment/category stay
+   100svh through 1440px; from 2000px they use the same 880px cap. */
 @media (min-width: 1024px) {
   .specialist-hero-desktop {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -777,35 +788,149 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
+/*
+ * Ticket #419 — constrain carousels to the menu shell from 1920px up.
+ * Split heroes stay a full-viewport 50/50 so zoom-out photo step-down
+ * matches production (cream on the right of a large image panel).
+ * 1440px laptop and 390px mobile are unchanged.
+ */
+@media (min-width: 1920px) {
+  .split-section {
+    width: 100%;
+    max-width: var(--max-shell);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .split-section > :first-child {
+    padding-left: 0;
+  }
+
+  .carousel-shell {
+    display: block;
+    width: 100%;
+    max-width: var(--max-shell);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .carousel-shell > .page-shell,
+  .carousel-shell > .container {
+    max-width: none;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .carousel-shell .max-w-6xl {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .carousel-shell .carousel-track {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .carousel-shell .carousel-nav {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .carousel-track--center {
+    justify-content: center;
+  }
+}
+
+/*
+ * Zoom-out photo step-down: shrink the photo FRAME, not the inner img.
+ * Category/treatment media is `inset-0` + scale(1.14), so `> * { width: 70% }`
+ * never shows cream — the image still paints to the column edge.
+ * Inner media stays 100% of the smaller frame; header cream shows on the right.
+ * Height matches specialist (max 880px) so the panel does not grow with 100svh.
+ * 1440px laptop and 390px mobile are unchanged.
+ */
 /* 90% zoom on 1920 ≈ 2133px */
 @media (min-width: 2000px) {
-  .specialist-hero-photo > * {
+  .split-hero-desktop {
+    --split-hero-height: clamp(640px, 100svh, 880px);
+  }
+
+  .split-hero-photo-col {
+    min-height: var(--split-hero-height, clamp(640px, 100svh, 880px));
+    max-height: 880px;
+  }
+
+  .specialist-hero-photo,
+  .split-hero-photo {
     width: 70%;
+    left: 0;
     right: auto;
+  }
+
+  .split-hero-desktop > .split-media {
+    width: 70%;
+    justify-self: start;
   }
 }
 
 /* 80% zoom on 1920 ≈ 2400px */
 @media (min-width: 2300px) {
-  .specialist-hero-photo > * {
+  .specialist-hero-photo,
+  .split-hero-photo {
     width: 60%;
+    left: 0;
     right: auto;
+  }
+
+  .split-hero-desktop > .split-media {
+    width: 60%;
+    justify-self: start;
   }
 }
 
 /* 70% zoom on 1920 ≈ 2743px */
 @media (min-width: 2650px) {
-  .specialist-hero-photo > * {
+  .specialist-hero-photo,
+  .split-hero-photo {
     width: 50%;
+    left: 0;
     right: auto;
+  }
+
+  .split-hero-desktop > .split-media {
+    width: 50%;
+    justify-self: start;
   }
 }
 
 /* 60% zoom on 1920 ≈ 3200px */
 @media (min-width: 3000px) {
-  .specialist-hero-photo > * {
+  .specialist-hero-photo,
+  .split-hero-photo {
     width: 45%;
+    left: 0;
     right: auto;
+  }
+
+  .split-hero-desktop > .split-media {
+    width: 45%;
+    justify-self: start;
   }
 }
 
@@ -835,7 +960,8 @@ body.cm-edit-mode [data-editable-scope] {
     min-height: 0;
   }
 
-  .split-hero-image-first > .split-media {
+  .split-hero-image-first > .split-media,
+  .split-hero-image-first > .split-hero-photo-col {
     order: 1;
     min-height: 40vh;
     max-height: 44vh;
