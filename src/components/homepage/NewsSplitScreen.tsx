@@ -6,7 +6,9 @@ import { Link } from "@/lib/router";
 import { articles, normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useHomepage } from "@/hooks/useSanity";
 import { ResponsiveImage } from "@/components/media/ResponsiveImage";
+import { ArticleFormatBadge } from "@/components/news/ArticleFormatBadge";
 import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
+import type { ArticleContentFormat } from "@/lib/news/content-format";
 import { defaultNewsSplitSection } from "@/lib/sanity/homepage-data";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +20,7 @@ type NewsSplitItem = {
   imageHotspot?: SanityHotspot | MediaFocalPoint | null;
   imageCrop?: SanityCrop | null;
   eyebrow: string;
+  contentFormat?: ArticleContentFormat;
 };
 
 const FALLBACK_IMAGES = [
@@ -39,6 +42,7 @@ function articleToItem(
     imageHotspot: article.imageHotspot,
     imageCrop: article.imageCrop,
     eyebrow: normalizeCategory(article.category),
+    contentFormat: article.contentFormat,
   };
 }
 
@@ -128,6 +132,7 @@ export const NewsSplitScreen = () => {
                 date: a.date,
                 category: normalizeCategory(a.category),
                 externalUrl: a.externalUrl,
+                contentFormat: a.contentFormat,
               }),
             ),
           )
@@ -195,6 +200,7 @@ export const NewsSplitScreen = () => {
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/5"
               />
+              <ArticleFormatBadge format={item.contentFormat} className="z-10" />
               <div className="relative z-10 flex h-full flex-col justify-end px-4 md:px-6 lg:px-8 py-6 md:py-8 text-white">
                 <span className="text-[11px] md:text-xs font-light text-white/70 mb-2">
                   {item.eyebrow}

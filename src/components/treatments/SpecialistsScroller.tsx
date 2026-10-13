@@ -5,6 +5,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { useCarouselFitAlign } from "@/hooks/useCarouselFitAlign";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { bookingUrlForSpecialist, type BookingLinkParams } from "@/lib/bookingLinks";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
@@ -149,6 +150,8 @@ export const SpecialistsScroller = ({
     };
   }, [isCategory, syncScrollState, filtered.length]);
 
+  useCarouselFitAlign(scrollRef, filtered.length);
+
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
     const firstCard = scrollRef.current.querySelector<HTMLElement>(":scope > div");
@@ -195,95 +198,98 @@ export const SpecialistsScroller = ({
 
     return (
       <section className="pt-8 md:pt-10 pb-10 md:pb-12 bg-secondary/30 overflow-hidden">
-        <div className="page-shell mb-5 md:mb-6">
-          {eyebrow ? (
-            <p className="text-sm text-muted-foreground font-light mb-3">{eyebrow}</p>
-          ) : null}
-          {/* Reference: title + ingress stacked left (not split columns / no header CTA). */}
-          <div className="max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground mb-4">
-              {resolvedTitle}
-            </h2>
-            {resolvedDescription ? (
-              <p className="text-muted-foreground font-light max-w-2xl">
-                {resolvedDescription}
-              </p>
+        <div className="carousel-shell">
+          <div className="page-shell mb-5 md:mb-6">
+            {eyebrow ? (
+              <p className="text-sm text-muted-foreground font-light mb-3">{eyebrow}</p>
             ) : null}
-          </div>
-        </div>
-
-        {filtered.length === 1 ? (
-          <div className="page-shell">
-            <SpecialistFeature sp={filtered[0]} bookingContext={bookingContext} />
-            {seeAllLink ? <div className="mt-6 md:mt-8">{seeAllLink}</div> : null}
-          </div>
-        ) : (
-          <div className="relative">
-            <div
-              ref={scrollRef}
-              className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)] pr-[var(--gutter)] md:pr-0"
-              style={{
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                WebkitOverflowScrolling: "touch",
-              }}
-            >
-              {filtered.map((sp) => (
-                <div
-                  key={sp.slug}
-                  className="flex-shrink-0 w-[70vw] sm:w-[240px] md:w-[280px] snap-start"
-                >
-                  <CategorySpecialistCard sp={sp} profileLabel={profileLabel} />
-                </div>
-              ))}
+            {/* Reference: title + ingress stacked left (not split columns / no header CTA). */}
+            <div className="max-w-3xl">
+              <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground mb-4">
+                {resolvedTitle}
+              </h2>
+              {resolvedDescription ? (
+                <p className="text-muted-foreground font-light max-w-2xl">
+                  {resolvedDescription}
+                </p>
+              ) : null}
             </div>
+          </div>
 
-            <div className="flex flex-col items-start gap-4 w-full max-w-full overflow-x-clip carousel-nav px-[var(--gutter)] mt-4 md:mt-6">
-              <div className="flex items-center gap-3 md:gap-4 min-w-0 w-full">
-                <div
-                  className="relative h-px flex-1 min-w-[48px] bg-brand-dark/15"
-                  role="progressbar"
-                  aria-valuemin={1}
-                  aria-valuemax={filtered.length}
-                  aria-valuenow={activeIndex}
-                  aria-label={progressLabel}
-                >
+          {filtered.length === 1 ? (
+            <div className="page-shell">
+              <SpecialistFeature sp={filtered[0]} bookingContext={bookingContext} />
+              {seeAllLink ? <div className="mt-6 md:mt-8">{seeAllLink}</div> : null}
+            </div>
+          ) : (
+            <div className="relative">
+              <div
+                ref={scrollRef}
+                className="carousel-track flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)] pr-[var(--gutter)] md:pr-0"
+                style={{
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  WebkitOverflowScrolling: "touch",
+                }}
+              >
+                {filtered.map((sp) => (
                   <div
-                    className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-300 ease-out"
-                    style={{ width: `${progressPct}%` }}
-                  />
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    type="button"
-                    aria-label={prevLabel}
-                    disabled={!canPrev}
-                    onClick={() => scroll("left")}
-                    className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                    key={sp.slug}
+                    className="flex-shrink-0 w-[70vw] sm:w-[240px] md:w-[280px] snap-start"
                   >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label={nextLabel}
-                    disabled={!canNext}
-                    onClick={() => scroll("right")}
-                    className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
+                    <CategorySpecialistCard sp={sp} profileLabel={profileLabel} />
+                  </div>
+                ))}
               </div>
-              {seeAllLink}
+
+              <div className="flex flex-col items-start gap-4 w-full max-w-full overflow-x-clip carousel-nav px-[var(--gutter)] mt-4 md:mt-6">
+                <div className="flex items-center gap-3 md:gap-4 min-w-0 w-full">
+                  <div
+                    className="relative h-px flex-1 min-w-[48px] bg-brand-dark/15"
+                    role="progressbar"
+                    aria-valuemin={1}
+                    aria-valuemax={filtered.length}
+                    aria-valuenow={activeIndex}
+                    aria-label={progressLabel}
+                  >
+                    <div
+                      className="absolute inset-y-0 left-0 bg-brand-dark transition-[width] duration-300 ease-out"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      aria-label={prevLabel}
+                      disabled={!canPrev}
+                      onClick={() => scroll("left")}
+                      className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={nextLabel}
+                      disabled={!canNext}
+                      onClick={() => scroll("right")}
+                      className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-brand-dark/20 flex items-center justify-center text-brand-dark transition-colors hover:bg-brand-dark/5 disabled:opacity-30 disabled:hover:bg-transparent"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+                {seeAllLink}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </section>
     );
   }
 
   return (
     <section className="pt-10 md:pt-14 pb-16 md:pb-14 bg-secondary/30 overflow-hidden">
+      <div className="carousel-shell">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
@@ -344,7 +350,7 @@ export const SpecialistsScroller = ({
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex w-full max-w-full min-w-0 gap-4 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+            className="carousel-track flex w-full max-w-full min-w-0 gap-4 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
@@ -390,6 +396,7 @@ export const SpecialistsScroller = ({
           </div>
         </div>
       )}
+      </div>
     </section>
   );
 };

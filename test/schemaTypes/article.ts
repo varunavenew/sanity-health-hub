@@ -1,6 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import { ArticleIcon } from './icons'
-import { i18nSlugFieldFromTitle } from './i18n'
+import { i18nSlugFieldFromTitle, requiredNoEnUrlSlug } from './i18n'
 import {pickStudioEn} from './studioPreview'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
@@ -23,7 +23,7 @@ export default defineType({
       type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
-    i18nSlugFieldFromTitle('title'),
+    i18nSlugFieldFromTitle('title', {validation: requiredNoEnUrlSlug()}),
     defineField({
       name: 'primaryImage',
       title: 'Main image',
@@ -60,6 +60,22 @@ export default defineType({
         layout: 'radio',
       },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'contentFormat',
+      title: 'Type innhold',
+      type: 'string',
+      description:
+        'Styrer ikonet som vises på artikkelkortene (Aktuelt, forsiden og «Siste artikler»). Artikkel = dokumentikon, Podcast = mikrofon, Video = avspillingsikon. Gjelder både norsk og engelsk versjon.',
+      options: {
+        list: [
+          {title: 'Artikkel', value: 'article'},
+          {title: 'Podcast', value: 'podcast'},
+          {title: 'Video', value: 'video'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'article',
     }),
     defineField({
       name: 'publishedAt',

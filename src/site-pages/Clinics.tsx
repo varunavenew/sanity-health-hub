@@ -165,6 +165,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           imageAlt={t("clinicsPage.heroImageAlt")}
           primaryCta={primaryCta}
           secondaryCta={secondaryCta}
+          largeScreenStepDown={false}
         />
       ) : (
         <div className="bg-brand-warm pt-20 pb-8">

@@ -222,6 +222,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
         date: a.date,
         category: normalizeCategory(a.category),
         externalUrl: a.externalUrl,
+        contentFormat: a.contentFormat,
       }))
       .filter((a) => a.slug && a.slug !== article.slug);
 
@@ -345,7 +346,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           contain={heroNeedsContain}
         />
 
-        <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero">
+        <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero split-hero-desktop">
           <div className="flex items-center px-16 lg:px-20 pt-32 pb-20">
             <div className="w-full max-w-xl">
               <Link

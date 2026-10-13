@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
+import { useCarouselFitAlign } from "@/hooks/useCarouselFitAlign";
 import { User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { PartialStars } from "@/components/ui/partial-stars";
@@ -98,6 +99,8 @@ export const CategoryReviews = ({
     () => (reviews.length > 1 ? [...reviews, ...reviews] : reviews),
     [reviews],
   );
+
+  useCarouselFitAlign(scrollRef, track.length);
 
   const pauseAuto = () => {
     pausedRef.current = true;
@@ -212,6 +215,7 @@ export const CategoryReviews = ({
 
   return (
     <section className="bg-brand-warm pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden text-center">
+      <div className="carousel-shell">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
@@ -250,7 +254,7 @@ export const CategoryReviews = ({
 
           <div
             ref={scrollRef}
-            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2 cursor-grab touch-pan-x select-none"
+            className="carousel-track flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2 cursor-grab touch-pan-x select-none"
             style={{
               scrollbarWidth: "none",
               WebkitOverflowScrolling: "touch",
@@ -314,6 +318,7 @@ export const CategoryReviews = ({
             />
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

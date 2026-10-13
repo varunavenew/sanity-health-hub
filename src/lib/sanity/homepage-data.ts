@@ -14,6 +14,7 @@ import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import type { Article } from "@/data/articles";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
+import { resolveArticleContentFormat } from "@/lib/news/content-format";
 import { cmsImageSrc } from "@/lib/sanity/image-url";
 import type { HomepageSpecialistsSectionConfig, HomepageSpecialistsCategoryRef } from "@/lib/sanity/homepage-specialists";
 import { resolveSpecialistsDisplayMode } from "@/lib/sanity/specialists-display-mode";
@@ -611,6 +612,7 @@ export function mapHomepageDocument(
           date: asPlainString(a.date),
           category: normalizeArticleCategory(asPlainString(a.category)),
           externalUrl: asPlainString(a.externalUrl) || undefined,
+          contentFormat: resolveArticleContentFormat(a.contentFormat),
         }))
       : undefined,
     resultsStatsSection: mapResultsStatsSection(data.resultsStatsSection, lang),

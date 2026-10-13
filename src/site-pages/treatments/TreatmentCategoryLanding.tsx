@@ -2,6 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { useCarouselFitAlign } from "@/hooks/useCarouselFitAlign";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
@@ -176,6 +177,8 @@ function CategoryReviewsCarousel({
     setCanNext(el.scrollLeft < maxScroll - 4);
   }, [uniqueCount]);
 
+  useCarouselFitAlign(scrollRef, uniqueCount);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -202,6 +205,7 @@ function CategoryReviewsCarousel({
 
   return (
     <section className="bg-brand-warm pt-10 lg:pt-20 pb-10 overflow-hidden">
+      <div className="carousel-shell">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
@@ -239,7 +243,7 @@ function CategoryReviewsCarousel({
 
           <div
             ref={scrollRef}
-            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2"
+            className="carousel-track flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide -mx-6 md:-mx-16 px-6 md:px-16 pb-2"
             style={{ scrollbarWidth: "none" }}
           >
             {reviews.map((r, i) => (
@@ -307,6 +311,7 @@ function CategoryReviewsCarousel({
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

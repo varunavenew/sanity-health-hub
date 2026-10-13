@@ -124,12 +124,14 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
           </div>
-          <div className="relative min-h-[420px] lg:min-h-full">
-            <AssetImg
-              src={flereHero}
-              alt="Flere fagområder hos CMedical"
-              className="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
-            />
+          <div className="split-hero-photo-col relative min-h-[420px] lg:min-h-full">
+            <div className="split-hero-photo relative overflow-hidden h-full min-h-[420px]">
+              <AssetImg
+                src={flereHero}
+                alt="Flere fagområder hos CMedical"
+                className="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
+              />
+            </div>
           </div>
         </div>
       </header>

@@ -8,6 +8,10 @@ import {
   resolveSpecialistsDisplayMode,
 } from "@/lib/sanity/specialists-display-mode";
 import { normalizeArticleCategory } from "@/lib/news/article-categories";
+import {
+  resolveArticleContentFormat,
+  type ArticleContentFormat,
+} from "@/lib/news/content-format";
 import { pickImageFocal } from "@/lib/sanity/media-dual-read";
 
 export type PageSectionSpecialistsConfig = {
@@ -83,6 +87,7 @@ export type PageSectionArticleCard = {
   date: string;
   category: string;
   externalUrl?: string;
+  contentFormat?: ArticleContentFormat;
 };
 
 export type PageSectionInsurancePartner = {
