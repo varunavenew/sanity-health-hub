@@ -40,6 +40,11 @@ interface SplitHeroProps {
   footnote?: string;
   /** Alias for footnote — matches reference API. */
   bottomNote?: string;
+  /**
+   * Treatment/category hero frame: 880px height cap and photo step-down from 2000px.
+   * Set false to keep the image filling its half-column at every width.
+   */
+  largeScreenStepDown?: boolean;
 }
 
 /**
@@ -57,6 +62,7 @@ export const SplitHero = ({
   secondaryCta = null,
   footnote,
   bottomNote,
+  largeScreenStepDown = true,
 }: SplitHeroProps) => {
   const navigate = useNavigate();
 
@@ -78,7 +84,9 @@ export const SplitHero = ({
       <div
         className={
           hasImage
-            ? "flex flex-col lg:grid lg:grid-cols-2 split-hero split-hero-desktop split-hero-image-first"
+            ? largeScreenStepDown
+              ? "flex flex-col lg:grid lg:grid-cols-2 split-hero split-hero-desktop split-hero-image-first"
+              : "flex flex-col lg:grid lg:grid-cols-2 split-hero split-hero-image-first"
             : "flex flex-col"
         }
       >
@@ -148,14 +156,23 @@ export const SplitHero = ({
 
         {/* Right: image */}
         {hasImage ? (
-          <div className="split-hero-photo-col order-1 lg:order-2">
+          largeScreenStepDown ? (
+            <div className="split-hero-photo-col order-1 lg:order-2">
+              <SplitHeroMedia
+                src={imageSrc}
+                alt={imageAlt || title || ""}
+                hotspot={imageHotspot}
+                className="split-hero-photo split-media h-full"
+              />
+            </div>
+          ) : (
             <SplitHeroMedia
               src={imageSrc}
               alt={imageAlt || title || ""}
               hotspot={imageHotspot}
-              className="split-hero-photo split-media h-full"
+              className="split-media order-1 lg:order-2"
             />
-          </div>
+          )
         ) : null}
       </div>
       {hasText || hasImage ? (
