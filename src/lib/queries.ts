@@ -584,7 +584,6 @@ const CATEGORY_LANDING_GROQ = `
     ${i18nStringLocale("breadcrumbHomeLabel")},
     hero{
       layout,
-      ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("heading")},
       ${i18nStringLocale("headingEmphasis")},
       ${i18nTextLocale("body")},
@@ -604,7 +603,6 @@ const CATEGORY_LANDING_GROQ = `
       hideEntryPrice,
     },
     segmentsSection{
-      ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleLine2")},
       layout,
@@ -699,25 +697,21 @@ const CATEGORY_LANDING_GROQ = `
         ${i18nTextLocale("description")},
         href,
         ${i18nStringLocale("ctaLabel")},
-        icon,
-        "image": image.asset->url
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
       }
     },
     symptomsSection{
-      ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nTextLocale("description")},
       background,
       items[]{
         ${i18nStringLocale("symptom")},
         ${i18nStringLocale("service")},
-        href,
-        "image": image.asset->url,
-        ${i18nStringLocale("imageAlt")}
+        href
       }
     },
     servicesSection{
-      ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nTextLocale("description")},
       groups[]{
@@ -734,7 +728,8 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("title")},
       ${i18nTextLocale("description")},
       ${i18nStringLocale("categoryLabel")},
-      ${i18nStringLocale("footnote")}
+      ${i18nStringLocale("footnote")},
+      "backgroundImage": backgroundImage.asset->url
     },
     reviewsSection{
       ${i18nStringLocale("eyebrow")},
@@ -742,7 +737,7 @@ const CATEGORY_LANDING_GROQ = `
       reviews[]{
         ${i18nTextLocale("text")},
         author,
-        ${i18nStringLocale("date")},
+        "date": coalesce(reviewDate, date),
         source
       }
     },
@@ -773,10 +768,6 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
       sortOrder,
       ${localizedFaqRowLocale}
     }
-  },
-  "faqs": faqs[]->{
-    sortOrder,
-    ${localizedFaqRowLocale}
   },
   ${localizedSeoObjectLocale},
   ${CATEGORY_TREATMENTS_GROQ},

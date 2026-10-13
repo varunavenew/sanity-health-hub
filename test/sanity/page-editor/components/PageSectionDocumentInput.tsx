@@ -21,6 +21,7 @@ import {
 } from '../filterMembers'
 import {getSectionById} from '../SectionRegistry'
 import {ActivePageSectionContext} from '../ActivePageSectionContext'
+import {LandingPageBandFieldFilterContext} from '../LandingPageBandFieldFilterContext'
 import {Inspector, InspectorHeader, InspectorContent} from './Inspector'
 import {OpenCollectionButton, OpenEntityButton, SectionNotice} from './OpenCollectionButton'
 import {PageSectionInfoPanel} from './PageSectionInfoPanel'
@@ -194,6 +195,15 @@ export function createPageSectionDocumentInput(
       })
     }, [sourceMembers, section, useFullForm])
 
+    const filteredMembersAfterAddon = useMemo(() => {
+      if (useFullForm || !section?.fieldsAfterAddon?.length) return []
+      const flattenFieldSets = Boolean(section.landingPageFields?.length)
+      return filterMembersByFieldNames(sourceMembers, section.fieldsAfterAddon, {
+        flattenFieldSets,
+        includeOutsideSelectedGroup: true,
+      })
+    }, [sourceMembers, section, useFullForm])
+
     if (useFullForm) {
       return props.renderDefault(props)
     }
@@ -232,12 +242,20 @@ export function createPageSectionDocumentInput(
                   <Stack space={4}>
                     {section.notice ? <SectionNotice>{section.notice}</SectionNotice> : null}
                     {filteredMembersBeforeAddon.length > 0 ? (
-                      <ObjectInputMembers
-                        {...rest}
-                        members={
-                          filteredMembersBeforeAddon as unknown as ObjectInputProps['members']
+                      <LandingPageBandFieldFilterContext.Provider
+                        value={
+                          section.landingPageBandFieldIncludeBefore?.length
+                            ? {include: section.landingPageBandFieldIncludeBefore}
+                            : null
                         }
-                      />
+                      >
+                        <ObjectInputMembers
+                          {...rest}
+                          members={
+                            filteredMembersBeforeAddon as unknown as ObjectInputProps['members']
+                          }
+                        />
+                      </LandingPageBandFieldFilterContext.Provider>
                     ) : null}
                     {SectionAddon ? <SectionAddon document={documentValue} /> : null}
                     {filteredMembers.length > 0 ? (
@@ -245,7 +263,9 @@ export function createPageSectionDocumentInput(
                         {...rest}
                         members={filteredMembers as unknown as ObjectInputProps['members']}
                       />
-                    ) : section.fields.length === 0 && !SectionAddon ? (
+                    ) : section.fields.length === 0 &&
+                      !SectionAddon &&
+                      !section.fieldsAfterAddon?.length ? (
                       <Stack space={2}>
                         <Text size={1} muted>
                           This section has no editable fields on this page.
@@ -260,6 +280,22 @@ export function createPageSectionDocumentInput(
                           Expected fields: {section.fields.join(', ')}
                         </Text>
                       </Stack>
+                    ) : null}
+                    {filteredMembersAfterAddon.length > 0 ? (
+                      <LandingPageBandFieldFilterContext.Provider
+                        value={
+                          section.landingPageBandFieldExcludeAfter?.length
+                            ? {exclude: section.landingPageBandFieldExcludeAfter}
+                            : null
+                        }
+                      >
+                        <ObjectInputMembers
+                          {...rest}
+                          members={
+                            filteredMembersAfterAddon as unknown as ObjectInputProps['members']
+                          }
+                        />
+                      </LandingPageBandFieldFilterContext.Provider>
                     ) : null}
                   </Stack>
                 </PageSectionReferenceInputBoundary>

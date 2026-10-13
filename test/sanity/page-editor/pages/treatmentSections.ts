@@ -21,6 +21,7 @@ import type {PageEditorConfig, PageSectionDefinition} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip} from '../documentMeta'
 import {
+  articlesBandSection,
   bookingCtaBandSection,
   faqCollectionSection,
   i18nPreview,
@@ -46,9 +47,8 @@ function nestedArrayChips(
 /**
  * Website body order (SubTreatmentLayout):
  * Hero → Related (when asIntro) → Symptoms → Process → Expert areas → Benefits →
- * Text → FAQ → Articles → Mid CTA → Reviews → Specialists → Insurance → Related → Booking CTA
- *
- * Related is one card (placement controlled by “Show right after hero”).
+ * Text → FAQ → Articles (pageSections) → Mid CTA → Reviews → Specialists → Insurance →
+ * Related (when not asIntro) → Booking CTA
  */
 function treatmentSections(): PageSectionDefinition[] {
   return [
@@ -172,6 +172,10 @@ function treatmentSections(): PageSectionDefinition[] {
       description:
         'FAQ Collection from Content Library. Leave empty to hide on the website.',
     },
+    articlesBandSection({
+      pageOwnedNotice:
+        'Articles band from Shared Sections (rendered before Mid-page CTA when configured).',
+    }),
     {
       id: 'midCta',
       title: 'Mid-page CTA',
@@ -290,10 +294,48 @@ function treatmentSections(): PageSectionDefinition[] {
   ]
 }
 
+function hasRelatedItems(document: Record<string, unknown> | undefined): boolean {
+  const related = document?.relatedSection as {items?: unknown[]} | undefined
+  return Array.isArray(related?.items) && related.items.length > 0
+}
+
+function relatedShowsAfterHero(document: Record<string, unknown> | undefined): boolean {
+  const related = document?.relatedSection as {asIntro?: boolean} | undefined
+  return related?.asIntro === true
+}
+
+/** Card order matching SubTreatmentLayout render order. */
+function treatmentWebsiteSectionOrder(
+  document: Record<string, unknown> | undefined,
+): string[] {
+  const ids: string[] = ['hero']
+  if (hasRelatedItems(document) && relatedShowsAfterHero(document)) {
+    ids.push('related')
+  }
+  ids.push('symptoms', 'process', 'expertAreas', 'benefits', 'faq')
+
+  const bands = Array.isArray(document?.pageSections)
+    ? (document.pageSections as {_type?: string}[])
+    : []
+  if (bands.some((row) => row?._type === 'pageSectionArticles')) {
+    ids.push('articles')
+  }
+
+  ids.push('midCta', 'reviews', 'specialists', 'insurance')
+
+  if (hasRelatedItems(document) && !relatedShowsAfterHero(document)) {
+    ids.push('related')
+  }
+
+  ids.push('bookingCta', 'general', 'seo', 'advanced')
+  return ids
+}
+
 /** Shared page-editor config for every treatment document. */
 export const treatmentPageEditorConfig: PageEditorConfig = definePageEditorConfig({
   title: 'Treatment',
   subtitle: 'Sections follow the same order as the website.',
   defaultSectionId: 'hero',
   sections: treatmentSections(),
+  getSectionOrder: treatmentWebsiteSectionOrder,
 })

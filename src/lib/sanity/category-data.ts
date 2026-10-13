@@ -11,6 +11,7 @@ import {
 } from "@/lib/sanity/category-keys";
 import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 import { pickImageFocal } from "@/lib/sanity/media-dual-read";
+import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import type { MediaFocalPoint, SanityCrop, SanityHotspot } from "@/lib/media/focal-point";
 
 function asPlainString(value: unknown): string {
@@ -65,8 +66,8 @@ export type CategoryLandingAudience = {
   href: string;
   /** Per-card link text; empty when unset (use section / locale fallback). */
   ctaLabel: string;
-  icon: "couple" | "horizon" | "arch" | "user" | "users" | "clock" | "";
   image?: string;
+  imageAlt?: string;
 };
 
 export type CategoryLandingExpertArea = {
@@ -102,8 +103,6 @@ export type CategoryLandingSymptom = {
   symptom: string;
   service: string;
   href: string;
-  image?: string;
-  imageAlt: string;
 };
 
 export type CategoryLandingReview = {
@@ -118,7 +117,6 @@ export type CategoryLandingPage = {
   breadcrumbHomeLabel: string;
   hero: {
     layout?: string;
-    eyebrow: string;
     heading: string;
     headingEmphasis: string;
     body: string;
@@ -133,7 +131,6 @@ export type CategoryLandingPage = {
     hideEntryPrice?: boolean;
   };
   segmentsSection: {
-    eyebrow: string;
     title: string;
     titleLine2: string;
     /** @deprecated Prefer mobileLayout / desktopLayout. */
@@ -189,7 +186,6 @@ export type CategoryLandingPage = {
     audiences: CategoryLandingAudience[];
   };
   symptomsSection: {
-    eyebrow: string;
     title: string;
     description: string;
     /** Section surface — matches SymptomServiceSection backgrounds. */
@@ -197,7 +193,6 @@ export type CategoryLandingPage = {
     items: CategoryLandingSymptom[];
   };
   servicesSection: {
-    eyebrow: string;
     title: string;
     description: string;
     groups: CategoryLandingServiceGroup[];
@@ -208,6 +203,7 @@ export type CategoryLandingPage = {
     description: string;
     categoryLabel: string;
     footnote: string;
+    backgroundImage?: string;
   };
   reviewsSection: {
     eyebrow: string;
@@ -249,7 +245,6 @@ export type TreatmentCategoryData = {
   categoryNumericId?: number;
   treatments: CategoryTreatmentLink[];
   stats: CategoryStat[];
-  /** Dual-read: FAQ Collection preferred, else legacy faqs[]. */
   faqSectionTitle?: string;
   /** Optional FAQ intro copy — enables split FAQ layout when set. */
   faqSectionDescription?: string;
@@ -261,7 +256,10 @@ export type TreatmentCategoryData = {
   seo?: Record<string, unknown>;
 };
 
-function mapLandingPage(raw: Record<string, unknown> | null | undefined): CategoryLandingPage | null {
+function mapLandingPage(
+  raw: Record<string, unknown> | null | undefined,
+  lang: "no" | "en" = "no",
+): CategoryLandingPage | null {
   if (!raw) return null;
 
   const hero = (raw.hero as Record<string, unknown>) || {};
@@ -312,17 +310,13 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
 
   const audiences = ((audiencesSection.audiences as unknown[]) || []).map((row) => {
     const a = row as Record<string, unknown>;
-    const icon = asPlainString(a.icon);
-    const validIcons = ["couple", "horizon", "arch", "user", "users", "clock"] as const;
     return {
       title: asPlainString(a.title),
       desc: asPlainString(a.description),
       href: rewriteRetiredIvfPath(asPlainString(a.href)),
       ctaLabel: asPlainString(a.ctaLabel),
-      icon: (validIcons.includes(icon as (typeof validIcons)[number])
-        ? icon
-        : "") as CategoryLandingAudience["icon"],
       image: asPlainString(a.image) || undefined,
+      imageAlt: asPlainString(a.imageAlt) || undefined,
     };
   });
 
@@ -342,8 +336,11 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   const supportAreas = mapExpertAreas(supportSection.areas);
   const expertAreasMobileLayout = asPlainString(expertAreasSection.mobileLayout);
   const expertAreasDesktopLayout = asPlainString(expertAreasSection.desktopLayout);
-  const audiencesMobileLayout = asPlainString(audiencesSection.mobileLayout);
-  const audiencesDesktopLayout = asPlainString(audiencesSection.desktopLayout);
+  const audiencesLegacyLayout = asPlainString(audiencesSection.layout);
+  const audiencesMobileLayout =
+    asPlainString(audiencesSection.mobileLayout) || audiencesLegacyLayout;
+  const audiencesDesktopLayout =
+    asPlainString(audiencesSection.desktopLayout) || audiencesLegacyLayout;
 
   const serviceGroups = ((servicesSection.groups as unknown[]) || []).map((row) => {
     const g = row as Record<string, unknown>;
@@ -392,8 +389,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       symptom: asPlainString(s.symptom),
       service: asPlainString(s.service),
       href: rewriteRetiredIvfPath(asPlainString(s.href)),
-      image: asPlainString(s.image) || undefined,
-      imageAlt: asPlainString(s.imageAlt),
     };
   });
 
@@ -402,7 +397,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
     return {
       text: asPlainString(r.text),
       author: asPlainString(r.author),
-      date: asPlainString(r.date),
+      date: formatReviewDateLabel(asPlainString(r.date), lang),
       source:
         asPlainString(r.source) === "legelisten"
           ? ("legelisten" as const)
@@ -419,7 +414,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
     breadcrumbHomeLabel: asPlainString(raw.breadcrumbHomeLabel),
     hero: {
       layout: asPlainString(hero.layout) || undefined,
-      eyebrow: asPlainString(hero.eyebrow),
       heading: asPlainString(hero.heading),
       headingEmphasis: asPlainString(hero.headingEmphasis),
       body: asPlainString(hero.body),
@@ -434,7 +428,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       hideEntryPrice: hero.hideEntryPrice === true,
     },
     segmentsSection: {
-      eyebrow: asPlainString(segmentsSection.eyebrow),
       title: asPlainString(segmentsSection.title),
       titleLine2: asPlainString(segmentsSection.titleLine2),
       layout: segmentsLayout === "accordion" ? "accordion" : "grid",
@@ -494,7 +487,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       audiences,
     },
     symptomsSection: {
-      eyebrow: asPlainString(symptomsSection.eyebrow),
       title: asPlainString(symptomsSection.title),
       description: asPlainString(symptomsSection.description),
       background: (() => {
@@ -505,7 +497,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       items: symptoms,
     },
     servicesSection: {
-      eyebrow: asPlainString(servicesSection.eyebrow),
       title: asPlainString(servicesSection.title),
       description: asPlainString(servicesSection.description),
       groups: serviceGroups,
@@ -516,6 +507,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       description: asPlainString(resultsSection.description),
       categoryLabel: asPlainString(resultsSection.categoryLabel),
       footnote: asPlainString(resultsSection.footnote),
+      backgroundImage: asPlainString(resultsSection.backgroundImage) || undefined,
     },
     reviewsSection: {
       eyebrow: asPlainString(reviewsSection.eyebrow),
@@ -593,8 +585,8 @@ export function mapTreatmentCategoryDocument(
     faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
     faqSectionDescription: asPlainString(data.faqSectionDescription) || undefined,
     faqOpenFirst: data.faqOpenFirst === true,
-    faqs: resolveFaqsFromCollection(data.faqCollection, data.faqs),
-    landingPage: mapLandingPage(landingRaw),
+    faqs: resolveFaqsFromCollection(data.faqCollection, null),
+    landingPage: mapLandingPage(landingRaw, lang),
     pageSections: normalizePageSections(data.pageSections),
     seo: data.seo as Record<string, unknown> | undefined,
   };

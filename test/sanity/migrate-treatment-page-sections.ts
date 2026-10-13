@@ -92,13 +92,13 @@ function buildBookingCtaSection(
     secondaryLabel: i18nString('Ring oss', 'Call us'),
     quickInfoItems: [
       {
-        _key: 'clock',
-        icon: 'clock',
+        _key: 'check',
+        icon: 'check',
         text: i18nString('Ledig time innen 1–3 dager', 'Available appointments within 1–3 days')
       },
       {
-        _key: 'shield',
-        icon: 'shield',
+        _key: 'check2',
+        icon: 'check',
         text: i18nString('Ingen henvisning nødvendig', 'No referral needed')
       }
     ],

@@ -15,7 +15,9 @@ import {CategoryLandingPageInput} from '../sanity/page-editor/components/Categor
 import {
   mediaDescription,
   mediaImageOptions,
+  RESULTS_SECTION_BACKGROUND_DESCRIPTION,
   softImageRules,
+  TREATMENT_CATEGORY_SPOTLIGHT_IMAGE,
 } from './mediaGuidelines'
 
 const i18nStr = { type: 'internationalizedArrayString' as const }
@@ -162,40 +164,18 @@ const audienceItem = {
       initialValue: i18nDefault('Les mer', 'Read more'),
     },
     {
-      name: 'icon',
-      title: 'Icon',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Couple', value: 'couple' },
-          { title: 'Horizon', value: 'horizon' },
-          { title: 'Arch', value: 'arch' },
-          { title: 'Person', value: 'user' },
-          { title: 'People', value: 'users' },
-          { title: 'Clock', value: 'clock' },
-        ],
-      },
-      description: 'Used when the card has no image. Not required if an image is set.',
-      // Image cards (Fertilitet audiences) omit icon — requiring it blocked Publish
-      // while editing other sections (Why steps) because validation is document-wide.
-      validation: (Rule: any) =>
-        Rule.custom((value: unknown, context: any) => {
-          const hasImage = Boolean(context?.parent?.image?.asset)
-          if (hasImage) return true
-          if (typeof value === 'string' && value.trim()) return true
-          return 'Icon is required when no image is set'
-        }),
-    },
-    {
       name: 'image',
       title: 'Image',
       type: 'image',
       options: mediaImageOptions('card'),
-      description: mediaDescription(
-        'card',
-        'Optional. When set, shown instead of the icon on the audience card.',
-      ),
+      description: mediaDescription('card', 'Optional hero image at the top of the card.'),
       validation: softImageRules('card'),
+    },
+    {
+      name: 'imageAlt',
+      title: 'Image alt text',
+      ...i18nStr,
+      description: 'Accessibility text for the card image. Falls back to the card title on the website if empty.',
     },
   ],
   preview: i18nTitleItemPreview,
@@ -230,23 +210,6 @@ const symptomItem = {
     { name: 'symptom', title: 'Symptom', ...i18nStr, validation: reqI18n('Symptom') },
     { name: 'service', title: 'Service', ...i18nStr, validation: reqI18n('Service') },
     { name: 'href', title: 'Link', type: 'string', validation: reqStr('Link') },
-    {
-      name: 'image',
-      title: 'Image (optional)',
-      type: 'image',
-      options: mediaImageOptions('card'),
-      description: mediaDescription('card'),
-      validation: softImageRules('card'),
-      // Queried/mapped but not rendered by SymptomServiceSection.
-      hidden: true,
-    },
-    {
-      name: 'imageAlt',
-      title: 'Image alt text',
-      ...i18nStr,
-      // Queried/mapped but not rendered by SymptomServiceSection.
-      hidden: true,
-    },
   ],
   preview: {
     select: { title: 'symptom', subtitle: 'service' },
@@ -262,7 +225,13 @@ const reviewItem = {
   fields: [
     { name: 'text', title: 'Quote', ...i18nTxt, validation: reqI18n('Quote') },
     { name: 'author', title: 'Name', type: 'string', validation: reqStr('Name') },
-    { name: 'date', title: 'Date / context', ...i18nStr, validation: reqI18n('Date / context') },
+    {
+      name: 'reviewDate',
+      title: 'Date (optional)',
+      type: 'date',
+      description:
+        'Optional. When set, the website shows a relative label (e.g. “1 month ago”). Leave empty if you do not want a date on the quote.',
+    },
     {
       name: 'source',
       title: 'Review source',
@@ -359,7 +328,8 @@ export const categoryLandingPageField = {
     {
       name: 'spotlight',
       title: 'Spotlight',
-      description: 'Optional mid-page highlight. Separate from the Hero button.',
+      description:
+        'Mid-page image + heading (e.g. after Reviews). Upload the portrait image under Spotlight → Image — same full-width mobile layout as cmedical.no.',
       options: sectionCollapsed,
     },
     {
@@ -396,8 +366,9 @@ export const categoryLandingPageField = {
         {
           name: 'advancedHero',
           title: 'Advanced hero settings',
-          description: 'Technical booking slug, optional entry price, and hide-price toggle.',
+          description: 'Technical booking slug. Rarely needed.',
           options: sectionCollapsed,
+          hidden: true,
         },
       ],
       fields: [
@@ -406,6 +377,8 @@ export const categoryLandingPageField = {
           title: 'Layout',
           type: 'string',
           fieldset: 'content',
+          description:
+            'Choose layout first, then upload Hero Media below. Split: portrait hero beside text. Full width banner: landscape hero behind the title. The Image format note updates when you change this.',
           options: {
             list: [
               { title: 'Split (Text left, image right)', value: 'split' },
@@ -414,14 +387,6 @@ export const categoryLandingPageField = {
             layout: 'radio',
           },
           initialValue: 'split',
-        },
-        {
-          name: 'eyebrow',
-          title: 'Eyebrow',
-          ...i18nStr,
-          fieldset: 'content',
-          // Queried/mapped but not rendered on TreatmentCategoryLanding today.
-          hidden: true,
         },
         { name: 'heading', title: 'Heading', fieldset: 'content', ...i18nStr },
         {
@@ -482,24 +447,25 @@ export const categoryLandingPageField = {
           fieldset: 'advancedHero',
           description:
             'Technical. Optional service slug for the booking URL. Leave empty for category-only booking.',
+          hidden: true,
         },
         {
           name: 'entryPriceLabel',
           title: 'Price — label',
-          fieldset: 'advancedHero',
+          fieldset: 'buttons',
           ...i18nStr,
         },
         {
           name: 'entryPriceValue',
           title: 'Price — value',
-          fieldset: 'advancedHero',
+          fieldset: 'buttons',
           ...i18nStr,
         },
         {
           name: 'hideEntryPrice',
           title: 'Hide price on website',
           type: 'boolean',
-          fieldset: 'advancedHero',
+          fieldset: 'buttons',
           initialValue: false,
           description:
             'Turn on to hide the hero price line (e.g. «Pris fra 0,-») without deleting the values above.',
@@ -513,13 +479,6 @@ export const categoryLandingPageField = {
       fieldset: 'introduction',
       options: {collapsible: true, collapsed: false},
       fields: [
-        {
-          name: 'eyebrow',
-          title: 'Eyebrow',
-          ...i18nStr,
-          // Queried/mapped but not rendered on TreatmentCategoryLanding today.
-          hidden: true,
-        },
         { name: 'title', title: 'Heading', ...i18nStr },
         {
           name: 'titleLine2',
@@ -642,6 +601,21 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleAccent', title: 'Heading (accent)', ...i18nStr },
         {
+          name: 'layout',
+          title: 'Display (legacy)',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'Horizontal carousel', value: 'carousel' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'grid',
+          // Replaced by mobileLayout / desktopLayout — kept for existing documents.
+          hidden: true,
+        },
+        {
           name: 'mobileLayout',
           title: 'Display (mobile)',
           type: 'string',
@@ -756,13 +730,6 @@ export const categoryLandingPageField = {
       fieldset: 'symptoms',
       options: {collapsible: true, collapsed: false},
       fields: [
-        {
-          name: 'eyebrow',
-          title: 'Eyebrow',
-          ...i18nStr,
-          // Passed to SymptomServiceSection but not rendered.
-          hidden: true,
-        },
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
         {
@@ -796,13 +763,6 @@ export const categoryLandingPageField = {
       fieldset: 'services',
       options: {collapsible: true, collapsed: false},
       fields: [
-        {
-          name: 'eyebrow',
-          title: 'Eyebrow',
-          ...i18nStr,
-          // Queried/mapped but not rendered on TreatmentCategoryLanding today.
-          hidden: true,
-        },
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
         {
@@ -893,6 +853,14 @@ export const categoryLandingPageField = {
         { name: 'description', title: 'Ingress', ...i18nTxt },
         { name: 'categoryLabel', title: 'Category label', ...i18nStr },
         { name: 'footnote', title: 'Footnote', ...i18nStr },
+        {
+          name: 'backgroundImage',
+          title: 'Background image',
+          type: 'image',
+          options: mediaImageOptions('background'),
+          description: RESULTS_SECTION_BACKGROUND_DESCRIPTION,
+          validation: softImageRules('background'),
+        },
       ],
     },
     {
@@ -938,9 +906,9 @@ export const categoryLandingPageField = {
           name: 'image',
           title: 'Image',
           type: 'image',
-          options: mediaImageOptions('card'),
-          description: mediaDescription('card'),
-          validation: softImageRules('card'),
+          options: mediaImageOptions('heroMobile'),
+          description: TREATMENT_CATEGORY_SPOTLIGHT_IMAGE,
+          validation: softImageRules('heroMobile'),
         },
         { name: 'imageAlt', title: 'Image alt text', ...i18nStr },
       ],
@@ -1012,6 +980,7 @@ export const categoryLandingPageField = {
       fieldset: 'advanced',
       description: 'Screen-reader / SEO H1. Meta tags and GEO summary are under the SEO tab.',
       type: 'internationalizedArrayString',
+      hidden: true,
     },
   ],
 }

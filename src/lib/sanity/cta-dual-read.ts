@@ -38,7 +38,11 @@ function mapQuickInfoItems(value: unknown): BookingCtaQuickInfoItem[] | undefine
     .map((row): BookingCtaQuickInfoItem | null => {
       if (!row || typeof row !== "object") return null;
       const item = row as Record<string, unknown>;
-      const icon = item.icon === "shield" ? "shield" : "clock";
+      const rawIcon = item.icon;
+      const icon =
+        rawIcon === "clock" || rawIcon === "shield" || rawIcon === "check" || rawIcon === "none"
+          ? rawIcon
+          : "check";
       const text = str(item.text);
       if (!text) return null;
       return { icon, text };

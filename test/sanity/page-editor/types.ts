@@ -25,6 +25,20 @@ export type PageSectionDefinition = {
    */
   fieldsBeforeAddon?: string[]
   /**
+   * Top-level document fields rendered after SectionAddon (e.g. hero copy after Hero Media).
+   */
+  fieldsAfterAddon?: string[]
+  /**
+   * When `landingPage` is in `fieldsBeforeAddon`, only show these nested band fields
+   * (e.g. `['layout']` before hero media). Studio order only.
+   */
+  landingPageBandFieldIncludeBefore?: string[]
+  /**
+   * When `landingPage` is in `fieldsAfterAddon`, hide these nested band fields
+   * (e.g. `['layout']` after hero media). Studio order only.
+   */
+  landingPageBandFieldExcludeAfter?: string[]
+  /**
    * Phase 1b: when this section includes `pageSections`, only show / insert
    * array items whose `_type` is in this list (e.g. `['pageSectionBookingCta']`).
    * Other band types remain stored on the document for dual-read / rollback.

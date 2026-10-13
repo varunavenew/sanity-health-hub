@@ -2,12 +2,15 @@
 
 import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, type LucideIcon } from "lucide-react";
+import { Check, Clock, Shield, type LucideIcon } from "lucide-react";
 import { useNavigate, Link } from "@/lib/router";
 import { useCallableClinics } from "@/hooks/useCallableClinics";
 import { useTranslation } from "react-i18next";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import type { BookingCtaQuickInfoItem } from "@/lib/sanity/page-sections";
+import type {
+  BookingCtaQuickInfoIcon,
+  BookingCtaQuickInfoItem,
+} from "@/lib/sanity/page-sections";
 import { AssetImg } from "@/components/AssetImg";
 
 export type BookingCtaContent = {
@@ -33,11 +36,21 @@ export type BookingCtaContent = {
   primaryButtonColor?: string;
 };
 
-const QUICK_INFO_ICONS: Record<NonNullable<BookingCtaQuickInfoItem["icon"]>, LucideIcon> = {
-  // Reference booking band uses checkmarks for both quick-info rows.
-  clock: Check,
-  shield: Check,
+type QuickInfoGraphicIcon = Exclude<BookingCtaQuickInfoIcon, "none">;
+
+const QUICK_INFO_ICONS: Record<QuickInfoGraphicIcon, LucideIcon> = {
+  clock: Clock,
+  shield: Shield,
+  check: Check,
 };
+
+function resolveQuickInfoIcon(
+  icon: BookingCtaQuickInfoIcon | undefined,
+): LucideIcon | null {
+  const key = icon ?? "check";
+  if (key === "none") return null;
+  return QUICK_INFO_ICONS[key];
+}
 
 type BookingCTAProps = BookingCtaContent;
 
@@ -82,8 +95,8 @@ export const BookingCTA = ({
   const resolvedSecondaryLabel = secondaryLabel?.trim() || t("booking.callUs");
 
   const defaultQuickInfo: BookingCtaQuickInfoItem[] = [
-    { icon: "clock", text: t("booking.availableTime") },
-    { icon: "shield", text: t("booking.noReferral") },
+    { icon: "check", text: t("booking.availableTime") },
+    { icon: "check", text: t("booking.noReferral") },
   ];
   const resolvedQuickInfo =
     quickInfoItems === undefined
@@ -230,14 +243,14 @@ export const BookingCTA = ({
 
       <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
         {resolvedQuickInfo.map((item, i) => {
-          const Icon = QUICK_INFO_ICONS[item.icon === "shield" ? "shield" : "clock"];
+          const Icon = resolveQuickInfoIcon(item.icon);
           return (
             <span
               key={`${item.text}-${i}`}
               className={hasCustomText ? "flex items-center gap-2 text-sm" : quickInfoClass}
               style={quickInfoStyle}
             >
-              <Icon className="w-4 h-4" aria-hidden="true" />
+              {Icon ? <Icon className="w-4 h-4 shrink-0" aria-hidden="true" /> : null}
               {item.text}
             </span>
           );

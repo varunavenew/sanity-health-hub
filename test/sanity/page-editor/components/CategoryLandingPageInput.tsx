@@ -21,6 +21,10 @@ import {
 } from 'sanity'
 import {useActivePageSection} from '../ActivePageSectionContext'
 import {
+  filterBandObjectMembers,
+  useLandingPageBandFieldFilter,
+} from '../LandingPageBandFieldFilterContext'
+import {
   filterMembersByFieldNames,
   resolveMembersForSectionFiltering,
   type FormMemberLike,
@@ -66,6 +70,7 @@ function pathLeafName(path: unknown): string | undefined {
 export function CategoryLandingPageInput(props: ObjectInputProps) {
   const section = useActivePageSection()
   const wanted = section?.landingPageFields
+  const bandFieldFilter = useLandingPageBandFieldFilter()
   const propsWithAll = props as ObjectInputPropsWithAllMembers
 
   const sourceMembers = useMemo(
@@ -139,11 +144,14 @@ export function CategoryLandingPageInput(props: ObjectInputProps) {
         return props.renderInput(inputProps)
       }
 
-      const flatMembers = flattenFieldSetMembers(
-        resolveMembersForSectionFiltering({
-          members: objectProps.members,
-          _allMembers: (objectProps as ObjectInputPropsWithAllMembers)._allMembers,
-        }),
+      const flatMembers = filterBandObjectMembers(
+        flattenFieldSetMembers(
+          resolveMembersForSectionFiltering({
+            members: objectProps.members,
+            _allMembers: (objectProps as ObjectInputPropsWithAllMembers)._allMembers,
+          }),
+        ),
+        bandFieldFilter,
       )
 
       return props.renderInput({
@@ -151,7 +159,7 @@ export function CategoryLandingPageInput(props: ObjectInputProps) {
         members: flatMembers,
       } as Omit<InputProps, 'renderDefault'>)
     },
-    [wanted, props.renderInput],
+    [wanted, bandFieldFilter, props.renderInput],
   )
 
   if (!bandMembers) {

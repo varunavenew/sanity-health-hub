@@ -296,20 +296,24 @@ export const i18nLabelItemPreview = localizedPreview({
 
 /** Review / quote rows: prefer author name, fall back to quote text. */
 export const i18nReviewItemPreview = {
-  select: {author: 'author', text: 'text', date: 'date'},
+  select: {author: 'author', text: 'text', date: 'date', reviewDate: 'reviewDate'},
   prepare({
     author,
     text,
     date,
+    reviewDate,
   }: {
     author?: unknown
     text?: unknown
     date?: unknown
+    reviewDate?: string
   }) {
     const lang = getStudioContentLanguage()
     const name = resolveLocalizedPreview(author, lang)
     const quote = resolveLocalizedPreview(text, lang)
-    const when = resolveLocalizedPreview(date, lang)
+    const when =
+      (typeof reviewDate === 'string' && reviewDate.trim()) ||
+      resolveLocalizedPreview(date, lang)
     const titleSource = name ? author : text
     return {
       title: name || quote || 'Review',

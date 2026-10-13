@@ -12,6 +12,46 @@ import {
   bookingCtaReservedBandFields,
   insuranceContentFields,
 } from './bookingCtaFields'
+
+/** Old patch/migration keys on page bands — kept for valid JSON, hidden in Studio. */
+const bookingCtaLegacyBandHiddenFields = [
+  {
+    name: 'description',
+    title: 'Ingress (legacy)',
+    type: 'internationalizedArrayText',
+    hidden: true,
+  },
+  {
+    name: 'primaryCtaLabel',
+    title: 'Primary button (legacy)',
+    type: 'internationalizedArrayString',
+    hidden: true,
+  },
+  {
+    name: 'seeAllLabel',
+    title: 'See all label (legacy)',
+    type: 'internationalizedArrayString',
+    hidden: true,
+  },
+  {
+    name: 'ctaLabel',
+    title: 'CTA label (legacy)',
+    type: 'internationalizedArrayString',
+    hidden: true,
+  },
+  {
+    name: 'buttonLabel',
+    title: 'Button label (legacy)',
+    type: 'internationalizedArrayString',
+    hidden: true,
+  },
+  {
+    name: 'imageAlt',
+    title: 'Image alt (legacy)',
+    type: 'internationalizedArrayString',
+    hidden: true,
+  },
+]
 import {PageSectionsArrayInput} from '../sanity/page-editor/components/PageSectionsArrayInput'
 import {ARTICLE_CATEGORY_OPTIONS} from './articleCategories'
 
@@ -321,6 +361,7 @@ export const pageSectionBookingCta = {
       ...field,
       hidden: () => true,
     })),
+    ...bookingCtaLegacyBandHiddenFields,
   ],
   preview: createPageSectionCollectionBandPreview({
     refField: 'ctaCollection',

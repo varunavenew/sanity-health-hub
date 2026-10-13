@@ -17,6 +17,8 @@ interface SplitHeroMediaProps {
   mediaClassName?: string;
   objectPosition?: string;
   speed?: number;
+  /** Parallax cover zoom (default 1.14). Category split heroes use ~1.02. */
+  coverScale?: number;
   loading?: "lazy" | "eager";
   hotspot?: SanityHotspot | MediaFocalPoint | null;
 }
@@ -30,6 +32,7 @@ export const SplitHeroMedia = ({
   mediaClassName,
   objectPosition,
   speed = 0.14,
+  coverScale = 1.14,
   loading = "eager",
   hotspot,
 }: SplitHeroMediaProps) => {
@@ -38,7 +41,9 @@ export const SplitHeroMedia = ({
 
   const style: CSSProperties = {
     objectPosition,
-    transform: reduced ? undefined : `translate3d(0, ${offset}px, 0) scale(1.14)`,
+    transform: reduced
+      ? undefined
+      : `translate3d(0, ${offset}px, 0) scale(${coverScale})`,
   };
 
   const fillClass = cn(

@@ -13,11 +13,15 @@ import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 import { TreatmentCategoryDocumentInput } from '../sanity/components/TreatmentCategoryDocumentInput'
+import { CategoryHeroImageInput } from '../sanity/components/CategoryHeroImageInput'
+import mediaObject from './objects/media'
 import {
   mediaDescription,
   mediaImageOptions,
   softImageRules,
   softVideoRules,
+  treatmentCategoryHeroImageFieldDescription,
+  treatmentCategoryHeroMediaStudioDescription,
   videoDescription,
   VIDEO_GUIDELINE,
 } from './mediaGuidelines'
@@ -130,12 +134,6 @@ export default {
       group: 'sharedSections',
     },
     {
-      name: 'faqAdvanced',
-      title: 'Previous FAQ list',
-      options: sectionCollapsed,
-      group: 'sharedSections',
-    },
-    {
       name: 'ssAssemblers',
       title: 'Specialists · Insurance · Articles · Booking CTA',
       description:
@@ -180,7 +178,8 @@ export default {
       name: 'searchKeywords',
       title: 'Search keywords / synonyms',
       type: 'array',
-      group: 'general',
+      group: 'advanced',
+      fieldset: 'advancedIds',
       of: [{ type: 'string' }],
       options: { layout: 'tags' },
       description:
@@ -254,13 +253,29 @@ export default {
     {
       name: 'heroMedia',
       title: 'Hero Media',
-      type: 'media',
+      // Inline shared media fields so Image help text follows hero layout (split vs full).
+      type: 'object',
       group: 'pageContent',
       fieldset: 'pcHero',
-      description: mediaDescription(
-        'category',
-        'Category landing page hero only (image or video). For the homepage category grid, use General → Homepage category tile image.',
-      ),
+      description: ({document}: {document?: {landingPage?: {hero?: {layout?: string}}}}) =>
+        treatmentCategoryHeroMediaStudioDescription(document),
+      fields: mediaObject.fields.map((field: {name: string; components?: unknown}) => {
+        if (field.name !== 'image') return field
+        return {
+          ...field,
+          title: 'Image',
+          description: ({
+            document,
+          }: {
+            document?: {landingPage?: {hero?: {layout?: string}}}
+          }) => treatmentCategoryHeroImageFieldDescription(document),
+          components: {
+            input: CategoryHeroImageInput,
+          },
+        }
+      }),
+      validation: mediaObject.validation,
+      preview: mediaObject.preview,
     },
     {
       name: 'heroMediaType',
@@ -287,10 +302,16 @@ export default {
       group: 'pageContent',
       fieldset: 'pcHero',
       options: mediaImageOptions('category'),
-      description: mediaDescription(
-        'category',
-        'Legacy. Prefer Hero Media → Image. Also used as video poster.',
-      ),
+      description: ({
+        document,
+      }: {
+        document?: {landingPage?: {hero?: {layout?: string}}}
+      }) =>
+        [
+          'Legacy. Prefer Hero Media → Image. Also used as video poster.',
+          '',
+          treatmentCategoryHeroImageFieldDescription(document),
+        ].join('\n'),
       validation: softImageRules('category'),
       hidden: ({ document }: { document?: { heroMedia?: unknown; heroMediaType?: string } }) =>
         Boolean(document?.heroMedia) || document?.heroMediaType === 'video',
@@ -367,15 +388,6 @@ export default {
       options: {
         disableNew: false,
       },
-    },
-    {
-      name: 'faqs',
-      title: 'Previous FAQ list',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
-      group: 'sharedSections',
-      fieldset: 'faqAdvanced',
-      hidden: () => true,
     },
     {
       ...pageSectionsField,

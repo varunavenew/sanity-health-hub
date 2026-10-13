@@ -30,8 +30,10 @@ export type PageSectionSpecialistsConfig = {
   variant?: "carousel" | "gridDark" | "gridLight";
 };
 
+export type BookingCtaQuickInfoIcon = "clock" | "shield" | "check" | "none";
+
 export type BookingCtaQuickInfoItem = {
-  icon?: "clock" | "shield";
+  icon?: BookingCtaQuickInfoIcon;
   text?: string;
 };
 

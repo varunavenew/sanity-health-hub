@@ -11,9 +11,9 @@ import {ImageIcon} from '@sanity/icons'
 import type {ComponentType, ReactNode} from 'react'
 import {
   composeImageValidation,
-  mediaDescription,
   mediaImageOptions,
   softVideoRules,
+  treatmentCategoryHeroImageFieldDescription,
   videoDescription,
   VIDEO_GUIDELINE,
 } from '../mediaGuidelines'
@@ -93,10 +93,16 @@ export const mediaObject = {
       title: 'Image',
       type: 'image',
       options: mediaImageOptions('general'),
-      description: mediaDescription(
-        'general',
-        'Shown when Media Type is Image. Match dimensions to the parent field (hero, specialist, clinic, etc.).',
-      ),
+      description: ({
+        document,
+      }: {
+        document?: {_type?: string; landingPage?: {hero?: {layout?: string}}}
+      }) => {
+        if (document?._type === 'treatmentCategory') {
+          return treatmentCategoryHeroImageFieldDescription(document)
+        }
+        return 'Shown when Media Type is Image. Follow the parent field for recommended dimensions.'
+      },
       hidden: ({
         parent,
         document,

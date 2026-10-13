@@ -27,6 +27,7 @@ import type {PageEditorConfig, PageSectionDefinition} from '../types'
 import {definePageEditorConfig} from '../SectionRegistry'
 import {chipsFromDocument, countArray, countChip} from '../documentMeta'
 import {
+  articlesBandSection,
   bookingCtaBandSection,
   i18nPreview,
   insuranceBandSection,
@@ -72,7 +73,11 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       title: 'Hero',
       description: 'Hero media, headline, ingress, and buttons.',
       icon: ImagesIcon,
-      fields: ['heroMedia', 'heroMediaType', 'heroImage', 'heroVideo', 'landingPage'],
+      fieldsBeforeAddon: ['landingPage'],
+      landingPageBandFieldIncludeBefore: ['layout'],
+      fields: ['heroMedia', 'heroMediaType', 'heroImage', 'heroVideo'],
+      fieldsAfterAddon: ['landingPage'],
+      landingPageBandFieldExcludeAfter: ['layout'],
       landingPageFields: ['hero'],
       getChips: (doc) =>
         chipsFromDocument(doc, Boolean(doc), (document) => {
@@ -91,6 +96,29 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       fields: ['landingPage'],
       landingPageFields: ['segmentsSection'],
       getChips: landingArrayChips('segmentsSection', 'segments', 'Card', 'Cards'),
+    },
+    {
+      id: 'faq',
+      title: 'Frequently Asked Questions',
+      description:
+        'FAQ heading, description, and FAQ Collection. On Pregnancy this band is mid-page; other categories hide it when empty.',
+      icon: HelpCircleIcon,
+      fields: [
+        'faqSectionTitle',
+        'faqSectionDescription',
+        'faqOpenFirst',
+        'faqCollection',
+      ],
+      collectionRefField: 'faqCollection',
+      collectionType: 'faqCollection',
+      getChips: (doc) =>
+        chipsFromDocument(doc, Boolean(doc), (document) => {
+          const collection = document.faqCollection as {_ref?: string} | undefined
+          if (typeof collection?._ref === 'string' && collection._ref.length > 0) {
+            return ['Collection linked']
+          }
+          return ['Empty']
+        }),
     },
     {
       id: 'why',
@@ -183,35 +211,20 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       getChips: landingArrayChips('reviewsSection', 'reviews', 'Quote', 'Quotes'),
     },
     {
-      id: 'faq',
-      title: 'Frequently Asked Questions',
-      description: 'FAQ heading, description, and FAQ Collection from Content Library.',
-      icon: HelpCircleIcon,
-      fields: [
-        'faqSectionTitle',
-        'faqSectionDescription',
-        'faqOpenFirst',
-        'faqCollection',
-      ],
-      collectionRefField: 'faqCollection',
-      collectionType: 'faqCollection',
-      getChips: (doc) =>
-        chipsFromDocument(doc, Boolean(doc), (document) => {
-          const collection = document.faqCollection as {_ref?: string} | undefined
-          if (typeof collection?._ref === 'string' && collection._ref.length > 0) {
-            return ['Collection linked']
-          }
-          return ['Empty']
-        }),
-    },
-    {
       id: 'spotlight',
       title: 'Spotlight',
-      description: 'Mid-page highlight - copy, CTA, and image.',
+      description:
+        'Mid-page highlight after Reviews: heading, text, CTA, and one portrait image (full-width on mobile).',
       icon: StarIcon,
       fields: ['landingPage'],
       landingPageFields: ['spotlightSection'],
       getChips: (doc) => landingPreview(doc, 'spotlightSection'),
+    },
+    {
+      ...specialistsBandSection({
+        pageOwnedNotice:
+          'Only the Specialists band for this category. Insurance and Booking CTA have their own cards.',
+      }),
     },
     {
       id: 'journey',
@@ -222,12 +235,10 @@ function treatmentCategorySections(): PageSectionDefinition[] {
       landingPageFields: ['journeySection'],
       getChips: landingArrayChips('journeySection', 'steps', 'Step', 'Steps'),
     },
-    {
-      ...specialistsBandSection({
-        pageOwnedNotice:
-          'Only the Specialists band for this category. Insurance and Booking CTA have their own cards.',
-      }),
-    },
+    articlesBandSection({
+      pageOwnedNotice:
+        'Articles band at the bottom of the page (with Insurance and Booking CTA). Other shared bands have their own cards.',
+    }),
     {
       ...insuranceBandSection(),
     },
@@ -260,9 +271,9 @@ function treatmentCategorySections(): PageSectionDefinition[] {
     {
       id: 'advanced',
       title: 'Advanced',
-      description: 'Routing keys and list order. Ask engineering before changing.',
+      description: 'Routing keys, search synonyms, and list order. Ask engineering before changing.',
       icon: ComposeIcon,
-      fields: ['sortOrder', 'categoryId', 'categoryNumericId'],
+      fields: ['sortOrder', 'categoryId', 'categoryNumericId', 'searchKeywords'],
       getChips: () => ['Technical'],
     },
   ]
@@ -318,9 +329,13 @@ function mergeSectionOrder(
 }
 
 const BAND_SECTION_IDS: Record<string, string> = {
+  pageSectionArticles: 'articles',
   pageSectionInsurance: 'insurance',
   pageSectionBookingCta: 'bookingCta',
 }
+
+/** Shared bands after the landing-page body (matches PageSectionsRenderer tail). */
+const TAIL_BAND_ORDER = ['articles', 'insurance', 'bookingCta'] as const
 
 /** Card order matching how the website renders this category document. */
 function websiteSectionOrder(document: Record<string, unknown> | undefined): string[] {
@@ -355,7 +370,7 @@ function websiteSectionOrder(document: Record<string, unknown> | undefined): str
     const id = band?._type ? BAND_SECTION_IDS[band._type] : undefined
     if (id && !ids.includes(id)) ids.push(id)
   }
-  for (const id of ['insurance', 'bookingCta']) if (!ids.includes(id)) ids.push(id)
+  for (const id of TAIL_BAND_ORDER) if (!ids.includes(id)) ids.push(id)
 
   // Sections this category's website order never renders (e.g. FAQ outside
   // Pregnancy, Audience/Support on Pregnancy) sit after the page body.

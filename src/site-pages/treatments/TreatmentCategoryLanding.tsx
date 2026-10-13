@@ -4,7 +4,7 @@ import { AssetImg } from "@/components/AssetImg";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Star, User, Users, Clock } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -36,7 +36,6 @@ import {
 import { PartialStars } from "@/components/ui/partial-stars";
 import { resolveBusinessReputationRatings } from "@/lib/sanity/business-reputation-dual-read";
 import type {
-  CategoryLandingAudience,
   CategoryLandingExpertArea,
   CategoryLandingReview,
   CategoryLandingSegment,
@@ -59,8 +58,11 @@ import {
   resolveCmsMedia,
   type ResolvedCmsMedia,
 } from "@/lib/sanity/media-dual-read";
-import { assetSrc } from "@/lib/media";
 import blurSkinMid from "@/assets/blur-skin-mid.jpg";
+import {
+  categoryHeroFraming,
+} from "@/lib/sanity/category-hero-framing";
+import { assetSrc } from "@/lib/media";
 import {
   optimizeBackgroundImageUrl,
   whySplitNeedsContain,
@@ -86,40 +88,6 @@ function resolveCategoryHeroMedia(
     videoUrl: heroVideo,
   });
 }
-
-const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
-    <circle cx="32" cy="40" r="13" />
-    <circle cx="48" cy="40" r="13" />
-  </svg>
-);
-
-const SegmentHorizonIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <line x1="12" y1="48" x2="68" y2="48" />
-    <path d="M20 48 A20 20 0 0 1 60 48" />
-    <line x1="40" y1="30" x2="40" y2="24" />
-  </svg>
-);
-
-const SegmentArchIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
-    <circle cx="40" cy="48" r="10" />
-    <path d="M18 40 Q40 14 62 40" />
-  </svg>
-);
-
-const AUDIENCE_ICONS: Record<
-  Exclude<CategoryLandingAudience["icon"], "">,
-  React.ComponentType<React.SVGProps<SVGSVGElement>>
-> = {
-  couple: SegmentCoupleIcon,
-  horizon: SegmentHorizonIcon,
-  arch: SegmentArchIcon,
-  user: User,
-  users: Users,
-  clock: Clock,
-};
 
 /** Shared section head: title + ingress stacked (reference never splits left/right). */
 function CategorySectionHead({
@@ -844,7 +812,7 @@ function PatientJourneySection({
 
 function SpotlightSection({
   spotlight,
-  /** Fertilitet reference: full viewport only at lg+; mobile uses compact media height. */
+  /** Fertilitet reference: emphasis line is not italic. */
   matchFertilityReference = false,
 }: {
   spotlight: CategoryLandingSpotlight;
@@ -889,20 +857,22 @@ function SpotlightSection({
   );
 
   const media = (
-    <div className="split-media bg-secondary/40">
-      {spotlight.image ? (
-        <AssetImg
-          src={spotlight.image}
-          alt={spotlight.imageAlt}
-          loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      ) : null}
+    <div className="spotlight-media-mobile">
+      <div className="split-media bg-secondary/40">
+        {spotlight.image ? (
+          <AssetImg
+            src={spotlight.image}
+            alt={spotlight.imageAlt}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : null}
+      </div>
     </div>
   );
 
   return (
-    <section className="bg-brand-light text-foreground">
+    <section className="bg-brand-light text-foreground overflow-x-clip">
       <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 split-section">
         {copy}
         {media}
@@ -1016,6 +986,10 @@ const TreatmentCategoryLanding = ({
   };
 
   const isFullWidthHero = hero.layout === "full";
+  const heroFraming = categoryHeroFraming(
+    heroMedia,
+    isFullWidthHero ? "full" : "split",
+  );
 
   const isPregnancy =
     categoryId === "graviditet" || categoryId === "pregnancy";
@@ -1245,7 +1219,7 @@ const TreatmentCategoryLanding = ({
                   imageWidth={1600}
                   width={1600}
                   height={whyNeedsContain ? 900 : 2160}
-                  className={whyNeedsContain ? "h-auto w-full" : "h-full w-full"}
+                  className="h-full w-full object-cover"
                 />
               ) : null}
             </div>
@@ -1319,9 +1293,7 @@ const TreatmentCategoryLanding = ({
                       className={containerClass}
                       style={anyCarousel ? { scrollbarWidth: "none" } : undefined}
                     >
-                      {audiencesSection.audiences.map((a) => {
-                        const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
-                        return (
+                      {audiencesSection.audiences.map((a) => (
                           <div
                             key={a.title}
                             className={`bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden ${cardExtraClass}`}
@@ -1334,17 +1306,13 @@ const TreatmentCategoryLanding = ({
                               >
                                 <AssetImg
                                   src={a.image}
-                                  alt={a.title}
+                                  alt={a.imageAlt?.trim() || a.title}
                                   preset="card"
                                   loading="lazy"
                                   className="w-full h-full object-cover"
                                 />
                               </div>
-                            ) : (
-                              <div className="pt-7 px-7 text-foreground/80">
-                                {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
-                              </div>
-                            )}
+                            ) : null}
                             <div className="p-7 md:p-8 flex flex-col flex-1">
                               <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
                               <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1 max-w-md">{a.desc}</p>
@@ -1358,8 +1326,7 @@ const TreatmentCategoryLanding = ({
                               ) : null}
                             </div>
                           </div>
-                        );
-                      })}
+                      ))}
                     </div>
                     {anyCarousel ? (
                       <ScrollArrows scrollRef={audiencesRef} visibility={scrollVisibility} />
@@ -1421,7 +1388,6 @@ const TreatmentCategoryLanding = ({
       symptomsSection.items.length > 0 ? (
         <SymptomServiceSection
           background={symptomsSection.background || "background"}
-          eyebrow={symptomsSection.eyebrow}
           title={symptomsSection.title}
           description={symptomsSection.description}
           layoutVariant={isFertility ? "fertility" : "default"}
@@ -1429,8 +1395,6 @@ const TreatmentCategoryLanding = ({
             symptom: item.symptom,
             service: item.service,
             href: item.href,
-            image: item.image,
-            imageAlt: item.imageAlt,
           }))}
         />
       ) : null,
@@ -1512,12 +1476,13 @@ const TreatmentCategoryLanding = ({
     results: () =>
       stats.length > 0 ? (
         <section className="relative overflow-hidden text-brand-beige pt-10 lg:pt-20 pb-10 md:pb-12">
-          {/* Shared stats band: raw blur-skin texture (same for all categories). */}
           <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <div
               className="absolute inset-x-0 -top-24 -bottom-24 bg-cover bg-center"
               style={{
-                backgroundImage: `url(${optimizeBackgroundImageUrl(assetSrc(blurSkinMid))})`,
+                backgroundImage: `url(${optimizeBackgroundImageUrl(
+                  resultsSection.backgroundImage || assetSrc(blurSkinMid),
+                )})`,
               }}
             />
           </div>
@@ -1661,6 +1626,9 @@ const TreatmentCategoryLanding = ({
                   media={heroMedia}
                   alt={hero.heroImageAlt}
                   loading="eager"
+                  objectPosition={heroFraming.objectPosition}
+                  coverScale={heroFraming.coverScale}
+                  speed={heroFraming.parallaxSpeed}
                 />
               ) : null}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
@@ -1754,7 +1722,7 @@ const TreatmentCategoryLanding = ({
               hasHeroMedia ? "lg:grid split-hero-desktop" : ""
             }`}
           >
-            <div className="flex items-center page-edge-text-left py-16">
+            <div className="flex items-center page-edge-text-left pt-8 pb-12 lg:py-16">
               <div className="w-full max-w-xl">
                 <PageBreadcrumb items={breadcrumbItems} className="hidden lg:flex mb-8 lg:mb-10" />
                 {isFertility ? (
@@ -1815,12 +1783,15 @@ const TreatmentCategoryLanding = ({
               </div>
             </div>
             {hasHeroMedia && heroMedia ? (
-              <div className="split-hero-photo-col order-1 lg:order-none">
+              <div className="split-hero-photo-col category-hero-media-mobile order-1 lg:order-none">
                 <SplitHeroMedia
                   className="split-hero-photo split-media bg-secondary/40"
                   media={heroMedia}
                   alt={hero.heroImageAlt}
                   loading="eager"
+                  objectPosition={heroFraming.objectPosition}
+                  coverScale={heroFraming.coverScale}
+                  speed={heroFraming.parallaxSpeed}
                 />
               </div>
             ) : null}

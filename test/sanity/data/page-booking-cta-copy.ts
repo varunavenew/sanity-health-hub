@@ -11,7 +11,7 @@ export type PageBookingCtaCopy = {
   secondaryPath?: string
   showSecondaryButton?: boolean
   /** When `[]`, quick info is hidden. When omitted, defaults apply. */
-  quickInfoItems?: { icon: 'clock' | 'shield'; no: string; en: string }[]
+  quickInfoItems?: { icon: 'clock' | 'shield' | 'check' | 'none'; no: string; en: string }[]
 }
 
 /** Default pre-footer CTA (BookingCTA / CTASection on most pages). */

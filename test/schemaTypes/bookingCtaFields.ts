@@ -13,10 +13,34 @@ import {
   softImageRules,
 } from './mediaGuidelines'
 
+export const BOOKING_CTA_QUICK_INFO_ICON_VALUES = [
+  'clock',
+  'shield',
+  'check',
+  'none',
+] as const
+
+export type BookingCtaQuickInfoIconValue = (typeof BOOKING_CTA_QUICK_INFO_ICON_VALUES)[number]
+
+export function bookingCtaQuickInfoIconLabel(icon?: string): string {
+  switch (icon) {
+    case 'shield':
+      return 'Shield'
+    case 'check':
+      return 'Check'
+    case 'none':
+      return 'No icon'
+    default:
+      return 'Clock'
+  }
+}
+
 const quickInfoIconOptions = {
   list: [
+    {title: 'Check (default)', value: 'check'},
     {title: 'Clock', value: 'clock'},
     {title: 'Shield', value: 'shield'},
+    {title: 'No icon', value: 'none'},
   ],
   layout: 'radio' as const,
 }
@@ -33,6 +57,7 @@ export const bookingCtaContentFields = [
     name: 'subtitle',
     title: 'Ingress',
     type: 'internationalizedArrayText',
+    description: 'Supporting line under the heading on the booking CTA band.',
   },
   {
     name: 'primaryLabel',
@@ -71,7 +96,7 @@ export const bookingCtaContentFields = [
             title: 'Icon',
             type: 'string',
             options: quickInfoIconOptions,
-            initialValue: 'clock',
+            initialValue: 'check',
           },
           {
             name: 'text',
@@ -84,7 +109,7 @@ export const bookingCtaContentFields = [
           prepare({text, icon}: {text?: unknown; icon?: string}) {
             return {
               title: pickStudioEn(text) || 'Quick info',
-              subtitle: icon === 'shield' ? 'Shield' : 'Clock',
+              subtitle: bookingCtaQuickInfoIconLabel(icon),
             }
           },
         },

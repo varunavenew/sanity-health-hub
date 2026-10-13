@@ -264,18 +264,19 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
   category: {
     title: 'Category Images',
     emoji: '📸',
-    width: 1600,
-    height: 900,
+    width: 1920,
+    height: 1080,
     aspectLabel: '16:9',
     orientation: 'landscape',
     formats: 'JPG / WebP',
     maxBytes: MB(4),
     maxBytesLabel: '4 MB',
-    minWidth: 1000,
-    minHeight: 560,
+    minWidth: 1280,
+    minHeight: 720,
     tips: [
       'Should represent the specialty at a glance.',
       'Avoid text baked into the image.',
+      'Set the hotspot on the main subject so the 3:4 mobile crop stays useful.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -402,6 +403,23 @@ export const VIDEO_GUIDELINE = {
   ],
 } as const
 
+/** Mobile crop guidance shown next to desktop sizes (same upload; hotspot drives crop). */
+const MOBILE_VIEW_BY_KIND: Partial<
+  Record<Exclude<MediaGuidelineKind, 'video'>, {width: number; height: number; aspectLabel: string}>
+> = {
+  hero: {width: 1200, height: 1600, aspectLabel: '3:4'},
+  category: {width: 1200, height: 1600, aspectLabel: '3:4'},
+  treatment: {width: 1200, height: 1600, aspectLabel: '3:4'},
+  card: {width: 800, height: 600, aspectLabel: '4:3'},
+  split: {width: 750, height: 1000, aspectLabel: '3:4'},
+  article: {width: 1200, height: 1600, aspectLabel: '3:4'},
+  gallery: {width: 1200, height: 800, aspectLabel: '3:2'},
+}
+
+function formatPx(n: number): string {
+  return n.toLocaleString('en')
+}
+
 function formatBytesLabel(bytes: number): string {
   if (bytes >= 1024 * 1024) {
     const mb = bytes / (1024 * 1024)
@@ -410,32 +428,42 @@ function formatBytesLabel(bytes: number): string {
   return `${Math.round(bytes / 1024)} KB`
 }
 
-/** Multi-line Studio description for an image guideline kind — max ~4 short lines. */
+function sizeLinesForKind(kind: Exclude<MediaGuidelineKind, 'video'>): string[] {
+  const g = MEDIA_GUIDELINES[kind]
+  const mobile = MOBILE_VIEW_BY_KIND[kind]
+  const lines = [
+    `Desktop: ${formatPx(g.width)} × ${formatPx(g.height)} px (${g.aspectLabel})`,
+  ]
+  if (mobile) {
+    lines.push(
+      `Mobile: ${formatPx(mobile.width)} × ${formatPx(mobile.height)} px (${mobile.aspectLabel})`,
+    )
+  }
+  lines.push(`Formats: ${g.formats} · up to ${g.maxBytesLabel}`)
+  return lines
+}
+
+/** Multi-line Studio description for an image guideline kind — desktop + mobile. */
 export function mediaDescription(
   kind: Exclude<MediaGuidelineKind, 'video'>,
-  _prefix?: string,
+  prefix?: string,
   _options?: {hotspot?: boolean},
 ): string {
   const g = MEDIA_GUIDELINES[kind]
+  const prefixLine = typeof prefix === 'string' && prefix.trim() ? prefix.trim() : ''
 
   if (kind === 'logo') {
     return [
+      ...(prefixLine ? [prefixLine] : []),
       'Preferred Format: SVG',
       'PNG Supported',
       `Recommended Upload: Up to ${g.maxBytesLabel}`,
     ].join('\n')
   }
 
-  if (kind === 'gallery') {
-    return [
-      'Recommended Size: 1600–2400 px wide',
-      `Formats: ${g.formats}`,
-      `Recommended Upload: Up to ${g.maxBytesLabel}`,
-    ].join('\n')
-  }
-
   if (kind === 'icon') {
     return [
+      ...(prefixLine ? [prefixLine] : []),
       `Preferred Format: ${g.formats}`,
       `Recommended Size: ${g.width} × ${g.height} px`,
       `Recommended Upload: Up to ${g.maxBytesLabel}`,
@@ -444,32 +472,159 @@ export function mediaDescription(
 
   if (kind === 'specialist') {
     // NO copy matches CMedical specialist template (Hero Media 1200×1500, 4:5).
-    return 'Portrett 4:5 — 1200 × 1500 px (minst 1200 px bredt). JPG eller PNG.'
-  }
-
-  if (kind === 'split') {
     return [
-      'Portrait 20:27 — 800 × 1080 px',
-      'Fills the side column at 100% zoom.',
-      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape.`,
+      ...(prefixLine ? [prefixLine] : []),
+      'Portrett 4:5 — 1200 × 1500 px (minst 1200 px bredt). JPG eller PNG.',
     ].join('\n')
   }
 
-  if (kind === 'article') {
+  if (kind === 'heroMobile') {
     return [
-      'Portrait 20:27 — 960 × 1080 px',
-      'Fills the article hero column at 100% zoom (960 × 1080 CSS, 2× retina).',
-      `${g.formats} · up to ${g.maxBytesLabel}. Do not upload landscape 16:9.`,
+      ...(prefixLine ? [prefixLine] : []),
+      `Mobile: ${formatPx(g.width)} × ${formatPx(g.height)} px (${g.aspectLabel})`,
+      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
     ].join('\n')
   }
 
+  return [...(prefixLine ? [prefixLine] : []), ...sizeLinesForKind(kind)].join('\n')
+}
+
+/** Statistics band background — one upload, optional (site default if empty). */
+export const RESULTS_SECTION_BACKGROUND_DESCRIPTION =
+  'Optional. One wide texture: 2000 × 1200 px+, JPG/WebP, max 4 MB. Empty = default brown texture on the site.'
+
+/** Treatment category landing — Spotlight band (Website sections → Spotlight). */
+export const TREATMENT_CATEGORY_SPOTLIGHT_IMAGE = [
+  'Spotlight image',
+  '',
+  'Upload one portrait-oriented image for desktop (right column) and mobile (full-width band, usually after Reviews).',
+  '',
+  '• Recommended dimensions: 1200 × 1600 px (3:4) or larger, keeping the same aspect ratio.',
+  '• Formats: JPG, WebP or PNG.',
+  '• Recommended maximum file size: 3 MB.',
+  '',
+  'On mobile the photo spans edge to edge; heading and text sit in the band below. On desktop the image fills the right half next to the copy.',
+  '',
+  'Keep faces and the main subject near the centre, and set the Sanity image hotspot so mobile cropping stays useful.',
+  '',
+  'The same image is used on desktop and mobile. No separate mobile image is required.',
+].join('\n')
+
+/** Treatment category landing hero — split layout (Website sections → Hero → Layout). */
+export const TREATMENT_CATEGORY_HERO_IMAGE_SPLIT = [
+  'Hero Image — Split Layout',
+  '',
+  'Upload one portrait-oriented image for use on desktop and mobile.',
+  '',
+  '• Recommended dimensions: 1200 × 1600 px (3:4) or larger, keeping the same aspect ratio.',
+  '• Formats: JPG, WebP or PNG.',
+  '• Recommended maximum file size: 4 MB.',
+  '',
+  'The image appears beside the text on desktop and above the text on mobile. The website automatically crops the image to fit each screen size.',
+  '',
+  'Keep faces and the main subject near the centre, and set the Sanity image hotspot to help keep important content visible.',
+  '',
+  'The same image is used on desktop and mobile. No separate mobile image is required.',
+].join('\n')
+
+/** Treatment category landing hero — full-width banner layout. */
+export const TREATMENT_CATEGORY_HERO_IMAGE_FULL = [
+  'Hero Image — Full Width Banner',
+  '',
+  'Upload one landscape-oriented image for use on desktop and mobile.',
+  '',
+  '• Recommended dimensions: 1920 × 1080 px (16:9) or larger, keeping the same aspect ratio.',
+  '• Formats: JPG, WebP or PNG.',
+  '• Recommended maximum file size: 4 MB.',
+  '',
+  'The image fills the banner, with the title displayed over it. The website automatically crops the image to fit different screen sizes.',
+  '',
+  'Keep the main subject near the centre and avoid placing important details close to the top and bottom edges. Set the Sanity image hotspot to help preserve the intended framing.',
+  '',
+  'The same image is used on desktop and mobile. No separate mobile image is required.',
+].join('\n')
+
+/** Shared fallback when layout is not split/full (both options documented). */
+export const TREATMENT_CATEGORY_HERO_IMAGE_LAYOUT_UNKNOWN = [
+  'Hero image guidance depends on Website sections → Hero → Layout.',
+  '',
+  TREATMENT_CATEGORY_HERO_IMAGE_SPLIT,
+  '',
+  '— or, when Layout is Full width banner (title on image) —',
+  '',
+  TREATMENT_CATEGORY_HERO_IMAGE_FULL,
+].join('\n')
+
+export type TreatmentCategoryHeroLayoutDoc = {
+  landingPage?: {hero?: {layout?: string}}
+}
+
+export function readTreatmentCategoryHeroLayout(
+  document?: TreatmentCategoryHeroLayoutDoc,
+): 'split' | 'full' {
+  return document?.landingPage?.hero?.layout === 'full' ? 'full' : 'split'
+}
+
+/** Short note under the Image field title (layout-aware). */
+export function treatmentCategoryHeroImageFieldNote(
+  document?: TreatmentCategoryHeroLayoutDoc,
+): string {
+  if (readTreatmentCategoryHeroLayout(document) === 'full') {
+    return [
+      'Use one landscape image for desktop and mobile: 1920 × 1080 px (16:9) or larger (same ratio).',
+      'Formats: JPG, WebP or PNG · recommended max 4 MB.',
+      'Set the hotspot on the main subject. No separate mobile image.',
+    ].join(' ')
+  }
   return [
-    `Recommended Size: ${g.width.toLocaleString('en')} × ${g.height.toLocaleString('en')} px`,
-    `Aspect Ratio: ${g.aspectLabel}`,
-    `Formats: ${g.formats}`,
-    `Recommended Upload: Up to ${g.maxBytesLabel}`,
+    'Use one portrait image for desktop and mobile: 1200 × 1600 px (3:4) or larger (same ratio).',
+    'Formats: JPG, WebP or PNG · recommended max 4 MB.',
+    'Set the hotspot on faces / the main subject. No separate mobile image.',
+  ].join(' ')
+}
+
+/** Description under Image title — note first, then full guidance. */
+export function treatmentCategoryHeroImageFieldDescription(
+  document?: TreatmentCategoryHeroLayoutDoc,
+): string {
+  return [
+    treatmentCategoryHeroImageFieldNote(document),
+    '',
+    treatmentCategoryHeroImageStudioDescription(document),
+    '',
+    TREATMENT_CATEGORY_HERO_IMAGE_SOFT_VALIDATION_NOTE,
   ].join('\n')
 }
+
+/** Nested `media.image` on treatmentCategory — layout-aware upload copy. */
+export function treatmentCategoryHeroImageStudioDescription(
+  document?: TreatmentCategoryHeroLayoutDoc,
+): string {
+  const layout = document?.landingPage?.hero?.layout
+  if (layout === 'full') return TREATMENT_CATEGORY_HERO_IMAGE_FULL
+  if (layout === 'split') return TREATMENT_CATEGORY_HERO_IMAGE_SPLIT
+  return TREATMENT_CATEGORY_HERO_IMAGE_LAYOUT_UNKNOWN
+}
+
+/** Outer `heroMedia` on treatmentCategory — points to layout + tile field. */
+export function treatmentCategoryHeroMediaStudioDescription(
+  document?: TreatmentCategoryHeroLayoutDoc,
+): string {
+  const layoutLine =
+    readTreatmentCategoryHeroLayout(document) === 'full'
+      ? 'Layout: Full width banner (title on image) — see Image below for landscape guidance.'
+      : 'Layout: Split (text left, image right) — see Image below for portrait guidance. Change under Website sections → Hero → Layout.'
+  return [
+    'Category landing page hero (one image or video for all screen sizes).',
+    layoutLine,
+    'Homepage category grid tiles use General → Homepage category tile image — not this field.',
+    'When Media Type is Image, open the Image field below for upload guidance.',
+  ].join('\n')
+}
+
+/** Shown under category hero image help — soft rules on shared `media.image` validation. */
+export const TREATMENT_CATEGORY_HERO_IMAGE_SOFT_VALIDATION_NOTE =
+  'Studio may show soft warnings (file size, dimensions, orientation). These are recommendations — not strict publish rules for Hero Media → Image.'
 
 /** Studio description for video uploads — max 3 short lines. */
 export function videoDescription(_prefix?: string): string {
