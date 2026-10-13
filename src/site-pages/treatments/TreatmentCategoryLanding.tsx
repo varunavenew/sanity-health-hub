@@ -1396,11 +1396,7 @@ const TreatmentCategoryLanding = ({
           title={symptomsSection.title}
           description={symptomsSection.description}
           layoutVariant={isFertility ? "fertility" : "default"}
-          items={symptomsSection.items.map((item) => ({
-            symptom: item.symptom,
-            service: item.service,
-            href: item.href,
-          }))}
+          items={symptomsSection.items}
         />
       ) : null,
 

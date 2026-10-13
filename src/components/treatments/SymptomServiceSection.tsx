@@ -5,8 +5,6 @@ export interface SymptomItem {
   symptom: string;
   service: string;
   href: string;
-  image?: string;
-  imageAlt: string;
 }
 
 interface SymptomServiceSectionProps {

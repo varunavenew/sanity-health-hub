@@ -319,12 +319,12 @@ const Urology = ({ isChatOpen }: PageProps) => {
         title="Hva kjenner du på?"
         description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
         items={[
-          { symptom: "Svak eller hyppig vannlating", service: "Prostatautredning", href: "/behandlinger/urologi/prostata", imageAlt: "Prostatautredning" },
-          { symptom: "Forhøyet PSA eller mistanke om prostatakreft", service: "Prostatasjekk", href: "/behandlinger/urologi/prostata", imageAlt: "Prostatasjekk" },
-          { symptom: "Smerter, kul eller hevelse i pungen", service: "Testikkelutredning", href: "/behandlinger/urologi/testikler", imageAlt: "Testikkelutredning" },
-          { symptom: "Plager fra blære eller urinveier", service: "Blære- og urinveisutredning", href: "/behandlinger/urologi/blaere", imageAlt: "Blæreutredning" },
-          { symptom: "Spørsmål om nyrene", service: "Nyreutredning", href: "/behandlinger/urologi/nyrer", imageAlt: "Nyreutredning" },
-          { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/behandlinger/urologi/sterilisering", imageAlt: "Sterilisering" },
+          { symptom: "Svak eller hyppig vannlating", service: "Prostatautredning", href: "/behandlinger/urologi/prostata" },
+          { symptom: "Forhøyet PSA eller mistanke om prostatakreft", service: "Prostatasjekk", href: "/behandlinger/urologi/prostata" },
+          { symptom: "Smerter, kul eller hevelse i pungen", service: "Testikkelutredning", href: "/behandlinger/urologi/testikler" },
+          { symptom: "Plager fra blære eller urinveier", service: "Blære- og urinveisutredning", href: "/behandlinger/urologi/blaere" },
+          { symptom: "Spørsmål om nyrene", service: "Nyreutredning", href: "/behandlinger/urologi/nyrer" },
+          { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/behandlinger/urologi/sterilisering" },
         ]}
       />
 
