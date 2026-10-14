@@ -70,7 +70,7 @@ function ReviewsBand({ title, badge, slider }: { title: string; badge: ReactNode
       <div className="container relative mx-auto px-6 md:px-16">
         <div className="flex flex-col items-start">
           {badge ? (
-            <div className="order-1 mb-4 flex w-full items-end justify-start md:order-2 md:mb-4 md:mt-8 md:justify-end">
+            <div className="order-1 mb-4 flex w-full items-end justify-start md:order-2 md:mb-0 md:mt-8 md:justify-end">
               {badge}
             </div>
           ) : null}
@@ -80,7 +80,7 @@ function ReviewsBand({ title, badge, slider }: { title: string; badge: ReactNode
         </div>
       </div>
 
-      <div className="relative mt-6 md:mt-0">
+      <div className="relative mt-6">
         <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 hidden w-24 bg-gradient-to-r from-brand-warm to-transparent md:block" />
         <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 hidden w-24 bg-gradient-to-l from-brand-warm to-transparent md:block" />
         {slider}
