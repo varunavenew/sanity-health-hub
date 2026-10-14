@@ -939,6 +939,23 @@ body.cm-edit-mode [data-editable-scope] {
     width: 70%;
     justify-self: start;
   }
+
+  /* Article hero: brown band stays full viewport height; only the photo
+     shrinks (specialist height cap + width step-down). */
+  .article-hero.split-hero-desktop {
+    --split-hero-height: 100svh;
+  }
+
+  .article-hero.split-hero-desktop > .split-media {
+    height: clamp(640px, 100svh, 880px);
+    align-self: center;
+  }
+
+  /* Article hero copy aligns with the logo instead of the viewport edge. */
+  .article-hero > .article-hero-copy {
+    padding-left: calc((100vw - var(--max-shell)) / 2 + var(--gutter));
+    padding-right: 3rem;
+  }
 }
 
 /* 80% zoom on 1920 ≈ 2400px */
