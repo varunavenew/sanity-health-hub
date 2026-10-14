@@ -1010,14 +1010,14 @@ body.cm-edit-mode [data-editable-scope] {
  * Article hero contain — only when the file is not 8:9 (960×1080 / 1920×2160).
  * Matching files fill the column with the default cover rules (no extra crop).
  */
-.article-hero .article-hero-media--contain {
+.article-hero.split-hero .article-hero-media--contain {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.article-hero .article-hero-media--contain > *,
-.article-hero .article-hero-media--contain img {
+.article-hero.split-hero .article-hero-media--contain > *,
+.article-hero.split-hero .article-hero-media--contain img {
   position: relative;
   inset: auto;
   width: 100%;

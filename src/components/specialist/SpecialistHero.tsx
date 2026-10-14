@@ -127,8 +127,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
       </div>
 
       {/* Desktop — full-bleed half-column. 90/80/70/60% zoom: image
-          width 70% / 60% / 50% / 45% so cream shows on the right.
-          ArticlePage reuses these classes for the same frame. */}
+          width 70% / 60% / 50% / 45% so cream shows on the right. */}
       <div className="specialist-hero-desktop hidden lg:grid">
         <div className="specialist-hero-copy flex items-center page-edge-text-left py-12 lg:py-16">
           <div className="max-w-xl w-full">
