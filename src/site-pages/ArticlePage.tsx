@@ -346,8 +346,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           contain={heroNeedsContain}
         />
 
-        <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero split-hero-desktop">
-          <div className="flex items-center px-16 lg:px-20 pt-32 pb-20">
+        <div className="article-hero specialist-hero-desktop hidden lg:grid">
+          <div className="flex items-center page-edge-text-left pt-32 pb-20">
             <div className="w-full max-w-xl">
               <Link
                 to={newsPath}
@@ -383,30 +383,31 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
               ) : null}
             </div>
           </div>
-          {article.image ? (
-            <div
-              className={cn(
-                "split-media bg-brand-dark",
-                heroNeedsContain && "article-hero-media article-hero-media--contain",
-              )}
-              data-hero-parallax=""
-            >
-              <ResponsiveImage
-                src={article.image}
-                alt={sanityArticle?.imageAlt || article.title}
-                variant="hero"
-                hotspot={article.imageHotspot}
-                crop={article.imageCrop}
-                imageWidth={heroNeedsContain ? 1600 : 1920}
-                loading="eager"
-                width={heroNeedsContain ? 1600 : 1920}
-                height={heroNeedsContain ? 900 : 2160}
-                className={heroNeedsContain ? "h-auto w-full" : "h-full w-full"}
-              />
-            </div>
-          ) : (
-            <div className="split-media bg-brand-dark" />
-          )}
+          <div data-hero-parallax="" className="specialist-hero-photo-col">
+            {article.image ? (
+              <div
+                className={cn(
+                  "specialist-hero-photo relative overflow-hidden bg-brand-dark",
+                  heroNeedsContain && "article-hero-media article-hero-media--contain",
+                )}
+              >
+                <ResponsiveImage
+                  src={article.image}
+                  alt={sanityArticle?.imageAlt || article.title}
+                  variant="hero"
+                  hotspot={article.imageHotspot}
+                  crop={article.imageCrop}
+                  imageWidth={heroNeedsContain ? 1600 : 1920}
+                  loading="eager"
+                  width={heroNeedsContain ? 1600 : 1920}
+                  height={heroNeedsContain ? 900 : 2160}
+                  className={heroNeedsContain ? "h-auto w-full" : "h-full w-full"}
+                />
+              </div>
+            ) : (
+              <div className="specialist-hero-photo bg-brand-dark" />
+            )}
+          </div>
         </div>
       </header>
 
