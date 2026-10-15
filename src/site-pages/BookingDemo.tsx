@@ -463,12 +463,17 @@ const BookingDemo = () => {
   const selectedSanityClinic = useMemo(() => {
     const clinic = bookingData.clinic;
     if (!clinic) return undefined;
-    if (isMetodikaClinic(clinic) && clinic.sanityClinicId) {
-      return sanityClinics.find((row) => row.id === clinic.sanityClinicId);
+    if (isMetodikaClinic(clinic)) {
+      if (clinic.sanityClinicId) {
+        const byId = sanityClinics.find((row) => row.id === clinic.sanityClinicId);
+        if (byId) return byId;
+      }
+      return findSanityClinicForMetodikaBookingClinic(sanityClinics, clinic);
     }
     return (
       sanityClinics.find((row) => row.id === clinic.id) ??
       sanityClinics.find((row) => row.slug === clinic.id) ??
+      findSanityClinicBySlugOrId(sanityClinics, clinic.label) ??
       (isPasientskyClinic(clinic)
         ? sanityClinics.find((row) => row.booking?.method === "pasientsky")
         : undefined)
@@ -1602,6 +1607,16 @@ const BookingDemo = () => {
     if (!clinicToSelect) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;
 
+    if (isMetodikaClinic(clinicToSelect) && !clinicToSelect.sanityClinicId) {
+      const sanity = findSanityClinicForMetodikaBookingClinic(
+        sanityClinics,
+        clinicToSelect,
+      );
+      if (sanity) {
+        clinicToSelect = { ...clinicToSelect, sanityClinicId: sanity.id };
+      }
+    }
+
     autoSelectedClinicActivityRef.current = activityId;
     prefetchCaregiversForClinic(clinicToSelect);
     setBookingData((prev) => ({
@@ -1927,12 +1942,12 @@ const BookingDemo = () => {
                 <span className="text-muted-foreground">{copy.successLabelClinic}</span>
                 <span className="font-medium text-right max-w-[60%]">{confirmationClinicName}</span>
               </div>
-              {confirmationClinicAddress && (
+              {!hideClinicAddress && confirmationClinicAddress ? (
                 <div className="flex justify-between py-2 border-b border-border/30">
                   <span className="text-muted-foreground">{copy.successLabelAddress}</span>
                   <span className="font-medium text-right max-w-[60%]">{confirmationClinicAddress}</span>
                 </div>
-              )}
+              ) : null}
               <div className="flex justify-between py-2 border-b border-border/30">
                 <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
                 <span className="font-medium">{bookingData.date && formatBookingShortDate(bookingData.date, locale)} kl. {bookingData.time}</span>
@@ -2896,12 +2911,12 @@ const BookingDemo = () => {
                     <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelClinic}</span>
                     <p className="font-normal text-brand-dark">{confirmationClinicName}</p>
                   </div>
-                  {confirmationClinicAddress && (
+                  {!hideClinicAddress && confirmationClinicAddress ? (
                     <div className="flex flex-col gap-1 min-w-0">
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelAddress}</span>
                       <p className="font-normal text-brand-dark">{confirmationClinicAddress}</p>
                     </div>
-                  )}
+                  ) : null}
                   {bookingData.slotDurationMinutes != null && (
                     <div className="flex flex-col gap-1 min-w-0">
                       <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
