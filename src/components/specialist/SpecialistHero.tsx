@@ -66,7 +66,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
           aria-hidden="true"
         />
 
-        <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-4">
+        <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-8 safe-area-pb">
           <motion.p
             aria-hidden="true"
             initial={{ opacity: 0, y: 12 }}
@@ -81,7 +81,7 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-base font-light text-white mb-3 flex flex-wrap items-center gap-x-2 gap-y-1"
+            className="text-base font-light text-white flex flex-wrap items-center gap-x-2 gap-y-1"
           >
             <span>{specialist.title}</span>
             {hasSubtitle ? (
@@ -107,22 +107,6 @@ export const SpecialistHero = ({ specialist }: SpecialistHeroProps) => {
               </span>
             ))}
           </motion.p>
-
-          {specialistHasHeroCtas(specialist) ? (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              <SpecialistCtaButtons
-                specialist={specialist}
-                bookingLabel={ui.bookingCtaLabel}
-                callLabel={ui.heroCallUsLabel}
-                callToBookLabel={ui.heroCallToBookLabel}
-                surface="mobile"
-              />
-            </motion.div>
-          ) : null}
         </div>
       </div>
 
