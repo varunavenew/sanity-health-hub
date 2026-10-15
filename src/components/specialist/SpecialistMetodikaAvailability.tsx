@@ -621,12 +621,12 @@ export function SpecialistMetodikaAvailability({
             <span className="text-muted-foreground">{copy.successLabelClinic}</span>
             <span className="font-normal text-right">{confirmationClinicName}</span>
           </div>
-          {confirmationClinicAddress && (
+          {!hideClinicAddress && confirmationClinicAddress ? (
             <div className="flex justify-between gap-4 border-b border-border/30 py-2">
               <span className="text-muted-foreground">{copy.successLabelAddress}</span>
               <span className="font-normal text-right">{confirmationClinicAddress}</span>
             </div>
-          )}
+          ) : null}
           <div className="flex justify-between gap-4 py-2">
             <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
             <span className="font-normal text-right">
@@ -656,13 +656,13 @@ export function SpecialistMetodikaAvailability({
             <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelClinic}</span>
             <p className="font-normal text-foreground">{confirmationClinicName}</p>
           </div>
-          {confirmationClinicAddress && (
+          {!hideClinicAddress && confirmationClinicAddress ? (
             <div>
               <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelAddress}</span>
               <p className="font-normal text-foreground">{confirmationClinicAddress}</p>
             </div>
-          )}
-          <div className={confirmationClinicAddress ? "" : "col-span-2"}>
+          ) : null}
+          <div className={!hideClinicAddress && confirmationClinicAddress ? "" : "col-span-2"}>
             <span className="text-xs uppercase text-muted-foreground">{copy.step5LabelDate}</span>
             <p className="font-normal text-foreground">
               {formatBookingLongDate(selectedDate, dateLang)} {selectedSlot.time}
