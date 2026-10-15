@@ -1,7 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useMemo, useRef, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams, Link, useLocaleParam, useLocation } from "@/lib/router";
 import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
@@ -1552,8 +1552,35 @@ const BookingDemo = () => {
     matrixMetodikaClinics.length > 0 ||
     clinicsAvailabilityReady;
 
+  /** Remote/phone/digital (BT-11b) or exactly one bookable clinic — no picker UI. */
+  const autoSkipClinicStep =
+    skipClinicSelectionStep || (step2Ready && availableClinics.length === 1);
+
+  const clinicAutoSelectPending =
+    Boolean(bookingData.service) &&
+    !bookingData.clinic &&
+    !isPasientskyBooking &&
+    (!step2Ready ||
+      (step2Ready && availableClinics.length > 0 && autoSkipClinicStep));
+
+  /** Progress + headings while clinic auto-select runs (e.g. deep link with one clinic). */
+  const flowStep = useMemo(() => {
+    if (isPasientskyBooking) return currentStep;
+    if (!clinicAutoSelectPending) return currentStep;
+    if (bookingData.specialistChosen) {
+      return bookingData.time ? 5 : 4;
+    }
+    return 3;
+  }, [
+    currentStep,
+    clinicAutoSelectPending,
+    bookingData.specialistChosen,
+    bookingData.time,
+    isPasientskyBooking,
+  ]);
+
   // Auto-select clinic: remote services → default location (BT-11b); physical → single option only
-  useEffect(() => {
+  useLayoutEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
     if (pendingKlinikkRef.current?.trim()) return;
@@ -1975,7 +2002,7 @@ const BookingDemo = () => {
         {!isExternalBooking && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2 px-1">
-              {currentStep > 1 ? (
+              {flowStep > 1 ? (
                 <button
                   type="button"
                   onClick={() => progressBackTarget && resetStep(progressBackTarget)}
@@ -1983,23 +2010,23 @@ const BookingDemo = () => {
                 >
                   <ArrowLeft className="w-3 h-3" />
                   <span className="underline">{copy.backLabel}</span>
-                  <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(currentStep)}</span>
+                  <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(flowStep)}</span>
                 </button>
               ) : (
-                <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
+                <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(flowStep)}</span>
               )}
               <span className={cn(
                 "text-xs text-brand-dark",
-                currentStep === totalSteps ? "font-medium" : "font-normal",
+                flowStep === totalSteps ? "font-medium" : "font-normal",
               )}>
-                {stepNameByIndex[currentStep]}
+                {stepNameByIndex[flowStep]}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               {progressStepNumbers.map((step) => {
-                const canNavigate = currentStep > step;
-                const isActive = currentStep === step;
-                const isDone = currentStep > step;
+                const canNavigate = flowStep > step;
+                const isActive = flowStep === step;
+                const isDone = flowStep > step;
                 const labels = progressAriaLabels;
                 return (
                   <button
@@ -2298,19 +2325,37 @@ const BookingDemo = () => {
               </div>
               )}
             </motion.div>
-          ) : !bookingData.clinic && skipClinicSelectionStep ? (
+          ) : clinicAutoSelectPending &&
+            bookingData.specialistChosen &&
+            !bookingData.time ? (
             <motion.div
-              key="step2-remote"
+              key="step4-clinic-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              {bookingData.service?.apiActivityId && !step2Ready && (
-                <BookingStepLoader message={copy.step2Loading} />
-              )}
-              {step2Ready && availableClinics.length === 0 && (
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
+                {copy.step4Heading}
+                {bookingData.specialist && (
+                  <span className="text-base text-brand-dark/60 font-light ml-2">
+                    – {bookingData.specialist.name}
+                  </span>
+                )}
+              </h2>
+              <BookingStepLoader message={copy.step2Loading} />
+            </motion.div>
+          ) : clinicAutoSelectPending ? (
+            <motion.div
+              key="step2-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4"
+            >
+              {step2Ready && availableClinics.length === 0 ? (
                 <FriendlyEmpty
                   {...emptyStateIconProps}
                   title={copy.step2EmptyTitle}
@@ -2318,15 +2363,12 @@ const BookingDemo = () => {
                   phone={copy.step2EmptyPhone}
                   phoneLabel={copy.step2EmptyButtonLabel}
                 />
+              ) : (
+                <BookingStepLoader message={copy.step2Loading} />
               )}
-              {step2Ready &&
-                availableClinics.length > 0 &&
-                !bookingData.clinic && (
-                  <BookingStepLoader message={copy.step2Loading} />
-                )}
             </motion.div>
           ) : !bookingData.clinic ? (
-            /* Step 2: Select Clinic (physical / in-clinic services) */
+            /* Step 2: Select Clinic — only when 2+ options */
             <motion.div
               key="step2"
               initial={{ opacity: 0, y: 20 }}
@@ -2351,7 +2393,7 @@ const BookingDemo = () => {
                 />
               )}
 
-              {step2Ready && availableClinics.length > 0 && (
+              {step2Ready && availableClinics.length > 1 && (
                 <div className="space-y-3">
                   {availableClinics.map((clinic) => (
                     <button
