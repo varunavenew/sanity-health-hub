@@ -1003,6 +1003,75 @@ body.cm-edit-mode [data-editable-scope] {
   }
 }
 
+/*
+ * Same step-down driven by browser zoom: screens narrower than 1920px never
+ * reach the widths above when zoomed out. HeroZoomStep adds cumulative
+ * `hero-zoom-step-1…4` classes to <html> (max of width step and zoom step).
+ */
+@media (min-width: 1024px) {
+  .hero-zoom-step-1 .split-hero-desktop {
+    --split-hero-height: clamp(640px, 100svh, 880px);
+  }
+
+  .hero-zoom-step-1 .split-hero-photo-col {
+    min-height: var(--split-hero-height, clamp(640px, 100svh, 880px));
+    max-height: 880px;
+  }
+
+  .hero-zoom-step-1 .specialist-hero-photo,
+  .hero-zoom-step-1 .split-hero-photo {
+    width: 70%;
+    left: 0;
+    right: auto;
+  }
+
+  .hero-zoom-step-1 .split-hero-desktop > .split-media {
+    width: 70%;
+    justify-self: start;
+  }
+
+  .hero-zoom-step-1 .article-hero.split-hero-desktop {
+    --split-hero-height: 100svh;
+  }
+
+  .hero-zoom-step-1 .article-hero.split-hero-desktop > .split-media {
+    height: clamp(640px, 100svh, 880px);
+    align-self: center;
+  }
+
+  .hero-zoom-step-1 .article-hero > .article-hero-copy {
+    padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
+    padding-right: 3rem;
+  }
+
+  .hero-zoom-step-2 .specialist-hero-photo,
+  .hero-zoom-step-2 .split-hero-photo {
+    width: 60%;
+  }
+
+  .hero-zoom-step-2 .split-hero-desktop > .split-media {
+    width: 60%;
+  }
+
+  .hero-zoom-step-3 .specialist-hero-photo,
+  .hero-zoom-step-3 .split-hero-photo {
+    width: 50%;
+  }
+
+  .hero-zoom-step-3 .split-hero-desktop > .split-media {
+    width: 50%;
+  }
+
+  .hero-zoom-step-4 .specialist-hero-photo,
+  .hero-zoom-step-4 .split-hero-photo {
+    width: 45%;
+  }
+
+  .hero-zoom-step-4 .split-hero-desktop > .split-media {
+    width: 45%;
+  }
+}
+
 /* Fill the column even when only min-height is set (stacked / zoomed viewports). */
 .split-media > * {
   position: absolute;
