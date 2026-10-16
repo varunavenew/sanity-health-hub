@@ -2070,18 +2070,48 @@ export const CLINICIAN_GUIDE_PAGE_QUERY = `*[_type == "clinicianGuidePage" && ${
   ${localizedSeoObject}
 }`;
 
+const SERVICE_MENU_PATH_PARENT = `parent->{
+      ${localizedSlug},
+      "slugNo": coalesce(
+        slug[language == "no"][0].value.current,
+        slug[_key == "no"][0].value.current,
+        slug[0].value.current,
+        slug.current
+      ),
+      parent->{
+        ${localizedSlug},
+        "slugNo": coalesce(
+          slug[language == "no"][0].value.current,
+          slug[_key == "no"][0].value.current,
+          slug[0].value.current,
+          slug.current
+        )
+      }
+    }`;
+
+const SERVICE_MENU_CHILD_ROW = `
+      _id, _createdAt, pageRole, sortOrder, hideFromServicesMenu,
+      ${i18nString("title")}, ${localizedSlug},
+      "slugNo": coalesce(
+        slug[language == "no"][0].value.current,
+        slug[_key == "no"][0].value.current,
+        slug[0].value.current,
+        slug.current
+      ),
+      "categorySegment": coalesce(categories[0]->categoryId, category->categoryId),
+      ${SERVICE_MENU_PATH_PARENT}`;
+
 const SERVICE_DROPDOWN_TREATMENT_ROW = `
-    _id, _createdAt, pageRole, ${i18nString("title")}, sortOrder, ${localizedSlug},
+    _id, _createdAt, pageRole, ${i18nString("title")}, sortOrder, hideFromServicesMenu, ${localizedSlug},
     "slugNo": coalesce(
       slug[language == "no"][0].value.current,
       slug[_key == "no"][0].value.current,
       slug[0].value.current,
       slug.current
     ),
-    subItems[]{
-      ${i18nString("label")},
-      anchor,
-      path
+    "parentRef": parent._ref,
+    "menuChildren": *[_type == "treatment" && ${publishedTreatmentFilter} && parent._ref == ^._id && pageRole != "team" && coalesce(hideFromServicesMenu, false) != true] {
+      ${SERVICE_MENU_CHILD_ROW}
     }
 `;
 
@@ -2254,5 +2284,14 @@ export const LISTING_SORT_SETTINGS_QUERY = `*[_type == "listingSortSettings" && 
   specialistsSort,
   clinicsSort,
   categoriesSort,
-  treatmentsSort
+  treatmentsSort,
+  tjenesterCategoryOrder[]->{ _id, categoryId },
+  tjenesterTreatmentBlocks[]{
+    category->{ _id, categoryId },
+    treatments[]->{ _id }
+  },
+  tjenesterSubMenuBlocks[]{
+    parent->{ _id },
+    children[]->{ _id }
+  }
 }`;

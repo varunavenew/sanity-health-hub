@@ -16,3 +16,10 @@ export function isTreatmentVisibleOnWebsite(
 ): boolean {
   return hideFromWebsite !== true
 }
+
+/** Tjenester megamenu visibility (`hideFromServicesMenu` only). */
+export function isTreatmentVisibleInServicesMenu(doc: {
+  hideFromServicesMenu?: boolean | null
+}): boolean {
+  return doc.hideFromServicesMenu !== true
+}

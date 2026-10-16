@@ -41,7 +41,10 @@ import {
   type ContactRequestDialogCopy,
 } from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
-import { isTreatmentVisibleOnWebsite } from "@/lib/sanity/treatment-page-role";
+import {
+  isTreatmentVisibleInServicesMenu,
+  isTreatmentVisibleOnWebsite,
+} from "@/lib/sanity/treatment-page-role";
 import { formatReviewDateLabel } from "@/lib/sanity/format-review-date";
 import { resolveFaqsFromCollection } from "@/lib/sanity/faq-dual-read";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
@@ -107,7 +110,12 @@ import {
   normalizeCategoryRouteKey,
   resolveSpecialistPrimaryCategory,
 } from "@/lib/sanity/category-keys";
-import { mergeCategoryNavTreatments } from "@/lib/navigation/tjenester-nav-order";
+import {
+  mergeCategoryNavTreatments,
+  orderNavItemsByIdList,
+  pickNavItemsByIdList,
+} from "@/lib/navigation/tjenester-nav-order";
+import { treatmentMenuPathFromDocument } from "@/lib/navigation/treatment-menu-path";
 import { rewriteRetiredIvfPath } from "@/lib/sanity/ivf-canonical";
 import {
   englishCategoryNavLabel,
@@ -1168,7 +1176,7 @@ export const useClinicianGuidePage = (slug: string) => {
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
-    queryKey: ["sanity", "serviceCategories", lang, "nav-v7"],
+    queryKey: ["sanity", "serviceCategories", lang, "nav-v10"],
     queryFn: async () => {
       const [data, sortSettings] = await Promise.all([
         fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
@@ -1186,14 +1194,24 @@ export const useServiceCategoriesFromSanity = () => {
         return true;
       });
 
-      const sortedCategories = applyListingSort(
-        unique,
-        sortSettings?.categoriesSort,
-        lang,
-        (cat) => cat.title || cat.slug,
-        (cat) => cat.sortOrder,
-        (cat) => cat._createdAt
-      );
+      const categoriesSort = sortSettings?.categoriesSort || "manual";
+      const categoryOrderIds = (sortSettings?.tjenesterCategoryOrder || [])
+        .map((row: { _id?: string }) => row?._id)
+        .filter(Boolean) as string[];
+      let sortedCategories =
+        categoriesSort === "manual" && categoryOrderIds.length > 0
+          ? orderNavItemsByIdList(unique, categoryOrderIds)
+          : applyListingSort(
+              unique,
+              categoriesSort,
+              lang,
+              (cat) => cat.title || cat.slug,
+              (cat) => cat.sortOrder,
+              (cat) => cat._createdAt,
+            );
+      if (categoriesSort === "manual" && categoryOrderIds.length === 0) {
+        sortedCategories = orderNavItemsByIdList(unique, []);
+      }
 
       const mappedCategories = sortedCategories
         .map((cat) => {
@@ -1232,13 +1250,25 @@ export const useServiceCategoriesFromSanity = () => {
           for (const row of [...referencedTreatments, ...categoryTreatmentsOrder]) {
             if (row?._id && !byId.has(row._id)) byId.set(row._id, row);
           }
-          const linkedTreatments = mergeCategoryNavTreatments(
-            [...byId.values()],
-            categoryTreatmentsOrder,
+          const treatmentsSort = sortSettings?.treatmentsSort || "manual";
+          const treatmentBlock = (sortSettings?.tjenesterTreatmentBlocks || []).find(
+            (row: { category?: { _id?: string } }) =>
+              row?.category?._id === cat._id,
           );
-          const treatmentsSort = sortSettings?.treatmentsSort;
+          const blockOrderRows = treatmentBlock?.treatments || [];
+          const dragOrderSource =
+            treatmentsSort === "manual" && blockOrderRows.length > 0
+              ? blockOrderRows
+              : categoryTreatmentsOrder;
+          let linkedTreatments = mergeCategoryNavTreatments(
+            [...byId.values()],
+            dragOrderSource,
+          );
+          if (treatmentsSort === "manual" && blockOrderRows.length === 0) {
+            linkedTreatments = orderNavItemsByIdList(linkedTreatments, []);
+          }
           const treatments =
-            !treatmentsSort || treatmentsSort === "manual"
+            treatmentsSort === "manual"
               ? linkedTreatments
               : applyListingSort(
                   linkedTreatments,
@@ -1266,23 +1296,61 @@ export const useServiceCategoriesFromSanity = () => {
               if (!navId || !pathSlug || !treatmentLabel) return null;
               if (t.pageRole === "team") return null;
               if (!isTreatmentVisibleOnWebsite(t.hideFromWebsite)) return null;
+              if (!isTreatmentVisibleInServicesMenu(t)) return null;
+              const parentRef =
+                typeof t.parentRef === "string" ? t.parentRef.trim() : "";
+              if (parentRef) return null;
               if (slugLocalized === "new-treatment" || slugNo === "new-treatment" || treatmentLabel.toLowerCase() === "new treatment") {
                 return null;
               }
+              const menuChildren = Array.isArray(t.menuChildren)
+                ? t.menuChildren
+                : [];
+              const subMenuBlock = (
+                sortSettings?.tjenesterSubMenuBlocks || []
+              ).find(
+                (row: { parent?: { _id?: string } }) =>
+                  row?.parent?._id === t._id,
+              );
+              const childOrderIds = (subMenuBlock?.children || [])
+                .map((row: { _id?: string }) => row?._id)
+                .filter(Boolean) as string[];
+              const menuChildrenForNav = subMenuBlock
+                ? pickNavItemsByIdList(menuChildren, childOrderIds)
+                : menuChildren;
+              const sortedMenuChildren =
+                treatmentsSort === "manual"
+                  ? subMenuBlock
+                    ? menuChildrenForNav
+                    : orderNavItemsByIdList(
+                        menuChildren,
+                        childOrderIds.length > 0 ? childOrderIds : [],
+                      )
+                  : applyListingSort(
+                      menuChildrenForNav,
+                      treatmentsSort,
+                      lang,
+                      (child: any) => child.title || child.slug,
+                      (child: any) => child.sortOrder,
+                      (child: any) => child._createdAt,
+                    );
+              const items = sortedMenuChildren
+                .map((child: any) => {
+                  if (!isTreatmentVisibleInServicesMenu(child)) return null;
+                  const childLabel = textForSort(child.title, lang);
+                  const path = treatmentMenuPathFromDocument(child, lang);
+                  if (!childLabel || !path) return null;
+                  return { label: childLabel, path };
+                })
+                .filter(
+                  (item): item is { label: string; path: string } =>
+                    item !== null,
+                );
               return {
                 id: navId,
                 label: treatmentLabel,
                 path: rewriteRetiredIvfPath(`/${categorySlug}/${pathSlug}`),
-                items: sortByLabel(t.subItems || [], (item: any) => item.label)
-                  .map((item: any) => ({
-                    label:
-                      typeof item.label === "string" ? item.label.trim() : "",
-                    anchor: item.anchor || undefined,
-                    path: item.path
-                      ? coercePath(item.path, lang) || undefined
-                      : undefined,
-                  }))
-                  .filter((item: { label: string }) => item.label.length > 0),
+                items,
               };
             })
             .filter(
