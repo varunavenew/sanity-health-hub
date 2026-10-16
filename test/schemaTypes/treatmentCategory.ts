@@ -190,7 +190,7 @@ export default {
       title: 'Linked treatments',
       group: 'general',
       description:
-        'Used for the category overview page and for megamenu order when Listing Sort is Manual. Membership in the Tjenester megamenu is controlled on each treatment (Categories). Does NOT create the Services section below.',
+        'Drag to set column-2 order in the Tjenester dropdown (when Tjenester menu & list order → Manual). A treatment must also have this category under Categories on the treatment document. Does not build the Services section on the landing page.',
       type: 'array',
       of: [
         {
@@ -223,11 +223,13 @@ export default {
     },
     {
       name: 'sortOrder',
-      title: 'List order',
+      title: 'List order (legacy)',
       type: 'number',
       group: 'advanced',
       fieldset: 'advancedIds',
-      description: 'Order in the Services hub. Lower numbers appear first.',
+      hidden: () => true,
+      readOnly: true,
+      description: 'Legacy — use Settings → Tjenester menu & list order to drag categories.',
     },
     {
       name: 'categoryId',

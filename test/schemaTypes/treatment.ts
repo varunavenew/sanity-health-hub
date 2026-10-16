@@ -243,12 +243,13 @@ export default {
       initialValue: 'service',
     },
     {
+      // Legacy flag — use Unpublish in Studio instead of hiding while published.
       name: 'hideFromWebsite',
-      title: 'Hide from website',
+      title: 'hideFromWebsite',
       type: 'boolean',
-      group: 'general',
-      description:
-        'Removes this treatment from the public website. Click "Hide from website" — linked category lists, related sections, and similar CMS references are cleaned up automatically. Turn off and Publish to show it again.',
+      group: 'advanced',
+      hidden: () => true,
+      readOnly: true,
       initialValue: false,
     },
     {
@@ -270,7 +271,7 @@ export default {
       group: 'general',
       to: [{type: 'treatment'}],
       description:
-        'Optional. Set this when the page sits under another Treatment page (e.g. a sub-treatment under Hudbehandlinger, which itself sits under Hudhelse). Drives the breadcrumb trail and its structured data. Leave empty for treatments that sit directly under a Category.',
+        'Sub-pages only (e.g. Gravid → Ernæringsfysiolog): picks which column-2 treatment shows this page in Tjenester column 3. Top-level treatments (Ernæringsfysiolog itself): leave empty. Drag order for column 3: Settings → Tjenester menu & list order.',
       options: {
         filter: ({document}: {document: {_id?: string}}) => {
           const id = (document._id || '').replace(/^drafts\./, '')
@@ -288,7 +289,15 @@ export default {
           return targetId === currentId ? 'A treatment cannot be its own parent' : true
         }),
     },
-
+    {
+      name: 'hideFromServicesMenu',
+      title: 'Hide in Tjenester menu',
+      type: 'boolean',
+      group: 'general',
+      description:
+        'When on, the page stays on the website but is removed from the header Tjenester dropdown (including under its parent). Leave off so sub-pages with a parent appear in column 3.',
+      initialValue: false,
+    },
     // ── Page Content ──────────────────────────────────────────────────────────
     {
       name: 'description',
@@ -914,12 +923,23 @@ export default {
 
     // ── Advanced (rarely edited — do not delete) ────────────────────────────
     {
+      name: 'menuChildrenOrder',
+      title: 'Sub-menu order (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      hidden: () => true,
+      readOnly: true,
+      of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
+    },
+    {
       name: 'sortOrder',
-      title: 'List order',
+      title: 'List order (legacy)',
       type: 'number',
       group: 'advanced',
       fieldset: 'advancedList',
-      description: 'Order in category menus and lists. Lower numbers appear first.',
+      hidden: () => true,
+      readOnly: true,
     },
     {
       name: 'parentCategoryLabel',
@@ -979,16 +999,14 @@ export default {
       description:
         'Optional Metodika wbactivity id to preselect a specific service in booking (e.g. digital consultation). When set, Step 2 opens directly if the activity resolves.',
     },
-    // Megamenu submenu + UI chrome labels: hidden in Studio, still stored and
-    // read by the frontend (safe defaults apply when empty).
     {
+      // Legacy megamenu links — column 3 is driven by Parent treatment on child pages.
       name: 'subItems',
-      title: 'Submenu items',
-      group: 'advanced',
-      hidden: true,
-      description:
-        'Third column in the services megamenu. Leave empty if this treatment has no submenu links.',
+      title: 'Submenu items (legacy)',
       type: 'array',
+      group: 'advanced',
+      hidden: () => true,
+      readOnly: true,
       of: [
         {
           type: 'object',
@@ -997,27 +1015,10 @@ export default {
               name: 'label',
               title: 'Title',
               type: 'internationalizedArrayString',
-              validation: reqI18n('Title'),
             },
-            {
-              name: 'anchor',
-              title: 'Anchor (optional)',
-              type: 'string',
-              description: 'Anchor link on page (#section)',
-            },
-            {
-              name: 'path',
-              title: 'Custom URL (optional)',
-              type: 'string',
-              description: 'Full URL if the element should link to another page',
-            },
+            { name: 'anchor', title: 'Anchor', type: 'string' },
+            { name: 'path', title: 'Path', type: 'string' },
           ],
-          preview: {
-            select: { title: 'label' },
-            prepare({ title }: any) {
-              return { title: pickStudioEn(title) }
-            },
-          },
         },
       ],
     },
@@ -1241,6 +1242,34 @@ export default {
       group: 'pageContent',
       fieldset: 'pcReviews',
       description: 'Optional. Website uses a default heading when empty.',
+    },
+    {
+      name: 'reviewsTitle',
+      title: 'Reviews heading (legacy)',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      hidden: () => true,
+      readOnly: true,
+    },
+    {
+      name: 'reviewsEyebrow',
+      title: 'Reviews eyebrow (legacy)',
+      type: 'internationalizedArrayString',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      hidden: () => true,
+      readOnly: true,
+    },
+    {
+      name: 'patientReviews',
+      title: 'Patient reviews (legacy)',
+      type: 'array',
+      group: 'advanced',
+      fieldset: 'advancedLegacy',
+      hidden: () => true,
+      readOnly: true,
+      of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
     },
     {
       name: 'googleReviews',
