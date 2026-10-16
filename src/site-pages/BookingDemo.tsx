@@ -67,7 +67,12 @@ import {
   logSanityMetodikaMappingAudit,
   mergeMetodikaAndSanityClinics,
   metodikaClinicsFromMatrix,
+  metodikaClinicsFromSanityForCategory,
+  metodikaLocationIdForSanityClinic,
+  resolveBookingCategoryKeys,
   sanityManagedClinicsForCategory,
+  unionMetodikaClinicsByLocation,
+  clinicOffersBookingCategory,
 } from "@/lib/booking/sanityBookingClinic";
 import {
   step1ClinicDisplayTagsForCategory,
@@ -1051,14 +1056,26 @@ const BookingDemo = () => {
   );
 
   const metodikaClinicsForStep2 = useMemo(() => {
+    const fromCategory = metodikaClinicsFromSanityForCategory(
+      sanityClinics,
+      bookingData.categoryId,
+      bookingData.categoryApiSlug,
+    );
     const raw =
       matrixMetodikaClinics.length > 0
         ? matrixMetodikaClinics
         : enrichedMetodikaClinics.filter(
             (clinic) => !isPlaceholderMetodikaLocationLabel(clinic.label),
           );
-    return groupMajorstuenMetodikaClinics(raw);
-  }, [matrixMetodikaClinics, enrichedMetodikaClinics]);
+    const fromActivity = groupMajorstuenMetodikaClinics(raw);
+    return unionMetodikaClinicsByLocation(fromCategory, fromActivity);
+  }, [
+    matrixMetodikaClinics,
+    enrichedMetodikaClinics,
+    sanityClinics,
+    bookingData.categoryId,
+    bookingData.categoryApiSlug,
+  ]);
 
   // Prefill clinic from ?klinikk= (+ optional ?locationId= from specialist profile)
   const pendingKlinikkRef = useRef<string | null>(null);
@@ -1599,7 +1616,21 @@ const BookingDemo = () => {
         sanityClinics,
       );
     } else if (availableClinics.length === 1) {
-      clinicToSelect = availableClinics[0];
+      const sole = availableClinics[0];
+      // Do not jump straight to Moelv PatientSky when Majorstuen (Metodika) also offers this category.
+      if (isPasientskyClinic(sole)) {
+        const categoryKeys = resolveBookingCategoryKeys(
+          bookingData.categoryId,
+          bookingData.categoryApiSlug,
+        );
+        const hasMetodikaForCategory = sanityClinics.some(
+          (row) =>
+            typeof metodikaLocationIdForSanityClinic(row) === "number" &&
+            clinicOffersBookingCategory(row.services, categoryKeys),
+        );
+        if (hasMetodikaForCategory) return;
+      }
+      clinicToSelect = sole;
     } else {
       return;
     }
@@ -1627,6 +1658,8 @@ const BookingDemo = () => {
     }));
   }, [
     bookingData.service?.apiActivityId,
+    bookingData.categoryId,
+    bookingData.categoryApiSlug,
     bookingData.clinic,
     step2Ready,
     availableClinics,

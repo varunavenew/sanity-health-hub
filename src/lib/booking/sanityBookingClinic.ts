@@ -18,6 +18,7 @@ import {
   groupMajorstuenMetodikaClinics,
   isMajorstuenGroupedClinic,
   isMajorstuenMetodikaLocationId,
+  MAJORSTUEN_METODIKA_LOCATION_IDS,
   metodikaLocationIdsForClinic,
 } from "@/lib/booking/majorstuen-location-group";
 
@@ -269,10 +270,9 @@ export function metodikaClinicsFromMatrix(
   const seenLocationIds = new Set<number>();
 
   for (const sanity of sanityClinics) {
-    if (sanity.booking?.method !== "metodika") continue;
     if (!clinicOffersBookingCategory(sanity.services, categoryKeys)) continue;
 
-    const locationId = sanity.booking.metodikaLocationId;
+    const locationId = metodikaLocationIdForSanityClinic(sanity);
     if (typeof locationId !== "number" || !allowedLocationIds.has(locationId)) continue;
     if (seenLocationIds.has(locationId)) continue;
     seenLocationIds.add(locationId);
@@ -302,6 +302,23 @@ export function metodikaClinicsFromMatrix(
  * Step 2 instant path: Metodika clinics from Sanity (no wbactivities wait).
  * Refined by {@link metodikaClinicsFromMatrix} when the matrix response arrives.
  */
+/** Metodika location for step 2 when CMS booking.method is correct or Majorstuen drift. */
+export function metodikaLocationIdForSanityClinic(
+  sanity: SanityClinicListRow,
+): number | undefined {
+  const booking = sanity.booking;
+  if (booking?.method === "metodika") {
+    const id = booking.metodikaLocationId;
+    if (typeof id === "number" && Number.isFinite(id) && id > 0) return id;
+  }
+  const isMajorstuen =
+    sanity.slug === "majorstuen" || sanity.id.replace(/^drafts\./, "").includes("majorstuen");
+  if (isMajorstuen && booking?.method !== "pasientsky") {
+    return MAJORSTUEN_METODIKA_LOCATION_IDS[0];
+  }
+  return undefined;
+}
+
 export function metodikaClinicsFromSanityForCategory(
   clinics: SanityClinicListRow[],
   categoryId?: string,
@@ -312,8 +329,7 @@ export function metodikaClinicsFromSanityForCategory(
   const seenLocationIds = new Set<number>();
 
   for (const sanity of clinics) {
-    if (sanity.booking?.method !== "metodika") continue;
-    const locationId = sanity.booking.metodikaLocationId;
+    const locationId = metodikaLocationIdForSanityClinic(sanity);
     if (typeof locationId !== "number") continue;
     if (!clinicOffersBookingCategory(sanity.services, categoryKeys)) continue;
     if (seenLocationIds.has(locationId)) continue;
@@ -579,6 +595,22 @@ export function logSanityMetodikaMappingAudit(audit: SanityMetodikaMappingAudit)
     );
   }
   console.groupEnd();
+}
+
+/** Merge Metodika clinic rows (e.g. activity matrix + category Sanity list). */
+export function unionMetodikaClinicsByLocation(
+  ...lists: BookingMetodikaClinic[][]
+): BookingMetodikaClinic[] {
+  const byId = new Map<string, BookingMetodikaClinic>();
+  for (const clinic of lists.flat()) {
+    const existing = byId.get(clinic.id);
+    if (!existing || (clinic.sanityClinicId && !existing.sanityClinicId)) {
+      byId.set(clinic.id, clinic);
+    }
+  }
+  return groupMajorstuenMetodikaClinics(
+    [...byId.values()].sort((a, b) => a.label.localeCompare(b.label, "nb")),
+  );
 }
 
 /** Drop Sanity clinics already represented in Metodika locations (by name). */
