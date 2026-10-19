@@ -952,21 +952,29 @@ const BookingDemo = () => {
     bookingData.specialist,
   );
 
+  /** Step 4: only filter by caregiver when user picked a specific behandler (not "first available"). */
+  const step4CaregiverFilterId = useMemo((): number | undefined => {
+    if (isFirstAvailableFlow) return undefined;
+    if (!bookingData.specialist) return undefined;
+    return selectedCaregiverUserId;
+  }, [isFirstAvailableFlow, bookingData.specialist, selectedCaregiverUserId]);
+
   const selectedMetodikaLocationIds = useMemo(
     () =>
       selectedMetodikaLocationIdsFromClinic(
         bookingData.clinic,
         wbActivityMatrix,
-        selectedCaregiverUserId,
+        step4CaregiverFilterId,
         apiFreeTimeSlots,
       ),
-    [bookingData.clinic, wbActivityMatrix, selectedCaregiverUserId, apiFreeTimeSlots],
+    [bookingData.clinic, wbActivityMatrix, step4CaregiverFilterId, apiFreeTimeSlots],
   );
 
   const slotsFetchContextKey = [
     bookingData.service?.apiActivityId ?? "",
     selectedMetodikaLocationIds?.join("+") ?? "",
-    selectedCaregiverUserId ?? "",
+    step4CaregiverFilterId ?? "",
+    isFirstAvailableFlow ? "any" : "named",
   ].join(":");
 
   // Clear per-day slot cache when service, clinic, or specialist changes
@@ -1001,10 +1009,7 @@ const BookingDemo = () => {
     to.setDate(to.getDate() + SCOPED_AVAILABILITY_DAYS);
     const searchFromTime = metodikaSearchTime(from, false);
     const searchToTime = metodikaSearchTime(to, true);
-    const caregiverUserId =
-      bookingData.specialistChosen && selectedCaregiverUserId != null
-        ? selectedCaregiverUserId
-        : undefined;
+    const caregiverUserId = step4CaregiverFilterId;
 
     async function loadScopedAvailability() {
       setScopedAvailabilityLoading(true);
@@ -1047,9 +1052,8 @@ const BookingDemo = () => {
   }, [
     bookingData.service?.apiActivityId,
     bookingData.clinic,
-    bookingData.specialistChosen,
     selectedMetodikaLocationIds,
-    selectedCaregiverUserId,
+    step4CaregiverFilterId,
   ]);
 
   const prefetchDaySlots = useCallback(
@@ -1058,7 +1062,7 @@ const BookingDemo = () => {
       const locationIds = selectedMetodikaLocationIdsFromClinic(
         bookingData.clinic,
         wbActivityMatrix,
-        resolveBookingCaregiverUserId(bookingData.specialist),
+        step4CaregiverFilterId,
         apiFreeTimeSlots,
       );
       if (!activityId || !locationIds?.length) return;
@@ -1066,12 +1070,11 @@ const BookingDemo = () => {
       const key = dayKey(date);
       if (slotsByDayRef.current[key]) return;
 
-      const caregiverUserId = resolveBookingCaregiverUserId(bookingData.specialist);
       void fetchBookingDaySlotsForLocations({
         wbactivityId: activityId,
         date,
         locationIds,
-        caregiverUserId: caregiverUserId ?? undefined,
+        caregiverUserId: step4CaregiverFilterId,
       }).then((slots) => {
         if (slotsByDayRef.current[key]) return;
         slotsByDayRef.current[key] = slots;
@@ -1081,9 +1084,9 @@ const BookingDemo = () => {
     [
       bookingData.service?.apiActivityId,
       bookingData.clinic,
-      bookingData.specialist,
       wbActivityMatrix,
       apiFreeTimeSlots,
+      step4CaregiverFilterId,
     ],
   );
 
@@ -1109,7 +1112,7 @@ const BookingDemo = () => {
       return;
     }
 
-    const caregiverUserId = selectedCaregiverUserId;
+    const caregiverUserId = step4CaregiverFilterId;
     const peeked = peekBookingDaySlotsForLocations({
       wbactivityId: activityId,
       date: selectedDate,
@@ -1157,7 +1160,7 @@ const BookingDemo = () => {
     selectedDate,
     bookingData.service?.apiActivityId,
     selectedMetodikaLocationIds,
-    selectedCaregiverUserId,
+    step4CaregiverFilterId,
     slotsFetchContextKey,
   ]);
 
@@ -1408,7 +1411,7 @@ const BookingDemo = () => {
 
     const addFromSlots = (slots: ApiFreeTimeSlot[]) => {
       for (const slot of slots) {
-        if (!apiSlotMatchesCalendarScope(slot, locationIds, selectedCaregiverUserId)) {
+        if (!apiSlotMatchesCalendarScope(slot, locationIds, step4CaregiverFilterId)) {
           continue;
         }
         keys.add(dayKey(parseISO(slot.startDateTime)));
@@ -1420,7 +1423,7 @@ const BookingDemo = () => {
     for (const [key, slots] of Object.entries(slotsByDayKey)) {
       if (
         slots.some((slot) =>
-          apiSlotMatchesCalendarScope(slot, locationIds, selectedCaregiverUserId),
+          apiSlotMatchesCalendarScope(slot, locationIds, step4CaregiverFilterId),
         )
       ) {
         keys.add(key);
@@ -1431,7 +1434,7 @@ const BookingDemo = () => {
   }, [
     apiFreeTimeSlots,
     selectedMetodikaLocationIds,
-    selectedCaregiverUserId,
+    step4CaregiverFilterId,
     slotsByDayKey,
   ]);
 
@@ -1486,7 +1489,7 @@ const BookingDemo = () => {
     const probeGen = ++calendarProbeGenRef.current;
     setStep4CalendarDiscoveryLoading(true);
 
-    const caregiverUserId = selectedCaregiverUserId ?? undefined;
+    const caregiverUserId = step4CaregiverFilterId;
     const locationIds = selectedMetodikaLocationIds;
 
     async function probeCalendarDays() {
@@ -1547,7 +1550,7 @@ const BookingDemo = () => {
     bookableDates.length,
     bookingData.service?.apiActivityId,
     selectedMetodikaLocationIds,
-    selectedCaregiverUserId,
+    step4CaregiverFilterId,
     slotsFetchContextKey,
     scopedAvailabilityLoading,
     today,
@@ -1631,8 +1634,23 @@ const BookingDemo = () => {
 
   const selectedDaySlots = useMemo(() => {
     if (!selectedDate) return [];
-    return slotsByDayKey[dayKey(selectedDate)] ?? [];
-  }, [selectedDate, slotsByDayKey]);
+    const key = dayKey(selectedDate);
+    const fromDayApi = slotsByDayKey[key] ?? [];
+    if (!isFirstAvailableFlow) return fromDayApi;
+
+    const locationIds = selectedMetodikaLocationIds;
+    const fromAvailability = apiFreeTimeSlots.filter((slot) => {
+      if (!apiSlotMatchesLocationIds(slot, locationIds)) return false;
+      return dayKey(parseISO(slot.startDateTime)) === key;
+    });
+    return mergeApiFreeTimeSlots(fromDayApi, fromAvailability);
+  }, [
+    selectedDate,
+    slotsByDayKey,
+    isFirstAvailableFlow,
+    apiFreeTimeSlots,
+    selectedMetodikaLocationIds,
+  ]);
 
   const availableSlots = useMemo((): DisplayTimeSlot[] => {
     if (!selectedDate || !hasApiActivity) return [];
@@ -1641,11 +1659,8 @@ const BookingDemo = () => {
 
     return selectedDaySlots
       .filter((slot) => apiSlotMatchesLocationIds(slot, locationIds))
-      .filter(
-        (slot) =>
-          selectedCaregiverUserId == null ||
-          slot.caregiverUserId == null ||
-          slot.caregiverUserId === selectedCaregiverUserId,
+      .filter((slot) =>
+        apiSlotMatchesCalendarScope(slot, locationIds, step4CaregiverFilterId),
       )
       .map((slot) => ({
         time: slot.time,
@@ -1664,7 +1679,7 @@ const BookingDemo = () => {
     selectedDaySlots,
     hasApiActivity,
     selectedMetodikaLocationIds,
-    selectedCaregiverUserId,
+    step4CaregiverFilterId,
   ]);
 
   const selectedDayDurationLabel = useMemo(() => {
