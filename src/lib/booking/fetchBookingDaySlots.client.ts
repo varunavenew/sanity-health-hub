@@ -12,6 +12,12 @@ const CLIENT_CACHE_TTL_MS = 90_000;
 const cache = new Map<string, { expiresAt: number; slots: NormalizedFreeTimeSlot[] }>();
 const inFlight = new Map<string, Promise<NormalizedFreeTimeSlot[]>>();
 
+/** Drop cached day-slots (e.g. after switching to "all behandlere"). */
+export function clearBookingDaySlotsClientCache(): void {
+  cache.clear();
+  inFlight.clear();
+}
+
 export function daySlotsCacheKey(
   wbactivityId: number,
   date: Date,

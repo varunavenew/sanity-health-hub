@@ -139,6 +139,7 @@ import {
   splitTemplateLink,
 } from "@/lib/sanity/booking-page-copy";
 import {
+  clearBookingDaySlotsClientCache,
   fetchBookingDaySlotsForLocations,
   peekBookingDaySlotsForLocations,
 } from "@/lib/booking/fetchBookingDaySlots.client";
@@ -952,12 +953,15 @@ const BookingDemo = () => {
     bookingData.specialist,
   );
 
-  /** Step 4: only filter by caregiver when user picked a specific behandler (not "first available"). */
+  /** Step 4: filter by caregiver only when a named behandler was chosen on step 3. */
   const step4CaregiverFilterId = useMemo((): number | undefined => {
-    if (isFirstAvailableFlow) return undefined;
     if (!bookingData.specialist) return undefined;
     return selectedCaregiverUserId;
-  }, [isFirstAvailableFlow, bookingData.specialist, selectedCaregiverUserId]);
+  }, [bookingData.specialist, selectedCaregiverUserId]);
+
+  const allBehandlerStep4 = Boolean(
+    bookingData.specialistChosen && !bookingData.specialist,
+  );
 
   const selectedMetodikaLocationIds = useMemo(
     () =>
@@ -985,7 +989,35 @@ const BookingDemo = () => {
     setSelectedDate(undefined);
     setScopedAvailabilityLoading(false);
     setStep4CalendarDiscoveryLoading(false);
+    clearBookingDaySlotsClientCache();
   }, [slotsFetchContextKey]);
+
+  // "Alle behandlere": keep full multi-caregiver availability for calendar + times (49 slots, not one caregiver).
+  useEffect(() => {
+    if (!allBehandlerStep4 || !hasApiActivity) return;
+    const activityId = bookingData.service?.apiActivityId;
+    if (!activityId) return;
+
+    let cancelled = false;
+    async function reloadAllCaregiverAvailability() {
+      try {
+        const res = await fetch(`/api/booking/availability?wbactivityId=${activityId}`);
+        const json = (await res.json()) as {
+          ok?: boolean;
+          slots?: ApiFreeTimeSlot[];
+        };
+        if (cancelled || !res.ok || !json.ok || !Array.isArray(json.slots)) return;
+        setApiFreeTimeSlots(json.slots);
+      } catch {
+        /* scoped / day-slots fallback */
+      }
+    }
+
+    void reloadAllCaregiverAvailability();
+    return () => {
+      cancelled = true;
+    };
+  }, [allBehandlerStep4, hasApiActivity, bookingData.service?.apiActivityId]);
 
   // Location-scoped wbfreetimes (alltimes + date range) — required for Metodika to return slots.
   useEffect(() => {
@@ -1636,7 +1668,7 @@ const BookingDemo = () => {
     if (!selectedDate) return [];
     const key = dayKey(selectedDate);
     const fromDayApi = slotsByDayKey[key] ?? [];
-    if (!isFirstAvailableFlow) return fromDayApi;
+    if (!allBehandlerStep4) return fromDayApi;
 
     const locationIds = selectedMetodikaLocationIds;
     const fromAvailability = apiFreeTimeSlots.filter((slot) => {
@@ -1647,7 +1679,7 @@ const BookingDemo = () => {
   }, [
     selectedDate,
     slotsByDayKey,
-    isFirstAvailableFlow,
+    allBehandlerStep4,
     apiFreeTimeSlots,
     selectedMetodikaLocationIds,
   ]);
@@ -2717,7 +2749,10 @@ const BookingDemo = () => {
 
               {/* Skip / Any specialist — always visible; practitioners load in background */}
                 <button
-                  onClick={() =>
+                  onClick={() => {
+                    clearBookingDaySlotsClientCache();
+                    slotsByDayRef.current = {};
+                    setSlotsByDayKey({});
                     setBookingData({
                       ...bookingData,
                       specialistChosen: true,
@@ -2726,8 +2761,9 @@ const BookingDemo = () => {
                       date: undefined,
                       time: undefined,
                       slotDurationMinutes: undefined,
-                    })
-                  }
+                      selectedSlot: undefined,
+                    });
+                  }}
                   className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
                   <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
@@ -3073,7 +3109,7 @@ const BookingDemo = () => {
                       className="py-2"
                     />
                   ) : availableSlots.length > 0 ? (
-                    isFirstAvailableFlow ? (
+                    allBehandlerStep4 ? (
                       <div className="space-y-2">
                         {availableSlots.map((slot) => {
                           const caregiver =
