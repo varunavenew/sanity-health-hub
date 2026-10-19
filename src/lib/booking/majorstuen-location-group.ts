@@ -60,14 +60,77 @@ export function intersectMajorstuenLocationIds(ids: number[]): number[] {
   return [...new Set(ids.filter((id) => allowed.has(id)))].sort((a, b) => a - b);
 }
 
+export type MetodikaAvailabilityLocationHint = {
+  locationId?: number;
+};
+
+function locationIdsFromAvailabilityHints(
+  hints: ReadonlyArray<MetodikaAvailabilityLocationHint>,
+): number[] {
+  const ids = new Set<number>();
+  for (const hint of hints) {
+    if (typeof hint.locationId === "number" && hint.locationId > 0) {
+      ids.add(hint.locationId);
+    }
+  }
+  return [...ids].sort((a, b) => a - b);
+}
+
+/** Step-2 / booking clinic row represents the merged Majorstuen campus (not only 10A). */
+export function clinicTouchesMajorstuen(clinic: BookingMetodikaClinic): boolean {
+  if (isMajorstuenGroupedClinic(clinic)) return true;
+  if (isMajorstuenClinicLabel(clinic.label)) return true;
+  return metodikaLocationIdsForClinic(clinic).some(isMajorstuenMetodikaLocationId);
+}
+
+/**
+ * Which Majorstuen campus(es) apply for this service — prefer live availability slots,
+ * then wbactivities matrix. Never assume 10A when slots only exist at 10B.
+ */
+export function majorstuenLocationIdsForService(
+  activityEntry: WbActivityMatrixEntry | null | undefined,
+  availabilityHints: ReadonlyArray<MetodikaAvailabilityLocationHint> = [],
+): number[] {
+  const fromSlots = intersectMajorstuenLocationIds(
+    locationIdsFromAvailabilityHints(availabilityHints),
+  );
+  if (fromSlots.length > 0) return fromSlots;
+
+  if (activityEntry) {
+    return intersectMajorstuenLocationIds(locationIdsForWbActivity(activityEntry));
+  }
+  return [];
+}
+
 /** Metodika location ids for availability queries — matrix + optional caregiver scoped. */
 export function effectiveMetodikaLocationIdsForBooking(
   clinic: BookingMetodikaClinic,
   activityEntry: WbActivityMatrixEntry | null | undefined,
   caregiverUserId?: number | null,
+  availabilityHints: ReadonlyArray<MetodikaAvailabilityLocationHint> = [],
 ): number[] {
   let ids = metodikaLocationIdsForClinic(clinic);
-  if (activityEntry) {
+
+  const majorstuenSlotIds = clinicTouchesMajorstuen(clinic)
+    ? intersectMajorstuenLocationIds(locationIdsFromAvailabilityHints(availabilityHints))
+    : [];
+  const majorstuenCampusFromSlots = majorstuenSlotIds.length > 0;
+
+  if (clinicTouchesMajorstuen(clinic)) {
+    const fromService = majorstuenLocationIdsForService(activityEntry, availabilityHints);
+    if (fromService.length > 0) {
+      ids = fromService;
+    } else if (
+      !isMajorstuenGroupedClinic(clinic) &&
+      metodikaLocationIdsForClinic(clinic).length === 1 &&
+      isMajorstuenMetodikaLocationId(clinic.apiLocationId)
+    ) {
+      // Legacy Sanity row pinned to 10A — probe both campuses until service hints arrive.
+      ids = [...MAJORSTUEN_METODIKA_LOCATION_IDS];
+    }
+  }
+
+  if (activityEntry && !majorstuenCampusFromSlots) {
     const activityLocs = new Set(locationIdsForWbActivity(activityEntry));
     ids = ids.filter((id) => activityLocs.has(id));
   }
@@ -84,14 +147,35 @@ export function selectedMetodikaLocationIdsFromClinic(
   clinic: BookingClinic | undefined,
   activityEntry?: WbActivityMatrixEntry | null,
   caregiverUserId?: number | null,
+  availabilityHints: ReadonlyArray<MetodikaAvailabilityLocationHint> = [],
 ): number[] | undefined {
   if (!clinic || !isMetodikaClinic(clinic)) return undefined;
   const ids = effectiveMetodikaLocationIdsForBooking(
     clinic,
     activityEntry,
     caregiverUserId,
+    availabilityHints,
   );
   return ids.length > 0 ? ids : undefined;
+}
+
+/** Location ids this service uses at a clinic (for step-2 narrowing of grouped Majorstuen). */
+export function serviceMetodikaLocationIdsForClinic(
+  clinic: BookingMetodikaClinic,
+  activityEntry: WbActivityMatrixEntry | null | undefined,
+  availabilityHints: ReadonlyArray<MetodikaAvailabilityLocationHint> = [],
+): number[] {
+  if (clinicTouchesMajorstuen(clinic)) {
+    const majorstuen = majorstuenLocationIdsForService(activityEntry, availabilityHints);
+    if (majorstuen.length > 0) return majorstuen;
+  }
+  if (activityEntry) {
+    const fromMatrix = locationIdsForWbActivity(activityEntry);
+    const clinicIds = metodikaLocationIdsForClinic(clinic);
+    const overlap = clinicIds.filter((id) => fromMatrix.includes(id));
+    if (overlap.length > 0) return overlap;
+  }
+  return metodikaLocationIdsForClinic(clinic);
 }
 
 export function majorstuenLocationIdsForActivityAndCaregiver(

@@ -200,6 +200,9 @@ export function SpecialistMetodikaAvailability({
     selectedService?.apiActivityId,
   );
 
+  const [hintSlots, setHintSlots] = useState<BookingAvailabilitySlot[]>([]);
+  const [hintsLoading, setHintsLoading] = useState(false);
+
   const metodikaClinicForSlots = useMemo(
     () => ({
       id: clinic.id,
@@ -217,14 +220,12 @@ export function SpecialistMetodikaAvailability({
         metodikaClinicForSlots,
         wbActivityMatrix,
         caregiverUserId,
+        hintSlots,
       ),
-    [metodikaClinicForSlots, wbActivityMatrix, caregiverUserId],
+    [metodikaClinicForSlots, wbActivityMatrix, caregiverUserId, hintSlots],
   );
 
   const bookingLocationIdsKey = bookingLocationIds.join(",");
-
-  const [hintSlots, setHintSlots] = useState<BookingAvailabilitySlot[]>([]);
-  const [hintsLoading, setHintsLoading] = useState(false);
   const [activityTypeId, setActivityTypeId] = useState<number | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [daySlots, setDaySlots] = useState<BookingAvailabilitySlot[]>([]);

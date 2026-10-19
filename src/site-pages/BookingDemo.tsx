@@ -142,6 +142,7 @@ import {
   fetchBookingDaySlotsForLocations,
   peekBookingDaySlotsForLocations,
 } from "@/lib/booking/fetchBookingDaySlots.client";
+import { metodikaSearchTime } from "@/lib/booking/metodikaSearchTime";
 import {
   filterGroupedMetodikaClinicLocationIds,
 } from "@/lib/booking/filterClinicsForSpecialist";
@@ -150,6 +151,7 @@ import {
   MAJORSTUEN_GROUP_CLINIC_ID,
   metodikaLocationIdsForClinic,
   selectedMetodikaLocationIdsFromClinic,
+  serviceMetodikaLocationIdsForClinic,
 } from "@/lib/booking/majorstuen-location-group";
 import {
   fetchBookingUsersClient,
@@ -191,6 +193,13 @@ function dayKey(date: Date): string {
 
 const CALENDAR_WEEK_STARTS_ON = 1 as const;
 const MAX_CALENDAR_WEEKS = 52;
+/** Metodika wbfreetimes needs location + date range; unscoped discovery often returns []. */
+const SCOPED_AVAILABILITY_DAYS = 28;
+/** Fallback day-slots scan (keep small — each day is a separate upstream call). */
+const CALENDAR_PROBE_DAYS = 21;
+const CALENDAR_PROBE_BATCH = 7;
+/** Only block step-4 calendar UI for the first probe batch; rest runs in background. */
+const CALENDAR_PROBE_UI_BATCHES = 1;
 
 function weekOffsetForDate(date: Date, anchor: Date): number {
   const base = startOfWeek(anchor, { weekStartsOn: CALENDAR_WEEK_STARTS_ON });
@@ -281,6 +290,37 @@ function apiSlotMatchesLocationIds(
   if (locationIds.length === 0) return false;
   if (slot.locationId == null) return true;
   return locationIds.includes(slot.locationId);
+}
+
+function apiSlotMatchesCalendarScope(
+  slot: ApiFreeTimeSlot,
+  locationIds: number[] | undefined,
+  caregiverUserId: number | undefined | null,
+): boolean {
+  if (!apiSlotMatchesLocationIds(slot, locationIds)) return false;
+  if (
+    caregiverUserId != null &&
+    slot.caregiverUserId != null &&
+    slot.caregiverUserId !== caregiverUserId
+  ) {
+    return false;
+  }
+  return true;
+}
+
+function mergeApiFreeTimeSlots(
+  prev: ApiFreeTimeSlot[],
+  next: ApiFreeTimeSlot[],
+): ApiFreeTimeSlot[] {
+  const seen = new Set<string>();
+  const merged: ApiFreeTimeSlot[] = [];
+  for (const slot of [...prev, ...next]) {
+    const dedupeKey = `${slot.startDateTime}|${slot.locationId ?? ""}|${slot.caregiverUserId ?? ""}`;
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    merged.push(slot);
+  }
+  return merged;
 }
 
 type SelectedBookingSlot = {
@@ -425,6 +465,10 @@ const BookingDemo = () => {
   /** Tracks step-4 calendar init per clinic/specialist so date clicks are not overwritten. */
   const step4CalendarInitKeyRef = useRef<string | null>(null);
   const daySlotsFetchGenRef = useRef(0);
+  const calendarProbeGenRef = useRef(0);
+  const [scopedAvailabilityLoading, setScopedAvailabilityLoading] = useState(false);
+  const [step4CalendarDiscoveryLoading, setStep4CalendarDiscoveryLoading] =
+    useState(false);
   /** Prevents duplicate booking_completed if submit succeeds twice in the same session. */
   const bookingCompletedTrackedRef = useRef(false);
 
@@ -914,8 +958,9 @@ const BookingDemo = () => {
         bookingData.clinic,
         wbActivityMatrix,
         selectedCaregiverUserId,
+        apiFreeTimeSlots,
       ),
-    [bookingData.clinic, wbActivityMatrix, selectedCaregiverUserId],
+    [bookingData.clinic, wbActivityMatrix, selectedCaregiverUserId, apiFreeTimeSlots],
   );
 
   const slotsFetchContextKey = [
@@ -930,7 +975,82 @@ const BookingDemo = () => {
     setSlotsByDayKey({});
     step4CalendarInitKeyRef.current = null;
     setSelectedDate(undefined);
+    setScopedAvailabilityLoading(false);
+    setStep4CalendarDiscoveryLoading(false);
   }, [slotsFetchContextKey]);
+
+  // Location-scoped wbfreetimes (alltimes + date range) — required for Metodika to return slots.
+  useEffect(() => {
+    const activityId = bookingData.service?.apiActivityId;
+    const locationIds = selectedMetodikaLocationIds;
+    const clinic = bookingData.clinic;
+
+    if (
+      !activityId ||
+      !locationIds?.length ||
+      !clinic ||
+      !isMetodikaClinic(clinic)
+    ) {
+      return;
+    }
+
+    let cancelled = false;
+    const from = new Date();
+    from.setHours(0, 0, 0, 0);
+    const to = new Date(from);
+    to.setDate(to.getDate() + SCOPED_AVAILABILITY_DAYS);
+    const searchFromTime = metodikaSearchTime(from, false);
+    const searchToTime = metodikaSearchTime(to, true);
+    const caregiverUserId =
+      bookingData.specialistChosen && selectedCaregiverUserId != null
+        ? selectedCaregiverUserId
+        : undefined;
+
+    async function loadScopedAvailability() {
+      setScopedAvailabilityLoading(true);
+      try {
+        const merged: ApiFreeTimeSlot[] = [];
+        for (const locationId of locationIds) {
+          const params = new URLSearchParams({
+            wbactivityId: String(activityId),
+            locationId: String(locationId),
+            searchFromTime,
+            searchToTime,
+          });
+          if (caregiverUserId != null) {
+            params.set("caregiverUserId", String(caregiverUserId));
+          }
+          const res = await fetch(`/api/booking/availability?${params.toString()}`);
+          const json = (await res.json()) as {
+            ok?: boolean;
+            slots?: ApiFreeTimeSlot[];
+          };
+          if (cancelled) return;
+          if (res.ok && json.ok && Array.isArray(json.slots)) {
+            merged.push(...json.slots);
+          }
+        }
+        if (cancelled || merged.length === 0) return;
+        setApiFreeTimeSlots((prev) => mergeApiFreeTimeSlots(prev, merged));
+      } catch {
+        /* keep discovery / day-slot probe as fallback */
+      } finally {
+        if (!cancelled) setScopedAvailabilityLoading(false);
+      }
+    }
+
+    void loadScopedAvailability();
+    return () => {
+      cancelled = true;
+      setScopedAvailabilityLoading(false);
+    };
+  }, [
+    bookingData.service?.apiActivityId,
+    bookingData.clinic,
+    bookingData.specialistChosen,
+    selectedMetodikaLocationIds,
+    selectedCaregiverUserId,
+  ]);
 
   const prefetchDaySlots = useCallback(
     (date: Date) => {
@@ -939,6 +1059,7 @@ const BookingDemo = () => {
         bookingData.clinic,
         wbActivityMatrix,
         resolveBookingCaregiverUserId(bookingData.specialist),
+        apiFreeTimeSlots,
       );
       if (!activityId || !locationIds?.length) return;
 
@@ -962,6 +1083,7 @@ const BookingDemo = () => {
       bookingData.clinic,
       bookingData.specialist,
       wbActivityMatrix,
+      apiFreeTimeSlots,
     ],
   );
 
@@ -1286,12 +1408,7 @@ const BookingDemo = () => {
 
     const addFromSlots = (slots: ApiFreeTimeSlot[]) => {
       for (const slot of slots) {
-        if (!apiSlotMatchesLocationIds(slot, locationIds)) continue;
-        if (
-          selectedCaregiverUserId != null &&
-          slot.caregiverUserId != null &&
-          slot.caregiverUserId !== selectedCaregiverUserId
-        ) {
+        if (!apiSlotMatchesCalendarScope(slot, locationIds, selectedCaregiverUserId)) {
           continue;
         }
         keys.add(dayKey(parseISO(slot.startDateTime)));
@@ -1301,7 +1418,11 @@ const BookingDemo = () => {
     addFromSlots(apiFreeTimeSlots);
 
     for (const [key, slots] of Object.entries(slotsByDayKey)) {
-      if (slots.some((slot) => apiSlotMatchesLocationIds(slot, locationIds))) {
+      if (
+        slots.some((slot) =>
+          apiSlotMatchesCalendarScope(slot, locationIds, selectedCaregiverUserId),
+        )
+      ) {
         keys.add(key);
       }
     }
@@ -1340,8 +1461,97 @@ const BookingDemo = () => {
 
   const canGoPrevRange = weekOffset > 0;
   const canGoNextRange = weekOffset < MAX_CALENDAR_WEEKS;
+  const step4CalendarLoading = step4CalendarDiscoveryLoading;
   const step4NoBookableDays =
-    hasApiActivity && clinicsAvailabilityReady && bookableDates.length === 0;
+    hasApiActivity &&
+    clinicsAvailabilityReady &&
+    !step4CalendarLoading &&
+    bookableDates.length === 0;
+
+  // When scoped availability is still empty, probe day-slots so the calendar can show bookable days.
+  useEffect(() => {
+    if (currentStep !== 4 || !hasApiActivity || !clinicsAvailabilityReady) return;
+    if (!selectedMetodikaLocationIds?.length) return;
+    if (bookableDates.length > 0) {
+      setStep4CalendarDiscoveryLoading(false);
+      return;
+    }
+    // Let scoped alltimes finish first (same data, fewer duplicate upstream calls).
+    if (scopedAvailabilityLoading) return;
+
+    const activityId = bookingData.service?.apiActivityId;
+    if (!activityId) return;
+
+    let cancelled = false;
+    const probeGen = ++calendarProbeGenRef.current;
+    setStep4CalendarDiscoveryLoading(true);
+
+    const caregiverUserId = selectedCaregiverUserId ?? undefined;
+    const locationIds = selectedMetodikaLocationIds;
+
+    async function probeCalendarDays() {
+      try {
+        let batchIndex = 0;
+        for (let start = 0; start < CALENDAR_PROBE_DAYS; start += CALENDAR_PROBE_BATCH) {
+          if (cancelled || probeGen !== calendarProbeGenRef.current) return;
+
+          const batch = Array.from({ length: CALENDAR_PROBE_BATCH }, (_, i) =>
+            addDays(today, start + i),
+          ).filter((date) => date >= today);
+
+          await Promise.all(
+            batch.map(async (date) => {
+              const key = dayKey(date);
+              if (slotsByDayRef.current[key]?.length) return;
+
+              const slots = await fetchBookingDaySlotsForLocations({
+                wbactivityId: activityId,
+                date,
+                locationIds,
+                caregiverUserId,
+              });
+              if (cancelled || probeGen !== calendarProbeGenRef.current) return;
+              if (slots.length === 0) return;
+
+              slotsByDayRef.current[key] = slots;
+              setSlotsByDayKey((prev) =>
+                prev[key]?.length ? prev : { ...prev, [key]: slots },
+              );
+            }),
+          );
+
+          batchIndex += 1;
+          if (
+            batchIndex >= CALENDAR_PROBE_UI_BATCHES &&
+            probeGen === calendarProbeGenRef.current
+          ) {
+            setStep4CalendarDiscoveryLoading(false);
+          }
+        }
+      } finally {
+        if (probeGen === calendarProbeGenRef.current) {
+          setStep4CalendarDiscoveryLoading(false);
+        }
+      }
+    }
+
+    void probeCalendarDays();
+    return () => {
+      cancelled = true;
+      setStep4CalendarDiscoveryLoading(false);
+    };
+  }, [
+    currentStep,
+    hasApiActivity,
+    clinicsAvailabilityReady,
+    bookableDates.length,
+    bookingData.service?.apiActivityId,
+    selectedMetodikaLocationIds,
+    selectedCaregiverUserId,
+    slotsFetchContextKey,
+    scopedAvailabilityLoading,
+    today,
+  ]);
 
   // Prefetch day slots so step 4 times appear instantly from cache.
   useEffect(() => {
@@ -1371,6 +1581,7 @@ const BookingDemo = () => {
     if (currentStep !== 4 || !hasApiActivity) return;
 
     if (selectedMetodikaLocationIds?.length && !clinicsAvailabilityReady) return;
+    if (step4CalendarLoading) return;
 
     const initKey = slotsFetchContextKey;
     if (
@@ -1404,6 +1615,7 @@ const BookingDemo = () => {
     slotsFetchContextKey,
     prefetchDaySlots,
     selectedMetodikaLocationIds,
+    step4CalendarLoading,
   ]);
 
   // Keep selected day visible in the 7-day stripe when selection changes
@@ -1547,7 +1759,11 @@ const BookingDemo = () => {
         if (!isMetodikaClinic(clinic) || !wbActivityMatrix) return clinic;
         return filterGroupedMetodikaClinicLocationIds(
           clinic,
-          locationIdsForWbActivity(wbActivityMatrix),
+          serviceMetodikaLocationIdsForClinic(
+            clinic,
+            wbActivityMatrix,
+            apiFreeTimeSlots,
+          ),
         );
       }),
     );
@@ -2705,7 +2921,8 @@ const BookingDemo = () => {
                 </div>
 
                 <div className="overflow-hidden min-h-24">
-                  {hasApiActivity && !clinicsAvailabilityReady ? (
+                  {hasApiActivity &&
+                  (!clinicsAvailabilityReady || step4CalendarLoading) ? (
                     <BookingStepLoader
                       message={copy.step4LoadingTimes}
                       variant="grid"
@@ -2736,7 +2953,8 @@ const BookingDemo = () => {
                         const hasSlots = datesWithApiSlots.has(dayKey(date));
                         const isPast = date < today;
                         const calendarDatesReady =
-                          !hasApiActivity || clinicsAvailabilityReady;
+                          !hasApiActivity ||
+                          (clinicsAvailabilityReady && !step4CalendarLoading);
                         const isDisabled =
                           isPast ||
                           (hasApiActivity && (!calendarDatesReady || !hasSlots));
