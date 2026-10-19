@@ -196,11 +196,9 @@ const CALENDAR_WEEK_STARTS_ON = 1 as const;
 const MAX_CALENDAR_WEEKS = 52;
 /** Metodika wbfreetimes needs location + date range; unscoped discovery often returns []. */
 const SCOPED_AVAILABILITY_DAYS = 28;
-/** Fallback day-slots scan (keep small — each day is a separate upstream call). */
-const CALENDAR_PROBE_DAYS = 21;
+/** Last resort when discovery + scoped return no days (each day = separate upstream call). */
+const CALENDAR_PROBE_DAYS = 7;
 const CALENDAR_PROBE_BATCH = 7;
-/** Only block step-4 calendar UI for the first probe batch; rest runs in background. */
-const CALENDAR_PROBE_UI_BATCHES = 1;
 
 function weekOffsetForDate(date: Date, anchor: Date): number {
   const base = startOfWeek(anchor, { weekStartsOn: CALENDAR_WEEK_STARTS_ON });
@@ -307,6 +305,26 @@ function apiSlotMatchesCalendarScope(
     return false;
   }
   return true;
+}
+
+function countDistinctCaregivers(slots: ApiFreeTimeSlot[]): number {
+  const ids = new Set<number>();
+  for (const slot of slots) {
+    if (slot.caregiverUserId != null) ids.add(slot.caregiverUserId);
+  }
+  return ids.size;
+}
+
+function hasDiscoverySlotsForLocations(
+  slots: ApiFreeTimeSlot[],
+  locationIds: number[] | undefined,
+  caregiverFilterId: number | undefined | null,
+): boolean {
+  if (!locationIds?.length || slots.length === 0) return false;
+  for (const slot of slots) {
+    if (apiSlotMatchesCalendarScope(slot, locationIds, caregiverFilterId)) return true;
+  }
+  return false;
 }
 
 function mergeApiFreeTimeSlots(
@@ -467,7 +485,6 @@ const BookingDemo = () => {
   const step4CalendarInitKeyRef = useRef<string | null>(null);
   const daySlotsFetchGenRef = useRef(0);
   const calendarProbeGenRef = useRef(0);
-  const [scopedAvailabilityLoading, setScopedAvailabilityLoading] = useState(false);
   const [step4CalendarDiscoveryLoading, setStep4CalendarDiscoveryLoading] =
     useState(false);
   /** Prevents duplicate booking_completed if submit succeeds twice in the same session. */
@@ -987,16 +1004,16 @@ const BookingDemo = () => {
     setSlotsByDayKey({});
     step4CalendarInitKeyRef.current = null;
     setSelectedDate(undefined);
-    setScopedAvailabilityLoading(false);
     setStep4CalendarDiscoveryLoading(false);
     clearBookingDaySlotsClientCache();
   }, [slotsFetchContextKey]);
 
-  // "Alle behandlere": keep full multi-caregiver availability for calendar + times (49 slots, not one caregiver).
+  // "Alle behandlere": re-fetch only if discovery looks single-caregiver (avoid duplicate ~10s call).
   useEffect(() => {
     if (!allBehandlerStep4 || !hasApiActivity) return;
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId) return;
+    if (countDistinctCaregivers(apiFreeTimeSlots) >= 2) return;
 
     let cancelled = false;
     async function reloadAllCaregiverAvailability() {
@@ -1009,7 +1026,7 @@ const BookingDemo = () => {
         if (cancelled || !res.ok || !json.ok || !Array.isArray(json.slots)) return;
         setApiFreeTimeSlots(json.slots);
       } catch {
-        /* scoped / day-slots fallback */
+        /* day-slots fallback */
       }
     }
 
@@ -1017,9 +1034,9 @@ const BookingDemo = () => {
     return () => {
       cancelled = true;
     };
-  }, [allBehandlerStep4, hasApiActivity, bookingData.service?.apiActivityId]);
+  }, [allBehandlerStep4, hasApiActivity, bookingData.service?.apiActivityId, apiFreeTimeSlots]);
 
-  // Location-scoped wbfreetimes (alltimes + date range) — required for Metodika to return slots.
+  // Slow 28-day alltimes fan-out — only when fast unscoped discovery has no slots for this clinic.
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     const locationIds = selectedMetodikaLocationIds;
@@ -1034,6 +1051,16 @@ const BookingDemo = () => {
       return;
     }
 
+    if (
+      hasDiscoverySlotsForLocations(
+        apiFreeTimeSlots,
+        locationIds,
+        step4CaregiverFilterId,
+      )
+    ) {
+      return;
+    }
+
     let cancelled = false;
     const from = new Date();
     from.setHours(0, 0, 0, 0);
@@ -1044,7 +1071,6 @@ const BookingDemo = () => {
     const caregiverUserId = step4CaregiverFilterId;
 
     async function loadScopedAvailability() {
-      setScopedAvailabilityLoading(true);
       try {
         const merged: ApiFreeTimeSlot[] = [];
         for (const locationId of locationIds) {
@@ -1071,21 +1097,19 @@ const BookingDemo = () => {
         setApiFreeTimeSlots((prev) => mergeApiFreeTimeSlots(prev, merged));
       } catch {
         /* keep discovery / day-slot probe as fallback */
-      } finally {
-        if (!cancelled) setScopedAvailabilityLoading(false);
       }
     }
 
     void loadScopedAvailability();
     return () => {
       cancelled = true;
-      setScopedAvailabilityLoading(false);
     };
   }, [
     bookingData.service?.apiActivityId,
     bookingData.clinic,
     selectedMetodikaLocationIds,
     step4CaregiverFilterId,
+    apiFreeTimeSlots,
   ]);
 
   const prefetchDaySlots = useCallback(
@@ -1144,6 +1168,12 @@ const BookingDemo = () => {
       return;
     }
 
+    const hasHintSlots = apiFreeTimeSlots.some(
+      (slot) =>
+        dayKey(parseISO(slot.startDateTime)) === key &&
+        apiSlotMatchesCalendarScope(slot, locationIds, step4CaregiverFilterId),
+    );
+
     const caregiverUserId = step4CaregiverFilterId;
     const peeked = peekBookingDaySlotsForLocations({
       wbactivityId: activityId,
@@ -1160,7 +1190,7 @@ const BookingDemo = () => {
 
     const fetchGen = ++daySlotsFetchGenRef.current;
     let cancelled = false;
-    setTimesLoading(true);
+    setTimesLoading(!hasHintSlots);
 
     void fetchBookingDaySlotsForLocations({
       wbactivityId: activityId,
@@ -1194,6 +1224,7 @@ const BookingDemo = () => {
     selectedMetodikaLocationIds,
     step4CaregiverFilterId,
     slotsFetchContextKey,
+    apiFreeTimeSlots,
   ]);
 
   const matrixMetodikaClinics = useMemo(
@@ -1511,8 +1542,6 @@ const BookingDemo = () => {
       setStep4CalendarDiscoveryLoading(false);
       return;
     }
-    // Let scoped alltimes finish first (same data, fewer duplicate upstream calls).
-    if (scopedAvailabilityLoading) return;
 
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId) return;
@@ -1526,7 +1555,6 @@ const BookingDemo = () => {
 
     async function probeCalendarDays() {
       try {
-        let batchIndex = 0;
         for (let start = 0; start < CALENDAR_PROBE_DAYS; start += CALENDAR_PROBE_BATCH) {
           if (cancelled || probeGen !== calendarProbeGenRef.current) return;
 
@@ -1555,13 +1583,6 @@ const BookingDemo = () => {
             }),
           );
 
-          batchIndex += 1;
-          if (
-            batchIndex >= CALENDAR_PROBE_UI_BATCHES &&
-            probeGen === calendarProbeGenRef.current
-          ) {
-            setStep4CalendarDiscoveryLoading(false);
-          }
         }
       } finally {
         if (probeGen === calendarProbeGenRef.current) {
@@ -1584,7 +1605,6 @@ const BookingDemo = () => {
     selectedMetodikaLocationIds,
     step4CaregiverFilterId,
     slotsFetchContextKey,
-    scopedAvailabilityLoading,
     today,
   ]);
 
