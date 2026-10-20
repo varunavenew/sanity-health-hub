@@ -917,8 +917,9 @@ body.cm-edit-mode [data-editable-scope] {
  * Height matches specialist (max 880px) so the panel does not grow with 100svh.
  * 1440px laptop and 390px mobile are unchanged.
  */
-/* 90% zoom on 1920 ≈ 2133px */
-@media (min-width: 2000px) {
+/* 90% zoom on 1920 ≈ 2133px. On laptops (e.g. 1366px) zooming out to 90% doesn't reach 2000px,
+   so any zoom-out on a standard 1x screen (device pixel ratio below 1) gets the same step. */
+@media (min-width: 2000px), (min-width: 1024px) and (max-resolution: 0.99dppx) {
   .split-hero-desktop {
     --split-hero-height: clamp(640px, 100svh, 880px);
   }
@@ -953,7 +954,7 @@ body.cm-edit-mode [data-editable-scope] {
 
   /* Article hero copy aligns with the logo instead of the viewport edge. */
   .article-hero > .article-hero-copy {
-    padding-left: calc((100vw - var(--max-shell)) / 2 + var(--gutter));
+    padding-left: calc(max(0px, (100vw - var(--max-shell)) / 2) + var(--gutter));
     padding-right: 3rem;
   }
 }
@@ -1112,6 +1113,7 @@ body.cm-edit-mode [data-editable-scope] {
   object-fit: contain;
 }
 
+/* Mobile article hero always shows the full image, centred; portrait screens never crop the sides. */
 .article-mobile-hero.article-hero-media--contain img.cm-media--hero {
   object-fit: contain;
   width: 100%;

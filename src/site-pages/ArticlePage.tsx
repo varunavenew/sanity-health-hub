@@ -41,7 +41,6 @@ function ArticleMobileHero({
   date,
   dateLocale,
   swipeDownLabel,
-  contain,
 }: {
   image?: string;
   imageAlt: string;
@@ -54,7 +53,6 @@ function ArticleMobileHero({
   date?: string;
   dateLocale: string;
   swipeDownLabel: string;
-  contain: boolean;
 }) {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -97,10 +95,7 @@ function ArticleMobileHero({
   return (
     <div
       ref={heroRef}
-      className={cn(
-        "article-mobile-hero relative min-h-[100svh] overflow-hidden bg-brand-dark lg:hidden",
-        contain && "article-hero-media--contain",
-      )}
+      className="article-mobile-hero article-hero-media--contain relative min-h-[100svh] overflow-hidden bg-brand-dark lg:hidden"
     >
       {image ? (
         <div
@@ -114,6 +109,7 @@ function ArticleMobileHero({
             variant="hero"
             hotspot={imageHotspot}
             crop={imageCrop}
+            objectPosition="50% 50%"
             imageWidth={1600}
             loading="eager"
             width={1600}
@@ -343,7 +339,6 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           date={article.date}
           dateLocale={dateLocale}
           swipeDownLabel={swipeDownLabel}
-          contain={heroNeedsContain}
         />
 
         <div className="article-hero hidden lg:grid lg:grid-cols-2 split-hero split-hero-desktop">
