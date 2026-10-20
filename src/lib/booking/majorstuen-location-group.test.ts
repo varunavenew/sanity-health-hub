@@ -6,6 +6,7 @@ import {
   type MetodikaAvailabilityLocationHint,
 } from "@/lib/booking/majorstuen-location-group";
 import type { BookingMetodikaClinic } from "@/lib/booking/mapApiLocation";
+import type { WbActivityMatrixEntry } from "@/lib/booking/wbactivitiesMatrix";
 
 const majorstuenSanity10A: BookingMetodikaClinic = {
   id: "location-1",
@@ -63,5 +64,30 @@ describe("effectiveMetodikaLocationIdsForBooking", () => {
     expect(
       effectiveMetodikaLocationIdsForBooking(majorstuenSanity10A, null, null, []),
     ).toEqual([1, 2]);
+  });
+
+  it("uses live caregiver slots at 10B when matrix wrongly lists caregiver at 10A only", () => {
+    const matrixCaregiver34At10AOnly: WbActivityMatrixEntry = {
+      wbactivityId: 155,
+      name: "Eggfrys",
+      locations: [
+        { locationId: 1, caregivers: [{ userId: 34 }] },
+        { locationId: 2, caregivers: [{ userId: 13 }] },
+      ],
+    };
+    const hints: MetodikaAvailabilityLocationHint[] = [
+      { locationId: 2, caregiverUserId: 34 },
+      { locationId: 2, caregiverUserId: 13 },
+      { locationId: 2, caregiverUserId: 172 },
+    ];
+
+    expect(
+      effectiveMetodikaLocationIdsForBooking(
+        majorstuenGrouped,
+        matrixCaregiver34At10AOnly,
+        34,
+        hints,
+      ),
+    ).toEqual([2]);
   });
 });

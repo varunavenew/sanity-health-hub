@@ -62,6 +62,7 @@ export function intersectMajorstuenLocationIds(ids: number[]): number[] {
 
 export type MetodikaAvailabilityLocationHint = {
   locationId?: number;
+  caregiverUserId?: number;
 };
 
 function locationIdsFromAvailabilityHints(
@@ -74,6 +75,37 @@ function locationIdsFromAvailabilityHints(
     }
   }
   return [...ids].sort((a, b) => a - b);
+}
+
+function locationIdsForCaregiverFromHints(
+  hints: ReadonlyArray<MetodikaAvailabilityLocationHint>,
+  caregiverUserId: number,
+): number[] {
+  const ids = new Set<number>();
+  for (const hint of hints) {
+    if (hint.caregiverUserId !== caregiverUserId) continue;
+    if (typeof hint.locationId === "number" && hint.locationId > 0) {
+      ids.add(hint.locationId);
+    }
+  }
+  return [...ids].sort((a, b) => a - b);
+}
+
+function caregiverHasAvailabilityHints(
+  hints: ReadonlyArray<MetodikaAvailabilityLocationHint>,
+  caregiverUserId: number,
+): boolean {
+  return locationIdsForCaregiverFromHints(hints, caregiverUserId).length > 0;
+}
+
+/** Majorstuen campuses where this caregiver has live slots (not matrix). */
+export function majorstuenLocationIdsForCaregiverFromHints(
+  hints: ReadonlyArray<MetodikaAvailabilityLocationHint>,
+  caregiverUserId: number,
+): number[] {
+  return intersectMajorstuenLocationIds(
+    locationIdsForCaregiverFromHints(hints, caregiverUserId),
+  );
 }
 
 /** Step-2 / booking clinic row represents the merged Majorstuen campus (not only 10A). */
@@ -134,11 +166,18 @@ export function effectiveMetodikaLocationIdsForBooking(
     const activityLocs = new Set(locationIdsForWbActivity(activityEntry));
     ids = ids.filter((id) => activityLocs.has(id));
   }
-  if (caregiverUserId != null && caregiverUserId > 0 && activityEntry) {
-    const caregiverLocs = new Set(
-      locationIdsForCaregiverOnActivity(activityEntry, caregiverUserId),
-    );
-    ids = ids.filter((id) => caregiverLocs.has(id));
+  if (caregiverUserId != null && caregiverUserId > 0) {
+    if (caregiverHasAvailabilityHints(availabilityHints, caregiverUserId)) {
+      const caregiverLocIds = new Set(
+        locationIdsForCaregiverFromHints(availabilityHints, caregiverUserId),
+      );
+      ids = ids.filter((id) => caregiverLocIds.has(id));
+    } else if (activityEntry) {
+      const caregiverLocs = new Set(
+        locationIdsForCaregiverOnActivity(activityEntry, caregiverUserId),
+      );
+      ids = ids.filter((id) => caregiverLocs.has(id));
+    }
   }
   return ids;
 }
