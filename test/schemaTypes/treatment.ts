@@ -335,7 +335,7 @@ export default {
       group: 'pageContent',
       fieldset: 'pcHero',
       description: mediaDescription(
-        'hero',
+        'treatmentHero',
         'Preferred hero media (Image or Video).',
       ),
     },
@@ -345,14 +345,14 @@ export default {
       type: 'image',
       group: 'pageContent',
       fieldset: 'pcHero',
-      options: mediaImageOptions('hero'),
+      options: mediaImageOptions('treatmentHero'),
       description: mediaDescription(
-        'hero',
+        'treatmentHero',
         'Legacy. Prefer Hero Media → Image. Required only when Hero Media is unset; website dual-reads both.',
       ),
       hidden: ({ document }: { document?: { heroMedia?: unknown } }) =>
         Boolean(document?.heroMedia),
-      validation: composeImageValidation('hero', (Rule: any) =>
+      validation: composeImageValidation('treatmentHero', (Rule: any) =>
         Rule.custom((value: unknown, context: { document?: { heroMedia?: { mediaType?: string; image?: unknown } } }) => {
           const media = context.document?.heroMedia
           if (media?.mediaType === 'image' && media.image) return true

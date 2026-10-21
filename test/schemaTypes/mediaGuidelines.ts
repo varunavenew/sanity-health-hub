@@ -13,6 +13,7 @@
 export type MediaGuidelineKind =
   | 'hero'
   | 'heroMobile'
+  | 'treatmentHero'
   | 'split'
   | 'specialist'
   | 'clinic'
@@ -106,6 +107,25 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     tips: [
       'Keep the main subject centered (or set the hotspot).',
       'Avoid screenshots and UI captures.',
+    ],
+    accept: 'image/jpeg,image/jpg,image/webp,image/png',
+  },
+  /** Treatment page split hero: right half on desktop, fixed-height full-width photo on mobile. */
+  treatmentHero: {
+    title: 'Treatment Hero Images',
+    emoji: '📸',
+    width: 1500,
+    height: 2000,
+    aspectLabel: '3:4 portrait',
+    orientation: 'portrait',
+    formats: 'JPG / WebP',
+    maxBytes: MB(4),
+    maxBytesLabel: '4 MB',
+    minWidth: 1200,
+    minHeight: 1600,
+    tips: [
+      'Desktop shows the photo in the right half beside the text; mobile shows it full width above the text.',
+      'Keep faces and the main subject in the middle of the image — the edges are trimmed on some screens.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -481,9 +501,17 @@ export function mediaDescription(
     return [
       ...(prefixLine ? [prefixLine] : []),
       `Desktop & mobile: ${formatPx(g.width)} × ${formatPx(g.height)} px (${g.aspectLabel}) — one upload for both`,
-      `Minimum: ${formatPx(g.minWidth ?? g.width)} × ${formatPx(g.minHeight ?? g.height)} px`,
       `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
       'Keep faces and the main subject near the centre and set the hotspot.',
+    ].join('\n')
+  }
+
+  if (kind === 'treatmentHero') {
+    return [
+      ...(prefixLine ? [prefixLine] : []),
+      `Desktop & mobile: ${formatPx(g.width)} × ${formatPx(g.height)} px (${g.aspectLabel}) — one upload for both`,
+      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
+      'Keep faces and the main subject in the middle of the image and set the hotspot — the edges are trimmed on some screens.',
     ].join('\n')
   }
 
