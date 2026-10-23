@@ -529,10 +529,10 @@ export const SubTreatmentLayout = ({
           { name: c.title, path: c.canonical },
         ]}
       />
-      <header className="bg-brand-light pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-20 lg:pt-0">
         <h1 className="sr-only">{heroTitle}</h1>
         <div className="lg:hidden page-edge-text-left pb-4">
-          <PageBreadcrumb items={breadcrumbItems} className="mb-4" />
+          <PageBreadcrumb items={breadcrumbItems} className="mb-2" />
           <p
             aria-hidden="true"
             className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
@@ -542,7 +542,7 @@ export const SubTreatmentLayout = ({
         </div>
 
         <div className="flex flex-col-reverse lg:grid split-hero-desktop">
-          <div className="flex items-center page-edge-text-left py-10 lg:py-20">
+          <div className="flex items-center page-edge-text-left pt-5 pb-10 lg:py-20">
             <div className="max-w-xl w-full">
             <PageBreadcrumb items={breadcrumbItems} className="hidden lg:flex mb-6" />
               <p
@@ -643,7 +643,7 @@ export const SubTreatmentLayout = ({
             </div>
           </div>
 
-          <div className="split-hero-photo-col">
+          <div className="split-hero-photo-col treatment-hero-media-mobile">
             {resolvedHero || c.heroVideo || heroMediaUrl ? (
               <SplitHeroMedia
                 className="split-hero-photo split-media bg-secondary/40"

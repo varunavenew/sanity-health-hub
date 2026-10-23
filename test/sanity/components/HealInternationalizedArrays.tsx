@@ -106,11 +106,12 @@ export function healInternationalizedArrays(value: unknown): unknown {
 }
 
 export function HealInternationalizedArrays(props: ObjectInputProps) {
-  const {value, onChange, renderDefault} = props
+  const {value, onChange, renderDefault, readOnly} = props
   const healingRef = useRef(false)
 
   useEffect(() => {
-    if (healingRef.current || value == null) return
+    // Sanity throws "Attempted to patch a read-only document" if we patch here.
+    if (readOnly || healingRef.current || value == null) return
     const healed = healInternationalizedArrays(value)
     if (healed === value) return
     healingRef.current = true
@@ -119,7 +120,7 @@ export function HealInternationalizedArrays(props: ObjectInputProps) {
       healingRef.current = false
     }, 0)
     return () => window.clearTimeout(t)
-  }, [value, onChange])
+  }, [value, onChange, readOnly])
 
   return renderDefault(props)
 }

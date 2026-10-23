@@ -99,11 +99,13 @@ function shouldAutoFill(current: string, expected: string, lastAuto: string): bo
 }
 
 export function AutoSlugFromTitleInput(props: ObjectInputProps) {
-  const {value, onChange, renderDefault} = props
+  const {value, onChange, renderDefault, readOnly} = props
   const lastAutoRef = useRef<Partial<Record<Lang, string>>>({})
   const manualLockRef = useRef<Partial<Record<Lang, boolean>>>({})
 
   useLayoutEffect(() => {
+    // Sanity throws "Attempted to patch a read-only document" if we patch here.
+    if (readOnly) return
     const doc = (value || {}) as {
       title?: unknown
       name?: unknown
@@ -156,7 +158,7 @@ export function AutoSlugFromTitleInput(props: ObjectInputProps) {
 
     const nextSlug = mergeSlugFills(doc.slug, fills)
     onChange(PatchEvent.from(set(nextSlug, ['slug'])))
-  }, [value, onChange])
+  }, [value, onChange, readOnly])
 
   return renderDefault(props)
 }

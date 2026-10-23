@@ -13,6 +13,7 @@
 export type MediaGuidelineKind =
   | 'hero'
   | 'heroMobile'
+  | 'treatmentHero'
   | 'split'
   | 'specialist'
   | 'clinic'
@@ -106,6 +107,25 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
     tips: [
       'Keep the main subject centered (or set the hotspot).',
       'Avoid screenshots and UI captures.',
+    ],
+    accept: 'image/jpeg,image/jpg,image/webp,image/png',
+  },
+  /** Treatment page split hero: right half on desktop, fixed-height full-width photo on mobile. */
+  treatmentHero: {
+    title: 'Treatment Hero Images',
+    emoji: '📸',
+    width: 1500,
+    height: 2000,
+    aspectLabel: '3:4 portrait',
+    orientation: 'portrait',
+    formats: 'JPG / WebP',
+    maxBytes: MB(4),
+    maxBytesLabel: '4 MB',
+    minWidth: 1200,
+    minHeight: 1600,
+    tips: [
+      'Desktop shows the photo in the right half beside the text; mobile shows it full width above the text.',
+      'Keep faces and the main subject in the middle of the image — the edges are trimmed on some screens.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -227,19 +247,19 @@ export const MEDIA_GUIDELINES: Record<Exclude<MediaGuidelineKind, 'video'>, Medi
   article: {
     title: 'Article Images',
     emoji: '📸',
-    width: 1920,
-    height: 2160,
-    aspectLabel: '8:9 portrait',
+    width: 2560,
+    height: 3840,
+    aspectLabel: '2:3 portrait',
     orientation: 'portrait',
     formats: 'JPG / WebP',
     maxBytes: MB(4),
     maxBytesLabel: '4 MB',
-    minWidth: 960,
-    minHeight: 1080,
+    minWidth: 1200,
+    minHeight: 1800,
     tips: [
-      'Upload 1920×2160 (8:9). That matches the article desktop hero column with no crop.',
-      'Do not upload landscape 16:9 — the hero column is taller than it is wide.',
-      'Set the hotspot on the face or main subject for mobile and listing cards.',
+      'Upload 2560×3840 (2:3). The whole image is shown in the article hero on desktop and mobile, never cropped at the sides.',
+      'Do not upload landscape 16:9 — the hero is taller than it is wide.',
+      'Keep faces and the main subject near the centre and set the hotspot for listing cards.',
     ],
     accept: 'image/jpeg,image/jpg,image/webp,image/png',
   },
@@ -412,7 +432,6 @@ const MOBILE_VIEW_BY_KIND: Partial<
   treatment: {width: 1200, height: 1600, aspectLabel: '3:4'},
   card: {width: 800, height: 600, aspectLabel: '4:3'},
   split: {width: 750, height: 1000, aspectLabel: '3:4'},
-  article: {width: 1200, height: 1600, aspectLabel: '3:4'},
   gallery: {width: 1200, height: 800, aspectLabel: '3:2'},
 }
 
@@ -475,6 +494,24 @@ export function mediaDescription(
     return [
       ...(prefixLine ? [prefixLine] : []),
       'Portrett 4:5 — 1200 × 1500 px (minst 1200 px bredt). JPG eller PNG.',
+    ].join('\n')
+  }
+
+  if (kind === 'article') {
+    return [
+      ...(prefixLine ? [prefixLine] : []),
+      `Desktop & mobile: ${formatPx(g.width)} × ${formatPx(g.height)} px (${g.aspectLabel}) — one upload for both`,
+      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
+      'Keep faces and the main subject near the centre and set the hotspot.',
+    ].join('\n')
+  }
+
+  if (kind === 'treatmentHero') {
+    return [
+      ...(prefixLine ? [prefixLine] : []),
+      `Desktop & mobile: ${formatPx(g.width)} × ${formatPx(g.height)} px (${g.aspectLabel}) — one upload for both`,
+      `Formats: ${g.formats} · up to ${g.maxBytesLabel}`,
+      'Keep faces and the main subject in the middle of the image and set the hotspot — the edges are trimmed on some screens.',
     ].join('\n')
   }
 
