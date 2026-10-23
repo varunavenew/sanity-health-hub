@@ -7,13 +7,13 @@ export type EmergencyNoticePlacement = "akutt-accordion" | "hero" | null;
 
 /**
  * Category rule: 113 line on Ortopedi, Gynekologi, Øvrige — never Fertilitet.
- * Placement differs: under the Akutt accordion on Ortopedi, under hero CTAs elsewhere.
+ * Placement differs: Gynekologi / Øvrige under hero CTAs. Ortopedi: 113 copy lives in the Akutt segment intro (Sanity).
  */
 export function emergencyNoticePlacement(
   categoryId: string,
 ): EmergencyNoticePlacement {
   const key = normalizeCategoryRouteKey(categoryId);
-  if (key === "ortopedi") return "akutt-accordion";
+  if (key === "ortopedi") return null;
   if (key === "gynekologi" || key === FLERE_FAGOMRADER_CATEGORY_ID) {
     return "hero";
   }
